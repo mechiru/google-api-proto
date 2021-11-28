@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        toolchain: [stable, nightly]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.toolchain }}
+        override: true
+        profile: minimal
+        components: rustfmt
+    - run: cargo build -v
+    - run: cargo test -v
+    - run: cargo xtask all
