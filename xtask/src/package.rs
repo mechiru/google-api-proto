@@ -107,15 +107,9 @@ impl Name {
     }
 }
 
-impl<'a> From<&'a str> for Name {
-    fn from(v: &'a str) -> Self {
-        Self(v.to_owned())
-    }
-}
-
-impl From<String> for Name {
-    fn from(v: String) -> Self {
-        Self(v)
+impl<T: Into<String>> From<T> for Name {
+    fn from(v: T) -> Self {
+        Self(v.into())
     }
 }
 
