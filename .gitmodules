@@ -1,0 +1,4 @@
+[submodule "xtask/proto"]
+	path = xtask/proto
+	url = https://github.com/googleapis/googleapis.git
+	shallow = true

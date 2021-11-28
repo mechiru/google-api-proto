@@ -1,0 +1,5 @@
+[workspace]
+members = [
+  "google-api-proto",
+  "xtask",
+]
