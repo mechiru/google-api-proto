@@ -1,0 +1,17 @@
+[package]
+name = "google-api-proto"
+version = "0.1.0"
+edition = "2018"
+
+[lib]
+doctest = false
+
+[package.metadata.docs.rs]
+all-features = true
+
+[dependencies]
+tonic = "0.6.1"
+prost = "0.9.0"
+prost-types = "0.9.0"
+
+[features]
