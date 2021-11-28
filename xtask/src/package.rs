@@ -80,7 +80,7 @@ impl Module {
 
         for (name, module) in &self.modules {
             items.push(Item::Module(name.escaped().into(), module.features()));
-            module.generate(join_path(out_dir.clone(), name.unescaped()))?;
+            module.generate(crate::utils::join_path(out_dir.clone(), name.unescaped()))?;
         }
 
         if let Some(ref file) = self.file {
@@ -153,7 +153,7 @@ impl Items {
         }
         let out_dir = out_dir.into();
         fs::create_dir_all(&out_dir)?;
-        let path = join_path(out_dir, file_name);
+        let path = crate::utils::join_path(out_dir, file_name);
         fs::write(path, self.print()?).map_err(Into::into)
     }
 }
@@ -178,10 +178,4 @@ impl File {
     fn read(&self) -> anyhow::Result<String> {
         fs::read_to_string(&self.path).map_err(Into::into)
     }
-}
-
-pub fn join_path(base: impl Into<PathBuf>, segment: impl AsRef<Path>) -> PathBuf {
-    let mut base = base.into();
-    base.push(segment);
-    base
 }

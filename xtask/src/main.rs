@@ -1,5 +1,5 @@
 use std::{
-    env, fs,
+    env,
     path::{Path, PathBuf},
     process::Command,
 };
@@ -9,6 +9,7 @@ use crate::{manifest::Manifest, package::Package, proto::Protos};
 mod manifest;
 mod package;
 mod proto;
+mod utils;
 
 #[derive(Clone)]
 struct Opt {
@@ -19,11 +20,11 @@ struct Opt {
 
 impl Opt {
     fn manifest_path(&self) -> PathBuf {
-        package::join_path(self.output_package_dir.clone(), "Cargo.toml")
+        utils::join_path(self.output_package_dir.clone(), "Cargo.toml")
     }
 
     fn output_package_src(&self) -> PathBuf {
-        package::join_path(self.output_package_dir.clone(), "src")
+        utils::join_path(self.output_package_dir.clone(), "src")
     }
 }
 
@@ -37,21 +38,13 @@ fn main() -> anyhow::Result<()> {
     match env::args().nth(1) {
         Some(command) => match command.as_str() {
             "all" => {
-                // clean
-                let _ = cleanup(&opt.tmp, &[]);
-                let _ = cleanup(&opt.output_package_src(), &[]);
-                // generate
+                clean(&opt)?;
                 generate(opt.clone())?;
-                // test
                 test(opt.manifest_path())
             }
             "generate" => generate(opt),
             "test" => test(opt.manifest_path()),
-            "clean" => {
-                let _ = cleanup(&opt.tmp, &[]);
-                let _ = cleanup(&opt.output_package_src(), &[]);
-                Ok(())
-            }
+            "clean" => clean(&opt),
             _ => help(),
         },
         _ => help(),
@@ -62,25 +55,9 @@ fn help() -> anyhow::Result<()> {
     Ok(()) // TODO: impl
 }
 
-fn cleanup(path: impl AsRef<Path>, exclude: &'static [&'static str]) -> anyhow::Result<()> {
-    if !path.as_ref().exists() {
-        return fs::create_dir(path).map_err(Into::into);
-    }
-
-    for entry in fs::read_dir(path)? {
-        let path = entry?.path();
-        match path.components().rev().next().and_then(|c| c.as_os_str().to_str()) {
-            Some(path) if exclude.contains(&path) => {}
-            _ => {
-                if path.metadata()?.file_type().is_dir() {
-                    fs::remove_dir_all(path)?
-                } else {
-                    fs::remove_file(path)?
-                }
-            }
-        }
-    }
-
+fn clean(opt: &Opt) -> anyhow::Result<()> {
+    let _ = utils::cleanup(&opt.tmp, &[]);
+    let _ = utils::cleanup(opt.output_package_src(), &[]);
     Ok(())
 }
 
