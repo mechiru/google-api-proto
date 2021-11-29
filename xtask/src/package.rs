@@ -61,6 +61,12 @@ impl Module {
         Self { module_path, modules: Default::default(), file: Default::default() }
     }
 
+    fn is_well_known_type(&self) -> bool {
+        self.module_path.len() == 2
+            && self.module_path[0].unescaped() == "google"
+            && self.module_path[1].unescaped() == "protobuf"
+    }
+
     fn feature(&self) -> Option<String> {
         self.file.as_ref().map(|_| {
             self.module_path.iter().map(|name| name.unescaped()).collect::<Vec<_>>().join("-")
@@ -79,8 +85,10 @@ impl Module {
         let mut items = Items::default();
 
         for (name, module) in &self.modules {
-            items.push(Item::Module(name.escaped().into(), module.features()));
-            module.generate(crate::utils::join_path(out_dir.clone(), name.unescaped()))?;
+            if !module.is_well_known_type() {
+                items.push(Item::Module(name.escaped().into(), module.features()));
+                module.generate(crate::utils::join_path(out_dir.clone(), name.unescaped()))?;
+            }
         }
 
         if let Some(ref file) = self.file {
