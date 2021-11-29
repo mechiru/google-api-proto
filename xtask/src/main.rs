@@ -35,18 +35,15 @@ fn main() -> anyhow::Result<()> {
         tmp: PathBuf::from("xtask/tmp"),
     };
 
-    match env::args().nth(1) {
-        Some(command) => match command.as_str() {
-            "all" => {
-                clean(&opt)?;
-                generate(opt.clone())?;
-                test(opt.manifest_path())
-            }
-            "generate" => generate(opt),
-            "test" => test(opt.manifest_path()),
-            "clean" => clean(&opt),
-            _ => help(),
-        },
+    match env::args().nth(1).as_ref().map_or("", String::as_str) {
+        "all" => {
+            clean(&opt)?;
+            generate(opt.clone())?;
+            test(opt.manifest_path())
+        }
+        "generate" => generate(opt),
+        "test" => test(opt.manifest_path()),
+        "clean" => clean(&opt),
         _ => help(),
     }
 }
