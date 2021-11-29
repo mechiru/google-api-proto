@@ -60,7 +60,7 @@ fn clean(opt: &Opt) -> anyhow::Result<()> {
 
 fn generate(opt: Opt) -> anyhow::Result<()> {
     let protos = Protos::from_dir(&opt.input_proto_dir)?;
-    Manifest::read(opt.manifest_path())?.set_features(protos.feature_names()?).write()?;
+    Manifest::read(opt.manifest_path())?.overwrite_features(protos.feature_names()?).write()?;
 
     let mut config = prost_build::Config::new();
     config.btree_map(&["."]).bytes(&["."]).protoc_arg("--experimental_allow_proto3_optional");

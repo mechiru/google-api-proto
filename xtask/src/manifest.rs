@@ -4,7 +4,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use toml_edit::{value, Array, Document};
+use toml_edit::{table, value, Array, Document};
 
 pub struct Manifest {
     path: PathBuf,
@@ -23,12 +23,13 @@ impl Manifest {
         fs::write(&self.path, &self.document.to_string()).map_err(Into::into)
     }
 
-    pub fn set_features(&mut self, features: BTreeMap<String, BTreeSet<String>>) -> &Self {
-        self.document["features"]["default"] = value(Array::new());
+    pub fn overwrite_features(&mut self, features: BTreeMap<String, BTreeSet<String>>) -> &Self {
+        let mut table = table();
+        table["default"] = value(Array::new());
         for (feature, depends_features) in features {
-            let array = depends_features.into_iter().collect::<Array>();
-            self.document["features"][feature] = value(array);
+            table[feature] = value(depends_features.into_iter().collect::<Array>());
         }
+        self.document["features"] = table;
         self
     }
 
