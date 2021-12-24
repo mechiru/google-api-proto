@@ -1,0 +1,19 @@
+[package]
+name = "examples"
+version = "0.1.0"
+authors = ["mechiru <u9053u6d41@gmail.com>"]
+edition = "2021"
+
+[dependencies]
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tokio = { version = "1.15", features = ["macros", "rt-multi-thread"] }
+google-authz = { version = "1.0.0-alpha.1", features = ["tonic"] }
+# grpc + gcp
+tonic = { version = "0.6", features = ["tls", "tls-webpki-roots"] }
+prost = { version = "0.9" }
+prost-types = { version = "0.9" }
+google-api-proto = { path = "../google-api-proto", features = ["google-pubsub-v1"] }
+
+[[bin]]
+name = "tonic"
+path = "src/tonic.rs"

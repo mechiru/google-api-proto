@@ -2,4 +2,5 @@
 members = [
   "google-api-proto",
   "xtask",
+  "examples",
 ]
