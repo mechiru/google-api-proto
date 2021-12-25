@@ -10,9 +10,9 @@ doctest = false
 all-features = true
 
 [dependencies]
-tonic = "0.6.1"
-prost = "0.9.0"
-prost-types = "0.9.0"
+tonic = { default-features = false, features = ["codegen", "prost"], version = "0.6" }
+prost = "0.9"
+prost-types = "0.9"
 
 [features]
 default = []
