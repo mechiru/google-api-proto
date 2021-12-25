@@ -15,5 +15,5 @@ prost-types = { version = "0.9" }
 google-api-proto = { path = "../google-api-proto", features = ["google-pubsub-v1"] }
 
 [[bin]]
-name = "tonic"
-path = "src/tonic.rs"
+name = "pubsub"
+path = "src/pubsub.rs"
