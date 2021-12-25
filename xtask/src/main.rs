@@ -14,25 +14,25 @@ mod utils;
 #[derive(Clone)]
 struct Opt {
     input_proto_dir: PathBuf,
-    output_package_dir: PathBuf,
-    tmp: PathBuf,
+    output_crate_dir: PathBuf,
+    temp_dir: PathBuf,
 }
 
 impl Opt {
     fn manifest_path(&self) -> PathBuf {
-        utils::join_path(self.output_package_dir.clone(), "Cargo.toml")
+        utils::join_path(self.output_crate_dir.clone(), "Cargo.toml")
     }
 
     fn output_package_src(&self) -> PathBuf {
-        utils::join_path(self.output_package_dir.clone(), "src")
+        utils::join_path(self.output_crate_dir.clone(), "src")
     }
 }
 
 fn main() -> anyhow::Result<()> {
     let opt = Opt {
         input_proto_dir: PathBuf::from("xtask/proto"),
-        output_package_dir: PathBuf::from("google-api-proto"),
-        tmp: PathBuf::from("xtask/tmp"),
+        output_crate_dir: PathBuf::from("google-api-proto"),
+        temp_dir: PathBuf::from("xtask/temp"),
     };
 
     match env::args().nth(1).as_ref().map_or("", String::as_str) {
@@ -53,7 +53,7 @@ fn help() -> anyhow::Result<()> {
 }
 
 fn clean(opt: &Opt) -> anyhow::Result<()> {
-    let _ = utils::cleanup(&opt.tmp, &[]);
+    let _ = utils::cleanup(&opt.temp_dir, &[]);
     let _ = utils::cleanup(opt.output_package_src(), &[]);
     Ok(())
 }
@@ -67,10 +67,10 @@ fn generate(opt: Opt) -> anyhow::Result<()> {
     tonic_build::configure()
         .build_server(false)
         .format(false)
-        .out_dir(&opt.tmp)
+        .out_dir(&opt.temp_dir)
         .compile_with_config(config, &protos.proto_paths(), &[&opt.input_proto_dir])?;
 
-    Package::from_dir(&opt.tmp)?.generate(opt.output_package_src())?;
+    Package::from_dir(&opt.temp_dir)?.generate(opt.output_package_src())?;
 
     tonic_build::fmt(opt.output_package_src().to_str().unwrap());
 
