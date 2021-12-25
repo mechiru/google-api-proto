@@ -1,7 +1,13 @@
 [package]
 name = "google-api-proto"
-version = "0.1.0"
+version = "1.0.0-alpha.0"
 edition = "2018"
+publish = false
+
+[package.metadata.release]
+pre-release-commit-message = "{{crate_name}}: bump to v{{version}}"
+tag-name = "{{crate_name}}/v{{version}}"
+tag-message = "{{crate_name}} version {{version}}"
 
 [lib]
 doctest = false
