@@ -55,7 +55,7 @@ The list of available features can be found [here](./google-api-proto/Cargo.toml
 | 1.0.0 ≦          | 0.6.x | 0.6.x       |
 
 ## Example
-The complete code can be found [here](./examples/src/pubsub.rs).
+The complete code can be found [here](./examples/src/spanner.rs).
 
 Cargo.toml:
 ```toml
