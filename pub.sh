@@ -8,7 +8,9 @@ echo "Update git submodule"
 git submodule update --remote --rebase xtask/proto
 
 echo "Run xtask all"
-cargo xtask all
+if ! cargo xtask all; then
+  exit 1
+fi
 
 if git diff --exit-code --quiet; then
   echo "No changes!"
