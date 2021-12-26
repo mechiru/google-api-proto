@@ -12,8 +12,18 @@ google-authz = { version = "1.0.0-alpha.1", features = ["tonic"] }
 tonic = { version = "0.6", features = ["tls", "tls-webpki-roots"] }
 prost = { version = "0.9" }
 prost-types = { version = "0.9" }
-google-api-proto = { path = "../google-api-proto", features = ["google-pubsub-v1"] }
+
+[dependencies.'google-api-proto']
+path = "../google-api-proto"
+features = [
+  "google-pubsub-v1",
+  "google-spanner-admin-database-v1"
+]
 
 [[bin]]
 name = "pubsub"
 path = "src/pubsub.rs"
+
+[[bin]]
+name = "spanner"
+path = "src/spanner.rs"

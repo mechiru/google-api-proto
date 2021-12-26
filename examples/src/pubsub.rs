@@ -9,6 +9,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     tracing_subscriber::fmt::init();
 
     let project = env::args().nth(1).expect("cargo run --bin tonic -- <GCP_PROJECT_ID>");
+
     let channel = Channel::from_static("https://pubsub.googleapis.com").connect().await?;
     let channel = GoogleAuthz::new(channel).await;
 
