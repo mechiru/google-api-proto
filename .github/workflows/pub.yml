@@ -19,6 +19,7 @@ jobs:
         override: true
         profile: minimal
         components: rustfmt
-    - run: pub.sh
+    - run: cargo install cargo-release
+    - run: ./pub.sh
       env:
         CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
