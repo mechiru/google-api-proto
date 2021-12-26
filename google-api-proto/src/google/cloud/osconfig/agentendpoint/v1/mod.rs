@@ -1,3 +1,104 @@
+/// Step performed by the OS Config agent for configuring an `OSPolicyResource`
+/// to its desired state.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyResourceConfigStep {
+    /// Configuration step type.
+    #[prost(enumeration = "os_policy_resource_config_step::Type", tag = "1")]
+    pub r#type: i32,
+    /// Outcome of the configuration step.
+    #[prost(enumeration = "os_policy_resource_config_step::Outcome", tag = "2")]
+    pub outcome: i32,
+    /// An error message recorded during the execution of this step.
+    /// Only populated when outcome is FAILED.
+    #[prost(string, tag = "3")]
+    pub error_message: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `OSPolicyResourceConfigStep`.
+pub mod os_policy_resource_config_step {
+    /// Supported configuration step types
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// Validation to detect resource conflicts, schema errors, etc.
+        Validation = 1,
+        /// Check the current desired state status of the resource.
+        DesiredStateCheck = 2,
+        /// Enforce the desired state for a resource that is not in desired state.
+        DesiredStateEnforcement = 3,
+        /// Re-check desired state status for a resource after enforcement of all
+        /// resources in the current configuration run.
+        ///
+        /// This step is used to determine the final desired state status for the
+        /// resource. It accounts for any resources that might have drifted from
+        /// their desired state due to side effects from configuring other resources
+        /// during the current configuration run.
+        DesiredStateCheckPostEnforcement = 4,
+    }
+    /// Supported outcomes for a configuration step.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Outcome {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// The step succeeded.
+        Succeeded = 1,
+        /// The step failed.
+        Failed = 2,
+    }
+}
+/// Compliance data for an OS policy resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyResourceCompliance {
+    /// The id of the OS policy resource.
+    #[prost(string, tag = "1")]
+    pub os_policy_resource_id: ::prost::alloc::string::String,
+    /// Ordered list of configuration steps taken by the agent for the OS policy
+    /// resource.
+    #[prost(message, repeated, tag = "2")]
+    pub config_steps: ::prost::alloc::vec::Vec<OsPolicyResourceConfigStep>,
+    /// Compliance state of the OS policy resource.
+    #[prost(enumeration = "OsPolicyComplianceState", tag = "3")]
+    pub state: i32,
+    /// Resource specific output.
+    #[prost(oneof = "os_policy_resource_compliance::Output", tags = "4")]
+    pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
+}
+/// Nested message and enum types in `OSPolicyResourceCompliance`.
+pub mod os_policy_resource_compliance {
+    /// ExecResource specific output.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ExecResourceOutput {
+        /// Output from Enforcement phase output file (if run).
+        /// Output size is limited to 100K bytes.
+        #[prost(bytes = "bytes", tag = "2")]
+        pub enforcement_output: ::prost::bytes::Bytes,
+    }
+    /// Resource specific output.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Output {
+        /// ExecResource specific output.
+        #[prost(message, tag = "4")]
+        ExecResourceOutput(ExecResourceOutput),
+    }
+}
+/// Supported OSPolicy compliance states.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum OsPolicyComplianceState {
+    /// Default value. This value is unused.
+    Unspecified = 0,
+    /// Compliant state.
+    Compliant = 1,
+    /// Non-compliant state
+    NonCompliant = 2,
+    /// Unknown compliance state.
+    Unknown = 3,
+    /// No applicable OS policies were found for the instance.
+    /// This state is only applicable to the instance.
+    NoOsPoliciesApplicable = 4,
+}
 /// An OS policy defines the desired state configuration for an instance.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OsPolicy {}
@@ -88,7 +189,10 @@ pub mod os_policy {
             #[prost(enumeration = "package_resource::DesiredState", tag = "1")]
             pub desired_state: i32,
             /// A system package.
-            #[prost(oneof = "package_resource::SystemPackage", tags = "2, 3, 4, 5, 6, 7, 8")]
+            #[prost(
+                oneof = "package_resource::SystemPackage",
+                tags = "2, 3, 4, 5, 6, 7, 8"
+            )]
             pub system_package: ::core::option::Option<package_resource::SystemPackage>,
         }
         /// Nested message and enum types in `PackageResource`.
@@ -489,6 +593,288 @@ pub mod os_policy {
         Enforcement = 2,
     }
 }
+/// Patch configuration specifications. Contains details on how to
+/// apply patches to a VM instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PatchConfig {
+    /// Post-patch reboot settings.
+    #[prost(enumeration = "patch_config::RebootConfig", tag = "1")]
+    pub reboot_config: i32,
+    /// Retry strategy can be defined to have the agent retry patching
+    /// during the window if patching fails. If omitted, the agent will use its
+    /// default retry strategy.
+    #[prost(message, optional, tag = "2")]
+    pub retry_strategy: ::core::option::Option<RetryStrategy>,
+    /// Apt update settings. Use this override the default apt patch rules.
+    #[prost(message, optional, tag = "3")]
+    pub apt: ::core::option::Option<AptSettings>,
+    /// Yum update settings. Use this override the default yum patch rules.
+    #[prost(message, optional, tag = "4")]
+    pub yum: ::core::option::Option<YumSettings>,
+    /// Goo update settings. Use this override the default goo patch rules.
+    #[prost(message, optional, tag = "5")]
+    pub goo: ::core::option::Option<GooSettings>,
+    /// Zypper update settings. Use this override the default zypper patch rules.
+    #[prost(message, optional, tag = "6")]
+    pub zypper: ::core::option::Option<ZypperSettings>,
+    /// Windows update settings. Use this override the default windows patch rules.
+    #[prost(message, optional, tag = "7")]
+    pub windows_update: ::core::option::Option<WindowsUpdateSettings>,
+    /// The ExecStep to run before the patch update.
+    #[prost(message, optional, tag = "8")]
+    pub pre_step: ::core::option::Option<ExecStep>,
+    /// The ExecStep to run after the patch update.
+    #[prost(message, optional, tag = "9")]
+    pub post_step: ::core::option::Option<ExecStep>,
+}
+/// Nested message and enum types in `PatchConfig`.
+pub mod patch_config {
+    /// Post-patch reboot settings.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RebootConfig {
+        /// The default behavior is DEFAULT.
+        Unspecified = 0,
+        /// The agent decides if a reboot is necessary by checking
+        /// signals such as registry keys on Windows or `/var/run/reboot-required` on
+        /// APT based systems. On RPM based systems, a set of core system package
+        /// install times are compared with system boot time.
+        Default = 1,
+        /// Always reboot the machine after the update completes.
+        Always = 2,
+        /// Never reboot the machine after the update completes.
+        Never = 3,
+    }
+}
+/// Apt patching will be performed by executing `apt-get update && apt-get
+/// upgrade`. Additional options can be set to control how this is executed.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AptSettings {
+    /// By changing the type to DIST, the patching will be performed
+    /// using `apt-get dist-upgrade` instead.
+    #[prost(enumeration = "apt_settings::Type", tag = "1")]
+    pub r#type: i32,
+    /// List of packages to exclude from update.
+    #[prost(string, repeated, tag = "2")]
+    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// An exclusive list of packages to be updated. These are the only packages
+    /// that will be updated. If these packages are not installed, they will be
+    /// ignored. This field cannot be specified with any other patch configuration
+    /// fields.
+    #[prost(string, repeated, tag = "3")]
+    pub exclusive_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `AptSettings`.
+pub mod apt_settings {
+    /// Apt patch type.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// By default, upgrade will be performed.
+        Unspecified = 0,
+        /// Runs `apt-get dist-upgrade`.
+        Dist = 1,
+        /// Runs `apt-get upgrade`.
+        Upgrade = 2,
+    }
+}
+/// Yum patching will be performed by executing `yum update`. Additional options
+/// can be set to control how this is executed.
+///
+/// Note that not all settings are supported on all platforms.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct YumSettings {
+    /// Adds the `--security` flag to `yum update`. Not supported on
+    /// all platforms.
+    #[prost(bool, tag = "1")]
+    pub security: bool,
+    /// Will cause patch to run `yum update-minimal` instead.
+    #[prost(bool, tag = "2")]
+    pub minimal: bool,
+    /// List of packages to exclude from update. These packages will be excluded by
+    /// using the yum `--exclude` flag.
+    #[prost(string, repeated, tag = "3")]
+    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// An exclusive list of packages to be updated. These are the only packages
+    /// that will be updated. If these packages are not installed, they will be
+    /// ignored. This field must not be specified with any other patch
+    /// configuration fields.
+    #[prost(string, repeated, tag = "4")]
+    pub exclusive_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Googet patching is performed by running `googet update`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GooSettings {}
+/// Zypper patching is performed by running `zypper patch`.
+/// See also <https://en.opensuse.org/SDB:Zypper_manual.>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ZypperSettings {
+    /// Adds the `--with-optional` flag to `zypper patch`.
+    #[prost(bool, tag = "1")]
+    pub with_optional: bool,
+    /// Adds the `--with-update` flag, to `zypper patch`.
+    #[prost(bool, tag = "2")]
+    pub with_update: bool,
+    /// Install only patches with these categories.
+    /// Common categories include security, recommended, and feature.
+    #[prost(string, repeated, tag = "3")]
+    pub categories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Install only patches with these severities.
+    /// Common severities include critical, important, moderate, and low.
+    #[prost(string, repeated, tag = "4")]
+    pub severities: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// List of patches to exclude from update.
+    #[prost(string, repeated, tag = "5")]
+    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// An exclusive list of patches to be updated. These are the only patches
+    /// that will be installed using 'zypper patch patch:<patch_name>' command.
+    /// This field must not be used with any other patch configuration fields.
+    #[prost(string, repeated, tag = "6")]
+    pub exclusive_patches: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Windows patching is performed using the Windows Update Agent.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WindowsUpdateSettings {
+    /// Only apply updates of these windows update classifications. If empty, all
+    /// updates will be applied.
+    #[prost(
+        enumeration = "windows_update_settings::Classification",
+        repeated,
+        tag = "1"
+    )]
+    pub classifications: ::prost::alloc::vec::Vec<i32>,
+    /// List of KBs to exclude from update.
+    #[prost(string, repeated, tag = "2")]
+    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// An exclusive list of kbs to be updated. These are the only patches
+    /// that will be updated. This field must not be used with other
+    /// patch configurations.
+    #[prost(string, repeated, tag = "3")]
+    pub exclusive_patches: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `WindowsUpdateSettings`.
+pub mod windows_update_settings {
+    /// Microsoft Windows update classifications as defined in
+    /// \[1\]
+    /// <https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro>
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Classification {
+        /// Invalid. If classifications are included, they must be specified.
+        Unspecified = 0,
+        /// "A widely released fix for a specific problem that addresses a critical,
+        /// non-security-related bug." \[1\]
+        Critical = 1,
+        /// "A widely released fix for a product-specific, security-related
+        /// vulnerability. Security vulnerabilities are rated by their severity. The
+        /// severity rating is indicated in the Microsoft security bulletin as
+        /// critical, important, moderate, or low." \[1\]
+        Security = 2,
+        /// "A widely released and frequent software update that contains additions
+        /// to a product’s definition database. Definition databases are often used
+        /// to detect objects that have specific attributes, such as malicious code,
+        /// phishing websites, or junk mail." \[1\]
+        Definition = 3,
+        /// "Software that controls the input and output of a device." \[1\]
+        Driver = 4,
+        /// "New product functionality that is first distributed outside the context
+        /// of a product release and that is typically included in the next full
+        /// product release." \[1\]
+        FeaturePack = 5,
+        /// "A tested, cumulative set of all hotfixes, security updates, critical
+        /// updates, and updates. Additionally, service packs may contain additional
+        /// fixes for problems that are found internally since the release of the
+        /// product. Service packs my also contain a limited number of
+        /// customer-requested design changes or features." \[1\]
+        ServicePack = 6,
+        /// "A utility or feature that helps complete a task or set of tasks." \[1\]
+        Tool = 7,
+        /// "A tested, cumulative set of hotfixes, security updates, critical
+        /// updates, and updates that are packaged together for easy deployment. A
+        /// rollup generally targets a specific area, such as security, or a
+        /// component of a product, such as Internet Information Services (IIS)." \[1\]
+        UpdateRollup = 8,
+        /// "A widely released fix for a specific problem. An update addresses a
+        /// noncritical, non-security-related bug." \[1\]
+        Update = 9,
+    }
+}
+/// The strategy for retrying failed patches during the patch window.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RetryStrategy {
+    /// If true, the agent will continue to try and patch until the window has
+    /// ended.
+    #[prost(bool, tag = "1")]
+    pub enabled: bool,
+}
+/// A step that runs an executable for a PatchJob.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecStep {
+    /// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
+    #[prost(message, optional, tag = "1")]
+    pub linux_exec_step_config: ::core::option::Option<ExecStepConfig>,
+    /// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
+    #[prost(message, optional, tag = "2")]
+    pub windows_exec_step_config: ::core::option::Option<ExecStepConfig>,
+}
+/// Common configurations for an ExecStep.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecStepConfig {
+    /// Defaults to \[0\]. A list of possible return values that the
+    /// execution can return to indicate a success.
+    #[prost(int32, repeated, tag = "3")]
+    pub allowed_success_codes: ::prost::alloc::vec::Vec<i32>,
+    /// The script interpreter to use to run the script. If no interpreter is
+    /// specified the script will be executed directly, which will likely
+    /// only succeed for scripts with shebang lines.
+    /// [Wikipedia shebang](<https://en.wikipedia.org/wiki/Shebang_(Unix>)).
+    #[prost(enumeration = "exec_step_config::Interpreter", tag = "4")]
+    pub interpreter: i32,
+    /// Location of the executable.
+    #[prost(oneof = "exec_step_config::Executable", tags = "1, 2")]
+    pub executable: ::core::option::Option<exec_step_config::Executable>,
+}
+/// Nested message and enum types in `ExecStepConfig`.
+pub mod exec_step_config {
+    /// The interpreter used to execute the a file.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Interpreter {
+        /// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the
+        /// interpreter will be parsed from the shebang line of the script if
+        /// unspecified.
+        Unspecified = 0,
+        /// Indicates that the script will be run with /bin/sh on Linux and cmd
+        /// on windows.
+        Shell = 1,
+        /// Indicates that the file will be run with PowerShell.
+        Powershell = 2,
+    }
+    /// Location of the executable.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Executable {
+        /// An absolute path to the executable on the VM.
+        #[prost(string, tag = "1")]
+        LocalPath(::prost::alloc::string::String),
+        /// A GCS object containing the executable.
+        #[prost(message, tag = "2")]
+        GcsObject(super::GcsObject),
+    }
+}
+/// GCS object representation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsObject {
+    /// Bucket of the GCS object.
+    #[prost(string, tag = "1")]
+    pub bucket: ::prost::alloc::string::String,
+    /// Name of the GCS object.
+    #[prost(string, tag = "2")]
+    pub object: ::prost::alloc::string::String,
+    /// Generation number of the GCS object. This is used to ensure that the
+    /// ExecStep specified by this PatchJob does not change.
+    #[prost(int64, tag = "3")]
+    pub generation_number: i64,
+}
 // OS Config Inventory is a service for collecting and reporting operating
 // system and package information on VM instances.
 
@@ -543,7 +929,10 @@ pub mod inventory {
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct SoftwarePackage {
         /// Information about the different types of software packages.
-        #[prost(oneof = "software_package::Details", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9")]
+        #[prost(
+            oneof = "software_package::Details",
+            tags = "1, 2, 3, 4, 5, 6, 7, 8, 9"
+        )]
         pub details: ::core::option::Option<software_package::Details>,
     }
     /// Nested message and enum types in `SoftwarePackage`.
@@ -716,385 +1105,6 @@ pub mod inventory {
         #[prost(string, tag = "5")]
         pub help_link: ::prost::alloc::string::String,
     }
-}
-/// Step performed by the OS Config agent for configuring an `OSPolicyResource`
-/// to its desired state.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyResourceConfigStep {
-    /// Configuration step type.
-    #[prost(enumeration = "os_policy_resource_config_step::Type", tag = "1")]
-    pub r#type: i32,
-    /// Outcome of the configuration step.
-    #[prost(enumeration = "os_policy_resource_config_step::Outcome", tag = "2")]
-    pub outcome: i32,
-    /// An error message recorded during the execution of this step.
-    /// Only populated when outcome is FAILED.
-    #[prost(string, tag = "3")]
-    pub error_message: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `OSPolicyResourceConfigStep`.
-pub mod os_policy_resource_config_step {
-    /// Supported configuration step types
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// Validation to detect resource conflicts, schema errors, etc.
-        Validation = 1,
-        /// Check the current desired state status of the resource.
-        DesiredStateCheck = 2,
-        /// Enforce the desired state for a resource that is not in desired state.
-        DesiredStateEnforcement = 3,
-        /// Re-check desired state status for a resource after enforcement of all
-        /// resources in the current configuration run.
-        ///
-        /// This step is used to determine the final desired state status for the
-        /// resource. It accounts for any resources that might have drifted from
-        /// their desired state due to side effects from configuring other resources
-        /// during the current configuration run.
-        DesiredStateCheckPostEnforcement = 4,
-    }
-    /// Supported outcomes for a configuration step.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Outcome {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// The step succeeded.
-        Succeeded = 1,
-        /// The step failed.
-        Failed = 2,
-    }
-}
-/// Compliance data for an OS policy resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyResourceCompliance {
-    /// The id of the OS policy resource.
-    #[prost(string, tag = "1")]
-    pub os_policy_resource_id: ::prost::alloc::string::String,
-    /// Ordered list of configuration steps taken by the agent for the OS policy
-    /// resource.
-    #[prost(message, repeated, tag = "2")]
-    pub config_steps: ::prost::alloc::vec::Vec<OsPolicyResourceConfigStep>,
-    /// Compliance state of the OS policy resource.
-    #[prost(enumeration = "OsPolicyComplianceState", tag = "3")]
-    pub state: i32,
-    /// Resource specific output.
-    #[prost(oneof = "os_policy_resource_compliance::Output", tags = "4")]
-    pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
-}
-/// Nested message and enum types in `OSPolicyResourceCompliance`.
-pub mod os_policy_resource_compliance {
-    /// ExecResource specific output.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExecResourceOutput {
-        /// Output from Enforcement phase output file (if run).
-        /// Output size is limited to 100K bytes.
-        #[prost(bytes = "bytes", tag = "2")]
-        pub enforcement_output: ::prost::bytes::Bytes,
-    }
-    /// Resource specific output.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Output {
-        /// ExecResource specific output.
-        #[prost(message, tag = "4")]
-        ExecResourceOutput(ExecResourceOutput),
-    }
-}
-/// Supported OSPolicy compliance states.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum OsPolicyComplianceState {
-    /// Default value. This value is unused.
-    Unspecified = 0,
-    /// Compliant state.
-    Compliant = 1,
-    /// Non-compliant state
-    NonCompliant = 2,
-    /// Unknown compliance state.
-    Unknown = 3,
-    /// No applicable OS policies were found for the instance.
-    /// This state is only applicable to the instance.
-    NoOsPoliciesApplicable = 4,
-}
-/// Patch configuration specifications. Contains details on how to
-/// apply patches to a VM instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PatchConfig {
-    /// Post-patch reboot settings.
-    #[prost(enumeration = "patch_config::RebootConfig", tag = "1")]
-    pub reboot_config: i32,
-    /// Retry strategy can be defined to have the agent retry patching
-    /// during the window if patching fails. If omitted, the agent will use its
-    /// default retry strategy.
-    #[prost(message, optional, tag = "2")]
-    pub retry_strategy: ::core::option::Option<RetryStrategy>,
-    /// Apt update settings. Use this override the default apt patch rules.
-    #[prost(message, optional, tag = "3")]
-    pub apt: ::core::option::Option<AptSettings>,
-    /// Yum update settings. Use this override the default yum patch rules.
-    #[prost(message, optional, tag = "4")]
-    pub yum: ::core::option::Option<YumSettings>,
-    /// Goo update settings. Use this override the default goo patch rules.
-    #[prost(message, optional, tag = "5")]
-    pub goo: ::core::option::Option<GooSettings>,
-    /// Zypper update settings. Use this override the default zypper patch rules.
-    #[prost(message, optional, tag = "6")]
-    pub zypper: ::core::option::Option<ZypperSettings>,
-    /// Windows update settings. Use this override the default windows patch rules.
-    #[prost(message, optional, tag = "7")]
-    pub windows_update: ::core::option::Option<WindowsUpdateSettings>,
-    /// The ExecStep to run before the patch update.
-    #[prost(message, optional, tag = "8")]
-    pub pre_step: ::core::option::Option<ExecStep>,
-    /// The ExecStep to run after the patch update.
-    #[prost(message, optional, tag = "9")]
-    pub post_step: ::core::option::Option<ExecStep>,
-}
-/// Nested message and enum types in `PatchConfig`.
-pub mod patch_config {
-    /// Post-patch reboot settings.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RebootConfig {
-        /// The default behavior is DEFAULT.
-        Unspecified = 0,
-        /// The agent decides if a reboot is necessary by checking
-        /// signals such as registry keys on Windows or `/var/run/reboot-required` on
-        /// APT based systems. On RPM based systems, a set of core system package
-        /// install times are compared with system boot time.
-        Default = 1,
-        /// Always reboot the machine after the update completes.
-        Always = 2,
-        /// Never reboot the machine after the update completes.
-        Never = 3,
-    }
-}
-/// Apt patching will be performed by executing `apt-get update && apt-get
-/// upgrade`. Additional options can be set to control how this is executed.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AptSettings {
-    /// By changing the type to DIST, the patching will be performed
-    /// using `apt-get dist-upgrade` instead.
-    #[prost(enumeration = "apt_settings::Type", tag = "1")]
-    pub r#type: i32,
-    /// List of packages to exclude from update.
-    #[prost(string, repeated, tag = "2")]
-    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// An exclusive list of packages to be updated. These are the only packages
-    /// that will be updated. If these packages are not installed, they will be
-    /// ignored. This field cannot be specified with any other patch configuration
-    /// fields.
-    #[prost(string, repeated, tag = "3")]
-    pub exclusive_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `AptSettings`.
-pub mod apt_settings {
-    /// Apt patch type.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// By default, upgrade will be performed.
-        Unspecified = 0,
-        /// Runs `apt-get dist-upgrade`.
-        Dist = 1,
-        /// Runs `apt-get upgrade`.
-        Upgrade = 2,
-    }
-}
-/// Yum patching will be performed by executing `yum update`. Additional options
-/// can be set to control how this is executed.
-///
-/// Note that not all settings are supported on all platforms.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct YumSettings {
-    /// Adds the `--security` flag to `yum update`. Not supported on
-    /// all platforms.
-    #[prost(bool, tag = "1")]
-    pub security: bool,
-    /// Will cause patch to run `yum update-minimal` instead.
-    #[prost(bool, tag = "2")]
-    pub minimal: bool,
-    /// List of packages to exclude from update. These packages will be excluded by
-    /// using the yum `--exclude` flag.
-    #[prost(string, repeated, tag = "3")]
-    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// An exclusive list of packages to be updated. These are the only packages
-    /// that will be updated. If these packages are not installed, they will be
-    /// ignored. This field must not be specified with any other patch
-    /// configuration fields.
-    #[prost(string, repeated, tag = "4")]
-    pub exclusive_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Googet patching is performed by running `googet update`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GooSettings {}
-/// Zypper patching is performed by running `zypper patch`.
-/// See also <https://en.opensuse.org/SDB:Zypper_manual.>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ZypperSettings {
-    /// Adds the `--with-optional` flag to `zypper patch`.
-    #[prost(bool, tag = "1")]
-    pub with_optional: bool,
-    /// Adds the `--with-update` flag, to `zypper patch`.
-    #[prost(bool, tag = "2")]
-    pub with_update: bool,
-    /// Install only patches with these categories.
-    /// Common categories include security, recommended, and feature.
-    #[prost(string, repeated, tag = "3")]
-    pub categories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Install only patches with these severities.
-    /// Common severities include critical, important, moderate, and low.
-    #[prost(string, repeated, tag = "4")]
-    pub severities: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// List of patches to exclude from update.
-    #[prost(string, repeated, tag = "5")]
-    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// An exclusive list of patches to be updated. These are the only patches
-    /// that will be installed using 'zypper patch patch:<patch_name>' command.
-    /// This field must not be used with any other patch configuration fields.
-    #[prost(string, repeated, tag = "6")]
-    pub exclusive_patches: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Windows patching is performed using the Windows Update Agent.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WindowsUpdateSettings {
-    /// Only apply updates of these windows update classifications. If empty, all
-    /// updates will be applied.
-    #[prost(enumeration = "windows_update_settings::Classification", repeated, tag = "1")]
-    pub classifications: ::prost::alloc::vec::Vec<i32>,
-    /// List of KBs to exclude from update.
-    #[prost(string, repeated, tag = "2")]
-    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// An exclusive list of kbs to be updated. These are the only patches
-    /// that will be updated. This field must not be used with other
-    /// patch configurations.
-    #[prost(string, repeated, tag = "3")]
-    pub exclusive_patches: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `WindowsUpdateSettings`.
-pub mod windows_update_settings {
-    /// Microsoft Windows update classifications as defined in
-    /// \[1\]
-    /// <https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro>
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Classification {
-        /// Invalid. If classifications are included, they must be specified.
-        Unspecified = 0,
-        /// "A widely released fix for a specific problem that addresses a critical,
-        /// non-security-related bug." \[1\]
-        Critical = 1,
-        /// "A widely released fix for a product-specific, security-related
-        /// vulnerability. Security vulnerabilities are rated by their severity. The
-        /// severity rating is indicated in the Microsoft security bulletin as
-        /// critical, important, moderate, or low." \[1\]
-        Security = 2,
-        /// "A widely released and frequent software update that contains additions
-        /// to a product’s definition database. Definition databases are often used
-        /// to detect objects that have specific attributes, such as malicious code,
-        /// phishing websites, or junk mail." \[1\]
-        Definition = 3,
-        /// "Software that controls the input and output of a device." \[1\]
-        Driver = 4,
-        /// "New product functionality that is first distributed outside the context
-        /// of a product release and that is typically included in the next full
-        /// product release." \[1\]
-        FeaturePack = 5,
-        /// "A tested, cumulative set of all hotfixes, security updates, critical
-        /// updates, and updates. Additionally, service packs may contain additional
-        /// fixes for problems that are found internally since the release of the
-        /// product. Service packs my also contain a limited number of
-        /// customer-requested design changes or features." \[1\]
-        ServicePack = 6,
-        /// "A utility or feature that helps complete a task or set of tasks." \[1\]
-        Tool = 7,
-        /// "A tested, cumulative set of hotfixes, security updates, critical
-        /// updates, and updates that are packaged together for easy deployment. A
-        /// rollup generally targets a specific area, such as security, or a
-        /// component of a product, such as Internet Information Services (IIS)." \[1\]
-        UpdateRollup = 8,
-        /// "A widely released fix for a specific problem. An update addresses a
-        /// noncritical, non-security-related bug." \[1\]
-        Update = 9,
-    }
-}
-/// The strategy for retrying failed patches during the patch window.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RetryStrategy {
-    /// If true, the agent will continue to try and patch until the window has
-    /// ended.
-    #[prost(bool, tag = "1")]
-    pub enabled: bool,
-}
-/// A step that runs an executable for a PatchJob.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecStep {
-    /// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
-    #[prost(message, optional, tag = "1")]
-    pub linux_exec_step_config: ::core::option::Option<ExecStepConfig>,
-    /// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
-    #[prost(message, optional, tag = "2")]
-    pub windows_exec_step_config: ::core::option::Option<ExecStepConfig>,
-}
-/// Common configurations for an ExecStep.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecStepConfig {
-    /// Defaults to \[0\]. A list of possible return values that the
-    /// execution can return to indicate a success.
-    #[prost(int32, repeated, tag = "3")]
-    pub allowed_success_codes: ::prost::alloc::vec::Vec<i32>,
-    /// The script interpreter to use to run the script. If no interpreter is
-    /// specified the script will be executed directly, which will likely
-    /// only succeed for scripts with shebang lines.
-    /// [Wikipedia shebang](<https://en.wikipedia.org/wiki/Shebang_(Unix>)).
-    #[prost(enumeration = "exec_step_config::Interpreter", tag = "4")]
-    pub interpreter: i32,
-    /// Location of the executable.
-    #[prost(oneof = "exec_step_config::Executable", tags = "1, 2")]
-    pub executable: ::core::option::Option<exec_step_config::Executable>,
-}
-/// Nested message and enum types in `ExecStepConfig`.
-pub mod exec_step_config {
-    /// The interpreter used to execute the a file.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Interpreter {
-        /// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the
-        /// interpreter will be parsed from the shebang line of the script if
-        /// unspecified.
-        Unspecified = 0,
-        /// Indicates that the script will be run with /bin/sh on Linux and cmd
-        /// on windows.
-        Shell = 1,
-        /// Indicates that the file will be run with PowerShell.
-        Powershell = 2,
-    }
-    /// Location of the executable.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Executable {
-        /// An absolute path to the executable on the VM.
-        #[prost(string, tag = "1")]
-        LocalPath(::prost::alloc::string::String),
-        /// A GCS object containing the executable.
-        #[prost(message, tag = "2")]
-        GcsObject(super::GcsObject),
-    }
-}
-/// GCS object representation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsObject {
-    /// Bucket of the GCS object.
-    #[prost(string, tag = "1")]
-    pub bucket: ::prost::alloc::string::String,
-    /// Name of the GCS object.
-    #[prost(string, tag = "2")]
-    pub object: ::prost::alloc::string::String,
-    /// Generation number of the GCS object. This is used to ensure that the
-    /// ExecStep specified by this PatchJob does not change.
-    #[prost(int64, tag = "3")]
-    pub generation_number: i64,
 }
 /// A unit of work to be performed by the agent.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1632,7 +1642,9 @@ pub mod agent_endpoint_service_client {
             })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http :: uri :: PathAndQuery :: from_static ("/google.cloud.osconfig.agentendpoint.v1.AgentEndpointService/ReceiveTaskNotification") ;
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Signals the start of a task execution and returns the task info."]
         pub async fn start_next_task(

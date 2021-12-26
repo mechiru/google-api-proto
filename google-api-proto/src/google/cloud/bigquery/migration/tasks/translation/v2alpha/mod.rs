@@ -48,7 +48,10 @@ pub struct TranslationTaskDetails {
     /// holder. The special token makes a query invalid to parse. This map will be
     /// applied to annotate those special token with types to let parser understand
     /// how to parse them into proper structure with type information.
-    #[prost(btree_map = "string, enumeration(translation_task_details::TokenType)", tag = "6")]
+    #[prost(
+        btree_map = "string, enumeration(translation_task_details::TokenType)",
+        tag = "6"
+    )]
     pub special_token_map:
         ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i32>,
     /// The filter applied to translation details.

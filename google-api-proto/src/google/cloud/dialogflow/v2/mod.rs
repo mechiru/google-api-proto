@@ -1,3 +1,1289 @@
+/// Each intent parameter has a type, called the entity type, which dictates
+/// exactly how data from an end-user expression is extracted.
+///
+/// Dialogflow provides predefined system entities that can match many common
+/// types of data. For example, there are system entities for matching dates,
+/// times, colors, email addresses, and so on. You can also create your own
+/// custom entities for matching custom data. For example, you could define a
+/// vegetable entity that can match the types of vegetables available for
+/// purchase with a grocery store agent.
+///
+/// For more information, see the
+/// [Entity guide](<https://cloud.google.com/dialogflow/docs/entities-overview>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EntityType {
+    /// The unique identifier of the entity type.
+    /// Required for \[EntityTypes.UpdateEntityType][google.cloud.dialogflow.v2.EntityTypes.UpdateEntityType\] and
+    /// \[EntityTypes.BatchUpdateEntityTypes][google.cloud.dialogflow.v2.EntityTypes.BatchUpdateEntityTypes\] methods.
+    /// Format: `projects/<Project ID>/agent/entityTypes/<Entity Type ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The name of the entity type.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Required. Indicates the kind of entity type.
+    #[prost(enumeration = "entity_type::Kind", tag = "3")]
+    pub kind: i32,
+    /// Optional. Indicates whether the entity type can be automatically
+    /// expanded.
+    #[prost(enumeration = "entity_type::AutoExpansionMode", tag = "4")]
+    pub auto_expansion_mode: i32,
+    /// Optional. The collection of entity entries associated with the entity type.
+    #[prost(message, repeated, tag = "6")]
+    pub entities: ::prost::alloc::vec::Vec<entity_type::Entity>,
+    /// Optional. Enables fuzzy entity extraction during classification.
+    #[prost(bool, tag = "7")]
+    pub enable_fuzzy_extraction: bool,
+}
+/// Nested message and enum types in `EntityType`.
+pub mod entity_type {
+    /// An **entity entry** for an associated entity type.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Entity {
+        /// Required. The primary value associated with this entity entry.
+        /// For example, if the entity type is *vegetable*, the value could be
+        /// *scallions*.
+        ///
+        /// For `KIND_MAP` entity types:
+        ///
+        /// *   A reference value to be used in place of synonyms.
+        ///
+        /// For `KIND_LIST` entity types:
+        ///
+        /// *   A string that can contain references to other entity types (with or
+        ///     without aliases).
+        #[prost(string, tag = "1")]
+        pub value: ::prost::alloc::string::String,
+        /// Required. A collection of value synonyms. For example, if the entity type
+        /// is *vegetable*, and `value` is *scallions*, a synonym could be *green
+        /// onions*.
+        ///
+        /// For `KIND_LIST` entity types:
+        ///
+        /// *   This collection must contain exactly one synonym equal to `value`.
+        #[prost(string, repeated, tag = "2")]
+        pub synonyms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
+    /// Represents kinds of entities.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Kind {
+        /// Not specified. This value should be never used.
+        Unspecified = 0,
+        /// Map entity types allow mapping of a group of synonyms to a reference
+        /// value.
+        Map = 1,
+        /// List entity types contain a set of entries that do not map to reference
+        /// values. However, list entity types can contain references to other entity
+        /// types (with or without aliases).
+        List = 2,
+        /// Regexp entity types allow to specify regular expressions in entries
+        /// values.
+        Regexp = 3,
+    }
+    /// Represents different entity type expansion modes. Automated expansion
+    /// allows an agent to recognize values that have not been explicitly listed in
+    /// the entity (for example, new kinds of shopping list items).
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AutoExpansionMode {
+        /// Auto expansion disabled for the entity.
+        Unspecified = 0,
+        /// Allows an agent to recognize values that have not been explicitly
+        /// listed in the entity.
+        Default = 1,
+    }
+}
+/// The request message for \[EntityTypes.ListEntityTypes][google.cloud.dialogflow.v2.EntityTypes.ListEntityTypes\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEntityTypesRequest {
+    /// Required. The agent to list all entity types from.
+    /// Format: `projects/<Project ID>/agent`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The language used to access language-specific data.
+    /// If not specified, the agent's default language is used.
+    /// For more information, see
+    /// [Multilingual intent and entity
+    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
+    #[prost(string, tag = "2")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Optional. The maximum number of items to return in a single page. By
+    /// default 100 and at most 1000.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// Optional. The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[EntityTypes.ListEntityTypes][google.cloud.dialogflow.v2.EntityTypes.ListEntityTypes\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEntityTypesResponse {
+    /// The list of agent entity types. There will be a maximum number of items
+    /// returned based on the page_size field in the request.
+    #[prost(message, repeated, tag = "1")]
+    pub entity_types: ::prost::alloc::vec::Vec<EntityType>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for \[EntityTypes.GetEntityType][google.cloud.dialogflow.v2.EntityTypes.GetEntityType\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetEntityTypeRequest {
+    /// Required. The name of the entity type.
+    /// Format: `projects/<Project ID>/agent/entityTypes/<EntityType ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The language used to access language-specific data.
+    /// If not specified, the agent's default language is used.
+    /// For more information, see
+    /// [Multilingual intent and entity
+    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
+    #[prost(string, tag = "2")]
+    pub language_code: ::prost::alloc::string::String,
+}
+/// The request message for \[EntityTypes.CreateEntityType][google.cloud.dialogflow.v2.EntityTypes.CreateEntityType\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateEntityTypeRequest {
+    /// Required. The agent to create a entity type for.
+    /// Format: `projects/<Project ID>/agent`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The entity type to create.
+    #[prost(message, optional, tag = "2")]
+    pub entity_type: ::core::option::Option<EntityType>,
+    /// Optional. The language used to access language-specific data.
+    /// If not specified, the agent's default language is used.
+    /// For more information, see
+    /// [Multilingual intent and entity
+    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
+    #[prost(string, tag = "3")]
+    pub language_code: ::prost::alloc::string::String,
+}
+/// The request message for \[EntityTypes.UpdateEntityType][google.cloud.dialogflow.v2.EntityTypes.UpdateEntityType\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateEntityTypeRequest {
+    /// Required. The entity type to update.
+    #[prost(message, optional, tag = "1")]
+    pub entity_type: ::core::option::Option<EntityType>,
+    /// Optional. The language used to access language-specific data.
+    /// If not specified, the agent's default language is used.
+    /// For more information, see
+    /// [Multilingual intent and entity
+    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
+    #[prost(string, tag = "2")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Optional. The mask to control which fields get updated.
+    #[prost(message, optional, tag = "3")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request message for \[EntityTypes.DeleteEntityType][google.cloud.dialogflow.v2.EntityTypes.DeleteEntityType\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteEntityTypeRequest {
+    /// Required. The name of the entity type to delete.
+    /// Format: `projects/<Project ID>/agent/entityTypes/<EntityType ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[EntityTypes.BatchUpdateEntityTypes][google.cloud.dialogflow.v2.EntityTypes.BatchUpdateEntityTypes\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchUpdateEntityTypesRequest {
+    /// Required. The name of the agent to update or create entity types in.
+    /// Format: `projects/<Project ID>/agent`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The language used to access language-specific data.
+    /// If not specified, the agent's default language is used.
+    /// For more information, see
+    /// [Multilingual intent and entity
+    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
+    #[prost(string, tag = "4")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Optional. The mask to control which fields get updated.
+    #[prost(message, optional, tag = "5")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// The source of the entity type batch.
+    ///
+    /// For each entity type in the batch:
+    ///
+    /// *   If `name` is specified, we update an existing entity type.
+    /// *   If `name` is not specified, we create a new entity type.
+    #[prost(
+        oneof = "batch_update_entity_types_request::EntityTypeBatch",
+        tags = "2, 3"
+    )]
+    pub entity_type_batch:
+        ::core::option::Option<batch_update_entity_types_request::EntityTypeBatch>,
+}
+/// Nested message and enum types in `BatchUpdateEntityTypesRequest`.
+pub mod batch_update_entity_types_request {
+    /// The source of the entity type batch.
+    ///
+    /// For each entity type in the batch:
+    ///
+    /// *   If `name` is specified, we update an existing entity type.
+    /// *   If `name` is not specified, we create a new entity type.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum EntityTypeBatch {
+        /// The URI to a Google Cloud Storage file containing entity types to update
+        /// or create. The file format can either be a serialized proto (of
+        /// EntityBatch type) or a JSON object. Note: The URI must start with
+        /// "gs://".
+        #[prost(string, tag = "2")]
+        EntityTypeBatchUri(::prost::alloc::string::String),
+        /// The collection of entity types to update or create.
+        #[prost(message, tag = "3")]
+        EntityTypeBatchInline(super::EntityTypeBatch),
+    }
+}
+/// The response message for \[EntityTypes.BatchUpdateEntityTypes][google.cloud.dialogflow.v2.EntityTypes.BatchUpdateEntityTypes\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchUpdateEntityTypesResponse {
+    /// The collection of updated or created entity types.
+    #[prost(message, repeated, tag = "1")]
+    pub entity_types: ::prost::alloc::vec::Vec<EntityType>,
+}
+/// The request message for \[EntityTypes.BatchDeleteEntityTypes][google.cloud.dialogflow.v2.EntityTypes.BatchDeleteEntityTypes\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchDeleteEntityTypesRequest {
+    /// Required. The name of the agent to delete all entities types for. Format:
+    /// `projects/<Project ID>/agent`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The names entity types to delete. All names must point to the
+    /// same agent as `parent`.
+    #[prost(string, repeated, tag = "2")]
+    pub entity_type_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// The request message for \[EntityTypes.BatchCreateEntities][google.cloud.dialogflow.v2.EntityTypes.BatchCreateEntities\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchCreateEntitiesRequest {
+    /// Required. The name of the entity type to create entities in. Format:
+    /// `projects/<Project ID>/agent/entityTypes/<Entity Type ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The entities to create.
+    #[prost(message, repeated, tag = "2")]
+    pub entities: ::prost::alloc::vec::Vec<entity_type::Entity>,
+    /// Optional. The language used to access language-specific data.
+    /// If not specified, the agent's default language is used.
+    /// For more information, see
+    /// [Multilingual intent and entity
+    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
+    #[prost(string, tag = "3")]
+    pub language_code: ::prost::alloc::string::String,
+}
+/// The request message for \[EntityTypes.BatchUpdateEntities][google.cloud.dialogflow.v2.EntityTypes.BatchUpdateEntities\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchUpdateEntitiesRequest {
+    /// Required. The name of the entity type to update or create entities in.
+    /// Format: `projects/<Project ID>/agent/entityTypes/<Entity Type ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The entities to update or create.
+    #[prost(message, repeated, tag = "2")]
+    pub entities: ::prost::alloc::vec::Vec<entity_type::Entity>,
+    /// Optional. The language used to access language-specific data.
+    /// If not specified, the agent's default language is used.
+    /// For more information, see
+    /// [Multilingual intent and entity
+    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
+    #[prost(string, tag = "3")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Optional. The mask to control which fields get updated.
+    #[prost(message, optional, tag = "4")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request message for \[EntityTypes.BatchDeleteEntities][google.cloud.dialogflow.v2.EntityTypes.BatchDeleteEntities\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchDeleteEntitiesRequest {
+    /// Required. The name of the entity type to delete entries for. Format:
+    /// `projects/<Project ID>/agent/entityTypes/<Entity Type ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The reference `values` of the entities to delete. Note that
+    /// these are not fully-qualified names, i.e. they don't start with
+    /// `projects/<Project ID>`.
+    #[prost(string, repeated, tag = "2")]
+    pub entity_values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. The language used to access language-specific data.
+    /// If not specified, the agent's default language is used.
+    /// For more information, see
+    /// [Multilingual intent and entity
+    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
+    #[prost(string, tag = "3")]
+    pub language_code: ::prost::alloc::string::String,
+}
+/// This message is a wrapper around a collection of entity types.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EntityTypeBatch {
+    /// A collection of entity types.
+    #[prost(message, repeated, tag = "1")]
+    pub entity_types: ::prost::alloc::vec::Vec<EntityType>,
+}
+#[doc = r" Generated client implementations."]
+pub mod entity_types_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [EntityTypes][google.cloud.dialogflow.v2.EntityType]."]
+    #[derive(Debug, Clone)]
+    pub struct EntityTypesClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> EntityTypesClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> EntityTypesClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            EntityTypesClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of all entity types in the specified agent."]
+        pub async fn list_entity_types(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListEntityTypesRequest>,
+        ) -> Result<tonic::Response<super::ListEntityTypesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/ListEntityTypes",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified entity type."]
+        pub async fn get_entity_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetEntityTypeRequest>,
+        ) -> Result<tonic::Response<super::EntityType>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/GetEntityType",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates an entity type in the specified agent."]
+        #[doc = ""]
+        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
+        #[doc = " [training"]
+        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
+        pub async fn create_entity_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateEntityTypeRequest>,
+        ) -> Result<tonic::Response<super::EntityType>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/CreateEntityType",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified entity type."]
+        #[doc = ""]
+        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
+        #[doc = " [training"]
+        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
+        pub async fn update_entity_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateEntityTypeRequest>,
+        ) -> Result<tonic::Response<super::EntityType>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/UpdateEntityType",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the specified entity type."]
+        #[doc = ""]
+        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
+        #[doc = " [training"]
+        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
+        pub async fn delete_entity_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteEntityTypeRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/DeleteEntityType",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates/Creates multiple entity types in the specified agent."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: An empty [Struct"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
+        #[doc = " - `response`: [BatchUpdateEntityTypesResponse][google.cloud.dialogflow.v2.BatchUpdateEntityTypesResponse]"]
+        #[doc = ""]
+        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
+        #[doc = " [training"]
+        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
+        pub async fn batch_update_entity_types(
+            &mut self,
+            request: impl tonic::IntoRequest<super::BatchUpdateEntityTypesRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/BatchUpdateEntityTypes",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes entity types in the specified agent."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: An empty [Struct"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
+        #[doc = " - `response`: An [Empty"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
+        #[doc = ""]
+        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
+        #[doc = " [training"]
+        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
+        pub async fn batch_delete_entity_types(
+            &mut self,
+            request: impl tonic::IntoRequest<super::BatchDeleteEntityTypesRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/BatchDeleteEntityTypes",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates multiple new entities in the specified entity type."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: An empty [Struct"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
+        #[doc = " - `response`: An [Empty"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
+        #[doc = ""]
+        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
+        #[doc = " [training"]
+        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
+        pub async fn batch_create_entities(
+            &mut self,
+            request: impl tonic::IntoRequest<super::BatchCreateEntitiesRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/BatchCreateEntities",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates or creates multiple entities in the specified entity type. This"]
+        #[doc = " method does not affect entities in the entity type that aren't explicitly"]
+        #[doc = " specified in the request."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: An empty [Struct"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
+        #[doc = " - `response`: An [Empty"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
+        #[doc = ""]
+        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
+        #[doc = " [training"]
+        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
+        #[doc = ""]
+        pub async fn batch_update_entities(
+            &mut self,
+            request: impl tonic::IntoRequest<super::BatchUpdateEntitiesRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/BatchUpdateEntities",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes entities in the specified entity type."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: An empty [Struct"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
+        #[doc = " - `response`: An [Empty"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
+        #[doc = ""]
+        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
+        #[doc = " [training"]
+        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
+        pub async fn batch_delete_entities(
+            &mut self,
+            request: impl tonic::IntoRequest<super::BatchDeleteEntitiesRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.EntityTypes/BatchDeleteEntities",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A session represents a conversation between a Dialogflow agent and an
+/// end-user. You can create special entities, called session entities, during a
+/// session. Session entities can extend or replace custom entity types and only
+/// exist during the session that they were created for. All session data,
+/// including session entities, is stored by Dialogflow for 20 minutes.
+///
+/// For more information, see the [session entity
+/// guide](<https://cloud.google.com/dialogflow/docs/entities-session>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SessionEntityType {
+    /// Required. The unique identifier of this session entity type. Format:
+    /// `projects/<Project ID>/agent/sessions/<Session ID>/entityTypes/<Entity Type
+    /// Display Name>`, or `projects/<Project ID>/agent/environments/<Environment
+    /// ID>/users/<User ID>/sessions/<Session ID>/entityTypes/<Entity Type Display
+    /// Name>`.
+    /// If `Environment ID` is not specified, we assume default 'draft'
+    /// environment. If `User ID` is not specified, we assume default '-' user.
+    ///
+    /// `<Entity Type Display Name>` must be the display name of an existing entity
+    /// type in the same agent that will be overridden or supplemented.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Indicates whether the additional data should override or
+    /// supplement the custom entity type definition.
+    #[prost(enumeration = "session_entity_type::EntityOverrideMode", tag = "2")]
+    pub entity_override_mode: i32,
+    /// Required. The collection of entities associated with this session entity
+    /// type.
+    #[prost(message, repeated, tag = "3")]
+    pub entities: ::prost::alloc::vec::Vec<entity_type::Entity>,
+}
+/// Nested message and enum types in `SessionEntityType`.
+pub mod session_entity_type {
+    /// The types of modifications for a session entity type.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EntityOverrideMode {
+        /// Not specified. This value should be never used.
+        Unspecified = 0,
+        /// The collection of session entities overrides the collection of entities
+        /// in the corresponding custom entity type.
+        Override = 1,
+        /// The collection of session entities extends the collection of entities in
+        /// the corresponding custom entity type.
+        ///
+        /// Note: Even in this override mode calls to `ListSessionEntityTypes`,
+        /// `GetSessionEntityType`, `CreateSessionEntityType` and
+        /// `UpdateSessionEntityType` only return the additional entities added in
+        /// this session entity type. If you want to get the supplemented list,
+        /// please call \[EntityTypes.GetEntityType][google.cloud.dialogflow.v2.EntityTypes.GetEntityType\] on the custom entity type
+        /// and merge.
+        Supplement = 2,
+    }
+}
+/// The request message for \[SessionEntityTypes.ListSessionEntityTypes][google.cloud.dialogflow.v2.SessionEntityTypes.ListSessionEntityTypes\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSessionEntityTypesRequest {
+    /// Required. The session to list all session entity types from.
+    /// Format: `projects/<Project ID>/agent/sessions/<Session ID>` or
+    /// `projects/<Project ID>/agent/environments/<Environment ID>/users/<User ID>/
+    /// sessions/<Session ID>`.
+    /// If `Environment ID` is not specified, we assume default 'draft'
+    /// environment. If `User ID` is not specified, we assume default '-' user.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of items to return in a single page. By
+    /// default 100 and at most 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[SessionEntityTypes.ListSessionEntityTypes][google.cloud.dialogflow.v2.SessionEntityTypes.ListSessionEntityTypes\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSessionEntityTypesResponse {
+    /// The list of session entity types. There will be a maximum number of items
+    /// returned based on the page_size field in the request.
+    #[prost(message, repeated, tag = "1")]
+    pub session_entity_types: ::prost::alloc::vec::Vec<SessionEntityType>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for \[SessionEntityTypes.GetSessionEntityType][google.cloud.dialogflow.v2.SessionEntityTypes.GetSessionEntityType\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetSessionEntityTypeRequest {
+    /// Required. The name of the session entity type. Format:
+    /// `projects/<Project ID>/agent/sessions/<Session ID>/entityTypes/<Entity Type
+    /// Display Name>` or `projects/<Project ID>/agent/environments/<Environment
+    /// ID>/users/<User ID>/sessions/<Session ID>/entityTypes/<Entity Type Display
+    /// Name>`.
+    /// If `Environment ID` is not specified, we assume default 'draft'
+    /// environment. If `User ID` is not specified, we assume default '-' user.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[SessionEntityTypes.CreateSessionEntityType][google.cloud.dialogflow.v2.SessionEntityTypes.CreateSessionEntityType\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateSessionEntityTypeRequest {
+    /// Required. The session to create a session entity type for.
+    /// Format: `projects/<Project ID>/agent/sessions/<Session ID>` or
+    /// `projects/<Project ID>/agent/environments/<Environment ID>/users/<User ID>/
+    /// sessions/<Session ID>`.
+    /// If `Environment ID` is not specified, we assume default 'draft'
+    /// environment. If `User ID` is not specified, we assume default '-' user.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The session entity type to create.
+    #[prost(message, optional, tag = "2")]
+    pub session_entity_type: ::core::option::Option<SessionEntityType>,
+}
+/// The request message for \[SessionEntityTypes.UpdateSessionEntityType][google.cloud.dialogflow.v2.SessionEntityTypes.UpdateSessionEntityType\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateSessionEntityTypeRequest {
+    /// Required. The session entity type to update.
+    #[prost(message, optional, tag = "1")]
+    pub session_entity_type: ::core::option::Option<SessionEntityType>,
+    /// Optional. The mask to control which fields get updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request message for \[SessionEntityTypes.DeleteSessionEntityType][google.cloud.dialogflow.v2.SessionEntityTypes.DeleteSessionEntityType\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteSessionEntityTypeRequest {
+    /// Required. The name of the entity type to delete. Format:
+    /// `projects/<Project ID>/agent/sessions/<Session ID>/entityTypes/<Entity Type
+    /// Display Name>` or `projects/<Project ID>/agent/environments/<Environment
+    /// ID>/users/<User ID>/sessions/<Session ID>/entityTypes/<Entity Type Display
+    /// Name>`.
+    /// If `Environment ID` is not specified, we assume default 'draft'
+    /// environment. If `User ID` is not specified, we assume default '-' user.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod session_entity_types_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [SessionEntityTypes][google.cloud.dialogflow.v2.SessionEntityType]."]
+    #[derive(Debug, Clone)]
+    pub struct SessionEntityTypesClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> SessionEntityTypesClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> SessionEntityTypesClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            SessionEntityTypesClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of all session entity types in the specified session."]
+        #[doc = ""]
+        #[doc = " This method doesn't work with Google Assistant integration."]
+        #[doc = " Contact Dialogflow support if you need to use session entities"]
+        #[doc = " with Google Assistant integration."]
+        pub async fn list_session_entity_types(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListSessionEntityTypesRequest>,
+        ) -> Result<tonic::Response<super::ListSessionEntityTypesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.SessionEntityTypes/ListSessionEntityTypes",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified session entity type."]
+        #[doc = ""]
+        #[doc = " This method doesn't work with Google Assistant integration."]
+        #[doc = " Contact Dialogflow support if you need to use session entities"]
+        #[doc = " with Google Assistant integration."]
+        pub async fn get_session_entity_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetSessionEntityTypeRequest>,
+        ) -> Result<tonic::Response<super::SessionEntityType>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.SessionEntityTypes/GetSessionEntityType",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a session entity type."]
+        #[doc = ""]
+        #[doc = " If the specified session entity type already exists, overrides the session"]
+        #[doc = " entity type."]
+        #[doc = ""]
+        #[doc = " This method doesn't work with Google Assistant integration."]
+        #[doc = " Contact Dialogflow support if you need to use session entities"]
+        #[doc = " with Google Assistant integration."]
+        pub async fn create_session_entity_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateSessionEntityTypeRequest>,
+        ) -> Result<tonic::Response<super::SessionEntityType>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.SessionEntityTypes/CreateSessionEntityType",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified session entity type."]
+        #[doc = ""]
+        #[doc = " This method doesn't work with Google Assistant integration."]
+        #[doc = " Contact Dialogflow support if you need to use session entities"]
+        #[doc = " with Google Assistant integration."]
+        pub async fn update_session_entity_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateSessionEntityTypeRequest>,
+        ) -> Result<tonic::Response<super::SessionEntityType>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.SessionEntityTypes/UpdateSessionEntityType",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the specified session entity type."]
+        #[doc = ""]
+        #[doc = " This method doesn't work with Google Assistant integration."]
+        #[doc = " Contact Dialogflow support if you need to use session entities"]
+        #[doc = " with Google Assistant integration."]
+        pub async fn delete_session_entity_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteSessionEntityTypeRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.SessionEntityTypes/DeleteSessionEntityType",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Hints for the speech recognizer to help with recognition in a specific
+/// conversation state.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SpeechContext {
+    /// Optional. A list of strings containing words and phrases that the speech
+    /// recognizer should recognize with higher likelihood.
+    ///
+    /// This list can be used to:
+    ///
+    /// * improve accuracy for words and phrases you expect the user to say,
+    ///   e.g. typical commands for your Dialogflow agent
+    /// * add additional words to the speech recognizer vocabulary
+    /// * ...
+    ///
+    /// See the [Cloud Speech
+    /// documentation](<https://cloud.google.com/speech-to-text/quotas>) for usage
+    /// limits.
+    #[prost(string, repeated, tag = "1")]
+    pub phrases: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. Boost for this context compared to other contexts:
+    ///
+    /// * If the boost is positive, Dialogflow will increase the probability that
+    ///   the phrases in this context are recognized over similar sounding phrases.
+    /// * If the boost is unspecified or non-positive, Dialogflow will not apply
+    ///   any boost.
+    ///
+    /// Dialogflow recommends that you use boosts in the range (0, 20] and that you
+    /// find a value that fits your use case with binary search.
+    #[prost(float, tag = "2")]
+    pub boost: f32,
+}
+/// Information for a word recognized by the speech recognizer.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SpeechWordInfo {
+    /// The word this info is for.
+    #[prost(string, tag = "3")]
+    pub word: ::prost::alloc::string::String,
+    /// Time offset relative to the beginning of the audio that corresponds to the
+    /// start of the spoken word. This is an experimental feature and the accuracy
+    /// of the time offset can vary.
+    #[prost(message, optional, tag = "1")]
+    pub start_offset: ::core::option::Option<::prost_types::Duration>,
+    /// Time offset relative to the beginning of the audio that corresponds to the
+    /// end of the spoken word. This is an experimental feature and the accuracy of
+    /// the time offset can vary.
+    #[prost(message, optional, tag = "2")]
+    pub end_offset: ::core::option::Option<::prost_types::Duration>,
+    /// The Speech confidence between 0.0 and 1.0 for this word. A higher number
+    /// indicates an estimated greater likelihood that the recognized word is
+    /// correct. The default of 0.0 is a sentinel value indicating that confidence
+    /// was not set.
+    ///
+    /// This field is not guaranteed to be fully stable over time for the same
+    /// audio input. Users should also not rely on it to always be provided.
+    #[prost(float, tag = "4")]
+    pub confidence: f32,
+}
+/// Instructs the speech recognizer how to process the audio content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InputAudioConfig {
+    /// Required. Audio encoding of the audio content to process.
+    #[prost(enumeration = "AudioEncoding", tag = "1")]
+    pub audio_encoding: i32,
+    /// Required. Sample rate (in Hertz) of the audio content sent in the query.
+    /// Refer to
+    /// [Cloud Speech API
+    /// documentation](<https://cloud.google.com/speech-to-text/docs/basics>) for
+    /// more details.
+    #[prost(int32, tag = "2")]
+    pub sample_rate_hertz: i32,
+    /// Required. The language of the supplied audio. Dialogflow does not do
+    /// translations. See [Language
+    /// Support](<https://cloud.google.com/dialogflow/docs/reference/language>)
+    /// for a list of the currently supported language codes. Note that queries in
+    /// the same session do not necessarily need to specify the same language.
+    #[prost(string, tag = "3")]
+    pub language_code: ::prost::alloc::string::String,
+    /// If `true`, Dialogflow returns \[SpeechWordInfo][google.cloud.dialogflow.v2.SpeechWordInfo\] in
+    /// \[StreamingRecognitionResult][google.cloud.dialogflow.v2.StreamingRecognitionResult\] with information about the recognized speech
+    /// words, e.g. start and end time offsets. If false or unspecified, Speech
+    /// doesn't return any word-level information.
+    #[prost(bool, tag = "13")]
+    pub enable_word_info: bool,
+    /// A list of strings containing words and phrases that the speech
+    /// recognizer should recognize with higher likelihood.
+    ///
+    /// See [the Cloud Speech
+    /// documentation](<https://cloud.google.com/speech-to-text/docs/basics#phrase-hints>)
+    /// for more details.
+    ///
+    /// This field is deprecated. Please use \[speech_contexts\]() instead. If you
+    /// specify both \[phrase_hints\]() and \[speech_contexts\](), Dialogflow will
+    /// treat the \[phrase_hints\]() as a single additional \[SpeechContext\]().
+    #[deprecated]
+    #[prost(string, repeated, tag = "4")]
+    pub phrase_hints: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Context information to assist speech recognition.
+    ///
+    /// See [the Cloud Speech
+    /// documentation](<https://cloud.google.com/speech-to-text/docs/basics#phrase-hints>)
+    /// for more details.
+    #[prost(message, repeated, tag = "11")]
+    pub speech_contexts: ::prost::alloc::vec::Vec<SpeechContext>,
+    /// Which Speech model to select for the given request. Select the
+    /// model best suited to your domain to get best results. If a model is not
+    /// explicitly specified, then we auto-select a model based on the parameters
+    /// in the InputAudioConfig.
+    /// If enhanced speech model is enabled for the agent and an enhanced
+    /// version of the specified model for the language does not exist, then the
+    /// speech is recognized using the standard version of the specified model.
+    /// Refer to
+    /// [Cloud Speech API
+    /// documentation](<https://cloud.google.com/speech-to-text/docs/basics#select-model>)
+    /// for more details.
+    #[prost(string, tag = "7")]
+    pub model: ::prost::alloc::string::String,
+    /// Which variant of the [Speech model]\[google.cloud.dialogflow.v2.InputAudioConfig.model\] to use.
+    #[prost(enumeration = "SpeechModelVariant", tag = "10")]
+    pub model_variant: i32,
+    /// If `false` (default), recognition does not cease until the
+    /// client closes the stream.
+    /// If `true`, the recognizer will detect a single spoken utterance in input
+    /// audio. Recognition ceases when it detects the audio's voice has
+    /// stopped or paused. In this case, once a detected intent is received, the
+    /// client should close the stream and start a new request with a new stream as
+    /// needed.
+    /// Note: This setting is relevant only for streaming methods.
+    /// Note: When specified, InputAudioConfig.single_utterance takes precedence
+    /// over StreamingDetectIntentRequest.single_utterance.
+    #[prost(bool, tag = "8")]
+    pub single_utterance: bool,
+    /// Only used in \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\] and
+    /// \[Participants.StreamingAnalyzeContent][google.cloud.dialogflow.v2.Participants.StreamingAnalyzeContent\].
+    /// If `false` and recognition doesn't return any result, trigger
+    /// `NO_SPEECH_RECOGNIZED` event to Dialogflow agent.
+    #[prost(bool, tag = "14")]
+    pub disable_no_speech_recognized_event: bool,
+}
+/// Description of which voice to use for speech synthesis.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VoiceSelectionParams {
+    /// Optional. The name of the voice. If not set, the service will choose a
+    /// voice based on the other parameters such as language_code and
+    /// \[ssml_gender][google.cloud.dialogflow.v2.VoiceSelectionParams.ssml_gender\].
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The preferred gender of the voice. If not set, the service will
+    /// choose a voice based on the other parameters such as language_code and
+    /// \[name][google.cloud.dialogflow.v2.VoiceSelectionParams.name\]. Note that this is only a preference, not requirement. If a
+    /// voice of the appropriate gender is not available, the synthesizer should
+    /// substitute a voice with a different gender rather than failing the request.
+    #[prost(enumeration = "SsmlVoiceGender", tag = "2")]
+    pub ssml_gender: i32,
+}
+/// Configuration of how speech should be synthesized.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SynthesizeSpeechConfig {
+    /// Optional. Speaking rate/speed, in the range [0.25, 4.0]. 1.0 is the normal
+    /// native speed supported by the specific voice. 2.0 is twice as fast, and
+    /// 0.5 is half as fast. If unset(0.0), defaults to the native 1.0 speed. Any
+    /// other values < 0.25 or > 4.0 will return an error.
+    #[prost(double, tag = "1")]
+    pub speaking_rate: f64,
+    /// Optional. Speaking pitch, in the range [-20.0, 20.0]. 20 means increase 20
+    /// semitones from the original pitch. -20 means decrease 20 semitones from the
+    /// original pitch.
+    #[prost(double, tag = "2")]
+    pub pitch: f64,
+    /// Optional. Volume gain (in dB) of the normal native volume supported by the
+    /// specific voice, in the range [-96.0, 16.0]. If unset, or set to a value of
+    /// 0.0 (dB), will play at normal native signal amplitude. A value of -6.0 (dB)
+    /// will play at approximately half the amplitude of the normal native signal
+    /// amplitude. A value of +6.0 (dB) will play at approximately twice the
+    /// amplitude of the normal native signal amplitude. We strongly recommend not
+    /// to exceed +10 (dB) as there's usually no effective increase in loudness for
+    /// any value greater than that.
+    #[prost(double, tag = "3")]
+    pub volume_gain_db: f64,
+    /// Optional. An identifier which selects 'audio effects' profiles that are
+    /// applied on (post synthesized) text to speech. Effects are applied on top of
+    /// each other in the order they are given.
+    #[prost(string, repeated, tag = "5")]
+    pub effects_profile_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. The desired voice of the synthesized audio.
+    #[prost(message, optional, tag = "4")]
+    pub voice: ::core::option::Option<VoiceSelectionParams>,
+}
+/// Instructs the speech synthesizer on how to generate the output audio content.
+/// If this audio config is supplied in a request, it overrides all existing
+/// text-to-speech settings applied to the agent.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OutputAudioConfig {
+    /// Required. Audio encoding of the synthesized audio content.
+    #[prost(enumeration = "OutputAudioEncoding", tag = "1")]
+    pub audio_encoding: i32,
+    /// The synthesis sample rate (in hertz) for this audio. If not
+    /// provided, then the synthesizer will use the default sample rate based on
+    /// the audio encoding. If this is different from the voice's natural sample
+    /// rate, then the synthesizer will honor this request by converting to the
+    /// desired sample rate (which might result in worse audio quality).
+    #[prost(int32, tag = "2")]
+    pub sample_rate_hertz: i32,
+    /// Configuration of how speech should be synthesized.
+    #[prost(message, optional, tag = "3")]
+    pub synthesize_speech_config: ::core::option::Option<SynthesizeSpeechConfig>,
+}
+/// Configures speech transcription for \[ConversationProfile][google.cloud.dialogflow.v2.ConversationProfile\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SpeechToTextConfig {
+    /// The speech model used in speech to text.
+    /// `SPEECH_MODEL_VARIANT_UNSPECIFIED`, `USE_BEST_AVAILABLE` will be treated as
+    /// `USE_ENHANCED`. It can be overridden in \[AnalyzeContentRequest][google.cloud.dialogflow.v2.AnalyzeContentRequest\] and
+    /// \[StreamingAnalyzeContentRequest][google.cloud.dialogflow.v2.StreamingAnalyzeContentRequest\] request.
+    /// If enhanced model variant is specified and an enhanced
+    /// version of the specified model for the language does not exist, then it
+    /// would emit an error.
+    #[prost(enumeration = "SpeechModelVariant", tag = "1")]
+    pub speech_model_variant: i32,
+}
+/// Audio encoding of the audio content sent in the conversational query request.
+/// Refer to the
+/// [Cloud Speech API
+/// documentation](<https://cloud.google.com/speech-to-text/docs/basics>) for more
+/// details.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum AudioEncoding {
+    /// Not specified.
+    Unspecified = 0,
+    /// Uncompressed 16-bit signed little-endian samples (Linear PCM).
+    Linear16 = 1,
+    /// \[`FLAC`\](<https://xiph.org/flac/documentation.html>) (Free Lossless Audio
+    /// Codec) is the recommended encoding because it is lossless (therefore
+    /// recognition is not compromised) and requires only about half the
+    /// bandwidth of `LINEAR16`. `FLAC` stream encoding supports 16-bit and
+    /// 24-bit samples, however, not all fields in `STREAMINFO` are supported.
+    Flac = 2,
+    /// 8-bit samples that compand 14-bit audio samples using G.711 PCMU/mu-law.
+    Mulaw = 3,
+    /// Adaptive Multi-Rate Narrowband codec. `sample_rate_hertz` must be 8000.
+    Amr = 4,
+    /// Adaptive Multi-Rate Wideband codec. `sample_rate_hertz` must be 16000.
+    AmrWb = 5,
+    /// Opus encoded audio frames in Ogg container
+    /// (\[OggOpus\](<https://wiki.xiph.org/OggOpus>)).
+    /// `sample_rate_hertz` must be 16000.
+    OggOpus = 6,
+    /// Although the use of lossy encodings is not recommended, if a very low
+    /// bitrate encoding is required, `OGG_OPUS` is highly preferred over
+    /// Speex encoding. The \[Speex\](<https://speex.org/>) encoding supported by
+    /// Dialogflow API has a header byte in each block, as in MIME type
+    /// `audio/x-speex-with-header-byte`.
+    /// It is a variant of the RTP Speex encoding defined in
+    /// [RFC 5574](<https://tools.ietf.org/html/rfc5574>).
+    /// The stream is a sequence of blocks, one block per RTP packet. Each block
+    /// starts with a byte containing the length of the block, in bytes, followed
+    /// by one or more frames of Speex data, padded to an integral number of
+    /// bytes (octets) as specified in RFC 5574. In other words, each RTP header
+    /// is replaced with a single byte containing the block length. Only Speex
+    /// wideband is supported. `sample_rate_hertz` must be 16000.
+    SpeexWithHeaderByte = 7,
+}
+/// Variant of the specified [Speech model]\[google.cloud.dialogflow.v2.InputAudioConfig.model\] to use.
+///
+/// See the [Cloud Speech
+/// documentation](<https://cloud.google.com/speech-to-text/docs/enhanced-models>)
+/// for which models have different variants. For example, the "phone_call" model
+/// has both a standard and an enhanced variant. When you use an enhanced model,
+/// you will generally receive higher quality results than for a standard model.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum SpeechModelVariant {
+    /// No model variant specified. In this case Dialogflow defaults to
+    /// USE_BEST_AVAILABLE.
+    Unspecified = 0,
+    /// Use the best available variant of the [Speech
+    /// model]\[InputAudioConfig.model\] that the caller is eligible for.
+    ///
+    /// Please see the [Dialogflow
+    /// docs](<https://cloud.google.com/dialogflow/docs/data-logging>) for
+    /// how to make your project eligible for enhanced models.
+    UseBestAvailable = 1,
+    /// Use standard model variant even if an enhanced model is available.  See the
+    /// [Cloud Speech
+    /// documentation](<https://cloud.google.com/speech-to-text/docs/enhanced-models>)
+    /// for details about enhanced models.
+    UseStandard = 2,
+    /// Use an enhanced model variant:
+    ///
+    /// * If an enhanced variant does not exist for the given
+    ///   \[model][google.cloud.dialogflow.v2.InputAudioConfig.model\] and request language, Dialogflow falls
+    ///   back to the standard variant.
+    ///
+    ///   The [Cloud Speech
+    ///   documentation](<https://cloud.google.com/speech-to-text/docs/enhanced-models>)
+    ///   describes which models have enhanced variants.
+    ///
+    /// * If the API caller isn't eligible for enhanced models, Dialogflow returns
+    ///   an error. Please see the [Dialogflow
+    ///   docs](<https://cloud.google.com/dialogflow/docs/data-logging>)
+    ///   for how to make your project eligible.
+    UseEnhanced = 3,
+}
+/// Gender of the voice as described in
+/// [SSML voice element](<https://www.w3.org/TR/speech-synthesis11/#edef_voice>).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum SsmlVoiceGender {
+    /// An unspecified gender, which means that the client doesn't care which
+    /// gender the selected voice will have.
+    Unspecified = 0,
+    /// A male voice.
+    Male = 1,
+    /// A female voice.
+    Female = 2,
+    /// A gender-neutral voice.
+    Neutral = 3,
+}
+/// Audio encoding of the output audio format in Text-To-Speech.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum OutputAudioEncoding {
+    /// Not specified.
+    Unspecified = 0,
+    /// Uncompressed 16-bit signed little-endian samples (Linear PCM).
+    /// Audio content returned as LINEAR16 also contains a WAV header.
+    Linear16 = 1,
+    /// MP3 audio at 32kbps.
+    Mp3 = 2,
+    /// MP3 audio at 64kbps.
+    Mp364Kbps = 4,
+    /// Opus encoded audio wrapped in an ogg container. The result will be a
+    /// file which can be played natively on Android, and in browsers (at least
+    /// Chrome and Firefox). The quality of the encoding is considerably higher
+    /// than MP3 while using approximately the same bitrate.
+    OggOpus = 3,
+    /// 8-bit samples that compand 14-bit audio samples using G.711 PCMU/mu-law.
+    Mulaw = 5,
+}
+/// Google Cloud Storage location for the output.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsDestination {
+    /// The Google Cloud Storage URIs for the output. A URI is of the
+    /// form:
+    ///   gs://bucket/object-prefix-or-name
+    /// Whether a prefix or name is used depends on the use case. The requesting
+    /// user must have "write-permission" to the bucket.
+    #[prost(string, tag = "1")]
+    pub uri: ::prost::alloc::string::String,
+}
 /// Dialogflow contexts are similar to natural language context. If a person says
 /// to you "they are orange", you need context in order to understand what "they"
 /// is referring to. Similarly, for Dialogflow to handle an end-user expression
@@ -307,546 +1593,6 @@ pub mod contexts_client {
         }
     }
 }
-/// By default, your agent responds to a matched intent with a static response.
-/// As an alternative, you can provide a more dynamic response by using
-/// fulfillment. When you enable fulfillment for an intent, Dialogflow responds
-/// to that intent by calling a service that you define. For example, if an
-/// end-user wants to schedule a haircut on Friday, your service can check your
-/// database and respond to the end-user with availability information for
-/// Friday.
-///
-/// For more information, see the [fulfillment
-/// guide](<https://cloud.google.com/dialogflow/docs/fulfillment-overview>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Fulfillment {
-    /// Required. The unique identifier of the fulfillment.
-    /// Supported formats:
-    /// - `projects/<Project ID>/agent/fulfillment`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent/fulfillment`
-    ///
-    /// This field is not used for Fulfillment in an Environment.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The human-readable name of the fulfillment, unique within the agent.
-    ///
-    /// This field is not used for Fulfillment in an Environment.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. Whether fulfillment is enabled.
-    #[prost(bool, tag = "4")]
-    pub enabled: bool,
-    /// Optional. The field defines whether the fulfillment is enabled for certain features.
-    #[prost(message, repeated, tag = "5")]
-    pub features: ::prost::alloc::vec::Vec<fulfillment::Feature>,
-    /// Required. The fulfillment configuration.
-    #[prost(oneof = "fulfillment::Fulfillment", tags = "3")]
-    pub fulfillment: ::core::option::Option<fulfillment::Fulfillment>,
-}
-/// Nested message and enum types in `Fulfillment`.
-pub mod fulfillment {
-    /// Represents configuration for a generic web service.
-    /// Dialogflow supports two mechanisms for authentications:
-    /// - Basic authentication with username and password.
-    /// - Authentication with additional authentication headers.
-    /// More information could be found at:
-    /// <https://cloud.google.com/dialogflow/docs/fulfillment-configure.>
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct GenericWebService {
-        /// Required. The fulfillment URI for receiving POST requests.
-        /// It must use https protocol.
-        #[prost(string, tag = "1")]
-        pub uri: ::prost::alloc::string::String,
-        /// Optional. The user name for HTTP Basic authentication.
-        #[prost(string, tag = "2")]
-        pub username: ::prost::alloc::string::String,
-        /// Optional. The password for HTTP Basic authentication.
-        #[prost(string, tag = "3")]
-        pub password: ::prost::alloc::string::String,
-        /// Optional. The HTTP request headers to send together with fulfillment requests.
-        #[prost(btree_map = "string, string", tag = "4")]
-        pub request_headers: ::prost::alloc::collections::BTreeMap<
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        >,
-        /// Optional. Indicates if generic web service is created through Cloud Functions
-        /// integration. Defaults to false.
-        ///
-        /// is_cloud_function is deprecated. Cloud functions can be configured by
-        /// its uri as a regular web service now.
-        #[deprecated]
-        #[prost(bool, tag = "5")]
-        pub is_cloud_function: bool,
-    }
-    /// Whether fulfillment is enabled for the specific feature.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Feature {
-        /// The type of the feature that enabled for fulfillment.
-        #[prost(enumeration = "feature::Type", tag = "1")]
-        pub r#type: i32,
-    }
-    /// Nested message and enum types in `Feature`.
-    pub mod feature {
-        /// The type of the feature.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum Type {
-            /// Feature type not specified.
-            Unspecified = 0,
-            /// Fulfillment is enabled for SmallTalk.
-            Smalltalk = 1,
-        }
-    }
-    /// Required. The fulfillment configuration.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Fulfillment {
-        /// Configuration for a generic web service.
-        #[prost(message, tag = "3")]
-        GenericWebService(GenericWebService),
-    }
-}
-/// The request message for \[Fulfillments.GetFulfillment][google.cloud.dialogflow.v2.Fulfillments.GetFulfillment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFulfillmentRequest {
-    /// Required. The name of the fulfillment.
-    /// Format: `projects/<Project ID>/agent/fulfillment`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[Fulfillments.UpdateFulfillment][google.cloud.dialogflow.v2.Fulfillments.UpdateFulfillment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateFulfillmentRequest {
-    /// Required. The fulfillment to update.
-    #[prost(message, optional, tag = "1")]
-    pub fulfillment: ::core::option::Option<Fulfillment>,
-    /// Required. The mask to control which fields get updated. If the mask is not
-    /// present, all fields will be updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-#[doc = r" Generated client implementations."]
-pub mod fulfillments_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [Fulfillments][google.cloud.dialogflow.v2.Fulfillment]."]
-    #[derive(Debug, Clone)]
-    pub struct FulfillmentsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> FulfillmentsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> FulfillmentsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            FulfillmentsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Retrieves the fulfillment."]
-        pub async fn get_fulfillment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetFulfillmentRequest>,
-        ) -> Result<tonic::Response<super::Fulfillment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Fulfillments/GetFulfillment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the fulfillment."]
-        pub async fn update_fulfillment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateFulfillmentRequest>,
-        ) -> Result<tonic::Response<super::Fulfillment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Fulfillments/UpdateFulfillment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Hints for the speech recognizer to help with recognition in a specific
-/// conversation state.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SpeechContext {
-    /// Optional. A list of strings containing words and phrases that the speech
-    /// recognizer should recognize with higher likelihood.
-    ///
-    /// This list can be used to:
-    ///
-    /// * improve accuracy for words and phrases you expect the user to say,
-    ///   e.g. typical commands for your Dialogflow agent
-    /// * add additional words to the speech recognizer vocabulary
-    /// * ...
-    ///
-    /// See the [Cloud Speech
-    /// documentation](<https://cloud.google.com/speech-to-text/quotas>) for usage
-    /// limits.
-    #[prost(string, repeated, tag = "1")]
-    pub phrases: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. Boost for this context compared to other contexts:
-    ///
-    /// * If the boost is positive, Dialogflow will increase the probability that
-    ///   the phrases in this context are recognized over similar sounding phrases.
-    /// * If the boost is unspecified or non-positive, Dialogflow will not apply
-    ///   any boost.
-    ///
-    /// Dialogflow recommends that you use boosts in the range (0, 20] and that you
-    /// find a value that fits your use case with binary search.
-    #[prost(float, tag = "2")]
-    pub boost: f32,
-}
-/// Information for a word recognized by the speech recognizer.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SpeechWordInfo {
-    /// The word this info is for.
-    #[prost(string, tag = "3")]
-    pub word: ::prost::alloc::string::String,
-    /// Time offset relative to the beginning of the audio that corresponds to the
-    /// start of the spoken word. This is an experimental feature and the accuracy
-    /// of the time offset can vary.
-    #[prost(message, optional, tag = "1")]
-    pub start_offset: ::core::option::Option<::prost_types::Duration>,
-    /// Time offset relative to the beginning of the audio that corresponds to the
-    /// end of the spoken word. This is an experimental feature and the accuracy of
-    /// the time offset can vary.
-    #[prost(message, optional, tag = "2")]
-    pub end_offset: ::core::option::Option<::prost_types::Duration>,
-    /// The Speech confidence between 0.0 and 1.0 for this word. A higher number
-    /// indicates an estimated greater likelihood that the recognized word is
-    /// correct. The default of 0.0 is a sentinel value indicating that confidence
-    /// was not set.
-    ///
-    /// This field is not guaranteed to be fully stable over time for the same
-    /// audio input. Users should also not rely on it to always be provided.
-    #[prost(float, tag = "4")]
-    pub confidence: f32,
-}
-/// Instructs the speech recognizer how to process the audio content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InputAudioConfig {
-    /// Required. Audio encoding of the audio content to process.
-    #[prost(enumeration = "AudioEncoding", tag = "1")]
-    pub audio_encoding: i32,
-    /// Required. Sample rate (in Hertz) of the audio content sent in the query.
-    /// Refer to
-    /// [Cloud Speech API
-    /// documentation](<https://cloud.google.com/speech-to-text/docs/basics>) for
-    /// more details.
-    #[prost(int32, tag = "2")]
-    pub sample_rate_hertz: i32,
-    /// Required. The language of the supplied audio. Dialogflow does not do
-    /// translations. See [Language
-    /// Support](<https://cloud.google.com/dialogflow/docs/reference/language>)
-    /// for a list of the currently supported language codes. Note that queries in
-    /// the same session do not necessarily need to specify the same language.
-    #[prost(string, tag = "3")]
-    pub language_code: ::prost::alloc::string::String,
-    /// If `true`, Dialogflow returns \[SpeechWordInfo][google.cloud.dialogflow.v2.SpeechWordInfo\] in
-    /// \[StreamingRecognitionResult][google.cloud.dialogflow.v2.StreamingRecognitionResult\] with information about the recognized speech
-    /// words, e.g. start and end time offsets. If false or unspecified, Speech
-    /// doesn't return any word-level information.
-    #[prost(bool, tag = "13")]
-    pub enable_word_info: bool,
-    /// A list of strings containing words and phrases that the speech
-    /// recognizer should recognize with higher likelihood.
-    ///
-    /// See [the Cloud Speech
-    /// documentation](<https://cloud.google.com/speech-to-text/docs/basics#phrase-hints>)
-    /// for more details.
-    ///
-    /// This field is deprecated. Please use \[speech_contexts\]() instead. If you
-    /// specify both \[phrase_hints\]() and \[speech_contexts\](), Dialogflow will
-    /// treat the \[phrase_hints\]() as a single additional \[SpeechContext\]().
-    #[deprecated]
-    #[prost(string, repeated, tag = "4")]
-    pub phrase_hints: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Context information to assist speech recognition.
-    ///
-    /// See [the Cloud Speech
-    /// documentation](<https://cloud.google.com/speech-to-text/docs/basics#phrase-hints>)
-    /// for more details.
-    #[prost(message, repeated, tag = "11")]
-    pub speech_contexts: ::prost::alloc::vec::Vec<SpeechContext>,
-    /// Which Speech model to select for the given request. Select the
-    /// model best suited to your domain to get best results. If a model is not
-    /// explicitly specified, then we auto-select a model based on the parameters
-    /// in the InputAudioConfig.
-    /// If enhanced speech model is enabled for the agent and an enhanced
-    /// version of the specified model for the language does not exist, then the
-    /// speech is recognized using the standard version of the specified model.
-    /// Refer to
-    /// [Cloud Speech API
-    /// documentation](<https://cloud.google.com/speech-to-text/docs/basics#select-model>)
-    /// for more details.
-    #[prost(string, tag = "7")]
-    pub model: ::prost::alloc::string::String,
-    /// Which variant of the [Speech model]\[google.cloud.dialogflow.v2.InputAudioConfig.model\] to use.
-    #[prost(enumeration = "SpeechModelVariant", tag = "10")]
-    pub model_variant: i32,
-    /// If `false` (default), recognition does not cease until the
-    /// client closes the stream.
-    /// If `true`, the recognizer will detect a single spoken utterance in input
-    /// audio. Recognition ceases when it detects the audio's voice has
-    /// stopped or paused. In this case, once a detected intent is received, the
-    /// client should close the stream and start a new request with a new stream as
-    /// needed.
-    /// Note: This setting is relevant only for streaming methods.
-    /// Note: When specified, InputAudioConfig.single_utterance takes precedence
-    /// over StreamingDetectIntentRequest.single_utterance.
-    #[prost(bool, tag = "8")]
-    pub single_utterance: bool,
-    /// Only used in \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\] and
-    /// \[Participants.StreamingAnalyzeContent][google.cloud.dialogflow.v2.Participants.StreamingAnalyzeContent\].
-    /// If `false` and recognition doesn't return any result, trigger
-    /// `NO_SPEECH_RECOGNIZED` event to Dialogflow agent.
-    #[prost(bool, tag = "14")]
-    pub disable_no_speech_recognized_event: bool,
-}
-/// Description of which voice to use for speech synthesis.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VoiceSelectionParams {
-    /// Optional. The name of the voice. If not set, the service will choose a
-    /// voice based on the other parameters such as language_code and
-    /// \[ssml_gender][google.cloud.dialogflow.v2.VoiceSelectionParams.ssml_gender\].
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The preferred gender of the voice. If not set, the service will
-    /// choose a voice based on the other parameters such as language_code and
-    /// \[name][google.cloud.dialogflow.v2.VoiceSelectionParams.name\]. Note that this is only a preference, not requirement. If a
-    /// voice of the appropriate gender is not available, the synthesizer should
-    /// substitute a voice with a different gender rather than failing the request.
-    #[prost(enumeration = "SsmlVoiceGender", tag = "2")]
-    pub ssml_gender: i32,
-}
-/// Configuration of how speech should be synthesized.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SynthesizeSpeechConfig {
-    /// Optional. Speaking rate/speed, in the range [0.25, 4.0]. 1.0 is the normal
-    /// native speed supported by the specific voice. 2.0 is twice as fast, and
-    /// 0.5 is half as fast. If unset(0.0), defaults to the native 1.0 speed. Any
-    /// other values < 0.25 or > 4.0 will return an error.
-    #[prost(double, tag = "1")]
-    pub speaking_rate: f64,
-    /// Optional. Speaking pitch, in the range [-20.0, 20.0]. 20 means increase 20
-    /// semitones from the original pitch. -20 means decrease 20 semitones from the
-    /// original pitch.
-    #[prost(double, tag = "2")]
-    pub pitch: f64,
-    /// Optional. Volume gain (in dB) of the normal native volume supported by the
-    /// specific voice, in the range [-96.0, 16.0]. If unset, or set to a value of
-    /// 0.0 (dB), will play at normal native signal amplitude. A value of -6.0 (dB)
-    /// will play at approximately half the amplitude of the normal native signal
-    /// amplitude. A value of +6.0 (dB) will play at approximately twice the
-    /// amplitude of the normal native signal amplitude. We strongly recommend not
-    /// to exceed +10 (dB) as there's usually no effective increase in loudness for
-    /// any value greater than that.
-    #[prost(double, tag = "3")]
-    pub volume_gain_db: f64,
-    /// Optional. An identifier which selects 'audio effects' profiles that are
-    /// applied on (post synthesized) text to speech. Effects are applied on top of
-    /// each other in the order they are given.
-    #[prost(string, repeated, tag = "5")]
-    pub effects_profile_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. The desired voice of the synthesized audio.
-    #[prost(message, optional, tag = "4")]
-    pub voice: ::core::option::Option<VoiceSelectionParams>,
-}
-/// Instructs the speech synthesizer on how to generate the output audio content.
-/// If this audio config is supplied in a request, it overrides all existing
-/// text-to-speech settings applied to the agent.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OutputAudioConfig {
-    /// Required. Audio encoding of the synthesized audio content.
-    #[prost(enumeration = "OutputAudioEncoding", tag = "1")]
-    pub audio_encoding: i32,
-    /// The synthesis sample rate (in hertz) for this audio. If not
-    /// provided, then the synthesizer will use the default sample rate based on
-    /// the audio encoding. If this is different from the voice's natural sample
-    /// rate, then the synthesizer will honor this request by converting to the
-    /// desired sample rate (which might result in worse audio quality).
-    #[prost(int32, tag = "2")]
-    pub sample_rate_hertz: i32,
-    /// Configuration of how speech should be synthesized.
-    #[prost(message, optional, tag = "3")]
-    pub synthesize_speech_config: ::core::option::Option<SynthesizeSpeechConfig>,
-}
-/// Configures speech transcription for \[ConversationProfile][google.cloud.dialogflow.v2.ConversationProfile\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SpeechToTextConfig {
-    /// Optional. The speech model used in speech to text.
-    /// `SPEECH_MODEL_VARIANT_UNSPECIFIED`, `USE_BEST_AVAILABLE` will be treated as
-    /// `USE_ENHANCED`. It can be overridden in \[AnalyzeContentRequest][google.cloud.dialogflow.v2.AnalyzeContentRequest\] and
-    /// \[StreamingAnalyzeContentRequest][google.cloud.dialogflow.v2.StreamingAnalyzeContentRequest\] request.
-    #[prost(enumeration = "SpeechModelVariant", tag = "1")]
-    pub speech_model_variant: i32,
-}
-/// Audio encoding of the audio content sent in the conversational query request.
-/// Refer to the
-/// [Cloud Speech API
-/// documentation](<https://cloud.google.com/speech-to-text/docs/basics>) for more
-/// details.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum AudioEncoding {
-    /// Not specified.
-    Unspecified = 0,
-    /// Uncompressed 16-bit signed little-endian samples (Linear PCM).
-    Linear16 = 1,
-    /// \[`FLAC`\](<https://xiph.org/flac/documentation.html>) (Free Lossless Audio
-    /// Codec) is the recommended encoding because it is lossless (therefore
-    /// recognition is not compromised) and requires only about half the
-    /// bandwidth of `LINEAR16`. `FLAC` stream encoding supports 16-bit and
-    /// 24-bit samples, however, not all fields in `STREAMINFO` are supported.
-    Flac = 2,
-    /// 8-bit samples that compand 14-bit audio samples using G.711 PCMU/mu-law.
-    Mulaw = 3,
-    /// Adaptive Multi-Rate Narrowband codec. `sample_rate_hertz` must be 8000.
-    Amr = 4,
-    /// Adaptive Multi-Rate Wideband codec. `sample_rate_hertz` must be 16000.
-    AmrWb = 5,
-    /// Opus encoded audio frames in Ogg container
-    /// (\[OggOpus\](<https://wiki.xiph.org/OggOpus>)).
-    /// `sample_rate_hertz` must be 16000.
-    OggOpus = 6,
-    /// Although the use of lossy encodings is not recommended, if a very low
-    /// bitrate encoding is required, `OGG_OPUS` is highly preferred over
-    /// Speex encoding. The \[Speex\](<https://speex.org/>) encoding supported by
-    /// Dialogflow API has a header byte in each block, as in MIME type
-    /// `audio/x-speex-with-header-byte`.
-    /// It is a variant of the RTP Speex encoding defined in
-    /// [RFC 5574](<https://tools.ietf.org/html/rfc5574>).
-    /// The stream is a sequence of blocks, one block per RTP packet. Each block
-    /// starts with a byte containing the length of the block, in bytes, followed
-    /// by one or more frames of Speex data, padded to an integral number of
-    /// bytes (octets) as specified in RFC 5574. In other words, each RTP header
-    /// is replaced with a single byte containing the block length. Only Speex
-    /// wideband is supported. `sample_rate_hertz` must be 16000.
-    SpeexWithHeaderByte = 7,
-}
-/// Variant of the specified [Speech model]\[google.cloud.dialogflow.v2.InputAudioConfig.model\] to use.
-///
-/// See the [Cloud Speech
-/// documentation](<https://cloud.google.com/speech-to-text/docs/enhanced-models>)
-/// for which models have different variants. For example, the "phone_call" model
-/// has both a standard and an enhanced variant. When you use an enhanced model,
-/// you will generally receive higher quality results than for a standard model.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum SpeechModelVariant {
-    /// No model variant specified. In this case Dialogflow defaults to
-    /// USE_BEST_AVAILABLE.
-    Unspecified = 0,
-    /// Use the best available variant of the [Speech
-    /// model]\[InputAudioConfig.model\] that the caller is eligible for.
-    ///
-    /// Please see the [Dialogflow
-    /// docs](<https://cloud.google.com/dialogflow/docs/data-logging>) for
-    /// how to make your project eligible for enhanced models.
-    UseBestAvailable = 1,
-    /// Use standard model variant even if an enhanced model is available.  See the
-    /// [Cloud Speech
-    /// documentation](<https://cloud.google.com/speech-to-text/docs/enhanced-models>)
-    /// for details about enhanced models.
-    UseStandard = 2,
-    /// Use an enhanced model variant:
-    ///
-    /// * If an enhanced variant does not exist for the given
-    ///   \[model][google.cloud.dialogflow.v2.InputAudioConfig.model\] and request language, Dialogflow falls
-    ///   back to the standard variant.
-    ///
-    ///   The [Cloud Speech
-    ///   documentation](<https://cloud.google.com/speech-to-text/docs/enhanced-models>)
-    ///   describes which models have enhanced variants.
-    ///
-    /// * If the API caller isn't eligible for enhanced models, Dialogflow returns
-    ///   an error. Please see the [Dialogflow
-    ///   docs](<https://cloud.google.com/dialogflow/docs/data-logging>)
-    ///   for how to make your project eligible.
-    UseEnhanced = 3,
-}
-/// Gender of the voice as described in
-/// [SSML voice element](<https://www.w3.org/TR/speech-synthesis11/#edef_voice>).
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum SsmlVoiceGender {
-    /// An unspecified gender, which means that the client doesn't care which
-    /// gender the selected voice will have.
-    Unspecified = 0,
-    /// A male voice.
-    Male = 1,
-    /// A female voice.
-    Female = 2,
-    /// A gender-neutral voice.
-    Neutral = 3,
-}
-/// Audio encoding of the output audio format in Text-To-Speech.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum OutputAudioEncoding {
-    /// Not specified.
-    Unspecified = 0,
-    /// Uncompressed 16-bit signed little-endian samples (Linear PCM).
-    /// Audio content returned as LINEAR16 also contains a WAV header.
-    Linear16 = 1,
-    /// MP3 audio at 32kbps.
-    Mp3 = 2,
-    /// MP3 audio at 64kbps.
-    Mp364Kbps = 4,
-    /// Opus encoded audio wrapped in an ogg container. The result will be a
-    /// file which can be played natively on Android, and in browsers (at least
-    /// Chrome and Firefox). The quality of the encoding is considerably higher
-    /// than MP3 while using approximately the same bitrate.
-    OggOpus = 3,
-    /// 8-bit samples that compand 14-bit audio samples using G.711 PCMU/mu-law.
-    Mulaw = 5,
-}
 /// An intent categorizes an end-user's intention for one conversation turn. For
 /// each agent, you define many intents, where your combined intents can handle a
 /// complete conversation. When an end-user writes or says something, referred to
@@ -939,7 +1685,12 @@ pub struct Intent {
     pub messages: ::prost::alloc::vec::Vec<intent::Message>,
     /// Optional. The list of platforms for which the first responses will be
     /// copied from the messages in PLATFORM_UNSPECIFIED (i.e. default platform).
-    #[prost(enumeration = "intent::message::Platform", repeated, packed = "false", tag = "15")]
+    #[prost(
+        enumeration = "intent::message::Platform",
+        repeated,
+        packed = "false",
+        tag = "15"
+    )]
     pub default_response_platforms: ::prost::alloc::vec::Vec<i32>,
     /// Output only.
     /// Read-only. The unique identifier of the root intent in the chain of
@@ -2060,939 +2811,6 @@ pub mod intents_client {
         }
     }
 }
-/// Each intent parameter has a type, called the entity type, which dictates
-/// exactly how data from an end-user expression is extracted.
-///
-/// Dialogflow provides predefined system entities that can match many common
-/// types of data. For example, there are system entities for matching dates,
-/// times, colors, email addresses, and so on. You can also create your own
-/// custom entities for matching custom data. For example, you could define a
-/// vegetable entity that can match the types of vegetables available for
-/// purchase with a grocery store agent.
-///
-/// For more information, see the
-/// [Entity guide](<https://cloud.google.com/dialogflow/docs/entities-overview>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EntityType {
-    /// The unique identifier of the entity type.
-    /// Required for \[EntityTypes.UpdateEntityType][google.cloud.dialogflow.v2.EntityTypes.UpdateEntityType\] and
-    /// \[EntityTypes.BatchUpdateEntityTypes][google.cloud.dialogflow.v2.EntityTypes.BatchUpdateEntityTypes\] methods.
-    /// Format: `projects/<Project ID>/agent/entityTypes/<Entity Type ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The name of the entity type.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Required. Indicates the kind of entity type.
-    #[prost(enumeration = "entity_type::Kind", tag = "3")]
-    pub kind: i32,
-    /// Optional. Indicates whether the entity type can be automatically
-    /// expanded.
-    #[prost(enumeration = "entity_type::AutoExpansionMode", tag = "4")]
-    pub auto_expansion_mode: i32,
-    /// Optional. The collection of entity entries associated with the entity type.
-    #[prost(message, repeated, tag = "6")]
-    pub entities: ::prost::alloc::vec::Vec<entity_type::Entity>,
-    /// Optional. Enables fuzzy entity extraction during classification.
-    #[prost(bool, tag = "7")]
-    pub enable_fuzzy_extraction: bool,
-}
-/// Nested message and enum types in `EntityType`.
-pub mod entity_type {
-    /// An **entity entry** for an associated entity type.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Entity {
-        /// Required. The primary value associated with this entity entry.
-        /// For example, if the entity type is *vegetable*, the value could be
-        /// *scallions*.
-        ///
-        /// For `KIND_MAP` entity types:
-        ///
-        /// *   A reference value to be used in place of synonyms.
-        ///
-        /// For `KIND_LIST` entity types:
-        ///
-        /// *   A string that can contain references to other entity types (with or
-        ///     without aliases).
-        #[prost(string, tag = "1")]
-        pub value: ::prost::alloc::string::String,
-        /// Required. A collection of value synonyms. For example, if the entity type
-        /// is *vegetable*, and `value` is *scallions*, a synonym could be *green
-        /// onions*.
-        ///
-        /// For `KIND_LIST` entity types:
-        ///
-        /// *   This collection must contain exactly one synonym equal to `value`.
-        #[prost(string, repeated, tag = "2")]
-        pub synonyms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    }
-    /// Represents kinds of entities.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Kind {
-        /// Not specified. This value should be never used.
-        Unspecified = 0,
-        /// Map entity types allow mapping of a group of synonyms to a reference
-        /// value.
-        Map = 1,
-        /// List entity types contain a set of entries that do not map to reference
-        /// values. However, list entity types can contain references to other entity
-        /// types (with or without aliases).
-        List = 2,
-        /// Regexp entity types allow to specify regular expressions in entries
-        /// values.
-        Regexp = 3,
-    }
-    /// Represents different entity type expansion modes. Automated expansion
-    /// allows an agent to recognize values that have not been explicitly listed in
-    /// the entity (for example, new kinds of shopping list items).
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AutoExpansionMode {
-        /// Auto expansion disabled for the entity.
-        Unspecified = 0,
-        /// Allows an agent to recognize values that have not been explicitly
-        /// listed in the entity.
-        Default = 1,
-    }
-}
-/// The request message for \[EntityTypes.ListEntityTypes][google.cloud.dialogflow.v2.EntityTypes.ListEntityTypes\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEntityTypesRequest {
-    /// Required. The agent to list all entity types from.
-    /// Format: `projects/<Project ID>/agent`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The language used to access language-specific data.
-    /// If not specified, the agent's default language is used.
-    /// For more information, see
-    /// [Multilingual intent and entity
-    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
-    #[prost(string, tag = "2")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Optional. The maximum number of items to return in a single page. By
-    /// default 100 and at most 1000.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// Optional. The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[EntityTypes.ListEntityTypes][google.cloud.dialogflow.v2.EntityTypes.ListEntityTypes\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEntityTypesResponse {
-    /// The list of agent entity types. There will be a maximum number of items
-    /// returned based on the page_size field in the request.
-    #[prost(message, repeated, tag = "1")]
-    pub entity_types: ::prost::alloc::vec::Vec<EntityType>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for \[EntityTypes.GetEntityType][google.cloud.dialogflow.v2.EntityTypes.GetEntityType\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetEntityTypeRequest {
-    /// Required. The name of the entity type.
-    /// Format: `projects/<Project ID>/agent/entityTypes/<EntityType ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The language used to access language-specific data.
-    /// If not specified, the agent's default language is used.
-    /// For more information, see
-    /// [Multilingual intent and entity
-    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
-    #[prost(string, tag = "2")]
-    pub language_code: ::prost::alloc::string::String,
-}
-/// The request message for \[EntityTypes.CreateEntityType][google.cloud.dialogflow.v2.EntityTypes.CreateEntityType\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateEntityTypeRequest {
-    /// Required. The agent to create a entity type for.
-    /// Format: `projects/<Project ID>/agent`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The entity type to create.
-    #[prost(message, optional, tag = "2")]
-    pub entity_type: ::core::option::Option<EntityType>,
-    /// Optional. The language used to access language-specific data.
-    /// If not specified, the agent's default language is used.
-    /// For more information, see
-    /// [Multilingual intent and entity
-    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
-    #[prost(string, tag = "3")]
-    pub language_code: ::prost::alloc::string::String,
-}
-/// The request message for \[EntityTypes.UpdateEntityType][google.cloud.dialogflow.v2.EntityTypes.UpdateEntityType\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateEntityTypeRequest {
-    /// Required. The entity type to update.
-    #[prost(message, optional, tag = "1")]
-    pub entity_type: ::core::option::Option<EntityType>,
-    /// Optional. The language used to access language-specific data.
-    /// If not specified, the agent's default language is used.
-    /// For more information, see
-    /// [Multilingual intent and entity
-    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
-    #[prost(string, tag = "2")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Optional. The mask to control which fields get updated.
-    #[prost(message, optional, tag = "3")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request message for \[EntityTypes.DeleteEntityType][google.cloud.dialogflow.v2.EntityTypes.DeleteEntityType\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteEntityTypeRequest {
-    /// Required. The name of the entity type to delete.
-    /// Format: `projects/<Project ID>/agent/entityTypes/<EntityType ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[EntityTypes.BatchUpdateEntityTypes][google.cloud.dialogflow.v2.EntityTypes.BatchUpdateEntityTypes\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchUpdateEntityTypesRequest {
-    /// Required. The name of the agent to update or create entity types in.
-    /// Format: `projects/<Project ID>/agent`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The language used to access language-specific data.
-    /// If not specified, the agent's default language is used.
-    /// For more information, see
-    /// [Multilingual intent and entity
-    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
-    #[prost(string, tag = "4")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Optional. The mask to control which fields get updated.
-    #[prost(message, optional, tag = "5")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// The source of the entity type batch.
-    ///
-    /// For each entity type in the batch:
-    ///
-    /// *   If `name` is specified, we update an existing entity type.
-    /// *   If `name` is not specified, we create a new entity type.
-    #[prost(oneof = "batch_update_entity_types_request::EntityTypeBatch", tags = "2, 3")]
-    pub entity_type_batch:
-        ::core::option::Option<batch_update_entity_types_request::EntityTypeBatch>,
-}
-/// Nested message and enum types in `BatchUpdateEntityTypesRequest`.
-pub mod batch_update_entity_types_request {
-    /// The source of the entity type batch.
-    ///
-    /// For each entity type in the batch:
-    ///
-    /// *   If `name` is specified, we update an existing entity type.
-    /// *   If `name` is not specified, we create a new entity type.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum EntityTypeBatch {
-        /// The URI to a Google Cloud Storage file containing entity types to update
-        /// or create. The file format can either be a serialized proto (of
-        /// EntityBatch type) or a JSON object. Note: The URI must start with
-        /// "gs://".
-        #[prost(string, tag = "2")]
-        EntityTypeBatchUri(::prost::alloc::string::String),
-        /// The collection of entity types to update or create.
-        #[prost(message, tag = "3")]
-        EntityTypeBatchInline(super::EntityTypeBatch),
-    }
-}
-/// The response message for \[EntityTypes.BatchUpdateEntityTypes][google.cloud.dialogflow.v2.EntityTypes.BatchUpdateEntityTypes\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchUpdateEntityTypesResponse {
-    /// The collection of updated or created entity types.
-    #[prost(message, repeated, tag = "1")]
-    pub entity_types: ::prost::alloc::vec::Vec<EntityType>,
-}
-/// The request message for \[EntityTypes.BatchDeleteEntityTypes][google.cloud.dialogflow.v2.EntityTypes.BatchDeleteEntityTypes\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchDeleteEntityTypesRequest {
-    /// Required. The name of the agent to delete all entities types for. Format:
-    /// `projects/<Project ID>/agent`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The names entity types to delete. All names must point to the
-    /// same agent as `parent`.
-    #[prost(string, repeated, tag = "2")]
-    pub entity_type_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// The request message for \[EntityTypes.BatchCreateEntities][google.cloud.dialogflow.v2.EntityTypes.BatchCreateEntities\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchCreateEntitiesRequest {
-    /// Required. The name of the entity type to create entities in. Format:
-    /// `projects/<Project ID>/agent/entityTypes/<Entity Type ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The entities to create.
-    #[prost(message, repeated, tag = "2")]
-    pub entities: ::prost::alloc::vec::Vec<entity_type::Entity>,
-    /// Optional. The language used to access language-specific data.
-    /// If not specified, the agent's default language is used.
-    /// For more information, see
-    /// [Multilingual intent and entity
-    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
-    #[prost(string, tag = "3")]
-    pub language_code: ::prost::alloc::string::String,
-}
-/// The request message for \[EntityTypes.BatchUpdateEntities][google.cloud.dialogflow.v2.EntityTypes.BatchUpdateEntities\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchUpdateEntitiesRequest {
-    /// Required. The name of the entity type to update or create entities in.
-    /// Format: `projects/<Project ID>/agent/entityTypes/<Entity Type ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The entities to update or create.
-    #[prost(message, repeated, tag = "2")]
-    pub entities: ::prost::alloc::vec::Vec<entity_type::Entity>,
-    /// Optional. The language used to access language-specific data.
-    /// If not specified, the agent's default language is used.
-    /// For more information, see
-    /// [Multilingual intent and entity
-    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
-    #[prost(string, tag = "3")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Optional. The mask to control which fields get updated.
-    #[prost(message, optional, tag = "4")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request message for \[EntityTypes.BatchDeleteEntities][google.cloud.dialogflow.v2.EntityTypes.BatchDeleteEntities\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchDeleteEntitiesRequest {
-    /// Required. The name of the entity type to delete entries for. Format:
-    /// `projects/<Project ID>/agent/entityTypes/<Entity Type ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The reference `values` of the entities to delete. Note that
-    /// these are not fully-qualified names, i.e. they don't start with
-    /// `projects/<Project ID>`.
-    #[prost(string, repeated, tag = "2")]
-    pub entity_values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. The language used to access language-specific data.
-    /// If not specified, the agent's default language is used.
-    /// For more information, see
-    /// [Multilingual intent and entity
-    /// data](<https://cloud.google.com/dialogflow/docs/agents-multilingual#intent-entity>).
-    #[prost(string, tag = "3")]
-    pub language_code: ::prost::alloc::string::String,
-}
-/// This message is a wrapper around a collection of entity types.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EntityTypeBatch {
-    /// A collection of entity types.
-    #[prost(message, repeated, tag = "1")]
-    pub entity_types: ::prost::alloc::vec::Vec<EntityType>,
-}
-#[doc = r" Generated client implementations."]
-pub mod entity_types_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [EntityTypes][google.cloud.dialogflow.v2.EntityType]."]
-    #[derive(Debug, Clone)]
-    pub struct EntityTypesClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> EntityTypesClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> EntityTypesClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            EntityTypesClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of all entity types in the specified agent."]
-        pub async fn list_entity_types(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListEntityTypesRequest>,
-        ) -> Result<tonic::Response<super::ListEntityTypesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/ListEntityTypes",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified entity type."]
-        pub async fn get_entity_type(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetEntityTypeRequest>,
-        ) -> Result<tonic::Response<super::EntityType>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/GetEntityType",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates an entity type in the specified agent."]
-        #[doc = ""]
-        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
-        #[doc = " [training"]
-        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
-        pub async fn create_entity_type(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateEntityTypeRequest>,
-        ) -> Result<tonic::Response<super::EntityType>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/CreateEntityType",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified entity type."]
-        #[doc = ""]
-        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
-        #[doc = " [training"]
-        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
-        pub async fn update_entity_type(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateEntityTypeRequest>,
-        ) -> Result<tonic::Response<super::EntityType>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/UpdateEntityType",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes the specified entity type."]
-        #[doc = ""]
-        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
-        #[doc = " [training"]
-        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
-        pub async fn delete_entity_type(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteEntityTypeRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/DeleteEntityType",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates/Creates multiple entity types in the specified agent."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: An empty [Struct"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
-        #[doc = " - `response`: [BatchUpdateEntityTypesResponse][google.cloud.dialogflow.v2.BatchUpdateEntityTypesResponse]"]
-        #[doc = ""]
-        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
-        #[doc = " [training"]
-        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
-        pub async fn batch_update_entity_types(
-            &mut self,
-            request: impl tonic::IntoRequest<super::BatchUpdateEntityTypesRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/BatchUpdateEntityTypes",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes entity types in the specified agent."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: An empty [Struct"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
-        #[doc = " - `response`: An [Empty"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
-        #[doc = ""]
-        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
-        #[doc = " [training"]
-        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
-        pub async fn batch_delete_entity_types(
-            &mut self,
-            request: impl tonic::IntoRequest<super::BatchDeleteEntityTypesRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/BatchDeleteEntityTypes",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates multiple new entities in the specified entity type."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: An empty [Struct"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
-        #[doc = " - `response`: An [Empty"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
-        #[doc = ""]
-        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
-        #[doc = " [training"]
-        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
-        pub async fn batch_create_entities(
-            &mut self,
-            request: impl tonic::IntoRequest<super::BatchCreateEntitiesRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/BatchCreateEntities",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates or creates multiple entities in the specified entity type. This"]
-        #[doc = " method does not affect entities in the entity type that aren't explicitly"]
-        #[doc = " specified in the request."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: An empty [Struct"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
-        #[doc = " - `response`: An [Empty"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
-        #[doc = ""]
-        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
-        #[doc = " [training"]
-        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
-        #[doc = ""]
-        pub async fn batch_update_entities(
-            &mut self,
-            request: impl tonic::IntoRequest<super::BatchUpdateEntitiesRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/BatchUpdateEntities",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes entities in the specified entity type."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/es/docs/how/long-running-operations)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: An empty [Struct"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
-        #[doc = " - `response`: An [Empty"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
-        #[doc = ""]
-        #[doc = " Note: You should always train an agent prior to sending it queries. See the"]
-        #[doc = " [training"]
-        #[doc = " documentation](https://cloud.google.com/dialogflow/es/docs/training)."]
-        pub async fn batch_delete_entities(
-            &mut self,
-            request: impl tonic::IntoRequest<super::BatchDeleteEntitiesRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.EntityTypes/BatchDeleteEntities",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// A session represents a conversation between a Dialogflow agent and an
-/// end-user. You can create special entities, called session entities, during a
-/// session. Session entities can extend or replace custom entity types and only
-/// exist during the session that they were created for. All session data,
-/// including session entities, is stored by Dialogflow for 20 minutes.
-///
-/// For more information, see the [session entity
-/// guide](<https://cloud.google.com/dialogflow/docs/entities-session>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SessionEntityType {
-    /// Required. The unique identifier of this session entity type. Format:
-    /// `projects/<Project ID>/agent/sessions/<Session ID>/entityTypes/<Entity Type
-    /// Display Name>`, or `projects/<Project ID>/agent/environments/<Environment
-    /// ID>/users/<User ID>/sessions/<Session ID>/entityTypes/<Entity Type Display
-    /// Name>`.
-    /// If `Environment ID` is not specified, we assume default 'draft'
-    /// environment. If `User ID` is not specified, we assume default '-' user.
-    ///
-    /// `<Entity Type Display Name>` must be the display name of an existing entity
-    /// type in the same agent that will be overridden or supplemented.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Indicates whether the additional data should override or
-    /// supplement the custom entity type definition.
-    #[prost(enumeration = "session_entity_type::EntityOverrideMode", tag = "2")]
-    pub entity_override_mode: i32,
-    /// Required. The collection of entities associated with this session entity
-    /// type.
-    #[prost(message, repeated, tag = "3")]
-    pub entities: ::prost::alloc::vec::Vec<entity_type::Entity>,
-}
-/// Nested message and enum types in `SessionEntityType`.
-pub mod session_entity_type {
-    /// The types of modifications for a session entity type.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EntityOverrideMode {
-        /// Not specified. This value should be never used.
-        Unspecified = 0,
-        /// The collection of session entities overrides the collection of entities
-        /// in the corresponding custom entity type.
-        Override = 1,
-        /// The collection of session entities extends the collection of entities in
-        /// the corresponding custom entity type.
-        ///
-        /// Note: Even in this override mode calls to `ListSessionEntityTypes`,
-        /// `GetSessionEntityType`, `CreateSessionEntityType` and
-        /// `UpdateSessionEntityType` only return the additional entities added in
-        /// this session entity type. If you want to get the supplemented list,
-        /// please call \[EntityTypes.GetEntityType][google.cloud.dialogflow.v2.EntityTypes.GetEntityType\] on the custom entity type
-        /// and merge.
-        Supplement = 2,
-    }
-}
-/// The request message for \[SessionEntityTypes.ListSessionEntityTypes][google.cloud.dialogflow.v2.SessionEntityTypes.ListSessionEntityTypes\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSessionEntityTypesRequest {
-    /// Required. The session to list all session entity types from.
-    /// Format: `projects/<Project ID>/agent/sessions/<Session ID>` or
-    /// `projects/<Project ID>/agent/environments/<Environment ID>/users/<User ID>/
-    /// sessions/<Session ID>`.
-    /// If `Environment ID` is not specified, we assume default 'draft'
-    /// environment. If `User ID` is not specified, we assume default '-' user.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of items to return in a single page. By
-    /// default 100 and at most 1000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[SessionEntityTypes.ListSessionEntityTypes][google.cloud.dialogflow.v2.SessionEntityTypes.ListSessionEntityTypes\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSessionEntityTypesResponse {
-    /// The list of session entity types. There will be a maximum number of items
-    /// returned based on the page_size field in the request.
-    #[prost(message, repeated, tag = "1")]
-    pub session_entity_types: ::prost::alloc::vec::Vec<SessionEntityType>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for \[SessionEntityTypes.GetSessionEntityType][google.cloud.dialogflow.v2.SessionEntityTypes.GetSessionEntityType\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetSessionEntityTypeRequest {
-    /// Required. The name of the session entity type. Format:
-    /// `projects/<Project ID>/agent/sessions/<Session ID>/entityTypes/<Entity Type
-    /// Display Name>` or `projects/<Project ID>/agent/environments/<Environment
-    /// ID>/users/<User ID>/sessions/<Session ID>/entityTypes/<Entity Type Display
-    /// Name>`.
-    /// If `Environment ID` is not specified, we assume default 'draft'
-    /// environment. If `User ID` is not specified, we assume default '-' user.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[SessionEntityTypes.CreateSessionEntityType][google.cloud.dialogflow.v2.SessionEntityTypes.CreateSessionEntityType\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateSessionEntityTypeRequest {
-    /// Required. The session to create a session entity type for.
-    /// Format: `projects/<Project ID>/agent/sessions/<Session ID>` or
-    /// `projects/<Project ID>/agent/environments/<Environment ID>/users/<User ID>/
-    /// sessions/<Session ID>`.
-    /// If `Environment ID` is not specified, we assume default 'draft'
-    /// environment. If `User ID` is not specified, we assume default '-' user.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The session entity type to create.
-    #[prost(message, optional, tag = "2")]
-    pub session_entity_type: ::core::option::Option<SessionEntityType>,
-}
-/// The request message for \[SessionEntityTypes.UpdateSessionEntityType][google.cloud.dialogflow.v2.SessionEntityTypes.UpdateSessionEntityType\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateSessionEntityTypeRequest {
-    /// Required. The session entity type to update.
-    #[prost(message, optional, tag = "1")]
-    pub session_entity_type: ::core::option::Option<SessionEntityType>,
-    /// Optional. The mask to control which fields get updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request message for \[SessionEntityTypes.DeleteSessionEntityType][google.cloud.dialogflow.v2.SessionEntityTypes.DeleteSessionEntityType\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteSessionEntityTypeRequest {
-    /// Required. The name of the entity type to delete. Format:
-    /// `projects/<Project ID>/agent/sessions/<Session ID>/entityTypes/<Entity Type
-    /// Display Name>` or `projects/<Project ID>/agent/environments/<Environment
-    /// ID>/users/<User ID>/sessions/<Session ID>/entityTypes/<Entity Type Display
-    /// Name>`.
-    /// If `Environment ID` is not specified, we assume default 'draft'
-    /// environment. If `User ID` is not specified, we assume default '-' user.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-#[doc = r" Generated client implementations."]
-pub mod session_entity_types_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [SessionEntityTypes][google.cloud.dialogflow.v2.SessionEntityType]."]
-    #[derive(Debug, Clone)]
-    pub struct SessionEntityTypesClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> SessionEntityTypesClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> SessionEntityTypesClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            SessionEntityTypesClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of all session entity types in the specified session."]
-        #[doc = ""]
-        #[doc = " This method doesn't work with Google Assistant integration."]
-        #[doc = " Contact Dialogflow support if you need to use session entities"]
-        #[doc = " with Google Assistant integration."]
-        pub async fn list_session_entity_types(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListSessionEntityTypesRequest>,
-        ) -> Result<tonic::Response<super::ListSessionEntityTypesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.SessionEntityTypes/ListSessionEntityTypes",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified session entity type."]
-        #[doc = ""]
-        #[doc = " This method doesn't work with Google Assistant integration."]
-        #[doc = " Contact Dialogflow support if you need to use session entities"]
-        #[doc = " with Google Assistant integration."]
-        pub async fn get_session_entity_type(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetSessionEntityTypeRequest>,
-        ) -> Result<tonic::Response<super::SessionEntityType>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.SessionEntityTypes/GetSessionEntityType",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a session entity type."]
-        #[doc = ""]
-        #[doc = " If the specified session entity type already exists, overrides the session"]
-        #[doc = " entity type."]
-        #[doc = ""]
-        #[doc = " This method doesn't work with Google Assistant integration."]
-        #[doc = " Contact Dialogflow support if you need to use session entities"]
-        #[doc = " with Google Assistant integration."]
-        pub async fn create_session_entity_type(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateSessionEntityTypeRequest>,
-        ) -> Result<tonic::Response<super::SessionEntityType>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.SessionEntityTypes/CreateSessionEntityType",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified session entity type."]
-        #[doc = ""]
-        #[doc = " This method doesn't work with Google Assistant integration."]
-        #[doc = " Contact Dialogflow support if you need to use session entities"]
-        #[doc = " with Google Assistant integration."]
-        pub async fn update_session_entity_type(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateSessionEntityTypeRequest>,
-        ) -> Result<tonic::Response<super::SessionEntityType>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.SessionEntityTypes/UpdateSessionEntityType",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes the specified session entity type."]
-        #[doc = ""]
-        #[doc = " This method doesn't work with Google Assistant integration."]
-        #[doc = " Contact Dialogflow support if you need to use session entities"]
-        #[doc = " with Google Assistant integration."]
-        pub async fn delete_session_entity_type(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteSessionEntityTypeRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.SessionEntityTypes/DeleteSessionEntityType",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// The request to detect user's intent.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DetectIntentRequest {
@@ -3706,7 +3524,9 @@ pub mod sessions_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dialogflow.v2.Sessions/StreamingDetectIntent",
             );
-            self.inner.streaming(request.into_streaming_request(), path, codec).await
+            self.inner
+                .streaming(request.into_streaming_request(), path, codec)
+                .await
         }
     }
 }
@@ -3718,8 +3538,8 @@ pub struct Participant {
     /// ID>/conversations/<Conversation ID>/participants/<Participant ID>`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// Immutable. The role this participant plays in the conversation. This field
-    /// must be set during participant creation and is then immutable.
+    /// Immutable. The role this participant plays in the conversation. This field must be set
+    /// during participant creation and is then immutable.
     #[prost(enumeration = "participant::Role", tag = "2")]
     pub role: i32,
     /// Optional. Label applied to streams representing this participant in SIPREC
@@ -3727,10 +3547,9 @@ pub struct Participant {
     /// media stream to this participant. This field can be updated.
     #[prost(string, tag = "6")]
     pub sip_recording_media_label: ::prost::alloc::string::String,
-    /// Optional. Key-value filters on the metadata of documents returned by
-    /// article suggestion. If specified, article suggestion only returns suggested
-    /// documents that match all filters in their
-    /// \[Document.metadata][google.cloud.dialogflow.v2.Document.metadata\]. Multiple
+    /// Optional. Key-value filters on the metadata of documents returned by article
+    /// suggestion. If specified, article suggestion only returns suggested
+    /// documents that match all filters in their \[Document.metadata][google.cloud.dialogflow.v2.Document.metadata\]. Multiple
     /// values for a metadata key should be concatenated by comma. For example,
     /// filters to match all documents that have 'US' or 'CA' in their market
     /// metadata values and 'agent' in their user metadata values will be
@@ -3796,8 +3615,7 @@ pub struct Message {
     #[prost(message, optional, tag = "7")]
     pub message_annotation: ::core::option::Option<MessageAnnotation>,
 }
-/// The request message for
-/// \[Participants.CreateParticipant][google.cloud.dialogflow.v2.Participants.CreateParticipant\].
+/// The request message for \[Participants.CreateParticipant][google.cloud.dialogflow.v2.Participants.CreateParticipant\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateParticipantRequest {
     /// Required. Resource identifier of the conversation adding the participant.
@@ -3809,8 +3627,7 @@ pub struct CreateParticipantRequest {
     #[prost(message, optional, tag = "2")]
     pub participant: ::core::option::Option<Participant>,
 }
-/// The request message for
-/// \[Participants.GetParticipant][google.cloud.dialogflow.v2.Participants.GetParticipant\].
+/// The request message for \[Participants.GetParticipant][google.cloud.dialogflow.v2.Participants.GetParticipant\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetParticipantRequest {
     /// Required. The name of the participant. Format:
@@ -3819,8 +3636,7 @@ pub struct GetParticipantRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-/// The request message for
-/// \[Participants.ListParticipants][google.cloud.dialogflow.v2.Participants.ListParticipants\].
+/// The request message for \[Participants.ListParticipants][google.cloud.dialogflow.v2.Participants.ListParticipants\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListParticipantsRequest {
     /// Required. The conversation to list all participants from.
@@ -3836,8 +3652,7 @@ pub struct ListParticipantsRequest {
     #[prost(string, tag = "3")]
     pub page_token: ::prost::alloc::string::String,
 }
-/// The response message for
-/// \[Participants.ListParticipants][google.cloud.dialogflow.v2.Participants.ListParticipants\].
+/// The response message for \[Participants.ListParticipants][google.cloud.dialogflow.v2.Participants.ListParticipants\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListParticipantsResponse {
     /// The list of participants. There is a maximum number of items
@@ -3849,8 +3664,7 @@ pub struct ListParticipantsResponse {
     #[prost(string, tag = "2")]
     pub next_page_token: ::prost::alloc::string::String,
 }
-/// The request message for
-/// \[Participants.UpdateParticipant][google.cloud.dialogflow.v2.Participants.UpdateParticipant\].
+/// The request message for \[Participants.UpdateParticipant][google.cloud.dialogflow.v2.Participants.UpdateParticipant\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateParticipantRequest {
     /// Required. The participant to update.
@@ -3860,8 +3674,7 @@ pub struct UpdateParticipantRequest {
     #[prost(message, optional, tag = "2")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
-/// The request message for
-/// \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\].
+/// The request message for \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AnalyzeContentRequest {
     /// Required. The name of the participant this text comes from.
@@ -3911,8 +3724,7 @@ pub struct DtmfParameters {
     #[prost(bool, tag = "1")]
     pub accepts_dtmf_input: bool,
 }
-/// The response message for
-/// \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\].
+/// The response message for \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AnalyzeContentResponse {
     /// The output text content.
@@ -3936,23 +3748,19 @@ pub struct AnalyzeContentResponse {
     /// Only set if a Dialogflow automated agent has responded.
     /// Note that: \[AutomatedAgentReply.detect_intent_response.output_audio][\]
     /// and \[AutomatedAgentReply.detect_intent_response.output_audio_config][\]
-    /// are always empty, use
-    /// \[reply_audio][google.cloud.dialogflow.v2.AnalyzeContentResponse.reply_audio\]
-    /// instead.
+    /// are always empty, use \[reply_audio][google.cloud.dialogflow.v2.AnalyzeContentResponse.reply_audio\] instead.
     #[prost(message, optional, tag = "3")]
     pub automated_agent_reply: ::core::option::Option<AutomatedAgentReply>,
     /// Message analyzed by CCAI.
     #[prost(message, optional, tag = "5")]
     pub message: ::core::option::Option<Message>,
     /// The suggestions for most recent human agent. The order is the same as
-    /// \[HumanAgentAssistantConfig.SuggestionConfig.feature_configs][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.SuggestionConfig.feature_configs\]
-    /// of
+    /// \[HumanAgentAssistantConfig.SuggestionConfig.feature_configs][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.SuggestionConfig.feature_configs\] of
     /// \[HumanAgentAssistantConfig.human_agent_suggestion_config][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.human_agent_suggestion_config\].
     #[prost(message, repeated, tag = "6")]
     pub human_agent_suggestion_results: ::prost::alloc::vec::Vec<SuggestionResult>,
     /// The suggestions for end user. The order is the same as
-    /// \[HumanAgentAssistantConfig.SuggestionConfig.feature_configs][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.SuggestionConfig.feature_configs\]
-    /// of
+    /// \[HumanAgentAssistantConfig.SuggestionConfig.feature_configs][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.SuggestionConfig.feature_configs\] of
     /// \[HumanAgentAssistantConfig.end_user_suggestion_config][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.end_user_suggestion_config\].
     #[prost(message, repeated, tag = "7")]
     pub end_user_suggestion_results: ::prost::alloc::vec::Vec<SuggestionResult>,
@@ -3960,8 +3768,7 @@ pub struct AnalyzeContentResponse {
     #[prost(message, optional, tag = "9")]
     pub dtmf_parameters: ::core::option::Option<DtmfParameters>,
 }
-/// The request message for
-/// \[Participants.SuggestArticles][google.cloud.dialogflow.v2.Participants.SuggestArticles\].
+/// The request message for \[Participants.SuggestArticles][google.cloud.dialogflow.v2.Participants.SuggestArticles\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SuggestArticlesRequest {
     /// Required. The name of the participant to fetch suggestion for.
@@ -3977,17 +3784,15 @@ pub struct SuggestArticlesRequest {
     #[prost(string, tag = "2")]
     pub latest_message: ::prost::alloc::string::String,
     /// Max number of messages prior to and including
-    /// \[latest_message][google.cloud.dialogflow.v2.SuggestArticlesRequest.latest_message\]
-    /// to use as context when compiling the suggestion. By default 20 and at
-    /// most 50.
+    /// \[latest_message][google.cloud.dialogflow.v2.SuggestArticlesRequest.latest_message\] to use as context
+    /// when compiling the suggestion. By default 20 and at most 50.
     #[prost(int32, tag = "3")]
     pub context_size: i32,
     /// Parameters for a human assist query.
     #[prost(message, optional, tag = "4")]
     pub assist_query_params: ::core::option::Option<AssistQueryParameters>,
 }
-/// The response message for
-/// \[Participants.SuggestArticles][google.cloud.dialogflow.v2.Participants.SuggestArticles\].
+/// The response message for \[Participants.SuggestArticles][google.cloud.dialogflow.v2.Participants.SuggestArticles\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SuggestArticlesResponse {
     /// Articles ordered by score in descending order.
@@ -4001,16 +3806,14 @@ pub struct SuggestArticlesResponse {
     #[prost(string, tag = "2")]
     pub latest_message: ::prost::alloc::string::String,
     /// Number of messages prior to and including
-    /// \[latest_message][google.cloud.dialogflow.v2.SuggestArticlesResponse.latest_message\]
-    /// to compile the suggestion. It may be smaller than the
-    /// \[SuggestArticlesRequest.context_size][google.cloud.dialogflow.v2.SuggestArticlesRequest.context_size\]
-    /// field in the request if there aren't that many messages in the
-    /// conversation.
+    /// \[latest_message][google.cloud.dialogflow.v2.SuggestArticlesResponse.latest_message\] to compile the
+    /// suggestion. It may be smaller than the
+    /// \[SuggestArticlesRequest.context_size][google.cloud.dialogflow.v2.SuggestArticlesRequest.context_size\] field in the request if there
+    /// aren't that many messages in the conversation.
     #[prost(int32, tag = "3")]
     pub context_size: i32,
 }
-/// The request message for
-/// \[Participants.SuggestFaqAnswers][google.cloud.dialogflow.v2.Participants.SuggestFaqAnswers\].
+/// The request message for \[Participants.SuggestFaqAnswers][google.cloud.dialogflow.v2.Participants.SuggestFaqAnswers\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SuggestFaqAnswersRequest {
     /// Required. The name of the participant to fetch suggestion for.
@@ -4034,8 +3837,7 @@ pub struct SuggestFaqAnswersRequest {
     #[prost(message, optional, tag = "4")]
     pub assist_query_params: ::core::option::Option<AssistQueryParameters>,
 }
-/// The request message for
-/// \[Participants.SuggestFaqAnswers][google.cloud.dialogflow.v2.Participants.SuggestFaqAnswers\].
+/// The request message for \[Participants.SuggestFaqAnswers][google.cloud.dialogflow.v2.Participants.SuggestFaqAnswers\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SuggestFaqAnswersResponse {
     /// Answers extracted from FAQ documents.
@@ -4049,11 +3851,10 @@ pub struct SuggestFaqAnswersResponse {
     #[prost(string, tag = "2")]
     pub latest_message: ::prost::alloc::string::String,
     /// Number of messages prior to and including
-    /// \[latest_message][google.cloud.dialogflow.v2.SuggestFaqAnswersResponse.latest_message\]
-    /// to compile the suggestion. It may be smaller than the
-    /// \[SuggestFaqAnswersRequest.context_size][google.cloud.dialogflow.v2.SuggestFaqAnswersRequest.context_size\]
-    /// field in the request if there aren't that many messages in the
-    /// conversation.
+    /// \[latest_message][google.cloud.dialogflow.v2.SuggestFaqAnswersResponse.latest_message\] to compile the
+    /// suggestion. It may be smaller than the
+    /// \[SuggestFaqAnswersRequest.context_size][google.cloud.dialogflow.v2.SuggestFaqAnswersRequest.context_size\] field in the request if there
+    /// aren't that many messages in the conversation.
     #[prost(int32, tag = "3")]
     pub context_size: i32,
 }
@@ -4071,13 +3872,14 @@ pub struct OutputAudio {
 /// Represents a response from an automated agent.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AutomatedAgentReply {
-    /// Response of the Dialogflow
-    /// \[Sessions.DetectIntent][google.cloud.dialogflow.v2.Sessions.DetectIntent\]
-    /// call.
+    /// Response of the Dialogflow \[Sessions.DetectIntent][google.cloud.dialogflow.v2.Sessions.DetectIntent\] call.
     #[prost(message, optional, tag = "1")]
     pub detect_intent_response: ::core::option::Option<DetectIntentResponse>,
     /// AutomatedAgentReply type.
-    #[prost(enumeration = "automated_agent_reply::AutomatedAgentReplyType", tag = "7")]
+    #[prost(
+        enumeration = "automated_agent_reply::AutomatedAgentReplyType",
+        tag = "7"
+    )]
     pub automated_agent_reply_type: i32,
     /// Indicates whether the partial automated agent reply is interruptible when a
     /// later reply message arrives. e.g. if the agent specified some music as
@@ -4166,12 +3968,8 @@ pub struct FaqAnswer {
     pub answer_record: ::prost::alloc::string::String,
 }
 /// One response of different type of suggestion response which is used in
-/// the response of
-/// \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\]
-/// and
-/// \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\],
-/// as well as
-/// \[HumanAgentAssistantEvent][google.cloud.dialogflow.v2.HumanAgentAssistantEvent\].
+/// the response of \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\] and
+/// \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\], as well as \[HumanAgentAssistantEvent][google.cloud.dialogflow.v2.HumanAgentAssistantEvent\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SuggestionResult {
     /// Different type of suggestion response.
@@ -4238,11 +4036,11 @@ pub struct MessageAnnotation {
 pub struct AssistQueryParameters {
     /// Key-value filters on the metadata of documents returned by article
     /// suggestion. If specified, article suggestion only returns suggested
-    /// documents that match all filters in their
-    /// \[Document.metadata][google.cloud.dialogflow.v2.Document.metadata\]. Multiple
+    /// documents that match all filters in their \[Document.metadata][google.cloud.dialogflow.v2.Document.metadata\]. Multiple
     /// values for a metadata key should be concatenated by comma. For example,
     /// filters to match all documents that have 'US' or 'CA' in their market
     /// metadata values and 'agent' in their user metadata values will be
+    /// ```
     /// documents_metadata_filters {
     ///   key: "market"
     ///   value: "US,CA"
@@ -4251,6 +4049,7 @@ pub struct AssistQueryParameters {
     ///   key: "user"
     ///   value: "agent"
     /// }
+    /// ```
     #[prost(btree_map = "string, string", tag = "1")]
     pub documents_metadata_filters: ::prost::alloc::collections::BTreeMap<
         ::prost::alloc::string::String,
@@ -4430,6 +4229,1895 @@ pub mod participants_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dialogflow.v2.Participants/SuggestFaqAnswers",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Represents a notification sent to Cloud Pub/Sub subscribers for
+/// human agent assistant events in a specific conversation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HumanAgentAssistantEvent {
+    /// The conversation this notification refers to.
+    /// Format: `projects/<Project ID>/conversations/<Conversation ID>`.
+    #[prost(string, tag = "1")]
+    pub conversation: ::prost::alloc::string::String,
+    /// The participant that the suggestion is compiled for.
+    /// Format: `projects/<Project ID>/conversations/<Conversation
+    /// ID>/participants/<Participant ID>`. It will not be set in legacy workflow.
+    #[prost(string, tag = "3")]
+    pub participant: ::prost::alloc::string::String,
+    /// The suggestion results payload that this notification refers to.
+    #[prost(message, repeated, tag = "5")]
+    pub suggestion_results: ::prost::alloc::vec::Vec<SuggestionResult>,
+}
+/// The request message for a webhook call.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookRequest {
+    /// The unique identifier of detectIntent request session.
+    /// Can be used to identify end-user inside webhook implementation.
+    /// Format: `projects/<Project ID>/agent/sessions/<Session ID>`, or
+    /// `projects/<Project ID>/agent/environments/<Environment ID>/users/<User
+    /// ID>/sessions/<Session ID>`.
+    #[prost(string, tag = "4")]
+    pub session: ::prost::alloc::string::String,
+    /// The unique identifier of the response. Contains the same value as
+    /// `\[Streaming\]DetectIntentResponse.response_id`.
+    #[prost(string, tag = "1")]
+    pub response_id: ::prost::alloc::string::String,
+    /// The result of the conversational query or event processing. Contains the
+    /// same value as `\[Streaming\]DetectIntentResponse.query_result`.
+    #[prost(message, optional, tag = "2")]
+    pub query_result: ::core::option::Option<QueryResult>,
+    /// Optional. The contents of the original request that was passed to
+    /// `\[Streaming\]DetectIntent` call.
+    #[prost(message, optional, tag = "3")]
+    pub original_detect_intent_request: ::core::option::Option<OriginalDetectIntentRequest>,
+}
+/// The response message for a webhook call.
+///
+/// This response is validated by the Dialogflow server. If validation fails,
+/// an error will be returned in the \[QueryResult.diagnostic_info][google.cloud.dialogflow.v2.QueryResult.diagnostic_info\] field.
+/// Setting JSON fields to an empty value with the wrong type is a common error.
+/// To avoid this error:
+///
+/// - Use `""` for empty strings
+/// - Use `{}` or `null` for empty objects
+/// - Use `[]` or `null` for empty arrays
+///
+/// For more information, see the
+/// [Protocol Buffers Language
+/// Guide](<https://developers.google.com/protocol-buffers/docs/proto3#json>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookResponse {
+    /// Optional. The text response message intended for the end-user.
+    /// It is recommended to use `fulfillment_messages.text.text\[0\]` instead.
+    /// When provided, Dialogflow uses this field to populate
+    /// \[QueryResult.fulfillment_text][google.cloud.dialogflow.v2.QueryResult.fulfillment_text\] sent to the integration or API caller.
+    #[prost(string, tag = "1")]
+    pub fulfillment_text: ::prost::alloc::string::String,
+    /// Optional. The rich response messages intended for the end-user.
+    /// When provided, Dialogflow uses this field to populate
+    /// \[QueryResult.fulfillment_messages][google.cloud.dialogflow.v2.QueryResult.fulfillment_messages\] sent to the integration or API caller.
+    #[prost(message, repeated, tag = "2")]
+    pub fulfillment_messages: ::prost::alloc::vec::Vec<intent::Message>,
+    /// Optional. A custom field used to identify the webhook source.
+    /// Arbitrary strings are supported.
+    /// When provided, Dialogflow uses this field to populate
+    /// \[QueryResult.webhook_source][google.cloud.dialogflow.v2.QueryResult.webhook_source\] sent to the integration or API caller.
+    #[prost(string, tag = "3")]
+    pub source: ::prost::alloc::string::String,
+    /// Optional. This field can be used to pass custom data from your webhook to the
+    /// integration or API caller. Arbitrary JSON objects are supported.
+    /// When provided, Dialogflow uses this field to populate
+    /// \[QueryResult.webhook_payload][google.cloud.dialogflow.v2.QueryResult.webhook_payload\] sent to the integration or API caller.
+    /// This field is also used by the
+    /// [Google Assistant
+    /// integration](<https://cloud.google.com/dialogflow/docs/integrations/aog>)
+    /// for rich response messages.
+    /// See the format definition at [Google Assistant Dialogflow webhook
+    /// format](<https://developers.google.com/assistant/actions/build/json/dialogflow-webhook-json>)
+    #[prost(message, optional, tag = "4")]
+    pub payload: ::core::option::Option<::prost_types::Struct>,
+    /// Optional. The collection of output contexts that will overwrite currently
+    /// active contexts for the session and reset their lifespans.
+    /// When provided, Dialogflow uses this field to populate
+    /// \[QueryResult.output_contexts][google.cloud.dialogflow.v2.QueryResult.output_contexts\] sent to the integration or API caller.
+    #[prost(message, repeated, tag = "5")]
+    pub output_contexts: ::prost::alloc::vec::Vec<Context>,
+    /// Optional. Invokes the supplied events.
+    /// When this field is set, Dialogflow ignores the `fulfillment_text`,
+    /// `fulfillment_messages`, and `payload` fields.
+    #[prost(message, optional, tag = "6")]
+    pub followup_event_input: ::core::option::Option<EventInput>,
+    /// Optional. Additional session entity types to replace or extend developer
+    /// entity types with. The entity synonyms apply to all languages and persist
+    /// for the session. Setting this data from a webhook overwrites
+    /// the session entity types that have been set using `detectIntent`,
+    /// `streamingDetectIntent` or \[SessionEntityType][google.cloud.dialogflow.v2.SessionEntityType\] management methods.
+    #[prost(message, repeated, tag = "10")]
+    pub session_entity_types: ::prost::alloc::vec::Vec<SessionEntityType>,
+}
+/// Represents the contents of the original request that was passed to
+/// the `\[Streaming\]DetectIntent` call.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OriginalDetectIntentRequest {
+    /// The source of this request, e.g., `google`, `facebook`, `slack`. It is set
+    /// by Dialogflow-owned servers.
+    #[prost(string, tag = "1")]
+    pub source: ::prost::alloc::string::String,
+    /// Optional. The version of the protocol used for this request.
+    /// This field is AoG-specific.
+    #[prost(string, tag = "2")]
+    pub version: ::prost::alloc::string::String,
+    /// Optional. This field is set to the value of the `QueryParameters.payload`
+    /// field passed in the request. Some integrations that query a Dialogflow
+    /// agent may provide additional information in the payload.
+    ///
+    /// In particular, for the Dialogflow Phone Gateway integration, this field has
+    /// the form:
+    /// <pre>{
+    ///  "telephony": {
+    ///    "caller_id": "+18558363987"
+    ///  }
+    /// }</pre>
+    /// Note: The caller ID field (`caller_id`) will be redacted for Trial
+    /// Edition agents and populated with the caller ID in [E.164
+    /// format](<https://en.wikipedia.org/wiki/E.164>) for Essentials Edition agents.
+    #[prost(message, optional, tag = "3")]
+    pub payload: ::core::option::Option<::prost_types::Struct>,
+}
+/// By default, your agent responds to a matched intent with a static response.
+/// As an alternative, you can provide a more dynamic response by using
+/// fulfillment. When you enable fulfillment for an intent, Dialogflow responds
+/// to that intent by calling a service that you define. For example, if an
+/// end-user wants to schedule a haircut on Friday, your service can check your
+/// database and respond to the end-user with availability information for
+/// Friday.
+///
+/// For more information, see the [fulfillment
+/// guide](<https://cloud.google.com/dialogflow/docs/fulfillment-overview>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Fulfillment {
+    /// Required. The unique identifier of the fulfillment.
+    /// Supported formats:
+    /// - `projects/<Project ID>/agent/fulfillment`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent/fulfillment`
+    ///
+    /// This field is not used for Fulfillment in an Environment.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The human-readable name of the fulfillment, unique within the agent.
+    ///
+    /// This field is not used for Fulfillment in an Environment.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Optional. Whether fulfillment is enabled.
+    #[prost(bool, tag = "4")]
+    pub enabled: bool,
+    /// Optional. The field defines whether the fulfillment is enabled for certain features.
+    #[prost(message, repeated, tag = "5")]
+    pub features: ::prost::alloc::vec::Vec<fulfillment::Feature>,
+    /// Required. The fulfillment configuration.
+    #[prost(oneof = "fulfillment::Fulfillment", tags = "3")]
+    pub fulfillment: ::core::option::Option<fulfillment::Fulfillment>,
+}
+/// Nested message and enum types in `Fulfillment`.
+pub mod fulfillment {
+    /// Represents configuration for a generic web service.
+    /// Dialogflow supports two mechanisms for authentications:
+    /// - Basic authentication with username and password.
+    /// - Authentication with additional authentication headers.
+    /// More information could be found at:
+    /// <https://cloud.google.com/dialogflow/docs/fulfillment-configure.>
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct GenericWebService {
+        /// Required. The fulfillment URI for receiving POST requests.
+        /// It must use https protocol.
+        #[prost(string, tag = "1")]
+        pub uri: ::prost::alloc::string::String,
+        /// Optional. The user name for HTTP Basic authentication.
+        #[prost(string, tag = "2")]
+        pub username: ::prost::alloc::string::String,
+        /// Optional. The password for HTTP Basic authentication.
+        #[prost(string, tag = "3")]
+        pub password: ::prost::alloc::string::String,
+        /// Optional. The HTTP request headers to send together with fulfillment requests.
+        #[prost(btree_map = "string, string", tag = "4")]
+        pub request_headers: ::prost::alloc::collections::BTreeMap<
+            ::prost::alloc::string::String,
+            ::prost::alloc::string::String,
+        >,
+        /// Optional. Indicates if generic web service is created through Cloud Functions
+        /// integration. Defaults to false.
+        ///
+        /// is_cloud_function is deprecated. Cloud functions can be configured by
+        /// its uri as a regular web service now.
+        #[deprecated]
+        #[prost(bool, tag = "5")]
+        pub is_cloud_function: bool,
+    }
+    /// Whether fulfillment is enabled for the specific feature.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Feature {
+        /// The type of the feature that enabled for fulfillment.
+        #[prost(enumeration = "feature::Type", tag = "1")]
+        pub r#type: i32,
+    }
+    /// Nested message and enum types in `Feature`.
+    pub mod feature {
+        /// The type of the feature.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum Type {
+            /// Feature type not specified.
+            Unspecified = 0,
+            /// Fulfillment is enabled for SmallTalk.
+            Smalltalk = 1,
+        }
+    }
+    /// Required. The fulfillment configuration.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Fulfillment {
+        /// Configuration for a generic web service.
+        #[prost(message, tag = "3")]
+        GenericWebService(GenericWebService),
+    }
+}
+/// The request message for \[Fulfillments.GetFulfillment][google.cloud.dialogflow.v2.Fulfillments.GetFulfillment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFulfillmentRequest {
+    /// Required. The name of the fulfillment.
+    /// Format: `projects/<Project ID>/agent/fulfillment`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[Fulfillments.UpdateFulfillment][google.cloud.dialogflow.v2.Fulfillments.UpdateFulfillment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateFulfillmentRequest {
+    /// Required. The fulfillment to update.
+    #[prost(message, optional, tag = "1")]
+    pub fulfillment: ::core::option::Option<Fulfillment>,
+    /// Required. The mask to control which fields get updated. If the mask is not
+    /// present, all fields will be updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+#[doc = r" Generated client implementations."]
+pub mod fulfillments_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [Fulfillments][google.cloud.dialogflow.v2.Fulfillment]."]
+    #[derive(Debug, Clone)]
+    pub struct FulfillmentsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> FulfillmentsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> FulfillmentsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            FulfillmentsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Retrieves the fulfillment."]
+        pub async fn get_fulfillment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetFulfillmentRequest>,
+        ) -> Result<tonic::Response<super::Fulfillment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Fulfillments/GetFulfillment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the fulfillment."]
+        pub async fn update_fulfillment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateFulfillmentRequest>,
+        ) -> Result<tonic::Response<super::Fulfillment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Fulfillments/UpdateFulfillment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// You can create multiple versions of your agent and publish them to separate
+/// environments.
+///
+/// When you edit an agent, you are editing the draft agent. At any point, you
+/// can save the draft agent as an agent version, which is an immutable snapshot
+/// of your agent.
+///
+/// When you save the draft agent, it is published to the default environment.
+/// When you create agent versions, you can publish them to custom environments.
+/// You can create a variety of custom environments for:
+///
+/// - testing
+/// - development
+/// - production
+/// - etc.
+///
+/// For more information, see the [versions and environments
+/// guide](<https://cloud.google.com/dialogflow/docs/agents-versions>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Environment {
+    /// Output only. The unique identifier of this agent environment.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
+    /// - `projects/<Project ID>/locations/<Location
+    ///   ID>/agent/environments/<Environment ID>`
+    ///
+    /// The environment ID for the default environment is `-`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The developer-provided description for this environment.
+    /// The maximum length is 500 characters. If exceeded, the request is rejected.
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// Optional. The agent version loaded into this environment.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent/versions/<Version ID>`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
+    ///   ID>`
+    #[prost(string, tag = "3")]
+    pub agent_version: ::prost::alloc::string::String,
+    /// Output only. The state of this environment. This field is read-only, i.e., it cannot be
+    /// set by create and update methods.
+    #[prost(enumeration = "environment::State", tag = "4")]
+    pub state: i32,
+    /// Output only. The last update time of this environment. This field is read-only, i.e., it
+    /// cannot be set by create and update methods.
+    #[prost(message, optional, tag = "5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. Text to speech settings for this environment.
+    #[prost(message, optional, tag = "7")]
+    pub text_to_speech_settings: ::core::option::Option<TextToSpeechSettings>,
+    /// Optional. The fulfillment settings to use for this environment.
+    #[prost(message, optional, tag = "8")]
+    pub fulfillment: ::core::option::Option<Fulfillment>,
+}
+/// Nested message and enum types in `Environment`.
+pub mod environment {
+    /// Represents an environment state. When an environment is pointed to a new
+    /// agent version, the environment is temporarily set to the `LOADING` state.
+    /// During that time, the environment keeps on serving the previous version of
+    /// the agent. After the new agent version is done loading, the environment is
+    /// set back to the `RUNNING` state.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Not specified. This value is not used.
+        Unspecified = 0,
+        /// Stopped.
+        Stopped = 1,
+        /// Loading.
+        Loading = 2,
+        /// Running.
+        Running = 3,
+    }
+}
+/// Instructs the speech synthesizer on how to generate the output audio content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextToSpeechSettings {
+    /// Optional. Indicates whether text to speech is enabled. Even when this field is false,
+    /// other settings in this proto are still retained.
+    #[prost(bool, tag = "1")]
+    pub enable_text_to_speech: bool,
+    /// Required. Audio encoding of the synthesized audio content.
+    #[prost(enumeration = "OutputAudioEncoding", tag = "2")]
+    pub output_audio_encoding: i32,
+    /// Optional. The synthesis sample rate (in hertz) for this audio. If not provided, then
+    /// the synthesizer will use the default sample rate based on the audio
+    /// encoding. If this is different from the voice's natural sample rate, then
+    /// the synthesizer will honor this request by converting to the desired sample
+    /// rate (which might result in worse audio quality).
+    #[prost(int32, tag = "3")]
+    pub sample_rate_hertz: i32,
+    /// Optional. Configuration of how speech should be synthesized, mapping from language
+    /// (<https://cloud.google.com/dialogflow/docs/reference/language>) to
+    /// SynthesizeSpeechConfig.
+    #[prost(btree_map = "string, message", tag = "4")]
+    pub synthesize_speech_configs: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        SynthesizeSpeechConfig,
+    >,
+}
+/// The request message for \[Environments.ListEnvironments][google.cloud.dialogflow.v2.Environments.ListEnvironments\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEnvironmentsRequest {
+    /// Required. The agent to list all environments from.
+    /// Format:
+    ///
+    /// - `projects/<Project ID>/agent`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of items to return in a single page. By default 100 and
+    /// at most 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[Environments.ListEnvironments][google.cloud.dialogflow.v2.Environments.ListEnvironments\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEnvironmentsResponse {
+    /// The list of agent environments. There will be a maximum number of items
+    /// returned based on the page_size field in the request.
+    #[prost(message, repeated, tag = "1")]
+    pub environments: ::prost::alloc::vec::Vec<Environment>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for \[Environments.GetEnvironment][google.cloud.dialogflow.v2.Environments.GetEnvironment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetEnvironmentRequest {
+    /// Required. The name of the environment.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
+    /// - `projects/<Project ID>/locations/<Location
+    ///   ID>/agent/environments/<Environment ID>`
+    ///
+    /// The environment ID for the default environment is `-`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[Environments.CreateEnvironment][google.cloud.dialogflow.v2.Environments.CreateEnvironment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateEnvironmentRequest {
+    /// Required. The agent to create an environment for.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The environment to create.
+    #[prost(message, optional, tag = "2")]
+    pub environment: ::core::option::Option<Environment>,
+    /// Required. The unique id of the new environment.
+    #[prost(string, tag = "3")]
+    pub environment_id: ::prost::alloc::string::String,
+}
+/// The request message for \[Environments.UpdateEnvironment][google.cloud.dialogflow.v2.Environments.UpdateEnvironment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateEnvironmentRequest {
+    /// Required. The environment to update.
+    #[prost(message, optional, tag = "1")]
+    pub environment: ::core::option::Option<Environment>,
+    /// Required. The mask to control which fields get updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Optional. This field is used to prevent accidental overwrite of the default
+    /// environment, which is an operation that cannot be undone. To confirm that
+    /// the caller desires this overwrite, this field must be explicitly set to
+    /// true when updating the default environment (environment ID = `-`).
+    #[prost(bool, tag = "3")]
+    pub allow_load_to_draft_and_discard_changes: bool,
+}
+/// The request message for \[Environments.DeleteEnvironment][google.cloud.dialogflow.v2.Environments.DeleteEnvironment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteEnvironmentRequest {
+    /// Required. The name of the environment to delete.
+    /// / Format:
+    ///
+    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
+    /// - `projects/<Project ID>/locations/<Location
+    ///   ID>/agent/environments/<Environment ID>`
+    ///
+    /// The environment ID for the default environment is `-`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[Environments.GetEnvironmentHistory][google.cloud.dialogflow.v2.Environments.GetEnvironmentHistory\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetEnvironmentHistoryRequest {
+    /// Required. The name of the environment to retrieve history for.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
+    /// - `projects/<Project ID>/locations/<Location
+    ///   ID>/agent/environments/<Environment ID>`
+    ///
+    /// The environment ID for the default environment is `-`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of items to return in a single page. By default 100 and
+    /// at most 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[Environments.GetEnvironmentHistory][google.cloud.dialogflow.v2.Environments.GetEnvironmentHistory\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EnvironmentHistory {
+    /// Output only. The name of the environment this history is for.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
+    /// - `projects/<Project ID>/locations/<Location
+    ///    ID>/agent/environments/<Environment ID>`
+    ///
+    /// The environment ID for the default environment is `-`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Output only. The list of agent environments. There will be a maximum number of items
+    /// returned based on the page_size field in the request.
+    #[prost(message, repeated, tag = "2")]
+    pub entries: ::prost::alloc::vec::Vec<environment_history::Entry>,
+    /// Output only. Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "3")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `EnvironmentHistory`.
+pub mod environment_history {
+    /// Represents an environment history entry.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Entry {
+        /// The agent version loaded into this environment history entry.
+        #[prost(string, tag = "1")]
+        pub agent_version: ::prost::alloc::string::String,
+        /// The developer-provided description for this environment history entry.
+        #[prost(string, tag = "2")]
+        pub description: ::prost::alloc::string::String,
+        /// The creation time of this environment history entry.
+        #[prost(message, optional, tag = "3")]
+        pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod environments_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [Environments][google.cloud.dialogflow.v2.Environment]."]
+    #[derive(Debug, Clone)]
+    pub struct EnvironmentsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> EnvironmentsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> EnvironmentsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            EnvironmentsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of all non-default environments of the specified agent."]
+        pub async fn list_environments(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListEnvironmentsRequest>,
+        ) -> Result<tonic::Response<super::ListEnvironmentsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Environments/ListEnvironments",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified agent environment."]
+        pub async fn get_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetEnvironmentRequest>,
+        ) -> Result<tonic::Response<super::Environment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Environments/GetEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates an agent environment."]
+        pub async fn create_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateEnvironmentRequest>,
+        ) -> Result<tonic::Response<super::Environment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Environments/CreateEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified agent environment."]
+        #[doc = ""]
+        #[doc = " This method allows you to deploy new agent versions into the environment."]
+        #[doc = " When an environment is pointed to a new agent version by setting"]
+        #[doc = " `environment.agent_version`, the environment is temporarily set to the"]
+        #[doc = " `LOADING` state. During that time, the environment continues serving the"]
+        #[doc = " previous version of the agent. After the new agent version is done loading,"]
+        #[doc = " the environment is set back to the `RUNNING` state."]
+        #[doc = " You can use \"-\" as Environment ID in environment name to update an agent"]
+        #[doc = " version in the default environment. WARNING: this will negate all recent"]
+        #[doc = " changes to the draft agent and can't be undone. You may want to save the"]
+        #[doc = " draft agent to a version before calling this method."]
+        pub async fn update_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateEnvironmentRequest>,
+        ) -> Result<tonic::Response<super::Environment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Environments/UpdateEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the specified agent environment."]
+        pub async fn delete_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteEnvironmentRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Environments/DeleteEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets the history of the specified environment."]
+        pub async fn get_environment_history(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetEnvironmentHistoryRequest>,
+        ) -> Result<tonic::Response<super::EnvironmentHistory>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Environments/GetEnvironmentHistory",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Represents a single validation error.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ValidationError {
+    /// The severity of the error.
+    #[prost(enumeration = "validation_error::Severity", tag = "1")]
+    pub severity: i32,
+    /// The names of the entries that the error is associated with.
+    /// Format:
+    ///
+    /// - "projects/<Project ID>/agent", if the error is associated with the entire
+    /// agent.
+    /// - "projects/<Project ID>/agent/intents/<Intent ID>", if the error is
+    /// associated with certain intents.
+    /// - "projects/<Project
+    /// ID>/agent/intents/<Intent Id>/trainingPhrases/<Training Phrase ID>", if the
+    /// error is associated with certain intent training phrases.
+    /// - "projects/<Project ID>/agent/intents/<Intent Id>/parameters/<Parameter
+    /// ID>", if the error is associated with certain intent parameters.
+    /// - "projects/<Project ID>/agent/entities/<Entity ID>", if the error is
+    /// associated with certain entities.
+    #[prost(string, repeated, tag = "3")]
+    pub entries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The detailed error message.
+    #[prost(string, tag = "4")]
+    pub error_message: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ValidationError`.
+pub mod validation_error {
+    /// Represents a level of severity.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Severity {
+        /// Not specified. This value should never be used.
+        Unspecified = 0,
+        /// The agent doesn't follow Dialogflow best practices.
+        Info = 1,
+        /// The agent may not behave as expected.
+        Warning = 2,
+        /// The agent may experience partial failures.
+        Error = 3,
+        /// The agent may completely fail.
+        Critical = 4,
+    }
+}
+/// Represents the output of agent validation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ValidationResult {
+    /// Contains all validation errors.
+    #[prost(message, repeated, tag = "1")]
+    pub validation_errors: ::prost::alloc::vec::Vec<ValidationError>,
+}
+/// A knowledge base represents a collection of knowledge documents that you
+/// provide to Dialogflow. Your knowledge documents contain information that may
+/// be useful during conversations with end-users. Some Dialogflow features use
+/// knowledge bases when looking for a response to an end-user input.
+///
+/// For more information, see the [knowledge base
+/// guide](<https://cloud.google.com/dialogflow/docs/how/knowledge-bases>).
+///
+/// Note: The `projects.agent.knowledgeBases` resource is deprecated;
+/// only use `projects.knowledgeBases`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KnowledgeBase {
+    /// The knowledge base resource name.
+    /// The name must be empty when creating a knowledge base.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The display name of the knowledge base. The name must be 1024
+    /// bytes or less; otherwise, the creation request fails.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Language which represents the KnowledgeBase. When the KnowledgeBase is
+    /// created/updated, expect this to be present for non en-us languages. When
+    /// unspecified, the default language code en-us applies.
+    #[prost(string, tag = "4")]
+    pub language_code: ::prost::alloc::string::String,
+}
+/// Request message for \[KnowledgeBases.ListKnowledgeBases][google.cloud.dialogflow.v2.KnowledgeBases.ListKnowledgeBases\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListKnowledgeBasesRequest {
+    /// Required. The project to list of knowledge bases for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return in a single page. By
+    /// default 10 and at most 100.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The filter expression used to filter knowledge bases returned by the list
+    /// method. The expression has the following syntax:
+    ///
+    ///   <field> <operator> <value> [AND <field> <operator> <value>] ...
+    ///
+    /// The following fields and operators are supported:
+    ///
+    /// * display_name with has(:) operator
+    /// * language_code with equals(=) operator
+    ///
+    /// Examples:
+    ///
+    /// * 'language_code=en-us' matches knowledge bases with en-us language code.
+    /// * 'display_name:articles' matches knowledge bases whose display name
+    ///   contains "articles".
+    /// * 'display_name:"Best Articles"' matches knowledge bases whose display
+    ///   name contains "Best Articles".
+    /// * 'language_code=en-gb AND display_name=articles' matches all knowledge
+    ///   bases whose display name contains "articles" and whose language code is
+    ///   "en-gb".
+    ///
+    /// Note: An empty filter string (i.e. "") is a no-op and will result in no
+    /// filtering.
+    ///
+    /// For more information about filtering, see
+    /// [API Filtering](<https://aip.dev/160>).
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Response message for \[KnowledgeBases.ListKnowledgeBases][google.cloud.dialogflow.v2.KnowledgeBases.ListKnowledgeBases\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListKnowledgeBasesResponse {
+    /// The list of knowledge bases.
+    #[prost(message, repeated, tag = "1")]
+    pub knowledge_bases: ::prost::alloc::vec::Vec<KnowledgeBase>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for \[KnowledgeBases.GetKnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBases.GetKnowledgeBase\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetKnowledgeBaseRequest {
+    /// Required. The name of the knowledge base to retrieve.
+    /// Format `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for \[KnowledgeBases.CreateKnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBases.CreateKnowledgeBase\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateKnowledgeBaseRequest {
+    /// Required. The project to create a knowledge base for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The knowledge base to create.
+    #[prost(message, optional, tag = "2")]
+    pub knowledge_base: ::core::option::Option<KnowledgeBase>,
+}
+/// Request message for \[KnowledgeBases.DeleteKnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBases.DeleteKnowledgeBase\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteKnowledgeBaseRequest {
+    /// Required. The name of the knowledge base to delete.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Force deletes the knowledge base. When set to true, any documents
+    /// in the knowledge base are also deleted.
+    #[prost(bool, tag = "2")]
+    pub force: bool,
+}
+/// Request message for \[KnowledgeBases.UpdateKnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBases.UpdateKnowledgeBase\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateKnowledgeBaseRequest {
+    /// Required. The knowledge base to update.
+    #[prost(message, optional, tag = "1")]
+    pub knowledge_base: ::core::option::Option<KnowledgeBase>,
+    /// Optional. Not specified means `update all`.
+    /// Currently, only `display_name` can be updated, an InvalidArgument will be
+    /// returned for attempting to update other fields.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+#[doc = r" Generated client implementations."]
+pub mod knowledge_bases_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [KnowledgeBases][google.cloud.dialogflow.v2.KnowledgeBase]."]
+    #[derive(Debug, Clone)]
+    pub struct KnowledgeBasesClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> KnowledgeBasesClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> KnowledgeBasesClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            KnowledgeBasesClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of all knowledge bases of the specified agent."]
+        pub async fn list_knowledge_bases(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListKnowledgeBasesRequest>,
+        ) -> Result<tonic::Response<super::ListKnowledgeBasesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.KnowledgeBases/ListKnowledgeBases",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified knowledge base."]
+        pub async fn get_knowledge_base(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetKnowledgeBaseRequest>,
+        ) -> Result<tonic::Response<super::KnowledgeBase>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.KnowledgeBases/GetKnowledgeBase",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a knowledge base."]
+        pub async fn create_knowledge_base(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateKnowledgeBaseRequest>,
+        ) -> Result<tonic::Response<super::KnowledgeBase>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.KnowledgeBases/CreateKnowledgeBase",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the specified knowledge base."]
+        pub async fn delete_knowledge_base(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteKnowledgeBaseRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.KnowledgeBases/DeleteKnowledgeBase",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified knowledge base."]
+        pub async fn update_knowledge_base(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateKnowledgeBaseRequest>,
+        ) -> Result<tonic::Response<super::KnowledgeBase>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.KnowledgeBases/UpdateKnowledgeBase",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A knowledge document to be used by a \[KnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBase\].
+///
+/// For more information, see the [knowledge base
+/// guide](<https://cloud.google.com/dialogflow/docs/how/knowledge-bases>).
+///
+/// Note: The `projects.agent.knowledgeBases.documents` resource is deprecated;
+/// only use `projects.knowledgeBases.documents`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Document {
+    /// Optional. The document resource name.
+    /// The name must be empty when creating a document.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>/documents/<Document ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The display name of the document. The name must be 1024 bytes or
+    /// less; otherwise, the creation request fails.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Required. The MIME type of this document.
+    #[prost(string, tag = "3")]
+    pub mime_type: ::prost::alloc::string::String,
+    /// Required. The knowledge type of document content.
+    #[prost(
+        enumeration = "document::KnowledgeType",
+        repeated,
+        packed = "false",
+        tag = "4"
+    )]
+    pub knowledge_types: ::prost::alloc::vec::Vec<i32>,
+    /// Optional. If true, we try to automatically reload the document every day
+    /// (at a time picked by the system). If false or unspecified, we don't try
+    /// to automatically reload the document.
+    ///
+    /// Currently you can only enable automatic reload for documents sourced from
+    /// a public url, see `source` field for the source types.
+    ///
+    /// Reload status can be tracked in `latest_reload_status`. If a reload
+    /// fails, we will keep the document unchanged.
+    ///
+    /// If a reload fails with internal errors, the system will try to reload the
+    /// document on the next day.
+    /// If a reload fails with non-retriable errors (e.g. PERMISION_DENIED), the
+    /// system will not try to reload the document anymore. You need to manually
+    /// reload the document successfully by calling `ReloadDocument` and clear the
+    /// errors.
+    #[prost(bool, tag = "11")]
+    pub enable_auto_reload: bool,
+    /// Output only. The time and status of the latest reload.
+    /// This reload may have been triggered automatically or manually
+    /// and may not have succeeded.
+    #[prost(message, optional, tag = "12")]
+    pub latest_reload_status: ::core::option::Option<document::ReloadStatus>,
+    /// Optional. Metadata for the document. The metadata supports arbitrary
+    /// key-value pairs. Suggested use cases include storing a document's title,
+    /// an external URL distinct from the document's content_uri, etc.
+    /// The max size of a `key` or a `value` of the metadata is 1024 bytes.
+    #[prost(btree_map = "string, string", tag = "7")]
+    pub metadata: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Required. The source of this document.
+    #[prost(oneof = "document::Source", tags = "5, 9")]
+    pub source: ::core::option::Option<document::Source>,
+}
+/// Nested message and enum types in `Document`.
+pub mod document {
+    /// The status of a reload attempt.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ReloadStatus {
+        /// The time of a reload attempt.
+        /// This reload may have been triggered automatically or manually and may
+        /// not have succeeded.
+        #[prost(message, optional, tag = "1")]
+        pub time: ::core::option::Option<::prost_types::Timestamp>,
+        /// The status of a reload attempt or the initial load.
+        #[prost(message, optional, tag = "2")]
+        pub status: ::core::option::Option<super::super::super::super::rpc::Status>,
+    }
+    /// The knowledge type of document content.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum KnowledgeType {
+        /// The type is unspecified or arbitrary.
+        Unspecified = 0,
+        /// The document content contains question and answer pairs as either HTML or
+        /// CSV. Typical FAQ HTML formats are parsed accurately, but unusual formats
+        /// may fail to be parsed.
+        ///
+        /// CSV must have questions in the first column and answers in the second,
+        /// with no header. Because of this explicit format, they are always parsed
+        /// accurately.
+        Faq = 1,
+        /// Documents for which unstructured text is extracted and used for
+        /// question answering.
+        ExtractiveQa = 2,
+        /// The entire document content as a whole can be used for query results.
+        /// Only for Contact Center Solutions on Dialogflow.
+        ArticleSuggestion = 3,
+    }
+    /// Required. The source of this document.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// The URI where the file content is located.
+        ///
+        /// For documents stored in Google Cloud Storage, these URIs must have
+        /// the form `gs://<bucket-name>/<object-name>`.
+        ///
+        /// NOTE: External URLs must correspond to public webpages, i.e., they must
+        /// be indexed by Google Search. In particular, URLs for showing documents in
+        /// Google Cloud Storage (i.e. the URL in your browser) are not supported.
+        /// Instead use the `gs://` format URI described above.
+        #[prost(string, tag = "5")]
+        ContentUri(::prost::alloc::string::String),
+        /// The raw content of the document. This field is only permitted for
+        /// EXTRACTIVE_QA and FAQ knowledge types.
+        #[prost(bytes, tag = "9")]
+        RawContent(::prost::bytes::Bytes),
+    }
+}
+/// Request message for \[Documents.GetDocument][google.cloud.dialogflow.v2.Documents.GetDocument\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetDocumentRequest {
+    /// Required. The name of the document to retrieve.
+    /// Format `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>/documents/<Document ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for \[Documents.ListDocuments][google.cloud.dialogflow.v2.Documents.ListDocuments\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListDocumentsRequest {
+    /// Required. The knowledge base to list all documents for.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return in a single page. By
+    /// default 10 and at most 100.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The filter expression used to filter documents returned by the list method.
+    /// The expression has the following syntax:
+    ///
+    ///   <field> <operator> <value> [AND <field> <operator> <value>] ...
+    ///
+    /// The following fields and operators are supported:
+    ///
+    /// * knowledge_types with has(:) operator
+    /// * display_name with has(:) operator
+    /// * state with equals(=) operator
+    ///
+    /// Examples:
+    ///
+    /// * "knowledge_types:FAQ" matches documents with FAQ knowledge type.
+    /// * "display_name:customer" matches documents whose display name contains
+    ///   "customer".
+    /// * "state=ACTIVE" matches documents with ACTIVE state.
+    /// * "knowledge_types:FAQ AND state=ACTIVE" matches all active FAQ documents.
+    ///
+    /// For more information about filtering, see
+    /// [API Filtering](<https://aip.dev/160>).
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Response message for \[Documents.ListDocuments][google.cloud.dialogflow.v2.Documents.ListDocuments\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListDocumentsResponse {
+    /// The list of documents.
+    #[prost(message, repeated, tag = "1")]
+    pub documents: ::prost::alloc::vec::Vec<Document>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for \[Documents.CreateDocument][google.cloud.dialogflow.v2.Documents.CreateDocument\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateDocumentRequest {
+    /// Required. The knowledge base to create a document for.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The document to create.
+    #[prost(message, optional, tag = "2")]
+    pub document: ::core::option::Option<Document>,
+}
+/// Request message for \[Documents.DeleteDocument][google.cloud.dialogflow.v2.Documents.DeleteDocument\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteDocumentRequest {
+    /// Required. The name of the document to delete.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>/documents/<Document ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for \[Documents.UpdateDocument][google.cloud.dialogflow.v2.Documents.UpdateDocument\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateDocumentRequest {
+    /// Required. The document to update.
+    #[prost(message, optional, tag = "1")]
+    pub document: ::core::option::Option<Document>,
+    /// Optional. Not specified means `update all`.
+    /// Currently, only `display_name` can be updated, an InvalidArgument will be
+    /// returned for attempting to update other fields.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for \[Documents.ReloadDocument][google.cloud.dialogflow.v2.Documents.ReloadDocument\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReloadDocumentRequest {
+    /// Required. The name of the document to reload.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>/documents/<Document ID>`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Whether to import custom metadata from Google Cloud Storage.
+    /// Only valid when the document source is Google Cloud Storage URI.
+    #[prost(bool, tag = "4")]
+    pub import_gcs_custom_metadata: bool,
+    /// Optional. When enabled, the reload request is to apply partial update to the smart
+    /// messaging allowlist.
+    #[prost(bool, tag = "5")]
+    pub smart_messaging_partial_update: bool,
+    /// The source for document reloading.
+    /// If provided, the service will load the contents from the source
+    /// and update document in the knowledge base.
+    #[prost(oneof = "reload_document_request::Source", tags = "3")]
+    pub source: ::core::option::Option<reload_document_request::Source>,
+}
+/// Nested message and enum types in `ReloadDocumentRequest`.
+pub mod reload_document_request {
+    /// The source for document reloading.
+    /// If provided, the service will load the contents from the source
+    /// and update document in the knowledge base.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// Optional. The path of gcs source file for reloading document content. For now,
+        /// only gcs uri is supported.
+        ///
+        /// For documents stored in Google Cloud Storage, these URIs must have
+        /// the form `gs://<bucket-name>/<object-name>`.
+        #[prost(string, tag = "3")]
+        ContentUri(::prost::alloc::string::String),
+    }
+}
+/// Request message for \[Documents.ExportDocument][google.cloud.dialogflow.v2.Documents.ExportDocument\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportDocumentRequest {
+    /// Required. The name of the document to export.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>/documents/<Document ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// When enabled, export the full content of the document including empirical
+    /// probability.
+    #[prost(bool, tag = "3")]
+    pub export_full_content: bool,
+    /// When enabled, export the smart messaging allowlist document for partial
+    /// update.
+    #[prost(bool, tag = "5")]
+    pub smart_messaging_partial_update: bool,
+    /// Required. The destination for the export.
+    #[prost(oneof = "export_document_request::Destination", tags = "2")]
+    pub destination: ::core::option::Option<export_document_request::Destination>,
+}
+/// Nested message and enum types in `ExportDocumentRequest`.
+pub mod export_document_request {
+    /// Required. The destination for the export.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Destination {
+        /// Cloud Storage file path to export the document.
+        #[prost(message, tag = "2")]
+        GcsDestination(super::GcsDestination),
+    }
+}
+/// Metadata in google::longrunning::Operation for Knowledge operations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KnowledgeOperationMetadata {
+    /// Output only. The current state of this operation.
+    #[prost(enumeration = "knowledge_operation_metadata::State", tag = "1")]
+    pub state: i32,
+}
+/// Nested message and enum types in `KnowledgeOperationMetadata`.
+pub mod knowledge_operation_metadata {
+    /// States of the operation.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// State unspecified.
+        Unspecified = 0,
+        /// The operation has been created.
+        Pending = 1,
+        /// The operation is currently running.
+        Running = 2,
+        /// The operation is done, either cancelled or completed.
+        Done = 3,
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod documents_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing knowledge [Documents][google.cloud.dialogflow.v2.Document]."]
+    #[derive(Debug, Clone)]
+    pub struct DocumentsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> DocumentsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> DocumentsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            DocumentsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of all documents of the knowledge base."]
+        pub async fn list_documents(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListDocumentsRequest>,
+        ) -> Result<tonic::Response<super::ListDocumentsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Documents/ListDocuments",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified document."]
+        pub async fn get_document(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetDocumentRequest>,
+        ) -> Result<tonic::Response<super::Document>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Documents/GetDocument",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a new document."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
+        #[doc = " - `response`: [Document][google.cloud.dialogflow.v2.Document]"]
+        pub async fn create_document(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateDocumentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Documents/CreateDocument",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the specified document."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
+        #[doc = " - `response`: An [Empty"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
+        pub async fn delete_document(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteDocumentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Documents/DeleteDocument",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified document."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
+        #[doc = " - `response`: [Document][google.cloud.dialogflow.v2.Document]"]
+        pub async fn update_document(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateDocumentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Documents/UpdateDocument",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Reloads the specified document from its specified source, content_uri or"]
+        #[doc = " content. The previously loaded content of the document will be deleted."]
+        #[doc = " Note: Even when the content of the document has not changed, there still"]
+        #[doc = " may be side effects because of internal implementation changes."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
+        #[doc = " - `response`: [Document][google.cloud.dialogflow.v2.Document]"]
+        #[doc = ""]
+        #[doc = " Note: The `projects.agent.knowledgeBases.documents` resource is deprecated;"]
+        #[doc = " only use `projects.knowledgeBases.documents`."]
+        pub async fn reload_document(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ReloadDocumentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Documents/ReloadDocument",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Exports a smart messaging candidate document into the specified"]
+        #[doc = " destination."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
+        #[doc = " - `response`: [Document][google.cloud.dialogflow.v2.Document]"]
+        pub async fn export_document(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ExportDocumentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Documents/ExportDocument",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// You can create multiple versions of your agent and publish them to separate
+/// environments.
+///
+/// When you edit an agent, you are editing the draft agent. At any point, you
+/// can save the draft agent as an agent version, which is an immutable snapshot
+/// of your agent.
+///
+/// When you save the draft agent, it is published to the default environment.
+/// When you create agent versions, you can publish them to custom environments.
+/// You can create a variety of custom environments for:
+///
+/// - testing
+/// - development
+/// - production
+/// - etc.
+///
+/// For more information, see the [versions and environments
+/// guide](<https://cloud.google.com/dialogflow/docs/agents-versions>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Version {
+    /// Output only. The unique identifier of this agent version.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent/versions/<Version ID>`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
+    ///   ID>`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The developer-provided description of this version.
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. The sequential number of this version. This field is read-only which means
+    /// it cannot be set by create and update methods.
+    #[prost(int32, tag = "3")]
+    pub version_number: i32,
+    /// Output only. The creation time of this version. This field is read-only, i.e., it cannot
+    /// be set by create and update methods.
+    #[prost(message, optional, tag = "4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The status of this version. This field is read-only and cannot be set by
+    /// create and update methods.
+    #[prost(enumeration = "version::VersionStatus", tag = "6")]
+    pub status: i32,
+}
+/// Nested message and enum types in `Version`.
+pub mod version {
+    /// The status of a version.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum VersionStatus {
+        /// Not specified. This value is not used.
+        Unspecified = 0,
+        /// Version is not ready to serve (e.g. training is in progress).
+        InProgress = 1,
+        /// Version is ready to serve.
+        Ready = 2,
+        /// Version training failed.
+        Failed = 3,
+    }
+}
+/// The request message for \[Versions.ListVersions][google.cloud.dialogflow.v2.Versions.ListVersions\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVersionsRequest {
+    /// Required. The agent to list all versions from.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of items to return in a single page. By default 100 and
+    /// at most 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[Versions.ListVersions][google.cloud.dialogflow.v2.Versions.ListVersions\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVersionsResponse {
+    /// The list of agent versions. There will be a maximum number of items
+    /// returned based on the page_size field in the request.
+    #[prost(message, repeated, tag = "1")]
+    pub versions: ::prost::alloc::vec::Vec<Version>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for \[Versions.GetVersion][google.cloud.dialogflow.v2.Versions.GetVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetVersionRequest {
+    /// Required. The name of the version.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent/versions/<Version ID>`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
+    ///   ID>`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[Versions.CreateVersion][google.cloud.dialogflow.v2.Versions.CreateVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateVersionRequest {
+    /// Required. The agent to create a version for.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The version to create.
+    #[prost(message, optional, tag = "2")]
+    pub version: ::core::option::Option<Version>,
+}
+/// The request message for \[Versions.UpdateVersion][google.cloud.dialogflow.v2.Versions.UpdateVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateVersionRequest {
+    /// Required. The version to update.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent/versions/<Version ID>`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
+    ///   ID>`
+    #[prost(message, optional, tag = "1")]
+    pub version: ::core::option::Option<Version>,
+    /// Required. The mask to control which fields get updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request message for \[Versions.DeleteVersion][google.cloud.dialogflow.v2.Versions.DeleteVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteVersionRequest {
+    /// Required. The name of the version to delete.
+    /// Supported formats:
+    ///
+    /// - `projects/<Project ID>/agent/versions/<Version ID>`
+    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
+    ///   ID>`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod versions_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [Versions][google.cloud.dialogflow.v2.Version]."]
+    #[derive(Debug, Clone)]
+    pub struct VersionsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> VersionsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> VersionsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            VersionsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of all versions of the specified agent."]
+        pub async fn list_versions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListVersionsRequest>,
+        ) -> Result<tonic::Response<super::ListVersionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Versions/ListVersions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified agent version."]
+        pub async fn get_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetVersionRequest>,
+        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Versions/GetVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates an agent version."]
+        #[doc = ""]
+        #[doc = " The new version points to the agent instance in the \"default\" environment."]
+        pub async fn create_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateVersionRequest>,
+        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Versions/CreateVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified agent version."]
+        #[doc = ""]
+        #[doc = " Note that this method does not allow you to update the state of the agent"]
+        #[doc = " the given version points to. It allows you to update only mutable"]
+        #[doc = " properties of the version resource."]
+        pub async fn update_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateVersionRequest>,
+        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Versions/UpdateVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete the specified agent version."]
+        pub async fn delete_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteVersionRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Versions/DeleteVersion",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -5077,1023 +6765,65 @@ pub mod conversation_profiles_client {
         }
     }
 }
-/// A knowledge document to be used by a \[KnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBase\].
-///
-/// For more information, see the [knowledge base
-/// guide](<https://cloud.google.com/dialogflow/docs/how/knowledge-bases>).
-///
-/// Note: The `projects.agent.knowledgeBases.documents` resource is deprecated;
-/// only use `projects.knowledgeBases.documents`.
+/// Represents a notification sent to Pub/Sub subscribers for conversation
+/// lifecycle events.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Document {
-    /// Optional. The document resource name.
-    /// The name must be empty when creating a document.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/knowledgeBases/<Knowledge Base ID>/documents/<Document ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The display name of the document. The name must be 1024 bytes or
-    /// less; otherwise, the creation request fails.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Required. The MIME type of this document.
-    #[prost(string, tag = "3")]
-    pub mime_type: ::prost::alloc::string::String,
-    /// Required. The knowledge type of document content.
-    #[prost(enumeration = "document::KnowledgeType", repeated, packed = "false", tag = "4")]
-    pub knowledge_types: ::prost::alloc::vec::Vec<i32>,
-    /// Optional. If true, we try to automatically reload the document every day
-    /// (at a time picked by the system). If false or unspecified, we don't try
-    /// to automatically reload the document.
-    ///
-    /// Currently you can only enable automatic reload for documents sourced from
-    /// a public url, see `source` field for the source types.
-    ///
-    /// Reload status can be tracked in `latest_reload_status`. If a reload
-    /// fails, we will keep the document unchanged.
-    ///
-    /// If a reload fails with internal errors, the system will try to reload the
-    /// document on the next day.
-    /// If a reload fails with non-retriable errors (e.g. PERMISION_DENIED), the
-    /// system will not try to reload the document anymore. You need to manually
-    /// reload the document successfully by calling `ReloadDocument` and clear the
-    /// errors.
-    #[prost(bool, tag = "11")]
-    pub enable_auto_reload: bool,
-    /// Output only. The time and status of the latest reload.
-    /// This reload may have been triggered automatically or manually
-    /// and may not have succeeded.
-    #[prost(message, optional, tag = "12")]
-    pub latest_reload_status: ::core::option::Option<document::ReloadStatus>,
-    /// Optional. Metadata for the document. The metadata supports arbitrary
-    /// key-value pairs. Suggested use cases include storing a document's title,
-    /// an external URL distinct from the document's content_uri, etc.
-    /// The max size of a `key` or a `value` of the metadata is 1024 bytes.
-    #[prost(btree_map = "string, string", tag = "7")]
-    pub metadata: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Required. The source of this document.
-    #[prost(oneof = "document::Source", tags = "5, 9")]
-    pub source: ::core::option::Option<document::Source>,
-}
-/// Nested message and enum types in `Document`.
-pub mod document {
-    /// The status of a reload attempt.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ReloadStatus {
-        /// The time of a reload attempt.
-        /// This reload may have been triggered automatically or manually and may
-        /// not have succeeded.
-        #[prost(message, optional, tag = "1")]
-        pub time: ::core::option::Option<::prost_types::Timestamp>,
-        /// The status of a reload attempt or the initial load.
-        #[prost(message, optional, tag = "2")]
-        pub status: ::core::option::Option<super::super::super::super::rpc::Status>,
-    }
-    /// The knowledge type of document content.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum KnowledgeType {
-        /// The type is unspecified or arbitrary.
-        Unspecified = 0,
-        /// The document content contains question and answer pairs as either HTML or
-        /// CSV. Typical FAQ HTML formats are parsed accurately, but unusual formats
-        /// may fail to be parsed.
-        ///
-        /// CSV must have questions in the first column and answers in the second,
-        /// with no header. Because of this explicit format, they are always parsed
-        /// accurately.
-        Faq = 1,
-        /// Documents for which unstructured text is extracted and used for
-        /// question answering.
-        ExtractiveQa = 2,
-        /// The entire document content as a whole can be used for query results.
-        /// Only for Contact Center Solutions on Dialogflow.
-        ArticleSuggestion = 3,
-    }
-    /// Required. The source of this document.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// The URI where the file content is located.
-        ///
-        /// For documents stored in Google Cloud Storage, these URIs must have
-        /// the form `gs://<bucket-name>/<object-name>`.
-        ///
-        /// NOTE: External URLs must correspond to public webpages, i.e., they must
-        /// be indexed by Google Search. In particular, URLs for showing documents in
-        /// Google Cloud Storage (i.e. the URL in your browser) are not supported.
-        /// Instead use the `gs://` format URI described above.
-        #[prost(string, tag = "5")]
-        ContentUri(::prost::alloc::string::String),
-        /// The raw content of the document. This field is only permitted for
-        /// EXTRACTIVE_QA and FAQ knowledge types.
-        #[prost(bytes, tag = "9")]
-        RawContent(::prost::bytes::Bytes),
-    }
-}
-/// Request message for \[Documents.GetDocument][google.cloud.dialogflow.v2.Documents.GetDocument\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetDocumentRequest {
-    /// Required. The name of the document to retrieve.
-    /// Format `projects/<Project ID>/locations/<Location
-    /// ID>/knowledgeBases/<Knowledge Base ID>/documents/<Document ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for \[Documents.ListDocuments][google.cloud.dialogflow.v2.Documents.ListDocuments\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListDocumentsRequest {
-    /// Required. The knowledge base to list all documents for.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/knowledgeBases/<Knowledge Base ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return in a single page. By
-    /// default 10 and at most 100.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for \[Documents.ListDocuments][google.cloud.dialogflow.v2.Documents.ListDocuments\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListDocumentsResponse {
-    /// The list of documents.
-    #[prost(message, repeated, tag = "1")]
-    pub documents: ::prost::alloc::vec::Vec<Document>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for \[Documents.CreateDocument][google.cloud.dialogflow.v2.Documents.CreateDocument\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateDocumentRequest {
-    /// Required. The knowledge base to create a document for.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/knowledgeBases/<Knowledge Base ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The document to create.
-    #[prost(message, optional, tag = "2")]
-    pub document: ::core::option::Option<Document>,
-}
-/// Request message for \[Documents.DeleteDocument][google.cloud.dialogflow.v2.Documents.DeleteDocument\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteDocumentRequest {
-    /// Required. The name of the document to delete.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/knowledgeBases/<Knowledge Base ID>/documents/<Document ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for \[Documents.UpdateDocument][google.cloud.dialogflow.v2.Documents.UpdateDocument\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateDocumentRequest {
-    /// Required. The document to update.
-    #[prost(message, optional, tag = "1")]
-    pub document: ::core::option::Option<Document>,
-    /// Optional. Not specified means `update all`.
-    /// Currently, only `display_name` can be updated, an InvalidArgument will be
-    /// returned for attempting to update other fields.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request message for \[Documents.ReloadDocument][google.cloud.dialogflow.v2.Documents.ReloadDocument\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReloadDocumentRequest {
-    /// Required. The name of the document to reload.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/knowledgeBases/<Knowledge Base ID>/documents/<Document ID>`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The source for document reloading.
-    /// If provided, the service will load the contents from the source
-    /// and update document in the knowledge base.
-    #[prost(oneof = "reload_document_request::Source", tags = "3")]
-    pub source: ::core::option::Option<reload_document_request::Source>,
-}
-/// Nested message and enum types in `ReloadDocumentRequest`.
-pub mod reload_document_request {
-    /// The source for document reloading.
-    /// If provided, the service will load the contents from the source
-    /// and update document in the knowledge base.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// Optional. The path of gcs source file for reloading document content. For now,
-        /// only gcs uri is supported.
-        ///
-        /// For documents stored in Google Cloud Storage, these URIs must have
-        /// the form `gs://<bucket-name>/<object-name>`.
-        #[prost(string, tag = "3")]
-        ContentUri(::prost::alloc::string::String),
-    }
-}
-/// Metadata in google::longrunning::Operation for Knowledge operations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct KnowledgeOperationMetadata {
-    /// Output only. The current state of this operation.
-    #[prost(enumeration = "knowledge_operation_metadata::State", tag = "1")]
-    pub state: i32,
-}
-/// Nested message and enum types in `KnowledgeOperationMetadata`.
-pub mod knowledge_operation_metadata {
-    /// States of the operation.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// State unspecified.
-        Unspecified = 0,
-        /// The operation has been created.
-        Pending = 1,
-        /// The operation is currently running.
-        Running = 2,
-        /// The operation is done, either cancelled or completed.
-        Done = 3,
-    }
-}
-#[doc = r" Generated client implementations."]
-pub mod documents_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing knowledge [Documents][google.cloud.dialogflow.v2.Document]."]
-    #[derive(Debug, Clone)]
-    pub struct DocumentsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> DocumentsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> DocumentsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            DocumentsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of all documents of the knowledge base."]
-        pub async fn list_documents(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListDocumentsRequest>,
-        ) -> Result<tonic::Response<super::ListDocumentsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Documents/ListDocuments",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified document."]
-        pub async fn get_document(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetDocumentRequest>,
-        ) -> Result<tonic::Response<super::Document>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Documents/GetDocument",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a new document."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
-        #[doc = " - `response`: [Document][google.cloud.dialogflow.v2.Document]"]
-        pub async fn create_document(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateDocumentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Documents/CreateDocument",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes the specified document."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
-        #[doc = " - `response`: An [Empty"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
-        pub async fn delete_document(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteDocumentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Documents/DeleteDocument",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified document."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
-        #[doc = " - `response`: [Document][google.cloud.dialogflow.v2.Document]"]
-        pub async fn update_document(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateDocumentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Documents/UpdateDocument",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Reloads the specified document from its specified source, content_uri or"]
-        #[doc = " content. The previously loaded content of the document will be deleted."]
-        #[doc = " Note: Even when the content of the document has not changed, there still"]
-        #[doc = " may be side effects because of internal implementation changes."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
-        #[doc = " - `response`: [Document][google.cloud.dialogflow.v2.Document]"]
-        #[doc = ""]
-        #[doc = " Note: The `projects.agent.knowledgeBases.documents` resource is deprecated;"]
-        #[doc = " only use `projects.knowledgeBases.documents`."]
-        pub async fn reload_document(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ReloadDocumentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Documents/ReloadDocument",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// A knowledge base represents a collection of knowledge documents that you
-/// provide to Dialogflow. Your knowledge documents contain information that may
-/// be useful during conversations with end-users. Some Dialogflow features use
-/// knowledge bases when looking for a response to an end-user input.
-///
-/// For more information, see the [knowledge base
-/// guide](<https://cloud.google.com/dialogflow/docs/how/knowledge-bases>).
-///
-/// Note: The `projects.agent.knowledgeBases` resource is deprecated;
-/// only use `projects.knowledgeBases`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct KnowledgeBase {
-    /// The knowledge base resource name.
-    /// The name must be empty when creating a knowledge base.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/knowledgeBases/<Knowledge Base ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The display name of the knowledge base. The name must be 1024
-    /// bytes or less; otherwise, the creation request fails.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Language which represents the KnowledgeBase. When the KnowledgeBase is
-    /// created/updated, expect this to be present for non en-us languages. When
-    /// unspecified, the default language code en-us applies.
-    #[prost(string, tag = "4")]
-    pub language_code: ::prost::alloc::string::String,
-}
-/// Request message for \[KnowledgeBases.ListKnowledgeBases][google.cloud.dialogflow.v2.KnowledgeBases.ListKnowledgeBases\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListKnowledgeBasesRequest {
-    /// Required. The project to list of knowledge bases for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return in a single page. By
-    /// default 10 and at most 100.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for \[KnowledgeBases.ListKnowledgeBases][google.cloud.dialogflow.v2.KnowledgeBases.ListKnowledgeBases\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListKnowledgeBasesResponse {
-    /// The list of knowledge bases.
-    #[prost(message, repeated, tag = "1")]
-    pub knowledge_bases: ::prost::alloc::vec::Vec<KnowledgeBase>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for \[KnowledgeBases.GetKnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBases.GetKnowledgeBase\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetKnowledgeBaseRequest {
-    /// Required. The name of the knowledge base to retrieve.
-    /// Format `projects/<Project ID>/locations/<Location
-    /// ID>/knowledgeBases/<Knowledge Base ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for \[KnowledgeBases.CreateKnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBases.CreateKnowledgeBase\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateKnowledgeBaseRequest {
-    /// Required. The project to create a knowledge base for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The knowledge base to create.
-    #[prost(message, optional, tag = "2")]
-    pub knowledge_base: ::core::option::Option<KnowledgeBase>,
-}
-/// Request message for \[KnowledgeBases.DeleteKnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBases.DeleteKnowledgeBase\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteKnowledgeBaseRequest {
-    /// Required. The name of the knowledge base to delete.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/knowledgeBases/<Knowledge Base ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Force deletes the knowledge base. When set to true, any documents
-    /// in the knowledge base are also deleted.
-    #[prost(bool, tag = "2")]
-    pub force: bool,
-}
-/// Request message for \[KnowledgeBases.UpdateKnowledgeBase][google.cloud.dialogflow.v2.KnowledgeBases.UpdateKnowledgeBase\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateKnowledgeBaseRequest {
-    /// Required. The knowledge base to update.
-    #[prost(message, optional, tag = "1")]
-    pub knowledge_base: ::core::option::Option<KnowledgeBase>,
-    /// Optional. Not specified means `update all`.
-    /// Currently, only `display_name` can be updated, an InvalidArgument will be
-    /// returned for attempting to update other fields.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-#[doc = r" Generated client implementations."]
-pub mod knowledge_bases_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [KnowledgeBases][google.cloud.dialogflow.v2.KnowledgeBase]."]
-    #[derive(Debug, Clone)]
-    pub struct KnowledgeBasesClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> KnowledgeBasesClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> KnowledgeBasesClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            KnowledgeBasesClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of all knowledge bases of the specified agent."]
-        pub async fn list_knowledge_bases(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListKnowledgeBasesRequest>,
-        ) -> Result<tonic::Response<super::ListKnowledgeBasesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.KnowledgeBases/ListKnowledgeBases",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified knowledge base."]
-        pub async fn get_knowledge_base(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetKnowledgeBaseRequest>,
-        ) -> Result<tonic::Response<super::KnowledgeBase>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.KnowledgeBases/GetKnowledgeBase",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a knowledge base."]
-        pub async fn create_knowledge_base(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateKnowledgeBaseRequest>,
-        ) -> Result<tonic::Response<super::KnowledgeBase>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.KnowledgeBases/CreateKnowledgeBase",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes the specified knowledge base."]
-        pub async fn delete_knowledge_base(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteKnowledgeBaseRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.KnowledgeBases/DeleteKnowledgeBase",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified knowledge base."]
-        pub async fn update_knowledge_base(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateKnowledgeBaseRequest>,
-        ) -> Result<tonic::Response<super::KnowledgeBase>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.KnowledgeBases/UpdateKnowledgeBase",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Represents a notification sent to Cloud Pub/Sub subscribers for
-/// human agent assistant events in a specific conversation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct HumanAgentAssistantEvent {
-    /// The conversation this notification refers to.
+pub struct ConversationEvent {
+    /// The unique identifier of the conversation this notification
+    /// refers to.
     /// Format: `projects/<Project ID>/conversations/<Conversation ID>`.
     #[prost(string, tag = "1")]
     pub conversation: ::prost::alloc::string::String,
-    /// The participant that the suggestion is compiled for.
-    /// Format: `projects/<Project ID>/conversations/<Conversation
-    /// ID>/participants/<Participant ID>`. It will not be set in legacy workflow.
-    #[prost(string, tag = "3")]
-    pub participant: ::prost::alloc::string::String,
-    /// The suggestion results payload that this notification refers to.
-    #[prost(message, repeated, tag = "5")]
-    pub suggestion_results: ::prost::alloc::vec::Vec<SuggestionResult>,
+    /// The type of the event that this notification refers to.
+    #[prost(enumeration = "conversation_event::Type", tag = "2")]
+    pub r#type: i32,
+    /// More detailed information about an error. Only set for type
+    /// UNRECOVERABLE_ERROR_IN_PHONE_CALL.
+    #[prost(message, optional, tag = "3")]
+    pub error_status: ::core::option::Option<super::super::super::rpc::Status>,
+    /// Payload of conversation event.
+    #[prost(oneof = "conversation_event::Payload", tags = "4")]
+    pub payload: ::core::option::Option<conversation_event::Payload>,
 }
-/// Answer records are records to manage answer history and feedbacks for
-/// Dialogflow.
-///
-/// Currently, answer record includes:
-///
-/// - human agent assistant article suggestion
-/// - human agent assistant faq article
-///
-/// It doesn't include:
-///
-/// - `DetectIntent` intent matching
-/// - `DetectIntent` knowledge
-///
-/// Answer records are not related to the conversation history in the
-/// Dialogflow Console. A Record is generated even when the end-user disables
-/// conversation history in the console. Records are created when there's a human
-/// agent assistant suggestion generated.
-///
-/// A typical workflow for customers provide feedback to an answer is:
-///
-/// 1. For human agent assistant, customers get suggestion via ListSuggestions
-///    API. Together with the answers, \[AnswerRecord.name][google.cloud.dialogflow.v2.AnswerRecord.name\] are returned to the
-///    customers.
-/// 2. The customer uses the \[AnswerRecord.name][google.cloud.dialogflow.v2.AnswerRecord.name\] to call the
-///    \[UpdateAnswerRecord][\] method to send feedback about a specific answer
-///    that they believe is wrong.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AnswerRecord {
-    /// The unique identifier of this answer record.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/answerRecords/<Answer Record ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The AnswerFeedback for this record. You can set this with
-    /// \[AnswerRecords.UpdateAnswerRecord][google.cloud.dialogflow.v2.AnswerRecords.UpdateAnswerRecord\] in order to give us feedback about
-    /// this answer.
-    #[prost(message, optional, tag = "2")]
-    pub answer_feedback: ::core::option::Option<AnswerFeedback>,
-    /// The record for this answer.
-    #[prost(oneof = "answer_record::Record", tags = "4")]
-    pub record: ::core::option::Option<answer_record::Record>,
-}
-/// Nested message and enum types in `AnswerRecord`.
-pub mod answer_record {
-    /// The record for this answer.
+/// Nested message and enum types in `ConversationEvent`.
+pub mod conversation_event {
+    /// Enumeration of the types of events available.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Type not set.
+        Unspecified = 0,
+        /// A new conversation has been opened. This is fired when a telephone call
+        /// is answered, or a conversation is created via the API.
+        ConversationStarted = 1,
+        /// An existing conversation has closed. This is fired when a telephone call
+        /// is terminated, or a conversation is closed via the API.
+        ConversationFinished = 2,
+        /// An existing conversation has received notification from Dialogflow that
+        /// human intervention is required.
+        HumanInterventionNeeded = 3,
+        /// An existing conversation has received a new message, either from API or
+        /// telephony. It is configured in
+        /// \[ConversationProfile.new_message_event_notification_config][google.cloud.dialogflow.v2.ConversationProfile.new_message_event_notification_config\]
+        NewMessage = 5,
+        /// Unrecoverable error during a telephone call.
+        ///
+        /// In general non-recoverable errors only occur if something was
+        /// misconfigured in the ConversationProfile corresponding to the call. After
+        /// a non-recoverable error, Dialogflow may stop responding.
+        ///
+        /// We don't fire this event:
+        ///
+        /// * in an API call because we can directly return the error, or,
+        /// * when we can recover from an error.
+        UnrecoverableError = 4,
+    }
+    /// Payload of conversation event.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Record {
-        /// Output only. The record for human agent assistant.
+    pub enum Payload {
+        /// Payload of NEW_MESSAGE event.
         #[prost(message, tag = "4")]
-        AgentAssistantRecord(super::AgentAssistantRecord),
-    }
-}
-/// Request message for \[AnswerRecords.ListAnswerRecords][google.cloud.dialogflow.v2.AnswerRecords.ListAnswerRecords\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAnswerRecordsRequest {
-    /// Required. The project to list all answer records for in reverse
-    /// chronological order. Format: `projects/<Project ID>/locations/<Location
-    /// ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Filters to restrict results to specific answer records.
-    /// Filter on answer record type. Currently predicates on `type` is supported,
-    /// valid values are `ARTICLE_ANSWER`, `FAQ_ANSWER`.
-    ///
-    /// For more information about filtering, see
-    /// [API Filtering](<https://aip.dev/160>).
-    #[prost(string, tag = "2")]
-    pub filter: ::prost::alloc::string::String,
-    /// Optional. The maximum number of records to return in a single page.
-    /// The server may return fewer records than this. If unspecified, we use 10.
-    /// The maximum is 100.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// Optional. The
-    /// \[ListAnswerRecordsResponse.next_page_token][google.cloud.dialogflow.v2.ListAnswerRecordsResponse.next_page_token\]
-    /// value returned from a previous list request used to continue listing on
-    /// the next page.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for \[AnswerRecords.ListAnswerRecords][google.cloud.dialogflow.v2.AnswerRecords.ListAnswerRecords\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAnswerRecordsResponse {
-    /// The list of answer records.
-    #[prost(message, repeated, tag = "1")]
-    pub answer_records: ::prost::alloc::vec::Vec<AnswerRecord>,
-    /// A token to retrieve next page of results. Or empty if there are no more
-    /// results.
-    /// Pass this value in the
-    /// \[ListAnswerRecordsRequest.page_token][google.cloud.dialogflow.v2.ListAnswerRecordsRequest.page_token\]
-    /// field in the subsequent call to `ListAnswerRecords` method to retrieve the
-    /// next page of results.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for \[AnswerRecords.UpdateAnswerRecord][google.cloud.dialogflow.v2.AnswerRecords.UpdateAnswerRecord\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateAnswerRecordRequest {
-    /// Required. Answer record to update.
-    #[prost(message, optional, tag = "1")]
-    pub answer_record: ::core::option::Option<AnswerRecord>,
-    /// Required. The mask to control which fields get updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Represents feedback the customer has about the quality & correctness of a
-/// certain answer in a conversation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AnswerFeedback {
-    /// The correctness level of the specific answer.
-    #[prost(enumeration = "answer_feedback::CorrectnessLevel", tag = "1")]
-    pub correctness_level: i32,
-    /// Indicates whether the answer/item was clicked by the human agent
-    /// or not. Default to false.
-    #[prost(bool, tag = "3")]
-    pub clicked: bool,
-    /// Time when the answer/item was clicked.
-    #[prost(message, optional, tag = "5")]
-    pub click_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Indicates whether the answer/item was displayed to the human
-    /// agent in the agent desktop UI. Default to false.
-    #[prost(bool, tag = "4")]
-    pub displayed: bool,
-    /// Time when the answer/item was displayed.
-    #[prost(message, optional, tag = "6")]
-    pub display_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Normally, detail feedback is provided when answer is not fully correct.
-    #[prost(oneof = "answer_feedback::DetailFeedback", tags = "2")]
-    pub detail_feedback: ::core::option::Option<answer_feedback::DetailFeedback>,
-}
-/// Nested message and enum types in `AnswerFeedback`.
-pub mod answer_feedback {
-    /// The correctness level of an answer.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CorrectnessLevel {
-        /// Correctness level unspecified.
-        Unspecified = 0,
-        /// Answer is totally wrong.
-        NotCorrect = 1,
-        /// Answer is partially correct.
-        PartiallyCorrect = 2,
-        /// Answer is fully correct.
-        FullyCorrect = 3,
-    }
-    /// Normally, detail feedback is provided when answer is not fully correct.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum DetailFeedback {
-        /// Detail feedback of agent assist suggestions.
-        #[prost(message, tag = "2")]
-        AgentAssistantDetailFeedback(super::AgentAssistantFeedback),
-    }
-}
-/// Detail feedback of Agent Assist result.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AgentAssistantFeedback {
-    /// Optional. Whether or not the suggested answer is relevant.
-    ///
-    /// For example:
-    ///
-    /// * Query: "Can I change my mailing address?"
-    /// * Suggested document says: "Items must be returned/exchanged within 60
-    ///   days of the purchase date."
-    /// * \[answer_relevance][google.cloud.dialogflow.v2.AgentAssistantFeedback.answer_relevance\]: \[AnswerRelevance.IRRELEVANT][google.cloud.dialogflow.v2.AgentAssistantFeedback.AnswerRelevance.IRRELEVANT\]
-    #[prost(enumeration = "agent_assistant_feedback::AnswerRelevance", tag = "1")]
-    pub answer_relevance: i32,
-    /// Optional. Whether or not the information in the document is correct.
-    ///
-    /// For example:
-    ///
-    /// * Query: "Can I return the package in 2 days once received?"
-    /// * Suggested document says: "Items must be returned/exchanged within 60
-    ///   days of the purchase date."
-    /// * Ground truth: "No return or exchange is allowed."
-    /// * \[document_correctness\]: INCORRECT
-    #[prost(enumeration = "agent_assistant_feedback::DocumentCorrectness", tag = "2")]
-    pub document_correctness: i32,
-    /// Optional. Whether or not the suggested document is efficient. For example,
-    /// if the document is poorly written, hard to understand, hard to use or
-    /// too long to find useful information, \[document_efficiency][google.cloud.dialogflow.v2.AgentAssistantFeedback.document_efficiency\] is
-    /// \[DocumentEfficiency.INEFFICIENT][google.cloud.dialogflow.v2.AgentAssistantFeedback.DocumentEfficiency.INEFFICIENT\].
-    #[prost(enumeration = "agent_assistant_feedback::DocumentEfficiency", tag = "3")]
-    pub document_efficiency: i32,
-}
-/// Nested message and enum types in `AgentAssistantFeedback`.
-pub mod agent_assistant_feedback {
-    /// Relevance of an answer.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AnswerRelevance {
-        /// Answer relevance unspecified.
-        Unspecified = 0,
-        /// Answer is irrelevant to query.
-        Irrelevant = 1,
-        /// Answer is relevant to query.
-        Relevant = 2,
-    }
-    /// Correctness of document.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DocumentCorrectness {
-        /// Document correctness unspecified.
-        Unspecified = 0,
-        /// Information in document is incorrect.
-        Incorrect = 1,
-        /// Information in document is correct.
-        Correct = 2,
-    }
-    /// Efficiency of document.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DocumentEfficiency {
-        /// Document efficiency unspecified.
-        Unspecified = 0,
-        /// Document is inefficient.
-        Inefficient = 1,
-        /// Document is efficient.
-        Efficient = 2,
-    }
-}
-/// Represents a record of a human agent assist answer.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AgentAssistantRecord {
-    /// Output only. The agent assist answer.
-    #[prost(oneof = "agent_assistant_record::Answer", tags = "5, 6")]
-    pub answer: ::core::option::Option<agent_assistant_record::Answer>,
-}
-/// Nested message and enum types in `AgentAssistantRecord`.
-pub mod agent_assistant_record {
-    /// Output only. The agent assist answer.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Answer {
-        /// Output only. The article suggestion answer.
-        #[prost(message, tag = "5")]
-        ArticleSuggestionAnswer(super::ArticleAnswer),
-        /// Output only. The FAQ answer.
-        #[prost(message, tag = "6")]
-        FaqAnswer(super::FaqAnswer),
-    }
-}
-#[doc = r" Generated client implementations."]
-pub mod answer_records_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [AnswerRecords][google.cloud.dialogflow.v2.AnswerRecord]."]
-    #[derive(Debug, Clone)]
-    pub struct AnswerRecordsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> AnswerRecordsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> AnswerRecordsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            AnswerRecordsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of all answer records in the specified project in reverse"]
-        #[doc = " chronological order."]
-        pub async fn list_answer_records(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListAnswerRecordsRequest>,
-        ) -> Result<tonic::Response<super::ListAnswerRecordsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.AnswerRecords/ListAnswerRecords",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified answer record."]
-        pub async fn update_answer_record(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateAnswerRecordRequest>,
-        ) -> Result<tonic::Response<super::AnswerRecord>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.AnswerRecords/UpdateAnswerRecord",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
+        NewMessagePayload(super::Message),
     }
 }
 /// Represents a conversation.
@@ -6464,938 +7194,6 @@ pub mod conversations_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// You can create multiple versions of your agent and publish them to separate
-/// environments.
-///
-/// When you edit an agent, you are editing the draft agent. At any point, you
-/// can save the draft agent as an agent version, which is an immutable snapshot
-/// of your agent.
-///
-/// When you save the draft agent, it is published to the default environment.
-/// When you create agent versions, you can publish them to custom environments.
-/// You can create a variety of custom environments for:
-///
-/// - testing
-/// - development
-/// - production
-/// - etc.
-///
-/// For more information, see the [versions and environments
-/// guide](<https://cloud.google.com/dialogflow/docs/agents-versions>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Environment {
-    /// Output only. The unique identifier of this agent environment.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
-    /// - `projects/<Project ID>/locations/<Location
-    ///   ID>/agent/environments/<Environment ID>`
-    ///
-    /// The environment ID for the default environment is `-`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The developer-provided description for this environment.
-    /// The maximum length is 500 characters. If exceeded, the request is rejected.
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// Optional. The agent version loaded into this environment.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent/versions/<Version ID>`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
-    ///   ID>`
-    #[prost(string, tag = "3")]
-    pub agent_version: ::prost::alloc::string::String,
-    /// Output only. The state of this environment. This field is read-only, i.e., it cannot be
-    /// set by create and update methods.
-    #[prost(enumeration = "environment::State", tag = "4")]
-    pub state: i32,
-    /// Output only. The last update time of this environment. This field is read-only, i.e., it
-    /// cannot be set by create and update methods.
-    #[prost(message, optional, tag = "5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. Text to speech settings for this environment.
-    #[prost(message, optional, tag = "7")]
-    pub text_to_speech_settings: ::core::option::Option<TextToSpeechSettings>,
-    /// Optional. The fulfillment settings to use for this environment.
-    #[prost(message, optional, tag = "8")]
-    pub fulfillment: ::core::option::Option<Fulfillment>,
-}
-/// Nested message and enum types in `Environment`.
-pub mod environment {
-    /// Represents an environment state. When an environment is pointed to a new
-    /// agent version, the environment is temporarily set to the `LOADING` state.
-    /// During that time, the environment keeps on serving the previous version of
-    /// the agent. After the new agent version is done loading, the environment is
-    /// set back to the `RUNNING` state.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Not specified. This value is not used.
-        Unspecified = 0,
-        /// Stopped.
-        Stopped = 1,
-        /// Loading.
-        Loading = 2,
-        /// Running.
-        Running = 3,
-    }
-}
-/// Instructs the speech synthesizer on how to generate the output audio content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextToSpeechSettings {
-    /// Optional. Indicates whether text to speech is enabled. Even when this field is false,
-    /// other settings in this proto are still retained.
-    #[prost(bool, tag = "1")]
-    pub enable_text_to_speech: bool,
-    /// Required. Audio encoding of the synthesized audio content.
-    #[prost(enumeration = "OutputAudioEncoding", tag = "2")]
-    pub output_audio_encoding: i32,
-    /// Optional. The synthesis sample rate (in hertz) for this audio. If not provided, then
-    /// the synthesizer will use the default sample rate based on the audio
-    /// encoding. If this is different from the voice's natural sample rate, then
-    /// the synthesizer will honor this request by converting to the desired sample
-    /// rate (which might result in worse audio quality).
-    #[prost(int32, tag = "3")]
-    pub sample_rate_hertz: i32,
-    /// Optional. Configuration of how speech should be synthesized, mapping from language
-    /// (<https://cloud.google.com/dialogflow/docs/reference/language>) to
-    /// SynthesizeSpeechConfig.
-    #[prost(btree_map = "string, message", tag = "4")]
-    pub synthesize_speech_configs: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        SynthesizeSpeechConfig,
-    >,
-}
-/// The request message for \[Environments.ListEnvironments][google.cloud.dialogflow.v2.Environments.ListEnvironments\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEnvironmentsRequest {
-    /// Required. The agent to list all environments from.
-    /// Format:
-    ///
-    /// - `projects/<Project ID>/agent`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of items to return in a single page. By default 100 and
-    /// at most 1000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[Environments.ListEnvironments][google.cloud.dialogflow.v2.Environments.ListEnvironments\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEnvironmentsResponse {
-    /// The list of agent environments. There will be a maximum number of items
-    /// returned based on the page_size field in the request.
-    #[prost(message, repeated, tag = "1")]
-    pub environments: ::prost::alloc::vec::Vec<Environment>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for \[Environments.GetEnvironment][google.cloud.dialogflow.v2.Environments.GetEnvironment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetEnvironmentRequest {
-    /// Required. The name of the environment.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
-    /// - `projects/<Project ID>/locations/<Location
-    ///   ID>/agent/environments/<Environment ID>`
-    ///
-    /// The environment ID for the default environment is `-`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[Environments.CreateEnvironment][google.cloud.dialogflow.v2.Environments.CreateEnvironment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateEnvironmentRequest {
-    /// Required. The agent to create an environment for.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The environment to create.
-    #[prost(message, optional, tag = "2")]
-    pub environment: ::core::option::Option<Environment>,
-    /// Required. The unique id of the new environment.
-    #[prost(string, tag = "3")]
-    pub environment_id: ::prost::alloc::string::String,
-}
-/// The request message for \[Environments.UpdateEnvironment][google.cloud.dialogflow.v2.Environments.UpdateEnvironment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateEnvironmentRequest {
-    /// Required. The environment to update.
-    #[prost(message, optional, tag = "1")]
-    pub environment: ::core::option::Option<Environment>,
-    /// Required. The mask to control which fields get updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Optional. This field is used to prevent accidental overwrite of the default
-    /// environment, which is an operation that cannot be undone. To confirm that
-    /// the caller desires this overwrite, this field must be explicitly set to
-    /// true when updating the default environment (environment ID = `-`).
-    #[prost(bool, tag = "3")]
-    pub allow_load_to_draft_and_discard_changes: bool,
-}
-/// The request message for \[Environments.DeleteEnvironment][google.cloud.dialogflow.v2.Environments.DeleteEnvironment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteEnvironmentRequest {
-    /// Required. The name of the environment to delete.
-    /// / Format:
-    ///
-    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
-    /// - `projects/<Project ID>/locations/<Location
-    ///   ID>/agent/environments/<Environment ID>`
-    ///
-    /// The environment ID for the default environment is `-`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[Environments.GetEnvironmentHistory][google.cloud.dialogflow.v2.Environments.GetEnvironmentHistory\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetEnvironmentHistoryRequest {
-    /// Required. The name of the environment to retrieve history for.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
-    /// - `projects/<Project ID>/locations/<Location
-    ///   ID>/agent/environments/<Environment ID>`
-    ///
-    /// The environment ID for the default environment is `-`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of items to return in a single page. By default 100 and
-    /// at most 1000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[Environments.GetEnvironmentHistory][google.cloud.dialogflow.v2.Environments.GetEnvironmentHistory\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EnvironmentHistory {
-    /// Output only. The name of the environment this history is for.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent/environments/<Environment ID>`
-    /// - `projects/<Project ID>/locations/<Location
-    ///    ID>/agent/environments/<Environment ID>`
-    ///
-    /// The environment ID for the default environment is `-`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Output only. The list of agent environments. There will be a maximum number of items
-    /// returned based on the page_size field in the request.
-    #[prost(message, repeated, tag = "2")]
-    pub entries: ::prost::alloc::vec::Vec<environment_history::Entry>,
-    /// Output only. Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "3")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `EnvironmentHistory`.
-pub mod environment_history {
-    /// Represents an environment history entry.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Entry {
-        /// The agent version loaded into this environment history entry.
-        #[prost(string, tag = "1")]
-        pub agent_version: ::prost::alloc::string::String,
-        /// The developer-provided description for this environment history entry.
-        #[prost(string, tag = "2")]
-        pub description: ::prost::alloc::string::String,
-        /// The creation time of this environment history entry.
-        #[prost(message, optional, tag = "3")]
-        pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    }
-}
-#[doc = r" Generated client implementations."]
-pub mod environments_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [Environments][google.cloud.dialogflow.v2.Environment]."]
-    #[derive(Debug, Clone)]
-    pub struct EnvironmentsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> EnvironmentsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> EnvironmentsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            EnvironmentsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of all non-default environments of the specified agent."]
-        pub async fn list_environments(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListEnvironmentsRequest>,
-        ) -> Result<tonic::Response<super::ListEnvironmentsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Environments/ListEnvironments",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified agent environment."]
-        pub async fn get_environment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetEnvironmentRequest>,
-        ) -> Result<tonic::Response<super::Environment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Environments/GetEnvironment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates an agent environment."]
-        pub async fn create_environment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateEnvironmentRequest>,
-        ) -> Result<tonic::Response<super::Environment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Environments/CreateEnvironment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified agent environment."]
-        #[doc = ""]
-        #[doc = " This method allows you to deploy new agent versions into the environment."]
-        #[doc = " When an environment is pointed to a new agent version by setting"]
-        #[doc = " `environment.agent_version`, the environment is temporarily set to the"]
-        #[doc = " `LOADING` state. During that time, the environment continues serving the"]
-        #[doc = " previous version of the agent. After the new agent version is done loading,"]
-        #[doc = " the environment is set back to the `RUNNING` state."]
-        #[doc = " You can use \"-\" as Environment ID in environment name to update an agent"]
-        #[doc = " version in the default environment. WARNING: this will negate all recent"]
-        #[doc = " changes to the draft agent and can't be undone. You may want to save the"]
-        #[doc = " draft agent to a version before calling this method."]
-        pub async fn update_environment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateEnvironmentRequest>,
-        ) -> Result<tonic::Response<super::Environment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Environments/UpdateEnvironment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes the specified agent environment."]
-        pub async fn delete_environment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteEnvironmentRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Environments/DeleteEnvironment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets the history of the specified environment."]
-        pub async fn get_environment_history(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetEnvironmentHistoryRequest>,
-        ) -> Result<tonic::Response<super::EnvironmentHistory>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Environments/GetEnvironmentHistory",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Represents a notification sent to Pub/Sub subscribers for conversation
-/// lifecycle events.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConversationEvent {
-    /// The unique identifier of the conversation this notification
-    /// refers to.
-    /// Format: `projects/<Project ID>/conversations/<Conversation ID>`.
-    #[prost(string, tag = "1")]
-    pub conversation: ::prost::alloc::string::String,
-    /// The type of the event that this notification refers to.
-    #[prost(enumeration = "conversation_event::Type", tag = "2")]
-    pub r#type: i32,
-    /// More detailed information about an error. Only set for type
-    /// UNRECOVERABLE_ERROR_IN_PHONE_CALL.
-    #[prost(message, optional, tag = "3")]
-    pub error_status: ::core::option::Option<super::super::super::rpc::Status>,
-    /// Payload of conversation event.
-    #[prost(oneof = "conversation_event::Payload", tags = "4")]
-    pub payload: ::core::option::Option<conversation_event::Payload>,
-}
-/// Nested message and enum types in `ConversationEvent`.
-pub mod conversation_event {
-    /// Enumeration of the types of events available.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Type not set.
-        Unspecified = 0,
-        /// A new conversation has been opened. This is fired when a telephone call
-        /// is answered, or a conversation is created via the API.
-        ConversationStarted = 1,
-        /// An existing conversation has closed. This is fired when a telephone call
-        /// is terminated, or a conversation is closed via the API.
-        ConversationFinished = 2,
-        /// An existing conversation has received notification from Dialogflow that
-        /// human intervention is required.
-        HumanInterventionNeeded = 3,
-        /// An existing conversation has received a new message, either from API or
-        /// telephony. It is configured in
-        /// \[ConversationProfile.new_message_event_notification_config][google.cloud.dialogflow.v2.ConversationProfile.new_message_event_notification_config\]
-        NewMessage = 5,
-        /// Unrecoverable error during a telephone call.
-        ///
-        /// In general non-recoverable errors only occur if something was
-        /// misconfigured in the ConversationProfile corresponding to the call. After
-        /// a non-recoverable error, Dialogflow may stop responding.
-        ///
-        /// We don't fire this event:
-        ///
-        /// * in an API call because we can directly return the error, or,
-        /// * when we can recover from an error.
-        UnrecoverableError = 4,
-    }
-    /// Payload of conversation event.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Payload {
-        /// Payload of NEW_MESSAGE event.
-        #[prost(message, tag = "4")]
-        NewMessagePayload(super::Message),
-    }
-}
-/// The request message for a webhook call.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookRequest {
-    /// The unique identifier of detectIntent request session.
-    /// Can be used to identify end-user inside webhook implementation.
-    /// Format: `projects/<Project ID>/agent/sessions/<Session ID>`, or
-    /// `projects/<Project ID>/agent/environments/<Environment ID>/users/<User
-    /// ID>/sessions/<Session ID>`.
-    #[prost(string, tag = "4")]
-    pub session: ::prost::alloc::string::String,
-    /// The unique identifier of the response. Contains the same value as
-    /// `\[Streaming\]DetectIntentResponse.response_id`.
-    #[prost(string, tag = "1")]
-    pub response_id: ::prost::alloc::string::String,
-    /// The result of the conversational query or event processing. Contains the
-    /// same value as `\[Streaming\]DetectIntentResponse.query_result`.
-    #[prost(message, optional, tag = "2")]
-    pub query_result: ::core::option::Option<QueryResult>,
-    /// Optional. The contents of the original request that was passed to
-    /// `\[Streaming\]DetectIntent` call.
-    #[prost(message, optional, tag = "3")]
-    pub original_detect_intent_request: ::core::option::Option<OriginalDetectIntentRequest>,
-}
-/// The response message for a webhook call.
-///
-/// This response is validated by the Dialogflow server. If validation fails,
-/// an error will be returned in the \[QueryResult.diagnostic_info][google.cloud.dialogflow.v2.QueryResult.diagnostic_info\] field.
-/// Setting JSON fields to an empty value with the wrong type is a common error.
-/// To avoid this error:
-///
-/// - Use `""` for empty strings
-/// - Use `{}` or `null` for empty objects
-/// - Use `[]` or `null` for empty arrays
-///
-/// For more information, see the
-/// [Protocol Buffers Language
-/// Guide](<https://developers.google.com/protocol-buffers/docs/proto3#json>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookResponse {
-    /// Optional. The text response message intended for the end-user.
-    /// It is recommended to use `fulfillment_messages.text.text\[0\]` instead.
-    /// When provided, Dialogflow uses this field to populate
-    /// \[QueryResult.fulfillment_text][google.cloud.dialogflow.v2.QueryResult.fulfillment_text\] sent to the integration or API caller.
-    #[prost(string, tag = "1")]
-    pub fulfillment_text: ::prost::alloc::string::String,
-    /// Optional. The rich response messages intended for the end-user.
-    /// When provided, Dialogflow uses this field to populate
-    /// \[QueryResult.fulfillment_messages][google.cloud.dialogflow.v2.QueryResult.fulfillment_messages\] sent to the integration or API caller.
-    #[prost(message, repeated, tag = "2")]
-    pub fulfillment_messages: ::prost::alloc::vec::Vec<intent::Message>,
-    /// Optional. A custom field used to identify the webhook source.
-    /// Arbitrary strings are supported.
-    /// When provided, Dialogflow uses this field to populate
-    /// \[QueryResult.webhook_source][google.cloud.dialogflow.v2.QueryResult.webhook_source\] sent to the integration or API caller.
-    #[prost(string, tag = "3")]
-    pub source: ::prost::alloc::string::String,
-    /// Optional. This field can be used to pass custom data from your webhook to the
-    /// integration or API caller. Arbitrary JSON objects are supported.
-    /// When provided, Dialogflow uses this field to populate
-    /// \[QueryResult.webhook_payload][google.cloud.dialogflow.v2.QueryResult.webhook_payload\] sent to the integration or API caller.
-    /// This field is also used by the
-    /// [Google Assistant
-    /// integration](<https://cloud.google.com/dialogflow/docs/integrations/aog>)
-    /// for rich response messages.
-    /// See the format definition at [Google Assistant Dialogflow webhook
-    /// format](<https://developers.google.com/assistant/actions/build/json/dialogflow-webhook-json>)
-    #[prost(message, optional, tag = "4")]
-    pub payload: ::core::option::Option<::prost_types::Struct>,
-    /// Optional. The collection of output contexts that will overwrite currently
-    /// active contexts for the session and reset their lifespans.
-    /// When provided, Dialogflow uses this field to populate
-    /// \[QueryResult.output_contexts][google.cloud.dialogflow.v2.QueryResult.output_contexts\] sent to the integration or API caller.
-    #[prost(message, repeated, tag = "5")]
-    pub output_contexts: ::prost::alloc::vec::Vec<Context>,
-    /// Optional. Invokes the supplied events.
-    /// When this field is set, Dialogflow ignores the `fulfillment_text`,
-    /// `fulfillment_messages`, and `payload` fields.
-    #[prost(message, optional, tag = "6")]
-    pub followup_event_input: ::core::option::Option<EventInput>,
-    /// Optional. Additional session entity types to replace or extend developer
-    /// entity types with. The entity synonyms apply to all languages and persist
-    /// for the session. Setting this data from a webhook overwrites
-    /// the session entity types that have been set using `detectIntent`,
-    /// `streamingDetectIntent` or \[SessionEntityType][google.cloud.dialogflow.v2.SessionEntityType\] management methods.
-    #[prost(message, repeated, tag = "10")]
-    pub session_entity_types: ::prost::alloc::vec::Vec<SessionEntityType>,
-}
-/// Represents the contents of the original request that was passed to
-/// the `\[Streaming\]DetectIntent` call.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OriginalDetectIntentRequest {
-    /// The source of this request, e.g., `google`, `facebook`, `slack`. It is set
-    /// by Dialogflow-owned servers.
-    #[prost(string, tag = "1")]
-    pub source: ::prost::alloc::string::String,
-    /// Optional. The version of the protocol used for this request.
-    /// This field is AoG-specific.
-    #[prost(string, tag = "2")]
-    pub version: ::prost::alloc::string::String,
-    /// Optional. This field is set to the value of the `QueryParameters.payload`
-    /// field passed in the request. Some integrations that query a Dialogflow
-    /// agent may provide additional information in the payload.
-    ///
-    /// In particular, for the Dialogflow Phone Gateway integration, this field has
-    /// the form:
-    /// <pre>{
-    ///  "telephony": {
-    ///    "caller_id": "+18558363987"
-    ///  }
-    /// }</pre>
-    /// Note: The caller ID field (`caller_id`) will be redacted for Trial
-    /// Edition agents and populated with the caller ID in [E.164
-    /// format](<https://en.wikipedia.org/wiki/E.164>) for Essentials Edition agents.
-    #[prost(message, optional, tag = "3")]
-    pub payload: ::core::option::Option<::prost_types::Struct>,
-}
-/// You can create multiple versions of your agent and publish them to separate
-/// environments.
-///
-/// When you edit an agent, you are editing the draft agent. At any point, you
-/// can save the draft agent as an agent version, which is an immutable snapshot
-/// of your agent.
-///
-/// When you save the draft agent, it is published to the default environment.
-/// When you create agent versions, you can publish them to custom environments.
-/// You can create a variety of custom environments for:
-///
-/// - testing
-/// - development
-/// - production
-/// - etc.
-///
-/// For more information, see the [versions and environments
-/// guide](<https://cloud.google.com/dialogflow/docs/agents-versions>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Version {
-    /// Output only. The unique identifier of this agent version.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent/versions/<Version ID>`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
-    ///   ID>`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The developer-provided description of this version.
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. The sequential number of this version. This field is read-only which means
-    /// it cannot be set by create and update methods.
-    #[prost(int32, tag = "3")]
-    pub version_number: i32,
-    /// Output only. The creation time of this version. This field is read-only, i.e., it cannot
-    /// be set by create and update methods.
-    #[prost(message, optional, tag = "4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The status of this version. This field is read-only and cannot be set by
-    /// create and update methods.
-    #[prost(enumeration = "version::VersionStatus", tag = "6")]
-    pub status: i32,
-}
-/// Nested message and enum types in `Version`.
-pub mod version {
-    /// The status of a version.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum VersionStatus {
-        /// Not specified. This value is not used.
-        Unspecified = 0,
-        /// Version is not ready to serve (e.g. training is in progress).
-        InProgress = 1,
-        /// Version is ready to serve.
-        Ready = 2,
-        /// Version training failed.
-        Failed = 3,
-    }
-}
-/// The request message for \[Versions.ListVersions][google.cloud.dialogflow.v2.Versions.ListVersions\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVersionsRequest {
-    /// Required. The agent to list all versions from.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of items to return in a single page. By default 100 and
-    /// at most 1000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[Versions.ListVersions][google.cloud.dialogflow.v2.Versions.ListVersions\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVersionsResponse {
-    /// The list of agent versions. There will be a maximum number of items
-    /// returned based on the page_size field in the request.
-    #[prost(message, repeated, tag = "1")]
-    pub versions: ::prost::alloc::vec::Vec<Version>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for \[Versions.GetVersion][google.cloud.dialogflow.v2.Versions.GetVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetVersionRequest {
-    /// Required. The name of the version.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent/versions/<Version ID>`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
-    ///   ID>`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[Versions.CreateVersion][google.cloud.dialogflow.v2.Versions.CreateVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateVersionRequest {
-    /// Required. The agent to create a version for.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The version to create.
-    #[prost(message, optional, tag = "2")]
-    pub version: ::core::option::Option<Version>,
-}
-/// The request message for \[Versions.UpdateVersion][google.cloud.dialogflow.v2.Versions.UpdateVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateVersionRequest {
-    /// Required. The version to update.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent/versions/<Version ID>`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
-    ///   ID>`
-    #[prost(message, optional, tag = "1")]
-    pub version: ::core::option::Option<Version>,
-    /// Required. The mask to control which fields get updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request message for \[Versions.DeleteVersion][google.cloud.dialogflow.v2.Versions.DeleteVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteVersionRequest {
-    /// Required. The name of the version to delete.
-    /// Supported formats:
-    ///
-    /// - `projects/<Project ID>/agent/versions/<Version ID>`
-    /// - `projects/<Project ID>/locations/<Location ID>/agent/versions/<Version
-    ///   ID>`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-#[doc = r" Generated client implementations."]
-pub mod versions_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [Versions][google.cloud.dialogflow.v2.Version]."]
-    #[derive(Debug, Clone)]
-    pub struct VersionsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> VersionsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> VersionsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            VersionsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of all versions of the specified agent."]
-        pub async fn list_versions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListVersionsRequest>,
-        ) -> Result<tonic::Response<super::ListVersionsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Versions/ListVersions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified agent version."]
-        pub async fn get_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetVersionRequest>,
-        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Versions/GetVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates an agent version."]
-        #[doc = ""]
-        #[doc = " The new version points to the agent instance in the \"default\" environment."]
-        pub async fn create_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateVersionRequest>,
-        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Versions/CreateVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified agent version."]
-        #[doc = ""]
-        #[doc = " Note that this method does not allow you to update the state of the agent"]
-        #[doc = " the given version points to. It allows you to update only mutable"]
-        #[doc = " properties of the version resource."]
-        pub async fn update_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateVersionRequest>,
-        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Versions/UpdateVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Delete the specified agent version."]
-        pub async fn delete_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteVersionRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.v2.Versions/DeleteVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Represents a single validation error.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ValidationError {
-    /// The severity of the error.
-    #[prost(enumeration = "validation_error::Severity", tag = "1")]
-    pub severity: i32,
-    /// The names of the entries that the error is associated with.
-    /// Format:
-    ///
-    /// - "projects/<Project ID>/agent", if the error is associated with the entire
-    /// agent.
-    /// - "projects/<Project ID>/agent/intents/<Intent ID>", if the error is
-    /// associated with certain intents.
-    /// - "projects/<Project
-    /// ID>/agent/intents/<Intent Id>/trainingPhrases/<Training Phrase ID>", if the
-    /// error is associated with certain intent training phrases.
-    /// - "projects/<Project ID>/agent/intents/<Intent Id>/parameters/<Parameter
-    /// ID>", if the error is associated with certain intent parameters.
-    /// - "projects/<Project ID>/agent/entities/<Entity ID>", if the error is
-    /// associated with certain entities.
-    #[prost(string, repeated, tag = "3")]
-    pub entries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The detailed error message.
-    #[prost(string, tag = "4")]
-    pub error_message: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `ValidationError`.
-pub mod validation_error {
-    /// Represents a level of severity.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Severity {
-        /// Not specified. This value should never be used.
-        Unspecified = 0,
-        /// The agent doesn't follow Dialogflow best practices.
-        Info = 1,
-        /// The agent may not behave as expected.
-        Warning = 2,
-        /// The agent may experience partial failures.
-        Error = 3,
-        /// The agent may completely fail.
-        Critical = 4,
-    }
-}
-/// Represents the output of agent validation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ValidationResult {
-    /// Contains all validation errors.
-    #[prost(message, repeated, tag = "1")]
-    pub validation_errors: ::prost::alloc::vec::Vec<ValidationError>,
 }
 /// A Dialogflow agent is a virtual agent that handles conversations with your
 /// end-users. It is a natural language understanding module that understands the
@@ -7962,6 +7760,339 @@ pub mod agents_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dialogflow.v2.Agents/GetValidationResult",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Answer records are records to manage answer history and feedbacks for
+/// Dialogflow.
+///
+/// Currently, answer record includes:
+///
+/// - human agent assistant article suggestion
+/// - human agent assistant faq article
+///
+/// It doesn't include:
+///
+/// - `DetectIntent` intent matching
+/// - `DetectIntent` knowledge
+///
+/// Answer records are not related to the conversation history in the
+/// Dialogflow Console. A Record is generated even when the end-user disables
+/// conversation history in the console. Records are created when there's a human
+/// agent assistant suggestion generated.
+///
+/// A typical workflow for customers provide feedback to an answer is:
+///
+/// 1. For human agent assistant, customers get suggestion via ListSuggestions
+///    API. Together with the answers, \[AnswerRecord.name][google.cloud.dialogflow.v2.AnswerRecord.name\] are returned to the
+///    customers.
+/// 2. The customer uses the \[AnswerRecord.name][google.cloud.dialogflow.v2.AnswerRecord.name\] to call the
+///    \[UpdateAnswerRecord][\] method to send feedback about a specific answer
+///    that they believe is wrong.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AnswerRecord {
+    /// The unique identifier of this answer record.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/answerRecords/<Answer Record ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The AnswerFeedback for this record. You can set this with
+    /// \[AnswerRecords.UpdateAnswerRecord][google.cloud.dialogflow.v2.AnswerRecords.UpdateAnswerRecord\] in order to give us feedback about
+    /// this answer.
+    #[prost(message, optional, tag = "2")]
+    pub answer_feedback: ::core::option::Option<AnswerFeedback>,
+    /// The record for this answer.
+    #[prost(oneof = "answer_record::Record", tags = "4")]
+    pub record: ::core::option::Option<answer_record::Record>,
+}
+/// Nested message and enum types in `AnswerRecord`.
+pub mod answer_record {
+    /// The record for this answer.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Record {
+        /// Output only. The record for human agent assistant.
+        #[prost(message, tag = "4")]
+        AgentAssistantRecord(super::AgentAssistantRecord),
+    }
+}
+/// Request message for \[AnswerRecords.ListAnswerRecords][google.cloud.dialogflow.v2.AnswerRecords.ListAnswerRecords\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAnswerRecordsRequest {
+    /// Required. The project to list all answer records for in reverse
+    /// chronological order. Format: `projects/<Project ID>/locations/<Location
+    /// ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Filters to restrict results to specific answer records.
+    /// Filter on answer record type. Currently predicates on `type` is supported,
+    /// valid values are `ARTICLE_ANSWER`, `FAQ_ANSWER`.
+    ///
+    /// For more information about filtering, see
+    /// [API Filtering](<https://aip.dev/160>).
+    #[prost(string, tag = "2")]
+    pub filter: ::prost::alloc::string::String,
+    /// Optional. The maximum number of records to return in a single page.
+    /// The server may return fewer records than this. If unspecified, we use 10.
+    /// The maximum is 100.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// Optional. The
+    /// \[ListAnswerRecordsResponse.next_page_token][google.cloud.dialogflow.v2.ListAnswerRecordsResponse.next_page_token\]
+    /// value returned from a previous list request used to continue listing on
+    /// the next page.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for \[AnswerRecords.ListAnswerRecords][google.cloud.dialogflow.v2.AnswerRecords.ListAnswerRecords\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAnswerRecordsResponse {
+    /// The list of answer records.
+    #[prost(message, repeated, tag = "1")]
+    pub answer_records: ::prost::alloc::vec::Vec<AnswerRecord>,
+    /// A token to retrieve next page of results. Or empty if there are no more
+    /// results.
+    /// Pass this value in the
+    /// \[ListAnswerRecordsRequest.page_token][google.cloud.dialogflow.v2.ListAnswerRecordsRequest.page_token\]
+    /// field in the subsequent call to `ListAnswerRecords` method to retrieve the
+    /// next page of results.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for \[AnswerRecords.UpdateAnswerRecord][google.cloud.dialogflow.v2.AnswerRecords.UpdateAnswerRecord\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateAnswerRecordRequest {
+    /// Required. Answer record to update.
+    #[prost(message, optional, tag = "1")]
+    pub answer_record: ::core::option::Option<AnswerRecord>,
+    /// Required. The mask to control which fields get updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Represents feedback the customer has about the quality & correctness of a
+/// certain answer in a conversation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AnswerFeedback {
+    /// The correctness level of the specific answer.
+    #[prost(enumeration = "answer_feedback::CorrectnessLevel", tag = "1")]
+    pub correctness_level: i32,
+    /// Indicates whether the answer/item was clicked by the human agent
+    /// or not. Default to false.
+    #[prost(bool, tag = "3")]
+    pub clicked: bool,
+    /// Time when the answer/item was clicked.
+    #[prost(message, optional, tag = "5")]
+    pub click_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Indicates whether the answer/item was displayed to the human
+    /// agent in the agent desktop UI. Default to false.
+    #[prost(bool, tag = "4")]
+    pub displayed: bool,
+    /// Time when the answer/item was displayed.
+    #[prost(message, optional, tag = "6")]
+    pub display_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Normally, detail feedback is provided when answer is not fully correct.
+    #[prost(oneof = "answer_feedback::DetailFeedback", tags = "2")]
+    pub detail_feedback: ::core::option::Option<answer_feedback::DetailFeedback>,
+}
+/// Nested message and enum types in `AnswerFeedback`.
+pub mod answer_feedback {
+    /// The correctness level of an answer.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CorrectnessLevel {
+        /// Correctness level unspecified.
+        Unspecified = 0,
+        /// Answer is totally wrong.
+        NotCorrect = 1,
+        /// Answer is partially correct.
+        PartiallyCorrect = 2,
+        /// Answer is fully correct.
+        FullyCorrect = 3,
+    }
+    /// Normally, detail feedback is provided when answer is not fully correct.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum DetailFeedback {
+        /// Detail feedback of agent assist suggestions.
+        #[prost(message, tag = "2")]
+        AgentAssistantDetailFeedback(super::AgentAssistantFeedback),
+    }
+}
+/// Detail feedback of Agent Assist result.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AgentAssistantFeedback {
+    /// Optional. Whether or not the suggested answer is relevant.
+    ///
+    /// For example:
+    ///
+    /// * Query: "Can I change my mailing address?"
+    /// * Suggested document says: "Items must be returned/exchanged within 60
+    ///   days of the purchase date."
+    /// * \[answer_relevance][google.cloud.dialogflow.v2.AgentAssistantFeedback.answer_relevance\]: \[AnswerRelevance.IRRELEVANT][google.cloud.dialogflow.v2.AgentAssistantFeedback.AnswerRelevance.IRRELEVANT\]
+    #[prost(enumeration = "agent_assistant_feedback::AnswerRelevance", tag = "1")]
+    pub answer_relevance: i32,
+    /// Optional. Whether or not the information in the document is correct.
+    ///
+    /// For example:
+    ///
+    /// * Query: "Can I return the package in 2 days once received?"
+    /// * Suggested document says: "Items must be returned/exchanged within 60
+    ///   days of the purchase date."
+    /// * Ground truth: "No return or exchange is allowed."
+    /// * \[document_correctness\]: INCORRECT
+    #[prost(
+        enumeration = "agent_assistant_feedback::DocumentCorrectness",
+        tag = "2"
+    )]
+    pub document_correctness: i32,
+    /// Optional. Whether or not the suggested document is efficient. For example,
+    /// if the document is poorly written, hard to understand, hard to use or
+    /// too long to find useful information, \[document_efficiency][google.cloud.dialogflow.v2.AgentAssistantFeedback.document_efficiency\] is
+    /// \[DocumentEfficiency.INEFFICIENT][google.cloud.dialogflow.v2.AgentAssistantFeedback.DocumentEfficiency.INEFFICIENT\].
+    #[prost(
+        enumeration = "agent_assistant_feedback::DocumentEfficiency",
+        tag = "3"
+    )]
+    pub document_efficiency: i32,
+}
+/// Nested message and enum types in `AgentAssistantFeedback`.
+pub mod agent_assistant_feedback {
+    /// Relevance of an answer.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AnswerRelevance {
+        /// Answer relevance unspecified.
+        Unspecified = 0,
+        /// Answer is irrelevant to query.
+        Irrelevant = 1,
+        /// Answer is relevant to query.
+        Relevant = 2,
+    }
+    /// Correctness of document.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DocumentCorrectness {
+        /// Document correctness unspecified.
+        Unspecified = 0,
+        /// Information in document is incorrect.
+        Incorrect = 1,
+        /// Information in document is correct.
+        Correct = 2,
+    }
+    /// Efficiency of document.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DocumentEfficiency {
+        /// Document efficiency unspecified.
+        Unspecified = 0,
+        /// Document is inefficient.
+        Inefficient = 1,
+        /// Document is efficient.
+        Efficient = 2,
+    }
+}
+/// Represents a record of a human agent assist answer.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AgentAssistantRecord {
+    /// Output only. The agent assist answer.
+    #[prost(oneof = "agent_assistant_record::Answer", tags = "5, 6")]
+    pub answer: ::core::option::Option<agent_assistant_record::Answer>,
+}
+/// Nested message and enum types in `AgentAssistantRecord`.
+pub mod agent_assistant_record {
+    /// Output only. The agent assist answer.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Answer {
+        /// Output only. The article suggestion answer.
+        #[prost(message, tag = "5")]
+        ArticleSuggestionAnswer(super::ArticleAnswer),
+        /// Output only. The FAQ answer.
+        #[prost(message, tag = "6")]
+        FaqAnswer(super::FaqAnswer),
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod answer_records_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [AnswerRecords][google.cloud.dialogflow.v2.AnswerRecord]."]
+    #[derive(Debug, Clone)]
+    pub struct AnswerRecordsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> AnswerRecordsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> AnswerRecordsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            AnswerRecordsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of all answer records in the specified project in reverse"]
+        #[doc = " chronological order."]
+        pub async fn list_answer_records(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListAnswerRecordsRequest>,
+        ) -> Result<tonic::Response<super::ListAnswerRecordsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.AnswerRecords/ListAnswerRecords",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified answer record."]
+        pub async fn update_answer_record(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateAnswerRecordRequest>,
+        ) -> Result<tonic::Response<super::AnswerRecord>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.AnswerRecords/UpdateAnswerRecord",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

@@ -49,7 +49,10 @@ pub struct ArrowRecordBatch {
 pub struct ArrowSerializationOptions {
     /// The compression codec to use for Arrow buffers in serialized record
     /// batches.
-    #[prost(enumeration = "arrow_serialization_options::CompressionCodec", tag = "2")]
+    #[prost(
+        enumeration = "arrow_serialization_options::CompressionCodec",
+        tag = "2"
+    )]
     pub buffer_compression: i32,
 }
 /// Nested message and enum types in `ArrowSerializationOptions`.
@@ -285,7 +288,10 @@ pub mod read_session {
         /// Restricted to a maximum length for 1 MB.
         #[prost(string, tag = "2")]
         pub row_restriction: ::prost::alloc::string::String,
-        #[prost(oneof = "table_read_options::OutputFormatSerializationOptions", tags = "3")]
+        #[prost(
+            oneof = "table_read_options::OutputFormatSerializationOptions",
+            tags = "3"
+        )]
         pub output_format_serialization_options:
             ::core::option::Option<table_read_options::OutputFormatSerializationOptions>,
     }
@@ -347,6 +353,9 @@ pub struct WriteStream {
     /// The table schema could go out of date during the life time of the stream.
     #[prost(message, optional, tag = "5")]
     pub table_schema: ::core::option::Option<TableSchema>,
+    /// Immutable. Mode of the stream.
+    #[prost(enumeration = "write_stream::WriteMode", tag = "7")]
+    pub write_mode: i32,
 }
 /// Nested message and enum types in `WriteStream`.
 pub mod write_stream {
@@ -363,6 +372,16 @@ pub mod write_stream {
         Pending = 2,
         /// Data is only visible up to the offset to which it was flushed.
         Buffered = 3,
+    }
+    /// Mode enum of the stream.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum WriteMode {
+        /// Unknown type.
+        Unspecified = 0,
+        /// Insert new records into the table.
+        /// It is the default value if customers do not specify it.
+        Insert = 1,
     }
 }
 /// Data format for input or output data.
@@ -877,7 +896,9 @@ pub mod big_query_read_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.bigquery.storage.v1.BigQueryRead/ReadRows",
             );
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Splits a given `ReadStream` into two `ReadStream` objects. These"]
         #[doc = " `ReadStream` objects are referred to as the primary and the residual"]
@@ -1034,7 +1055,9 @@ pub mod big_query_write_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.bigquery.storage.v1.BigQueryWrite/AppendRows",
             );
-            self.inner.streaming(request.into_streaming_request(), path, codec).await
+            self.inner
+                .streaming(request.into_streaming_request(), path, codec)
+                .await
         }
         #[doc = " Gets information about a write stream."]
         pub async fn get_write_stream(

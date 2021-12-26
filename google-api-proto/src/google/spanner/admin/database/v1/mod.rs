@@ -399,7 +399,10 @@ pub struct BackupInfo {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateBackupEncryptionConfig {
     /// Required. The encryption type of the backup.
-    #[prost(enumeration = "create_backup_encryption_config::EncryptionType", tag = "1")]
+    #[prost(
+        enumeration = "create_backup_encryption_config::EncryptionType",
+        tag = "1"
+    )]
     pub encryption_type: i32,
     /// Optional. The Cloud KMS key that will be used to protect the backup.
     /// This field should be set only when
@@ -830,7 +833,10 @@ pub mod restore_database_request {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RestoreDatabaseEncryptionConfig {
     /// Required. The encryption type of the restored database.
-    #[prost(enumeration = "restore_database_encryption_config::EncryptionType", tag = "1")]
+    #[prost(
+        enumeration = "restore_database_encryption_config::EncryptionType",
+        tag = "1"
+    )]
     pub encryption_type: i32,
     /// Optional. The Cloud KMS key that will be used to encrypt/decrypt the restored
     /// database. This field should be set only when

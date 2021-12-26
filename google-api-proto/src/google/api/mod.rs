@@ -11,7 +11,10 @@ pub mod servicecontrol;
 #[cfg(any(feature = "google-api-servicemanagement-v1",))]
 pub mod servicemanagement;
 
-#[cfg(any(feature = "google-api-serviceusage-v1", feature = "google-api-serviceusage-v1beta1",))]
+#[cfg(any(
+    feature = "google-api-serviceusage-v1",
+    feature = "google-api-serviceusage-v1beta1",
+))]
 pub mod serviceusage;
 
 /// Defines the HTTP configuration for an API service. It contains a list of
@@ -434,11 +437,7 @@ pub enum FieldBehavior {
 ///       // For Kubernetes resources, the format is {api group}/{kind}.
 ///       option (google.api.resource) = {
 ///         type: "pubsub.googleapis.com/Topic"
-///         name_descriptor: {
-///           pattern: "projects/{project}/topics/{topic}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Project"
-///           parent_name_extractor: "projects/{project}"
-///         }
+///         pattern: "projects/{project}/topics/{topic}"
 ///       };
 ///     }
 ///
@@ -446,10 +445,7 @@ pub enum FieldBehavior {
 ///
 ///     resources:
 ///     - type: "pubsub.googleapis.com/Topic"
-///       name_descriptor:
-///         - pattern: "projects/{project}/topics/{topic}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Project"
-///           parent_name_extractor: "projects/{project}"
+///       pattern: "projects/{project}/topics/{topic}"
 ///
 /// Sometimes, resources have multiple patterns, typically because they can
 /// live under multiple parents.
@@ -459,26 +455,10 @@ pub enum FieldBehavior {
 ///     message LogEntry {
 ///       option (google.api.resource) = {
 ///         type: "logging.googleapis.com/LogEntry"
-///         name_descriptor: {
-///           pattern: "projects/{project}/logs/{log}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Project"
-///           parent_name_extractor: "projects/{project}"
-///         }
-///         name_descriptor: {
-///           pattern: "folders/{folder}/logs/{log}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Folder"
-///           parent_name_extractor: "folders/{folder}"
-///         }
-///         name_descriptor: {
-///           pattern: "organizations/{organization}/logs/{log}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Organization"
-///           parent_name_extractor: "organizations/{organization}"
-///         }
-///         name_descriptor: {
-///           pattern: "billingAccounts/{billing_account}/logs/{log}"
-///           parent_type: "billing.googleapis.com/BillingAccount"
-///           parent_name_extractor: "billingAccounts/{billing_account}"
-///         }
+///         pattern: "projects/{project}/logs/{log}"
+///         pattern: "folders/{folder}/logs/{log}"
+///         pattern: "organizations/{organization}/logs/{log}"
+///         pattern: "billingAccounts/{billing_account}/logs/{log}"
 ///       };
 ///     }
 ///
@@ -486,48 +466,10 @@ pub enum FieldBehavior {
 ///
 ///     resources:
 ///     - type: 'logging.googleapis.com/LogEntry'
-///       name_descriptor:
-///         - pattern: "projects/{project}/logs/{log}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Project"
-///           parent_name_extractor: "projects/{project}"
-///         - pattern: "folders/{folder}/logs/{log}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Folder"
-///           parent_name_extractor: "folders/{folder}"
-///         - pattern: "organizations/{organization}/logs/{log}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Organization"
-///           parent_name_extractor: "organizations/{organization}"
-///         - pattern: "billingAccounts/{billing_account}/logs/{log}"
-///           parent_type: "billing.googleapis.com/BillingAccount"
-///           parent_name_extractor: "billingAccounts/{billing_account}"
-///
-/// For flexible resources, the resource name doesn't contain parent names, but
-/// the resource itself has parents for policy evaluation.
-///
-/// Example:
-///
-///     message Shelf {
-///       option (google.api.resource) = {
-///         type: "library.googleapis.com/Shelf"
-///         name_descriptor: {
-///           pattern: "shelves/{shelf}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Project"
-///         }
-///         name_descriptor: {
-///           pattern: "shelves/{shelf}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Folder"
-///         }
-///       };
-///     }
-///
-/// The ResourceDescriptor Yaml config will look like:
-///
-///     resources:
-///     - type: 'library.googleapis.com/Shelf'
-///       name_descriptor:
-///         - pattern: "shelves/{shelf}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Project"
-///         - pattern: "shelves/{shelf}"
-///           parent_type: "cloudresourcemanager.googleapis.com/Folder"
+///       pattern: "projects/{project}/logs/{log}"
+///       pattern: "folders/{folder}/logs/{log}"
+///       pattern: "organizations/{organization}/logs/{log}"
+///       pattern: "billingAccounts/{billing_account}/logs/{log}"
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResourceDescriptor {
     /// The resource type. It must be in the format of
@@ -679,61 +621,174 @@ pub struct ResourceReference {
     #[prost(string, tag = "2")]
     pub child_type: ::prost::alloc::string::String,
 }
-/// Message that represents an arbitrary HTTP body. It should only be used for
-/// payload formats that can't be represented as JSON, such as raw binary or
-/// an HTML page.
-///
-///
-/// This message can be used both in streaming and non-streaming API methods in
-/// the request as well as the response.
-///
-/// It can be used as a top-level request field, which is convenient if one
-/// wants to extract parameters from either the URL or HTTP template into the
-/// request fields and also want access to the raw HTTP body.
-///
-/// Example:
-///
-///     message GetResourceRequest {
-///       // A unique request id.
-///       string request_id = 1;
-///
-///       // The raw HTTP body is bound to this field.
-///       google.api.HttpBody http_body = 2;
-///
-///     }
-///
-///     service ResourceService {
-///       rpc GetResource(GetResourceRequest)
-///         returns (google.api.HttpBody);
-///       rpc UpdateResource(google.api.HttpBody)
-///         returns (google.protobuf.Empty);
-///
-///     }
-///
-/// Example with streaming methods:
-///
-///     service CaldavService {
-///       rpc GetCalendar(stream google.api.HttpBody)
-///         returns (stream google.api.HttpBody);
-///       rpc UpdateCalendar(stream google.api.HttpBody)
-///         returns (stream google.api.HttpBody);
-///
-///     }
-///
-/// Use of this type only changes how the request and response bodies are
-/// handled, all other features will continue to work unchanged.
+/// A description of a label.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct HttpBody {
-    /// The HTTP Content-Type header value specifying the content type of the body.
+pub struct LabelDescriptor {
+    /// The label key.
     #[prost(string, tag = "1")]
-    pub content_type: ::prost::alloc::string::String,
-    /// The HTTP request/response body as raw binary.
-    #[prost(bytes = "bytes", tag = "2")]
-    pub data: ::prost::bytes::Bytes,
-    /// Application specific response metadata. Must be set in the first response
-    /// for streaming APIs.
-    #[prost(message, repeated, tag = "3")]
-    pub extensions: ::prost::alloc::vec::Vec<::prost_types::Any>,
+    pub key: ::prost::alloc::string::String,
+    /// The type of data that can be assigned to the label.
+    #[prost(enumeration = "label_descriptor::ValueType", tag = "2")]
+    pub value_type: i32,
+    /// A human-readable description for the label.
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `LabelDescriptor`.
+pub mod label_descriptor {
+    /// Value types that can be used as label values.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ValueType {
+        /// A variable-length string. This is the default.
+        String = 0,
+        /// Boolean; true or false.
+        Bool = 1,
+        /// A 64-bit signed integer.
+        Int64 = 2,
+    }
+}
+/// The launch stage as defined by [Google Cloud Platform
+/// Launch Stages](<http://cloud.google.com/terms/launch-stages>).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum LaunchStage {
+    /// Do not use this default value.
+    Unspecified = 0,
+    /// The feature is not yet implemented. Users can not use it.
+    Unimplemented = 6,
+    /// Prelaunch features are hidden from users and are only visible internally.
+    Prelaunch = 7,
+    /// Early Access features are limited to a closed group of testers. To use
+    /// these features, you must sign up in advance and sign a Trusted Tester
+    /// agreement (which includes confidentiality provisions). These features may
+    /// be unstable, changed in backward-incompatible ways, and are not
+    /// guaranteed to be released.
+    EarlyAccess = 1,
+    /// Alpha is a limited availability test for releases before they are cleared
+    /// for widespread use. By Alpha, all significant design issues are resolved
+    /// and we are in the process of verifying functionality. Alpha customers
+    /// need to apply for access, agree to applicable terms, and have their
+    /// projects allowlisted. Alpha releases don’t have to be feature complete,
+    /// no SLAs are provided, and there are no technical support obligations, but
+    /// they will be far enough along that customers can actually use them in
+    /// test environments or for limited-use tests -- just like they would in
+    /// normal production cases.
+    Alpha = 2,
+    /// Beta is the point at which we are ready to open a release for any
+    /// customer to use. There are no SLA or technical support obligations in a
+    /// Beta release. Products will be complete from a feature perspective, but
+    /// may have some open outstanding issues. Beta releases are suitable for
+    /// limited production use cases.
+    Beta = 3,
+    /// GA features are open to all developers and are considered stable and
+    /// fully qualified for production use.
+    Ga = 4,
+    /// Deprecated features are scheduled to be shut down and removed. For more
+    /// information, see the “Deprecation Policy” section of our [Terms of
+    /// Service](<https://cloud.google.com/terms/>)
+    /// and the [Google Cloud Platform Subject to the Deprecation
+    /// Policy](<https://cloud.google.com/terms/deprecation>) documentation.
+    Deprecated = 5,
+}
+/// An object that describes the schema of a \[MonitoredResource][google.api.MonitoredResource\] object using a
+/// type name and a set of labels.  For example, the monitored resource
+/// descriptor for Google Compute Engine VM instances has a type of
+/// `"gce_instance"` and specifies the use of the labels `"instance_id"` and
+/// `"zone"` to identify particular VM instances.
+///
+/// Different APIs can support different monitored resource types. APIs generally
+/// provide a `list` method that returns the monitored resource descriptors used
+/// by the API.
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MonitoredResourceDescriptor {
+    /// Optional. The resource name of the monitored resource descriptor:
+    /// `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where
+    /// {type} is the value of the `type` field in this object and
+    /// {project_id} is a project ID that provides API-specific context for
+    /// accessing the type.  APIs that do not use project information can use the
+    /// resource name format `"monitoredResourceDescriptors/{type}"`.
+    #[prost(string, tag = "5")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The monitored resource type. For example, the type
+    /// `"cloudsql_database"` represents databases in Google Cloud SQL.
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Optional. A concise name for the monitored resource type that might be
+    /// displayed in user interfaces. It should be a Title Cased Noun Phrase,
+    /// without any article or other determiners. For example,
+    /// `"Google Cloud SQL Database"`.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Optional. A detailed description of the monitored resource type that might
+    /// be used in documentation.
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+    /// Required. A set of labels used to describe instances of this monitored
+    /// resource type. For example, an individual Google Cloud SQL database is
+    /// identified by values for the labels `"database_id"` and `"zone"`.
+    #[prost(message, repeated, tag = "4")]
+    pub labels: ::prost::alloc::vec::Vec<LabelDescriptor>,
+    /// Optional. The launch stage of the monitored resource definition.
+    #[prost(enumeration = "LaunchStage", tag = "7")]
+    pub launch_stage: i32,
+}
+/// An object representing a resource that can be used for monitoring, logging,
+/// billing, or other purposes. Examples include virtual machine instances,
+/// databases, and storage devices such as disks. The `type` field identifies a
+/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object that describes the resource's
+/// schema. Information in the `labels` field identifies the actual resource and
+/// its attributes according to the schema. For example, a particular Compute
+/// Engine VM instance could be represented by the following object, because the
+/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] for `"gce_instance"` has labels
+/// `"instance_id"` and `"zone"`:
+///
+///     { "type": "gce_instance",
+///       "labels": { "instance_id": "12345678901234",
+///                   "zone": "us-central1-a" }}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MonitoredResource {
+    /// Required. The monitored resource type. This field must match
+    /// the `type` field of a \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object. For
+    /// example, the type of a Compute Engine VM instance is `gce_instance`.
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Required. Values for all of the labels listed in the associated monitored
+    /// resource descriptor. For example, Compute Engine VM instances use the
+    /// labels `"project_id"`, `"instance_id"`, and `"zone"`.
+    #[prost(btree_map = "string, string", tag = "2")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+}
+/// Auxiliary metadata for a \[MonitoredResource][google.api.MonitoredResource\] object.
+/// \[MonitoredResource][google.api.MonitoredResource\] objects contain the minimum set of information to
+/// uniquely identify a monitored resource instance. There is some other useful
+/// auxiliary metadata. Monitoring and Logging use an ingestion
+/// pipeline to extract metadata for cloud resources of all types, and store
+/// the metadata in this message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MonitoredResourceMetadata {
+    /// Output only. Values for predefined system metadata labels.
+    /// System labels are a kind of metadata extracted by Google, including
+    /// "machine_image", "vpc", "subnet_id",
+    /// "security_group", "name", etc.
+    /// System label values can be only strings, Boolean values, or a list of
+    /// strings. For example:
+    ///
+    ///     { "name": "my-test-instance",
+    ///       "security_group": ["a", "b", "c"],
+    ///       "spot_instance": false }
+    #[prost(message, optional, tag = "1")]
+    pub system_labels: ::core::option::Option<::prost_types::Struct>,
+    /// Output only. A map of user-defined metadata labels.
+    #[prost(btree_map = "string, string", tag = "2")]
+    pub user_labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
 }
 /// `Distribution` contains summary statistics for a population of values. It
 /// optionally contains a histogram representing the distribution of those values
@@ -936,76 +991,6 @@ pub mod distribution {
         #[prost(message, repeated, tag = "3")]
         pub attachments: ::prost::alloc::vec::Vec<::prost_types::Any>,
     }
-}
-/// A description of a label.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelDescriptor {
-    /// The label key.
-    #[prost(string, tag = "1")]
-    pub key: ::prost::alloc::string::String,
-    /// The type of data that can be assigned to the label.
-    #[prost(enumeration = "label_descriptor::ValueType", tag = "2")]
-    pub value_type: i32,
-    /// A human-readable description for the label.
-    #[prost(string, tag = "3")]
-    pub description: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `LabelDescriptor`.
-pub mod label_descriptor {
-    /// Value types that can be used as label values.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ValueType {
-        /// A variable-length string. This is the default.
-        String = 0,
-        /// Boolean; true or false.
-        Bool = 1,
-        /// A 64-bit signed integer.
-        Int64 = 2,
-    }
-}
-/// The launch stage as defined by [Google Cloud Platform
-/// Launch Stages](<http://cloud.google.com/terms/launch-stages>).
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum LaunchStage {
-    /// Do not use this default value.
-    Unspecified = 0,
-    /// The feature is not yet implemented. Users can not use it.
-    Unimplemented = 6,
-    /// Prelaunch features are hidden from users and are only visible internally.
-    Prelaunch = 7,
-    /// Early Access features are limited to a closed group of testers. To use
-    /// these features, you must sign up in advance and sign a Trusted Tester
-    /// agreement (which includes confidentiality provisions). These features may
-    /// be unstable, changed in backward-incompatible ways, and are not
-    /// guaranteed to be released.
-    EarlyAccess = 1,
-    /// Alpha is a limited availability test for releases before they are cleared
-    /// for widespread use. By Alpha, all significant design issues are resolved
-    /// and we are in the process of verifying functionality. Alpha customers
-    /// need to apply for access, agree to applicable terms, and have their
-    /// projects allowlisted. Alpha releases don’t have to be feature complete,
-    /// no SLAs are provided, and there are no technical support obligations, but
-    /// they will be far enough along that customers can actually use them in
-    /// test environments or for limited-use tests -- just like they would in
-    /// normal production cases.
-    Alpha = 2,
-    /// Beta is the point at which we are ready to open a release for any
-    /// customer to use. There are no SLA or technical support obligations in a
-    /// Beta release. Products will be complete from a feature perspective, but
-    /// may have some open outstanding issues. Beta releases are suitable for
-    /// limited production use cases.
-    Beta = 3,
-    /// GA features are open to all developers and are considered stable and
-    /// fully qualified for production use.
-    Ga = 4,
-    /// Deprecated features are scheduled to be shut down and removed. For more
-    /// information, see the “Deprecation Policy” section of our [Terms of
-    /// Service](<https://cloud.google.com/terms/>)
-    /// and the [Google Cloud Platform Subject to the Deprecation
-    /// Policy](<https://cloud.google.com/terms/deprecation>) documentation.
-    Deprecated = 5,
 }
 /// Defines a metric type and its schema. Once a metric descriptor is created,
 /// deleting or altering it stops data collection and makes the metric type's
@@ -1247,6 +1232,62 @@ pub struct Metric {
         ::prost::alloc::string::String,
     >,
 }
+/// Message that represents an arbitrary HTTP body. It should only be used for
+/// payload formats that can't be represented as JSON, such as raw binary or
+/// an HTML page.
+///
+///
+/// This message can be used both in streaming and non-streaming API methods in
+/// the request as well as the response.
+///
+/// It can be used as a top-level request field, which is convenient if one
+/// wants to extract parameters from either the URL or HTTP template into the
+/// request fields and also want access to the raw HTTP body.
+///
+/// Example:
+///
+///     message GetResourceRequest {
+///       // A unique request id.
+///       string request_id = 1;
+///
+///       // The raw HTTP body is bound to this field.
+///       google.api.HttpBody http_body = 2;
+///
+///     }
+///
+///     service ResourceService {
+///       rpc GetResource(GetResourceRequest)
+///         returns (google.api.HttpBody);
+///       rpc UpdateResource(google.api.HttpBody)
+///         returns (google.protobuf.Empty);
+///
+///     }
+///
+/// Example with streaming methods:
+///
+///     service CaldavService {
+///       rpc GetCalendar(stream google.api.HttpBody)
+///         returns (stream google.api.HttpBody);
+///       rpc UpdateCalendar(stream google.api.HttpBody)
+///         returns (stream google.api.HttpBody);
+///
+///     }
+///
+/// Use of this type only changes how the request and response bodies are
+/// handled, all other features will continue to work unchanged.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HttpBody {
+    /// The HTTP Content-Type header value specifying the content type of the body.
+    #[prost(string, tag = "1")]
+    pub content_type: ::prost::alloc::string::String,
+    /// The HTTP request/response body as raw binary.
+    #[prost(bytes = "bytes", tag = "2")]
+    pub data: ::prost::bytes::Bytes,
+    /// Application specific response metadata. Must be set in the first response
+    /// for streaming APIs.
+    #[prost(message, repeated, tag = "3")]
+    pub extensions: ::prost::alloc::vec::Vec<::prost_types::Any>,
+}
 /// `Authentication` defines the authentication configuration for API methods
 /// provided by an API service.
 ///
@@ -1468,73 +1509,92 @@ pub struct AuthRequirement {
     #[prost(string, tag = "2")]
     pub audiences: ::prost::alloc::string::String,
 }
-/// `Context` defines which contexts an API requests.
+/// A description of a log type. Example in YAML format:
 ///
-/// Example:
-///
-///     context:
-///       rules:
-///       - selector: "*"
-///         requested:
-///         - google.rpc.context.ProjectContext
-///         - google.rpc.context.OriginContext
-///
-/// The above specifies that all methods in the API request
-/// `google.rpc.context.ProjectContext` and
-/// `google.rpc.context.OriginContext`.
-///
-/// Available context types are defined in package
-/// `google.rpc.context`.
-///
-/// This also provides mechanism to allowlist any protobuf message extension that
-/// can be sent in grpc metadata using “x-goog-ext-<extension_id>-bin” and
-/// “x-goog-ext-<extension_id>-jspb” format. For example, list any service
-/// specific protobuf types that can appear in grpc metadata as follows in your
-/// yaml file:
-///
-/// Example:
-///
-///     context:
-///       rules:
-///        - selector: "google.example.library.v1.LibraryService.CreateBook"
-///          allowed_request_extensions:
-///          - google.foo.v1.NewExtension
-///          allowed_response_extensions:
-///          - google.foo.v1.NewExtension
-///
-/// You can also specify extension ID instead of fully qualified extension name
-/// here.
+///     - name: library.googleapis.com/activity_history
+///       description: The history of borrowing and returning library items.
+///       display_name: Activity
+///       labels:
+///       - key: /customer_id
+///         description: Identifier of a library customer
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Context {
-    /// A list of RPC context rules that apply to individual API methods.
-    ///
-    /// **NOTE:** All service configuration rules follow "last one wins" order.
-    #[prost(message, repeated, tag = "1")]
-    pub rules: ::prost::alloc::vec::Vec<ContextRule>,
-}
-/// A context rule provides information about the context for an individual API
-/// element.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ContextRule {
-    /// Selects the methods to which this rule applies.
-    ///
-    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
+pub struct LogDescriptor {
+    /// The name of the log. It must be less than 512 characters long and can
+    /// include the following characters: upper- and lower-case alphanumeric
+    /// characters \[A-Za-z0-9\], and punctuation characters including
+    /// slash, underscore, hyphen, period \[/_-.\].
     #[prost(string, tag = "1")]
-    pub selector: ::prost::alloc::string::String,
-    /// A list of full type names of requested contexts.
-    #[prost(string, repeated, tag = "2")]
-    pub requested: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// A list of full type names of provided contexts.
-    #[prost(string, repeated, tag = "3")]
-    pub provided: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// A list of full type names or extension IDs of extensions allowed in grpc
-    /// side channel from client to backend.
-    #[prost(string, repeated, tag = "4")]
-    pub allowed_request_extensions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// A list of full type names or extension IDs of extensions allowed in grpc
-    /// side channel from backend to client.
-    #[prost(string, repeated, tag = "5")]
-    pub allowed_response_extensions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    pub name: ::prost::alloc::string::String,
+    /// The set of labels that are available to describe a specific log entry.
+    /// Runtime requests that contain labels not specified here are
+    /// considered invalid.
+    #[prost(message, repeated, tag = "2")]
+    pub labels: ::prost::alloc::vec::Vec<LabelDescriptor>,
+    /// A human-readable description of this log. This information appears in
+    /// the documentation and can contain details.
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+    /// The human-readable name for this log. This information appears on
+    /// the user interface and should be concise.
+    #[prost(string, tag = "4")]
+    pub display_name: ::prost::alloc::string::String,
+}
+/// Billing related configuration of the service.
+///
+/// The following example shows how to configure monitored resources and metrics
+/// for billing, `consumer_destinations` is the only supported destination and
+/// the monitored resources need at least one label key
+/// `cloud.googleapis.com/location` to indicate the location of the billing
+/// usage, using different monitored resources between monitoring and billing is
+/// recommended so they can be evolved independently:
+///
+///
+///     monitored_resources:
+///     - type: library.googleapis.com/billing_branch
+///       labels:
+///       - key: cloud.googleapis.com/location
+///         description: |
+///           Predefined label to support billing location restriction.
+///       - key: city
+///         description: |
+///           Custom label to define the city where the library branch is located
+///           in.
+///       - key: name
+///         description: Custom label to define the name of the library branch.
+///     metrics:
+///     - name: library.googleapis.com/book/borrowed_count
+///       metric_kind: DELTA
+///       value_type: INT64
+///       unit: "1"
+///     billing:
+///       consumer_destinations:
+///       - monitored_resource: library.googleapis.com/billing_branch
+///         metrics:
+///         - library.googleapis.com/book/borrowed_count
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Billing {
+    /// Billing configurations for sending metrics to the consumer project.
+    /// There can be multiple consumer destinations per service, each one must have
+    /// a different monitored resource type. A metric can be used in at most
+    /// one consumer destination.
+    #[prost(message, repeated, tag = "8")]
+    pub consumer_destinations: ::prost::alloc::vec::Vec<billing::BillingDestination>,
+}
+/// Nested message and enum types in `Billing`.
+pub mod billing {
+    /// Configuration of a specific billing destination (Currently only support
+    /// bill against consumer project).
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct BillingDestination {
+        /// The monitored resource type. The type must be defined in
+        /// \[Service.monitored_resources][google.api.Service.monitored_resources\] section.
+        #[prost(string, tag = "1")]
+        pub monitored_resource: ::prost::alloc::string::String,
+        /// Names of the metrics to report to this billing destination.
+        /// Each name must be defined in \[Service.metrics][google.api.Service.metrics\] section.
+        #[prost(string, repeated, tag = "2")]
+        pub metrics: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
 }
 /// Output generated from semantically comparing two versions of a service
 /// configuration.
@@ -1597,167 +1657,168 @@ pub enum ChangeType {
     /// is different.
     Modified = 3,
 }
-/// ### System parameter configuration
+/// Quota configuration helps to achieve fairness and budgeting in service
+/// usage.
 ///
-/// A system parameter is a special kind of parameter defined by the API
-/// system, not by an individual API. It is typically mapped to an HTTP header
-/// and/or a URL query parameter. This configuration specifies which methods
-/// change the names of the system parameters.
+/// The metric based quota configuration works this way:
+/// - The service configuration defines a set of metrics.
+/// - For API calls, the quota.metric_rules maps methods to metrics with
+///   corresponding costs.
+/// - The quota.limits defines limits on the metrics, which will be used for
+///   quota checks at runtime.
+///
+/// An example quota configuration in yaml format:
+///
+///    quota:
+///      limits:
+///
+///      - name: apiWriteQpsPerProject
+///        metric: library.googleapis.com/write_calls
+///        unit: "1/min/{project}"  # rate limit for consumer projects
+///        values:
+///          STANDARD: 10000
+///
+///
+///      # The metric rules bind all methods to the read_calls metric,
+///      # except for the UpdateBook and DeleteBook methods. These two methods
+///      # are mapped to the write_calls metric, with the UpdateBook method
+///      # consuming at twice rate as the DeleteBook method.
+///      metric_rules:
+///      - selector: "*"
+///        metric_costs:
+///          library.googleapis.com/read_calls: 1
+///      - selector: google.example.library.v1.LibraryService.UpdateBook
+///        metric_costs:
+///          library.googleapis.com/write_calls: 2
+///      - selector: google.example.library.v1.LibraryService.DeleteBook
+///        metric_costs:
+///          library.googleapis.com/write_calls: 1
+///
+///  Corresponding Metric definition:
+///
+///      metrics:
+///      - name: library.googleapis.com/read_calls
+///        display_name: Read requests
+///        metric_kind: DELTA
+///        value_type: INT64
+///
+///      - name: library.googleapis.com/write_calls
+///        display_name: Write requests
+///        metric_kind: DELTA
+///        value_type: INT64
+///
+///
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SystemParameters {
-    /// Define system parameters.
-    ///
-    /// The parameters defined here will override the default parameters
-    /// implemented by the system. If this field is missing from the service
-    /// config, default system parameters will be used. Default system parameters
-    /// and names is implementation-dependent.
-    ///
-    /// Example: define api key for all methods
-    ///
-    ///     system_parameters
-    ///       rules:
-    ///         - selector: "*"
-    ///           parameters:
-    ///             - name: api_key
-    ///               url_query_parameter: api_key
-    ///
-    ///
-    /// Example: define 2 api key names for a specific method.
-    ///
-    ///     system_parameters
-    ///       rules:
-    ///         - selector: "/ListShelves"
-    ///           parameters:
-    ///             - name: api_key
-    ///               http_header: Api-Key1
-    ///             - name: api_key
-    ///               http_header: Api-Key2
-    ///
-    /// **NOTE:** All service configuration rules follow "last one wins" order.
-    #[prost(message, repeated, tag = "1")]
-    pub rules: ::prost::alloc::vec::Vec<SystemParameterRule>,
+pub struct Quota {
+    /// List of `QuotaLimit` definitions for the service.
+    #[prost(message, repeated, tag = "3")]
+    pub limits: ::prost::alloc::vec::Vec<QuotaLimit>,
+    /// List of `MetricRule` definitions, each one mapping a selected method to one
+    /// or more metrics.
+    #[prost(message, repeated, tag = "4")]
+    pub metric_rules: ::prost::alloc::vec::Vec<MetricRule>,
 }
-/// Define a system parameter rule mapping system parameter definitions to
-/// methods.
+/// Bind API methods to metrics. Binding a method to a metric causes that
+/// metric's configured quota behaviors to apply to the method call.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SystemParameterRule {
-    /// Selects the methods to which this rule applies. Use '*' to indicate all
-    /// methods in all APIs.
+pub struct MetricRule {
+    /// Selects the methods to which this rule applies.
     ///
     /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
     #[prost(string, tag = "1")]
     pub selector: ::prost::alloc::string::String,
-    /// Define parameters. Multiple names may be defined for a parameter.
-    /// For a given method call, only one of them should be used. If multiple
-    /// names are used the behavior is implementation-dependent.
-    /// If none of the specified names are present the behavior is
-    /// parameter-dependent.
-    #[prost(message, repeated, tag = "2")]
-    pub parameters: ::prost::alloc::vec::Vec<SystemParameter>,
+    /// Metrics to update when the selected methods are called, and the associated
+    /// cost applied to each metric.
+    ///
+    /// The key of the map is the metric name, and the values are the amount
+    /// increased for the metric against which the quota limits are defined.
+    /// The value must not be negative.
+    #[prost(btree_map = "string, int64", tag = "2")]
+    pub metric_costs: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i64>,
 }
-/// Define a parameter's name and location. The parameter may be passed as either
-/// an HTTP header or a URL query parameter, and if both are passed the behavior
-/// is implementation-dependent.
+/// `QuotaLimit` defines a specific limit that applies over a specified duration
+/// for a limit type. There can be at most one limit for a duration and limit
+/// type combination defined within a `QuotaGroup`.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SystemParameter {
-    /// Define the name of the parameter, such as "api_key" . It is case sensitive.
-    #[prost(string, tag = "1")]
+pub struct QuotaLimit {
+    /// Name of the quota limit.
+    ///
+    /// The name must be provided, and it must be unique within the service. The
+    /// name can only include alphanumeric characters as well as '-'.
+    ///
+    /// The maximum length of the limit name is 64 characters.
+    #[prost(string, tag = "6")]
     pub name: ::prost::alloc::string::String,
-    /// Define the HTTP header name to use for the parameter. It is case
-    /// insensitive.
+    /// Optional. User-visible, extended description for this quota limit.
+    /// Should be used only when more context is needed to understand this limit
+    /// than provided by the limit's display name (see: `display_name`).
     #[prost(string, tag = "2")]
-    pub http_header: ::prost::alloc::string::String,
-    /// Define the URL query parameter name to use for the parameter. It is case
-    /// sensitive.
-    #[prost(string, tag = "3")]
-    pub url_query_parameter: ::prost::alloc::string::String,
-}
-/// Monitoring configuration of the service.
-///
-/// The example below shows how to configure monitored resources and metrics
-/// for monitoring. In the example, a monitored resource and two metrics are
-/// defined. The `library.googleapis.com/book/returned_count` metric is sent
-/// to both producer and consumer projects, whereas the
-/// `library.googleapis.com/book/num_overdue` metric is only sent to the
-/// consumer project.
-///
-///     monitored_resources:
-///     - type: library.googleapis.com/Branch
-///       display_name: "Library Branch"
-///       description: "A branch of a library."
-///       launch_stage: GA
-///       labels:
-///       - key: resource_container
-///         description: "The Cloud container (ie. project id) for the Branch."
-///       - key: location
-///         description: "The location of the library branch."
-///       - key: branch_id
-///         description: "The id of the branch."
-///     metrics:
-///     - name: library.googleapis.com/book/returned_count
-///       display_name: "Books Returned"
-///       description: "The count of books that have been returned."
-///       launch_stage: GA
-///       metric_kind: DELTA
-///       value_type: INT64
-///       unit: "1"
-///       labels:
-///       - key: customer_id
-///         description: "The id of the customer."
-///     - name: library.googleapis.com/book/num_overdue
-///       display_name: "Books Overdue"
-///       description: "The current number of overdue books."
-///       launch_stage: GA
-///       metric_kind: GAUGE
-///       value_type: INT64
-///       unit: "1"
-///       labels:
-///       - key: customer_id
-///         description: "The id of the customer."
-///     monitoring:
-///       producer_destinations:
-///       - monitored_resource: library.googleapis.com/Branch
-///         metrics:
-///         - library.googleapis.com/book/returned_count
-///       consumer_destinations:
-///       - monitored_resource: library.googleapis.com/Branch
-///         metrics:
-///         - library.googleapis.com/book/returned_count
-///         - library.googleapis.com/book/num_overdue
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Monitoring {
-    /// Monitoring configurations for sending metrics to the producer project.
-    /// There can be multiple producer destinations. A monitored resource type may
-    /// appear in multiple monitoring destinations if different aggregations are
-    /// needed for different sets of metrics associated with that monitored
-    /// resource type. A monitored resource and metric pair may only be used once
-    /// in the Monitoring configuration.
-    #[prost(message, repeated, tag = "1")]
-    pub producer_destinations: ::prost::alloc::vec::Vec<monitoring::MonitoringDestination>,
-    /// Monitoring configurations for sending metrics to the consumer project.
-    /// There can be multiple consumer destinations. A monitored resource type may
-    /// appear in multiple monitoring destinations if different aggregations are
-    /// needed for different sets of metrics associated with that monitored
-    /// resource type. A monitored resource and metric pair may only be used once
-    /// in the Monitoring configuration.
-    #[prost(message, repeated, tag = "2")]
-    pub consumer_destinations: ::prost::alloc::vec::Vec<monitoring::MonitoringDestination>,
-}
-/// Nested message and enum types in `Monitoring`.
-pub mod monitoring {
-    /// Configuration of a specific monitoring destination (the producer project
-    /// or the consumer project).
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct MonitoringDestination {
-        /// The monitored resource type. The type must be defined in
-        /// \[Service.monitored_resources][google.api.Service.monitored_resources\] section.
-        #[prost(string, tag = "1")]
-        pub monitored_resource: ::prost::alloc::string::String,
-        /// Types of the metrics to report to this monitoring destination.
-        /// Each type must be defined in \[Service.metrics][google.api.Service.metrics\] section.
-        #[prost(string, repeated, tag = "2")]
-        pub metrics: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    }
+    pub description: ::prost::alloc::string::String,
+    /// Default number of tokens that can be consumed during the specified
+    /// duration. This is the number of tokens assigned when a client
+    /// application developer activates the service for his/her project.
+    ///
+    /// Specifying a value of 0 will block all requests. This can be used if you
+    /// are provisioning quota to selected consumers and blocking others.
+    /// Similarly, a value of -1 will indicate an unlimited quota. No other
+    /// negative values are allowed.
+    ///
+    /// Used by group-based quotas only.
+    #[prost(int64, tag = "3")]
+    pub default_limit: i64,
+    /// Maximum number of tokens that can be consumed during the specified
+    /// duration. Client application developers can override the default limit up
+    /// to this maximum. If specified, this value cannot be set to a value less
+    /// than the default limit. If not specified, it is set to the default limit.
+    ///
+    /// To allow clients to apply overrides with no upper bound, set this to -1,
+    /// indicating unlimited maximum quota.
+    ///
+    /// Used by group-based quotas only.
+    #[prost(int64, tag = "4")]
+    pub max_limit: i64,
+    /// Free tier value displayed in the Developers Console for this limit.
+    /// The free tier is the number of tokens that will be subtracted from the
+    /// billed amount when billing is enabled.
+    /// This field can only be set on a limit with duration "1d", in a billable
+    /// group; it is invalid on any other limit. If this field is not set, it
+    /// defaults to 0, indicating that there is no free tier for this service.
+    ///
+    /// Used by group-based quotas only.
+    #[prost(int64, tag = "7")]
+    pub free_tier: i64,
+    /// Duration of this limit in textual notation. Must be "100s" or "1d".
+    ///
+    /// Used by group-based quotas only.
+    #[prost(string, tag = "5")]
+    pub duration: ::prost::alloc::string::String,
+    /// The name of the metric this quota limit applies to. The quota limits with
+    /// the same metric will be checked together during runtime. The metric must be
+    /// defined within the service config.
+    #[prost(string, tag = "8")]
+    pub metric: ::prost::alloc::string::String,
+    /// Specify the unit of the quota limit. It uses the same syntax as
+    /// \[Metric.unit][\]. The supported unit kinds are determined by the quota
+    /// backend system.
+    ///
+    /// Here are some examples:
+    /// * "1/min/{project}" for quota per minute per project.
+    ///
+    /// Note: the order of unit components is insignificant.
+    /// The "1" at the beginning is required to follow the metric unit syntax.
+    #[prost(string, tag = "9")]
+    pub unit: ::prost::alloc::string::String,
+    /// Tiered limit values. You must specify this as a key:value pair, with an
+    /// integer value that is the maximum number of requests allowed for the
+    /// specified unit. Currently only STANDARD is supported.
+    #[prost(btree_map = "string, int64", tag = "10")]
+    pub values: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i64>,
+    /// User-visible display name for this limit.
+    /// Optional. If not set, the UI will provide a default display name based on
+    /// the quota configuration. This field can be used to override the default
+    /// display name generated from the configuration.
+    #[prost(string, tag = "12")]
+    pub display_name: ::prost::alloc::string::String,
 }
 /// `Backend` defines the backend configuration for a service.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1939,62 +2000,73 @@ pub mod backend_rule {
         DisableAuth(bool),
     }
 }
-/// Billing related configuration of the service.
+/// `Context` defines which contexts an API requests.
 ///
-/// The following example shows how to configure monitored resources and metrics
-/// for billing, `consumer_destinations` is the only supported destination and
-/// the monitored resources need at least one label key
-/// `cloud.googleapis.com/location` to indicate the location of the billing
-/// usage, using different monitored resources between monitoring and billing is
-/// recommended so they can be evolved independently:
+/// Example:
 ///
+///     context:
+///       rules:
+///       - selector: "*"
+///         requested:
+///         - google.rpc.context.ProjectContext
+///         - google.rpc.context.OriginContext
 ///
-///     monitored_resources:
-///     - type: library.googleapis.com/billing_branch
-///       labels:
-///       - key: cloud.googleapis.com/location
-///         description: |
-///           Predefined label to support billing location restriction.
-///       - key: city
-///         description: |
-///           Custom label to define the city where the library branch is located
-///           in.
-///       - key: name
-///         description: Custom label to define the name of the library branch.
-///     metrics:
-///     - name: library.googleapis.com/book/borrowed_count
-///       metric_kind: DELTA
-///       value_type: INT64
-///       unit: "1"
-///     billing:
-///       consumer_destinations:
-///       - monitored_resource: library.googleapis.com/billing_branch
-///         metrics:
-///         - library.googleapis.com/book/borrowed_count
+/// The above specifies that all methods in the API request
+/// `google.rpc.context.ProjectContext` and
+/// `google.rpc.context.OriginContext`.
+///
+/// Available context types are defined in package
+/// `google.rpc.context`.
+///
+/// This also provides mechanism to allowlist any protobuf message extension that
+/// can be sent in grpc metadata using “x-goog-ext-<extension_id>-bin” and
+/// “x-goog-ext-<extension_id>-jspb” format. For example, list any service
+/// specific protobuf types that can appear in grpc metadata as follows in your
+/// yaml file:
+///
+/// Example:
+///
+///     context:
+///       rules:
+///        - selector: "google.example.library.v1.LibraryService.CreateBook"
+///          allowed_request_extensions:
+///          - google.foo.v1.NewExtension
+///          allowed_response_extensions:
+///          - google.foo.v1.NewExtension
+///
+/// You can also specify extension ID instead of fully qualified extension name
+/// here.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Billing {
-    /// Billing configurations for sending metrics to the consumer project.
-    /// There can be multiple consumer destinations per service, each one must have
-    /// a different monitored resource type. A metric can be used in at most
-    /// one consumer destination.
-    #[prost(message, repeated, tag = "8")]
-    pub consumer_destinations: ::prost::alloc::vec::Vec<billing::BillingDestination>,
+pub struct Context {
+    /// A list of RPC context rules that apply to individual API methods.
+    ///
+    /// **NOTE:** All service configuration rules follow "last one wins" order.
+    #[prost(message, repeated, tag = "1")]
+    pub rules: ::prost::alloc::vec::Vec<ContextRule>,
 }
-/// Nested message and enum types in `Billing`.
-pub mod billing {
-    /// Configuration of a specific billing destination (Currently only support
-    /// bill against consumer project).
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct BillingDestination {
-        /// The monitored resource type. The type must be defined in
-        /// \[Service.monitored_resources][google.api.Service.monitored_resources\] section.
-        #[prost(string, tag = "1")]
-        pub monitored_resource: ::prost::alloc::string::String,
-        /// Names of the metrics to report to this billing destination.
-        /// Each name must be defined in \[Service.metrics][google.api.Service.metrics\] section.
-        #[prost(string, repeated, tag = "2")]
-        pub metrics: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    }
+/// A context rule provides information about the context for an individual API
+/// element.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ContextRule {
+    /// Selects the methods to which this rule applies.
+    ///
+    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
+    #[prost(string, tag = "1")]
+    pub selector: ::prost::alloc::string::String,
+    /// A list of full type names of requested contexts.
+    #[prost(string, repeated, tag = "2")]
+    pub requested: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// A list of full type names of provided contexts.
+    #[prost(string, repeated, tag = "3")]
+    pub provided: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// A list of full type names or extension IDs of extensions allowed in grpc
+    /// side channel from client to backend.
+    #[prost(string, repeated, tag = "4")]
+    pub allowed_request_extensions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// A list of full type names or extension IDs of extensions allowed in grpc
+    /// side channel from backend to client.
+    #[prost(string, repeated, tag = "5")]
+    pub allowed_response_extensions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Selects and configures the service controller used by the service.  The
 /// service controller handles features like abuse, quota, billing, logging,
@@ -2195,36 +2267,6 @@ pub struct Endpoint {
     #[prost(bool, tag = "5")]
     pub allow_cors: bool,
 }
-/// A description of a log type. Example in YAML format:
-///
-///     - name: library.googleapis.com/activity_history
-///       description: The history of borrowing and returning library items.
-///       display_name: Activity
-///       labels:
-///       - key: /customer_id
-///         description: Identifier of a library customer
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LogDescriptor {
-    /// The name of the log. It must be less than 512 characters long and can
-    /// include the following characters: upper- and lower-case alphanumeric
-    /// characters \[A-Za-z0-9\], and punctuation characters including
-    /// slash, underscore, hyphen, period \[/_-.\].
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The set of labels that are available to describe a specific log entry.
-    /// Runtime requests that contain labels not specified here are
-    /// considered invalid.
-    #[prost(message, repeated, tag = "2")]
-    pub labels: ::prost::alloc::vec::Vec<LabelDescriptor>,
-    /// A human-readable description of this log. This information appears in
-    /// the documentation and can contain details.
-    #[prost(string, tag = "3")]
-    pub description: ::prost::alloc::string::String,
-    /// The human-readable name for this log. This information appears on
-    /// the user interface and should be concise.
-    #[prost(string, tag = "4")]
-    pub display_name: ::prost::alloc::string::String,
-}
 /// Logging configuration of the service.
 ///
 /// The following example shows how to configure logs to be sent to the
@@ -2287,267 +2329,92 @@ pub mod logging {
         pub logs: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     }
 }
-/// An object that describes the schema of a \[MonitoredResource][google.api.MonitoredResource\] object using a
-/// type name and a set of labels.  For example, the monitored resource
-/// descriptor for Google Compute Engine VM instances has a type of
-/// `"gce_instance"` and specifies the use of the labels `"instance_id"` and
-/// `"zone"` to identify particular VM instances.
+/// Monitoring configuration of the service.
 ///
-/// Different APIs can support different monitored resource types. APIs generally
-/// provide a `list` method that returns the monitored resource descriptors used
-/// by the API.
+/// The example below shows how to configure monitored resources and metrics
+/// for monitoring. In the example, a monitored resource and two metrics are
+/// defined. The `library.googleapis.com/book/returned_count` metric is sent
+/// to both producer and consumer projects, whereas the
+/// `library.googleapis.com/book/num_overdue` metric is only sent to the
+/// consumer project.
 ///
+///     monitored_resources:
+///     - type: library.googleapis.com/Branch
+///       display_name: "Library Branch"
+///       description: "A branch of a library."
+///       launch_stage: GA
+///       labels:
+///       - key: resource_container
+///         description: "The Cloud container (ie. project id) for the Branch."
+///       - key: location
+///         description: "The location of the library branch."
+///       - key: branch_id
+///         description: "The id of the branch."
+///     metrics:
+///     - name: library.googleapis.com/book/returned_count
+///       display_name: "Books Returned"
+///       description: "The count of books that have been returned."
+///       launch_stage: GA
+///       metric_kind: DELTA
+///       value_type: INT64
+///       unit: "1"
+///       labels:
+///       - key: customer_id
+///         description: "The id of the customer."
+///     - name: library.googleapis.com/book/num_overdue
+///       display_name: "Books Overdue"
+///       description: "The current number of overdue books."
+///       launch_stage: GA
+///       metric_kind: GAUGE
+///       value_type: INT64
+///       unit: "1"
+///       labels:
+///       - key: customer_id
+///         description: "The id of the customer."
+///     monitoring:
+///       producer_destinations:
+///       - monitored_resource: library.googleapis.com/Branch
+///         metrics:
+///         - library.googleapis.com/book/returned_count
+///       consumer_destinations:
+///       - monitored_resource: library.googleapis.com/Branch
+///         metrics:
+///         - library.googleapis.com/book/returned_count
+///         - library.googleapis.com/book/num_overdue
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MonitoredResourceDescriptor {
-    /// Optional. The resource name of the monitored resource descriptor:
-    /// `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where
-    /// {type} is the value of the `type` field in this object and
-    /// {project_id} is a project ID that provides API-specific context for
-    /// accessing the type.  APIs that do not use project information can use the
-    /// resource name format `"monitoredResourceDescriptors/{type}"`.
-    #[prost(string, tag = "5")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The monitored resource type. For example, the type
-    /// `"cloudsql_database"` represents databases in Google Cloud SQL.
-    #[prost(string, tag = "1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Optional. A concise name for the monitored resource type that might be
-    /// displayed in user interfaces. It should be a Title Cased Noun Phrase,
-    /// without any article or other determiners. For example,
-    /// `"Google Cloud SQL Database"`.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. A detailed description of the monitored resource type that might
-    /// be used in documentation.
-    #[prost(string, tag = "3")]
-    pub description: ::prost::alloc::string::String,
-    /// Required. A set of labels used to describe instances of this monitored
-    /// resource type. For example, an individual Google Cloud SQL database is
-    /// identified by values for the labels `"database_id"` and `"zone"`.
-    #[prost(message, repeated, tag = "4")]
-    pub labels: ::prost::alloc::vec::Vec<LabelDescriptor>,
-    /// Optional. The launch stage of the monitored resource definition.
-    #[prost(enumeration = "LaunchStage", tag = "7")]
-    pub launch_stage: i32,
+pub struct Monitoring {
+    /// Monitoring configurations for sending metrics to the producer project.
+    /// There can be multiple producer destinations. A monitored resource type may
+    /// appear in multiple monitoring destinations if different aggregations are
+    /// needed for different sets of metrics associated with that monitored
+    /// resource type. A monitored resource and metric pair may only be used once
+    /// in the Monitoring configuration.
+    #[prost(message, repeated, tag = "1")]
+    pub producer_destinations: ::prost::alloc::vec::Vec<monitoring::MonitoringDestination>,
+    /// Monitoring configurations for sending metrics to the consumer project.
+    /// There can be multiple consumer destinations. A monitored resource type may
+    /// appear in multiple monitoring destinations if different aggregations are
+    /// needed for different sets of metrics associated with that monitored
+    /// resource type. A monitored resource and metric pair may only be used once
+    /// in the Monitoring configuration.
+    #[prost(message, repeated, tag = "2")]
+    pub consumer_destinations: ::prost::alloc::vec::Vec<monitoring::MonitoringDestination>,
 }
-/// An object representing a resource that can be used for monitoring, logging,
-/// billing, or other purposes. Examples include virtual machine instances,
-/// databases, and storage devices such as disks. The `type` field identifies a
-/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object that describes the resource's
-/// schema. Information in the `labels` field identifies the actual resource and
-/// its attributes according to the schema. For example, a particular Compute
-/// Engine VM instance could be represented by the following object, because the
-/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] for `"gce_instance"` has labels
-/// `"instance_id"` and `"zone"`:
-///
-///     { "type": "gce_instance",
-///       "labels": { "instance_id": "12345678901234",
-///                   "zone": "us-central1-a" }}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MonitoredResource {
-    /// Required. The monitored resource type. This field must match
-    /// the `type` field of a \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object. For
-    /// example, the type of a Compute Engine VM instance is `gce_instance`.
-    #[prost(string, tag = "1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Required. Values for all of the labels listed in the associated monitored
-    /// resource descriptor. For example, Compute Engine VM instances use the
-    /// labels `"project_id"`, `"instance_id"`, and `"zone"`.
-    #[prost(btree_map = "string, string", tag = "2")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-}
-/// Auxiliary metadata for a \[MonitoredResource][google.api.MonitoredResource\] object.
-/// \[MonitoredResource][google.api.MonitoredResource\] objects contain the minimum set of information to
-/// uniquely identify a monitored resource instance. There is some other useful
-/// auxiliary metadata. Monitoring and Logging use an ingestion
-/// pipeline to extract metadata for cloud resources of all types, and store
-/// the metadata in this message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MonitoredResourceMetadata {
-    /// Output only. Values for predefined system metadata labels.
-    /// System labels are a kind of metadata extracted by Google, including
-    /// "machine_image", "vpc", "subnet_id",
-    /// "security_group", "name", etc.
-    /// System label values can be only strings, Boolean values, or a list of
-    /// strings. For example:
-    ///
-    ///     { "name": "my-test-instance",
-    ///       "security_group": ["a", "b", "c"],
-    ///       "spot_instance": false }
-    #[prost(message, optional, tag = "1")]
-    pub system_labels: ::core::option::Option<::prost_types::Struct>,
-    /// Output only. A map of user-defined metadata labels.
-    #[prost(btree_map = "string, string", tag = "2")]
-    pub user_labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-}
-/// Quota configuration helps to achieve fairness and budgeting in service
-/// usage.
-///
-/// The metric based quota configuration works this way:
-/// - The service configuration defines a set of metrics.
-/// - For API calls, the quota.metric_rules maps methods to metrics with
-///   corresponding costs.
-/// - The quota.limits defines limits on the metrics, which will be used for
-///   quota checks at runtime.
-///
-/// An example quota configuration in yaml format:
-///
-///    quota:
-///      limits:
-///
-///      - name: apiWriteQpsPerProject
-///        metric: library.googleapis.com/write_calls
-///        unit: "1/min/{project}"  # rate limit for consumer projects
-///        values:
-///          STANDARD: 10000
-///
-///
-///      # The metric rules bind all methods to the read_calls metric,
-///      # except for the UpdateBook and DeleteBook methods. These two methods
-///      # are mapped to the write_calls metric, with the UpdateBook method
-///      # consuming at twice rate as the DeleteBook method.
-///      metric_rules:
-///      - selector: "*"
-///        metric_costs:
-///          library.googleapis.com/read_calls: 1
-///      - selector: google.example.library.v1.LibraryService.UpdateBook
-///        metric_costs:
-///          library.googleapis.com/write_calls: 2
-///      - selector: google.example.library.v1.LibraryService.DeleteBook
-///        metric_costs:
-///          library.googleapis.com/write_calls: 1
-///
-///  Corresponding Metric definition:
-///
-///      metrics:
-///      - name: library.googleapis.com/read_calls
-///        display_name: Read requests
-///        metric_kind: DELTA
-///        value_type: INT64
-///
-///      - name: library.googleapis.com/write_calls
-///        display_name: Write requests
-///        metric_kind: DELTA
-///        value_type: INT64
-///
-///
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Quota {
-    /// List of `QuotaLimit` definitions for the service.
-    #[prost(message, repeated, tag = "3")]
-    pub limits: ::prost::alloc::vec::Vec<QuotaLimit>,
-    /// List of `MetricRule` definitions, each one mapping a selected method to one
-    /// or more metrics.
-    #[prost(message, repeated, tag = "4")]
-    pub metric_rules: ::prost::alloc::vec::Vec<MetricRule>,
-}
-/// Bind API methods to metrics. Binding a method to a metric causes that
-/// metric's configured quota behaviors to apply to the method call.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MetricRule {
-    /// Selects the methods to which this rule applies.
-    ///
-    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
-    #[prost(string, tag = "1")]
-    pub selector: ::prost::alloc::string::String,
-    /// Metrics to update when the selected methods are called, and the associated
-    /// cost applied to each metric.
-    ///
-    /// The key of the map is the metric name, and the values are the amount
-    /// increased for the metric against which the quota limits are defined.
-    /// The value must not be negative.
-    #[prost(btree_map = "string, int64", tag = "2")]
-    pub metric_costs: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i64>,
-}
-/// `QuotaLimit` defines a specific limit that applies over a specified duration
-/// for a limit type. There can be at most one limit for a duration and limit
-/// type combination defined within a `QuotaGroup`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QuotaLimit {
-    /// Name of the quota limit.
-    ///
-    /// The name must be provided, and it must be unique within the service. The
-    /// name can only include alphanumeric characters as well as '-'.
-    ///
-    /// The maximum length of the limit name is 64 characters.
-    #[prost(string, tag = "6")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. User-visible, extended description for this quota limit.
-    /// Should be used only when more context is needed to understand this limit
-    /// than provided by the limit's display name (see: `display_name`).
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// Default number of tokens that can be consumed during the specified
-    /// duration. This is the number of tokens assigned when a client
-    /// application developer activates the service for his/her project.
-    ///
-    /// Specifying a value of 0 will block all requests. This can be used if you
-    /// are provisioning quota to selected consumers and blocking others.
-    /// Similarly, a value of -1 will indicate an unlimited quota. No other
-    /// negative values are allowed.
-    ///
-    /// Used by group-based quotas only.
-    #[prost(int64, tag = "3")]
-    pub default_limit: i64,
-    /// Maximum number of tokens that can be consumed during the specified
-    /// duration. Client application developers can override the default limit up
-    /// to this maximum. If specified, this value cannot be set to a value less
-    /// than the default limit. If not specified, it is set to the default limit.
-    ///
-    /// To allow clients to apply overrides with no upper bound, set this to -1,
-    /// indicating unlimited maximum quota.
-    ///
-    /// Used by group-based quotas only.
-    #[prost(int64, tag = "4")]
-    pub max_limit: i64,
-    /// Free tier value displayed in the Developers Console for this limit.
-    /// The free tier is the number of tokens that will be subtracted from the
-    /// billed amount when billing is enabled.
-    /// This field can only be set on a limit with duration "1d", in a billable
-    /// group; it is invalid on any other limit. If this field is not set, it
-    /// defaults to 0, indicating that there is no free tier for this service.
-    ///
-    /// Used by group-based quotas only.
-    #[prost(int64, tag = "7")]
-    pub free_tier: i64,
-    /// Duration of this limit in textual notation. Must be "100s" or "1d".
-    ///
-    /// Used by group-based quotas only.
-    #[prost(string, tag = "5")]
-    pub duration: ::prost::alloc::string::String,
-    /// The name of the metric this quota limit applies to. The quota limits with
-    /// the same metric will be checked together during runtime. The metric must be
-    /// defined within the service config.
-    #[prost(string, tag = "8")]
-    pub metric: ::prost::alloc::string::String,
-    /// Specify the unit of the quota limit. It uses the same syntax as
-    /// \[Metric.unit][\]. The supported unit kinds are determined by the quota
-    /// backend system.
-    ///
-    /// Here are some examples:
-    /// * "1/min/{project}" for quota per minute per project.
-    ///
-    /// Note: the order of unit components is insignificant.
-    /// The "1" at the beginning is required to follow the metric unit syntax.
-    #[prost(string, tag = "9")]
-    pub unit: ::prost::alloc::string::String,
-    /// Tiered limit values. You must specify this as a key:value pair, with an
-    /// integer value that is the maximum number of requests allowed for the
-    /// specified unit. Currently only STANDARD is supported.
-    #[prost(btree_map = "string, int64", tag = "10")]
-    pub values: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i64>,
-    /// User-visible display name for this limit.
-    /// Optional. If not set, the UI will provide a default display name based on
-    /// the quota configuration. This field can be used to override the default
-    /// display name generated from the configuration.
-    #[prost(string, tag = "12")]
-    pub display_name: ::prost::alloc::string::String,
+/// Nested message and enum types in `Monitoring`.
+pub mod monitoring {
+    /// Configuration of a specific monitoring destination (the producer project
+    /// or the consumer project).
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct MonitoringDestination {
+        /// The monitored resource type. The type must be defined in
+        /// \[Service.monitored_resources][google.api.Service.monitored_resources\] section.
+        #[prost(string, tag = "1")]
+        pub monitored_resource: ::prost::alloc::string::String,
+        /// Types of the metrics to report to this monitoring destination.
+        /// Each type must be defined in \[Service.metrics][google.api.Service.metrics\] section.
+        #[prost(string, repeated, tag = "2")]
+        pub metrics: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
 }
 /// Source information used to create a Service Config
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2555,6 +2422,81 @@ pub struct SourceInfo {
     /// All files used during config generation.
     #[prost(message, repeated, tag = "1")]
     pub source_files: ::prost::alloc::vec::Vec<::prost_types::Any>,
+}
+/// ### System parameter configuration
+///
+/// A system parameter is a special kind of parameter defined by the API
+/// system, not by an individual API. It is typically mapped to an HTTP header
+/// and/or a URL query parameter. This configuration specifies which methods
+/// change the names of the system parameters.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SystemParameters {
+    /// Define system parameters.
+    ///
+    /// The parameters defined here will override the default parameters
+    /// implemented by the system. If this field is missing from the service
+    /// config, default system parameters will be used. Default system parameters
+    /// and names is implementation-dependent.
+    ///
+    /// Example: define api key for all methods
+    ///
+    ///     system_parameters
+    ///       rules:
+    ///         - selector: "*"
+    ///           parameters:
+    ///             - name: api_key
+    ///               url_query_parameter: api_key
+    ///
+    ///
+    /// Example: define 2 api key names for a specific method.
+    ///
+    ///     system_parameters
+    ///       rules:
+    ///         - selector: "/ListShelves"
+    ///           parameters:
+    ///             - name: api_key
+    ///               http_header: Api-Key1
+    ///             - name: api_key
+    ///               http_header: Api-Key2
+    ///
+    /// **NOTE:** All service configuration rules follow "last one wins" order.
+    #[prost(message, repeated, tag = "1")]
+    pub rules: ::prost::alloc::vec::Vec<SystemParameterRule>,
+}
+/// Define a system parameter rule mapping system parameter definitions to
+/// methods.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SystemParameterRule {
+    /// Selects the methods to which this rule applies. Use '*' to indicate all
+    /// methods in all APIs.
+    ///
+    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
+    #[prost(string, tag = "1")]
+    pub selector: ::prost::alloc::string::String,
+    /// Define parameters. Multiple names may be defined for a parameter.
+    /// For a given method call, only one of them should be used. If multiple
+    /// names are used the behavior is implementation-dependent.
+    /// If none of the specified names are present the behavior is
+    /// parameter-dependent.
+    #[prost(message, repeated, tag = "2")]
+    pub parameters: ::prost::alloc::vec::Vec<SystemParameter>,
+}
+/// Define a parameter's name and location. The parameter may be passed as either
+/// an HTTP header or a URL query parameter, and if both are passed the behavior
+/// is implementation-dependent.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SystemParameter {
+    /// Define the name of the parameter, such as "api_key" . It is case sensitive.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Define the HTTP header name to use for the parameter. It is case
+    /// insensitive.
+    #[prost(string, tag = "2")]
+    pub http_header: ::prost::alloc::string::String,
+    /// Define the URL query parameter name to use for the parameter. It is case
+    /// sensitive.
+    #[prost(string, tag = "3")]
+    pub url_query_parameter: ::prost::alloc::string::String,
 }
 /// Configuration controlling usage of a service.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3549,63 +3491,6 @@ pub enum ErrorReason {
     ///     }
     AccessTokenTypeUnsupported = 19,
 }
-/// `Visibility` defines restrictions for the visibility of service
-/// elements.  Restrictions are specified using visibility labels
-/// (e.g., PREVIEW) that are elsewhere linked to users and projects.
-///
-/// Users and projects can have access to more than one visibility label. The
-/// effective visibility for multiple labels is the union of each label's
-/// elements, plus any unrestricted elements.
-///
-/// If an element and its parents have no restrictions, visibility is
-/// unconditionally granted.
-///
-/// Example:
-///
-///     visibility:
-///       rules:
-///       - selector: google.calendar.Calendar.EnhancedSearch
-///         restriction: PREVIEW
-///       - selector: google.calendar.Calendar.Delegate
-///         restriction: INTERNAL
-///
-/// Here, all methods are publicly visible except for the restricted methods
-/// EnhancedSearch and Delegate.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Visibility {
-    /// A list of visibility rules that apply to individual API elements.
-    ///
-    /// **NOTE:** All service configuration rules follow "last one wins" order.
-    #[prost(message, repeated, tag = "1")]
-    pub rules: ::prost::alloc::vec::Vec<VisibilityRule>,
-}
-/// A visibility rule provides visibility configuration for an individual API
-/// element.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VisibilityRule {
-    /// Selects methods, messages, fields, enums, etc. to which this rule applies.
-    ///
-    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
-    #[prost(string, tag = "1")]
-    pub selector: ::prost::alloc::string::String,
-    /// A comma-separated list of visibility labels that apply to the `selector`.
-    /// Any of the listed labels can be used to grant the visibility.
-    ///
-    /// If a rule has multiple labels, removing one of the labels but not all of
-    /// them can break clients.
-    ///
-    /// Example:
-    ///
-    ///     visibility:
-    ///       rules:
-    ///       - selector: google.calendar.Calendar.EnhancedSearch
-    ///         restriction: INTERNAL, PREVIEW
-    ///
-    /// Removing INTERNAL from this restriction will break clients that rely on
-    /// this method and only had access to it through INTERNAL.
-    #[prost(string, tag = "2")]
-    pub restriction: ::prost::alloc::string::String,
-}
 /// A descriptor for defining project properties for a service. One service may
 /// have many consumer projects, and the service may want to behave differently
 /// depending on some properties on the project. For example, a project may be
@@ -3667,4 +3552,61 @@ pub mod property {
         /// The type is 'double'.
         Double = 4,
     }
+}
+/// `Visibility` defines restrictions for the visibility of service
+/// elements.  Restrictions are specified using visibility labels
+/// (e.g., PREVIEW) that are elsewhere linked to users and projects.
+///
+/// Users and projects can have access to more than one visibility label. The
+/// effective visibility for multiple labels is the union of each label's
+/// elements, plus any unrestricted elements.
+///
+/// If an element and its parents have no restrictions, visibility is
+/// unconditionally granted.
+///
+/// Example:
+///
+///     visibility:
+///       rules:
+///       - selector: google.calendar.Calendar.EnhancedSearch
+///         restriction: PREVIEW
+///       - selector: google.calendar.Calendar.Delegate
+///         restriction: INTERNAL
+///
+/// Here, all methods are publicly visible except for the restricted methods
+/// EnhancedSearch and Delegate.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Visibility {
+    /// A list of visibility rules that apply to individual API elements.
+    ///
+    /// **NOTE:** All service configuration rules follow "last one wins" order.
+    #[prost(message, repeated, tag = "1")]
+    pub rules: ::prost::alloc::vec::Vec<VisibilityRule>,
+}
+/// A visibility rule provides visibility configuration for an individual API
+/// element.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VisibilityRule {
+    /// Selects methods, messages, fields, enums, etc. to which this rule applies.
+    ///
+    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
+    #[prost(string, tag = "1")]
+    pub selector: ::prost::alloc::string::String,
+    /// A comma-separated list of visibility labels that apply to the `selector`.
+    /// Any of the listed labels can be used to grant the visibility.
+    ///
+    /// If a rule has multiple labels, removing one of the labels but not all of
+    /// them can break clients.
+    ///
+    /// Example:
+    ///
+    ///     visibility:
+    ///       rules:
+    ///       - selector: google.calendar.Calendar.EnhancedSearch
+    ///         restriction: INTERNAL, PREVIEW
+    ///
+    /// Removing INTERNAL from this restriction will break clients that rely on
+    /// this method and only had access to it through INTERNAL.
+    #[prost(string, tag = "2")]
+    pub restriction: ::prost::alloc::string::String,
 }

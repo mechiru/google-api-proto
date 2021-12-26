@@ -8,6 +8,126 @@ pub mod conversation;
 ))]
 pub mod interactionmodel;
 
+/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataFiles {
+    /// Multiple data files.
+    #[prost(message, repeated, tag = "1")]
+    pub data_files: ::prost::alloc::vec::Vec<DataFile>,
+}
+/// Represents a single file which contains unstructured data. Examples include
+/// image files, audio files, and cloud function source code.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataFile {
+    /// Relative path of the data file from the project root in the SDK file
+    /// structure.
+    /// Allowed file paths:
+    ///     - Images: `resources/images/{multiple
+    ///     directories}?/{ImageName}.{extension}`
+    ///     - Audio: `resources/audio/{multiple
+    ///     directories}?/{AudioFileName}.{extension}`
+    ///     - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
+    /// Allowed extensions:
+    ///     - Images: `png`, `jpg`, `jpeg`
+    ///     - Audio: `mp3`, `mpeg`
+    ///     - Inline Cloud Functions: `zip`
+    #[prost(string, tag = "1")]
+    pub file_path: ::prost::alloc::string::String,
+    /// Required. The content type of this asset. Example: `text/html`. The content
+    /// type must comply with the specification
+    /// (<http://www.w3.org/Protocols/rfc1341/4_Content-Type.html>).
+    /// Cloud functions must be in zip format and the content type should
+    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
+    /// indicates that the zip is for a cloud function.
+    #[prost(string, tag = "2")]
+    pub content_type: ::prost::alloc::string::String,
+    /// Content of the data file. Examples would be raw bytes of images, audio
+    /// files, or cloud function zip format.
+    /// There is 10 MB strict limit on the payload size.
+    #[prost(bytes = "bytes", tag = "3")]
+    pub payload: ::prost::bytes::Bytes,
+}
+/// Metadata for different types of webhooks. If you're using
+/// `inlineCloudFunction`, your source code must be in a directory with the same
+/// name as the value for the `executeFunction` key.
+/// For example, a value of `my_webhook` for the`executeFunction` key would have
+/// a code structure like this:
+///  - `/webhooks/my_webhook.yaml`
+///  - `/webhooks/my_webhook/index.js`
+///  - `/webhooks/my_webhook/package.json`
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Webhook {
+    /// List of handlers for this webhook.
+    #[prost(message, repeated, tag = "1")]
+    pub handlers: ::prost::alloc::vec::Vec<webhook::Handler>,
+    /// Only one webhook type is supported.
+    #[prost(oneof = "webhook::WebhookType", tags = "2, 3")]
+    pub webhook_type: ::core::option::Option<webhook::WebhookType>,
+}
+/// Nested message and enum types in `Webhook`.
+pub mod webhook {
+    /// Declares the name of the webhoook handler. A webhook can have
+    /// multiple handlers registered. These handlers can be called from multiple
+    /// places in your Actions project.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Handler {
+        /// Required. Name of the handler. Must be unique across all handlers the Actions
+        /// project. You can check the name of this handler to invoke the correct
+        /// function in your fulfillment source code.
+        #[prost(string, tag = "1")]
+        pub name: ::prost::alloc::string::String,
+    }
+    /// REST endpoint to notify if you're not using the inline editor.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct HttpsEndpoint {
+        /// The HTTPS base URL for your fulfillment endpoint (HTTP is not supported).
+        /// Handler names are appended to the base URL path after a colon
+        /// (following the style guide in
+        /// <https://cloud.google.com/apis/design/custom_methods>).
+        /// For example a base URL of '<https://gactions.service.com/api'> would
+        /// receive requests with URL '<https://gactions.service.com/api:{method}'.>
+        #[prost(string, tag = "1")]
+        pub base_url: ::prost::alloc::string::String,
+        /// Map of HTTP parameters to be included in the POST request.
+        #[prost(btree_map = "string, string", tag = "2")]
+        pub http_headers: ::prost::alloc::collections::BTreeMap<
+            ::prost::alloc::string::String,
+            ::prost::alloc::string::String,
+        >,
+        /// Version of the protocol used by the endpoint. This is the protocol shared
+        /// by all fulfillment types and not specific to Google fulfillment type.
+        #[prost(int32, tag = "3")]
+        pub endpoint_api_version: i32,
+    }
+    /// Holds the metadata of an inline Cloud Function deployed from the
+    /// webhooks folder.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct InlineCloudFunction {
+        /// The name of the Cloud Function entry point. The value of this field
+        /// should match the name of the method exported from the source code.
+        #[prost(string, tag = "1")]
+        pub execute_function: ::prost::alloc::string::String,
+    }
+    /// Only one webhook type is supported.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum WebhookType {
+        /// Custom webhook HTTPS endpoint.
+        #[prost(message, tag = "2")]
+        HttpsEndpoint(HttpsEndpoint),
+        /// Metadata for cloud function deployed from code in the webhooks folder.
+        #[prost(message, tag = "3")]
+        InlineCloudFunction(InlineCloudFunction),
+    }
+}
+/// Contains information that's "transportable" i.e. not specific to any given
+/// project and can be moved between projects.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Manifest {
+    /// Version of the file format. The current file format version is 1.0
+    /// Example: "1.0"
+    #[prost(string, tag = "1")]
+    pub version: ::prost::alloc::string::String,
+}
 /// Information about the encrypted OAuth client secret used in account linking
 /// flows (for AUTH_CODE grant type).
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -115,15 +235,6 @@ pub mod actions {
         #[prost(message, optional, tag = "2")]
         pub engagement: ::core::option::Option<Engagement>,
     }
-}
-/// Contains information that's "transportable" i.e. not specific to any given
-/// project and can be moved between projects.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Manifest {
-    /// Version of the file format. The current file format version is 1.0
-    /// Example: "1.0"
-    #[prost(string, tag = "1")]
-    pub version: ::prost::alloc::string::String,
 }
 /// AccountLinking allows Google to guide the user to sign-in to the App's web
 /// services.
@@ -546,78 +657,6 @@ pub mod settings {
         HomeControl = 19,
     }
 }
-/// Metadata for different types of webhooks. If you're using
-/// `inlineCloudFunction`, your source code must be in a directory with the same
-/// name as the value for the `executeFunction` key.
-/// For example, a value of `my_webhook` for the`executeFunction` key would have
-/// a code structure like this:
-///  - `/webhooks/my_webhook.yaml`
-///  - `/webhooks/my_webhook/index.js`
-///  - `/webhooks/my_webhook/package.json`
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Webhook {
-    /// List of handlers for this webhook.
-    #[prost(message, repeated, tag = "1")]
-    pub handlers: ::prost::alloc::vec::Vec<webhook::Handler>,
-    /// Only one webhook type is supported.
-    #[prost(oneof = "webhook::WebhookType", tags = "2, 3")]
-    pub webhook_type: ::core::option::Option<webhook::WebhookType>,
-}
-/// Nested message and enum types in `Webhook`.
-pub mod webhook {
-    /// Declares the name of the webhoook handler. A webhook can have
-    /// multiple handlers registered. These handlers can be called from multiple
-    /// places in your Actions project.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Handler {
-        /// Required. Name of the handler. Must be unique across all handlers the Actions
-        /// project. You can check the name of this handler to invoke the correct
-        /// function in your fulfillment source code.
-        #[prost(string, tag = "1")]
-        pub name: ::prost::alloc::string::String,
-    }
-    /// REST endpoint to notify if you're not using the inline editor.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct HttpsEndpoint {
-        /// The HTTPS base URL for your fulfillment endpoint (HTTP is not supported).
-        /// Handler names are appended to the base URL path after a colon
-        /// (following the style guide in
-        /// <https://cloud.google.com/apis/design/custom_methods>).
-        /// For example a base URL of '<https://gactions.service.com/api'> would
-        /// receive requests with URL '<https://gactions.service.com/api:{method}'.>
-        #[prost(string, tag = "1")]
-        pub base_url: ::prost::alloc::string::String,
-        /// Map of HTTP parameters to be included in the POST request.
-        #[prost(btree_map = "string, string", tag = "2")]
-        pub http_headers: ::prost::alloc::collections::BTreeMap<
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        >,
-        /// Version of the protocol used by the endpoint. This is the protocol shared
-        /// by all fulfillment types and not specific to Google fulfillment type.
-        #[prost(int32, tag = "3")]
-        pub endpoint_api_version: i32,
-    }
-    /// Holds the metadata of an inline Cloud Function deployed from the
-    /// webhooks folder.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct InlineCloudFunction {
-        /// The name of the Cloud Function entry point. The value of this field
-        /// should match the name of the method exported from the source code.
-        #[prost(string, tag = "1")]
-        pub execute_function: ::prost::alloc::string::String,
-    }
-    /// Only one webhook type is supported.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum WebhookType {
-        /// Custom webhook HTTPS endpoint.
-        #[prost(message, tag = "2")]
-        HttpsEndpoint(HttpsEndpoint),
-        /// Metadata for cloud function deployed from code in the webhooks folder.
-        #[prost(message, tag = "3")]
-        InlineCloudFunction(InlineCloudFunction),
-    }
-}
 /// Wrapper for repeated config files. Repeated fields cannot exist in a oneof.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConfigFiles {
@@ -636,7 +675,10 @@ pub struct ConfigFile {
     #[prost(string, tag = "1")]
     pub file_path: ::prost::alloc::string::String,
     /// Each type of config file should have a corresponding field in the oneof.
-    #[prost(oneof = "config_file::File", tags = "2, 3, 4, 6, 7, 8, 15, 9, 10, 11, 13, 12")]
+    #[prost(
+        oneof = "config_file::File",
+        tags = "2, 3, 4, 6, 7, 8, 15, 9, 10, 11, 13, 12"
+    )]
     pub file: ::core::option::Option<config_file::File>,
 }
 /// Nested message and enum types in `ConfigFile`.
@@ -703,45 +745,6 @@ pub mod config_file {
         #[prost(message, tag = "12")]
         ResourceBundle(::prost_types::Struct),
     }
-}
-/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataFiles {
-    /// Multiple data files.
-    #[prost(message, repeated, tag = "1")]
-    pub data_files: ::prost::alloc::vec::Vec<DataFile>,
-}
-/// Represents a single file which contains unstructured data. Examples include
-/// image files, audio files, and cloud function source code.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataFile {
-    /// Relative path of the data file from the project root in the SDK file
-    /// structure.
-    /// Allowed file paths:
-    ///     - Images: `resources/images/{multiple
-    ///     directories}?/{ImageName}.{extension}`
-    ///     - Audio: `resources/audio/{multiple
-    ///     directories}?/{AudioFileName}.{extension}`
-    ///     - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
-    /// Allowed extensions:
-    ///     - Images: `png`, `jpg`, `jpeg`
-    ///     - Audio: `mp3`, `mpeg`
-    ///     - Inline Cloud Functions: `zip`
-    #[prost(string, tag = "1")]
-    pub file_path: ::prost::alloc::string::String,
-    /// Required. The content type of this asset. Example: `text/html`. The content
-    /// type must comply with the specification
-    /// (<http://www.w3.org/Protocols/rfc1341/4_Content-Type.html>).
-    /// Cloud functions must be in zip format and the content type should
-    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
-    /// indicates that the zip is for a cloud function.
-    #[prost(string, tag = "2")]
-    pub content_type: ::prost::alloc::string::String,
-    /// Content of the data file. Examples would be raw bytes of images, audio
-    /// files, or cloud function zip format.
-    /// There is 10 MB strict limit on the payload size.
-    #[prost(bytes = "bytes", tag = "3")]
-    pub payload: ::prost::bytes::Bytes,
 }
 /// Wrapper for a list of files.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1236,7 +1239,9 @@ pub mod actions_sdk_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.actions.sdk.v2.ActionsSdk/WriteDraft",
             );
-            self.inner.client_streaming(request.into_streaming_request(), path, codec).await
+            self.inner
+                .client_streaming(request.into_streaming_request(), path, codec)
+                .await
         }
         #[doc = " Updates the user's project preview based on the model."]
         pub async fn write_preview(
@@ -1253,7 +1258,9 @@ pub mod actions_sdk_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.actions.sdk.v2.ActionsSdk/WritePreview",
             );
-            self.inner.client_streaming(request.into_streaming_request(), path, codec).await
+            self.inner
+                .client_streaming(request.into_streaming_request(), path, codec)
+                .await
         }
         #[doc = " Creates a project version based on the model and triggers deployment to the"]
         #[doc = " specified release channel, if specified."]
@@ -1271,7 +1278,9 @@ pub mod actions_sdk_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.actions.sdk.v2.ActionsSdk/CreateVersion",
             );
-            self.inner.client_streaming(request.into_streaming_request(), path, codec).await
+            self.inner
+                .client_streaming(request.into_streaming_request(), path, codec)
+                .await
         }
         #[doc = " Reads the entire content of the project draft."]
         pub async fn read_draft(
@@ -1288,7 +1297,9 @@ pub mod actions_sdk_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.actions.sdk.v2.ActionsSdk/ReadDraft");
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Reads the entire content of a project version."]
         pub async fn read_version(
@@ -1308,7 +1319,9 @@ pub mod actions_sdk_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.actions.sdk.v2.ActionsSdk/ReadVersion",
             );
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Encrypts the OAuth client secret used in account linking flows."]
         #[doc = " This can be used to encrypt the client secret for the first time (e.g."]

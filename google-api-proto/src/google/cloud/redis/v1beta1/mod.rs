@@ -433,7 +433,10 @@ pub struct FailoverInstanceRequest {
     pub name: ::prost::alloc::string::String,
     /// Optional. Available data protection modes that the user can choose. If it's
     /// unspecified, data protection mode will be LIMITED_DATA_LOSS by default.
-    #[prost(enumeration = "failover_instance_request::DataProtectionMode", tag = "2")]
+    #[prost(
+        enumeration = "failover_instance_request::DataProtectionMode",
+        tag = "2"
+    )]
     pub data_protection_mode: i32,
 }
 /// Nested message and enum types in `FailoverInstanceRequest`.

@@ -1136,7 +1136,9 @@ pub mod storage_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.storage.v2.Storage/ReadObject");
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Stores a new object and metadata."]
         #[doc = ""]
@@ -1175,7 +1177,9 @@ pub mod storage_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.storage.v2.Storage/WriteObject");
-            self.inner.client_streaming(request.into_streaming_request(), path, codec).await
+            self.inner
+                .client_streaming(request.into_streaming_request(), path, codec)
+                .await
         }
         #[doc = " Starts a resumable write. How long the write operation remains valid, and"]
         #[doc = " what happens when the write operation becomes invalid, are"]

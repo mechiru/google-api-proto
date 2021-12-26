@@ -3922,7 +3922,11 @@ pub struct LoggingConfig {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LoggingComponentConfig {
     /// Select components to collect logs. An empty set would disable all logging.
-    #[prost(enumeration = "logging_component_config::Component", repeated, tag = "1")]
+    #[prost(
+        enumeration = "logging_component_config::Component",
+        repeated,
+        tag = "1"
+    )]
     pub enable_components: ::prost::alloc::vec::Vec<i32>,
 }
 /// Nested message and enum types in `LoggingComponentConfig`.
@@ -3951,7 +3955,11 @@ pub struct MonitoringConfig {
 pub struct MonitoringComponentConfig {
     /// Select components to collect metrics. An empty set would disable all
     /// monitoring.
-    #[prost(enumeration = "monitoring_component_config::Component", repeated, tag = "1")]
+    #[prost(
+        enumeration = "monitoring_component_config::Component",
+        repeated,
+        tag = "1"
+    )]
     pub enable_components: ::prost::alloc::vec::Vec<i32>,
 }
 /// Nested message and enum types in `MonitoringComponentConfig`.

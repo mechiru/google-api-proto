@@ -1,4 +1,7 @@
 /// Represents a managed Microsoft Active Directory domain.
+/// If the domain is being changed, it will be placed into the UPDATING state,
+/// which indicates that the resource is being reconciled. At this point, Get
+/// will reflect an intermediate state.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Domain {
     /// Output only. The unique name of the domain using the form:
@@ -106,8 +109,8 @@ pub struct Trust {
     /// involved in the trust.
     #[prost(string, repeated, tag = "5")]
     pub target_dns_ip_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Input only, and will not be stored. The trust secret used for the handshake
-    /// with the target domain.
+    /// Input only. The trust secret used for the handshake
+    /// with the target domain. It will not be stored.
     #[prost(string, tag = "6")]
     pub trust_handshake_secret: ::prost::alloc::string::String,
     /// Output only. The time the instance was created.
@@ -204,23 +207,23 @@ pub struct OpMetadata {
 /// \[CreateMicrosoftAdDomain][google.cloud.managedidentities.v1beta1.CreateMicrosoftAdDomain\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateMicrosoftAdDomainRequest {
-    /// The resource project name and location using the form:
+    /// Required. The resource project name and location using the form:
     /// `projects/{project_id}/locations/global`
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
-    /// A domain name, e.g. mydomain.myorg.com, with the following restrictions:
+    /// Required. A domain name, e.g. mydomain.myorg.com, with the following restrictions:
     ///  * Must contain only lowercase letters, numbers, periods and hyphens.
     ///  * Must start with a letter.
     ///  * Must contain between 2-64 characters.
     ///  * Must end with a number or a letter.
     ///  * Must not start with period.
-    ///  * First segement length (mydomain form example above) shouldn't exceed
+    ///  * First segment length (mydomain form example above) shouldn't exceed
     ///    15 chars.
     ///  * The last segment cannot be fully numeric.
     ///  * Must be unique within the customer project.
     #[prost(string, tag = "2")]
     pub domain_name: ::prost::alloc::string::String,
-    /// A Managed Identity domain resource.
+    /// Required. A Managed Identity domain resource.
     #[prost(message, optional, tag = "3")]
     pub domain: ::core::option::Option<Domain>,
 }
@@ -228,7 +231,7 @@ pub struct CreateMicrosoftAdDomainRequest {
 /// \[ResetAdminPassword][google.cloud.managedidentities.v1beta1.ResetAdminPassword\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResetAdminPasswordRequest {
-    /// The domain resource name using the form:
+    /// Required. The domain resource name using the form:
     /// `projects/{project_id}/locations/global/domains/{domain_name}`
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -291,7 +294,7 @@ pub struct ListDomainsResponse {
 /// \[GetDomain][google.cloud.managedidentities.v1beta1.GetDomain\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetDomainRequest {
-    /// The domain resource name using the form:
+    /// Required. The domain resource name using the form:
     /// `projects/{project_id}/locations/global/domains/{domain_name}`
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -300,15 +303,16 @@ pub struct GetDomainRequest {
 /// \[UpdateDomain][google.cloud.managedidentities.v1beta1.UpdateDomain\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateDomainRequest {
-    /// Mask of fields to update. At least one path must be supplied in this
+    /// Required. Mask of fields to update. At least one path must be supplied in this
     /// field. The elements of the repeated paths field may only include
     /// fields from \[Domain][google.cloud.managedidentities.v1beta1.Domain\]:
     ///  * `labels`
     ///  * `locations`
     ///  * `authorized_networks`
+    ///  * `audit_logs_enabled`
     #[prost(message, optional, tag = "1")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Domain message with updated fields. Only supported fields specified in
+    /// Required. Domain message with updated fields. Only supported fields specified in
     /// update_mask are updated.
     #[prost(message, optional, tag = "2")]
     pub domain: ::core::option::Option<Domain>,
@@ -317,7 +321,7 @@ pub struct UpdateDomainRequest {
 /// \[DeleteDomain][google.cloud.managedidentities.v1beta1.DeleteDomain\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteDomainRequest {
-    /// The domain resource name using the form:
+    /// Required. The domain resource name using the form:
     /// `projects/{project_id}/locations/global/domains/{domain_name}`
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -326,11 +330,11 @@ pub struct DeleteDomainRequest {
 /// \[AttachTrust][google.cloud.managedidentities.v1beta1.AttachTrust\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AttachTrustRequest {
-    /// The resource domain name, project name and location using the form:
+    /// Required. The resource domain name, project name and location using the form:
     /// `projects/{project_id}/locations/global/domains/{domain_name}`
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The domain trust resource.
+    /// Required. The domain trust resource.
     #[prost(message, optional, tag = "2")]
     pub trust: ::core::option::Option<Trust>,
 }
@@ -338,15 +342,15 @@ pub struct AttachTrustRequest {
 /// \[ReconfigureTrust][google.cloud.managedidentities.v1beta1.ReconfigureTrust\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ReconfigureTrustRequest {
-    /// The resource domain name, project name and location using the form:
+    /// Required. The resource domain name, project name and location using the form:
     /// `projects/{project_id}/locations/global/domains/{domain_name}`
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The fully-qualified target domain name which will be in trust with current
+    /// Required. The fully-qualified target domain name which will be in trust with current
     /// domain.
     #[prost(string, tag = "2")]
     pub target_domain_name: ::prost::alloc::string::String,
-    /// The target DNS server IP addresses to resolve the remote domain involved
+    /// Required. The target DNS server IP addresses to resolve the remote domain involved
     /// in the trust.
     #[prost(string, repeated, tag = "3")]
     pub target_dns_ip_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -355,11 +359,11 @@ pub struct ReconfigureTrustRequest {
 /// \[DetachTrust][google.cloud.managedidentities.v1beta1.DetachTrust\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DetachTrustRequest {
-    /// The resource domain name, project name, and location using the form:
+    /// Required. The resource domain name, project name, and location using the form:
     /// `projects/{project_id}/locations/global/domains/{domain_name}`
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The domain trust resource to removed.
+    /// Required. The domain trust resource to removed.
     #[prost(message, optional, tag = "2")]
     pub trust: ::core::option::Option<Trust>,
 }
@@ -367,11 +371,11 @@ pub struct DetachTrustRequest {
 /// \[ValidateTrust][google.cloud.managedidentities.v1beta1.ValidateTrust\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ValidateTrustRequest {
-    /// The resource domain name, project name, and location using the form:
+    /// Required. The resource domain name, project name, and location using the form:
     /// `projects/{project_id}/locations/global/domains/{domain_name}`
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The domain trust to validate trust state for.
+    /// Required. The domain trust to validate trust state for.
     #[prost(message, optional, tag = "2")]
     pub trust: ::core::option::Option<Trust>,
 }

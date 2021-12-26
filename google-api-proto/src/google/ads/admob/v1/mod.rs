@@ -692,7 +692,10 @@ pub struct GenerateMediationReportRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenerateMediationReportResponse {
     /// Each stream response message contains one type of payload.
-    #[prost(oneof = "generate_mediation_report_response::Payload", tags = "1, 2, 3")]
+    #[prost(
+        oneof = "generate_mediation_report_response::Payload",
+        tags = "1, 2, 3"
+    )]
     pub payload: ::core::option::Option<generate_mediation_report_response::Payload>,
 }
 /// Nested message and enum types in `GenerateMediationReportResponse`.
@@ -888,7 +891,9 @@ pub mod ad_mob_api_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.ads.admob.v1.AdMobApi/GenerateNetworkReport",
             );
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Generates an AdMob Mediation report based on the provided report"]
         #[doc = " specification."]
@@ -909,7 +914,9 @@ pub mod ad_mob_api_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.ads.admob.v1.AdMobApi/GenerateMediationReport",
             );
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
     }
 }

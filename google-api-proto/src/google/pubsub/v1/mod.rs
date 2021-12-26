@@ -1717,7 +1717,9 @@ pub mod subscriber_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.pubsub.v1.Subscriber/StreamingPull");
-            self.inner.streaming(request.into_streaming_request(), path, codec).await
+            self.inner
+                .streaming(request.into_streaming_request(), path, codec)
+                .await
         }
         #[doc = " Modifies the `PushConfig` for a specified subscription."]
         #[doc = ""]

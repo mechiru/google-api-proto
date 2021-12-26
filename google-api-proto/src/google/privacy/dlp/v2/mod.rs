@@ -8,6 +8,9 @@ pub struct InfoType {
     /// names should conform to the pattern `\[A-Za-z0-9$-_\]{1,64}`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
+    /// Optional version name for this InfoType.
+    #[prost(string, tag = "2")]
+    pub version: ::prost::alloc::string::String,
 }
 /// A reference to a StoredInfoType to use with scanning.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -62,7 +65,7 @@ pub mod custom_info_type {
     /// Plane](<https://en.wikipedia.org/wiki/Plane_%28Unicode%29#Basic_Multilingual_Plane>)
     /// will be replaced with whitespace when scanning for matches, so the
     /// dictionary phrase "Sam Johnson" will match all three phrases "sam johnson",
-    /// "Sam, Johnson", and "Sam (Johnson)". Additionally, the characters
+    /// Plane](<https://en.wikipedia.org/wiki/Plane_%28Unicode%29#Basic_Multilingual_Plane>)
     /// surrounding any match must be of a different type than the adjacent
     /// characters within the word, so letters must be next to non-letters and
     /// digits next to non-digits. For example, the dictionary word "jen" will
@@ -75,7 +78,7 @@ pub mod custom_info_type {
     /// \[limits\](<https://cloud.google.com/dlp/limits>) page contains details about
     /// the size limits of dictionaries. For dictionaries that do not fit within
     /// these constraints, consider using `LargeCustomDictionaryConfig` in the
-    /// `StoredInfoType` API.
+    /// \[limits\](<https://cloud.google.com/dlp/limits>) page contains details about
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Dictionary {
         #[prost(oneof = "dictionary::Source", tags = "1, 3")]
@@ -111,6 +114,7 @@ pub mod custom_info_type {
         /// google/re2 repository on GitHub.
         #[prost(string, tag = "1")]
         pub pattern: ::prost::alloc::string::String,
+        /// (<https://github.com/google/re2/wiki/Syntax>) can be found under the
         /// The index of the submatch to extract as findings. When not
         /// specified, the entire match is returned. No more than 3 may be included.
         #[prost(int32, repeated, tag = "2")]
@@ -121,7 +125,7 @@ pub mod custom_info_type {
     /// \[`CryptoReplaceFfxFpeConfig`\](<https://cloud.google.com/dlp/docs/reference/rest/v2/organizations.deidentifyTemplates#cryptoreplaceffxfpeconfig>).
     /// These types of transformations are
     /// those that perform pseudonymization, thereby producing a "surrogate" as
-    /// output. This should be used in conjunction with a field on the
+    /// \[`CryptoReplaceFfxFpeConfig`\](<https://cloud.google.com/dlp/docs/reference/rest/v2/organizations.deidentifyTemplates#cryptoreplaceffxfpeconfig>).
     /// transformation such as `surrogate_info_type`. This CustomInfoType does
     /// not support the use of `detection_rules`.
     #[derive(Clone, PartialEq, ::prost::Message)]
@@ -317,6 +321,7 @@ pub struct CloudStorageRegexFileSet {
     /// under the google/re2 repository on GitHub.
     #[prost(string, repeated, tag = "2")]
     pub include_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// \[syntax\](<https://github.com/google/re2/wiki/Syntax>); a guide can be found
     /// A list of regular expressions matching file paths to exclude. All files in
     /// the bucket that match at least one of these regular expressions will be
     /// excluded from the scan.
@@ -324,6 +329,8 @@ pub struct CloudStorageRegexFileSet {
     /// Regular expressions use RE2
     /// \[syntax\](<https://github.com/google/re2/wiki/Syntax>); a guide can be found
     /// under the google/re2 repository on GitHub.
+    ///
+    /// \[syntax\](<https://github.com/google/re2/wiki/Syntax>); a guide can be found
     #[prost(string, repeated, tag = "3")]
     pub exclude_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
@@ -337,12 +344,14 @@ pub struct CloudStorageOptions {
     /// Max number of bytes to scan from a file. If a scanned file's size is bigger
     /// than this value then the rest of the bytes are omitted. Only one
     /// of bytes_limit_per_file and bytes_limit_per_file_percent can be specified.
+    /// Cannot be set if de-identification is requested.
     #[prost(int64, tag = "4")]
     pub bytes_limit_per_file: i64,
     /// Max percentage of bytes to scan from a file. The rest are omitted. The
     /// number of bytes scanned is rounded down. Must be between 0 and 100,
     /// inclusively. Both 0 and 100 means no limit. Defaults to 0. Only one
     /// of bytes_limit_per_file and bytes_limit_per_file_percent can be specified.
+    /// Cannot be set if de-identification is requested.
     #[prost(int32, tag = "8")]
     pub bytes_limit_per_file_percent: i32,
     /// List of file type groups to include in the scan.
@@ -446,6 +455,9 @@ pub struct BigQueryOptions {
     /// inspection of entire columns which you know have no findings.
     #[prost(message, repeated, tag = "5")]
     pub excluded_fields: ::prost::alloc::vec::Vec<FieldId>,
+    /// Limit scanning only to these fields.
+    #[prost(message, repeated, tag = "7")]
+    pub included_fields: ::prost::alloc::vec::Vec<FieldId>,
 }
 /// Nested message and enum types in `BigQueryOptions`.
 pub mod big_query_options {
@@ -524,9 +536,6 @@ pub mod storage_config {
         #[prost(message, tag = "4")]
         BigQueryOptions(super::BigQueryOptions),
         /// Hybrid inspection options.
-        /// Early access feature is in a pre-release state and might change or have
-        /// limited support. For more information, see
-        /// <https://cloud.google.com/products#product-launch-stages.>
         #[prost(message, tag = "9")]
         HybridOptions(super::HybridOptions),
     }
@@ -752,11 +761,12 @@ pub enum FileType {
     /// FileType's in your storage scan.
     BinaryFile = 1,
     /// Included file extensions:
-    ///   asc, brf, c, cc, cpp, csv, cxx, c++, cs, css, dart, eml, go, h, hh, hpp,
-    ///   hxx, h++, hs, html, htm, shtml, shtm, xhtml, lhs, ini, java, js, json,
-    ///   ocaml, md, mkd, markdown, m, ml, mli, pl, pm, php, phtml, pht, py, pyw,
-    ///   rb, rbw, rs, rc, scala, sh, sql, tex, txt, text, tsv, vcard, vcs, wml,
-    ///   xml, xsl, xsd, yml, yaml.
+    ///   asc,asp, aspx, brf, c, cc,cfm, cgi, cpp, csv, cxx, c++, cs, css, dart,
+    ///   dat, dot, eml,, epbub, ged, go, h, hh, hpp, hxx, h++, hs, html, htm,
+    ///   mkd, markdown, m, ml, mli, perl, pl, plist, pm, php, phtml, pht,
+    ///   properties, py, pyw, rb, rbw, rs, rss,  rc, scala, sh, sql, swift, tex,
+    ///   shtml, shtm, xhtml, lhs, ics, ini, java, js, json, kix, kml, ocaml, md,
+    ///   txt, text, tsv, vb, vcard, vcs, wml, xcodeproj, xml, xsl, xsd, yml, yaml.
     TextFile = 2,
     /// Included file extensions:
     ///   bmp, gif, jpg, jpeg, jpe, png.
@@ -903,7 +913,8 @@ pub struct InspectConfig {
 }
 /// Nested message and enum types in `InspectConfig`.
 pub mod inspect_config {
-    /// Configuration to control the number of findings returned.
+    /// Configuration to control the number of findings returned. Cannot be set if
+    /// de-identification is requested.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct FindingLimits {
         /// Max number of findings that will be returned for each item scanned.
@@ -951,7 +962,9 @@ pub struct ByteContentItem {
 }
 /// Nested message and enum types in `ByteContentItem`.
 pub mod byte_content_item {
-    /// The type of data being sent for inspection.
+    /// The type of data being sent for inspection. To learn more, see
+    /// [Supported file
+    /// types](<https://cloud.google.com/dlp/docs/supported-file-types>).
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum BytesType {
@@ -1006,9 +1019,9 @@ pub mod content_item {
         ByteItem(super::ByteContentItem),
     }
 }
-/// Structured content to inspect. Up to 50,000 `Value`s per request allowed.
-/// See <https://cloud.google.com/dlp/docs/inspecting-text#inspecting_a_table> to
-/// learn more.
+/// Structured content to inspect. Up to 50,000 `Value`s per request allowed. See
+/// <https://cloud.google.com/dlp/docs/inspecting-structured-text#inspecting_a_table>
+/// to learn more.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Table {
     /// Headers of the table.
@@ -1106,6 +1119,9 @@ pub struct Finding {
     /// The job that stored the finding.
     #[prost(string, tag = "13")]
     pub job_name: ::prost::alloc::string::String,
+    /// The unique finding id.
+    #[prost(string, tag = "15")]
+    pub finding_id: ::prost::alloc::string::String,
 }
 /// Specifies the location of the finding.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1670,7 +1686,7 @@ pub struct InspectDataSourceDetails {
     /// The configuration used for this job.
     #[prost(message, optional, tag = "2")]
     pub requested_options: ::core::option::Option<inspect_data_source_details::RequestedOptions>,
-    /// A summary of the outcome of this inspect job.
+    /// A summary of the outcome of this inspection job.
     #[prost(message, optional, tag = "3")]
     pub result: ::core::option::Option<inspect_data_source_details::Result>,
 }
@@ -1701,9 +1717,6 @@ pub mod inspect_data_source_details {
         #[prost(message, repeated, tag = "3")]
         pub info_type_stats: ::prost::alloc::vec::Vec<super::InfoTypeStats>,
         /// Statistics related to the processing of hybrid inspect.
-        /// Early access feature is in a pre-release state and might change or have
-        /// limited support. For more information, see
-        /// <https://cloud.google.com/products#product-launch-stages.>
         #[prost(message, optional, tag = "7")]
         pub hybrid_stats: ::core::option::Option<super::HybridInspectStatistics>,
     }
@@ -2080,7 +2093,10 @@ pub struct AnalyzeDataSourceRiskDetails {
     pub requested_options:
         ::core::option::Option<analyze_data_source_risk_details::RequestedRiskAnalysisOptions>,
     /// Values associated with this metric.
-    #[prost(oneof = "analyze_data_source_risk_details::Result", tags = "3, 4, 5, 6, 7, 9")]
+    #[prost(
+        oneof = "analyze_data_source_risk_details::Result",
+        tags = "3, 4, 5, 6, 7, 9"
+    )]
     pub result: ::core::option::Option<analyze_data_source_risk_details::Result>,
 }
 /// Nested message and enum types in `AnalyzeDataSourceRiskDetails`.
@@ -2424,7 +2440,10 @@ pub mod value {
         #[prost(message, tag = "7")]
         DateValue(super::super::super::super::r#type::Date),
         /// day of week
-        #[prost(enumeration = "super::super::super::super::r#type::DayOfWeek", tag = "8")]
+        #[prost(
+            enumeration = "super::super::super::super::r#type::DayOfWeek",
+            tag = "8"
+        )]
         DayOfWeekValue(i32),
     }
 }
@@ -2540,7 +2559,7 @@ pub mod transformation_error_handling {
 pub struct PrimitiveTransformation {
     #[prost(
         oneof = "primitive_transformation::Transformation",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13"
     )]
     pub transformation: ::core::option::Option<primitive_transformation::Transformation>,
 }
@@ -2548,7 +2567,7 @@ pub struct PrimitiveTransformation {
 pub mod primitive_transformation {
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Transformation {
-        /// Replace
+        /// Replace with a specified value.
         #[prost(message, tag = "1")]
         ReplaceConfig(super::ReplaceValueConfig),
         /// Redact
@@ -2581,6 +2600,9 @@ pub mod primitive_transformation {
         /// Deterministic Crypto
         #[prost(message, tag = "12")]
         CryptoDeterministicConfig(super::CryptoDeterministicConfig),
+        /// Replace with a value randomly drawn (with replacement) from a dictionary.
+        #[prost(message, tag = "13")]
+        ReplaceDictionaryConfig(super::ReplaceDictionaryConfig),
     }
 }
 /// For use with `Date`, `Timestamp`, and `TimeOfDay`, extract or preserve a
@@ -2631,7 +2653,9 @@ pub struct CryptoHashConfig {
 /// Uses AES-SIV based on the RFC <https://tools.ietf.org/html/rfc5297.>
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CryptoDeterministicConfig {
-    /// The key used by the encryption function.
+    /// The key used by the encryption function. For deterministic encryption
+    /// using AES-SIV, the provided key is internally expanded to 64 bytes prior to
+    /// use.
     #[prost(message, optional, tag = "1")]
     pub crypto_key: ::core::option::Option<CryptoKey>,
     /// The custom info type to annotate the surrogate with.
@@ -2695,6 +2719,23 @@ pub struct ReplaceValueConfig {
     /// Value to replace it with.
     #[prost(message, optional, tag = "1")]
     pub new_value: ::core::option::Option<Value>,
+}
+/// Replace each input value with a value randomly selected from the dictionary.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReplaceDictionaryConfig {
+    #[prost(oneof = "replace_dictionary_config::Type", tags = "1")]
+    pub r#type: ::core::option::Option<replace_dictionary_config::Type>,
+}
+/// Nested message and enum types in `ReplaceDictionaryConfig`.
+pub mod replace_dictionary_config {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Type {
+        /// A list of words to select from for random replacement. The
+        /// \[limits\](<https://cloud.google.com/dlp/limits>) page contains details about
+        /// the size limits of dictionaries.
+        #[prost(message, tag = "1")]
+        WordList(super::custom_info_type::dictionary::WordList),
+    }
 }
 /// Replace each matching finding with the name of the info_type.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2779,8 +2820,8 @@ pub struct CharacterMaskConfig {
 /// the user for simple bucketing strategies.
 ///
 /// The transformed value will be a hyphenated string of
-/// {lower_bound}-{upper_bound}, i.e if lower_bound = 10 and upper_bound = 20
-/// all values that are within this bucket will be replaced with "10-20".
+/// {lower_bound}-{upper_bound}. For example, if lower_bound = 10 and upper_bound
+/// = 20, all values that are within this bucket will be replaced with "10-20".
 ///
 /// This can be used on data of type: double, long.
 ///
@@ -2954,10 +2995,11 @@ pub mod crypto_replace_ffx_fpe_config {
     }
 }
 /// This is a data encryption key (DEK) (as opposed to
-/// a key encryption key (KEK) stored by KMS).
-/// When using KMS to wrap/unwrap DEKs, be sure to set an appropriate
-/// IAM policy on the KMS CryptoKey (KEK) to ensure an attacker cannot
-/// unwrap the data crypto key.
+/// a key encryption key (KEK) stored by Cloud Key Management Service
+/// (Cloud KMS).
+/// When using Cloud KMS to wrap or unwrap a DEK, be sure to set an appropriate
+/// IAM policy on the KEK to ensure an attacker cannot
+/// unwrap the DEK.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CryptoKey {
     /// Sources of crypto keys.
@@ -2975,7 +3017,7 @@ pub mod crypto_key {
         /// Unwrapped crypto key
         #[prost(message, tag = "2")]
         Unwrapped(super::UnwrappedCryptoKey),
-        /// Kms wrapped key
+        /// Key wrapped using Cloud KMS
         #[prost(message, tag = "3")]
         KmsWrapped(super::KmsWrappedCryptoKey),
     }
@@ -3002,10 +3044,16 @@ pub struct UnwrappedCryptoKey {
     pub key: ::prost::bytes::Bytes,
 }
 /// Include to use an existing data crypto key wrapped by KMS.
-/// The wrapped key must be a 128/192/256 bit key.
+/// The wrapped key must be a 128-, 192-, or 256-bit key.
 /// Authorization requires the following IAM permissions when sending a request
-/// to perform a crypto transformation using a kms-wrapped crypto key:
+/// to perform a crypto transformation using a KMS-wrapped crypto key:
 /// dlp.kms.encrypt
+///
+/// For more information, see [Creating a wrapped key]
+/// (<https://cloud.google.com/dlp/docs/create-wrapped-key>).
+///
+/// Note: When you use Cloud KMS for cryptographic operations,
+/// [charges apply](<https://cloud.google.com/kms/pricing>).
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KmsWrappedCryptoKey {
     /// Required. The wrapped data crypto key.
@@ -3085,6 +3133,9 @@ pub mod info_type_transformations {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FieldTransformation {
     /// Required. Input field(s) to apply the transformation to.
+    /// When you have columns that reference their position within a list,
+    /// omit the index from the FieldId. FieldId name matching ignores the index.
+    /// For example, instead of "contact.nums\[0\].type", use "contact.nums.type".
     #[prost(message, repeated, tag = "1")]
     pub fields: ::prost::alloc::vec::Vec<FieldId>,
     /// Only apply the transformation if the condition evaluates to true for the
@@ -3286,7 +3337,7 @@ pub mod transformation_summary {
         Error = 2,
     }
 }
-/// Schedule for triggeredJobs.
+/// Schedule for inspect job triggers.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Schedule {
     #[prost(oneof = "schedule::Option", tags = "1")]
@@ -3364,7 +3415,7 @@ pub struct DeidentifyTemplate {
     /// Output only. The last update timestamp of an inspectTemplate.
     #[prost(message, optional, tag = "5")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// ///////////// // The core content of the template  // ///////////////
+    /// The core content of the template.
     #[prost(message, optional, tag = "6")]
     pub deidentify_config: ::core::option::Option<DeidentifyConfig>,
 }
@@ -3437,9 +3488,6 @@ pub mod job_trigger {
             #[prost(message, tag = "1")]
             Schedule(super::super::Schedule),
             /// For use with hybrid jobs. Jobs must be manually created and finished.
-            /// Early access feature is in a pre-release state and might change or have
-            /// limited support. For more information, see
-            /// <https://cloud.google.com/products#product-launch-stages.>
             #[prost(message, tag = "2")]
             Manual(super::super::Manual),
         }
@@ -3513,11 +3561,11 @@ pub mod action {
     /// Compatible with: Inspect
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct PublishSummaryToCscc {}
-    /// Publish findings of a DlpJob to Cloud Data Catalog. Labels summarizing the
+    /// Publish findings of a DlpJob to Data Catalog. Labels summarizing the
     /// results of the DlpJob will be applied to the entry for the resource scanned
-    /// in Cloud Data Catalog. Any labels previously written by another DlpJob will
+    /// in Data Catalog. Any labels previously written by another DlpJob will
     /// be deleted. InfoType naming patterns are strictly enforced when using this
-    /// feature. Note that the findings will be persisted in Cloud Data Catalog
+    /// feature. Note that the findings will be persisted in Data Catalog
     /// storage and are governed by Data Catalog service-specific policy, see
     /// <https://cloud.google.com/terms/service-terms>
     /// Only a single instance of this action can be specified and only allowed if
@@ -3797,10 +3845,11 @@ pub mod create_dlp_job_request {
     /// The configuration details for the specific type of job to run.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Job {
-        /// Set to control what and how to inspect.
+        /// An inspection job scans a storage repository for InfoTypes.
         #[prost(message, tag = "2")]
         InspectJob(super::InspectJobConfig),
-        /// Set to choose what metric to calculate.
+        /// A risk analysis job calculates re-identification risk metrics for a
+        /// BigQuery table.
         #[prost(message, tag = "3")]
         RiskJob(super::RiskAnalysisJobConfig),
     }
@@ -3859,7 +3908,7 @@ pub struct ListJobTriggersRequest {
     /// * Restrictions can be combined by `AND` or `OR` logical operators. A
     /// sequence of restrictions implicitly uses `AND`.
     /// * A restriction has the form of `{field} {operator} {value}`.
-    /// * Supported fields/values for inspect jobs:
+    /// * Supported fields/values for inspect triggers:
     ///     - `status` - HEALTHY|PAUSED|CANCELLED
     ///     - `inspected_storage` - DATASTORE|CLOUD_STORAGE|BIGQUERY
     ///     - 'last_run_time` - RFC 3339 formatted timestamp, surrounded by
@@ -3877,6 +3926,9 @@ pub struct ListJobTriggersRequest {
     /// The length of this field should be no more than 500 characters.
     #[prost(string, tag = "5")]
     pub filter: ::prost::alloc::string::String,
+    /// The type of jobs. Will use `DlpJobType.INSPECT` if not set.
+    #[prost(enumeration = "DlpJobType", tag = "6")]
+    pub r#type: i32,
     /// Deprecated. This field has no effect.
     #[prost(string, tag = "7")]
     pub location_id: ::prost::alloc::string::String,
@@ -4671,7 +4723,7 @@ pub enum InfoTypeSupportedBy {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum DlpJobType {
-    /// Unused
+    /// Defaults to INSPECT_JOB.
     Unspecified = 0,
     /// The job inspected Google Cloud for sensitive data.
     InspectJob = 1,
@@ -5094,9 +5146,6 @@ pub mod dlp_service_client {
         #[doc = " Inspect hybrid content and store findings to a trigger. The inspection"]
         #[doc = " will be processed asynchronously. To review the findings monitor the"]
         #[doc = " jobs within the trigger."]
-        #[doc = " Early access feature is in a pre-release state and might change or have"]
-        #[doc = " limited support. For more information, see"]
-        #[doc = " https://cloud.google.com/products#product-launch-stages."]
         pub async fn hybrid_inspect_job_trigger(
             &mut self,
             request: impl tonic::IntoRequest<super::HybridInspectJobTriggerRequest>,
@@ -5384,11 +5433,8 @@ pub mod dlp_service_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
         #[doc = " Inspect hybrid content and store findings to a job."]
-        #[doc = " To review the findings inspect the job. Inspection will occur"]
+        #[doc = " To review the findings, inspect the job. Inspection will occur"]
         #[doc = " asynchronously."]
-        #[doc = " Early access feature is in a pre-release state and might change or have"]
-        #[doc = " limited support. For more information, see"]
-        #[doc = " https://cloud.google.com/products#product-launch-stages."]
         pub async fn hybrid_inspect_dlp_job(
             &mut self,
             request: impl tonic::IntoRequest<super::HybridInspectDlpJobRequest>,
@@ -5407,9 +5453,6 @@ pub mod dlp_service_client {
         }
         #[doc = " Finish a running hybrid DlpJob. Triggers the finalization steps and running"]
         #[doc = " of any enabled actions that have not yet run."]
-        #[doc = " Early access feature is in a pre-release state and might change or have"]
-        #[doc = " limited support. For more information, see"]
-        #[doc = " https://cloud.google.com/products#product-launch-stages."]
         pub async fn finish_dlp_job(
             &mut self,
             request: impl tonic::IntoRequest<super::FinishDlpJobRequest>,

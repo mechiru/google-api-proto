@@ -15,26 +15,6 @@ pub struct ArrowRecordBatch {
     #[prost(int64, tag = "2")]
     pub row_count: i64,
 }
-/// Table reference that includes just the 3 strings needed to identify a table.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableReference {
-    /// The assigned project ID of the project.
-    #[prost(string, tag = "1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The ID of the dataset in the above project.
-    #[prost(string, tag = "2")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// The ID of the table in the above dataset.
-    #[prost(string, tag = "3")]
-    pub table_id: ::prost::alloc::string::String,
-}
-/// All fields in this message optional.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableModifiers {
-    /// The snapshot time of the table. If not set, interpreted as now.
-    #[prost(message, optional, tag = "1")]
-    pub snapshot_time: ::core::option::Option<::prost_types::Timestamp>,
-}
 /// Avro schema.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AvroSchema {
@@ -72,6 +52,26 @@ pub struct TableReadOptions {
     ///           "numeric_field BETWEEN 1.0 AND 5.0"
     #[prost(string, tag = "2")]
     pub row_restriction: ::prost::alloc::string::String,
+}
+/// Table reference that includes just the 3 strings needed to identify a table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableReference {
+    /// The assigned project ID of the project.
+    #[prost(string, tag = "1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The ID of the dataset in the above project.
+    #[prost(string, tag = "2")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// The ID of the table in the above dataset.
+    #[prost(string, tag = "3")]
+    pub table_id: ::prost::alloc::string::String,
+}
+/// All fields in this message optional.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableModifiers {
+    /// The snapshot time of the table. If not set, interpreted as now.
+    #[prost(message, optional, tag = "1")]
+    pub snapshot_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Information about a single data stream within a read session.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -461,7 +461,9 @@ pub mod big_query_storage_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.bigquery.storage.v1beta1.BigQueryStorage/ReadRows",
             );
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Creates additional streams for a ReadSession. This API can be used to"]
         #[doc = " dynamically adjust the parallelism of a batch processing task upwards by"]

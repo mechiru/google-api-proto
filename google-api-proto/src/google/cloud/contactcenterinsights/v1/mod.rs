@@ -782,7 +782,10 @@ pub mod phrase_matcher {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PhraseMatchRuleGroup {
     /// Required. The type of this phrase match rule group.
-    #[prost(enumeration = "phrase_match_rule_group::PhraseMatchRuleGroupType", tag = "1")]
+    #[prost(
+        enumeration = "phrase_match_rule_group::PhraseMatchRuleGroupType",
+        tag = "1"
+    )]
     pub r#type: i32,
     /// A list of phase match rules that are included in this group.
     #[prost(message, repeated, tag = "2")]
@@ -1403,6 +1406,12 @@ pub struct ExportInsightsDataRequest {
     /// projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}/cryptoKeyVersions/{version}
     #[prost(string, tag = "4")]
     pub kms_key: ::prost::alloc::string::String,
+    /// Options for what to do if the destination table already exists.
+    #[prost(
+        enumeration = "export_insights_data_request::WriteDisposition",
+        tag = "5"
+    )]
+    pub write_disposition: i32,
     /// Exporter destination.
     #[prost(oneof = "export_insights_data_request::Destination", tags = "2")]
     pub destination: ::core::option::Option<export_insights_data_request::Destination>,
@@ -1427,6 +1436,18 @@ pub mod export_insights_data_request {
         /// error.
         #[prost(string, tag = "2")]
         pub table: ::prost::alloc::string::String,
+    }
+    /// Specifies the action that occurs if the destination table already exists.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum WriteDisposition {
+        /// Write disposition is not specified. Defaults to WRITE_TRUNCATE.
+        Unspecified = 0,
+        /// If the table already exists, BigQuery will overwrite the table data and
+        /// use the schema from the load.
+        WriteTruncate = 1,
+        /// If the table already exists, BigQuery will append data to the table.
+        WriteAppend = 2,
     }
     /// Exporter destination.
     #[derive(Clone, PartialEq, ::prost::Oneof)]

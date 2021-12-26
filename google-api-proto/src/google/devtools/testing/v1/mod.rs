@@ -1414,7 +1414,10 @@ pub struct DeviceIpBlock {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetTestEnvironmentCatalogRequest {
     /// Required. The type of environment that should be listed.
-    #[prost(enumeration = "get_test_environment_catalog_request::EnvironmentType", tag = "1")]
+    #[prost(
+        enumeration = "get_test_environment_catalog_request::EnvironmentType",
+        tag = "1"
+    )]
     pub environment_type: i32,
     /// For authorization, the cloud project requesting the TestEnvironmentCatalog.
     #[prost(string, tag = "2")]
@@ -1444,7 +1447,10 @@ pub mod get_test_environment_catalog_request {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TestEnvironmentCatalog {
     /// Output only.
-    #[prost(oneof = "test_environment_catalog::EnvironmentCatalog", tags = "1, 3, 4, 5, 6")]
+    #[prost(
+        oneof = "test_environment_catalog::EnvironmentCatalog",
+        tags = "1, 3, 4, 5, 6"
+    )]
     pub environment_catalog: ::core::option::Option<test_environment_catalog::EnvironmentCatalog>,
 }
 /// Nested message and enum types in `TestEnvironmentCatalog`.

@@ -1,3 +1,11 @@
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EncryptionConfiguration {
+    /// Optional. Describes the Cloud KMS encryption key that will be used to
+    /// protect destination BigQuery table. The BigQuery Service Account associated
+    /// with your project requires access to this encryption key.
+    #[prost(message, optional, tag = "1")]
+    pub kms_key_name: ::core::option::Option<::prost::alloc::string::String>,
+}
 /// Id path of a model.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ModelReference {
@@ -107,14 +115,6 @@ pub struct StandardSqlTableType {
     /// The columns in this table type
     #[prost(message, repeated, tag = "1")]
     pub columns: ::prost::alloc::vec::Vec<StandardSqlField>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EncryptionConfiguration {
-    /// Optional. Describes the Cloud KMS encryption key that will be used to
-    /// protect destination BigQuery table. The BigQuery Service Account associated
-    /// with your project requires access to this encryption key.
-    #[prost(message, optional, tag = "1")]
-    pub kms_key_name: ::core::option::Option<::prost::alloc::string::String>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TableReference {
@@ -854,7 +854,10 @@ pub mod model {
             #[prost(message, optional, tag = "32")]
             pub wals_alpha: ::core::option::Option<f64>,
             /// The method used to initialize the centroids for kmeans algorithm.
-            #[prost(enumeration = "super::kmeans_enums::KmeansInitializationMethod", tag = "33")]
+            #[prost(
+                enumeration = "super::kmeans_enums::KmeansInitializationMethod",
+                tag = "33"
+            )]
             pub kmeans_initialization_method: i32,
             /// The column used to provide the initial centroids for kmeans algorithm
             /// when kmeans_initialization_method is CUSTOM.

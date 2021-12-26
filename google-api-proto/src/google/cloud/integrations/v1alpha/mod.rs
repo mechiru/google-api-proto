@@ -1,3 +1,16 @@
+/// Enum Product.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Product {
+    /// Default value.
+    Unspecified = 0,
+    /// Integration Platform.
+    Ip = 1,
+    /// Apigee.
+    Apigee = 2,
+    /// Security Command Center.
+    Security = 3,
+}
 /// The type of the parameter.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ValueType {
@@ -291,19 +304,6 @@ pub struct NextTask {
     #[prost(string, tag = "4")]
     pub display_name: ::prost::alloc::string::String,
 }
-/// Enum Product.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum Product {
-    /// Default value.
-    Unspecified = 0,
-    /// Integration Platform.
-    Ip = 1,
-    /// Apigee.
-    Apigee = 2,
-    /// Security Command Center.
-    Security = 3,
-}
 /// Log entry to log execution info for the monitored resource
 /// `integrations.googleapis.com/IntegrationVersion`.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -375,7 +375,10 @@ pub mod execution_info {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventExecutionDetails {
     /// The execution state of this event.
-    #[prost(enumeration = "event_execution_details::EventExecutionState", tag = "1")]
+    #[prost(
+        enumeration = "event_execution_details::EventExecutionState",
+        tag = "1"
+    )]
     pub event_execution_state: i32,
     /// After snapshot migration, this field will no longer be populated, but old
     /// execution snapshots will still be accessible.

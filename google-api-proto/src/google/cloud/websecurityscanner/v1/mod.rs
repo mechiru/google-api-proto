@@ -1,3 +1,14 @@
+/// A FindingTypeStats resource represents stats regarding a specific FindingType
+/// of Findings under a given ScanRun.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FindingTypeStats {
+    /// Output only. The finding type associated with the stats.
+    #[prost(string, tag = "1")]
+    pub finding_type: ::prost::alloc::string::String,
+    /// Output only. The count of findings belonging to this finding type.
+    #[prost(int32, tag = "2")]
+    pub finding_count: i32,
+}
 /// ! Information about a vulnerability with an HTML.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Form {
@@ -205,17 +216,6 @@ pub mod finding {
         Low = 4,
     }
 }
-/// A FindingTypeStats resource represents stats regarding a specific FindingType
-/// of Findings under a given ScanRun.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FindingTypeStats {
-    /// Output only. The finding type associated with the stats.
-    #[prost(string, tag = "1")]
-    pub finding_type: ::prost::alloc::string::String,
-    /// Output only. The count of findings belonging to this finding type.
-    #[prost(int32, tag = "2")]
-    pub finding_count: i32,
-}
 /// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
 /// APIs when scan configuration validation fails. It is also reported as part of
 /// a ScanRunErrorTrace message if scan validation fails due to a scan
@@ -338,6 +338,53 @@ pub mod scan_config_error {
         UnsupportedFindingType = 41,
         /// The URL scheme of one or more of the supplied URLs is not supported.
         UnsupportedUrlScheme = 42,
+    }
+}
+/// Output only.
+/// Defines an error trace message for a ScanRun.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ScanRunErrorTrace {
+    /// Output only. Indicates the error reason code.
+    #[prost(enumeration = "scan_run_error_trace::Code", tag = "1")]
+    pub code: i32,
+    /// Output only. If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error
+    /// message encountered during scan configuration validation that is performed
+    /// before each scan run.
+    #[prost(message, optional, tag = "2")]
+    pub scan_config_error: ::core::option::Option<ScanConfigError>,
+    /// Output only. If the scan encounters TOO_MANY_HTTP_ERRORS, this field indicates the most
+    /// common HTTP error code, if such is available. For example, if this code is
+    /// 404, the scan has encountered too many NOT_FOUND responses.
+    #[prost(int32, tag = "3")]
+    pub most_common_http_error_code: i32,
+}
+/// Nested message and enum types in `ScanRunErrorTrace`.
+pub mod scan_run_error_trace {
+    /// Output only.
+    /// Defines an error reason code.
+    /// Next id: 7
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Code {
+        /// Default value is never used.
+        Unspecified = 0,
+        /// Indicates that the scan run failed due to an internal server error.
+        InternalError = 1,
+        /// Indicates a scan configuration error, usually due to outdated ScanConfig
+        /// settings, such as starting_urls or the DNS configuration.
+        ScanConfigIssue = 2,
+        /// Indicates an authentication error, usually due to outdated ScanConfig
+        /// authentication settings.
+        AuthenticationConfigIssue = 3,
+        /// Indicates a scan operation timeout, usually caused by a very large site.
+        TimedOutWhileScanning = 4,
+        /// Indicates that a scan encountered excessive redirects, either to
+        /// authentication or some other page outside of the scan scope.
+        TooManyRedirects = 5,
+        /// Indicates that a scan encountered numerous errors from the web site
+        /// pages. When available, most_common_http_error_code field indicates the
+        /// most common HTTP error code encountered during the scan.
+        TooManyHttpErrors = 6,
     }
 }
 /// A ScanConfig resource contains the configurations to launch a scan.
@@ -536,53 +583,6 @@ pub struct CrawledUrl {
     /// Output only. The body of the request that was used to visit the URL.
     #[prost(string, tag = "3")]
     pub body: ::prost::alloc::string::String,
-}
-/// Output only.
-/// Defines an error trace message for a ScanRun.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ScanRunErrorTrace {
-    /// Output only. Indicates the error reason code.
-    #[prost(enumeration = "scan_run_error_trace::Code", tag = "1")]
-    pub code: i32,
-    /// Output only. If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error
-    /// message encountered during scan configuration validation that is performed
-    /// before each scan run.
-    #[prost(message, optional, tag = "2")]
-    pub scan_config_error: ::core::option::Option<ScanConfigError>,
-    /// Output only. If the scan encounters TOO_MANY_HTTP_ERRORS, this field indicates the most
-    /// common HTTP error code, if such is available. For example, if this code is
-    /// 404, the scan has encountered too many NOT_FOUND responses.
-    #[prost(int32, tag = "3")]
-    pub most_common_http_error_code: i32,
-}
-/// Nested message and enum types in `ScanRunErrorTrace`.
-pub mod scan_run_error_trace {
-    /// Output only.
-    /// Defines an error reason code.
-    /// Next id: 7
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Code {
-        /// Default value is never used.
-        Unspecified = 0,
-        /// Indicates that the scan run failed due to an internal server error.
-        InternalError = 1,
-        /// Indicates a scan configuration error, usually due to outdated ScanConfig
-        /// settings, such as starting_urls or the DNS configuration.
-        ScanConfigIssue = 2,
-        /// Indicates an authentication error, usually due to outdated ScanConfig
-        /// authentication settings.
-        AuthenticationConfigIssue = 3,
-        /// Indicates a scan operation timeout, usually caused by a very large site.
-        TimedOutWhileScanning = 4,
-        /// Indicates that a scan encountered excessive redirects, either to
-        /// authentication or some other page outside of the scan scope.
-        TooManyRedirects = 5,
-        /// Indicates that a scan encountered numerous errors from the web site
-        /// pages. When available, most_common_http_error_code field indicates the
-        /// most common HTTP error code encountered during the scan.
-        TooManyHttpErrors = 6,
-    }
 }
 /// Output only.
 /// Defines a warning trace message for ScanRun. Warning traces provide customers

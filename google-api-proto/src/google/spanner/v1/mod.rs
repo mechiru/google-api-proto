@@ -1,375 +1,3 @@
-/// KeyRange represents a range of rows in a table or index.
-///
-/// A range has a start key and an end key. These keys can be open or
-/// closed, indicating if the range includes rows with that key.
-///
-/// Keys are represented by lists, where the ith value in the list
-/// corresponds to the ith component of the table or index primary key.
-/// Individual values are encoded as described
-/// \[here][google.spanner.v1.TypeCode\].
-///
-/// For example, consider the following table definition:
-///
-///     CREATE TABLE UserEvents (
-///       UserName STRING(MAX),
-///       EventDate STRING(10)
-///     ) PRIMARY KEY(UserName, EventDate);
-///
-/// The following keys name rows in this table:
-///
-///     ["Bob", "2014-09-23"]
-///     ["Alfred", "2015-06-12"]
-///
-/// Since the `UserEvents` table's `PRIMARY KEY` clause names two
-/// columns, each `UserEvents` key has two elements; the first is the
-/// `UserName`, and the second is the `EventDate`.
-///
-/// Key ranges with multiple components are interpreted
-/// lexicographically by component using the table or index key's declared
-/// sort order. For example, the following range returns all events for
-/// user `"Bob"` that occurred in the year 2015:
-///
-///     "start_closed": ["Bob", "2015-01-01"]
-///     "end_closed": ["Bob", "2015-12-31"]
-///
-/// Start and end keys can omit trailing key components. This affects the
-/// inclusion and exclusion of rows that exactly match the provided key
-/// components: if the key is closed, then rows that exactly match the
-/// provided components are included; if the key is open, then rows
-/// that exactly match are not included.
-///
-/// For example, the following range includes all events for `"Bob"` that
-/// occurred during and after the year 2000:
-///
-///     "start_closed": ["Bob", "2000-01-01"]
-///     "end_closed": \["Bob"\]
-///
-/// The next example retrieves all events for `"Bob"`:
-///
-///     "start_closed": \["Bob"\]
-///     "end_closed": \["Bob"\]
-///
-/// To retrieve events before the year 2000:
-///
-///     "start_closed": \["Bob"\]
-///     "end_open": ["Bob", "2000-01-01"]
-///
-/// The following range includes all rows in the table:
-///
-///     "start_closed": []
-///     "end_closed": []
-///
-/// This range returns all users whose `UserName` begins with any
-/// character from A to C:
-///
-///     "start_closed": \["A"\]
-///     "end_open": \["D"\]
-///
-/// This range returns all users whose `UserName` begins with B:
-///
-///     "start_closed": \["B"\]
-///     "end_open": \["C"\]
-///
-/// Key ranges honor column sort order. For example, suppose a table is
-/// defined as follows:
-///
-///     CREATE TABLE DescendingSortedTable {
-///       Key INT64,
-///       ...
-///     ) PRIMARY KEY(Key DESC);
-///
-/// The following range retrieves all rows with key values between 1
-/// and 100 inclusive:
-///
-///     "start_closed": \["100"\]
-///     "end_closed": \["1"\]
-///
-/// Note that 100 is passed as the start, and 1 is passed as the end,
-/// because `Key` is a descending column in the schema.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct KeyRange {
-    /// The start key must be provided. It can be either closed or open.
-    #[prost(oneof = "key_range::StartKeyType", tags = "1, 2")]
-    pub start_key_type: ::core::option::Option<key_range::StartKeyType>,
-    /// The end key must be provided. It can be either closed or open.
-    #[prost(oneof = "key_range::EndKeyType", tags = "3, 4")]
-    pub end_key_type: ::core::option::Option<key_range::EndKeyType>,
-}
-/// Nested message and enum types in `KeyRange`.
-pub mod key_range {
-    /// The start key must be provided. It can be either closed or open.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum StartKeyType {
-        /// If the start is closed, then the range includes all rows whose
-        /// first `len(start_closed)` key columns exactly match `start_closed`.
-        #[prost(message, tag = "1")]
-        StartClosed(::prost_types::ListValue),
-        /// If the start is open, then the range excludes rows whose first
-        /// `len(start_open)` key columns exactly match `start_open`.
-        #[prost(message, tag = "2")]
-        StartOpen(::prost_types::ListValue),
-    }
-    /// The end key must be provided. It can be either closed or open.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum EndKeyType {
-        /// If the end is closed, then the range includes all rows whose
-        /// first `len(end_closed)` key columns exactly match `end_closed`.
-        #[prost(message, tag = "3")]
-        EndClosed(::prost_types::ListValue),
-        /// If the end is open, then the range excludes rows whose first
-        /// `len(end_open)` key columns exactly match `end_open`.
-        #[prost(message, tag = "4")]
-        EndOpen(::prost_types::ListValue),
-    }
-}
-/// `KeySet` defines a collection of Cloud Spanner keys and/or key ranges. All
-/// the keys are expected to be in the same table or index. The keys need
-/// not be sorted in any particular way.
-///
-/// If the same key is specified multiple times in the set (for example
-/// if two ranges, two keys, or a key and a range overlap), Cloud Spanner
-/// behaves as if the key were only specified once.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct KeySet {
-    /// A list of specific keys. Entries in `keys` should have exactly as
-    /// many elements as there are columns in the primary or index key
-    /// with which this `KeySet` is used.  Individual key values are
-    /// encoded as described \[here][google.spanner.v1.TypeCode\].
-    #[prost(message, repeated, tag = "1")]
-    pub keys: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
-    /// A list of key ranges. See \[KeyRange][google.spanner.v1.KeyRange\] for more information about
-    /// key range specifications.
-    #[prost(message, repeated, tag = "2")]
-    pub ranges: ::prost::alloc::vec::Vec<KeyRange>,
-    /// For convenience `all` can be set to `true` to indicate that this
-    /// `KeySet` matches all keys in the table or index. Note that any keys
-    /// specified in `keys` or `ranges` are only yielded once.
-    #[prost(bool, tag = "3")]
-    pub all: bool,
-}
-/// A modification to one or more Cloud Spanner rows.  Mutations can be
-/// applied to a Cloud Spanner database by sending them in a
-/// \[Commit][google.spanner.v1.Spanner.Commit\] call.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Mutation {
-    /// Required. The operation to perform.
-    #[prost(oneof = "mutation::Operation", tags = "1, 2, 3, 4, 5")]
-    pub operation: ::core::option::Option<mutation::Operation>,
-}
-/// Nested message and enum types in `Mutation`.
-pub mod mutation {
-    /// Arguments to \[insert][google.spanner.v1.Mutation.insert\], \[update][google.spanner.v1.Mutation.update\], \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], and
-    /// \[replace][google.spanner.v1.Mutation.replace\] operations.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Write {
-        /// Required. The table whose rows will be written.
-        #[prost(string, tag = "1")]
-        pub table: ::prost::alloc::string::String,
-        /// The names of the columns in \[table][google.spanner.v1.Mutation.Write.table\] to be written.
-        ///
-        /// The list of columns must contain enough columns to allow
-        /// Cloud Spanner to derive values for all primary key columns in the
-        /// row(s) to be modified.
-        #[prost(string, repeated, tag = "2")]
-        pub columns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// The values to be written. `values` can contain more than one
-        /// list of values. If it does, then multiple rows are written, one
-        /// for each entry in `values`. Each list in `values` must have
-        /// exactly as many entries as there are entries in \[columns][google.spanner.v1.Mutation.Write.columns\]
-        /// above. Sending multiple lists is equivalent to sending multiple
-        /// `Mutation`s, each containing one `values` entry and repeating
-        /// \[table][google.spanner.v1.Mutation.Write.table\] and \[columns][google.spanner.v1.Mutation.Write.columns\]. Individual values in each list are
-        /// encoded as described \[here][google.spanner.v1.TypeCode\].
-        #[prost(message, repeated, tag = "3")]
-        pub values: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
-    }
-    /// Arguments to \[delete][google.spanner.v1.Mutation.delete\] operations.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Delete {
-        /// Required. The table whose rows will be deleted.
-        #[prost(string, tag = "1")]
-        pub table: ::prost::alloc::string::String,
-        /// Required. The primary keys of the rows within \[table][google.spanner.v1.Mutation.Delete.table\] to delete.  The
-        /// primary keys must be specified in the order in which they appear in the
-        /// `PRIMARY KEY()` clause of the table's equivalent DDL statement (the DDL
-        /// statement used to create the table).
-        /// Delete is idempotent. The transaction will succeed even if some or all
-        /// rows do not exist.
-        #[prost(message, optional, tag = "2")]
-        pub key_set: ::core::option::Option<super::KeySet>,
-    }
-    /// Required. The operation to perform.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Operation {
-        /// Insert new rows in a table. If any of the rows already exist,
-        /// the write or transaction fails with error `ALREADY_EXISTS`.
-        #[prost(message, tag = "1")]
-        Insert(Write),
-        /// Update existing rows in a table. If any of the rows does not
-        /// already exist, the transaction fails with error `NOT_FOUND`.
-        #[prost(message, tag = "2")]
-        Update(Write),
-        /// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, then
-        /// its column values are overwritten with the ones provided. Any
-        /// column values not explicitly written are preserved.
-        ///
-        /// When using \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], just as when using \[insert][google.spanner.v1.Mutation.insert\], all `NOT
-        /// NULL` columns in the table must be given a value. This holds true
-        /// even when the row already exists and will therefore actually be updated.
-        #[prost(message, tag = "3")]
-        InsertOrUpdate(Write),
-        /// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, it is
-        /// deleted, and the column values provided are inserted
-        /// instead. Unlike \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], this means any values not
-        /// explicitly written become `NULL`.
-        ///
-        /// In an interleaved table, if you create the child table with the
-        /// `ON DELETE CASCADE` annotation, then replacing a parent row
-        /// also deletes the child rows. Otherwise, you must delete the
-        /// child rows before you replace the parent row.
-        #[prost(message, tag = "4")]
-        Replace(Write),
-        /// Delete rows from a table. Succeeds whether or not the named
-        /// rows were present.
-        #[prost(message, tag = "5")]
-        Delete(Delete),
-    }
-}
-/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommitResponse {
-    /// The Cloud Spanner timestamp at which the transaction committed.
-    #[prost(message, optional, tag = "1")]
-    pub commit_timestamp: ::core::option::Option<::prost_types::Timestamp>,
-    /// The statistics about this Commit. Not returned by default.
-    /// For more information, see
-    /// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].
-    #[prost(message, optional, tag = "2")]
-    pub commit_stats: ::core::option::Option<commit_response::CommitStats>,
-}
-/// Nested message and enum types in `CommitResponse`.
-pub mod commit_response {
-    /// Additional statistics about a commit.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CommitStats {
-        /// The total number of mutations for the transaction. Knowing the
-        /// `mutation_count` value can help you maximize the number of mutations
-        /// in a transaction and minimize the number of API round trips. You can
-        /// also monitor this value to prevent transactions from exceeding the system
-        /// \[limit\](<http://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data>).
-        /// If the number of mutations exceeds the limit, the server returns
-        /// \[INVALID_ARGUMENT\](<http://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT>).
-        #[prost(int64, tag = "1")]
-        pub mutation_count: i64,
-    }
-}
-/// Node information for nodes appearing in a \[QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PlanNode {
-    /// The `PlanNode`'s index in [node list]\[google.spanner.v1.QueryPlan.plan_nodes\].
-    #[prost(int32, tag = "1")]
-    pub index: i32,
-    /// Used to determine the type of node. May be needed for visualizing
-    /// different kinds of nodes differently. For example, If the node is a
-    /// \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] node, it will have a condensed representation
-    /// which can be used to directly embed a description of the node in its
-    /// parent.
-    #[prost(enumeration = "plan_node::Kind", tag = "2")]
-    pub kind: i32,
-    /// The display name for the node.
-    #[prost(string, tag = "3")]
-    pub display_name: ::prost::alloc::string::String,
-    /// List of child node `index`es and their relationship to this parent.
-    #[prost(message, repeated, tag = "4")]
-    pub child_links: ::prost::alloc::vec::Vec<plan_node::ChildLink>,
-    /// Condensed representation for \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] nodes.
-    #[prost(message, optional, tag = "5")]
-    pub short_representation: ::core::option::Option<plan_node::ShortRepresentation>,
-    /// Attributes relevant to the node contained in a group of key-value pairs.
-    /// For example, a Parameter Reference node could have the following
-    /// information in its metadata:
-    ///
-    ///     {
-    ///       "parameter_reference": "param1",
-    ///       "parameter_type": "array"
-    ///     }
-    #[prost(message, optional, tag = "6")]
-    pub metadata: ::core::option::Option<::prost_types::Struct>,
-    /// The execution statistics associated with the node, contained in a group of
-    /// key-value pairs. Only present if the plan was returned as a result of a
-    /// profile query. For example, number of executions, number of rows/time per
-    /// execution etc.
-    #[prost(message, optional, tag = "7")]
-    pub execution_stats: ::core::option::Option<::prost_types::Struct>,
-}
-/// Nested message and enum types in `PlanNode`.
-pub mod plan_node {
-    /// Metadata associated with a parent-child relationship appearing in a
-    /// \[PlanNode][google.spanner.v1.PlanNode\].
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ChildLink {
-        /// The node to which the link points.
-        #[prost(int32, tag = "1")]
-        pub child_index: i32,
-        /// The type of the link. For example, in Hash Joins this could be used to
-        /// distinguish between the build child and the probe child, or in the case
-        /// of the child being an output variable, to represent the tag associated
-        /// with the output variable.
-        #[prost(string, tag = "2")]
-        pub r#type: ::prost::alloc::string::String,
-        /// Only present if the child node is \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] and corresponds
-        /// to an output variable of the parent node. The field carries the name of
-        /// the output variable.
-        /// For example, a `TableScan` operator that reads rows from a table will
-        /// have child links to the `SCALAR` nodes representing the output variables
-        /// created for each column that is read by the operator. The corresponding
-        /// `variable` fields will be set to the variable names assigned to the
-        /// columns.
-        #[prost(string, tag = "3")]
-        pub variable: ::prost::alloc::string::String,
-    }
-    /// Condensed representation of a node and its subtree. Only present for
-    /// `SCALAR` \[PlanNode(s)][google.spanner.v1.PlanNode\].
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ShortRepresentation {
-        /// A string representation of the expression subtree rooted at this node.
-        #[prost(string, tag = "1")]
-        pub description: ::prost::alloc::string::String,
-        /// A mapping of (subquery variable name) -> (subquery node id) for cases
-        /// where the `description` string of this node references a `SCALAR`
-        /// subquery contained in the expression subtree rooted at this node. The
-        /// referenced `SCALAR` subquery may not necessarily be a direct child of
-        /// this node.
-        #[prost(btree_map = "string, int32", tag = "2")]
-        pub subqueries: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i32>,
-    }
-    /// The kind of \[PlanNode][google.spanner.v1.PlanNode\]. Distinguishes between the two different kinds of
-    /// nodes that can appear in a query plan.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Kind {
-        /// Not specified.
-        Unspecified = 0,
-        /// Denotes a Relational operator node in the expression tree. Relational
-        /// operators represent iterative processing of rows during query execution.
-        /// For example, a `TableScan` operation that reads rows from a table.
-        Relational = 1,
-        /// Denotes a Scalar node in the expression tree. Scalar nodes represent
-        /// non-iterable entities in the query plan. For example, constants or
-        /// arithmetic operators appearing inside predicate expressions or references
-        /// to column names.
-        Scalar = 2,
-    }
-}
-/// Contains an ordered list of nodes appearing in the query plan.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryPlan {
-    /// The nodes in the query plan. Plan nodes are returned in pre-order starting
-    /// with the plan root. Each \[PlanNode][google.spanner.v1.PlanNode\]'s `id` corresponds to its index in
-    /// `plan_nodes`.
-    #[prost(message, repeated, tag = "1")]
-    pub plan_nodes: ::prost::alloc::vec::Vec<PlanNode>,
-}
 /// # Transactions
 ///
 ///
@@ -820,6 +448,350 @@ pub mod transaction_selector {
         Begin(super::TransactionOptions),
     }
 }
+/// KeyRange represents a range of rows in a table or index.
+///
+/// A range has a start key and an end key. These keys can be open or
+/// closed, indicating if the range includes rows with that key.
+///
+/// Keys are represented by lists, where the ith value in the list
+/// corresponds to the ith component of the table or index primary key.
+/// Individual values are encoded as described
+/// \[here][google.spanner.v1.TypeCode\].
+///
+/// For example, consider the following table definition:
+///
+///     CREATE TABLE UserEvents (
+///       UserName STRING(MAX),
+///       EventDate STRING(10)
+///     ) PRIMARY KEY(UserName, EventDate);
+///
+/// The following keys name rows in this table:
+///
+///     ["Bob", "2014-09-23"]
+///     ["Alfred", "2015-06-12"]
+///
+/// Since the `UserEvents` table's `PRIMARY KEY` clause names two
+/// columns, each `UserEvents` key has two elements; the first is the
+/// `UserName`, and the second is the `EventDate`.
+///
+/// Key ranges with multiple components are interpreted
+/// lexicographically by component using the table or index key's declared
+/// sort order. For example, the following range returns all events for
+/// user `"Bob"` that occurred in the year 2015:
+///
+///     "start_closed": ["Bob", "2015-01-01"]
+///     "end_closed": ["Bob", "2015-12-31"]
+///
+/// Start and end keys can omit trailing key components. This affects the
+/// inclusion and exclusion of rows that exactly match the provided key
+/// components: if the key is closed, then rows that exactly match the
+/// provided components are included; if the key is open, then rows
+/// that exactly match are not included.
+///
+/// For example, the following range includes all events for `"Bob"` that
+/// occurred during and after the year 2000:
+///
+///     "start_closed": ["Bob", "2000-01-01"]
+///     "end_closed": \["Bob"\]
+///
+/// The next example retrieves all events for `"Bob"`:
+///
+///     "start_closed": \["Bob"\]
+///     "end_closed": \["Bob"\]
+///
+/// To retrieve events before the year 2000:
+///
+///     "start_closed": \["Bob"\]
+///     "end_open": ["Bob", "2000-01-01"]
+///
+/// The following range includes all rows in the table:
+///
+///     "start_closed": []
+///     "end_closed": []
+///
+/// This range returns all users whose `UserName` begins with any
+/// character from A to C:
+///
+///     "start_closed": \["A"\]
+///     "end_open": \["D"\]
+///
+/// This range returns all users whose `UserName` begins with B:
+///
+///     "start_closed": \["B"\]
+///     "end_open": \["C"\]
+///
+/// Key ranges honor column sort order. For example, suppose a table is
+/// defined as follows:
+///
+///     CREATE TABLE DescendingSortedTable {
+///       Key INT64,
+///       ...
+///     ) PRIMARY KEY(Key DESC);
+///
+/// The following range retrieves all rows with key values between 1
+/// and 100 inclusive:
+///
+///     "start_closed": \["100"\]
+///     "end_closed": \["1"\]
+///
+/// Note that 100 is passed as the start, and 1 is passed as the end,
+/// because `Key` is a descending column in the schema.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KeyRange {
+    /// The start key must be provided. It can be either closed or open.
+    #[prost(oneof = "key_range::StartKeyType", tags = "1, 2")]
+    pub start_key_type: ::core::option::Option<key_range::StartKeyType>,
+    /// The end key must be provided. It can be either closed or open.
+    #[prost(oneof = "key_range::EndKeyType", tags = "3, 4")]
+    pub end_key_type: ::core::option::Option<key_range::EndKeyType>,
+}
+/// Nested message and enum types in `KeyRange`.
+pub mod key_range {
+    /// The start key must be provided. It can be either closed or open.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum StartKeyType {
+        /// If the start is closed, then the range includes all rows whose
+        /// first `len(start_closed)` key columns exactly match `start_closed`.
+        #[prost(message, tag = "1")]
+        StartClosed(::prost_types::ListValue),
+        /// If the start is open, then the range excludes rows whose first
+        /// `len(start_open)` key columns exactly match `start_open`.
+        #[prost(message, tag = "2")]
+        StartOpen(::prost_types::ListValue),
+    }
+    /// The end key must be provided. It can be either closed or open.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum EndKeyType {
+        /// If the end is closed, then the range includes all rows whose
+        /// first `len(end_closed)` key columns exactly match `end_closed`.
+        #[prost(message, tag = "3")]
+        EndClosed(::prost_types::ListValue),
+        /// If the end is open, then the range excludes rows whose first
+        /// `len(end_open)` key columns exactly match `end_open`.
+        #[prost(message, tag = "4")]
+        EndOpen(::prost_types::ListValue),
+    }
+}
+/// `KeySet` defines a collection of Cloud Spanner keys and/or key ranges. All
+/// the keys are expected to be in the same table or index. The keys need
+/// not be sorted in any particular way.
+///
+/// If the same key is specified multiple times in the set (for example
+/// if two ranges, two keys, or a key and a range overlap), Cloud Spanner
+/// behaves as if the key were only specified once.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KeySet {
+    /// A list of specific keys. Entries in `keys` should have exactly as
+    /// many elements as there are columns in the primary or index key
+    /// with which this `KeySet` is used.  Individual key values are
+    /// encoded as described \[here][google.spanner.v1.TypeCode\].
+    #[prost(message, repeated, tag = "1")]
+    pub keys: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
+    /// A list of key ranges. See \[KeyRange][google.spanner.v1.KeyRange\] for more information about
+    /// key range specifications.
+    #[prost(message, repeated, tag = "2")]
+    pub ranges: ::prost::alloc::vec::Vec<KeyRange>,
+    /// For convenience `all` can be set to `true` to indicate that this
+    /// `KeySet` matches all keys in the table or index. Note that any keys
+    /// specified in `keys` or `ranges` are only yielded once.
+    #[prost(bool, tag = "3")]
+    pub all: bool,
+}
+/// A modification to one or more Cloud Spanner rows.  Mutations can be
+/// applied to a Cloud Spanner database by sending them in a
+/// \[Commit][google.spanner.v1.Spanner.Commit\] call.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Mutation {
+    /// Required. The operation to perform.
+    #[prost(oneof = "mutation::Operation", tags = "1, 2, 3, 4, 5")]
+    pub operation: ::core::option::Option<mutation::Operation>,
+}
+/// Nested message and enum types in `Mutation`.
+pub mod mutation {
+    /// Arguments to \[insert][google.spanner.v1.Mutation.insert\], \[update][google.spanner.v1.Mutation.update\], \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], and
+    /// \[replace][google.spanner.v1.Mutation.replace\] operations.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Write {
+        /// Required. The table whose rows will be written.
+        #[prost(string, tag = "1")]
+        pub table: ::prost::alloc::string::String,
+        /// The names of the columns in \[table][google.spanner.v1.Mutation.Write.table\] to be written.
+        ///
+        /// The list of columns must contain enough columns to allow
+        /// Cloud Spanner to derive values for all primary key columns in the
+        /// row(s) to be modified.
+        #[prost(string, repeated, tag = "2")]
+        pub columns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// The values to be written. `values` can contain more than one
+        /// list of values. If it does, then multiple rows are written, one
+        /// for each entry in `values`. Each list in `values` must have
+        /// exactly as many entries as there are entries in \[columns][google.spanner.v1.Mutation.Write.columns\]
+        /// above. Sending multiple lists is equivalent to sending multiple
+        /// `Mutation`s, each containing one `values` entry and repeating
+        /// \[table][google.spanner.v1.Mutation.Write.table\] and \[columns][google.spanner.v1.Mutation.Write.columns\]. Individual values in each list are
+        /// encoded as described \[here][google.spanner.v1.TypeCode\].
+        #[prost(message, repeated, tag = "3")]
+        pub values: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
+    }
+    /// Arguments to \[delete][google.spanner.v1.Mutation.delete\] operations.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Delete {
+        /// Required. The table whose rows will be deleted.
+        #[prost(string, tag = "1")]
+        pub table: ::prost::alloc::string::String,
+        /// Required. The primary keys of the rows within \[table][google.spanner.v1.Mutation.Delete.table\] to delete.  The
+        /// primary keys must be specified in the order in which they appear in the
+        /// `PRIMARY KEY()` clause of the table's equivalent DDL statement (the DDL
+        /// statement used to create the table).
+        /// Delete is idempotent. The transaction will succeed even if some or all
+        /// rows do not exist.
+        #[prost(message, optional, tag = "2")]
+        pub key_set: ::core::option::Option<super::KeySet>,
+    }
+    /// Required. The operation to perform.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Operation {
+        /// Insert new rows in a table. If any of the rows already exist,
+        /// the write or transaction fails with error `ALREADY_EXISTS`.
+        #[prost(message, tag = "1")]
+        Insert(Write),
+        /// Update existing rows in a table. If any of the rows does not
+        /// already exist, the transaction fails with error `NOT_FOUND`.
+        #[prost(message, tag = "2")]
+        Update(Write),
+        /// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, then
+        /// its column values are overwritten with the ones provided. Any
+        /// column values not explicitly written are preserved.
+        ///
+        /// When using \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], just as when using \[insert][google.spanner.v1.Mutation.insert\], all `NOT
+        /// NULL` columns in the table must be given a value. This holds true
+        /// even when the row already exists and will therefore actually be updated.
+        #[prost(message, tag = "3")]
+        InsertOrUpdate(Write),
+        /// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, it is
+        /// deleted, and the column values provided are inserted
+        /// instead. Unlike \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], this means any values not
+        /// explicitly written become `NULL`.
+        ///
+        /// In an interleaved table, if you create the child table with the
+        /// `ON DELETE CASCADE` annotation, then replacing a parent row
+        /// also deletes the child rows. Otherwise, you must delete the
+        /// child rows before you replace the parent row.
+        #[prost(message, tag = "4")]
+        Replace(Write),
+        /// Delete rows from a table. Succeeds whether or not the named
+        /// rows were present.
+        #[prost(message, tag = "5")]
+        Delete(Delete),
+    }
+}
+/// Node information for nodes appearing in a \[QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PlanNode {
+    /// The `PlanNode`'s index in [node list]\[google.spanner.v1.QueryPlan.plan_nodes\].
+    #[prost(int32, tag = "1")]
+    pub index: i32,
+    /// Used to determine the type of node. May be needed for visualizing
+    /// different kinds of nodes differently. For example, If the node is a
+    /// \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] node, it will have a condensed representation
+    /// which can be used to directly embed a description of the node in its
+    /// parent.
+    #[prost(enumeration = "plan_node::Kind", tag = "2")]
+    pub kind: i32,
+    /// The display name for the node.
+    #[prost(string, tag = "3")]
+    pub display_name: ::prost::alloc::string::String,
+    /// List of child node `index`es and their relationship to this parent.
+    #[prost(message, repeated, tag = "4")]
+    pub child_links: ::prost::alloc::vec::Vec<plan_node::ChildLink>,
+    /// Condensed representation for \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] nodes.
+    #[prost(message, optional, tag = "5")]
+    pub short_representation: ::core::option::Option<plan_node::ShortRepresentation>,
+    /// Attributes relevant to the node contained in a group of key-value pairs.
+    /// For example, a Parameter Reference node could have the following
+    /// information in its metadata:
+    ///
+    ///     {
+    ///       "parameter_reference": "param1",
+    ///       "parameter_type": "array"
+    ///     }
+    #[prost(message, optional, tag = "6")]
+    pub metadata: ::core::option::Option<::prost_types::Struct>,
+    /// The execution statistics associated with the node, contained in a group of
+    /// key-value pairs. Only present if the plan was returned as a result of a
+    /// profile query. For example, number of executions, number of rows/time per
+    /// execution etc.
+    #[prost(message, optional, tag = "7")]
+    pub execution_stats: ::core::option::Option<::prost_types::Struct>,
+}
+/// Nested message and enum types in `PlanNode`.
+pub mod plan_node {
+    /// Metadata associated with a parent-child relationship appearing in a
+    /// \[PlanNode][google.spanner.v1.PlanNode\].
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ChildLink {
+        /// The node to which the link points.
+        #[prost(int32, tag = "1")]
+        pub child_index: i32,
+        /// The type of the link. For example, in Hash Joins this could be used to
+        /// distinguish between the build child and the probe child, or in the case
+        /// of the child being an output variable, to represent the tag associated
+        /// with the output variable.
+        #[prost(string, tag = "2")]
+        pub r#type: ::prost::alloc::string::String,
+        /// Only present if the child node is \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] and corresponds
+        /// to an output variable of the parent node. The field carries the name of
+        /// the output variable.
+        /// For example, a `TableScan` operator that reads rows from a table will
+        /// have child links to the `SCALAR` nodes representing the output variables
+        /// created for each column that is read by the operator. The corresponding
+        /// `variable` fields will be set to the variable names assigned to the
+        /// columns.
+        #[prost(string, tag = "3")]
+        pub variable: ::prost::alloc::string::String,
+    }
+    /// Condensed representation of a node and its subtree. Only present for
+    /// `SCALAR` \[PlanNode(s)][google.spanner.v1.PlanNode\].
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ShortRepresentation {
+        /// A string representation of the expression subtree rooted at this node.
+        #[prost(string, tag = "1")]
+        pub description: ::prost::alloc::string::String,
+        /// A mapping of (subquery variable name) -> (subquery node id) for cases
+        /// where the `description` string of this node references a `SCALAR`
+        /// subquery contained in the expression subtree rooted at this node. The
+        /// referenced `SCALAR` subquery may not necessarily be a direct child of
+        /// this node.
+        #[prost(btree_map = "string, int32", tag = "2")]
+        pub subqueries: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i32>,
+    }
+    /// The kind of \[PlanNode][google.spanner.v1.PlanNode\]. Distinguishes between the two different kinds of
+    /// nodes that can appear in a query plan.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Kind {
+        /// Not specified.
+        Unspecified = 0,
+        /// Denotes a Relational operator node in the expression tree. Relational
+        /// operators represent iterative processing of rows during query execution.
+        /// For example, a `TableScan` operation that reads rows from a table.
+        Relational = 1,
+        /// Denotes a Scalar node in the expression tree. Scalar nodes represent
+        /// non-iterable entities in the query plan. For example, constants or
+        /// arithmetic operators appearing inside predicate expressions or references
+        /// to column names.
+        Scalar = 2,
+    }
+}
+/// Contains an ordered list of nodes appearing in the query plan.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryPlan {
+    /// The nodes in the query plan. Plan nodes are returned in pre-order starting
+    /// with the plan root. Each \[PlanNode][google.spanner.v1.PlanNode\]'s `id` corresponds to its index in
+    /// `plan_nodes`.
+    #[prost(message, repeated, tag = "1")]
+    pub plan_nodes: ::prost::alloc::vec::Vec<PlanNode>,
+}
 /// `Type` indicates the type of a Cloud Spanner value, as might be stored in a
 /// table cell or returned from an SQL query.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1110,6 +1082,34 @@ pub mod result_set_stats {
         /// returns a lower bound of the rows modified.
         #[prost(int64, tag = "4")]
         RowCountLowerBound(i64),
+    }
+}
+/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommitResponse {
+    /// The Cloud Spanner timestamp at which the transaction committed.
+    #[prost(message, optional, tag = "1")]
+    pub commit_timestamp: ::core::option::Option<::prost_types::Timestamp>,
+    /// The statistics about this Commit. Not returned by default.
+    /// For more information, see
+    /// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].
+    #[prost(message, optional, tag = "2")]
+    pub commit_stats: ::core::option::Option<commit_response::CommitStats>,
+}
+/// Nested message and enum types in `CommitResponse`.
+pub mod commit_response {
+    /// Additional statistics about a commit.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CommitStats {
+        /// The total number of mutations for the transaction. Knowing the
+        /// `mutation_count` value can help you maximize the number of mutations
+        /// in a transaction and minimize the number of API round trips. You can
+        /// also monitor this value to prevent transactions from exceeding the system
+        /// \[limit\](<http://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data>).
+        /// If the number of mutations exceeds the limit, the server returns
+        /// \[INVALID_ARGUMENT\](<http://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT>).
+        #[prost(int64, tag = "1")]
+        pub mutation_count: i64,
     }
 }
 /// The request for \[CreateSession][google.spanner.v1.Spanner.CreateSession\].
@@ -2019,7 +2019,9 @@ pub mod spanner_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.spanner.v1.Spanner/ExecuteStreamingSql",
             );
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Executes a batch of SQL DML statements. This method allows many statements"]
         #[doc = " to be run with lower latency than submitting them sequentially with"]
@@ -2093,7 +2095,9 @@ pub mod spanner_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.spanner.v1.Spanner/StreamingRead");
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Begins a new transaction. This step can often be skipped:"]
         #[doc = " [Read][google.spanner.v1.Spanner.Read], [ExecuteSql][google.spanner.v1.Spanner.ExecuteSql] and"]

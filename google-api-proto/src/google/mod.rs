@@ -28,7 +28,10 @@ pub mod actions;
 ))]
 pub mod ads;
 
-#[cfg(any(feature = "google-analytics-admin-v1alpha", feature = "google-analytics-data-v1beta",))]
+#[cfg(any(
+    feature = "google-analytics-admin-v1alpha",
+    feature = "google-analytics-data-v1beta",
+))]
 pub mod analytics;
 
 #[cfg(any(
@@ -79,7 +82,10 @@ pub mod bigtable;
 #[cfg(any(feature = "google-bytestream",))]
 pub mod bytestream;
 
-#[cfg(any(feature = "google-chromeos-moblab-v1beta1",))]
+#[cfg(any(
+    feature = "google-chromeos-moblab-v1beta1",
+    feature = "google-chromeos-uidetection-v1",
+))]
 pub mod chromeos;
 
 #[cfg(any(
@@ -110,6 +116,7 @@ pub mod chromeos;
     feature = "google-cloud-audit",
     feature = "google-cloud-automl-v1",
     feature = "google-cloud-automl-v1beta1",
+    feature = "google-cloud-baremetalsolution-v2",
     feature = "google-cloud-bigquery-connection-v1",
     feature = "google-cloud-bigquery-connection-v1beta1",
     feature = "google-cloud-bigquery-datatransfer-v1",
@@ -157,6 +164,7 @@ pub mod chromeos;
     feature = "google-cloud-domains-v1alpha2",
     feature = "google-cloud-domains-v1beta1",
     feature = "google-cloud-essentialcontacts-v1",
+    feature = "google-cloud-eventarc-publishing-v1",
     feature = "google-cloud-eventarc-v1",
     feature = "google-cloud-filestore-v1",
     feature = "google-cloud-filestore-v1beta1",
@@ -213,6 +221,7 @@ pub mod chromeos;
     feature = "google-cloud-networkmanagement-v1",
     feature = "google-cloud-networkmanagement-v1beta1",
     feature = "google-cloud-networksecurity-v1beta1",
+    feature = "google-cloud-networkservices-v1",
     feature = "google-cloud-networkservices-v1beta1",
     feature = "google-cloud-notebooks-v1",
     feature = "google-cloud-notebooks-v1beta1",
@@ -282,6 +291,7 @@ pub mod chromeos;
     feature = "google-cloud-tpu-v2alpha1",
     feature = "google-cloud-translation-v3",
     feature = "google-cloud-translation-v3beta1",
+    feature = "google-cloud-video-livestream-logging-v1",
     feature = "google-cloud-video-livestream-v1",
     feature = "google-cloud-video-transcoder-v1",
     feature = "google-cloud-video-transcoder-v1beta1",
@@ -377,7 +387,10 @@ pub mod genomics;
 #[cfg(any(feature = "google-geo-type",))]
 pub mod geo;
 
-#[cfg(any(feature = "google-home-enterprise-sdm-v1", feature = "google-home-graph-v1",))]
+#[cfg(any(
+    feature = "google-home-enterprise-sdm-v1",
+    feature = "google-home-graph-v1",
+))]
 pub mod home;
 
 #[cfg(any(
@@ -426,9 +439,6 @@ pub mod partner;
 
 #[cfg(any(feature = "google-privacy-dlp-v2",))]
 pub mod privacy;
-
-#[cfg(any(feature = "google-protobuf",))]
-pub mod protobuf;
 
 #[cfg(any(feature = "google-pubsub-v1", feature = "google-pubsub-v1beta2",))]
 pub mod pubsub;

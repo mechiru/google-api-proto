@@ -42,8 +42,14 @@ pub mod assuredworkloads;
 #[cfg(any(feature = "google-cloud-audit",))]
 pub mod audit;
 
-#[cfg(any(feature = "google-cloud-automl-v1", feature = "google-cloud-automl-v1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-automl-v1",
+    feature = "google-cloud-automl-v1beta1",
+))]
 pub mod automl;
+
+#[cfg(any(feature = "google-cloud-baremetalsolution-v2",))]
+pub mod baremetalsolution;
 
 #[cfg(any(
     feature = "google-cloud-bigquery-connection-v1",
@@ -78,28 +84,43 @@ pub mod binaryauthorization;
 #[cfg(any(feature = "google-cloud-channel-v1",))]
 pub mod channel;
 
-#[cfg(any(feature = "google-cloud-clouddms-logging-v1", feature = "google-cloud-clouddms-v1",))]
+#[cfg(any(
+    feature = "google-cloud-clouddms-logging-v1",
+    feature = "google-cloud-clouddms-v1",
+))]
 pub mod clouddms;
 
 #[cfg(any(feature = "google-cloud-common",))]
 pub mod common;
 
-#[cfg(any(feature = "google-cloud-compute-v1", feature = "google-cloud-compute-v1small",))]
+#[cfg(any(
+    feature = "google-cloud-compute-v1",
+    feature = "google-cloud-compute-v1small",
+))]
 pub mod compute;
 
 #[cfg(any(feature = "google-cloud-contactcenterinsights-v1",))]
 pub mod contactcenterinsights;
 
-#[cfg(any(feature = "google-cloud-datacatalog-v1", feature = "google-cloud-datacatalog-v1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-datacatalog-v1",
+    feature = "google-cloud-datacatalog-v1beta1",
+))]
 pub mod datacatalog;
 
-#[cfg(any(feature = "google-cloud-datafusion-v1", feature = "google-cloud-datafusion-v1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-datafusion-v1",
+    feature = "google-cloud-datafusion-v1beta1",
+))]
 pub mod datafusion;
 
 #[cfg(any(feature = "google-cloud-datalabeling-v1beta1",))]
 pub mod datalabeling;
 
-#[cfg(any(feature = "google-cloud-dataproc-logging", feature = "google-cloud-dataproc-v1",))]
+#[cfg(any(
+    feature = "google-cloud-dataproc-logging",
+    feature = "google-cloud-dataproc-v1",
+))]
 pub mod dataproc;
 
 #[cfg(any(feature = "google-cloud-dataqna-v1alpha",))]
@@ -137,10 +158,16 @@ pub mod domains;
 #[cfg(any(feature = "google-cloud-essentialcontacts-v1",))]
 pub mod essentialcontacts;
 
-#[cfg(any(feature = "google-cloud-eventarc-v1",))]
+#[cfg(any(
+    feature = "google-cloud-eventarc-publishing-v1",
+    feature = "google-cloud-eventarc-v1",
+))]
 pub mod eventarc;
 
-#[cfg(any(feature = "google-cloud-filestore-v1", feature = "google-cloud-filestore-v1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-filestore-v1",
+    feature = "google-cloud-filestore-v1beta1",
+))]
 pub mod filestore;
 
 #[cfg(any(feature = "google-cloud-functions-v1",))]
@@ -231,7 +258,10 @@ pub mod managedidentities;
 ))]
 pub mod mediatranslation;
 
-#[cfg(any(feature = "google-cloud-memcache-v1", feature = "google-cloud-memcache-v1beta2",))]
+#[cfg(any(
+    feature = "google-cloud-memcache-v1",
+    feature = "google-cloud-memcache-v1beta2",
+))]
 pub mod memcache;
 
 #[cfg(any(
@@ -260,10 +290,16 @@ pub mod networkmanagement;
 #[cfg(any(feature = "google-cloud-networksecurity-v1beta1",))]
 pub mod networksecurity;
 
-#[cfg(any(feature = "google-cloud-networkservices-v1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-networkservices-v1",
+    feature = "google-cloud-networkservices-v1beta1",
+))]
 pub mod networkservices;
 
-#[cfg(any(feature = "google-cloud-notebooks-v1", feature = "google-cloud-notebooks-v1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-notebooks-v1",
+    feature = "google-cloud-notebooks-v1beta1",
+))]
 pub mod notebooks;
 
 #[cfg(any(
@@ -272,7 +308,10 @@ pub mod notebooks;
 ))]
 pub mod orchestration;
 
-#[cfg(any(feature = "google-cloud-orgpolicy-v1", feature = "google-cloud-orgpolicy-v2",))]
+#[cfg(any(
+    feature = "google-cloud-orgpolicy-v1",
+    feature = "google-cloud-orgpolicy-v2",
+))]
 pub mod orgpolicy;
 
 #[cfg(any(
@@ -321,7 +360,10 @@ pub mod recommendationengine;
 ))]
 pub mod recommender;
 
-#[cfg(any(feature = "google-cloud-redis-v1", feature = "google-cloud-redis-v1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-redis-v1",
+    feature = "google-cloud-redis-v1beta1",
+))]
 pub mod redis;
 
 #[cfg(any(
@@ -347,7 +389,10 @@ pub mod runtimeconfig;
 #[cfg(any(feature = "google-cloud-saasaccelerator-management-logs-v1",))]
 pub mod saasaccelerator;
 
-#[cfg(any(feature = "google-cloud-scheduler-v1", feature = "google-cloud-scheduler-v1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-scheduler-v1",
+    feature = "google-cloud-scheduler-v1beta1",
+))]
 pub mod scheduler;
 
 #[cfg(any(
@@ -382,16 +427,25 @@ pub mod servicedirectory;
 #[cfg(any(feature = "google-cloud-shell-v1",))]
 pub mod shell;
 
-#[cfg(any(feature = "google-cloud-speech-v1", feature = "google-cloud-speech-v1p1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-speech-v1",
+    feature = "google-cloud-speech-v1p1beta1",
+))]
 pub mod speech;
 
 #[cfg(any(feature = "google-cloud-sql-v1", feature = "google-cloud-sql-v1beta4",))]
 pub mod sql;
 
-#[cfg(any(feature = "google-cloud-support-common", feature = "google-cloud-support-v1alpha1",))]
+#[cfg(any(
+    feature = "google-cloud-support-common",
+    feature = "google-cloud-support-v1alpha1",
+))]
 pub mod support;
 
-#[cfg(any(feature = "google-cloud-talent-v4", feature = "google-cloud-talent-v4beta1",))]
+#[cfg(any(
+    feature = "google-cloud-talent-v4",
+    feature = "google-cloud-talent-v4beta1",
+))]
 pub mod talent;
 
 #[cfg(any(
@@ -410,10 +464,14 @@ pub mod texttospeech;
 #[cfg(any(feature = "google-cloud-tpu-v1", feature = "google-cloud-tpu-v2alpha1",))]
 pub mod tpu;
 
-#[cfg(any(feature = "google-cloud-translation-v3", feature = "google-cloud-translation-v3beta1",))]
+#[cfg(any(
+    feature = "google-cloud-translation-v3",
+    feature = "google-cloud-translation-v3beta1",
+))]
 pub mod translation;
 
 #[cfg(any(
+    feature = "google-cloud-video-livestream-logging-v1",
     feature = "google-cloud-video-livestream-v1",
     feature = "google-cloud-video-transcoder-v1",
     feature = "google-cloud-video-transcoder-v1beta1",
@@ -444,7 +502,10 @@ pub mod vmmigration;
 #[cfg(any(feature = "google-cloud-vpcaccess-v1",))]
 pub mod vpcaccess;
 
-#[cfg(any(feature = "google-cloud-webrisk-v1", feature = "google-cloud-webrisk-v1beta1",))]
+#[cfg(any(
+    feature = "google-cloud-webrisk-v1",
+    feature = "google-cloud-webrisk-v1beta1",
+))]
 pub mod webrisk;
 
 #[cfg(any(

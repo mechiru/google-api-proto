@@ -441,8 +441,8 @@ pub struct Input {
     pub security_rules: ::core::option::Option<input::SecurityRule>,
     /// Output only. The information for the input stream. This field will be present only when
     /// this input receives the input stream.
-    #[prost(message, optional, tag = "13")]
-    pub stream_info: ::core::option::Option<input::StreamInfo>,
+    #[prost(message, optional, tag = "15")]
+    pub input_stream_property: ::core::option::Option<InputStreamProperty>,
 }
 /// Nested message and enum types in `Input`.
 pub mod input {
@@ -456,26 +456,6 @@ pub mod input {
         /// `192.0.1.0/32` for a single IP address.
         #[prost(string, repeated, tag = "1")]
         pub ip_ranges: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    }
-    /// The information for an input stream.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct StreamInfo {
-        /// The time that the current input stream is accepted and the connection is
-        /// established. This timestamp is updated when reconnections occur.
-        #[prost(message, optional, tag = "1")]
-        pub last_establish_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// Video codec used in the input stream.
-        #[prost(string, tag = "2")]
-        pub video_codec: ::prost::alloc::string::String,
-        /// Audio codec used in the input stream.
-        #[prost(string, tag = "3")]
-        pub audio_codec: ::prost::alloc::string::String,
-        /// The width of the input video in pixels.
-        #[prost(int32, tag = "4")]
-        pub width_pixels: i32,
-        /// The height of the input video in pixels.
-        #[prost(int32, tag = "5")]
-        pub height_pixels: i32,
     }
     /// The type of the input.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -594,6 +574,69 @@ pub mod channel {
         /// Channel is stopping.
         Stopping = 8,
     }
+}
+/// Properties of the input stream.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InputStreamProperty {
+    /// The time that the current input stream is accepted and the connection is
+    /// established.
+    #[prost(message, optional, tag = "1")]
+    pub last_establish_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Properties of the video streams.
+    #[prost(message, repeated, tag = "2")]
+    pub video_streams: ::prost::alloc::vec::Vec<VideoStreamProperty>,
+    /// Properties of the audio streams.
+    #[prost(message, repeated, tag = "3")]
+    pub audio_streams: ::prost::alloc::vec::Vec<AudioStreamProperty>,
+}
+/// Properties of the video stream.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoStreamProperty {
+    /// Index of this video stream.
+    #[prost(int32, tag = "1")]
+    pub index: i32,
+    /// Properties of the video format.
+    #[prost(message, optional, tag = "2")]
+    pub video_format: ::core::option::Option<VideoFormat>,
+}
+/// Properties of the video format.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoFormat {
+    /// Video codec used in this video stream.
+    #[prost(string, tag = "1")]
+    pub codec: ::prost::alloc::string::String,
+    /// The width of the video stream in pixels.
+    #[prost(int32, tag = "2")]
+    pub width_pixels: i32,
+    /// The height of the video stream in pixels.
+    #[prost(int32, tag = "3")]
+    pub height_pixels: i32,
+    /// The frame rate of the input video stream.
+    #[prost(double, tag = "4")]
+    pub frame_rate: f64,
+}
+/// Properties of the audio stream.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AudioStreamProperty {
+    /// Index of this audio stream.
+    #[prost(int32, tag = "1")]
+    pub index: i32,
+    /// Properties of the audio format.
+    #[prost(message, optional, tag = "2")]
+    pub audio_format: ::core::option::Option<AudioFormat>,
+}
+/// Properties of the audio format.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AudioFormat {
+    /// Audio codec used in this audio stream.
+    #[prost(string, tag = "1")]
+    pub codec: ::prost::alloc::string::String,
+    /// The number of audio channels.
+    #[prost(int32, tag = "2")]
+    pub channel_count: i32,
+    /// A list of channel names specifying the layout of the audio channels.
+    #[prost(string, repeated, tag = "3")]
+    pub channel_layout: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// A group of information for attaching an input resource to this channel.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -649,7 +649,11 @@ pub mod response_meta_data {
             #[prost(string, optional, tag = "1")]
             pub metric_name: ::core::option::Option<::prost::alloc::string::String>,
             /// The reason for this metric's restriction.
-            #[prost(enumeration = "super::super::RestrictedMetricType", repeated, tag = "2")]
+            #[prost(
+                enumeration = "super::super::RestrictedMetricType",
+                repeated,
+                tag = "2"
+            )]
             pub restricted_metric_types: ::prost::alloc::vec::Vec<i32>,
         }
     }

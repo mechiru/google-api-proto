@@ -1,341 +1,133 @@
-// Proto file describing feed item validation errors.
+// Proto file describing ad parameter errors.
 
-/// Container for enum describing possible validation errors of a feed item.
+/// Container for enum describing possible ad parameter errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FeedItemValidationErrorEnum {}
-/// Nested message and enum types in `FeedItemValidationErrorEnum`.
-pub mod feed_item_validation_error_enum {
-    /// The possible validation errors of a feed item.
+pub struct AdParameterErrorEnum {}
+/// Nested message and enum types in `AdParameterErrorEnum`.
+pub mod ad_parameter_error_enum {
+    /// Enum describing possible ad parameter errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum FeedItemValidationError {
-        /// No value has been specified.
-        Unspecified = 0,
-        /// Used for return value only. Represents value unknown in this version.
-        Unknown = 1,
-        /// String is too short.
-        StringTooShort = 2,
-        /// String is too long.
-        StringTooLong = 3,
-        /// Value is not provided.
-        ValueNotSpecified = 4,
-        /// Phone number format is invalid for region.
-        InvalidDomesticPhoneNumberFormat = 5,
-        /// String does not represent a phone number.
-        InvalidPhoneNumber = 6,
-        /// Phone number format is not compatible with country code.
-        PhoneNumberNotSupportedForCountry = 7,
-        /// Premium rate number is not allowed.
-        PremiumRateNumberNotAllowed = 8,
-        /// Phone number type is not allowed.
-        DisallowedNumberType = 9,
-        /// Specified value is outside of the valid range.
-        ValueOutOfRange = 10,
-        /// Call tracking is not supported in the selected country.
-        CalltrackingNotSupportedForCountry = 11,
-        /// Customer is not on the allow-list for call tracking.
-        CustomerNotInAllowlistForCalltracking = 99,
-        /// Country code is invalid.
-        InvalidCountryCode = 13,
-        /// The specified mobile app id is invalid.
-        InvalidAppId = 14,
-        /// Some required field attributes are missing.
-        MissingAttributesForFields = 15,
-        /// Invalid email button type for email extension.
-        InvalidTypeId = 16,
-        /// Email address is invalid.
-        InvalidEmailAddress = 17,
-        /// The HTTPS URL in email extension is invalid.
-        InvalidHttpsUrl = 18,
-        /// Delivery address is missing from email extension.
-        MissingDeliveryAddress = 19,
-        /// FeedItem scheduling start date comes after end date.
-        StartDateAfterEndDate = 20,
-        /// FeedItem scheduling start time is missing.
-        MissingFeedItemStartTime = 21,
-        /// FeedItem scheduling end time is missing.
-        MissingFeedItemEndTime = 22,
-        /// Cannot compute system attributes on a FeedItem that has no FeedItemId.
-        MissingFeedItemId = 23,
-        /// Call extension vanity phone numbers are not supported.
-        VanityPhoneNumberNotAllowed = 24,
-        /// Invalid review text.
-        InvalidReviewExtensionSnippet = 25,
-        /// Invalid format for numeric value in ad parameter.
-        InvalidNumberFormat = 26,
-        /// Invalid format for date value in ad parameter.
-        InvalidDateFormat = 27,
-        /// Invalid format for price value in ad parameter.
-        InvalidPriceFormat = 28,
-        /// Unrecognized type given for value in ad parameter.
-        UnknownPlaceholderField = 29,
-        /// Enhanced sitelinks must have both description lines specified.
-        MissingEnhancedSitelinkDescriptionLine = 30,
-        /// Review source is ineligible.
-        ReviewExtensionSourceIneligible = 31,
-        /// Review text cannot contain hyphens or dashes.
-        HyphensInReviewExtensionSnippet = 32,
-        /// Review text cannot contain double quote characters.
-        DoubleQuotesInReviewExtensionSnippet = 33,
-        /// Review text cannot contain quote characters.
-        QuotesInReviewExtensionSnippet = 34,
-        /// Parameters are encoded in the wrong format.
-        InvalidFormEncodedParams = 35,
-        /// URL parameter name must contain only letters, numbers, underscores, and
-        /// dashes.
-        InvalidUrlParameterName = 36,
-        /// Cannot find address location.
-        NoGeocodingResult = 37,
-        /// Review extension text has source name.
-        SourceNameInReviewExtensionText = 38,
-        /// Some phone numbers can be shorter than usual. Some of these short numbers
-        /// are carrier-specific, and we disallow those in ad extensions because they
-        /// will not be available to all users.
-        CarrierSpecificShortNumberNotAllowed = 39,
-        /// Triggered when a request references a placeholder field id that does not
-        /// exist.
-        InvalidPlaceholderFieldId = 40,
-        /// URL contains invalid ValueTrack tags or format.
-        InvalidUrlTag = 41,
-        /// Provided list exceeds acceptable size.
-        ListTooLong = 42,
-        /// Certain combinations of attributes aren't allowed to be specified in the
-        /// same feed item.
-        InvalidAttributesCombination = 43,
-        /// An attribute has the same value repeatedly.
-        DuplicateValues = 44,
-        /// Advertisers can link a conversion action with a phone number to indicate
-        /// that sufficiently long calls forwarded to that phone number should be
-        /// counted as conversions of the specified type.  This is an error message
-        /// indicating that the conversion action specified is invalid (e.g., the
-        /// conversion action does not exist within the appropriate Google Ads
-        /// account, or it is a type of conversion not appropriate to phone call
-        /// conversions).
-        InvalidCallConversionActionId = 45,
-        /// Tracking template requires final url to be set.
-        CannotSetWithoutFinalUrls = 46,
-        /// An app id was provided that doesn't exist in the given app store.
-        AppIdDoesntExistInAppStore = 47,
-        /// Invalid U2 final url.
-        InvalidFinalUrl = 48,
-        /// Invalid U2 tracking url.
-        InvalidTrackingUrl = 49,
-        /// Final URL should start from App download URL.
-        InvalidFinalUrlForAppDownloadUrl = 50,
-        /// List provided is too short.
-        ListTooShort = 51,
-        /// User Action field has invalid value.
-        InvalidUserAction = 52,
-        /// Type field has invalid value.
-        InvalidTypeName = 53,
-        /// Change status for event is invalid.
-        InvalidEventChangeStatus = 54,
-        /// The header of a structured snippets extension is not one of the valid
-        /// headers.
-        InvalidSnippetsHeader = 55,
-        /// Android app link is not formatted correctly
-        InvalidAndroidAppLink = 56,
-        /// Phone number incompatible with call tracking for country.
-        NumberTypeWithCalltrackingNotSupportedForCountry = 57,
-        /// The input is identical to a reserved keyword
-        ReservedKeywordOther = 58,
-        /// Each option label in the message extension must be unique.
-        DuplicateOptionLabels = 59,
-        /// Each option prefill in the message extension must be unique.
-        DuplicateOptionPrefills = 60,
-        /// In message extensions, the number of optional labels and optional
-        /// prefills must be the same.
-        UnequalListLengths = 61,
-        /// All currency codes in an ad extension must be the same.
-        InconsistentCurrencyCodes = 62,
-        /// Headers in price extension are not unique.
-        PriceExtensionHasDuplicatedHeaders = 63,
-        /// Header and description in an item are the same.
-        ItemHasDuplicatedHeaderAndDescription = 64,
-        /// Price extension has too few items.
-        PriceExtensionHasTooFewItems = 65,
-        /// The given value is not supported.
-        UnsupportedValue = 66,
-        /// Invalid final mobile url.
-        InvalidFinalMobileUrl = 67,
-        /// The given string value of Label contains invalid characters
-        InvalidKeywordlessAdRuleLabel = 68,
-        /// The given URL contains value track parameters.
-        ValueTrackParameterNotSupported = 69,
-        /// The given value is not supported in the selected language of an
-        /// extension.
-        UnsupportedValueInSelectedLanguage = 70,
-        /// The iOS app link is not formatted correctly.
-        InvalidIosAppLink = 71,
-        /// iOS app link or iOS app store id is missing.
-        MissingIosAppLinkOrIosAppStoreId = 72,
-        /// Promotion time is invalid.
-        PromotionInvalidTime = 73,
-        /// Both the percent off and money amount off fields are set.
-        PromotionCannotSetPercentOffAndMoneyAmountOff = 74,
-        /// Both the promotion code and orders over amount fields are set.
-        PromotionCannotSetPromotionCodeAndOrdersOverAmount = 75,
-        /// Too many decimal places are specified.
-        TooManyDecimalPlacesSpecified = 76,
-        /// Ad Customizers are present and not allowed.
-        AdCustomizersNotAllowed = 77,
-        /// Language code is not valid.
-        InvalidLanguageCode = 78,
-        /// Language is not supported.
-        UnsupportedLanguage = 79,
-        /// IF Function is present and not allowed.
-        IfFunctionNotAllowed = 80,
-        /// Final url suffix is not valid.
-        InvalidFinalUrlSuffix = 81,
-        /// Final url suffix contains an invalid tag.
-        InvalidTagInFinalUrlSuffix = 82,
-        /// Final url suffix is formatted incorrectly.
-        InvalidFinalUrlSuffixFormat = 83,
-        /// Consent for call recording, which is required for the use of call
-        /// extensions, was not provided by the advertiser. Please see
-        /// <https://support.google.com/google-ads/answer/7412639.>
-        CustomerConsentForCallRecordingRequired = 84,
-        /// Multiple message delivery options are set.
-        OnlyOneDeliveryOptionIsAllowed = 85,
-        /// No message delivery option is set.
-        NoDeliveryOptionIsSet = 86,
-        /// String value of conversion reporting state field is not valid.
-        InvalidConversionReportingState = 87,
-        /// Image size is not right.
-        ImageSizeWrong = 88,
-        /// Email delivery is not supported in the country specified in the country
-        /// code field.
-        EmailDeliveryNotAvailableInCountry = 89,
-        /// Auto reply is not supported in the country specified in the country code
-        /// field.
-        AutoReplyNotAvailableInCountry = 90,
-        /// Invalid value specified for latitude.
-        InvalidLatitudeValue = 91,
-        /// Invalid value specified for longitude.
-        InvalidLongitudeValue = 92,
-        /// Too many label fields provided.
-        TooManyLabels = 93,
-        /// Invalid image url.
-        InvalidImageUrl = 94,
-        /// Latitude value is missing.
-        MissingLatitudeValue = 95,
-        /// Longitude value is missing.
-        MissingLongitudeValue = 96,
-        /// Unable to find address.
-        AddressNotFound = 97,
-        /// Cannot target provided address.
-        AddressNotTargetable = 98,
-        /// The specified asset ID does not exist.
-        InvalidAssetId = 100,
-        /// The asset type cannot be set for the field.
-        IncompatibleAssetType = 101,
-        /// The image has unexpected size.
-        ImageErrorUnexpectedSize = 102,
-        /// The image aspect ratio is not allowed.
-        ImageErrorAspectRatioNotAllowed = 103,
-        /// The image file is too large.
-        ImageErrorFileTooLarge = 104,
-        /// The image format is unsupported.
-        ImageErrorFormatNotAllowed = 105,
-        /// Image violates constraints without more details.
-        ImageErrorConstraintsViolated = 106,
-        /// An error occurred when validating image.
-        ImageErrorServerError = 107,
-    }
-}
-// Proto file describing partial failure errors.
-
-/// Container for enum describing possible partial failure errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PartialFailureErrorEnum {}
-/// Nested message and enum types in `PartialFailureErrorEnum`.
-pub mod partial_failure_error_enum {
-    /// Enum describing possible partial failure errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PartialFailureError {
+    pub enum AdParameterError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The partial failure field was false in the request.
-        /// This method requires this field be set to true.
-        PartialFailureModeRequired = 2,
+        /// The ad group criterion must be a keyword criterion.
+        AdGroupCriterionMustBeKeyword = 2,
+        /// The insertion text is invalid.
+        InvalidInsertionTextFormat = 3,
     }
 }
-// Proto file describing ad group feed errors.
+// Proto file describing string format errors.
 
-/// Container for enum describing possible ad group feed errors.
+/// Container for enum describing possible string format errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdGroupFeedErrorEnum {}
-/// Nested message and enum types in `AdGroupFeedErrorEnum`.
-pub mod ad_group_feed_error_enum {
-    /// Enum describing possible ad group feed errors.
+pub struct StringFormatErrorEnum {}
+/// Nested message and enum types in `StringFormatErrorEnum`.
+pub mod string_format_error_enum {
+    /// Enum describing possible string format errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum AdGroupFeedError {
+    pub enum StringFormatError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// An active feed already exists for this ad group and place holder type.
-        FeedAlreadyExistsForPlaceholderType = 2,
-        /// The specified feed is removed.
-        CannotCreateForRemovedFeed = 3,
-        /// The AdGroupFeed already exists. UPDATE operation should be used to modify
-        /// the existing AdGroupFeed.
-        AdgroupFeedAlreadyExists = 4,
-        /// Cannot operate on removed AdGroupFeed.
-        CannotOperateOnRemovedAdgroupFeed = 5,
-        /// Invalid placeholder type.
-        InvalidPlaceholderType = 6,
-        /// Feed mapping for this placeholder type does not exist.
-        MissingFeedmappingForPlaceholderType = 7,
-        /// Location AdGroupFeeds cannot be created unless there is a location
-        /// CustomerFeed for the specified feed.
-        NoExistingLocationCustomerFeed = 8,
+        /// The input string value contains disallowed characters.
+        IllegalChars = 2,
+        /// The input string value is invalid for the associated field.
+        InvalidFormat = 3,
     }
 }
-// Proto file describing feed attribute reference errors.
+// Proto file describing header errors.
 
-/// Container for enum describing possible feed attribute reference errors.
+/// Container for enum describing possible header errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FeedAttributeReferenceErrorEnum {}
-/// Nested message and enum types in `FeedAttributeReferenceErrorEnum`.
-pub mod feed_attribute_reference_error_enum {
-    /// Enum describing possible feed attribute reference errors.
+pub struct HeaderErrorEnum {}
+/// Nested message and enum types in `HeaderErrorEnum`.
+pub mod header_error_enum {
+    /// Enum describing possible header errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum FeedAttributeReferenceError {
+    pub enum HeaderError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// A feed referenced by ID has been removed.
-        CannotReferenceRemovedFeed = 2,
-        /// There is no enabled feed with the given name.
-        InvalidFeedName = 3,
-        /// There is no feed attribute in an enabled feed with the given name.
-        InvalidFeedAttributeName = 4,
+        /// The login customer ID could not be validated.
+        InvalidLoginCustomerId = 3,
+        /// The linked customer ID could not be validated.
+        InvalidLinkedCustomerId = 7,
     }
 }
-// Proto file describing time zone errors.
+// Proto file describing ad group errors.
 
-/// Container for enum describing possible time zone errors.
+/// Container for enum describing possible ad group errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimeZoneErrorEnum {}
-/// Nested message and enum types in `TimeZoneErrorEnum`.
-pub mod time_zone_error_enum {
-    /// Enum describing possible currency code errors.
+pub struct AdGroupErrorEnum {}
+/// Nested message and enum types in `AdGroupErrorEnum`.
+pub mod ad_group_error_enum {
+    /// Enum describing possible ad group errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum TimeZoneError {
+    pub enum AdGroupError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// Time zone is not valid.
-        InvalidTimeZone = 5,
+        /// AdGroup with the same name already exists for the campaign.
+        DuplicateAdgroupName = 2,
+        /// AdGroup name is not valid.
+        InvalidAdgroupName = 3,
+        /// Advertiser is not allowed to target sites or set site bids that are not
+        /// on the Google Search Network.
+        AdvertiserNotOnContentNetwork = 5,
+        /// Bid amount is too big.
+        BidTooBig = 6,
+        /// AdGroup bid does not match the campaign's bidding strategy.
+        BidTypeAndBiddingStrategyMismatch = 7,
+        /// AdGroup name is required for Add.
+        MissingAdgroupName = 8,
+        /// No link found between the ad group and the label.
+        AdgroupLabelDoesNotExist = 9,
+        /// The label has already been attached to the ad group.
+        AdgroupLabelAlreadyExists = 10,
+        /// The CriterionTypeGroup is not supported for the content bid dimension.
+        InvalidContentBidCriterionTypeGroup = 11,
+        /// The ad group type is not compatible with the campaign channel type.
+        AdGroupTypeNotValidForAdvertisingChannelType = 12,
+        /// The ad group type is not supported in the country of sale of the
+        /// campaign.
+        AdgroupTypeNotSupportedForCampaignSalesCountry = 13,
+        /// Ad groups of AdGroupType.SEARCH_DYNAMIC_ADS can only be added to
+        /// campaigns that have DynamicSearchAdsSetting attached.
+        CannotAddAdgroupOfTypeDsaToCampaignWithoutDsaSetting = 14,
+        /// Promoted hotels ad groups are only available to customers on the
+        /// allow-list.
+        PromotedHotelAdGroupsNotAvailableForCustomer = 15,
+        /// The field type cannot be excluded because an active ad group-asset link
+        /// of this type exists.
+        InvalidExcludedParentAssetFieldType = 16,
+    }
+}
+// Proto file describing operator errors.
+
+/// Container for enum describing possible operator errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperatorErrorEnum {}
+/// Nested message and enum types in `OperatorErrorEnum`.
+pub mod operator_error_enum {
+    /// Enum describing possible operator errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum OperatorError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Operator not supported.
+        OperatorNotSupported = 2,
     }
 }
 // Proto file describing CustomerClientLink errors.
@@ -371,376 +163,588 @@ pub mod customer_client_link_error_enum {
         ClientHasTooManyManagers = 9,
     }
 }
-// Proto file describing setting errors.
+// Proto file describing change status errors.
 
-/// Container for enum describing possible setting errors.
+/// Container for enum describing possible change status errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SettingErrorEnum {}
-/// Nested message and enum types in `SettingErrorEnum`.
-pub mod setting_error_enum {
-    /// Enum describing possible setting errors.
+pub struct ChangeStatusErrorEnum {}
+/// Nested message and enum types in `ChangeStatusErrorEnum`.
+pub mod change_status_error_enum {
+    /// Enum describing possible change status errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum SettingError {
+    pub enum ChangeStatusError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The campaign setting is not available for this Google Ads account.
-        SettingTypeIsNotAvailable = 3,
-        /// The setting is not compatible with the campaign.
-        SettingTypeIsNotCompatibleWithCampaign = 4,
-        /// The supplied TargetingSetting contains an invalid CriterionTypeGroup. See
-        /// CriterionTypeGroup documentation for CriterionTypeGroups allowed
-        /// in Campaign or AdGroup TargetingSettings.
-        TargetingSettingContainsInvalidCriterionTypeGroup = 5,
-        /// TargetingSetting must not explicitly
-        /// set any of the Demographic CriterionTypeGroups (AGE_RANGE, GENDER,
-        /// PARENT, INCOME_RANGE) to false (it's okay to not set them at all, in
-        /// which case the system will set them to true automatically).
-        TargetingSettingDemographicCriterionTypeGroupsMustBeSetToTargetAll = 6,
-        /// TargetingSetting cannot change any of
-        /// the Demographic CriterionTypeGroups (AGE_RANGE, GENDER, PARENT,
-        /// INCOME_RANGE) from true to false.
-        TargetingSettingCannotChangeTargetAllToFalseForDemographicCriterionTypeGroup = 7,
-        /// At least one feed id should be present.
-        DynamicSearchAdsSettingAtLeastOneFeedIdMustBePresent = 8,
-        /// The supplied DynamicSearchAdsSetting contains an invalid domain name.
-        DynamicSearchAdsSettingContainsInvalidDomainName = 9,
-        /// The supplied DynamicSearchAdsSetting contains a subdomain name.
-        DynamicSearchAdsSettingContainsSubdomainName = 10,
-        /// The supplied DynamicSearchAdsSetting contains an invalid language code.
-        DynamicSearchAdsSettingContainsInvalidLanguageCode = 11,
-        /// TargetingSettings in search campaigns should not have
-        /// CriterionTypeGroup.PLACEMENT set to targetAll.
-        TargetAllIsNotAllowedForPlacementInSearchCampaign = 12,
-        /// The setting value is not compatible with the campaign type.
-        SettingValueNotCompatibleWithCampaign = 20,
+        /// The requested start date is too old.
+        StartDateTooOld = 3,
+        /// The change_status search request must specify a finite range filter
+        /// on last_change_date_time.
+        ChangeDateRangeInfinite = 4,
+        /// The change status search request has specified invalid date time filters
+        /// that can never logically produce any valid results (for example, start
+        /// time after end time).
+        ChangeDateRangeNegative = 5,
+        /// The change_status search request must specify a LIMIT.
+        LimitNotSpecified = 6,
+        /// The LIMIT specified by change_status request should be less than or equal
+        /// to 10K.
+        InvalidLimitClause = 7,
     }
 }
-// Proto file describing batch job errors.
+// Proto file describing region code errors.
 
-/// Container for enum describing possible batch job errors.
+/// Container for enum describing possible region code errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchJobErrorEnum {}
-/// Nested message and enum types in `BatchJobErrorEnum`.
-pub mod batch_job_error_enum {
+pub struct RegionCodeErrorEnum {}
+/// Nested message and enum types in `RegionCodeErrorEnum`.
+pub mod region_code_error_enum {
+    /// Enum describing possible region code errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RegionCodeError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Invalid region code.
+        InvalidRegionCode = 2,
+    }
+}
+// Proto file describing errors from applying a recommendation.
+
+/// Container for enum describing possible errors from applying a recommendation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RecommendationErrorEnum {}
+/// Nested message and enum types in `RecommendationErrorEnum`.
+pub mod recommendation_error_enum {
+    /// Enum describing possible errors from applying a recommendation.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RecommendationError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The specified budget amount is too low e.g. lower than minimum currency
+        /// unit or lower than ad group minimum cost-per-click.
+        BudgetAmountTooSmall = 2,
+        /// The specified budget amount is too large.
+        BudgetAmountTooLarge = 3,
+        /// The specified budget amount is not a valid amount. e.g. not a multiple
+        /// of minimum currency unit.
+        InvalidBudgetAmount = 4,
+        /// The specified keyword or ad violates ad policy.
+        PolicyError = 5,
+        /// The specified bid amount is not valid. e.g. too many fractional digits,
+        /// or negative amount.
+        InvalidBidAmount = 6,
+        /// The number of keywords in ad group have reached the maximum allowed.
+        AdgroupKeywordLimit = 7,
+        /// The recommendation requested to apply has already been applied.
+        RecommendationAlreadyApplied = 8,
+        /// The recommendation requested to apply has been invalidated.
+        RecommendationInvalidated = 9,
+        /// The number of operations in a single request exceeds the maximum allowed.
+        TooManyOperations = 10,
+        /// There are no operations in the request.
+        NoOperations = 11,
+        /// Operations with multiple recommendation types are not supported when
+        /// partial failure mode is not enabled.
+        DifferentTypesNotSupported = 12,
+        /// Request contains multiple operations with the same resource_name.
+        DuplicateResourceName = 13,
+        /// The recommendation requested to dismiss has already been dismissed.
+        RecommendationAlreadyDismissed = 14,
+        /// The recommendation apply request was malformed and invalid.
+        InvalidApplyRequest = 15,
+    }
+}
+// Proto file describing id errors.
+
+/// Container for enum describing possible id errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IdErrorEnum {}
+/// Nested message and enum types in `IdErrorEnum`.
+pub mod id_error_enum {
+    /// Enum describing possible id errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum IdError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Id not found
+        NotFound = 2,
+    }
+}
+// Proto file describing conversion adjustment upload errors.
+
+/// Container for enum describing possible conversion adjustment upload errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConversionAdjustmentUploadErrorEnum {}
+/// Nested message and enum types in `ConversionAdjustmentUploadErrorEnum`.
+pub mod conversion_adjustment_upload_error_enum {
+    /// Enum describing possible conversion adjustment upload errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ConversionAdjustmentUploadError {
+        /// Not specified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The specified conversion action was created too recently.
+        /// Please try the upload again after 4-6 hours have passed since the
+        /// conversion action was created.
+        TooRecentConversionAction = 2,
+        /// No conversion action of a supported ConversionActionType that matches the
+        /// provided information can be found for the customer.
+        InvalidConversionAction = 3,
+        /// A retraction was already reported for this conversion.
+        ConversionAlreadyRetracted = 4,
+        /// A conversion for the supplied combination of conversion
+        /// action and conversion identifier could not be found.
+        ConversionNotFound = 5,
+        /// The specified conversion has already expired. Conversions expire after 55
+        /// days, after which adjustments cannot be reported against them.
+        ConversionExpired = 6,
+        /// The supplied adjustment date time precedes that of the original
+        /// conversion.
+        AdjustmentPrecedesConversion = 7,
+        /// A restatement with a more recent adjustment date time was already
+        /// reported for this conversion.
+        MoreRecentRestatementFound = 8,
+        /// The conversion was created too recently.
+        TooRecentConversion = 9,
+        /// Restatements cannot be reported for a conversion action that always uses
+        /// the default value.
+        CannotRestateConversionActionThatAlwaysUsesDefaultConversionValue = 10,
+        /// The request contained more than 2000 adjustments.
+        TooManyAdjustmentsInRequest = 11,
+        /// The conversion has been adjusted too many times.
+        TooManyAdjustments = 12,
+    }
+}
+// Proto file describing request errors.
+
+/// Container for enum describing possible request errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RequestErrorEnum {}
+/// Nested message and enum types in `RequestErrorEnum`.
+pub mod request_error_enum {
     /// Enum describing possible request errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum BatchJobError {
+    pub enum RequestError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The batch job cannot add more operations or run after it has started
-        /// running.
-        CannotModifyJobAfterJobStartsRunning = 2,
-        /// The operations for an AddBatchJobOperations request were empty.
-        EmptyOperations = 3,
-        /// The sequence token for an AddBatchJobOperations request was invalid.
-        InvalidSequenceToken = 4,
-        /// Batch job results can only be retrieved once the job is finished.
-        ResultsNotReady = 5,
-        /// The page size for ListBatchJobResults was invalid.
-        InvalidPageSize = 6,
-        /// The batch job cannot be removed because it has started running.
-        CanOnlyRemovePendingJob = 7,
+        /// Resource name is required for this request.
+        ResourceNameMissing = 3,
+        /// Resource name provided is malformed.
+        ResourceNameMalformed = 4,
+        /// Resource name provided is malformed.
+        BadResourceId = 17,
+        /// Customer ID is invalid.
+        InvalidCustomerId = 16,
+        /// Mutate operation should have either create, update, or remove specified.
+        OperationRequired = 5,
+        /// Requested resource not found.
+        ResourceNotFound = 6,
+        /// Next page token specified in user request is invalid.
+        InvalidPageToken = 7,
+        /// Next page token specified in user request has expired.
+        ExpiredPageToken = 8,
+        /// Page size specified in user request is invalid.
+        InvalidPageSize = 22,
+        /// Required field is missing.
+        RequiredFieldMissing = 9,
+        /// The field cannot be modified because it's immutable. It's also possible
+        /// that the field can be modified using 'create' operation but not 'update'.
+        ImmutableField = 11,
+        /// Received too many entries in request.
+        TooManyMutateOperations = 13,
+        /// Request cannot be executed by a manager account.
+        CannotBeExecutedByManagerAccount = 14,
+        /// Mutate request was attempting to modify a readonly field.
+        /// For instance, Budget fields can be requested for Ad Group,
+        /// but are read-only for adGroups:mutate.
+        CannotModifyForeignField = 15,
+        /// Enum value is not permitted.
+        InvalidEnumValue = 18,
+        /// The developer-token parameter is required for all requests.
+        DeveloperTokenParameterMissing = 19,
+        /// The login-customer-id parameter is required for this request.
+        LoginCustomerIdParameterMissing = 20,
+        /// page_token is set in the validate only request
+        ValidateOnlyRequestHasPageToken = 21,
+        /// return_summary_row cannot be enabled if request did not select any
+        /// metrics field.
+        CannotReturnSummaryRowForRequestWithoutMetrics = 29,
+        /// return_summary_row should not be enabled for validate only requests.
+        CannotReturnSummaryRowForValidateOnlyRequests = 30,
+        /// return_summary_row parameter value should be the same between requests
+        /// with page_token field set and their original request.
+        InconsistentReturnSummaryRowValue = 31,
+        /// The total results count cannot be returned if it was not requested in the
+        /// original request.
+        TotalResultsCountNotOriginallyRequested = 32,
+        /// Deadline specified by the client was too short.
+        RpcDeadlineTooShort = 33,
     }
 }
-// Proto file describing AccountLink errors.
+// Proto file describing feed attribute reference errors.
 
-/// Container for enum describing possible account link errors.
+/// Container for enum describing possible feed attribute reference errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AccountLinkErrorEnum {}
-/// Nested message and enum types in `AccountLinkErrorEnum`.
-pub mod account_link_error_enum {
-    /// Enum describing possible account link errors.
+pub struct FeedAttributeReferenceErrorEnum {}
+/// Nested message and enum types in `FeedAttributeReferenceErrorEnum`.
+pub mod feed_attribute_reference_error_enum {
+    /// Enum describing possible feed attribute reference errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum AccountLinkError {
+    pub enum FeedAttributeReferenceError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The new link status is invalid.
-        InvalidStatus = 2,
+        /// A feed referenced by ID has been removed.
+        CannotReferenceRemovedFeed = 2,
+        /// There is no enabled feed with the given name.
+        InvalidFeedName = 3,
+        /// There is no feed attribute in an enabled feed with the given name.
+        InvalidFeedAttributeName = 4,
     }
 }
-// Proto file describing new resource creation errors.
+// Proto file describing ad customizer errors.
 
-/// Container for enum describing possible new resource creation errors.
+/// Container for enum describing possible ad customizer errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NewResourceCreationErrorEnum {}
-/// Nested message and enum types in `NewResourceCreationErrorEnum`.
-pub mod new_resource_creation_error_enum {
-    /// Enum describing possible new resource creation errors.
+pub struct AdCustomizerErrorEnum {}
+/// Nested message and enum types in `AdCustomizerErrorEnum`.
+pub mod ad_customizer_error_enum {
+    /// Enum describing possible ad customizer errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum NewResourceCreationError {
+    pub enum AdCustomizerError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// Do not set the id field while creating new resources.
-        CannotSetIdForCreate = 2,
-        /// Creating more than one resource with the same temp ID is not allowed.
-        DuplicateTempIds = 3,
-        /// Parent resource with specified temp ID failed validation, so no
-        /// validation will be done for this child resource.
-        TempIdResourceHadErrors = 4,
+        /// Invalid date argument in countdown function.
+        CountdownInvalidDateFormat = 2,
+        /// Countdown end date is in the past.
+        CountdownDateInPast = 3,
+        /// Invalid locale string in countdown function.
+        CountdownInvalidLocale = 4,
+        /// Days-before argument to countdown function is not positive.
+        CountdownInvalidStartDaysBefore = 5,
+        /// A user list referenced in an IF function does not exist.
+        UnknownUserList = 6,
     }
 }
-// Proto file describing campaign feed errors.
+// Proto file describing criterion errors.
 
-/// Container for enum describing possible campaign feed errors.
+/// Container for enum describing possible criterion errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CampaignFeedErrorEnum {}
-/// Nested message and enum types in `CampaignFeedErrorEnum`.
-pub mod campaign_feed_error_enum {
-    /// Enum describing possible campaign feed errors.
+pub struct CriterionErrorEnum {}
+/// Nested message and enum types in `CriterionErrorEnum`.
+pub mod criterion_error_enum {
+    /// Enum describing possible criterion errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum CampaignFeedError {
+    pub enum CriterionError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// An active feed already exists for this campaign and placeholder type.
-        FeedAlreadyExistsForPlaceholderType = 2,
-        /// The specified feed is removed.
-        CannotCreateForRemovedFeed = 4,
-        /// The CampaignFeed already exists. UPDATE should be used to modify the
-        /// existing CampaignFeed.
-        CannotCreateAlreadyExistingCampaignFeed = 5,
-        /// Cannot update removed campaign feed.
-        CannotModifyRemovedCampaignFeed = 6,
-        /// Invalid placeholder type.
-        InvalidPlaceholderType = 7,
-        /// Feed mapping for this placeholder type does not exist.
-        MissingFeedmappingForPlaceholderType = 8,
-        /// Location CampaignFeeds cannot be created unless there is a location
-        /// CustomerFeed for the specified feed.
-        NoExistingLocationCustomerFeed = 9,
-    }
-}
-// Proto file describing asset link errors.
-
-/// Container for enum describing possible asset link errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AssetLinkErrorEnum {}
-/// Nested message and enum types in `AssetLinkErrorEnum`.
-pub mod asset_link_error_enum {
-    /// Enum describing possible asset link errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AssetLinkError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Pinning is not supported for the given asset link field.
-        PinningUnsupported = 2,
-        /// The given field type is not supported to be added directly via asset
-        /// links.
-        UnsupportedFieldType = 3,
-        /// The given asset's type and the specified field type are incompatible.
-        FieldTypeIncompatibleWithAssetType = 4,
-        /// The specified field type is incompatible with the given campaign type.
-        FieldTypeIncompatibleWithCampaignType = 5,
-        /// The campaign advertising channel type cannot be associated with the given
-        /// asset due to channel-based restrictions on the asset's fields.
-        IncompatibleAdvertisingChannelType = 6,
-        /// The image asset provided is not within the dimension constraints
-        /// specified for the submitted asset field.
-        ImageNotWithinSpecifiedDimensionRange = 7,
-        /// The pinned field is not valid for the submitted asset field.
-        InvalidPinnedField = 8,
-        /// The media bundle asset provided is too large for the submitted asset
-        /// field.
-        MediaBundleAssetFileSizeTooLarge = 9,
-        /// Not enough assets are available for use with other fields since other
-        /// assets are pinned to specific fields.
-        NotEnoughAvailableAssetLinksForValidCombination = 10,
-        /// Not enough assets with fallback are available. When validating the
-        /// minimum number of assets, assets without fallback (e.g. assets that
-        /// contain location tag without default value "{LOCATION(City)}") will not
-        /// be counted.
-        NotEnoughAvailableAssetLinksWithFallback = 11,
-        /// This is a combination of the
-        /// NOT_ENOUGH_AVAILABLE_ASSET_LINKS_FOR_VALID_COMBINATION and
-        /// NOT_ENOUGH_AVAILABLE_ASSET_LINKS_WITH_FALLBACK errors. Not enough assets
-        /// with fallback are available since some assets are pinned.
-        NotEnoughAvailableAssetLinksWithFallbackForValidCombination = 12,
-        /// The YouTube video referenced in the provided asset has been removed.
-        YoutubeVideoRemoved = 13,
-        /// The YouTube video referenced in the provided asset is too long for the
-        /// field submitted.
-        YoutubeVideoTooLong = 14,
-        /// The YouTube video referenced in the provided asset is too short for the
-        /// field submitted.
-        YoutubeVideoTooShort = 15,
-        /// The status is invalid for the operation specified.
-        InvalidStatus = 17,
-    }
-}
-// Proto file describing errors from applying a keyword plan ad group keyword or
-// keyword plan campaign keyword.
-
-/// Container for enum describing possible errors from applying an ad group
-/// keyword or a campaign keyword from a keyword plan.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct KeywordPlanAdGroupKeywordErrorEnum {}
-/// Nested message and enum types in `KeywordPlanAdGroupKeywordErrorEnum`.
-pub mod keyword_plan_ad_group_keyword_error_enum {
-    /// Enum describing possible errors from applying a keyword plan ad group
-    /// keyword or keyword plan campaign keyword.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum KeywordPlanAdGroupKeywordError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// A keyword or negative keyword has invalid match type.
-        InvalidKeywordMatchType = 2,
-        /// A keyword or negative keyword with same text and match type already
-        /// exists.
-        DuplicateKeyword = 3,
-        /// Keyword or negative keyword text exceeds the allowed limit.
-        KeywordTextTooLong = 4,
-        /// Keyword or negative keyword text has invalid characters or symbols.
-        KeywordHasInvalidChars = 5,
-        /// Keyword or negative keyword text has too many words.
+        /// Concrete type of criterion is required for CREATE and UPDATE operations.
+        ConcreteTypeRequired = 2,
+        /// The category requested for exclusion is invalid.
+        InvalidExcludedCategory = 3,
+        /// Invalid keyword criteria text.
+        InvalidKeywordText = 4,
+        /// Keyword text should be less than 80 chars.
+        KeywordTextTooLong = 5,
+        /// Keyword text has too many words.
         KeywordHasTooManyWords = 6,
-        /// Keyword or negative keyword has invalid text.
-        InvalidKeywordText = 7,
-        /// Cpc Bid set for negative keyword.
-        NegativeKeywordHasCpcBid = 8,
-    }
-}
-// Proto file describing feed item errors.
-
-/// Container for enum describing possible feed item errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FeedItemErrorEnum {}
-/// Nested message and enum types in `FeedItemErrorEnum`.
-pub mod feed_item_error_enum {
-    /// Enum describing possible feed item errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum FeedItemError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Cannot convert the feed attribute value from string to its real type.
-        CannotConvertAttributeValueFromString = 2,
-        /// Cannot operate on removed feed item.
-        CannotOperateOnRemovedFeedItem = 3,
-        /// Date time zone does not match the account's time zone.
-        DateTimeMustBeInAccountTimeZone = 4,
-        /// Feed item with the key attributes could not be found.
-        KeyAttributesNotFound = 5,
-        /// Url feed attribute value is not valid.
-        InvalidUrl = 6,
-        /// Some key attributes are missing.
-        MissingKeyAttributes = 7,
-        /// Feed item has same key attributes as another feed item.
-        KeyAttributesNotUnique = 8,
-        /// Cannot modify key attributes on an existing feed item.
-        CannotModifyKeyAttributeValue = 9,
-        /// The feed attribute value is too large.
-        SizeTooLargeForMultiValueAttribute = 10,
-    }
-}
-// Proto file describing conversion action errors.
-
-/// Container for enum describing possible conversion action errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConversionActionErrorEnum {}
-/// Nested message and enum types in `ConversionActionErrorEnum`.
-pub mod conversion_action_error_enum {
-    /// Enum describing possible conversion action errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ConversionActionError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The specified conversion action name already exists.
-        DuplicateName = 2,
-        /// Another conversion action with the specified app id already exists.
-        DuplicateAppId = 3,
-        /// Android first open action conflicts with Google play codeless download
-        /// action tracking the same app.
-        TwoConversionActionsBiddingOnSameAppDownload = 4,
-        /// Android first open action conflicts with Google play codeless download
-        /// action tracking the same app.
-        BiddingOnSameAppDownloadAsGlobalAction = 5,
-        /// The attribution model cannot be set to DATA_DRIVEN because a data-driven
-        /// model has never been generated.
-        DataDrivenModelWasNeverGenerated = 6,
-        /// The attribution model cannot be set to DATA_DRIVEN because the
-        /// data-driven model is expired.
-        DataDrivenModelExpired = 7,
-        /// The attribution model cannot be set to DATA_DRIVEN because the
-        /// data-driven model is stale.
-        DataDrivenModelStale = 8,
-        /// The attribution model cannot be set to DATA_DRIVEN because the
-        /// data-driven model is unavailable or the conversion action was newly
-        /// added.
-        DataDrivenModelUnknown = 9,
-        /// Creation of this conversion action type isn't supported by Google
-        /// Ads API.
-        CreationNotSupported = 10,
-        /// Update of this conversion action isn't supported by Google Ads API.
-        UpdateNotSupported = 11,
-    }
-}
-// Proto file describing campaign experiment errors.
-
-/// Container for enum describing possible campaign experiment errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CampaignExperimentErrorEnum {}
-/// Nested message and enum types in `CampaignExperimentErrorEnum`.
-pub mod campaign_experiment_error_enum {
-    /// Enum describing possible campaign experiment errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CampaignExperimentError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// An active campaign or experiment with this name already exists.
-        DuplicateName = 2,
-        /// Experiment cannot be updated from the current state to the
-        /// requested target state. For example, an experiment can only graduate
-        /// if its status is ENABLED.
-        InvalidTransition = 3,
-        /// Cannot create an experiment from a campaign using an explicitly shared
-        /// budget.
-        CannotCreateExperimentWithSharedBudget = 4,
-        /// Cannot create an experiment for a removed base campaign.
-        CannotCreateExperimentForRemovedBaseCampaign = 5,
-        /// Cannot create an experiment from a draft, which has a status other than
-        /// proposed.
-        CannotCreateExperimentForNonProposedDraft = 6,
-        /// This customer is not allowed to create an experiment.
-        CustomerCannotCreateExperiment = 7,
-        /// This campaign is not allowed to create an experiment.
-        CampaignCannotCreateExperiment = 8,
-        /// Trying to set an experiment duration which overlaps with another
-        /// experiment.
-        ExperimentDurationsMustNotOverlap = 9,
-        /// All non-removed experiments must start and end within their campaign's
-        /// duration.
-        ExperimentDurationMustBeWithinCampaignDuration = 10,
-        /// The experiment cannot be modified because its status is in a terminal
-        /// state, such as REMOVED.
-        CannotMutateExperimentDueToStatus = 11,
+        /// Keyword text has invalid characters or symbols.
+        KeywordHasInvalidChars = 7,
+        /// Invalid placement URL.
+        InvalidPlacementUrl = 8,
+        /// Invalid user list criterion.
+        InvalidUserList = 9,
+        /// Invalid user interest criterion.
+        InvalidUserInterest = 10,
+        /// Placement URL has wrong format.
+        InvalidFormatForPlacementUrl = 11,
+        /// Placement URL is too long.
+        PlacementUrlIsTooLong = 12,
+        /// Indicates the URL contains an illegal character.
+        PlacementUrlHasIllegalChar = 13,
+        /// Indicates the URL contains multiple comma separated URLs.
+        PlacementUrlHasMultipleSitesInLine = 14,
+        /// Indicates the domain is blocked.
+        PlacementIsNotAvailableForTargetingOrExclusion = 15,
+        /// Invalid topic path.
+        InvalidTopicPath = 16,
+        /// The YouTube Channel Id is invalid.
+        InvalidYoutubeChannelId = 17,
+        /// The YouTube Video Id is invalid.
+        InvalidYoutubeVideoId = 18,
+        /// Indicates the placement is a YouTube vertical channel, which is no longer
+        /// supported.
+        YoutubeVerticalChannelDeprecated = 19,
+        /// Indicates the placement is a YouTube demographic channel, which is no
+        /// longer supported.
+        YoutubeDemographicChannelDeprecated = 20,
+        /// YouTube urls are not supported in Placement criterion. Use YouTubeChannel
+        /// and YouTubeVideo criterion instead.
+        YoutubeUrlUnsupported = 21,
+        /// Criteria type can not be excluded by the customer, like AOL account type
+        /// cannot target site type criteria.
+        CannotExcludeCriteriaType = 22,
+        /// Criteria type can not be targeted.
+        CannotAddCriteriaType = 23,
+        /// Not allowed to exclude similar user list.
+        CannotExcludeSimilarUserList = 26,
+        /// Not allowed to target a closed user list.
+        CannotAddClosedUserList = 27,
+        /// Not allowed to add display only UserLists to search only campaigns.
+        CannotAddDisplayOnlyListsToSearchOnlyCampaigns = 28,
+        /// Not allowed to add display only UserLists to search plus campaigns.
+        CannotAddDisplayOnlyListsToSearchCampaigns = 29,
+        /// Not allowed to add display only UserLists to shopping campaigns.
+        CannotAddDisplayOnlyListsToShoppingCampaigns = 30,
+        /// Not allowed to add User interests to search only campaigns.
+        CannotAddUserInterestsToSearchCampaigns = 31,
+        /// Not allowed to set bids for this criterion type in search campaigns
+        CannotSetBidsOnCriterionTypeInSearchCampaigns = 32,
+        /// Final URLs, URL Templates and CustomParameters cannot be set for the
+        /// criterion types of Gender, AgeRange, UserList, Placement, MobileApp, and
+        /// MobileAppCategory in search campaigns and shopping campaigns.
+        CannotAddUrlsToCriterionTypeForCampaignType = 33,
+        /// Invalid combined audience criterion.
+        InvalidCombinedAudience = 122,
+        /// Invalid custom affinity criterion.
+        InvalidCustomAffinity = 96,
+        /// Invalid custom intent criterion.
+        InvalidCustomIntent = 97,
+        /// Invalid custom audience criterion.
+        InvalidCustomAudience = 121,
+        /// IP address is not valid.
+        InvalidIpAddress = 34,
+        /// IP format is not valid.
+        InvalidIpFormat = 35,
+        /// Mobile application is not valid.
+        InvalidMobileApp = 36,
+        /// Mobile application category is not valid.
+        InvalidMobileAppCategory = 37,
+        /// The CriterionId does not exist or is of the incorrect type.
+        InvalidCriterionId = 38,
+        /// The Criterion is not allowed to be targeted.
+        CannotTargetCriterion = 39,
+        /// The criterion is not allowed to be targeted as it is deprecated.
+        CannotTargetObsoleteCriterion = 40,
+        /// The CriterionId is not valid for the type.
+        CriterionIdAndTypeMismatch = 41,
+        /// Distance for the radius for the proximity criterion is invalid.
+        InvalidProximityRadius = 42,
+        /// Units for the distance for the radius for the proximity criterion is
+        /// invalid.
+        InvalidProximityRadiusUnits = 43,
+        /// Street address in the address is not valid.
+        InvalidStreetaddressLength = 44,
+        /// City name in the address is not valid.
+        InvalidCitynameLength = 45,
+        /// Region code in the address is not valid.
+        InvalidRegioncodeLength = 46,
+        /// Region name in the address is not valid.
+        InvalidRegionnameLength = 47,
+        /// Postal code in the address is not valid.
+        InvalidPostalcodeLength = 48,
+        /// Country code in the address is not valid.
+        InvalidCountryCode = 49,
+        /// Latitude for the GeoPoint is not valid.
+        InvalidLatitude = 50,
+        /// Longitude for the GeoPoint is not valid.
+        InvalidLongitude = 51,
+        /// The Proximity input is not valid. Both address and geoPoint cannot be
+        /// null.
+        ProximityGeopointAndAddressBothCannotBeNull = 52,
+        /// The Proximity address cannot be geocoded to a valid lat/long.
+        InvalidProximityAddress = 53,
+        /// User domain name is not valid.
+        InvalidUserDomainName = 54,
+        /// Length of serialized criterion parameter exceeded size limit.
+        CriterionParameterTooLong = 55,
+        /// Time interval in the AdSchedule overlaps with another AdSchedule.
+        AdScheduleTimeIntervalsOverlap = 56,
+        /// AdSchedule time interval cannot span multiple days.
+        AdScheduleIntervalCannotSpanMultipleDays = 57,
+        /// AdSchedule time interval specified is invalid, endTime cannot be earlier
+        /// than startTime.
+        AdScheduleInvalidTimeInterval = 58,
+        /// The number of AdSchedule entries in a day exceeds the limit.
+        AdScheduleExceededIntervalsPerDayLimit = 59,
+        /// CriteriaId does not match the interval of the AdSchedule specified.
+        AdScheduleCriterionIdMismatchingFields = 60,
+        /// Cannot set bid modifier for this criterion type.
+        CannotBidModifyCriterionType = 61,
+        /// Cannot bid modify criterion, since it is opted out of the campaign.
+        CannotBidModifyCriterionCampaignOptedOut = 62,
+        /// Cannot set bid modifier for a negative criterion.
+        CannotBidModifyNegativeCriterion = 63,
+        /// Bid Modifier already exists. Use SET operation to update.
+        BidModifierAlreadyExists = 64,
+        /// Feed Id is not allowed in these Location Groups.
+        FeedIdNotAllowed = 65,
+        /// The account may not use the requested criteria type. For example, some
+        /// accounts are restricted to keywords only.
+        AccountIneligibleForCriteriaType = 66,
+        /// The requested criteria type cannot be used with campaign or ad group
+        /// bidding strategy.
+        CriteriaTypeInvalidForBiddingStrategy = 67,
+        /// The Criterion is not allowed to be excluded.
+        CannotExcludeCriterion = 68,
+        /// The criterion is not allowed to be removed. For example, we cannot remove
+        /// any of the device criterion.
+        CannotRemoveCriterion = 69,
+        /// Bidding categories do not form a valid path in the Shopping bidding
+        /// category taxonomy.
+        InvalidProductBiddingCategory = 76,
+        /// ShoppingSetting must be added to the campaign before ProductScope
+        /// criteria can be added.
+        MissingShoppingSetting = 77,
+        /// Matching function is invalid.
+        InvalidMatchingFunction = 78,
+        /// Filter parameters not allowed for location groups targeting.
+        LocationFilterNotAllowed = 79,
+        /// Feed not found, or the feed is not an enabled location feed.
+        InvalidFeedForLocationFilter = 98,
+        /// Given location filter parameter is invalid for location groups targeting.
+        LocationFilterInvalid = 80,
+        /// Cannot set geo target constants and feed item sets at the same time.
+        CannotSetGeoTargetConstantsWithFeedItemSets = 123,
+        /// The location group radius is in the range but not at the valid increment.
+        InvalidLocationGroupRadius = 124,
+        /// The location group radius unit is invalid.
+        InvalidLocationGroupRadiusUnit = 125,
+        /// Criteria type cannot be associated with a campaign and its ad group(s)
+        /// simultaneously.
+        CannotAttachCriteriaAtCampaignAndAdgroup = 81,
+        /// Range represented by hotel length of stay's min nights and max nights
+        /// overlaps with an existing criterion.
+        HotelLengthOfStayOverlapsWithExistingCriterion = 82,
+        /// Range represented by hotel advance booking window's min days and max days
+        /// overlaps with an existing criterion.
+        HotelAdvanceBookingWindowOverlapsWithExistingCriterion = 83,
+        /// The field is not allowed to be set when the negative field is set to
+        /// true, e.g. we don't allow bids in negative ad group or campaign criteria.
+        FieldIncompatibleWithNegativeTargeting = 84,
+        /// The combination of operand and operator in webpage condition is invalid.
+        InvalidWebpageCondition = 85,
+        /// The URL of webpage condition is invalid.
+        InvalidWebpageConditionUrl = 86,
+        /// The URL of webpage condition cannot be empty or contain white space.
+        WebpageConditionUrlCannotBeEmpty = 87,
+        /// The URL of webpage condition contains an unsupported protocol.
+        WebpageConditionUrlUnsupportedProtocol = 88,
+        /// The URL of webpage condition cannot be an IP address.
+        WebpageConditionUrlCannotBeIpAddress = 89,
+        /// The domain of the URL is not consistent with the domain in campaign
+        /// setting.
+        WebpageConditionUrlDomainNotConsistentWithCampaignSetting = 90,
+        /// The URL of webpage condition cannot be a public suffix itself.
+        WebpageConditionUrlCannotBePublicSuffix = 91,
+        /// The URL of webpage condition has an invalid public suffix.
+        WebpageConditionUrlInvalidPublicSuffix = 92,
+        /// Value track parameter is not supported in webpage condition URL.
+        WebpageConditionUrlValueTrackValueNotSupported = 93,
+        /// Only one URL-EQUALS webpage condition is allowed in a webpage
+        /// criterion and it cannot be combined with other conditions.
+        WebpageCriterionUrlEqualsCanHaveOnlyOneCondition = 94,
+        /// A webpage criterion cannot be added to a non-DSA ad group.
+        WebpageCriterionNotSupportedOnNonDsaAdGroup = 95,
+        /// Cannot add positive user list criteria in Smart Display campaigns.
+        CannotTargetUserListForSmartDisplayCampaigns = 99,
+        /// Cannot add positive placement criterion types in search campaigns.
+        CannotTargetPlacementsForSearchCampaigns = 126,
+        /// Listing scope contains too many dimension types.
+        ListingScopeTooManyDimensionTypes = 100,
+        /// Listing scope has too many IN operators.
+        ListingScopeTooManyInOperators = 101,
+        /// Listing scope contains IN operator on an unsupported dimension type.
+        ListingScopeInOperatorNotSupported = 102,
+        /// There are dimensions with duplicate dimension type.
+        DuplicateListingDimensionType = 103,
+        /// There are dimensions with duplicate dimension value.
+        DuplicateListingDimensionValue = 104,
+        /// Listing group SUBDIVISION nodes cannot have bids.
+        CannotSetBidsOnListingGroupSubdivision = 105,
+        /// Ad group is invalid due to the listing groups it contains.
+        InvalidListingGroupHierarchy = 106,
+        /// Listing group unit cannot have children.
+        ListingGroupUnitCannotHaveChildren = 107,
+        /// Subdivided listing groups must have an "others" case.
+        ListingGroupSubdivisionRequiresOthersCase = 108,
+        /// Dimension type of listing group must be the same as that of its siblings.
+        ListingGroupRequiresSameDimensionTypeAsSiblings = 109,
+        /// Listing group cannot be added to the ad group because it already exists.
+        ListingGroupAlreadyExists = 110,
+        /// Listing group referenced in the operation was not found in the ad group.
+        ListingGroupDoesNotExist = 111,
+        /// Recursive removal failed because listing group subdivision is being
+        /// created or modified in this request.
+        ListingGroupCannotBeRemoved = 112,
+        /// Listing group type is not allowed for specified ad group criterion type.
+        InvalidListingGroupType = 113,
+        /// Listing group in an ADD operation specifies a non temporary criterion id.
+        ListingGroupAddMayOnlyUseTempId = 114,
+        /// The combined length of dimension values of the Listing scope criterion
+        /// is too long.
+        ListingScopeTooLong = 115,
+        /// Listing scope contains too many dimensions.
+        ListingScopeTooManyDimensions = 116,
+        /// The combined length of dimension values of the Listing group criterion is
+        /// too long.
+        ListingGroupTooLong = 117,
+        /// Listing group tree is too deep.
+        ListingGroupTreeTooDeep = 118,
+        /// Listing dimension is invalid (e.g. dimension contains illegal value,
+        /// dimension type is represented with wrong class, etc). Listing dimension
+        /// value can not contain "==" or "&+".
+        InvalidListingDimension = 119,
+        /// Listing dimension type is either invalid for campaigns of this type or
+        /// cannot be used in the current context. BIDDING_CATEGORY_Lx and
+        /// PRODUCT_TYPE_Lx dimensions must be used in ascending order of their
+        /// levels: L1, L2, L3, L4, L5... The levels must be specified sequentially
+        /// and start from L1. Furthermore, an "others" Listing group cannot be
+        /// subdivided with a dimension of the same type but of a higher level
+        /// ("others" BIDDING_CATEGORY_L3 can be subdivided with BRAND but not with
+        /// BIDDING_CATEGORY_L4).
+        InvalidListingDimensionType = 120,
+        /// Customer is not on allowlist for composite audience in display campaigns.
+        AdvertiserNotOnAllowlistForCombinedAudienceOnDisplay = 127,
+        /// Cannot target on a removed combined audience.
+        CannotTargetRemovedCombinedAudience = 128,
+        /// Combined audience ID is invalid.
+        InvalidCombinedAudienceId = 129,
+        /// Can not target removed combined audience.
+        CannotTargetRemovedCustomAudience = 130,
+        /// Range represented by hotel check-in date's start date and end date
+        /// overlaps with an existing criterion.
+        HotelCheckInDateRangeOverlapsWithExistingCriterion = 131,
+        /// Start date is earlier than earliest allowed value of yesterday UTC.
+        HotelCheckInDateRangeStartDateTooEarly = 132,
+        /// End date later is than latest allowed day of 330 days in the future UTC.
+        HotelCheckInDateRangeEndDateTooLate = 133,
+        /// Start date is after end date.
+        HotelCheckInDateRangeReversed = 134,
     }
 }
 // Proto file describing media file errors.
@@ -806,29 +810,548 @@ pub mod media_file_error_enum {
         YouTubeVideoNotFound = 24,
     }
 }
-// Proto file describing shared set errors.
+// Proto file describing asset errors.
 
-/// Container for enum describing possible shared set errors.
+/// Container for enum describing possible asset errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SharedSetErrorEnum {}
-/// Nested message and enum types in `SharedSetErrorEnum`.
-pub mod shared_set_error_enum {
-    /// Enum describing possible shared set errors.
+pub struct AssetErrorEnum {}
+/// Nested message and enum types in `AssetErrorEnum`.
+pub mod asset_error_enum {
+    /// Enum describing possible asset errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum SharedSetError {
+    pub enum AssetError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The customer cannot create this type of shared set.
-        CustomerCannotCreateSharedSetOfThisType = 2,
-        /// A shared set with this name already exists.
-        DuplicateName = 3,
-        /// Removed shared sets cannot be mutated.
-        SharedSetRemoved = 4,
-        /// The shared set cannot be removed because it is in use.
-        SharedSetInUse = 5,
+        /// The customer is not is not on the allow-list for this asset type.
+        CustomerNotOnAllowlistForAssetType = 13,
+        /// Assets are duplicated across operations.
+        DuplicateAsset = 3,
+        /// The asset name is duplicated, either across operations or with an
+        /// existing asset.
+        DuplicateAssetName = 4,
+        /// The Asset.asset_data oneof is empty.
+        AssetDataIsMissing = 5,
+        /// The asset has a name which is different from an existing duplicate that
+        /// represents the same content.
+        CannotModifyAssetName = 6,
+        /// The field cannot be set for this asset type.
+        FieldIncompatibleWithAssetType = 7,
+        /// Call to action must come from the list of supported values.
+        InvalidCallToActionText = 8,
+        /// A lead form asset is created with an invalid combination of input fields.
+        LeadFormInvalidFieldsCombination = 9,
+        /// Lead forms require that the Terms of Service have been agreed to before
+        /// mutates can be executed.
+        LeadFormMissingAgreement = 10,
+        /// Asset status is invalid in this operation.
+        InvalidAssetStatus = 11,
+        /// The field cannot be modified by this asset type.
+        FieldCannotBeModifiedForAssetType = 12,
+        /// Ad schedules for the same asset cannot overlap.
+        SchedulesCannotOverlap = 14,
+        /// Cannot set both percent off and money amount off fields of promotion
+        /// asset.
+        PromotionCannotSetPercentOffAndMoneyAmountOff = 15,
+        /// Cannot set both promotion code and orders over amount fields of promotion
+        /// asset.
+        PromotionCannotSetPromotionCodeAndOrdersOverAmount = 16,
+        /// The field has too many decimal places specified.
+        TooManyDecimalPlacesSpecified = 17,
+        /// Duplicate assets across operations, which have identical Asset.asset_data
+        /// oneof, cannot have different asset level fields for asset types which are
+        /// deduped.
+        DuplicateAssetsWithDifferentFieldValue = 18,
+    }
+}
+// Proto file describing user list errors.
+
+/// Container for enum describing possible user list errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserListErrorEnum {}
+/// Nested message and enum types in `UserListErrorEnum`.
+pub mod user_list_error_enum {
+    /// Enum describing possible user list errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum UserListError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Creating and updating external remarketing user lists is not supported.
+        ExternalRemarketingUserListMutateNotSupported = 2,
+        /// Concrete type of user list is required.
+        ConcreteTypeRequired = 3,
+        /// Creating/updating user list conversion types requires specifying the
+        /// conversion type Id.
+        ConversionTypeIdRequired = 4,
+        /// Remarketing user list cannot have duplicate conversion types.
+        DuplicateConversionTypes = 5,
+        /// Conversion type is invalid/unknown.
+        InvalidConversionType = 6,
+        /// User list description is empty or invalid.
+        InvalidDescription = 7,
+        /// User list name is empty or invalid.
+        InvalidName = 8,
+        /// Type of the UserList does not match.
+        InvalidType = 9,
+        /// Embedded logical user lists are not allowed.
+        CanNotAddLogicalListAsLogicalListOperand = 10,
+        /// User list rule operand is invalid.
+        InvalidUserListLogicalRuleOperand = 11,
+        /// Name is already being used for another user list for the account.
+        NameAlreadyUsed = 12,
+        /// Name is required when creating a new conversion type.
+        NewConversionTypeNameRequired = 13,
+        /// The given conversion type name has been used.
+        ConversionTypeNameAlreadyUsed = 14,
+        /// Only an owner account may edit a user list.
+        OwnershipRequiredForSet = 15,
+        /// Creating user list without setting type in oneof user_list field, or
+        /// creating/updating read-only user list types is not allowed.
+        UserListMutateNotSupported = 16,
+        /// Rule is invalid.
+        InvalidRule = 17,
+        /// The specified date range is empty.
+        InvalidDateRange = 27,
+        /// A UserList which is privacy sensitive or legal rejected cannot be mutated
+        /// by external users.
+        CanNotMutateSensitiveUserlist = 28,
+        /// Maximum number of rulebased user lists a customer can have.
+        MaxNumRulebasedUserlists = 29,
+        /// BasicUserList's billable record field cannot be modified once it is set.
+        CannotModifyBillableRecordCount = 30,
+        /// crm_based_user_list.app_id field must be set when upload_key_type is
+        /// MOBILE_ADVERTISING_ID.
+        AppIdNotSet = 31,
+        /// Name of the user list is reserved for system generated lists and cannot
+        /// be used.
+        UserlistNameIsReservedForSystemList = 32,
+        /// Advertiser needs to be on the allow-list to use remarketing lists created
+        /// from advertiser uploaded data (e.g., Customer Match lists).
+        AdvertiserNotOnAllowlistForUsingUploadedData = 37,
+        /// The provided rule_type is not supported for the user list.
+        RuleTypeIsNotSupported = 34,
+        /// Similar user list cannot be used as a logical user list operand.
+        CanNotAddASimilarUserlistAsLogicalListOperand = 35,
+        /// Logical user list should not have a mix of CRM based user list and other
+        /// types of lists in its rules.
+        CanNotMixCrmBasedInLogicalListWithOtherLists = 36,
+    }
+}
+// Proto file describing ad group bid modifier errors.
+
+/// Container for enum describing possible ad group bid modifier errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AdGroupBidModifierErrorEnum {}
+/// Nested message and enum types in `AdGroupBidModifierErrorEnum`.
+pub mod ad_group_bid_modifier_error_enum {
+    /// Enum describing possible ad group bid modifier errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AdGroupBidModifierError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The criterion ID does not support bid modification.
+        CriterionIdNotSupported = 2,
+        /// Cannot override the bid modifier for the given criterion ID if the parent
+        /// campaign is opted out of the same criterion.
+        CannotOverrideOptedOutCampaignCriterionBidModifier = 3,
+    }
+}
+// Proto file describing distinct errors.
+
+/// Container for enum describing possible distinct errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DistinctErrorEnum {}
+/// Nested message and enum types in `DistinctErrorEnum`.
+pub mod distinct_error_enum {
+    /// Enum describing possible distinct errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DistinctError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Duplicate element.
+        DuplicateElement = 2,
+        /// Duplicate type.
+        DuplicateType = 3,
+    }
+}
+// Proto file describing null errors.
+
+/// Container for enum describing possible null errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NullErrorEnum {}
+/// Nested message and enum types in `NullErrorEnum`.
+pub mod null_error_enum {
+    /// Enum describing possible null errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum NullError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Specified list/container must not contain any null elements
+        NullContent = 2,
+    }
+}
+// Proto file describing operation access denied errors.
+
+/// Container for enum describing possible operation access denied errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationAccessDeniedErrorEnum {}
+/// Nested message and enum types in `OperationAccessDeniedErrorEnum`.
+pub mod operation_access_denied_error_enum {
+    /// Enum describing possible operation access denied errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum OperationAccessDeniedError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Unauthorized invocation of a service's method (get, mutate, etc.)
+        ActionNotPermitted = 2,
+        /// Unauthorized CREATE operation in invoking a service's mutate method.
+        CreateOperationNotPermitted = 3,
+        /// Unauthorized REMOVE operation in invoking a service's mutate method.
+        RemoveOperationNotPermitted = 4,
+        /// Unauthorized UPDATE operation in invoking a service's mutate method.
+        UpdateOperationNotPermitted = 5,
+        /// A mutate action is not allowed on this resource, from this client.
+        MutateActionNotPermittedForClient = 6,
+        /// This operation is not permitted on this campaign type
+        OperationNotPermittedForCampaignType = 7,
+        /// A CREATE operation may not set status to REMOVED.
+        CreateAsRemovedNotPermitted = 8,
+        /// This operation is not allowed because the resource is removed.
+        OperationNotPermittedForRemovedResource = 9,
+        /// This operation is not permitted on this ad group type.
+        OperationNotPermittedForAdGroupType = 10,
+        /// The mutate is not allowed for this customer.
+        MutateNotPermittedForCustomer = 11,
+    }
+}
+// Proto file describing country code errors.
+
+/// Container for enum describing country code errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CountryCodeErrorEnum {}
+/// Nested message and enum types in `CountryCodeErrorEnum`.
+pub mod country_code_error_enum {
+    /// Enum describing country code errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CountryCodeError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The country code is invalid.
+        InvalidCountryCode = 2,
+    }
+}
+// Proto file describing errors from KeywordPlanIdeaService.
+
+/// Container for enum describing possible errors from KeywordPlanIdeaService.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KeywordPlanIdeaErrorEnum {}
+/// Nested message and enum types in `KeywordPlanIdeaErrorEnum`.
+pub mod keyword_plan_idea_error_enum {
+    /// Enum describing possible errors from KeywordPlanIdeaService.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum KeywordPlanIdeaError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Error when crawling the input URL.
+        UrlCrawlError = 2,
+        /// The input has an invalid value.
+        InvalidValue = 3,
+    }
+}
+// Proto file describing ManagerLink errors.
+
+/// Container for enum describing possible ManagerLink errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ManagerLinkErrorEnum {}
+/// Nested message and enum types in `ManagerLinkErrorEnum`.
+pub mod manager_link_error_enum {
+    /// Enum describing possible ManagerLink errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ManagerLinkError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The manager and client have incompatible account types.
+        AccountsNotCompatibleForLinking = 2,
+        /// Client is already linked to too many managers.
+        TooManyManagers = 3,
+        /// Manager has too many pending invitations.
+        TooManyInvites = 4,
+        /// Client is already invited by this manager.
+        AlreadyInvitedByThisManager = 5,
+        /// The client is already managed by this manager.
+        AlreadyManagedByThisManager = 6,
+        /// Client is already managed in hierarchy.
+        AlreadyManagedInHierarchy = 7,
+        /// Manager and sub-manager to be linked have duplicate client.
+        DuplicateChildFound = 8,
+        /// Client has no active user that can access the client account.
+        ClientHasNoAdminUser = 9,
+        /// Adding this link would exceed the maximum hierarchy depth.
+        MaxDepthExceeded = 10,
+        /// Adding this link will create a cycle.
+        CycleNotAllowed = 11,
+        /// Manager account has the maximum number of linked clients.
+        TooManyAccounts = 12,
+        /// Parent manager account has the maximum number of linked clients.
+        TooManyAccountsAtManager = 13,
+        /// The account is not authorized owner.
+        NonOwnerUserCannotModifyLink = 14,
+        /// Your manager account is suspended, and you are no longer allowed to link
+        /// to clients.
+        SuspendedAccountCannotAddClients = 15,
+        /// You are not allowed to move a client to a manager that is not under your
+        /// current hierarchy.
+        ClientOutsideTree = 16,
+        /// The changed status for mutate link is invalid.
+        InvalidStatusChange = 17,
+        /// The change for mutate link is invalid.
+        InvalidChange = 18,
+    }
+}
+// Proto file describing feed item set errors.
+
+/// Container for enum describing possible feed item set errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FeedItemSetErrorEnum {}
+/// Nested message and enum types in `FeedItemSetErrorEnum`.
+pub mod feed_item_set_error_enum {
+    /// Enum describing possible feed item set errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum FeedItemSetError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The given ID refers to a removed FeedItemSet.
+        FeedItemSetRemoved = 2,
+        /// The dynamic filter of a feed item set cannot be cleared on UPDATE if it
+        /// exists. A set is either static or dynamic once added, and that cannot
+        /// change.
+        CannotClearDynamicFilter = 3,
+        /// The dynamic filter of a feed item set cannot be created on UPDATE if it
+        /// does not exist. A set is either static or dynamic once added, and that
+        /// cannot change.
+        CannotCreateDynamicFilter = 4,
+        /// FeedItemSets can only be made for location or affiliate location feeds.
+        InvalidFeedType = 5,
+        /// FeedItemSets duplicate name. Name should be unique within an account.
+        DuplicateName = 6,
+        /// The feed type of the parent Feed is not compatible with the type of
+        /// dynamic filter being set. For example, you can only set
+        /// dynamic_location_set_filter for LOCATION feed item sets.
+        WrongDynamicFilterForFeedType = 7,
+    }
+}
+// Proto file describing media bundle errors.
+
+/// Container for enum describing possible media bundle errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MediaBundleErrorEnum {}
+/// Nested message and enum types in `MediaBundleErrorEnum`.
+pub mod media_bundle_error_enum {
+    /// Enum describing possible media bundle errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum MediaBundleError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// There was a problem with the request.
+        BadRequest = 3,
+        /// HTML5 ads using DoubleClick Studio created ZIP files are not supported.
+        DoubleclickBundleNotAllowed = 4,
+        /// Cannot reference URL external to the media bundle.
+        ExternalUrlNotAllowed = 5,
+        /// Media bundle file is too large.
+        FileTooLarge = 6,
+        /// ZIP file from Google Web Designer is not published.
+        GoogleWebDesignerZipFileNotPublished = 7,
+        /// Input was invalid.
+        InvalidInput = 8,
+        /// There was a problem with the media bundle.
+        InvalidMediaBundle = 9,
+        /// There was a problem with one or more of the media bundle entries.
+        InvalidMediaBundleEntry = 10,
+        /// The media bundle contains a file with an unknown mime type
+        InvalidMimeType = 11,
+        /// The media bundle contain an invalid asset path.
+        InvalidPath = 12,
+        /// HTML5 ad is trying to reference an asset not in .ZIP file
+        InvalidUrlReference = 13,
+        /// Media data is too large.
+        MediaDataTooLarge = 14,
+        /// The media bundle contains no primary entry.
+        MissingPrimaryMediaBundleEntry = 15,
+        /// There was an error on the server.
+        ServerError = 16,
+        /// The image could not be stored.
+        StorageError = 17,
+        /// Media bundle created with the Swiffy tool is not allowed.
+        SwiffyBundleNotAllowed = 18,
+        /// The media bundle contains too many files.
+        TooManyFiles = 19,
+        /// The media bundle is not of legal dimensions.
+        UnexpectedSize = 20,
+        /// Google Web Designer not created for "Google Ads" environment.
+        UnsupportedGoogleWebDesignerEnvironment = 21,
+        /// Unsupported HTML5 feature in HTML5 asset.
+        UnsupportedHtml5Feature = 22,
+        /// URL in HTML5 entry is not ssl compliant.
+        UrlInMediaBundleNotSslCompliant = 23,
+        /// Custom exits not allowed in HTML5 entry.
+        CustomExitNotAllowed = 24,
+    }
+}
+// Proto file describing AccessInvitation errors.
+
+/// Container for enum describing possible AccessInvitation errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccessInvitationErrorEnum {}
+/// Nested message and enum types in `AccessInvitationErrorEnum`.
+pub mod access_invitation_error_enum {
+    /// Enum describing possible AccessInvitation errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AccessInvitationError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The email address is invalid for sending an invitation.
+        InvalidEmailAddress = 2,
+        /// Email address already has access to this customer.
+        EmailAddressAlreadyHasAccess = 3,
+        /// Invalid invitation status for the operation.
+        InvalidInvitationStatus = 4,
+        /// Email address cannot be like abc+foo@google.com.
+        GoogleConsumerAccountNotAllowed = 5,
+        /// Invalid invitation id.
+        InvalidInvitationId = 6,
+        /// Email address already has a pending invitation.
+        EmailAddressAlreadyHasPendingInvitation = 7,
+        /// Pending invitation limit exceeded for the customer.
+        PendingInvitationsLimitExceeded = 8,
+        /// Email address doesn't conform to the email domain policy. Please see
+        /// <https://support.google.com/google-ads/answer/2375456>
+        EmailDomainPolicyViolated = 9,
+    }
+}
+// Proto file describing account budget proposal errors.
+
+/// Container for enum describing possible account budget proposal errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccountBudgetProposalErrorEnum {}
+/// Nested message and enum types in `AccountBudgetProposalErrorEnum`.
+pub mod account_budget_proposal_error_enum {
+    /// Enum describing possible account budget proposal errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AccountBudgetProposalError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The field mask must be empty for create/end/remove proposals.
+        FieldMaskNotAllowed = 2,
+        /// The field cannot be set because of the proposal type.
+        ImmutableField = 3,
+        /// The field is required because of the proposal type.
+        RequiredFieldMissing = 4,
+        /// Proposals that have been approved cannot be cancelled.
+        CannotCancelApprovedProposal = 5,
+        /// Budgets that haven't been approved cannot be removed.
+        CannotRemoveUnapprovedBudget = 6,
+        /// Budgets that are currently running cannot be removed.
+        CannotRemoveRunningBudget = 7,
+        /// Budgets that haven't been approved cannot be truncated.
+        CannotEndUnapprovedBudget = 8,
+        /// Only budgets that are currently running can be truncated.
+        CannotEndInactiveBudget = 9,
+        /// All budgets must have names.
+        BudgetNameRequired = 10,
+        /// Expired budgets cannot be edited after a sufficient amount of time has
+        /// passed.
+        CannotUpdateOldBudget = 11,
+        /// It is not permissible a propose a new budget that ends in the past.
+        CannotEndInPast = 12,
+        /// An expired budget cannot be extended to overlap with the running budget.
+        CannotExtendEndTime = 13,
+        /// A purchase order number is required.
+        PurchaseOrderNumberRequired = 14,
+        /// Budgets that have a pending update cannot be updated.
+        PendingUpdateProposalExists = 15,
+        /// Cannot propose more than one budget when the corresponding billing setup
+        /// hasn't been approved.
+        MultipleBudgetsNotAllowedForUnapprovedBillingSetup = 16,
+        /// Cannot update the start time of a budget that has already started.
+        CannotUpdateStartTimeForStartedBudget = 17,
+        /// Cannot update the spending limit of a budget with an amount lower than
+        /// what has already been spent.
+        SpendingLimitLowerThanAccruedCostNotAllowed = 18,
+        /// Cannot propose a budget update without actually changing any fields.
+        UpdateIsNoOp = 19,
+        /// The end time must come after the start time.
+        EndTimeMustFollowStartTime = 20,
+        /// The budget's date range must fall within the date range of its billing
+        /// setup.
+        BudgetDateRangeIncompatibleWithBillingSetup = 21,
+        /// The user is not authorized to mutate budgets for the given billing setup.
+        NotAuthorized = 22,
+        /// Mutates are not allowed for the given billing setup.
+        InvalidBillingSetup = 23,
+        /// Budget creation failed as it overlaps with an pending budget proposal
+        /// or an approved budget.
+        OverlapsExistingBudget = 24,
+        /// The control setting in user's payments profile doesn't allow budget
+        /// creation through API. Log in to Google Ads to create budget.
+        CannotCreateBudgetThroughApi = 25,
+    }
+}
+// Proto file describing AccountLink errors.
+
+/// Container for enum describing possible account link errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccountLinkErrorEnum {}
+/// Nested message and enum types in `AccountLinkErrorEnum`.
+pub mod account_link_error_enum {
+    /// Enum describing possible account link errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AccountLinkError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The new link status is invalid.
+        InvalidStatus = 2,
     }
 }
 // Proto file describing ad errors.
@@ -1167,955 +1690,6 @@ pub mod ad_error_enum {
         MissingRequiredImageAspectRatio = 153,
     }
 }
-// Proto file describing list operation errors.
-
-/// Container for enum describing possible list operation errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOperationErrorEnum {}
-/// Nested message and enum types in `ListOperationErrorEnum`.
-pub mod list_operation_error_enum {
-    /// Enum describing possible list operation errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ListOperationError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Field required in value is missing.
-        RequiredFieldMissing = 7,
-        /// Duplicate or identical value is sent in multiple list operations.
-        DuplicateValues = 8,
-    }
-}
-// Proto file describing null errors.
-
-/// Container for enum describing possible null errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NullErrorEnum {}
-/// Nested message and enum types in `NullErrorEnum`.
-pub mod null_error_enum {
-    /// Enum describing possible null errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum NullError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Specified list/container must not contain any null elements
-        NullContent = 2,
-    }
-}
-// Proto file describing bidding errors.
-
-/// Container for enum describing possible bidding errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BiddingErrorEnum {}
-/// Nested message and enum types in `BiddingErrorEnum`.
-pub mod bidding_error_enum {
-    /// Enum describing possible bidding errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum BiddingError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Cannot transition to new bidding strategy.
-        BiddingStrategyTransitionNotAllowed = 2,
-        /// Cannot attach bidding strategy to campaign.
-        CannotAttachBiddingStrategyToCampaign = 7,
-        /// Bidding strategy is not supported or cannot be used as anonymous.
-        InvalidAnonymousBiddingStrategyType = 10,
-        /// The type does not match the named strategy's type.
-        InvalidBiddingStrategyType = 14,
-        /// The bid is invalid.
-        InvalidBid = 17,
-        /// Bidding strategy is not available for the account type.
-        BiddingStrategyNotAvailableForAccountType = 18,
-        /// Conversion tracking is not enabled in the campaign that has value-based
-        /// bidding transitions.
-        ConversionTrackingNotEnabled = 19,
-        /// Not enough conversions tracked for value-based bidding transitions.
-        NotEnoughConversions = 20,
-        /// Campaign can not be created with given bidding strategy. It can be
-        /// transitioned to the strategy, once eligible.
-        CannotCreateCampaignWithBiddingStrategy = 21,
-        /// Cannot target content network only as campaign uses Page One Promoted
-        /// bidding strategy.
-        CannotTargetContentNetworkOnlyWithCampaignLevelPopBiddingStrategy = 23,
-        /// Budget Optimizer and Target Spend bidding strategies are not supported
-        /// for campaigns with AdSchedule targeting.
-        BiddingStrategyNotSupportedWithAdSchedule = 24,
-        /// Pay per conversion is not available to all the customer, only few
-        /// customers on the allow-list can use this.
-        PayPerConversionNotAvailableForCustomer = 25,
-        /// Pay per conversion is not allowed with Target CPA.
-        PayPerConversionNotAllowedWithTargetCpa = 26,
-        /// Cannot set bidding strategy to Manual CPM for search network only
-        /// campaigns.
-        BiddingStrategyNotAllowedForSearchOnlyCampaigns = 27,
-        /// The bidding strategy is not supported for use in drafts or experiments.
-        BiddingStrategyNotSupportedInDraftsOrExperiments = 28,
-        /// Bidding strategy type does not support product type ad group criterion.
-        BiddingStrategyTypeDoesNotSupportProductTypeAdgroupCriterion = 29,
-        /// Bid amount is too small.
-        BidTooSmall = 30,
-        /// Bid amount is too big.
-        BidTooBig = 31,
-        /// Bid has too many fractional digit precision.
-        BidTooManyFractionalDigits = 32,
-        /// Invalid domain name specified.
-        InvalidDomainName = 33,
-        /// The field is not compatible with the payment mode.
-        NotCompatibleWithPaymentMode = 34,
-        /// The field is not compatible with the budget type.
-        NotCompatibleWithBudgetType = 35,
-        /// The field is not compatible with the bidding strategy type.
-        NotCompatibleWithBiddingStrategyType = 36,
-        /// Bidding strategy type is incompatible with shared budget.
-        BiddingStrategyTypeIncompatibleWithSharedBudget = 37,
-    }
-}
-// Proto file describing distinct errors.
-
-/// Container for enum describing possible distinct errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DistinctErrorEnum {}
-/// Nested message and enum types in `DistinctErrorEnum`.
-pub mod distinct_error_enum {
-    /// Enum describing possible distinct errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DistinctError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Duplicate element.
-        DuplicateElement = 2,
-        /// Duplicate type.
-        DuplicateType = 3,
-    }
-}
-// Proto file describing region code errors.
-
-/// Container for enum describing possible region code errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RegionCodeErrorEnum {}
-/// Nested message and enum types in `RegionCodeErrorEnum`.
-pub mod region_code_error_enum {
-    /// Enum describing possible region code errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RegionCodeError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Invalid region code.
-        InvalidRegionCode = 2,
-    }
-}
-// Proto file describing ad parameter errors.
-
-/// Container for enum describing possible ad parameter errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdParameterErrorEnum {}
-/// Nested message and enum types in `AdParameterErrorEnum`.
-pub mod ad_parameter_error_enum {
-    /// Enum describing possible ad parameter errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AdParameterError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The ad group criterion must be a keyword criterion.
-        AdGroupCriterionMustBeKeyword = 2,
-        /// The insertion text is invalid.
-        InvalidInsertionTextFormat = 3,
-    }
-}
-// Proto file describing mutate errors.
-
-/// Container for enum describing possible mutate errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MutateErrorEnum {}
-/// Nested message and enum types in `MutateErrorEnum`.
-pub mod mutate_error_enum {
-    /// Enum describing possible mutate errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum MutateError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Requested resource was not found.
-        ResourceNotFound = 3,
-        /// Cannot mutate the same resource twice in one request.
-        IdExistsInMultipleMutates = 7,
-        /// The field's contents don't match another field that represents the same
-        /// data.
-        InconsistentFieldValues = 8,
-        /// Mutates are not allowed for the requested resource.
-        MutateNotAllowed = 9,
-        /// The resource isn't in Google Ads. It belongs to another ads system.
-        ResourceNotInGoogleAds = 10,
-        /// The resource being created already exists.
-        ResourceAlreadyExists = 11,
-        /// This resource cannot be used with "validate_only".
-        ResourceDoesNotSupportValidateOnly = 12,
-        /// Attempt to write to read-only fields.
-        ResourceReadOnly = 13,
-    }
-}
-// Proto file describing quota errors.
-
-/// Container for enum describing possible quota errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QuotaErrorEnum {}
-/// Nested message and enum types in `QuotaErrorEnum`.
-pub mod quota_error_enum {
-    /// Enum describing possible quota errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum QuotaError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Too many requests.
-        ResourceExhausted = 2,
-        /// Access is prohibited.
-        AccessProhibited = 3,
-        /// Too many requests in a short amount of time.
-        ResourceTemporarilyExhausted = 4,
-    }
-}
-// Proto file describing ad sharing errors.
-
-/// Container for enum describing possible ad sharing errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdSharingErrorEnum {}
-/// Nested message and enum types in `AdSharingErrorEnum`.
-pub mod ad_sharing_error_enum {
-    /// Enum describing possible ad sharing errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AdSharingError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Error resulting in attempting to add an Ad to an AdGroup that already
-        /// contains the Ad.
-        AdGroupAlreadyContainsAd = 2,
-        /// Ad is not compatible with the AdGroup it is being shared with.
-        IncompatibleAdUnderAdGroup = 3,
-        /// Cannot add AdGroupAd on inactive Ad.
-        CannotShareInactiveAd = 4,
-    }
-}
-// Proto file describing ad customizer errors.
-
-/// Container for enum describing possible ad customizer errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdCustomizerErrorEnum {}
-/// Nested message and enum types in `AdCustomizerErrorEnum`.
-pub mod ad_customizer_error_enum {
-    /// Enum describing possible ad customizer errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AdCustomizerError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Invalid date argument in countdown function.
-        CountdownInvalidDateFormat = 2,
-        /// Countdown end date is in the past.
-        CountdownDateInPast = 3,
-        /// Invalid locale string in countdown function.
-        CountdownInvalidLocale = 4,
-        /// Days-before argument to countdown function is not positive.
-        CountdownInvalidStartDaysBefore = 5,
-        /// A user list referenced in an IF function does not exist.
-        UnknownUserList = 6,
-    }
-}
-// Proto file describing authorization errors.
-
-/// Container for enum describing possible authorization errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AuthorizationErrorEnum {}
-/// Nested message and enum types in `AuthorizationErrorEnum`.
-pub mod authorization_error_enum {
-    /// Enum describing possible authorization errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AuthorizationError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// User doesn't have permission to access customer. Note: If you're
-        /// accessing a client customer, the manager's customer ID must be set in the
-        /// `login-customer-id` header. Learn more at
-        /// <https://developers.google.com/google-ads/api/docs/concepts/call-structure#cid>
-        UserPermissionDenied = 2,
-        /// The developer token is not on the allow-list.
-        DeveloperTokenNotOnAllowlist = 13,
-        /// The developer token is not allowed with the project sent in the request.
-        DeveloperTokenProhibited = 4,
-        /// The Google Cloud project sent in the request does not have permission to
-        /// access the api.
-        ProjectDisabled = 5,
-        /// Authorization of the client failed.
-        AuthorizationError = 6,
-        /// The user does not have permission to perform this action
-        /// (e.g., ADD, UPDATE, REMOVE) on the resource or call a method.
-        ActionNotPermitted = 7,
-        /// Signup not complete.
-        IncompleteSignup = 8,
-        /// The customer can't be used because it isn't enabled.
-        CustomerNotEnabled = 24,
-        /// The developer must sign the terms of service. They can be found here:
-        /// ads.google.com/aw/apicenter
-        MissingTos = 9,
-        /// The developer token is not approved. Non-approved developer tokens can
-        /// only be used with test accounts.
-        DeveloperTokenNotApproved = 10,
-        /// The login customer specified does not have access to the account
-        /// specified, so the request is invalid.
-        InvalidLoginCustomerIdServingCustomerIdCombination = 11,
-        /// The developer specified does not have access to the service.
-        ServiceAccessDenied = 12,
-        /// The customer (or login customer) isn't in Google Ads. It belongs to
-        /// another ads system.
-        AccessDeniedForAccountType = 25,
-    }
-}
-// Proto file describing range errors.
-
-/// Container for enum describing possible range errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RangeErrorEnum {}
-/// Nested message and enum types in `RangeErrorEnum`.
-pub mod range_error_enum {
-    /// Enum describing possible range errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RangeError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Too low.
-        TooLow = 2,
-        /// Too high.
-        TooHigh = 3,
-    }
-}
-// Proto file describing operation access denied errors.
-
-/// Container for enum describing possible operation access denied errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationAccessDeniedErrorEnum {}
-/// Nested message and enum types in `OperationAccessDeniedErrorEnum`.
-pub mod operation_access_denied_error_enum {
-    /// Enum describing possible operation access denied errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum OperationAccessDeniedError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Unauthorized invocation of a service's method (get, mutate, etc.)
-        ActionNotPermitted = 2,
-        /// Unauthorized CREATE operation in invoking a service's mutate method.
-        CreateOperationNotPermitted = 3,
-        /// Unauthorized REMOVE operation in invoking a service's mutate method.
-        RemoveOperationNotPermitted = 4,
-        /// Unauthorized UPDATE operation in invoking a service's mutate method.
-        UpdateOperationNotPermitted = 5,
-        /// A mutate action is not allowed on this campaign, from this client.
-        MutateActionNotPermittedForClient = 6,
-        /// This operation is not permitted on this campaign type
-        OperationNotPermittedForCampaignType = 7,
-        /// A CREATE operation may not set status to REMOVED.
-        CreateAsRemovedNotPermitted = 8,
-        /// This operation is not allowed because the campaign or adgroup is removed.
-        OperationNotPermittedForRemovedResource = 9,
-        /// This operation is not permitted on this ad group type.
-        OperationNotPermittedForAdGroupType = 10,
-        /// The mutate is not allowed for this customer.
-        MutateNotPermittedForCustomer = 11,
-    }
-}
-// Proto file describing user list errors.
-
-/// Container for enum describing possible user list errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserListErrorEnum {}
-/// Nested message and enum types in `UserListErrorEnum`.
-pub mod user_list_error_enum {
-    /// Enum describing possible user list errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum UserListError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Creating and updating external remarketing user lists is not supported.
-        ExternalRemarketingUserListMutateNotSupported = 2,
-        /// Concrete type of user list is required.
-        ConcreteTypeRequired = 3,
-        /// Creating/updating user list conversion types requires specifying the
-        /// conversion type Id.
-        ConversionTypeIdRequired = 4,
-        /// Remarketing user list cannot have duplicate conversion types.
-        DuplicateConversionTypes = 5,
-        /// Conversion type is invalid/unknown.
-        InvalidConversionType = 6,
-        /// User list description is empty or invalid.
-        InvalidDescription = 7,
-        /// User list name is empty or invalid.
-        InvalidName = 8,
-        /// Type of the UserList does not match.
-        InvalidType = 9,
-        /// Embedded logical user lists are not allowed.
-        CanNotAddLogicalListAsLogicalListOperand = 10,
-        /// User list rule operand is invalid.
-        InvalidUserListLogicalRuleOperand = 11,
-        /// Name is already being used for another user list for the account.
-        NameAlreadyUsed = 12,
-        /// Name is required when creating a new conversion type.
-        NewConversionTypeNameRequired = 13,
-        /// The given conversion type name has been used.
-        ConversionTypeNameAlreadyUsed = 14,
-        /// Only an owner account may edit a user list.
-        OwnershipRequiredForSet = 15,
-        /// Creating user list without setting type in oneof user_list field, or
-        /// creating/updating read-only user list types is not allowed.
-        UserListMutateNotSupported = 16,
-        /// Rule is invalid.
-        InvalidRule = 17,
-        /// The specified date range is empty.
-        InvalidDateRange = 27,
-        /// A UserList which is privacy sensitive or legal rejected cannot be mutated
-        /// by external users.
-        CanNotMutateSensitiveUserlist = 28,
-        /// Maximum number of rulebased user lists a customer can have.
-        MaxNumRulebasedUserlists = 29,
-        /// BasicUserList's billable record field cannot be modified once it is set.
-        CannotModifyBillableRecordCount = 30,
-        /// crm_based_user_list.app_id field must be set when upload_key_type is
-        /// MOBILE_ADVERTISING_ID.
-        AppIdNotSet = 31,
-        /// Name of the user list is reserved for system generated lists and cannot
-        /// be used.
-        UserlistNameIsReservedForSystemList = 32,
-        /// Advertiser needs to be on the allow-list to use remarketing lists created
-        /// from advertiser uploaded data (e.g., Customer Match lists).
-        AdvertiserNotOnAllowlistForUsingUploadedData = 37,
-        /// The provided rule_type is not supported for the user list.
-        RuleTypeIsNotSupported = 34,
-        /// Similar user list cannot be used as a logical user list operand.
-        CanNotAddASimilarUserlistAsLogicalListOperand = 35,
-        /// Logical user list should not have a mix of CRM based user list and other
-        /// types of lists in its rules.
-        CanNotMixCrmBasedInLogicalListWithOtherLists = 36,
-    }
-}
-// Proto file describing custom interest errors.
-
-/// Container for enum describing possible custom interest errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CustomInterestErrorEnum {}
-/// Nested message and enum types in `CustomInterestErrorEnum`.
-pub mod custom_interest_error_enum {
-    /// Enum describing possible custom interest errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CustomInterestError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Duplicate custom interest name ignoring case.
-        NameAlreadyUsed = 2,
-        /// In the remove custom interest member operation, both member ID and
-        /// pair [type, parameter] are not present.
-        CustomInterestMemberIdAndTypeParameterNotPresentInRemove = 3,
-        /// The pair of [type, parameter] does not exist.
-        TypeAndParameterNotFound = 4,
-        /// The pair of [type, parameter] already exists.
-        TypeAndParameterAlreadyExisted = 5,
-        /// Unsupported custom interest member type.
-        InvalidCustomInterestMemberType = 6,
-        /// Cannot remove a custom interest while it's still being targeted.
-        CannotRemoveWhileInUse = 7,
-        /// Cannot mutate custom interest type.
-        CannotChangeType = 8,
-    }
-}
-// Proto file describing customer feed errors.
-
-/// Container for enum describing possible customer feed errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CustomerFeedErrorEnum {}
-/// Nested message and enum types in `CustomerFeedErrorEnum`.
-pub mod customer_feed_error_enum {
-    /// Enum describing possible customer feed errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CustomerFeedError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// An active feed already exists for this customer and place holder type.
-        FeedAlreadyExistsForPlaceholderType = 2,
-        /// The specified feed is removed.
-        CannotCreateForRemovedFeed = 3,
-        /// The CustomerFeed already exists. Update should be used to modify the
-        /// existing CustomerFeed.
-        CannotCreateAlreadyExistingCustomerFeed = 4,
-        /// Cannot update removed customer feed.
-        CannotModifyRemovedCustomerFeed = 5,
-        /// Invalid placeholder type.
-        InvalidPlaceholderType = 6,
-        /// Feed mapping for this placeholder type does not exist.
-        MissingFeedmappingForPlaceholderType = 7,
-        /// Placeholder not allowed at the account level.
-        PlaceholderTypeNotAllowedOnCustomerFeed = 8,
-    }
-}
-// Proto file describing change event errors.
-
-/// Container for enum describing possible change event errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ChangeEventErrorEnum {}
-/// Nested message and enum types in `ChangeEventErrorEnum`.
-pub mod change_event_error_enum {
-    /// Enum describing possible change event errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ChangeEventError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The requested start date is too old. It cannot be older than 30 days.
-        StartDateTooOld = 2,
-        /// The change_event search request must specify a finite range filter
-        /// on change_date_time.
-        ChangeDateRangeInfinite = 3,
-        /// The change event search request has specified invalid date time filters
-        /// that can never logically produce any valid results (for example, start
-        /// time after end time).
-        ChangeDateRangeNegative = 4,
-        /// The change_event search request must specify a LIMIT.
-        LimitNotSpecified = 5,
-        /// The LIMIT specified by change_event request should be less than or equal
-        /// to 10K.
-        InvalidLimitClause = 6,
-    }
-}
-/// Container for enum describing possible geo target constant suggestion errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GeoTargetConstantSuggestionErrorEnum {}
-/// Nested message and enum types in `GeoTargetConstantSuggestionErrorEnum`.
-pub mod geo_target_constant_suggestion_error_enum {
-    /// Enum describing possible geo target constant suggestion errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum GeoTargetConstantSuggestionError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// A location name cannot be greater than 300 characters.
-        LocationNameSizeLimit = 2,
-        /// At most 25 location names can be specified in a SuggestGeoTargetConstants
-        /// method.
-        LocationNameLimit = 3,
-        /// The country code is invalid.
-        InvalidCountryCode = 4,
-        /// Geo target constant resource names or location names must be provided in
-        /// the request.
-        RequestParametersUnset = 5,
-    }
-}
-// Proto file describing resource access denied errors.
-
-/// Container for enum describing possible resource access denied errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResourceAccessDeniedErrorEnum {}
-/// Nested message and enum types in `ResourceAccessDeniedErrorEnum`.
-pub mod resource_access_denied_error_enum {
-    /// Enum describing possible resource access denied errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ResourceAccessDeniedError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// User did not have write access.
-        WriteAccessDenied = 3,
-    }
-}
-// Proto file describing feed item set errors.
-
-/// Container for enum describing possible feed item set errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FeedItemSetErrorEnum {}
-/// Nested message and enum types in `FeedItemSetErrorEnum`.
-pub mod feed_item_set_error_enum {
-    /// Enum describing possible feed item set errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum FeedItemSetError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The given ID refers to a removed FeedItemSet.
-        FeedItemSetRemoved = 2,
-        /// The dynamic filter of a feed item set cannot be cleared on UPDATE if it
-        /// exists. A set is either static or dynamic once added, and that cannot
-        /// change.
-        CannotClearDynamicFilter = 3,
-        /// The dynamic filter of a feed item set cannot be created on UPDATE if it
-        /// does not exist. A set is either static or dynamic once added, and that
-        /// cannot change.
-        CannotCreateDynamicFilter = 4,
-        /// FeedItemSets can only be made for location or affiliate location feeds.
-        InvalidFeedType = 5,
-        /// FeedItemSets duplicate name. Name should be unique within an account.
-        DuplicateName = 6,
-        /// The feed type of the parent Feed is not compatible with the type of
-        /// dynamic filter being set. For example, you can only set
-        /// dynamic_location_set_filter for LOCATION feed item sets.
-        WrongDynamicFilterForFeedType = 7,
-    }
-}
-// Proto file describing operator errors.
-
-/// Container for enum describing possible operator errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperatorErrorEnum {}
-/// Nested message and enum types in `OperatorErrorEnum`.
-pub mod operator_error_enum {
-    /// Enum describing possible operator errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum OperatorError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Operator not supported.
-        OperatorNotSupported = 2,
-    }
-}
-// Proto file describing shared criterion errors.
-
-/// Container for enum describing possible shared criterion errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SharedCriterionErrorEnum {}
-/// Nested message and enum types in `SharedCriterionErrorEnum`.
-pub mod shared_criterion_error_enum {
-    /// Enum describing possible shared criterion errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SharedCriterionError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The criterion is not appropriate for the shared set type.
-        CriterionTypeNotAllowedForSharedSetType = 2,
-    }
-}
-// Proto file describing url field errors.
-
-/// Container for enum describing possible url field errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UrlFieldErrorEnum {}
-/// Nested message and enum types in `UrlFieldErrorEnum`.
-pub mod url_field_error_enum {
-    /// Enum describing possible url field errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum UrlFieldError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The tracking url template is invalid.
-        InvalidTrackingUrlTemplate = 2,
-        /// The tracking url template contains invalid tag.
-        InvalidTagInTrackingUrlTemplate = 3,
-        /// The tracking url template must contain at least one tag (e.g. {lpurl}),
-        /// This applies only to tracking url template associated with website ads or
-        /// product ads.
-        MissingTrackingUrlTemplateTag = 4,
-        /// The tracking url template must start with a valid protocol (or lpurl
-        /// tag).
-        MissingProtocolInTrackingUrlTemplate = 5,
-        /// The tracking url template starts with an invalid protocol.
-        InvalidProtocolInTrackingUrlTemplate = 6,
-        /// The tracking url template contains illegal characters.
-        MalformedTrackingUrlTemplate = 7,
-        /// The tracking url template must contain a host name (or lpurl tag).
-        MissingHostInTrackingUrlTemplate = 8,
-        /// The tracking url template has an invalid or missing top level domain
-        /// extension.
-        InvalidTldInTrackingUrlTemplate = 9,
-        /// The tracking url template contains nested occurrences of the same
-        /// conditional tag (i.e. {ifmobile:{ifmobile:x}}).
-        RedundantNestedTrackingUrlTemplateTag = 10,
-        /// The final url is invalid.
-        InvalidFinalUrl = 11,
-        /// The final url contains invalid tag.
-        InvalidTagInFinalUrl = 12,
-        /// The final url contains nested occurrences of the same conditional tag
-        /// (i.e. {ifmobile:{ifmobile:x}}).
-        RedundantNestedFinalUrlTag = 13,
-        /// The final url must start with a valid protocol.
-        MissingProtocolInFinalUrl = 14,
-        /// The final url starts with an invalid protocol.
-        InvalidProtocolInFinalUrl = 15,
-        /// The final url contains illegal characters.
-        MalformedFinalUrl = 16,
-        /// The final url must contain a host name.
-        MissingHostInFinalUrl = 17,
-        /// The tracking url template has an invalid or missing top level domain
-        /// extension.
-        InvalidTldInFinalUrl = 18,
-        /// The final mobile url is invalid.
-        InvalidFinalMobileUrl = 19,
-        /// The final mobile url contains invalid tag.
-        InvalidTagInFinalMobileUrl = 20,
-        /// The final mobile url contains nested occurrences of the same conditional
-        /// tag (i.e. {ifmobile:{ifmobile:x}}).
-        RedundantNestedFinalMobileUrlTag = 21,
-        /// The final mobile url must start with a valid protocol.
-        MissingProtocolInFinalMobileUrl = 22,
-        /// The final mobile url starts with an invalid protocol.
-        InvalidProtocolInFinalMobileUrl = 23,
-        /// The final mobile url contains illegal characters.
-        MalformedFinalMobileUrl = 24,
-        /// The final mobile url must contain a host name.
-        MissingHostInFinalMobileUrl = 25,
-        /// The tracking url template has an invalid or missing top level domain
-        /// extension.
-        InvalidTldInFinalMobileUrl = 26,
-        /// The final app url is invalid.
-        InvalidFinalAppUrl = 27,
-        /// The final app url contains invalid tag.
-        InvalidTagInFinalAppUrl = 28,
-        /// The final app url contains nested occurrences of the same conditional tag
-        /// (i.e. {ifmobile:{ifmobile:x}}).
-        RedundantNestedFinalAppUrlTag = 29,
-        /// More than one app url found for the same OS type.
-        MultipleAppUrlsForOstype = 30,
-        /// The OS type given for an app url is not valid.
-        InvalidOstype = 31,
-        /// The protocol given for an app url is not valid. (E.g. "android-app://")
-        InvalidProtocolForAppUrl = 32,
-        /// The package id (app id) given for an app url is not valid.
-        InvalidPackageIdForAppUrl = 33,
-        /// The number of url custom parameters for an resource exceeds the maximum
-        /// limit allowed.
-        UrlCustomParametersCountExceedsLimit = 34,
-        /// An invalid character appears in the parameter key.
-        InvalidCharactersInUrlCustomParameterKey = 39,
-        /// An invalid character appears in the parameter value.
-        InvalidCharactersInUrlCustomParameterValue = 40,
-        /// The url custom parameter value fails url tag validation.
-        InvalidTagInUrlCustomParameterValue = 41,
-        /// The custom parameter contains nested occurrences of the same conditional
-        /// tag (i.e. {ifmobile:{ifmobile:x}}).
-        RedundantNestedUrlCustomParameterTag = 42,
-        /// The protocol (http:// or https://) is missing.
-        MissingProtocol = 43,
-        /// Unsupported protocol in URL. Only http and https are supported.
-        InvalidProtocol = 52,
-        /// The url is invalid.
-        InvalidUrl = 44,
-        /// Destination Url is deprecated.
-        DestinationUrlDeprecated = 45,
-        /// The url contains invalid tag.
-        InvalidTagInUrl = 46,
-        /// The url must contain at least one tag (e.g. {lpurl}).
-        MissingUrlTag = 47,
-        /// Duplicate url id.
-        DuplicateUrlId = 48,
-        /// Invalid url id.
-        InvalidUrlId = 49,
-        /// The final url suffix cannot begin with '?' or '&' characters and must be
-        /// a valid query string.
-        FinalUrlSuffixMalformed = 50,
-        /// The final url suffix cannot contain {lpurl} related or {ignore} tags.
-        InvalidTagInFinalUrlSuffix = 51,
-        /// The top level domain is invalid, e.g, not a public top level domain
-        /// listed in publicsuffix.org.
-        InvalidTopLevelDomain = 53,
-        /// Malformed top level domain in URL.
-        MalformedTopLevelDomain = 54,
-        /// Malformed URL.
-        MalformedUrl = 55,
-        /// No host found in URL.
-        MissingHost = 56,
-        /// Custom parameter value cannot be null.
-        NullCustomParameterValue = 57,
-    }
-}
-// Proto file describing field errors.
-
-/// Container for enum describing possible field errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FieldErrorEnum {}
-/// Nested message and enum types in `FieldErrorEnum`.
-pub mod field_error_enum {
-    /// Enum describing possible field errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum FieldError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The required field was not present.
-        Required = 2,
-        /// The field attempted to be mutated is immutable.
-        ImmutableField = 3,
-        /// The field's value is invalid.
-        InvalidValue = 4,
-        /// The field cannot be set.
-        ValueMustBeUnset = 5,
-        /// The required repeated field was empty.
-        RequiredNonemptyList = 6,
-        /// The field cannot be cleared.
-        FieldCannotBeCleared = 7,
-        /// The field's value is on a deny-list for this field.
-        BlockedValue = 9,
-    }
-}
-// Proto file describing AccessInvitation errors.
-
-/// Container for enum describing possible AccessInvitation errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AccessInvitationErrorEnum {}
-/// Nested message and enum types in `AccessInvitationErrorEnum`.
-pub mod access_invitation_error_enum {
-    /// Enum describing possible AccessInvitation errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AccessInvitationError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The email address is invalid for sending an invitation.
-        InvalidEmailAddress = 2,
-        /// Email address already has access to this customer.
-        EmailAddressAlreadyHasAccess = 3,
-        /// Invalid invitation status for the operation.
-        InvalidInvitationStatus = 4,
-        /// Email address cannot be like abc+foo@google.com.
-        GoogleConsumerAccountNotAllowed = 5,
-        /// Invalid invitation id.
-        InvalidInvitationId = 6,
-        /// Email address already has a pending invitation.
-        EmailAddressAlreadyHasPendingInvitation = 7,
-        /// Pending invitation limit exceeded for the customer.
-        PendingInvitationsLimitExceeded = 8,
-        /// Email address doesn't conform to the email domain policy. Please see
-        /// <https://support.google.com/google-ads/answer/2375456>
-        EmailDomainPolicyViolated = 9,
-    }
-}
-// Proto file describing account budget proposal errors.
-
-/// Container for enum describing possible account budget proposal errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AccountBudgetProposalErrorEnum {}
-/// Nested message and enum types in `AccountBudgetProposalErrorEnum`.
-pub mod account_budget_proposal_error_enum {
-    /// Enum describing possible account budget proposal errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AccountBudgetProposalError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The field mask must be empty for create/end/remove proposals.
-        FieldMaskNotAllowed = 2,
-        /// The field cannot be set because of the proposal type.
-        ImmutableField = 3,
-        /// The field is required because of the proposal type.
-        RequiredFieldMissing = 4,
-        /// Proposals that have been approved cannot be cancelled.
-        CannotCancelApprovedProposal = 5,
-        /// Budgets that haven't been approved cannot be removed.
-        CannotRemoveUnapprovedBudget = 6,
-        /// Budgets that are currently running cannot be removed.
-        CannotRemoveRunningBudget = 7,
-        /// Budgets that haven't been approved cannot be truncated.
-        CannotEndUnapprovedBudget = 8,
-        /// Only budgets that are currently running can be truncated.
-        CannotEndInactiveBudget = 9,
-        /// All budgets must have names.
-        BudgetNameRequired = 10,
-        /// Expired budgets cannot be edited after a sufficient amount of time has
-        /// passed.
-        CannotUpdateOldBudget = 11,
-        /// It is not permissible a propose a new budget that ends in the past.
-        CannotEndInPast = 12,
-        /// An expired budget cannot be extended to overlap with the running budget.
-        CannotExtendEndTime = 13,
-        /// A purchase order number is required.
-        PurchaseOrderNumberRequired = 14,
-        /// Budgets that have a pending update cannot be updated.
-        PendingUpdateProposalExists = 15,
-        /// Cannot propose more than one budget when the corresponding billing setup
-        /// hasn't been approved.
-        MultipleBudgetsNotAllowedForUnapprovedBillingSetup = 16,
-        /// Cannot update the start time of a budget that has already started.
-        CannotUpdateStartTimeForStartedBudget = 17,
-        /// Cannot update the spending limit of a budget with an amount lower than
-        /// what has already been spent.
-        SpendingLimitLowerThanAccruedCostNotAllowed = 18,
-        /// Cannot propose a budget update without actually changing any fields.
-        UpdateIsNoOp = 19,
-        /// The end time must come after the start time.
-        EndTimeMustFollowStartTime = 20,
-        /// The budget's date range must fall within the date range of its billing
-        /// setup.
-        BudgetDateRangeIncompatibleWithBillingSetup = 21,
-        /// The user is not authorized to mutate budgets for the given billing setup.
-        NotAuthorized = 22,
-        /// Mutates are not allowed for the given billing setup.
-        InvalidBillingSetup = 23,
-        /// Budget creation failed as it overlaps with an pending budget proposal
-        /// or an approved budget.
-        OverlapsExistingBudget = 24,
-        /// The control setting in user's payments profile doesn't allow budget
-        /// creation through API. Log in to Google Ads to create budget.
-        CannotCreateBudgetThroughApi = 25,
-    }
-}
 // Proto file describing ad group ad errors.
 
 /// Container for enum describing possible ad group ad errors.
@@ -2153,28 +1727,6 @@ pub mod ad_group_ad_error_enum {
         AdTypeCannotBePaused = 10,
         /// AdGroupAds with the given ad type cannot be removed.
         AdTypeCannotBeRemoved = 11,
-    }
-}
-// Proto file describing ad group bid modifier errors.
-
-/// Container for enum describing possible ad group bid modifier errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdGroupBidModifierErrorEnum {}
-/// Nested message and enum types in `AdGroupBidModifierErrorEnum`.
-pub mod ad_group_bid_modifier_error_enum {
-    /// Enum describing possible ad group bid modifier errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AdGroupBidModifierError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The criterion ID does not support bid modification.
-        CriterionIdNotSupported = 2,
-        /// Cannot override the bid modifier for the given criterion ID if the parent
-        /// campaign is opted out of the same criterion.
-        CannotOverrideOptedOutCampaignCriterionBidModifier = 3,
     }
 }
 // Proto file describing ad group criterion errors.
@@ -2259,54 +1811,61 @@ pub mod ad_group_criterion_error_enum {
         FinalMobileUrlsNotSupportedForCriterionType = 38,
     }
 }
-// Proto file describing ad group errors.
+// Proto file describing ad group feed errors.
 
-/// Container for enum describing possible ad group errors.
+/// Container for enum describing possible ad group feed errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdGroupErrorEnum {}
-/// Nested message and enum types in `AdGroupErrorEnum`.
-pub mod ad_group_error_enum {
-    /// Enum describing possible ad group errors.
+pub struct AdGroupFeedErrorEnum {}
+/// Nested message and enum types in `AdGroupFeedErrorEnum`.
+pub mod ad_group_feed_error_enum {
+    /// Enum describing possible ad group feed errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum AdGroupError {
+    pub enum AdGroupFeedError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// AdGroup with the same name already exists for the campaign.
-        DuplicateAdgroupName = 2,
-        /// AdGroup name is not valid.
-        InvalidAdgroupName = 3,
-        /// Advertiser is not allowed to target sites or set site bids that are not
-        /// on the Google Search Network.
-        AdvertiserNotOnContentNetwork = 5,
-        /// Bid amount is too big.
-        BidTooBig = 6,
-        /// AdGroup bid does not match the campaign's bidding strategy.
-        BidTypeAndBiddingStrategyMismatch = 7,
-        /// AdGroup name is required for Add.
-        MissingAdgroupName = 8,
-        /// No link found between the ad group and the label.
-        AdgroupLabelDoesNotExist = 9,
-        /// The label has already been attached to the ad group.
-        AdgroupLabelAlreadyExists = 10,
-        /// The CriterionTypeGroup is not supported for the content bid dimension.
-        InvalidContentBidCriterionTypeGroup = 11,
-        /// The ad group type is not compatible with the campaign channel type.
-        AdGroupTypeNotValidForAdvertisingChannelType = 12,
-        /// The ad group type is not supported in the country of sale of the
-        /// campaign.
-        AdgroupTypeNotSupportedForCampaignSalesCountry = 13,
-        /// Ad groups of AdGroupType.SEARCH_DYNAMIC_ADS can only be added to
-        /// campaigns that have DynamicSearchAdsSetting attached.
-        CannotAddAdgroupOfTypeDsaToCampaignWithoutDsaSetting = 14,
-        /// Promoted hotels ad groups are only available to customers on the
-        /// allow-list.
-        PromotedHotelAdGroupsNotAvailableForCustomer = 15,
-        /// The field type cannot be excluded because an active ad group-asset link
-        /// of this type exists.
-        InvalidExcludedParentAssetFieldType = 16,
+        /// An active feed already exists for this ad group and place holder type.
+        FeedAlreadyExistsForPlaceholderType = 2,
+        /// The specified feed is removed.
+        CannotCreateForRemovedFeed = 3,
+        /// The AdGroupFeed already exists. UPDATE operation should be used to modify
+        /// the existing AdGroupFeed.
+        AdgroupFeedAlreadyExists = 4,
+        /// Cannot operate on removed AdGroupFeed.
+        CannotOperateOnRemovedAdgroupFeed = 5,
+        /// Invalid placeholder type.
+        InvalidPlaceholderType = 6,
+        /// Feed mapping for this placeholder type does not exist.
+        MissingFeedmappingForPlaceholderType = 7,
+        /// Location AdGroupFeeds cannot be created unless there is a location
+        /// CustomerFeed for the specified feed.
+        NoExistingLocationCustomerFeed = 8,
+    }
+}
+// Proto file describing ad sharing errors.
+
+/// Container for enum describing possible ad sharing errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AdSharingErrorEnum {}
+/// Nested message and enum types in `AdSharingErrorEnum`.
+pub mod ad_sharing_error_enum {
+    /// Enum describing possible ad sharing errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AdSharingError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Error resulting in attempting to add an Ad to an AdGroup that already
+        /// contains the Ad.
+        AdGroupAlreadyContainsAd = 2,
+        /// Ad is not compatible with the AdGroup it is being shared with.
+        IncompatibleAdUnderAdGroup = 3,
+        /// Cannot add AdGroupAd on inactive Ad.
+        CannotShareInactiveAd = 4,
     }
 }
 // Proto file describing adx errors.
@@ -2328,60 +1887,64 @@ pub mod adx_error_enum {
         UnsupportedFeature = 2,
     }
 }
-// Proto file describing asset errors.
+// Proto file describing asset link errors.
 
-/// Container for enum describing possible asset errors.
+/// Container for enum describing possible asset link errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AssetErrorEnum {}
-/// Nested message and enum types in `AssetErrorEnum`.
-pub mod asset_error_enum {
-    /// Enum describing possible asset errors.
+pub struct AssetLinkErrorEnum {}
+/// Nested message and enum types in `AssetLinkErrorEnum`.
+pub mod asset_link_error_enum {
+    /// Enum describing possible asset link errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum AssetError {
+    pub enum AssetLinkError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The customer is not is not on the allow-list for this asset type.
-        CustomerNotOnAllowlistForAssetType = 13,
-        /// Assets are duplicated across operations.
-        DuplicateAsset = 3,
-        /// The asset name is duplicated, either across operations or with an
-        /// existing asset.
-        DuplicateAssetName = 4,
-        /// The Asset.asset_data oneof is empty.
-        AssetDataIsMissing = 5,
-        /// The asset has a name which is different from an existing duplicate that
-        /// represents the same content.
-        CannotModifyAssetName = 6,
-        /// The field cannot be set for this asset type.
-        FieldIncompatibleWithAssetType = 7,
-        /// Call to action must come from the list of supported values.
-        InvalidCallToActionText = 8,
-        /// A lead form asset is created with an invalid combination of input fields.
-        LeadFormInvalidFieldsCombination = 9,
-        /// Lead forms require that the Terms of Service have been agreed to before
-        /// mutates can be executed.
-        LeadFormMissingAgreement = 10,
-        /// Asset status is invalid in this operation.
-        InvalidAssetStatus = 11,
-        /// The field cannot be modified by this asset type.
-        FieldCannotBeModifiedForAssetType = 12,
-        /// Ad schedules for the same asset cannot overlap.
-        SchedulesCannotOverlap = 14,
-        /// Cannot set both percent off and money amount off fields of promotion
-        /// asset.
-        PromotionCannotSetPercentOffAndMoneyAmountOff = 15,
-        /// Cannot set both promotion code and orders over amount fields of promotion
-        /// asset.
-        PromotionCannotSetPromotionCodeAndOrdersOverAmount = 16,
-        /// The field has too many decimal places specified.
-        TooManyDecimalPlacesSpecified = 17,
-        /// Duplicate assets across operations, which have identical Asset.asset_data
-        /// oneof, cannot have different asset level fields for asset types which are
-        /// deduped.
-        DuplicateAssetsWithDifferentFieldValue = 18,
+        /// Pinning is not supported for the given asset link field.
+        PinningUnsupported = 2,
+        /// The given field type is not supported to be added directly via asset
+        /// links.
+        UnsupportedFieldType = 3,
+        /// The given asset's type and the specified field type are incompatible.
+        FieldTypeIncompatibleWithAssetType = 4,
+        /// The specified field type is incompatible with the given campaign type.
+        FieldTypeIncompatibleWithCampaignType = 5,
+        /// The campaign advertising channel type cannot be associated with the given
+        /// asset due to channel-based restrictions on the asset's fields.
+        IncompatibleAdvertisingChannelType = 6,
+        /// The image asset provided is not within the dimension constraints
+        /// specified for the submitted asset field.
+        ImageNotWithinSpecifiedDimensionRange = 7,
+        /// The pinned field is not valid for the submitted asset field.
+        InvalidPinnedField = 8,
+        /// The media bundle asset provided is too large for the submitted asset
+        /// field.
+        MediaBundleAssetFileSizeTooLarge = 9,
+        /// Not enough assets are available for use with other fields since other
+        /// assets are pinned to specific fields.
+        NotEnoughAvailableAssetLinksForValidCombination = 10,
+        /// Not enough assets with fallback are available. When validating the
+        /// minimum number of assets, assets without fallback (e.g. assets that
+        /// contain location tag without default value "{LOCATION(City)}") will not
+        /// be counted.
+        NotEnoughAvailableAssetLinksWithFallback = 11,
+        /// This is a combination of the
+        /// NOT_ENOUGH_AVAILABLE_ASSET_LINKS_FOR_VALID_COMBINATION and
+        /// NOT_ENOUGH_AVAILABLE_ASSET_LINKS_WITH_FALLBACK errors. Not enough assets
+        /// with fallback are available since some assets are pinned.
+        NotEnoughAvailableAssetLinksWithFallbackForValidCombination = 12,
+        /// The YouTube video referenced in the provided asset has been removed.
+        YoutubeVideoRemoved = 13,
+        /// The YouTube video referenced in the provided asset is too long for the
+        /// field submitted.
+        YoutubeVideoTooLong = 14,
+        /// The YouTube video referenced in the provided asset is too short for the
+        /// field submitted.
+        YoutubeVideoTooShort = 15,
+        /// The status is invalid for the operation specified.
+        InvalidStatus = 17,
     }
 }
 // Proto file describing authentication errors.
@@ -2401,9 +1964,9 @@ pub mod authentication_error_enum {
         Unknown = 1,
         /// Authentication of the request failed.
         AuthenticationError = 2,
-        /// Client Customer Id is not a number.
+        /// Client Customer ID is not a number.
         ClientCustomerIdInvalid = 5,
-        /// No customer found for the provided customer id.
+        /// No customer found for the provided customer ID.
         CustomerNotFound = 8,
         /// Client's Google Account is deleted.
         GoogleAccountDeleted = 9,
@@ -2411,7 +1974,7 @@ pub mod authentication_error_enum {
         GoogleAccountCookieInvalid = 10,
         /// A problem occurred during Google account authentication.
         GoogleAccountAuthenticationFailed = 25,
-        /// The user in the google account login token does not match the UserId in
+        /// The user in the Google account login token does not match the user ID in
         /// the cookie.
         GoogleAccountUserAndAdsUserMismatch = 12,
         /// Login cookie is required for authentication.
@@ -2440,6 +2003,159 @@ pub mod authentication_error_enum {
         /// To access this Google Ads account, enable Advanced Protection in your
         /// Google account at <https://landing.google.com/advancedprotection.>
         AdvancedProtectionNotEnrolled = 24,
+    }
+}
+// Proto file describing authorization errors.
+
+/// Container for enum describing possible authorization errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AuthorizationErrorEnum {}
+/// Nested message and enum types in `AuthorizationErrorEnum`.
+pub mod authorization_error_enum {
+    /// Enum describing possible authorization errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AuthorizationError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// User doesn't have permission to access customer. Note: If you're
+        /// accessing a client customer, the manager's customer ID must be set in the
+        /// `login-customer-id` header. Learn more at
+        /// <https://developers.google.com/google-ads/api/docs/concepts/call-structure#cid>
+        UserPermissionDenied = 2,
+        /// The developer token is not on the allow-list.
+        DeveloperTokenNotOnAllowlist = 13,
+        /// The developer token is not allowed with the project sent in the request.
+        DeveloperTokenProhibited = 4,
+        /// The Google Cloud project sent in the request does not have permission to
+        /// access the api.
+        ProjectDisabled = 5,
+        /// Authorization of the client failed.
+        AuthorizationError = 6,
+        /// The user does not have permission to perform this action
+        /// (e.g., ADD, UPDATE, REMOVE) on the resource or call a method.
+        ActionNotPermitted = 7,
+        /// Signup not complete.
+        IncompleteSignup = 8,
+        /// The customer can't be used because it isn't enabled.
+        CustomerNotEnabled = 24,
+        /// The developer must sign the terms of service. They can be found here:
+        /// ads.google.com/aw/apicenter
+        MissingTos = 9,
+        /// The developer token is not approved. Non-approved developer tokens can
+        /// only be used with test accounts.
+        DeveloperTokenNotApproved = 10,
+        /// The login customer specified does not have access to the account
+        /// specified, so the request is invalid.
+        InvalidLoginCustomerIdServingCustomerIdCombination = 11,
+        /// The developer specified does not have access to the service.
+        ServiceAccessDenied = 12,
+        /// The customer (or login customer) isn't in Google Ads. It belongs to
+        /// another ads system.
+        AccessDeniedForAccountType = 25,
+    }
+}
+// Proto file describing batch job errors.
+
+/// Container for enum describing possible batch job errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchJobErrorEnum {}
+/// Nested message and enum types in `BatchJobErrorEnum`.
+pub mod batch_job_error_enum {
+    /// Enum describing possible request errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum BatchJobError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The batch job cannot add more operations or run after it has started
+        /// running.
+        CannotModifyJobAfterJobStartsRunning = 2,
+        /// The operations for an AddBatchJobOperations request were empty.
+        EmptyOperations = 3,
+        /// The sequence token for an AddBatchJobOperations request was invalid.
+        InvalidSequenceToken = 4,
+        /// Batch job results can only be retrieved once the job is finished.
+        ResultsNotReady = 5,
+        /// The page size for ListBatchJobResults was invalid.
+        InvalidPageSize = 6,
+        /// The batch job cannot be removed because it has started running.
+        CanOnlyRemovePendingJob = 7,
+    }
+}
+// Proto file describing bidding errors.
+
+/// Container for enum describing possible bidding errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BiddingErrorEnum {}
+/// Nested message and enum types in `BiddingErrorEnum`.
+pub mod bidding_error_enum {
+    /// Enum describing possible bidding errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum BiddingError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Cannot transition to new bidding strategy.
+        BiddingStrategyTransitionNotAllowed = 2,
+        /// Cannot attach bidding strategy to campaign.
+        CannotAttachBiddingStrategyToCampaign = 7,
+        /// Bidding strategy is not supported or cannot be used as anonymous.
+        InvalidAnonymousBiddingStrategyType = 10,
+        /// The type does not match the named strategy's type.
+        InvalidBiddingStrategyType = 14,
+        /// The bid is invalid.
+        InvalidBid = 17,
+        /// Bidding strategy is not available for the account type.
+        BiddingStrategyNotAvailableForAccountType = 18,
+        /// Conversion tracking is not enabled in the campaign that has value-based
+        /// bidding transitions.
+        ConversionTrackingNotEnabled = 19,
+        /// Not enough conversions tracked for value-based bidding transitions.
+        NotEnoughConversions = 20,
+        /// Campaign can not be created with given bidding strategy. It can be
+        /// transitioned to the strategy, once eligible.
+        CannotCreateCampaignWithBiddingStrategy = 21,
+        /// Cannot target content network only as campaign uses Page One Promoted
+        /// bidding strategy.
+        CannotTargetContentNetworkOnlyWithCampaignLevelPopBiddingStrategy = 23,
+        /// Budget Optimizer and Target Spend bidding strategies are not supported
+        /// for campaigns with AdSchedule targeting.
+        BiddingStrategyNotSupportedWithAdSchedule = 24,
+        /// Pay per conversion is not available to all the customer, only few
+        /// customers on the allow-list can use this.
+        PayPerConversionNotAvailableForCustomer = 25,
+        /// Pay per conversion is not allowed with Target CPA.
+        PayPerConversionNotAllowedWithTargetCpa = 26,
+        /// Cannot set bidding strategy to Manual CPM for search network only
+        /// campaigns.
+        BiddingStrategyNotAllowedForSearchOnlyCampaigns = 27,
+        /// The bidding strategy is not supported for use in drafts or experiments.
+        BiddingStrategyNotSupportedInDraftsOrExperiments = 28,
+        /// Bidding strategy type does not support product type ad group criterion.
+        BiddingStrategyTypeDoesNotSupportProductTypeAdgroupCriterion = 29,
+        /// Bid amount is too small.
+        BidTooSmall = 30,
+        /// Bid amount is too big.
+        BidTooBig = 31,
+        /// Bid has too many fractional digit precision.
+        BidTooManyFractionalDigits = 32,
+        /// Invalid domain name specified.
+        InvalidDomainName = 33,
+        /// The field is not compatible with the payment mode.
+        NotCompatibleWithPaymentMode = 34,
+        /// The field is not compatible with the budget type.
+        NotCompatibleWithBudgetType = 35,
+        /// The field is not compatible with the bidding strategy type.
+        NotCompatibleWithBiddingStrategyType = 36,
+        /// Bidding strategy type is incompatible with shared budget.
+        BiddingStrategyTypeIncompatibleWithSharedBudget = 37,
     }
 }
 // Proto file describing bidding strategy errors.
@@ -2791,6 +2507,83 @@ pub mod campaign_error_enum {
         InvalidExcludedParentAssetFieldType = 48,
     }
 }
+// Proto file describing campaign experiment errors.
+
+/// Container for enum describing possible campaign experiment errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CampaignExperimentErrorEnum {}
+/// Nested message and enum types in `CampaignExperimentErrorEnum`.
+pub mod campaign_experiment_error_enum {
+    /// Enum describing possible campaign experiment errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CampaignExperimentError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// An active campaign or experiment with this name already exists.
+        DuplicateName = 2,
+        /// Experiment cannot be updated from the current state to the
+        /// requested target state. For example, an experiment can only graduate
+        /// if its status is ENABLED.
+        InvalidTransition = 3,
+        /// Cannot create an experiment from a campaign using an explicitly shared
+        /// budget.
+        CannotCreateExperimentWithSharedBudget = 4,
+        /// Cannot create an experiment for a removed base campaign.
+        CannotCreateExperimentForRemovedBaseCampaign = 5,
+        /// Cannot create an experiment from a draft, which has a status other than
+        /// proposed.
+        CannotCreateExperimentForNonProposedDraft = 6,
+        /// This customer is not allowed to create an experiment.
+        CustomerCannotCreateExperiment = 7,
+        /// This campaign is not allowed to create an experiment.
+        CampaignCannotCreateExperiment = 8,
+        /// Trying to set an experiment duration which overlaps with another
+        /// experiment.
+        ExperimentDurationsMustNotOverlap = 9,
+        /// All non-removed experiments must start and end within their campaign's
+        /// duration.
+        ExperimentDurationMustBeWithinCampaignDuration = 10,
+        /// The experiment cannot be modified because its status is in a terminal
+        /// state, such as REMOVED.
+        CannotMutateExperimentDueToStatus = 11,
+    }
+}
+// Proto file describing campaign feed errors.
+
+/// Container for enum describing possible campaign feed errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CampaignFeedErrorEnum {}
+/// Nested message and enum types in `CampaignFeedErrorEnum`.
+pub mod campaign_feed_error_enum {
+    /// Enum describing possible campaign feed errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CampaignFeedError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// An active feed already exists for this campaign and placeholder type.
+        FeedAlreadyExistsForPlaceholderType = 2,
+        /// The specified feed is removed.
+        CannotCreateForRemovedFeed = 4,
+        /// The CampaignFeed already exists. UPDATE should be used to modify the
+        /// existing CampaignFeed.
+        CannotCreateAlreadyExistingCampaignFeed = 5,
+        /// Cannot update removed campaign feed.
+        CannotModifyRemovedCampaignFeed = 6,
+        /// Invalid placeholder type.
+        InvalidPlaceholderType = 7,
+        /// Feed mapping for this placeholder type does not exist.
+        MissingFeedmappingForPlaceholderType = 8,
+        /// Location CampaignFeeds cannot be created unless there is a location
+        /// CustomerFeed for the specified feed.
+        NoExistingLocationCustomerFeed = 9,
+    }
+}
 // Proto file describing campaign shared set errors.
 
 /// Container for enum describing possible campaign shared set errors.
@@ -2810,35 +2603,35 @@ pub mod campaign_shared_set_error_enum {
         SharedSetAccessDenied = 2,
     }
 }
-// Proto file describing change status errors.
+// Proto file describing change event errors.
 
-/// Container for enum describing possible change status errors.
+/// Container for enum describing possible change event errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ChangeStatusErrorEnum {}
-/// Nested message and enum types in `ChangeStatusErrorEnum`.
-pub mod change_status_error_enum {
-    /// Enum describing possible change status errors.
+pub struct ChangeEventErrorEnum {}
+/// Nested message and enum types in `ChangeEventErrorEnum`.
+pub mod change_event_error_enum {
+    /// Enum describing possible change event errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum ChangeStatusError {
+    pub enum ChangeEventError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The requested start date is too old.
-        StartDateTooOld = 3,
-        /// The change_status search request must specify a finite range filter
-        /// on last_change_date_time.
-        ChangeDateRangeInfinite = 4,
-        /// The change status search request has specified invalid date time filters
+        /// The requested start date is too old. It cannot be older than 30 days.
+        StartDateTooOld = 2,
+        /// The change_event search request must specify a finite range filter
+        /// on change_date_time.
+        ChangeDateRangeInfinite = 3,
+        /// The change event search request has specified invalid date time filters
         /// that can never logically produce any valid results (for example, start
         /// time after end time).
-        ChangeDateRangeNegative = 5,
-        /// The change_status search request must specify a LIMIT.
-        LimitNotSpecified = 6,
-        /// The LIMIT specified by change_status request should be less than or equal
+        ChangeDateRangeNegative = 4,
+        /// The change_event search request must specify a LIMIT.
+        LimitNotSpecified = 5,
+        /// The LIMIT specified by change_event request should be less than or equal
         /// to 10K.
-        InvalidLimitClause = 7,
+        InvalidLimitClause = 6,
     }
 }
 // Proto file describing collection size errors.
@@ -2883,51 +2676,49 @@ pub mod context_error_enum {
         OperationNotPermittedForRemovedResource = 3,
     }
 }
-// Proto file describing conversion adjustment upload errors.
+// Proto file describing conversion action errors.
 
-/// Container for enum describing possible conversion adjustment upload errors.
+/// Container for enum describing possible conversion action errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConversionAdjustmentUploadErrorEnum {}
-/// Nested message and enum types in `ConversionAdjustmentUploadErrorEnum`.
-pub mod conversion_adjustment_upload_error_enum {
-    /// Enum describing possible conversion adjustment upload errors.
+pub struct ConversionActionErrorEnum {}
+/// Nested message and enum types in `ConversionActionErrorEnum`.
+pub mod conversion_action_error_enum {
+    /// Enum describing possible conversion action errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum ConversionAdjustmentUploadError {
-        /// Not specified.
+    pub enum ConversionActionError {
+        /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The specified conversion action was created too recently.
-        /// Please try the upload again after 4-6 hours have passed since the
-        /// conversion action was created.
-        TooRecentConversionAction = 2,
-        /// No conversion action of a supported ConversionActionType that matches the
-        /// provided information can be found for the customer.
-        InvalidConversionAction = 3,
-        /// A retraction was already reported for this conversion.
-        ConversionAlreadyRetracted = 4,
-        /// A conversion for the supplied combination of conversion
-        /// action and conversion identifier could not be found.
-        ConversionNotFound = 5,
-        /// The specified conversion has already expired. Conversions expire after 55
-        /// days, after which adjustments cannot be reported against them.
-        ConversionExpired = 6,
-        /// The supplied adjustment date time precedes that of the original
-        /// conversion.
-        AdjustmentPrecedesConversion = 7,
-        /// A restatement with a more recent adjustment date time was already
-        /// reported for this conversion.
-        MoreRecentRestatementFound = 8,
-        /// The conversion was created too recently.
-        TooRecentConversion = 9,
-        /// Restatements cannot be reported for a conversion action that always uses
-        /// the default value.
-        CannotRestateConversionActionThatAlwaysUsesDefaultConversionValue = 10,
-        /// The request contained more than 2000 adjustments.
-        TooManyAdjustmentsInRequest = 11,
-        /// The conversion has been adjusted too many times.
-        TooManyAdjustments = 12,
+        /// The specified conversion action name already exists.
+        DuplicateName = 2,
+        /// Another conversion action with the specified app id already exists.
+        DuplicateAppId = 3,
+        /// Android first open action conflicts with Google play codeless download
+        /// action tracking the same app.
+        TwoConversionActionsBiddingOnSameAppDownload = 4,
+        /// Android first open action conflicts with Google play codeless download
+        /// action tracking the same app.
+        BiddingOnSameAppDownloadAsGlobalAction = 5,
+        /// The attribution model cannot be set to DATA_DRIVEN because a data-driven
+        /// model has never been generated.
+        DataDrivenModelWasNeverGenerated = 6,
+        /// The attribution model cannot be set to DATA_DRIVEN because the
+        /// data-driven model is expired.
+        DataDrivenModelExpired = 7,
+        /// The attribution model cannot be set to DATA_DRIVEN because the
+        /// data-driven model is stale.
+        DataDrivenModelStale = 8,
+        /// The attribution model cannot be set to DATA_DRIVEN because the
+        /// data-driven model is unavailable or the conversion action was newly
+        /// added.
+        DataDrivenModelUnknown = 9,
+        /// Creation of this conversion action type isn't supported by Google
+        /// Ads API.
+        CreationNotSupported = 10,
+        /// Update of this conversion action isn't supported by Google Ads API.
+        UpdateNotSupported = 11,
     }
 }
 // Proto file describing conversion custom variable errors.
@@ -2984,8 +2775,8 @@ pub mod conversion_upload_error_enum {
         /// system. This can happen if Google Click IDs are collected for non Google
         /// Ads clicks.
         GclidNotFound = 7,
-        /// The click associated with the given gclid is owned by a customer
-        /// account that the uploading customer does not manage.
+        /// The click associated with the given gclid is owned by a customer account
+        /// that the uploading customer does not manage.
         UnauthorizedCustomer = 8,
         /// No upload eligible conversion action that matches the provided
         /// information can be found for the customer.
@@ -3036,325 +2827,6 @@ pub mod conversion_upload_error_enum {
         /// The value of the custom variable contains private customer data, such
         /// as email addresses or phone numbers.
         CustomVariableValueContainsPii = 29,
-    }
-}
-// Proto file describing country code errors.
-
-/// Container for enum describing country code errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CountryCodeErrorEnum {}
-/// Nested message and enum types in `CountryCodeErrorEnum`.
-pub mod country_code_error_enum {
-    /// Enum describing country code errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CountryCodeError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The country code is invalid.
-        InvalidCountryCode = 2,
-    }
-}
-// Proto file describing criterion errors.
-
-/// Container for enum describing possible criterion errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CriterionErrorEnum {}
-/// Nested message and enum types in `CriterionErrorEnum`.
-pub mod criterion_error_enum {
-    /// Enum describing possible criterion errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CriterionError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Concrete type of criterion is required for CREATE and UPDATE operations.
-        ConcreteTypeRequired = 2,
-        /// The category requested for exclusion is invalid.
-        InvalidExcludedCategory = 3,
-        /// Invalid keyword criteria text.
-        InvalidKeywordText = 4,
-        /// Keyword text should be less than 80 chars.
-        KeywordTextTooLong = 5,
-        /// Keyword text has too many words.
-        KeywordHasTooManyWords = 6,
-        /// Keyword text has invalid characters or symbols.
-        KeywordHasInvalidChars = 7,
-        /// Invalid placement URL.
-        InvalidPlacementUrl = 8,
-        /// Invalid user list criterion.
-        InvalidUserList = 9,
-        /// Invalid user interest criterion.
-        InvalidUserInterest = 10,
-        /// Placement URL has wrong format.
-        InvalidFormatForPlacementUrl = 11,
-        /// Placement URL is too long.
-        PlacementUrlIsTooLong = 12,
-        /// Indicates the URL contains an illegal character.
-        PlacementUrlHasIllegalChar = 13,
-        /// Indicates the URL contains multiple comma separated URLs.
-        PlacementUrlHasMultipleSitesInLine = 14,
-        /// Indicates the domain is blocked.
-        PlacementIsNotAvailableForTargetingOrExclusion = 15,
-        /// Invalid topic path.
-        InvalidTopicPath = 16,
-        /// The YouTube Channel Id is invalid.
-        InvalidYoutubeChannelId = 17,
-        /// The YouTube Video Id is invalid.
-        InvalidYoutubeVideoId = 18,
-        /// Indicates the placement is a YouTube vertical channel, which is no longer
-        /// supported.
-        YoutubeVerticalChannelDeprecated = 19,
-        /// Indicates the placement is a YouTube demographic channel, which is no
-        /// longer supported.
-        YoutubeDemographicChannelDeprecated = 20,
-        /// YouTube urls are not supported in Placement criterion. Use YouTubeChannel
-        /// and YouTubeVideo criterion instead.
-        YoutubeUrlUnsupported = 21,
-        /// Criteria type can not be excluded by the customer, like AOL account type
-        /// cannot target site type criteria.
-        CannotExcludeCriteriaType = 22,
-        /// Criteria type can not be targeted.
-        CannotAddCriteriaType = 23,
-        /// Not allowed to exclude similar user list.
-        CannotExcludeSimilarUserList = 26,
-        /// Not allowed to target a closed user list.
-        CannotAddClosedUserList = 27,
-        /// Not allowed to add display only UserLists to search only campaigns.
-        CannotAddDisplayOnlyListsToSearchOnlyCampaigns = 28,
-        /// Not allowed to add display only UserLists to search plus campaigns.
-        CannotAddDisplayOnlyListsToSearchCampaigns = 29,
-        /// Not allowed to add display only UserLists to shopping campaigns.
-        CannotAddDisplayOnlyListsToShoppingCampaigns = 30,
-        /// Not allowed to add User interests to search only campaigns.
-        CannotAddUserInterestsToSearchCampaigns = 31,
-        /// Not allowed to set bids for this criterion type in search campaigns
-        CannotSetBidsOnCriterionTypeInSearchCampaigns = 32,
-        /// Final URLs, URL Templates and CustomParameters cannot be set for the
-        /// criterion types of Gender, AgeRange, UserList, Placement, MobileApp, and
-        /// MobileAppCategory in search campaigns and shopping campaigns.
-        CannotAddUrlsToCriterionTypeForCampaignType = 33,
-        /// Invalid combined audience criterion.
-        InvalidCombinedAudience = 122,
-        /// Invalid custom affinity criterion.
-        InvalidCustomAffinity = 96,
-        /// Invalid custom intent criterion.
-        InvalidCustomIntent = 97,
-        /// Invalid custom audience criterion.
-        InvalidCustomAudience = 121,
-        /// IP address is not valid.
-        InvalidIpAddress = 34,
-        /// IP format is not valid.
-        InvalidIpFormat = 35,
-        /// Mobile application is not valid.
-        InvalidMobileApp = 36,
-        /// Mobile application category is not valid.
-        InvalidMobileAppCategory = 37,
-        /// The CriterionId does not exist or is of the incorrect type.
-        InvalidCriterionId = 38,
-        /// The Criterion is not allowed to be targeted.
-        CannotTargetCriterion = 39,
-        /// The criterion is not allowed to be targeted as it is deprecated.
-        CannotTargetObsoleteCriterion = 40,
-        /// The CriterionId is not valid for the type.
-        CriterionIdAndTypeMismatch = 41,
-        /// Distance for the radius for the proximity criterion is invalid.
-        InvalidProximityRadius = 42,
-        /// Units for the distance for the radius for the proximity criterion is
-        /// invalid.
-        InvalidProximityRadiusUnits = 43,
-        /// Street address in the address is not valid.
-        InvalidStreetaddressLength = 44,
-        /// City name in the address is not valid.
-        InvalidCitynameLength = 45,
-        /// Region code in the address is not valid.
-        InvalidRegioncodeLength = 46,
-        /// Region name in the address is not valid.
-        InvalidRegionnameLength = 47,
-        /// Postal code in the address is not valid.
-        InvalidPostalcodeLength = 48,
-        /// Country code in the address is not valid.
-        InvalidCountryCode = 49,
-        /// Latitude for the GeoPoint is not valid.
-        InvalidLatitude = 50,
-        /// Longitude for the GeoPoint is not valid.
-        InvalidLongitude = 51,
-        /// The Proximity input is not valid. Both address and geoPoint cannot be
-        /// null.
-        ProximityGeopointAndAddressBothCannotBeNull = 52,
-        /// The Proximity address cannot be geocoded to a valid lat/long.
-        InvalidProximityAddress = 53,
-        /// User domain name is not valid.
-        InvalidUserDomainName = 54,
-        /// Length of serialized criterion parameter exceeded size limit.
-        CriterionParameterTooLong = 55,
-        /// Time interval in the AdSchedule overlaps with another AdSchedule.
-        AdScheduleTimeIntervalsOverlap = 56,
-        /// AdSchedule time interval cannot span multiple days.
-        AdScheduleIntervalCannotSpanMultipleDays = 57,
-        /// AdSchedule time interval specified is invalid, endTime cannot be earlier
-        /// than startTime.
-        AdScheduleInvalidTimeInterval = 58,
-        /// The number of AdSchedule entries in a day exceeds the limit.
-        AdScheduleExceededIntervalsPerDayLimit = 59,
-        /// CriteriaId does not match the interval of the AdSchedule specified.
-        AdScheduleCriterionIdMismatchingFields = 60,
-        /// Cannot set bid modifier for this criterion type.
-        CannotBidModifyCriterionType = 61,
-        /// Cannot bid modify criterion, since it is opted out of the campaign.
-        CannotBidModifyCriterionCampaignOptedOut = 62,
-        /// Cannot set bid modifier for a negative criterion.
-        CannotBidModifyNegativeCriterion = 63,
-        /// Bid Modifier already exists. Use SET operation to update.
-        BidModifierAlreadyExists = 64,
-        /// Feed Id is not allowed in these Location Groups.
-        FeedIdNotAllowed = 65,
-        /// The account may not use the requested criteria type. For example, some
-        /// accounts are restricted to keywords only.
-        AccountIneligibleForCriteriaType = 66,
-        /// The requested criteria type cannot be used with campaign or ad group
-        /// bidding strategy.
-        CriteriaTypeInvalidForBiddingStrategy = 67,
-        /// The Criterion is not allowed to be excluded.
-        CannotExcludeCriterion = 68,
-        /// The criterion is not allowed to be removed. For example, we cannot remove
-        /// any of the device criterion.
-        CannotRemoveCriterion = 69,
-        /// Bidding categories do not form a valid path in the Shopping bidding
-        /// category taxonomy.
-        InvalidProductBiddingCategory = 76,
-        /// ShoppingSetting must be added to the campaign before ProductScope
-        /// criteria can be added.
-        MissingShoppingSetting = 77,
-        /// Matching function is invalid.
-        InvalidMatchingFunction = 78,
-        /// Filter parameters not allowed for location groups targeting.
-        LocationFilterNotAllowed = 79,
-        /// Feed not found, or the feed is not an enabled location feed.
-        InvalidFeedForLocationFilter = 98,
-        /// Given location filter parameter is invalid for location groups targeting.
-        LocationFilterInvalid = 80,
-        /// Cannot set geo target constants and feed item sets at the same time.
-        CannotSetGeoTargetConstantsWithFeedItemSets = 123,
-        /// The location group radius is in the range but not at the valid increment.
-        InvalidLocationGroupRadius = 124,
-        /// The location group radius unit is invalid.
-        InvalidLocationGroupRadiusUnit = 125,
-        /// Criteria type cannot be associated with a campaign and its ad group(s)
-        /// simultaneously.
-        CannotAttachCriteriaAtCampaignAndAdgroup = 81,
-        /// Range represented by hotel length of stay's min nights and max nights
-        /// overlaps with an existing criterion.
-        HotelLengthOfStayOverlapsWithExistingCriterion = 82,
-        /// Range represented by hotel advance booking window's min days and max days
-        /// overlaps with an existing criterion.
-        HotelAdvanceBookingWindowOverlapsWithExistingCriterion = 83,
-        /// The field is not allowed to be set when the negative field is set to
-        /// true, e.g. we don't allow bids in negative ad group or campaign criteria.
-        FieldIncompatibleWithNegativeTargeting = 84,
-        /// The combination of operand and operator in webpage condition is invalid.
-        InvalidWebpageCondition = 85,
-        /// The URL of webpage condition is invalid.
-        InvalidWebpageConditionUrl = 86,
-        /// The URL of webpage condition cannot be empty or contain white space.
-        WebpageConditionUrlCannotBeEmpty = 87,
-        /// The URL of webpage condition contains an unsupported protocol.
-        WebpageConditionUrlUnsupportedProtocol = 88,
-        /// The URL of webpage condition cannot be an IP address.
-        WebpageConditionUrlCannotBeIpAddress = 89,
-        /// The domain of the URL is not consistent with the domain in campaign
-        /// setting.
-        WebpageConditionUrlDomainNotConsistentWithCampaignSetting = 90,
-        /// The URL of webpage condition cannot be a public suffix itself.
-        WebpageConditionUrlCannotBePublicSuffix = 91,
-        /// The URL of webpage condition has an invalid public suffix.
-        WebpageConditionUrlInvalidPublicSuffix = 92,
-        /// Value track parameter is not supported in webpage condition URL.
-        WebpageConditionUrlValueTrackValueNotSupported = 93,
-        /// Only one URL-EQUALS webpage condition is allowed in a webpage
-        /// criterion and it cannot be combined with other conditions.
-        WebpageCriterionUrlEqualsCanHaveOnlyOneCondition = 94,
-        /// A webpage criterion cannot be added to a non-DSA ad group.
-        WebpageCriterionNotSupportedOnNonDsaAdGroup = 95,
-        /// Cannot add positive user list criteria in Smart Display campaigns.
-        CannotTargetUserListForSmartDisplayCampaigns = 99,
-        /// Cannot add positive placement criterion types in search campaigns.
-        CannotTargetPlacementsForSearchCampaigns = 126,
-        /// Listing scope contains too many dimension types.
-        ListingScopeTooManyDimensionTypes = 100,
-        /// Listing scope has too many IN operators.
-        ListingScopeTooManyInOperators = 101,
-        /// Listing scope contains IN operator on an unsupported dimension type.
-        ListingScopeInOperatorNotSupported = 102,
-        /// There are dimensions with duplicate dimension type.
-        DuplicateListingDimensionType = 103,
-        /// There are dimensions with duplicate dimension value.
-        DuplicateListingDimensionValue = 104,
-        /// Listing group SUBDIVISION nodes cannot have bids.
-        CannotSetBidsOnListingGroupSubdivision = 105,
-        /// Ad group is invalid due to the listing groups it contains.
-        InvalidListingGroupHierarchy = 106,
-        /// Listing group unit cannot have children.
-        ListingGroupUnitCannotHaveChildren = 107,
-        /// Subdivided listing groups must have an "others" case.
-        ListingGroupSubdivisionRequiresOthersCase = 108,
-        /// Dimension type of listing group must be the same as that of its siblings.
-        ListingGroupRequiresSameDimensionTypeAsSiblings = 109,
-        /// Listing group cannot be added to the ad group because it already exists.
-        ListingGroupAlreadyExists = 110,
-        /// Listing group referenced in the operation was not found in the ad group.
-        ListingGroupDoesNotExist = 111,
-        /// Recursive removal failed because listing group subdivision is being
-        /// created or modified in this request.
-        ListingGroupCannotBeRemoved = 112,
-        /// Listing group type is not allowed for specified ad group criterion type.
-        InvalidListingGroupType = 113,
-        /// Listing group in an ADD operation specifies a non temporary criterion id.
-        ListingGroupAddMayOnlyUseTempId = 114,
-        /// The combined length of dimension values of the Listing scope criterion
-        /// is too long.
-        ListingScopeTooLong = 115,
-        /// Listing scope contains too many dimensions.
-        ListingScopeTooManyDimensions = 116,
-        /// The combined length of dimension values of the Listing group criterion is
-        /// too long.
-        ListingGroupTooLong = 117,
-        /// Listing group tree is too deep.
-        ListingGroupTreeTooDeep = 118,
-        /// Listing dimension is invalid (e.g. dimension contains illegal value,
-        /// dimension type is represented with wrong class, etc). Listing dimension
-        /// value can not contain "==" or "&+".
-        InvalidListingDimension = 119,
-        /// Listing dimension type is either invalid for campaigns of this type or
-        /// cannot be used in the current context. BIDDING_CATEGORY_Lx and
-        /// PRODUCT_TYPE_Lx dimensions must be used in ascending order of their
-        /// levels: L1, L2, L3, L4, L5... The levels must be specified sequentially
-        /// and start from L1. Furthermore, an "others" Listing group cannot be
-        /// subdivided with a dimension of the same type but of a higher level
-        /// ("others" BIDDING_CATEGORY_L3 can be subdivided with BRAND but not with
-        /// BIDDING_CATEGORY_L4).
-        InvalidListingDimensionType = 120,
-        /// Customer is not on allowlist for composite audience in display campaigns.
-        AdvertiserNotOnAllowlistForCombinedAudienceOnDisplay = 127,
-        /// Cannot target on a removed combined audience.
-        CannotTargetRemovedCombinedAudience = 128,
-        /// Combined audience ID is invalid.
-        InvalidCombinedAudienceId = 129,
-        /// Can not target removed combined audience.
-        CannotTargetRemovedCustomAudience = 130,
-        /// Range represented by hotel check-in date's start date and end date
-        /// overlaps with an existing criterion.
-        HotelCheckInDateRangeOverlapsWithExistingCriterion = 131,
-        /// Start date is earlier than earliest allowed value of yesterday UTC.
-        HotelCheckInDateRangeStartDateTooEarly = 132,
-        /// End date later is than latest allowed day of 330 days in the future UTC.
-        HotelCheckInDateRangeEndDateTooLate = 133,
-        /// Start date is after end date.
-        HotelCheckInDateRangeReversed = 134,
     }
 }
 // Proto file describing currency code errors.
@@ -3409,6 +2881,38 @@ pub mod custom_audience_error_enum {
         InvalidTypeChange = 9,
     }
 }
+// Proto file describing custom interest errors.
+
+/// Container for enum describing possible custom interest errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CustomInterestErrorEnum {}
+/// Nested message and enum types in `CustomInterestErrorEnum`.
+pub mod custom_interest_error_enum {
+    /// Enum describing possible custom interest errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CustomInterestError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Duplicate custom interest name ignoring case.
+        NameAlreadyUsed = 2,
+        /// In the remove custom interest member operation, both member ID and
+        /// pair [type, parameter] are not present.
+        CustomInterestMemberIdAndTypeParameterNotPresentInRemove = 3,
+        /// The pair of [type, parameter] does not exist.
+        TypeAndParameterNotFound = 4,
+        /// The pair of [type, parameter] already exists.
+        TypeAndParameterAlreadyExisted = 5,
+        /// Unsupported custom interest member type.
+        InvalidCustomInterestMemberType = 6,
+        /// Cannot remove a custom interest while it's still being targeted.
+        CannotRemoveWhileInUse = 7,
+        /// Cannot mutate custom interest type.
+        CannotChangeType = 8,
+    }
+}
 /// Container for enum describing possible customer errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CustomerErrorEnum {}
@@ -3428,6 +2932,38 @@ pub mod customer_error_enum {
         StatusChangeDisallowed = 2,
         /// CustomerService cannot get a customer that has not been fully set up.
         AccountNotSetUp = 3,
+    }
+}
+// Proto file describing customer feed errors.
+
+/// Container for enum describing possible customer feed errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CustomerFeedErrorEnum {}
+/// Nested message and enum types in `CustomerFeedErrorEnum`.
+pub mod customer_feed_error_enum {
+    /// Enum describing possible customer feed errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CustomerFeedError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// An active feed already exists for this customer and place holder type.
+        FeedAlreadyExistsForPlaceholderType = 2,
+        /// The specified feed is removed.
+        CannotCreateForRemovedFeed = 3,
+        /// The CustomerFeed already exists. Update should be used to modify the
+        /// existing CustomerFeed.
+        CannotCreateAlreadyExistingCustomerFeed = 4,
+        /// Cannot update removed customer feed.
+        CannotModifyRemovedCustomerFeed = 5,
+        /// Invalid placeholder type.
+        InvalidPlaceholderType = 6,
+        /// Feed mapping for this placeholder type does not exist.
+        MissingFeedmappingForPlaceholderType = 7,
+        /// Placeholder not allowed at the account level.
+        PlaceholderTypeNotAllowedOnCustomerFeed = 8,
     }
 }
 // Proto file describing CustomerManagerLink errors.
@@ -3948,16 +3484,51 @@ pub mod feed_error_enum {
         TooManyAttributes = 17,
         /// The business account is not valid.
         InvalidBusinessAccount = 18,
-        /// Business account cannot access Google My Business account.
+        /// Business account cannot access Business Profile.
         BusinessAccountCannotAccessLocationAccount = 19,
         /// Invalid chain ID provided for affiliate location feed.
         InvalidAffiliateChainId = 20,
         /// There is already a feed with the given system feed generation data.
         DuplicateSystemFeed = 21,
-        /// An error occurred accessing GMB account.
+        /// An error occurred accessing Business Profile.
         GmbAccessError = 22,
         /// A customer cannot have both LOCATION and AFFILIATE_LOCATION feeds.
         CannotHaveLocationAndAffiliateLocationFeeds = 23,
+    }
+}
+// Proto file describing feed item errors.
+
+/// Container for enum describing possible feed item errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FeedItemErrorEnum {}
+/// Nested message and enum types in `FeedItemErrorEnum`.
+pub mod feed_item_error_enum {
+    /// Enum describing possible feed item errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum FeedItemError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Cannot convert the feed attribute value from string to its real type.
+        CannotConvertAttributeValueFromString = 2,
+        /// Cannot operate on removed feed item.
+        CannotOperateOnRemovedFeedItem = 3,
+        /// Date time zone does not match the account's time zone.
+        DateTimeMustBeInAccountTimeZone = 4,
+        /// Feed item with the key attributes could not be found.
+        KeyAttributesNotFound = 5,
+        /// Url feed attribute value is not valid.
+        InvalidUrl = 6,
+        /// Some key attributes are missing.
+        MissingKeyAttributes = 7,
+        /// Feed item has same key attributes as another feed item.
+        KeyAttributesNotUnique = 8,
+        /// Cannot modify key attributes on an existing feed item.
+        CannotModifyKeyAttributeValue = 9,
+        /// The feed attribute value is too large.
+        SizeTooLargeForMultiValueAttribute = 10,
     }
 }
 // Proto file describing feed item set link errors.
@@ -4017,6 +3588,251 @@ pub mod feed_item_target_error_enum {
         DuplicateKeyword = 9,
     }
 }
+// Proto file describing feed item validation errors.
+
+/// Container for enum describing possible validation errors of a feed item.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FeedItemValidationErrorEnum {}
+/// Nested message and enum types in `FeedItemValidationErrorEnum`.
+pub mod feed_item_validation_error_enum {
+    /// The possible validation errors of a feed item.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum FeedItemValidationError {
+        /// No value has been specified.
+        Unspecified = 0,
+        /// Used for return value only. Represents value unknown in this version.
+        Unknown = 1,
+        /// String is too short.
+        StringTooShort = 2,
+        /// String is too long.
+        StringTooLong = 3,
+        /// Value is not provided.
+        ValueNotSpecified = 4,
+        /// Phone number format is invalid for region.
+        InvalidDomesticPhoneNumberFormat = 5,
+        /// String does not represent a phone number.
+        InvalidPhoneNumber = 6,
+        /// Phone number format is not compatible with country code.
+        PhoneNumberNotSupportedForCountry = 7,
+        /// Premium rate number is not allowed.
+        PremiumRateNumberNotAllowed = 8,
+        /// Phone number type is not allowed.
+        DisallowedNumberType = 9,
+        /// Specified value is outside of the valid range.
+        ValueOutOfRange = 10,
+        /// Call tracking is not supported in the selected country.
+        CalltrackingNotSupportedForCountry = 11,
+        /// Customer is not on the allow-list for call tracking.
+        CustomerNotInAllowlistForCalltracking = 99,
+        /// Country code is invalid.
+        InvalidCountryCode = 13,
+        /// The specified mobile app id is invalid.
+        InvalidAppId = 14,
+        /// Some required field attributes are missing.
+        MissingAttributesForFields = 15,
+        /// Invalid email button type for email extension.
+        InvalidTypeId = 16,
+        /// Email address is invalid.
+        InvalidEmailAddress = 17,
+        /// The HTTPS URL in email extension is invalid.
+        InvalidHttpsUrl = 18,
+        /// Delivery address is missing from email extension.
+        MissingDeliveryAddress = 19,
+        /// FeedItem scheduling start date comes after end date.
+        StartDateAfterEndDate = 20,
+        /// FeedItem scheduling start time is missing.
+        MissingFeedItemStartTime = 21,
+        /// FeedItem scheduling end time is missing.
+        MissingFeedItemEndTime = 22,
+        /// Cannot compute system attributes on a FeedItem that has no FeedItemId.
+        MissingFeedItemId = 23,
+        /// Call extension vanity phone numbers are not supported.
+        VanityPhoneNumberNotAllowed = 24,
+        /// Invalid review text.
+        InvalidReviewExtensionSnippet = 25,
+        /// Invalid format for numeric value in ad parameter.
+        InvalidNumberFormat = 26,
+        /// Invalid format for date value in ad parameter.
+        InvalidDateFormat = 27,
+        /// Invalid format for price value in ad parameter.
+        InvalidPriceFormat = 28,
+        /// Unrecognized type given for value in ad parameter.
+        UnknownPlaceholderField = 29,
+        /// Enhanced sitelinks must have both description lines specified.
+        MissingEnhancedSitelinkDescriptionLine = 30,
+        /// Review source is ineligible.
+        ReviewExtensionSourceIneligible = 31,
+        /// Review text cannot contain hyphens or dashes.
+        HyphensInReviewExtensionSnippet = 32,
+        /// Review text cannot contain double quote characters.
+        DoubleQuotesInReviewExtensionSnippet = 33,
+        /// Review text cannot contain quote characters.
+        QuotesInReviewExtensionSnippet = 34,
+        /// Parameters are encoded in the wrong format.
+        InvalidFormEncodedParams = 35,
+        /// URL parameter name must contain only letters, numbers, underscores, and
+        /// dashes.
+        InvalidUrlParameterName = 36,
+        /// Cannot find address location.
+        NoGeocodingResult = 37,
+        /// Review extension text has source name.
+        SourceNameInReviewExtensionText = 38,
+        /// Some phone numbers can be shorter than usual. Some of these short numbers
+        /// are carrier-specific, and we disallow those in ad extensions because they
+        /// will not be available to all users.
+        CarrierSpecificShortNumberNotAllowed = 39,
+        /// Triggered when a request references a placeholder field id that does not
+        /// exist.
+        InvalidPlaceholderFieldId = 40,
+        /// URL contains invalid ValueTrack tags or format.
+        InvalidUrlTag = 41,
+        /// Provided list exceeds acceptable size.
+        ListTooLong = 42,
+        /// Certain combinations of attributes aren't allowed to be specified in the
+        /// same feed item.
+        InvalidAttributesCombination = 43,
+        /// An attribute has the same value repeatedly.
+        DuplicateValues = 44,
+        /// Advertisers can link a conversion action with a phone number to indicate
+        /// that sufficiently long calls forwarded to that phone number should be
+        /// counted as conversions of the specified type.  This is an error message
+        /// indicating that the conversion action specified is invalid (e.g., the
+        /// conversion action does not exist within the appropriate Google Ads
+        /// account, or it is a type of conversion not appropriate to phone call
+        /// conversions).
+        InvalidCallConversionActionId = 45,
+        /// Tracking template requires final url to be set.
+        CannotSetWithoutFinalUrls = 46,
+        /// An app id was provided that doesn't exist in the given app store.
+        AppIdDoesntExistInAppStore = 47,
+        /// Invalid U2 final url.
+        InvalidFinalUrl = 48,
+        /// Invalid U2 tracking url.
+        InvalidTrackingUrl = 49,
+        /// Final URL should start from App download URL.
+        InvalidFinalUrlForAppDownloadUrl = 50,
+        /// List provided is too short.
+        ListTooShort = 51,
+        /// User Action field has invalid value.
+        InvalidUserAction = 52,
+        /// Type field has invalid value.
+        InvalidTypeName = 53,
+        /// Change status for event is invalid.
+        InvalidEventChangeStatus = 54,
+        /// The header of a structured snippets extension is not one of the valid
+        /// headers.
+        InvalidSnippetsHeader = 55,
+        /// Android app link is not formatted correctly
+        InvalidAndroidAppLink = 56,
+        /// Phone number incompatible with call tracking for country.
+        NumberTypeWithCalltrackingNotSupportedForCountry = 57,
+        /// The input is identical to a reserved keyword
+        ReservedKeywordOther = 58,
+        /// Each option label in the message extension must be unique.
+        DuplicateOptionLabels = 59,
+        /// Each option prefill in the message extension must be unique.
+        DuplicateOptionPrefills = 60,
+        /// In message extensions, the number of optional labels and optional
+        /// prefills must be the same.
+        UnequalListLengths = 61,
+        /// All currency codes in an ad extension must be the same.
+        InconsistentCurrencyCodes = 62,
+        /// Headers in price extension are not unique.
+        PriceExtensionHasDuplicatedHeaders = 63,
+        /// Header and description in an item are the same.
+        ItemHasDuplicatedHeaderAndDescription = 64,
+        /// Price extension has too few items.
+        PriceExtensionHasTooFewItems = 65,
+        /// The given value is not supported.
+        UnsupportedValue = 66,
+        /// Invalid final mobile url.
+        InvalidFinalMobileUrl = 67,
+        /// The given string value of Label contains invalid characters
+        InvalidKeywordlessAdRuleLabel = 68,
+        /// The given URL contains value track parameters.
+        ValueTrackParameterNotSupported = 69,
+        /// The given value is not supported in the selected language of an
+        /// extension.
+        UnsupportedValueInSelectedLanguage = 70,
+        /// The iOS app link is not formatted correctly.
+        InvalidIosAppLink = 71,
+        /// iOS app link or iOS app store id is missing.
+        MissingIosAppLinkOrIosAppStoreId = 72,
+        /// Promotion time is invalid.
+        PromotionInvalidTime = 73,
+        /// Both the percent off and money amount off fields are set.
+        PromotionCannotSetPercentOffAndMoneyAmountOff = 74,
+        /// Both the promotion code and orders over amount fields are set.
+        PromotionCannotSetPromotionCodeAndOrdersOverAmount = 75,
+        /// Too many decimal places are specified.
+        TooManyDecimalPlacesSpecified = 76,
+        /// Ad Customizers are present and not allowed.
+        AdCustomizersNotAllowed = 77,
+        /// Language code is not valid.
+        InvalidLanguageCode = 78,
+        /// Language is not supported.
+        UnsupportedLanguage = 79,
+        /// IF Function is present and not allowed.
+        IfFunctionNotAllowed = 80,
+        /// Final url suffix is not valid.
+        InvalidFinalUrlSuffix = 81,
+        /// Final url suffix contains an invalid tag.
+        InvalidTagInFinalUrlSuffix = 82,
+        /// Final url suffix is formatted incorrectly.
+        InvalidFinalUrlSuffixFormat = 83,
+        /// Consent for call recording, which is required for the use of call
+        /// extensions, was not provided by the advertiser. Please see
+        /// <https://support.google.com/google-ads/answer/7412639.>
+        CustomerConsentForCallRecordingRequired = 84,
+        /// Multiple message delivery options are set.
+        OnlyOneDeliveryOptionIsAllowed = 85,
+        /// No message delivery option is set.
+        NoDeliveryOptionIsSet = 86,
+        /// String value of conversion reporting state field is not valid.
+        InvalidConversionReportingState = 87,
+        /// Image size is not right.
+        ImageSizeWrong = 88,
+        /// Email delivery is not supported in the country specified in the country
+        /// code field.
+        EmailDeliveryNotAvailableInCountry = 89,
+        /// Auto reply is not supported in the country specified in the country code
+        /// field.
+        AutoReplyNotAvailableInCountry = 90,
+        /// Invalid value specified for latitude.
+        InvalidLatitudeValue = 91,
+        /// Invalid value specified for longitude.
+        InvalidLongitudeValue = 92,
+        /// Too many label fields provided.
+        TooManyLabels = 93,
+        /// Invalid image url.
+        InvalidImageUrl = 94,
+        /// Latitude value is missing.
+        MissingLatitudeValue = 95,
+        /// Longitude value is missing.
+        MissingLongitudeValue = 96,
+        /// Unable to find address.
+        AddressNotFound = 97,
+        /// Cannot target provided address.
+        AddressNotTargetable = 98,
+        /// The specified asset ID does not exist.
+        InvalidAssetId = 100,
+        /// The asset type cannot be set for the field.
+        IncompatibleAssetType = 101,
+        /// The image has unexpected size.
+        ImageErrorUnexpectedSize = 102,
+        /// The image aspect ratio is not allowed.
+        ImageErrorAspectRatioNotAllowed = 103,
+        /// The image file is too large.
+        ImageErrorFileTooLarge = 104,
+        /// The image format is unsupported.
+        ImageErrorFormatNotAllowed = 105,
+        /// Image violates constraints without more details.
+        ImageErrorConstraintsViolated = 106,
+        /// An error occurred when validating image.
+        ImageErrorServerError = 107,
+    }
+}
 // Proto file describing feed item errors.
 
 /// Container for enum describing possible feed item errors.
@@ -4071,6 +3887,37 @@ pub mod feed_mapping_error_enum {
         InvalidPlaceholderTypeForSystemGeneratedFeedType = 18,
         /// The "field" oneof was not set in an AttributeFieldMapping.
         AttributeFieldMappingMissingField = 19,
+    }
+}
+// Proto file describing field errors.
+
+/// Container for enum describing possible field errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FieldErrorEnum {}
+/// Nested message and enum types in `FieldErrorEnum`.
+pub mod field_error_enum {
+    /// Enum describing possible field errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum FieldError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The required field was not present.
+        Required = 2,
+        /// The field attempted to be mutated is immutable.
+        ImmutableField = 3,
+        /// The field's value is invalid.
+        InvalidValue = 4,
+        /// The field cannot be set.
+        ValueMustBeUnset = 5,
+        /// The required repeated field was empty.
+        RequiredNonemptyList = 6,
+        /// The field cannot be cleared.
+        FieldCannotBeCleared = 7,
+        /// The field's value is on a deny-list for this field.
+        BlockedValue = 9,
     }
 }
 // Proto file describing field mask errors.
@@ -4189,44 +4036,29 @@ pub mod function_parsing_error_enum {
         TooManyOperands = 12,
     }
 }
-// Proto file describing header errors.
-
-/// Container for enum describing possible header errors.
+/// Container for enum describing possible geo target constant suggestion errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct HeaderErrorEnum {}
-/// Nested message and enum types in `HeaderErrorEnum`.
-pub mod header_error_enum {
-    /// Enum describing possible header errors.
+pub struct GeoTargetConstantSuggestionErrorEnum {}
+/// Nested message and enum types in `GeoTargetConstantSuggestionErrorEnum`.
+pub mod geo_target_constant_suggestion_error_enum {
+    /// Enum describing possible geo target constant suggestion errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum HeaderError {
+    pub enum GeoTargetConstantSuggestionError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The login customer id could not be validated.
-        InvalidLoginCustomerId = 3,
-        /// The linked customer id could not be validated.
-        InvalidLinkedCustomerId = 7,
-    }
-}
-// Proto file describing id errors.
-
-/// Container for enum describing possible id errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct IdErrorEnum {}
-/// Nested message and enum types in `IdErrorEnum`.
-pub mod id_error_enum {
-    /// Enum describing possible id errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum IdError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Id not found
-        NotFound = 2,
+        /// A location name cannot be greater than 300 characters.
+        LocationNameSizeLimit = 2,
+        /// At most 25 location names can be specified in a SuggestGeoTargetConstants
+        /// method.
+        LocationNameLimit = 3,
+        /// The country code is invalid.
+        InvalidCountryCode = 4,
+        /// Geo target constant resource names or location names must be provided in
+        /// the request.
+        RequestParametersUnset = 5,
     }
 }
 // Proto file describing image errors.
@@ -4399,6 +4231,43 @@ pub mod keyword_plan_ad_group_error_enum {
         DuplicateName = 3,
     }
 }
+// Proto file describing errors from applying a keyword plan ad group keyword or
+// keyword plan campaign keyword.
+
+/// Container for enum describing possible errors from applying an ad group
+/// keyword or a campaign keyword from a keyword plan.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KeywordPlanAdGroupKeywordErrorEnum {}
+/// Nested message and enum types in `KeywordPlanAdGroupKeywordErrorEnum`.
+pub mod keyword_plan_ad_group_keyword_error_enum {
+    /// Enum describing possible errors from applying a keyword plan ad group
+    /// keyword or keyword plan campaign keyword.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum KeywordPlanAdGroupKeywordError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// A keyword or negative keyword has invalid match type.
+        InvalidKeywordMatchType = 2,
+        /// A keyword or negative keyword with same text and match type already
+        /// exists.
+        DuplicateKeyword = 3,
+        /// Keyword or negative keyword text exceeds the allowed limit.
+        KeywordTextTooLong = 4,
+        /// Keyword or negative keyword text has invalid characters or symbols.
+        KeywordHasInvalidChars = 5,
+        /// Keyword or negative keyword text has too many words.
+        KeywordHasTooManyWords = 6,
+        /// Keyword or negative keyword has invalid text.
+        InvalidKeywordText = 7,
+        /// Cpc Bid set for negative keyword.
+        NegativeKeywordHasCpcBid = 8,
+        /// New broad match modifier (BMM) KpAdGroupKeywords are not allowed.
+        NewBmmKeywordsNotAllowed = 9,
+    }
+}
 // Proto file describing errors from applying a keyword plan campaign.
 
 /// Container for enum describing possible errors from applying a keyword plan
@@ -4502,27 +4371,6 @@ pub mod keyword_plan_error_enum {
         InvalidName = 16,
     }
 }
-// Proto file describing errors from KeywordPlanIdeaService.
-
-/// Container for enum describing possible errors from KeywordPlanIdeaService.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct KeywordPlanIdeaErrorEnum {}
-/// Nested message and enum types in `KeywordPlanIdeaErrorEnum`.
-pub mod keyword_plan_idea_error_enum {
-    /// Enum describing possible errors from KeywordPlanIdeaService.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum KeywordPlanIdeaError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Error when crawling the input URL.
-        UrlCrawlError = 2,
-        /// The input has an invalid value.
-        InvalidValue = 3,
-    }
-}
 // Proto file describing label errors.
 
 /// Container for enum describing possible label errors.
@@ -4581,118 +4429,25 @@ pub mod language_code_error_enum {
         InvalidLanguageCode = 3,
     }
 }
-// Proto file describing ManagerLink errors.
+// Proto file describing list operation errors.
 
-/// Container for enum describing possible ManagerLink errors.
+/// Container for enum describing possible list operation errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ManagerLinkErrorEnum {}
-/// Nested message and enum types in `ManagerLinkErrorEnum`.
-pub mod manager_link_error_enum {
-    /// Enum describing possible ManagerLink errors.
+pub struct ListOperationErrorEnum {}
+/// Nested message and enum types in `ListOperationErrorEnum`.
+pub mod list_operation_error_enum {
+    /// Enum describing possible list operation errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum ManagerLinkError {
+    pub enum ListOperationError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The manager and client have incompatible account types.
-        AccountsNotCompatibleForLinking = 2,
-        /// Client is already linked to too many managers.
-        TooManyManagers = 3,
-        /// Manager has too many pending invitations.
-        TooManyInvites = 4,
-        /// Client is already invited by this manager.
-        AlreadyInvitedByThisManager = 5,
-        /// The client is already managed by this manager.
-        AlreadyManagedByThisManager = 6,
-        /// Client is already managed in hierarchy.
-        AlreadyManagedInHierarchy = 7,
-        /// Manger and sub-manager to be linked have duplicate client.
-        DuplicateChildFound = 8,
-        /// Client has no active user that can access the client account.
-        ClientHasNoAdminUser = 9,
-        /// Adding this link would exceed the maximum hierarchy depth.
-        MaxDepthExceeded = 10,
-        /// Adding this link will create a cycle.
-        CycleNotAllowed = 11,
-        /// Manager account has the maximum number of linked clients.
-        TooManyAccounts = 12,
-        /// Parent manager account has the maximum number of linked clients.
-        TooManyAccountsAtManager = 13,
-        /// The account is not authorized owner.
-        NonOwnerUserCannotModifyLink = 14,
-        /// Your manager account is suspended, and you are no longer allowed to link
-        /// to clients.
-        SuspendedAccountCannotAddClients = 15,
-        /// You are not allowed to move a client to a manager that is not under your
-        /// current hierarchy.
-        ClientOutsideTree = 16,
-        /// The changed status for mutate link is invalid.
-        InvalidStatusChange = 17,
-        /// The change for mutate link is invalid.
-        InvalidChange = 18,
-    }
-}
-// Proto file describing media bundle errors.
-
-/// Container for enum describing possible media bundle errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MediaBundleErrorEnum {}
-/// Nested message and enum types in `MediaBundleErrorEnum`.
-pub mod media_bundle_error_enum {
-    /// Enum describing possible media bundle errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum MediaBundleError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// There was a problem with the request.
-        BadRequest = 3,
-        /// HTML5 ads using DoubleClick Studio created ZIP files are not supported.
-        DoubleclickBundleNotAllowed = 4,
-        /// Cannot reference URL external to the media bundle.
-        ExternalUrlNotAllowed = 5,
-        /// Media bundle file is too large.
-        FileTooLarge = 6,
-        /// ZIP file from Google Web Designer is not published.
-        GoogleWebDesignerZipFileNotPublished = 7,
-        /// Input was invalid.
-        InvalidInput = 8,
-        /// There was a problem with the media bundle.
-        InvalidMediaBundle = 9,
-        /// There was a problem with one or more of the media bundle entries.
-        InvalidMediaBundleEntry = 10,
-        /// The media bundle contains a file with an unknown mime type
-        InvalidMimeType = 11,
-        /// The media bundle contain an invalid asset path.
-        InvalidPath = 12,
-        /// HTML5 ad is trying to reference an asset not in .ZIP file
-        InvalidUrlReference = 13,
-        /// Media data is too large.
-        MediaDataTooLarge = 14,
-        /// The media bundle contains no primary entry.
-        MissingPrimaryMediaBundleEntry = 15,
-        /// There was an error on the server.
-        ServerError = 16,
-        /// The image could not be stored.
-        StorageError = 17,
-        /// Media bundle created with the Swiffy tool is not allowed.
-        SwiffyBundleNotAllowed = 18,
-        /// The media bundle contains too many files.
-        TooManyFiles = 19,
-        /// The media bundle is not of legal dimensions.
-        UnexpectedSize = 20,
-        /// Google Web Designer not created for "Google Ads" environment.
-        UnsupportedGoogleWebDesignerEnvironment = 21,
-        /// Unsupported HTML5 feature in HTML5 asset.
-        UnsupportedHtml5Feature = 22,
-        /// URL in HTML5 entry is not ssl compliant.
-        UrlInMediaBundleNotSslCompliant = 23,
-        /// Custom exits not allowed in HTML5 entry.
-        CustomExitNotAllowed = 24,
+        /// Field required in value is missing.
+        RequiredFieldMissing = 7,
+        /// Duplicate or identical value is sent in multiple list operations.
+        DuplicateValues = 8,
     }
 }
 // Proto file describing media uploading errors.
@@ -4828,6 +4583,64 @@ pub mod multiplier_error_enum {
         MultiplierAndBiddingStrategyTypeMismatch = 13,
     }
 }
+// Proto file describing mutate errors.
+
+/// Container for enum describing possible mutate errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MutateErrorEnum {}
+/// Nested message and enum types in `MutateErrorEnum`.
+pub mod mutate_error_enum {
+    /// Enum describing possible mutate errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum MutateError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Requested resource was not found.
+        ResourceNotFound = 3,
+        /// Cannot mutate the same resource twice in one request.
+        IdExistsInMultipleMutates = 7,
+        /// The field's contents don't match another field that represents the same
+        /// data.
+        InconsistentFieldValues = 8,
+        /// Mutates are not allowed for the requested resource.
+        MutateNotAllowed = 9,
+        /// The resource isn't in Google Ads. It belongs to another ads system.
+        ResourceNotInGoogleAds = 10,
+        /// The resource being created already exists.
+        ResourceAlreadyExists = 11,
+        /// This resource cannot be used with "validate_only".
+        ResourceDoesNotSupportValidateOnly = 12,
+        /// Attempt to write to read-only fields.
+        ResourceReadOnly = 13,
+    }
+}
+// Proto file describing new resource creation errors.
+
+/// Container for enum describing possible new resource creation errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NewResourceCreationErrorEnum {}
+/// Nested message and enum types in `NewResourceCreationErrorEnum`.
+pub mod new_resource_creation_error_enum {
+    /// Enum describing possible new resource creation errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum NewResourceCreationError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Do not set the id field while creating new resources.
+        CannotSetIdForCreate = 2,
+        /// Creating more than one resource with the same temp ID is not allowed.
+        DuplicateTempIds = 3,
+        /// Parent resource with specified temp ID failed validation, so no
+        /// validation will be done for this child resource.
+        TempIdResourceHadErrors = 4,
+    }
+}
 // Proto file describing not allowlisted errors.
 
 /// Container for enum describing possible not allowlisted errors.
@@ -4953,6 +4766,26 @@ pub mod offline_user_data_job_error_enum {
         /// can only be provided with contact info (email, phone, address) user
         /// identifiers.
         IncompatibleUserIdentifierForAttributes = 36,
+    }
+}
+// Proto file describing partial failure errors.
+
+/// Container for enum describing possible partial failure errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PartialFailureErrorEnum {}
+/// Nested message and enum types in `PartialFailureErrorEnum`.
+pub mod partial_failure_error_enum {
+    /// Enum describing possible partial failure errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PartialFailureError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The partial failure field was false in the request.
+        /// This method requires this field be set to true.
+        PartialFailureModeRequired = 2,
     }
 }
 // Proto file describing payments account service errors.
@@ -5180,6 +5013,50 @@ pub mod query_error_enum {
         FilterHasTooManyValues = 63,
     }
 }
+// Proto file describing quota errors.
+
+/// Container for enum describing possible quota errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QuotaErrorEnum {}
+/// Nested message and enum types in `QuotaErrorEnum`.
+pub mod quota_error_enum {
+    /// Enum describing possible quota errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum QuotaError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Too many requests.
+        ResourceExhausted = 2,
+        /// Access is prohibited.
+        AccessProhibited = 3,
+        /// Too many requests in a short amount of time.
+        ResourceTemporarilyExhausted = 4,
+    }
+}
+// Proto file describing range errors.
+
+/// Container for enum describing possible range errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RangeErrorEnum {}
+/// Nested message and enum types in `RangeErrorEnum`.
+pub mod range_error_enum {
+    /// Enum describing possible range errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RangeError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Too low.
+        TooLow = 2,
+        /// Too high.
+        TooHigh = 3,
+    }
+}
 // Proto file describing errors generated from ReachPlanService.
 
 /// Container for enum describing possible errors returned from
@@ -5200,122 +5077,23 @@ pub mod reach_plan_error_enum {
         NotForecastableMissingRate = 2,
     }
 }
-// Proto file describing errors from applying a recommendation.
+// Proto file describing resource access denied errors.
 
-/// Container for enum describing possible errors from applying a recommendation.
+/// Container for enum describing possible resource access denied errors.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecommendationErrorEnum {}
-/// Nested message and enum types in `RecommendationErrorEnum`.
-pub mod recommendation_error_enum {
-    /// Enum describing possible errors from applying a recommendation.
+pub struct ResourceAccessDeniedErrorEnum {}
+/// Nested message and enum types in `ResourceAccessDeniedErrorEnum`.
+pub mod resource_access_denied_error_enum {
+    /// Enum describing possible resource access denied errors.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum RecommendationError {
+    pub enum ResourceAccessDeniedError {
         /// Enum unspecified.
         Unspecified = 0,
         /// The received error code is not known in this version.
         Unknown = 1,
-        /// The specified budget amount is too low e.g. lower than minimum currency
-        /// unit or lower than ad group minimum cost-per-click.
-        BudgetAmountTooSmall = 2,
-        /// The specified budget amount is too large.
-        BudgetAmountTooLarge = 3,
-        /// The specified budget amount is not a valid amount. e.g. not a multiple
-        /// of minimum currency unit.
-        InvalidBudgetAmount = 4,
-        /// The specified keyword or ad violates ad policy.
-        PolicyError = 5,
-        /// The specified bid amount is not valid. e.g. too many fractional digits,
-        /// or negative amount.
-        InvalidBidAmount = 6,
-        /// The number of keywords in ad group have reached the maximum allowed.
-        AdgroupKeywordLimit = 7,
-        /// The recommendation requested to apply has already been applied.
-        RecommendationAlreadyApplied = 8,
-        /// The recommendation requested to apply has been invalidated.
-        RecommendationInvalidated = 9,
-        /// The number of operations in a single request exceeds the maximum allowed.
-        TooManyOperations = 10,
-        /// There are no operations in the request.
-        NoOperations = 11,
-        /// Operations with multiple recommendation types are not supported when
-        /// partial failure mode is not enabled.
-        DifferentTypesNotSupported = 12,
-        /// Request contains multiple operations with the same resource_name.
-        DuplicateResourceName = 13,
-        /// The recommendation requested to dismiss has already been dismissed.
-        RecommendationAlreadyDismissed = 14,
-        /// The recommendation apply request was malformed and invalid.
-        InvalidApplyRequest = 15,
-    }
-}
-// Proto file describing request errors.
-
-/// Container for enum describing possible request errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RequestErrorEnum {}
-/// Nested message and enum types in `RequestErrorEnum`.
-pub mod request_error_enum {
-    /// Enum describing possible request errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RequestError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// Resource name is required for this request.
-        ResourceNameMissing = 3,
-        /// Resource name provided is malformed.
-        ResourceNameMalformed = 4,
-        /// Resource name provided is malformed.
-        BadResourceId = 17,
-        /// Customer ID is invalid.
-        InvalidCustomerId = 16,
-        /// Mutate operation should have either create, update, or remove specified.
-        OperationRequired = 5,
-        /// Requested resource not found.
-        ResourceNotFound = 6,
-        /// Next page token specified in user request is invalid.
-        InvalidPageToken = 7,
-        /// Next page token specified in user request has expired.
-        ExpiredPageToken = 8,
-        /// Page size specified in user request is invalid.
-        InvalidPageSize = 22,
-        /// Required field is missing.
-        RequiredFieldMissing = 9,
-        /// The field cannot be modified because it's immutable. It's also possible
-        /// that the field can be modified using 'create' operation but not 'update'.
-        ImmutableField = 11,
-        /// Received too many entries in request.
-        TooManyMutateOperations = 13,
-        /// Request cannot be executed by a manager account.
-        CannotBeExecutedByManagerAccount = 14,
-        /// Mutate request was attempting to modify a readonly field.
-        /// For instance, Budget fields can be requested for Ad Group,
-        /// but are read-only for adGroups:mutate.
-        CannotModifyForeignField = 15,
-        /// Enum value is not permitted.
-        InvalidEnumValue = 18,
-        /// The developer-token parameter is required for all requests.
-        DeveloperTokenParameterMissing = 19,
-        /// The login-customer-id parameter is required for this request.
-        LoginCustomerIdParameterMissing = 20,
-        /// page_token is set in the validate only request
-        ValidateOnlyRequestHasPageToken = 21,
-        /// return_summary_row cannot be enabled if request did not select any
-        /// metrics field.
-        CannotReturnSummaryRowForRequestWithoutMetrics = 29,
-        /// return_summary_row should not be enabled for validate only requests.
-        CannotReturnSummaryRowForValidateOnlyRequests = 30,
-        /// return_summary_row parameter value should be the same between requests
-        /// with page_token field set and their original request.
-        InconsistentReturnSummaryRowValue = 31,
-        /// The total results count cannot be returned if it was not requested in the
-        /// original request.
-        TotalResultsCountNotOriginallyRequested = 32,
-        /// Deadline specified by the client was too short.
-        RpcDeadlineTooShort = 33,
+        /// User did not have write access.
+        WriteAccessDenied = 3,
     }
 }
 // Proto file describing resource count limit exceeded errors.
@@ -5375,6 +5153,97 @@ pub mod resource_count_limit_exceeded_error_enum {
         ResourceLimit = 10,
     }
 }
+// Proto file describing setting errors.
+
+/// Container for enum describing possible setting errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SettingErrorEnum {}
+/// Nested message and enum types in `SettingErrorEnum`.
+pub mod setting_error_enum {
+    /// Enum describing possible setting errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SettingError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The campaign setting is not available for this Google Ads account.
+        SettingTypeIsNotAvailable = 3,
+        /// The setting is not compatible with the campaign.
+        SettingTypeIsNotCompatibleWithCampaign = 4,
+        /// The supplied TargetingSetting contains an invalid CriterionTypeGroup. See
+        /// CriterionTypeGroup documentation for CriterionTypeGroups allowed
+        /// in Campaign or AdGroup TargetingSettings.
+        TargetingSettingContainsInvalidCriterionTypeGroup = 5,
+        /// TargetingSetting must not explicitly
+        /// set any of the Demographic CriterionTypeGroups (AGE_RANGE, GENDER,
+        /// PARENT, INCOME_RANGE) to false (it's okay to not set them at all, in
+        /// which case the system will set them to true automatically).
+        TargetingSettingDemographicCriterionTypeGroupsMustBeSetToTargetAll = 6,
+        /// TargetingSetting cannot change any of
+        /// the Demographic CriterionTypeGroups (AGE_RANGE, GENDER, PARENT,
+        /// INCOME_RANGE) from true to false.
+        TargetingSettingCannotChangeTargetAllToFalseForDemographicCriterionTypeGroup = 7,
+        /// At least one feed id should be present.
+        DynamicSearchAdsSettingAtLeastOneFeedIdMustBePresent = 8,
+        /// The supplied DynamicSearchAdsSetting contains an invalid domain name.
+        DynamicSearchAdsSettingContainsInvalidDomainName = 9,
+        /// The supplied DynamicSearchAdsSetting contains a subdomain name.
+        DynamicSearchAdsSettingContainsSubdomainName = 10,
+        /// The supplied DynamicSearchAdsSetting contains an invalid language code.
+        DynamicSearchAdsSettingContainsInvalidLanguageCode = 11,
+        /// TargetingSettings in search campaigns should not have
+        /// CriterionTypeGroup.PLACEMENT set to targetAll.
+        TargetAllIsNotAllowedForPlacementInSearchCampaign = 12,
+        /// The setting value is not compatible with the campaign type.
+        SettingValueNotCompatibleWithCampaign = 20,
+    }
+}
+// Proto file describing shared criterion errors.
+
+/// Container for enum describing possible shared criterion errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SharedCriterionErrorEnum {}
+/// Nested message and enum types in `SharedCriterionErrorEnum`.
+pub mod shared_criterion_error_enum {
+    /// Enum describing possible shared criterion errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SharedCriterionError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The criterion is not appropriate for the shared set type.
+        CriterionTypeNotAllowedForSharedSetType = 2,
+    }
+}
+// Proto file describing shared set errors.
+
+/// Container for enum describing possible shared set errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SharedSetErrorEnum {}
+/// Nested message and enum types in `SharedSetErrorEnum`.
+pub mod shared_set_error_enum {
+    /// Enum describing possible shared set errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SharedSetError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The customer cannot create this type of shared set.
+        CustomerCannotCreateSharedSetOfThisType = 2,
+        /// A shared set with this name already exists.
+        DuplicateName = 3,
+        /// Removed shared sets cannot be mutated.
+        SharedSetRemoved = 4,
+        /// The shared set cannot be removed because it is in use.
+        SharedSetInUse = 5,
+    }
+}
 // Proto file describing size limit errors.
 
 /// Container for enum describing possible size limit errors.
@@ -5394,27 +5263,6 @@ pub mod size_limit_error_enum {
         RequestSizeLimitExceeded = 2,
         /// The number of entries in the response exceeds the system limit.
         ResponseSizeLimitExceeded = 3,
-    }
-}
-// Proto file describing string format errors.
-
-/// Container for enum describing possible string format errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StringFormatErrorEnum {}
-/// Nested message and enum types in `StringFormatErrorEnum`.
-pub mod string_format_error_enum {
-    /// Enum describing possible string format errors.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum StringFormatError {
-        /// Enum unspecified.
-        Unspecified = 0,
-        /// The received error code is not known in this version.
-        Unknown = 1,
-        /// The input string value contains disallowed characters.
-        IllegalChars = 2,
-        /// The input string value is invalid for the associated field.
-        InvalidFormat = 3,
     }
 }
 // Proto file describing string length errors.
@@ -5465,6 +5313,160 @@ pub mod third_party_app_analytics_link_error_enum {
         MobileAppIsNotEnabled = 4,
         /// Regenerating shareable link ID is only allowed on active links
         CannotRegenerateShareableLinkIdForRemovedLink = 5,
+    }
+}
+// Proto file describing time zone errors.
+
+/// Container for enum describing possible time zone errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimeZoneErrorEnum {}
+/// Nested message and enum types in `TimeZoneErrorEnum`.
+pub mod time_zone_error_enum {
+    /// Enum describing possible currency code errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum TimeZoneError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// Time zone is not valid.
+        InvalidTimeZone = 5,
+    }
+}
+// Proto file describing url field errors.
+
+/// Container for enum describing possible url field errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UrlFieldErrorEnum {}
+/// Nested message and enum types in `UrlFieldErrorEnum`.
+pub mod url_field_error_enum {
+    /// Enum describing possible url field errors.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum UrlFieldError {
+        /// Enum unspecified.
+        Unspecified = 0,
+        /// The received error code is not known in this version.
+        Unknown = 1,
+        /// The tracking url template is invalid.
+        InvalidTrackingUrlTemplate = 2,
+        /// The tracking url template contains invalid tag.
+        InvalidTagInTrackingUrlTemplate = 3,
+        /// The tracking url template must contain at least one tag (e.g. {lpurl}),
+        /// This applies only to tracking url template associated with website ads or
+        /// product ads.
+        MissingTrackingUrlTemplateTag = 4,
+        /// The tracking url template must start with a valid protocol (or lpurl
+        /// tag).
+        MissingProtocolInTrackingUrlTemplate = 5,
+        /// The tracking url template starts with an invalid protocol.
+        InvalidProtocolInTrackingUrlTemplate = 6,
+        /// The tracking url template contains illegal characters.
+        MalformedTrackingUrlTemplate = 7,
+        /// The tracking url template must contain a host name (or lpurl tag).
+        MissingHostInTrackingUrlTemplate = 8,
+        /// The tracking url template has an invalid or missing top level domain
+        /// extension.
+        InvalidTldInTrackingUrlTemplate = 9,
+        /// The tracking url template contains nested occurrences of the same
+        /// conditional tag (i.e. {ifmobile:{ifmobile:x}}).
+        RedundantNestedTrackingUrlTemplateTag = 10,
+        /// The final url is invalid.
+        InvalidFinalUrl = 11,
+        /// The final url contains invalid tag.
+        InvalidTagInFinalUrl = 12,
+        /// The final url contains nested occurrences of the same conditional tag
+        /// (i.e. {ifmobile:{ifmobile:x}}).
+        RedundantNestedFinalUrlTag = 13,
+        /// The final url must start with a valid protocol.
+        MissingProtocolInFinalUrl = 14,
+        /// The final url starts with an invalid protocol.
+        InvalidProtocolInFinalUrl = 15,
+        /// The final url contains illegal characters.
+        MalformedFinalUrl = 16,
+        /// The final url must contain a host name.
+        MissingHostInFinalUrl = 17,
+        /// The tracking url template has an invalid or missing top level domain
+        /// extension.
+        InvalidTldInFinalUrl = 18,
+        /// The final mobile url is invalid.
+        InvalidFinalMobileUrl = 19,
+        /// The final mobile url contains invalid tag.
+        InvalidTagInFinalMobileUrl = 20,
+        /// The final mobile url contains nested occurrences of the same conditional
+        /// tag (i.e. {ifmobile:{ifmobile:x}}).
+        RedundantNestedFinalMobileUrlTag = 21,
+        /// The final mobile url must start with a valid protocol.
+        MissingProtocolInFinalMobileUrl = 22,
+        /// The final mobile url starts with an invalid protocol.
+        InvalidProtocolInFinalMobileUrl = 23,
+        /// The final mobile url contains illegal characters.
+        MalformedFinalMobileUrl = 24,
+        /// The final mobile url must contain a host name.
+        MissingHostInFinalMobileUrl = 25,
+        /// The tracking url template has an invalid or missing top level domain
+        /// extension.
+        InvalidTldInFinalMobileUrl = 26,
+        /// The final app url is invalid.
+        InvalidFinalAppUrl = 27,
+        /// The final app url contains invalid tag.
+        InvalidTagInFinalAppUrl = 28,
+        /// The final app url contains nested occurrences of the same conditional tag
+        /// (i.e. {ifmobile:{ifmobile:x}}).
+        RedundantNestedFinalAppUrlTag = 29,
+        /// More than one app url found for the same OS type.
+        MultipleAppUrlsForOstype = 30,
+        /// The OS type given for an app url is not valid.
+        InvalidOstype = 31,
+        /// The protocol given for an app url is not valid. (E.g. "android-app://")
+        InvalidProtocolForAppUrl = 32,
+        /// The package id (app id) given for an app url is not valid.
+        InvalidPackageIdForAppUrl = 33,
+        /// The number of url custom parameters for an resource exceeds the maximum
+        /// limit allowed.
+        UrlCustomParametersCountExceedsLimit = 34,
+        /// An invalid character appears in the parameter key.
+        InvalidCharactersInUrlCustomParameterKey = 39,
+        /// An invalid character appears in the parameter value.
+        InvalidCharactersInUrlCustomParameterValue = 40,
+        /// The url custom parameter value fails url tag validation.
+        InvalidTagInUrlCustomParameterValue = 41,
+        /// The custom parameter contains nested occurrences of the same conditional
+        /// tag (i.e. {ifmobile:{ifmobile:x}}).
+        RedundantNestedUrlCustomParameterTag = 42,
+        /// The protocol (http:// or https://) is missing.
+        MissingProtocol = 43,
+        /// Unsupported protocol in URL. Only http and https are supported.
+        InvalidProtocol = 52,
+        /// The url is invalid.
+        InvalidUrl = 44,
+        /// Destination Url is deprecated.
+        DestinationUrlDeprecated = 45,
+        /// The url contains invalid tag.
+        InvalidTagInUrl = 46,
+        /// The url must contain at least one tag (e.g. {lpurl}).
+        MissingUrlTag = 47,
+        /// Duplicate url id.
+        DuplicateUrlId = 48,
+        /// Invalid url id.
+        InvalidUrlId = 49,
+        /// The final url suffix cannot begin with '?' or '&' characters and must be
+        /// a valid query string.
+        FinalUrlSuffixMalformed = 50,
+        /// The final url suffix cannot contain {lpurl} related or {ignore} tags.
+        InvalidTagInFinalUrlSuffix = 51,
+        /// The top level domain is invalid, e.g. not a public top level domain
+        /// listed in publicsuffix.org.
+        InvalidTopLevelDomain = 53,
+        /// Malformed top level domain in URL.
+        MalformedTopLevelDomain = 54,
+        /// Malformed URL.
+        MalformedUrl = 55,
+        /// No host found in URL.
+        MissingHost = 56,
+        /// Custom parameter value cannot be null.
+        NullCustomParameterValue = 57,
     }
 }
 // Proto file describing user data errors.
@@ -5522,7 +5524,7 @@ pub struct GoogleAdsFailure {
     /// The list of errors that occurred.
     #[prost(message, repeated, tag = "1")]
     pub errors: ::prost::alloc::vec::Vec<GoogleAdsError>,
-    /// The unique id of the request that is used for debugging purposes.
+    /// The unique ID of the request that is used for debugging purposes.
     #[prost(string, tag = "2")]
     pub request_id: ::prost::alloc::string::String,
 }
@@ -5574,7 +5576,10 @@ pub mod error_code {
         #[prost(enumeration = "super::url_field_error_enum::UrlFieldError", tag = "3")]
         UrlFieldError(i32),
         /// An error with a list operation.
-        #[prost(enumeration = "super::list_operation_error_enum::ListOperationError", tag = "4")]
+        #[prost(
+            enumeration = "super::list_operation_error_enum::ListOperationError",
+            tag = "4"
+        )]
         ListOperationError(i32),
         /// An error with an AWQL query
         #[prost(enumeration = "super::query_error_enum::QueryError", tag = "5")]
@@ -5583,10 +5588,16 @@ pub mod error_code {
         #[prost(enumeration = "super::mutate_error_enum::MutateError", tag = "7")]
         MutateError(i32),
         /// An error with a field mask
-        #[prost(enumeration = "super::field_mask_error_enum::FieldMaskError", tag = "8")]
+        #[prost(
+            enumeration = "super::field_mask_error_enum::FieldMaskError",
+            tag = "8"
+        )]
         FieldMaskError(i32),
         /// An error encountered when trying to authorize a user.
-        #[prost(enumeration = "super::authorization_error_enum::AuthorizationError", tag = "9")]
+        #[prost(
+            enumeration = "super::authorization_error_enum::AuthorizationError",
+            tag = "9"
+        )]
         AuthorizationError(i32),
         /// An unexpected server-side error.
         #[prost(enumeration = "super::internal_error_enum::InternalError", tag = "10")]
@@ -5610,7 +5621,10 @@ pub mod error_code {
         #[prost(enumeration = "super::campaign_error_enum::CampaignError", tag = "15")]
         CampaignError(i32),
         /// Indicates failure to properly authenticate user.
-        #[prost(enumeration = "super::authentication_error_enum::AuthenticationError", tag = "17")]
+        #[prost(
+            enumeration = "super::authentication_error_enum::AuthenticationError",
+            tag = "17"
+        )]
         AuthenticationError(i32),
         /// Indicates failure to properly authenticate user.
         #[prost(
@@ -5619,13 +5633,22 @@ pub mod error_code {
         )]
         AdGroupCriterionError(i32),
         /// The reasons for the ad customizer error
-        #[prost(enumeration = "super::ad_customizer_error_enum::AdCustomizerError", tag = "19")]
+        #[prost(
+            enumeration = "super::ad_customizer_error_enum::AdCustomizerError",
+            tag = "19"
+        )]
         AdCustomizerError(i32),
         /// The reasons for the ad group ad error
-        #[prost(enumeration = "super::ad_group_ad_error_enum::AdGroupAdError", tag = "21")]
+        #[prost(
+            enumeration = "super::ad_group_ad_error_enum::AdGroupAdError",
+            tag = "21"
+        )]
         AdGroupAdError(i32),
         /// The reasons for the ad sharing error
-        #[prost(enumeration = "super::ad_sharing_error_enum::AdSharingError", tag = "24")]
+        #[prost(
+            enumeration = "super::ad_sharing_error_enum::AdSharingError",
+            tag = "24"
+        )]
         AdSharingError(i32),
         /// The reasons for the adx error
         #[prost(enumeration = "super::adx_error_enum::AdxError", tag = "25")]
@@ -5649,10 +5672,16 @@ pub mod error_code {
         )]
         CollectionSizeError(i32),
         /// The reasons for the country code error
-        #[prost(enumeration = "super::country_code_error_enum::CountryCodeError", tag = "109")]
+        #[prost(
+            enumeration = "super::country_code_error_enum::CountryCodeError",
+            tag = "109"
+        )]
         CountryCodeError(i32),
         /// The reasons for the criterion error
-        #[prost(enumeration = "super::criterion_error_enum::CriterionError", tag = "32")]
+        #[prost(
+            enumeration = "super::criterion_error_enum::CriterionError",
+            tag = "32"
+        )]
         CriterionError(i32),
         /// The reasons for the customer error
         #[prost(enumeration = "super::customer_error_enum::CustomerError", tag = "90")]
@@ -5661,7 +5690,10 @@ pub mod error_code {
         #[prost(enumeration = "super::date_error_enum::DateError", tag = "33")]
         DateError(i32),
         /// The reasons for the date range error
-        #[prost(enumeration = "super::date_range_error_enum::DateRangeError", tag = "34")]
+        #[prost(
+            enumeration = "super::date_range_error_enum::DateRangeError",
+            tag = "34"
+        )]
         DateRangeError(i32),
         /// The reasons for the distinct error
         #[prost(enumeration = "super::distinct_error_enum::DistinctError", tag = "35")]
@@ -5688,19 +5720,34 @@ pub mod error_code {
         #[prost(enumeration = "super::image_error_enum::ImageError", tag = "40")]
         ImageError(i32),
         /// The reasons for the language code error
-        #[prost(enumeration = "super::language_code_error_enum::LanguageCodeError", tag = "110")]
+        #[prost(
+            enumeration = "super::language_code_error_enum::LanguageCodeError",
+            tag = "110"
+        )]
         LanguageCodeError(i32),
         /// The reasons for the media bundle error
-        #[prost(enumeration = "super::media_bundle_error_enum::MediaBundleError", tag = "42")]
+        #[prost(
+            enumeration = "super::media_bundle_error_enum::MediaBundleError",
+            tag = "42"
+        )]
         MediaBundleError(i32),
         /// The reasons for media uploading errors.
-        #[prost(enumeration = "super::media_upload_error_enum::MediaUploadError", tag = "116")]
+        #[prost(
+            enumeration = "super::media_upload_error_enum::MediaUploadError",
+            tag = "116"
+        )]
         MediaUploadError(i32),
         /// The reasons for the media file error
-        #[prost(enumeration = "super::media_file_error_enum::MediaFileError", tag = "86")]
+        #[prost(
+            enumeration = "super::media_file_error_enum::MediaFileError",
+            tag = "86"
+        )]
         MediaFileError(i32),
         /// The reasons for the multiplier error
-        #[prost(enumeration = "super::multiplier_error_enum::MultiplierError", tag = "44")]
+        #[prost(
+            enumeration = "super::multiplier_error_enum::MultiplierError",
+            tag = "44"
+        )]
         MultiplierError(i32),
         /// The reasons for the new resource creation error
         #[prost(
@@ -5721,19 +5768,31 @@ pub mod error_code {
         #[prost(enumeration = "super::range_error_enum::RangeError", tag = "49")]
         RangeError(i32),
         /// The reasons for error in applying a recommendation
-        #[prost(enumeration = "super::recommendation_error_enum::RecommendationError", tag = "58")]
+        #[prost(
+            enumeration = "super::recommendation_error_enum::RecommendationError",
+            tag = "58"
+        )]
         RecommendationError(i32),
         /// The reasons for the region code error
-        #[prost(enumeration = "super::region_code_error_enum::RegionCodeError", tag = "51")]
+        #[prost(
+            enumeration = "super::region_code_error_enum::RegionCodeError",
+            tag = "51"
+        )]
         RegionCodeError(i32),
         /// The reasons for the setting error
         #[prost(enumeration = "super::setting_error_enum::SettingError", tag = "52")]
         SettingError(i32),
         /// The reasons for the string format error
-        #[prost(enumeration = "super::string_format_error_enum::StringFormatError", tag = "53")]
+        #[prost(
+            enumeration = "super::string_format_error_enum::StringFormatError",
+            tag = "53"
+        )]
         StringFormatError(i32),
         /// The reasons for the string length error
-        #[prost(enumeration = "super::string_length_error_enum::StringLengthError", tag = "54")]
+        #[prost(
+            enumeration = "super::string_length_error_enum::StringLengthError",
+            tag = "54"
+        )]
         StringLengthError(i32),
         /// The reasons for the operation access denied error
         #[prost(
@@ -5772,7 +5831,10 @@ pub mod error_code {
         #[prost(enumeration = "super::field_error_enum::FieldError", tag = "61")]
         FieldError(i32),
         /// The reasons for the shared set error
-        #[prost(enumeration = "super::shared_set_error_enum::SharedSetError", tag = "62")]
+        #[prost(
+            enumeration = "super::shared_set_error_enum::SharedSetError",
+            tag = "62"
+        )]
         SharedSetError(i32),
         /// The reasons for the shared criterion error
         #[prost(
@@ -5817,13 +5879,19 @@ pub mod error_code {
         #[prost(enumeration = "super::database_error_enum::DatabaseError", tag = "67")]
         DatabaseError(i32),
         /// The reasons for the policy finding error.
-        #[prost(enumeration = "super::policy_finding_error_enum::PolicyFindingError", tag = "68")]
+        #[prost(
+            enumeration = "super::policy_finding_error_enum::PolicyFindingError",
+            tag = "68"
+        )]
         PolicyFindingError(i32),
         /// The reason for enum error.
         #[prost(enumeration = "super::enum_error_enum::EnumError", tag = "70")]
         EnumError(i32),
         /// The reason for keyword plan error.
-        #[prost(enumeration = "super::keyword_plan_error_enum::KeywordPlanError", tag = "71")]
+        #[prost(
+            enumeration = "super::keyword_plan_error_enum::KeywordPlanError",
+            tag = "71"
+        )]
         KeywordPlanError(i32),
         /// The reason for keyword plan campaign error.
         #[prost(
@@ -5865,10 +5933,16 @@ pub mod error_code {
         #[prost(enumeration = "super::user_list_error_enum::UserListError", tag = "78")]
         UserListError(i32),
         /// The reasons for the change event error
-        #[prost(enumeration = "super::change_event_error_enum::ChangeEventError", tag = "136")]
+        #[prost(
+            enumeration = "super::change_event_error_enum::ChangeEventError",
+            tag = "136"
+        )]
         ChangeEventError(i32),
         /// The reasons for the change status error
-        #[prost(enumeration = "super::change_status_error_enum::ChangeStatusError", tag = "79")]
+        #[prost(
+            enumeration = "super::change_status_error_enum::ChangeStatusError",
+            tag = "79"
+        )]
         ChangeStatusError(i32),
         /// The reasons for the feed error
         #[prost(enumeration = "super::feed_error_enum::FeedError", tag = "80")]
@@ -5880,7 +5954,10 @@ pub mod error_code {
         )]
         GeoTargetConstantSuggestionError(i32),
         /// The reasons for the campaign draft error
-        #[prost(enumeration = "super::campaign_draft_error_enum::CampaignDraftError", tag = "82")]
+        #[prost(
+            enumeration = "super::campaign_draft_error_enum::CampaignDraftError",
+            tag = "82"
+        )]
         CampaignDraftError(i32),
         /// The reasons for the feed item error
         #[prost(enumeration = "super::feed_item_error_enum::FeedItemError", tag = "83")]
@@ -5889,7 +5966,10 @@ pub mod error_code {
         #[prost(enumeration = "super::label_error_enum::LabelError", tag = "84")]
         LabelError(i32),
         /// The reasons for the billing setup error
-        #[prost(enumeration = "super::billing_setup_error_enum::BillingSetupError", tag = "87")]
+        #[prost(
+            enumeration = "super::billing_setup_error_enum::BillingSetupError",
+            tag = "87"
+        )]
         BillingSetupError(i32),
         /// The reasons for the customer client link error
         #[prost(
@@ -5904,16 +5984,28 @@ pub mod error_code {
         )]
         CustomerManagerLinkError(i32),
         /// The reasons for the feed mapping error
-        #[prost(enumeration = "super::feed_mapping_error_enum::FeedMappingError", tag = "92")]
+        #[prost(
+            enumeration = "super::feed_mapping_error_enum::FeedMappingError",
+            tag = "92"
+        )]
         FeedMappingError(i32),
         /// The reasons for the customer feed error
-        #[prost(enumeration = "super::customer_feed_error_enum::CustomerFeedError", tag = "93")]
+        #[prost(
+            enumeration = "super::customer_feed_error_enum::CustomerFeedError",
+            tag = "93"
+        )]
         CustomerFeedError(i32),
         /// The reasons for the ad group feed error
-        #[prost(enumeration = "super::ad_group_feed_error_enum::AdGroupFeedError", tag = "94")]
+        #[prost(
+            enumeration = "super::ad_group_feed_error_enum::AdGroupFeedError",
+            tag = "94"
+        )]
         AdGroupFeedError(i32),
         /// The reasons for the campaign feed error
-        #[prost(enumeration = "super::campaign_feed_error_enum::CampaignFeedError", tag = "96")]
+        #[prost(
+            enumeration = "super::campaign_feed_error_enum::CampaignFeedError",
+            tag = "96"
+        )]
         CampaignFeedError(i32),
         /// The reasons for the custom interest error
         #[prost(
@@ -5934,7 +6026,10 @@ pub mod error_code {
         )]
         ExtensionFeedItemError(i32),
         /// The reasons for the ad parameter error
-        #[prost(enumeration = "super::ad_parameter_error_enum::AdParameterError", tag = "101")]
+        #[prost(
+            enumeration = "super::ad_parameter_error_enum::AdParameterError",
+            tag = "101"
+        )]
         AdParameterError(i32),
         /// The reasons for the feed item validation error
         #[prost(
@@ -5949,7 +6044,10 @@ pub mod error_code {
         )]
         ExtensionSettingError(i32),
         /// The reasons for the feed item set error
-        #[prost(enumeration = "super::feed_item_set_error_enum::FeedItemSetError", tag = "140")]
+        #[prost(
+            enumeration = "super::feed_item_set_error_enum::FeedItemSetError",
+            tag = "140"
+        )]
         FeedItemSetError(i32),
         /// The reasons for the feed item set link error
         #[prost(
@@ -5982,7 +6080,10 @@ pub mod error_code {
         )]
         PolicyValidationParameterError(i32),
         /// The reasons for the size limit error
-        #[prost(enumeration = "super::size_limit_error_enum::SizeLimitError", tag = "118")]
+        #[prost(
+            enumeration = "super::size_limit_error_enum::SizeLimitError",
+            tag = "118"
+        )]
         SizeLimitError(i32),
         /// The reasons for the offline user data job error.
         #[prost(
@@ -5997,10 +6098,16 @@ pub mod error_code {
         )]
         NotAllowlistedError(i32),
         /// The reasons for the manager link error
-        #[prost(enumeration = "super::manager_link_error_enum::ManagerLinkError", tag = "121")]
+        #[prost(
+            enumeration = "super::manager_link_error_enum::ManagerLinkError",
+            tag = "121"
+        )]
         ManagerLinkError(i32),
         /// The reasons for the currency code error
-        #[prost(enumeration = "super::currency_code_error_enum::CurrencyCodeError", tag = "122")]
+        #[prost(
+            enumeration = "super::currency_code_error_enum::CurrencyCodeError",
+            tag = "122"
+        )]
         CurrencyCodeError(i32),
         /// The reasons for the access invitation error
         #[prost(
@@ -6009,7 +6116,10 @@ pub mod error_code {
         )]
         AccessInvitationError(i32),
         /// The reasons for the reach plan error
-        #[prost(enumeration = "super::reach_plan_error_enum::ReachPlanError", tag = "125")]
+        #[prost(
+            enumeration = "super::reach_plan_error_enum::ReachPlanError",
+            tag = "125"
+        )]
         ReachPlanError(i32),
         /// The reasons for the invoice error
         #[prost(enumeration = "super::invoice_error_enum::InvoiceError", tag = "126")]
@@ -6021,19 +6131,34 @@ pub mod error_code {
         )]
         PaymentsAccountError(i32),
         /// The reasons for the time zone error
-        #[prost(enumeration = "super::time_zone_error_enum::TimeZoneError", tag = "128")]
+        #[prost(
+            enumeration = "super::time_zone_error_enum::TimeZoneError",
+            tag = "128"
+        )]
         TimeZoneError(i32),
         /// The reasons for the asset link error
-        #[prost(enumeration = "super::asset_link_error_enum::AssetLinkError", tag = "129")]
+        #[prost(
+            enumeration = "super::asset_link_error_enum::AssetLinkError",
+            tag = "129"
+        )]
         AssetLinkError(i32),
         /// The reasons for the user data error.
-        #[prost(enumeration = "super::user_data_error_enum::UserDataError", tag = "130")]
+        #[prost(
+            enumeration = "super::user_data_error_enum::UserDataError",
+            tag = "130"
+        )]
         UserDataError(i32),
         /// The reasons for the batch job error
-        #[prost(enumeration = "super::batch_job_error_enum::BatchJobError", tag = "131")]
+        #[prost(
+            enumeration = "super::batch_job_error_enum::BatchJobError",
+            tag = "131"
+        )]
         BatchJobError(i32),
         /// The reasons for the account link status change error
-        #[prost(enumeration = "super::account_link_error_enum::AccountLinkError", tag = "134")]
+        #[prost(
+            enumeration = "super::account_link_error_enum::AccountLinkError",
+            tag = "134"
+        )]
         AccountLinkError(i32),
         /// The reasons for the third party app analytics link mutate error
         #[prost(
@@ -6171,7 +6296,10 @@ pub struct ResourceCountDetails {
     #[prost(int32, tag = "2")]
     pub limit: i32,
     /// The resource limit type which was exceeded.
-    #[prost(enumeration = "super::enums::resource_limit_type_enum::ResourceLimitType", tag = "3")]
+    #[prost(
+        enumeration = "super::enums::resource_limit_type_enum::ResourceLimitType",
+        tag = "3"
+    )]
     pub limit_type: i32,
     /// The count of existing entities.
     #[prost(int32, tag = "4")]

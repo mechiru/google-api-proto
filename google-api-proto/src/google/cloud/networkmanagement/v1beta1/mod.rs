@@ -452,7 +452,10 @@ pub struct LoadBalancerBackend {
     #[prost(string, tag = "2")]
     pub uri: ::prost::alloc::string::String,
     /// State of the health check firewall configuration.
-    #[prost(enumeration = "load_balancer_backend::HealthCheckFirewallState", tag = "3")]
+    #[prost(
+        enumeration = "load_balancer_backend::HealthCheckFirewallState",
+        tag = "3"
+    )]
     pub health_check_firewall_state: i32,
     /// A list of firewall rule URIs allowing probes from health check IP ranges.
     #[prost(string, repeated, tag = "4")]

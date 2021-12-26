@@ -273,7 +273,10 @@ pub struct WebKeySettings {
     /// Settings for the frequency and difficulty at which this key triggers
     /// captcha challenges. This should only be specified for IntegrationTypes
     /// CHECKBOX_CHALLENGE and INVISIBLE_CHALLENGE.
-    #[prost(enumeration = "web_key_settings::ChallengeSecurityPreference", tag = "5")]
+    #[prost(
+        enumeration = "web_key_settings::ChallengeSecurityPreference",
+        tag = "5"
+    )]
     pub challenge_security_preference: i32,
 }
 /// Nested message and enum types in `WebKeySettings`.

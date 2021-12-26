@@ -139,7 +139,10 @@ pub struct CryptoKeyVersionTemplate {
     /// For backwards compatibility, GOOGLE_SYMMETRIC_ENCRYPTION is implied if both
     /// this field is omitted and \[CryptoKey.purpose][google.cloud.kms.v1.CryptoKey.purpose\] is
     /// \[ENCRYPT_DECRYPT][google.cloud.kms.v1.CryptoKey.CryptoKeyPurpose.ENCRYPT_DECRYPT\].
-    #[prost(enumeration = "crypto_key_version::CryptoKeyVersionAlgorithm", tag = "3")]
+    #[prost(
+        enumeration = "crypto_key_version::CryptoKeyVersionAlgorithm",
+        tag = "3"
+    )]
     pub algorithm: i32,
 }
 /// Contains an HSM-generated attestation about a key operation. For more
@@ -148,7 +151,10 @@ pub struct CryptoKeyVersionTemplate {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KeyOperationAttestation {
     /// Output only. The format of the attestation data.
-    #[prost(enumeration = "key_operation_attestation::AttestationFormat", tag = "4")]
+    #[prost(
+        enumeration = "key_operation_attestation::AttestationFormat",
+        tag = "4"
+    )]
     pub format: i32,
     /// Output only. The attestation data provided by the HSM when the key
     /// operation was performed.
@@ -196,7 +202,10 @@ pub struct CryptoKeyVersion {
     pub protection_level: i32,
     /// Output only. The \[CryptoKeyVersionAlgorithm][google.cloud.kms.v1.CryptoKeyVersion.CryptoKeyVersionAlgorithm\] that this
     /// \[CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion\] supports.
-    #[prost(enumeration = "crypto_key_version::CryptoKeyVersionAlgorithm", tag = "10")]
+    #[prost(
+        enumeration = "crypto_key_version::CryptoKeyVersionAlgorithm",
+        tag = "10"
+    )]
     pub algorithm: i32,
     /// Output only. Statement that was generated and signed by the HSM at key
     /// creation time. Use this statement to verify attributes of the key as stored
@@ -407,7 +416,10 @@ pub struct PublicKey {
     pub pem: ::prost::alloc::string::String,
     /// The \[Algorithm][google.cloud.kms.v1.CryptoKeyVersion.CryptoKeyVersionAlgorithm\] associated
     /// with this key.
-    #[prost(enumeration = "crypto_key_version::CryptoKeyVersionAlgorithm", tag = "2")]
+    #[prost(
+        enumeration = "crypto_key_version::CryptoKeyVersionAlgorithm",
+        tag = "2"
+    )]
     pub algorithm: i32,
     /// Integrity verification field. A CRC32C checksum of the returned
     /// \[PublicKey.pem][google.cloud.kms.v1.PublicKey.pem\]. An integrity check of \[PublicKey.pem][google.cloud.kms.v1.PublicKey.pem\] can be performed
@@ -885,14 +897,20 @@ pub struct ImportCryptoKeyVersionRequest {
     /// the key being imported. This does not need to match the
     /// \[version_template][google.cloud.kms.v1.CryptoKey.version_template\] of the \[CryptoKey][google.cloud.kms.v1.CryptoKey\] this
     /// version imports into.
-    #[prost(enumeration = "crypto_key_version::CryptoKeyVersionAlgorithm", tag = "2")]
+    #[prost(
+        enumeration = "crypto_key_version::CryptoKeyVersionAlgorithm",
+        tag = "2"
+    )]
     pub algorithm: i32,
     /// Required. The \[name][google.cloud.kms.v1.ImportJob.name\] of the \[ImportJob][google.cloud.kms.v1.ImportJob\] that was used to
     /// wrap this key material.
     #[prost(string, tag = "4")]
     pub import_job: ::prost::alloc::string::String,
     /// Required. The incoming wrapped key material that is to be imported.
-    #[prost(oneof = "import_crypto_key_version_request::WrappedKeyMaterial", tags = "5")]
+    #[prost(
+        oneof = "import_crypto_key_version_request::WrappedKeyMaterial",
+        tags = "5"
+    )]
     pub wrapped_key_material:
         ::core::option::Option<import_crypto_key_version_request::WrappedKeyMaterial>,
 }

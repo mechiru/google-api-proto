@@ -88,6 +88,94 @@ pub struct GetFileRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
+/// Tags point to a version and represent an alternative name that can be used
+/// to access the version.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Tag {
+    /// The name of the tag, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1".
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The name of the version the tag refers to, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811"
+    #[prost(string, tag = "2")]
+    pub version: ::prost::alloc::string::String,
+}
+/// The request to list tags.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagsRequest {
+    /// The name of the parent resource whose tags will be listed.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// An expression for filtering the results of the request. Filter rules are
+    /// case insensitive. The fields eligible for filtering are:
+    ///
+    ///   * `version`
+    ///
+    ///  An example of using a filter:
+    ///
+    ///   * `version="projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0"`
+    ///   --> Tags that are applied to the version `1.0` in package `pkg1`.
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+    /// The maximum number of tags to return.
+    /// Maximum page size is 10,000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing tags.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagsResponse {
+    /// The tags returned.
+    #[prost(message, repeated, tag = "1")]
+    pub tags: ::prost::alloc::vec::Vec<Tag>,
+    /// The token to retrieve the next page of tags, or empty if there are no
+    /// more tags to return.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to retrieve a tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTagRequest {
+    /// The name of the tag to retrieve.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request to create a new tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTagRequest {
+    /// The name of the parent resource where the tag will be created.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The tag id to use for this repository.
+    #[prost(string, tag = "2")]
+    pub tag_id: ::prost::alloc::string::String,
+    /// The tag to be created.
+    #[prost(message, optional, tag = "3")]
+    pub tag: ::core::option::Option<Tag>,
+}
+/// The request to create or update a tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateTagRequest {
+    /// The tag that replaces the resource on the server.
+    #[prost(message, optional, tag = "1")]
+    pub tag: ::core::option::Option<Tag>,
+    /// The update mask applies to the resource. For the `FieldMask` definition,
+    /// see
+    /// <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request to delete a tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteTagRequest {
+    /// The name of the tag to delete.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
 /// A Repository for storing artifacts with a specific format.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Repository {
@@ -200,151 +288,6 @@ pub struct DeleteRepositoryRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-/// Packages are named collections of versions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Package {
-    /// The name of the package, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1".
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The display name of the package.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The time when the package was created.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the package was last updated. This includes publishing a new
-    /// version of the package.
-    #[prost(message, optional, tag = "6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The request to list packages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesRequest {
-    /// The name of the parent resource whose packages will be listed.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of packages to return.
-    /// Maximum page size is 10,000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing packages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesResponse {
-    /// The packages returned.
-    #[prost(message, repeated, tag = "1")]
-    pub packages: ::prost::alloc::vec::Vec<Package>,
-    /// The token to retrieve the next page of packages, or empty if there are no
-    /// more packages to return.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to retrieve a package.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPackageRequest {
-    /// The name of the package to retrieve.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request to delete a package.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePackageRequest {
-    /// The name of the package to delete.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Tags point to a version and represent an alternative name that can be used
-/// to access the version.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Tag {
-    /// The name of the tag, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1".
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The name of the version the tag refers to, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811"
-    #[prost(string, tag = "2")]
-    pub version: ::prost::alloc::string::String,
-}
-/// The request to list tags.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagsRequest {
-    /// The name of the parent resource whose tags will be listed.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// An expression for filtering the results of the request. Filter rules are
-    /// case insensitive. The fields eligible for filtering are:
-    ///
-    ///   * `version`
-    ///
-    ///  An example of using a filter:
-    ///
-    ///   * `version="projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0"`
-    ///   --> Tags that are applied to the version `1.0` in package `pkg1`.
-    #[prost(string, tag = "4")]
-    pub filter: ::prost::alloc::string::String,
-    /// The maximum number of tags to return.
-    /// Maximum page size is 10,000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing tags.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagsResponse {
-    /// The tags returned.
-    #[prost(message, repeated, tag = "1")]
-    pub tags: ::prost::alloc::vec::Vec<Tag>,
-    /// The token to retrieve the next page of tags, or empty if there are no
-    /// more tags to return.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to retrieve a tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTagRequest {
-    /// The name of the tag to retrieve.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request to create a new tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTagRequest {
-    /// The name of the parent resource where the tag will be created.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The tag id to use for this repository.
-    #[prost(string, tag = "2")]
-    pub tag_id: ::prost::alloc::string::String,
-    /// The tag to be created.
-    #[prost(message, optional, tag = "3")]
-    pub tag: ::core::option::Option<Tag>,
-}
-/// The request to create or update a tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTagRequest {
-    /// The tag that replaces the resource on the server.
-    #[prost(message, optional, tag = "1")]
-    pub tag: ::core::option::Option<Tag>,
-    /// The update mask applies to the resource. For the `FieldMask` definition,
-    /// see
-    /// <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request to delete a tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTagRequest {
-    /// The name of the tag to delete.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
 /// The body of a version resource. A version resource represents a
 /// collection of components, such as files and other data. This may correspond
 /// to a version in many package management schemes.
@@ -429,6 +372,63 @@ pub enum VersionView {
     Basic = 1,
     /// Include everything.
     Full = 2,
+}
+/// Packages are named collections of versions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Package {
+    /// The name of the package, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1".
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The display name of the package.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The time when the package was created.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the package was last updated. This includes publishing a new
+    /// version of the package.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The request to list packages.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPackagesRequest {
+    /// The name of the parent resource whose packages will be listed.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of packages to return.
+    /// Maximum page size is 10,000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing packages.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPackagesResponse {
+    /// The packages returned.
+    #[prost(message, repeated, tag = "1")]
+    pub packages: ::prost::alloc::vec::Vec<Package>,
+    /// The token to retrieve the next page of packages, or empty if there are no
+    /// more packages to return.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to retrieve a package.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPackageRequest {
+    /// The name of the package to retrieve.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request to delete a package.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePackageRequest {
+    /// The name of the package to delete.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
 }
 /// Metadata type for longrunning-operations, currently empty.
 #[derive(Clone, PartialEq, ::prost::Message)]

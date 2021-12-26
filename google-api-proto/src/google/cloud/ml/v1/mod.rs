@@ -1,3 +1,365 @@
+/// Requests service account information associated with a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetConfigRequest {
+    /// Required. The project name.
+    ///
+    /// Authorization: requires `Viewer` role on the specified project.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Returns service account information associated with a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetConfigResponse {
+    /// The service account Cloud ML uses to access resources in the project.
+    #[prost(string, tag = "1")]
+    pub service_account: ::prost::alloc::string::String,
+    /// The project number for `service_account`.
+    #[prost(int64, tag = "2")]
+    pub service_account_project: i64,
+}
+#[doc = r" Generated client implementations."]
+pub mod project_management_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Allows retrieving project related information."]
+    #[derive(Debug, Clone)]
+    pub struct ProjectManagementServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ProjectManagementServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ProjectManagementServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ProjectManagementServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Get the service account information associated with your project. You need"]
+        #[doc = " this information in order to grant the service account persmissions for"]
+        #[doc = " the Google Cloud Storage location where you put your model training code"]
+        #[doc = " for training the model with Google Cloud Machine Learning."]
+        pub async fn get_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetConfigRequest>,
+        ) -> Result<tonic::Response<super::GetConfigResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ProjectManagementService/GetConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Request for predictions to be issued against a trained model.
+///
+/// The body of the request is a single JSON object with a single top-level
+/// field:
+///
+/// <dl>
+///   <dt>instances</dt>
+///   <dd>A JSON array containing values representing the instances to use for
+///       prediction.</dd>
+/// </dl>
+///
+/// The structure of each element of the instances list is determined by your
+/// model's input definition. Instances can include named inputs or can contain
+/// only unlabeled values.
+///
+/// Not all data includes named inputs. Some instances will be simple
+/// JSON values (boolean, number, or string). However, instances are often lists
+/// of simple values, or complex nested lists. Here are some examples of request
+/// bodies:
+///
+/// CSV data with each row encoded as a string value:
+/// <pre>
+/// {"instances": ["1.0,true,\\"x\\"", "-2.0,false,\\"y\\""]}
+/// </pre>
+/// Plain text:
+/// <pre>
+/// {"instances": ["the quick brown fox", "la bruja le dio"]}
+/// </pre>
+/// Sentences encoded as lists of words (vectors of strings):
+/// <pre>
+/// {
+///   "instances": [
+///     \["the","quick","brown"\],
+///     \["la","bruja","le"\],
+///     ...
+///   ]
+/// }
+/// </pre>
+/// Floating point scalar values:
+/// <pre>
+/// {"instances": [0.0, 1.1, 2.2]}
+/// </pre>
+/// Vectors of integers:
+/// <pre>
+/// {
+///   "instances": [
+///     [0, 1, 2],
+///     [3, 4, 5],
+///     ...
+///   ]
+/// }
+/// </pre>
+/// Tensors (in this case, two-dimensional tensors):
+/// <pre>
+/// {
+///   "instances": [
+///     [
+///       [0, 1, 2],
+///       [3, 4, 5]
+///     ],
+///     ...
+///   ]
+/// }
+/// </pre>
+/// Images can be represented different ways. In this encoding scheme the first
+/// two dimensions represent the rows and columns of the image, and the third
+/// contains lists (vectors) of the R, G, and B values for each pixel.
+/// <pre>
+/// {
+///   "instances": [
+///     [
+///       [
+///         [138, 30, 66],
+///         [130, 20, 56],
+///         ...
+///       ],
+///       [
+///         [126, 38, 61],
+///         [122, 24, 57],
+///         ...
+///       ],
+///       ...
+///     ],
+///     ...
+///   ]
+/// }
+/// </pre>
+/// JSON strings must be encoded as UTF-8. To send binary data, you must
+/// base64-encode the data and mark it as binary. To mark a JSON string
+/// as binary, replace it with a JSON object with a single attribute named `b64`:
+/// <pre>{"b64": "..."} </pre>
+/// For example:
+///
+/// Two Serialized tf.Examples (fake data, for illustrative purposes only):
+/// <pre>
+/// {"instances": [{"b64": "X5ad6u"}, {"b64": "IA9j4nx"}]}
+/// </pre>
+/// Two JPEG image byte strings (fake data, for illustrative purposes only):
+/// <pre>
+/// {"instances": [{"b64": "ASa8asdf"}, {"b64": "JLK7ljk3"}]}
+/// </pre>
+/// If your data includes named references, format each instance as a JSON object
+/// with the named references as the keys:
+///
+/// JSON input data to be preprocessed:
+/// <pre>
+/// {
+///   "instances": [
+///     {
+///       "a": 1.0,
+///       "b": true,
+///       "c": "x"
+///     },
+///     {
+///       "a": -2.0,
+///       "b": false,
+///       "c": "y"
+///     }
+///   ]
+/// }
+/// </pre>
+/// Some models have an underlying TensorFlow graph that accepts multiple input
+/// tensors. In this case, you should use the names of JSON name/value pairs to
+/// identify the input tensors, as shown in the following exmaples:
+///
+/// For a graph with input tensor aliases "tag" (string) and "image"
+/// (base64-encoded string):
+/// <pre>
+/// {
+///   "instances": [
+///     {
+///       "tag": "beach",
+///       "image": {"b64": "ASa8asdf"}
+///     },
+///     {
+///       "tag": "car",
+///       "image": {"b64": "JLK7ljk3"}
+///     }
+///   ]
+/// }
+/// </pre>
+/// For a graph with input tensor aliases "tag" (string) and "image"
+/// (3-dimensional array of 8-bit ints):
+/// <pre>
+/// {
+///   "instances": [
+///     {
+///       "tag": "beach",
+///       "image": [
+///         [
+///           [138, 30, 66],
+///           [130, 20, 56],
+///           ...
+///         ],
+///         [
+///           [126, 38, 61],
+///           [122, 24, 57],
+///           ...
+///         ],
+///         ...
+///       ]
+///     },
+///     {
+///       "tag": "car",
+///       "image": [
+///         [
+///           [255, 0, 102],
+///           [255, 0, 97],
+///           ...
+///         ],
+///         [
+///           [254, 1, 101],
+///           [254, 2, 93],
+///           ...
+///         ],
+///         ...
+///       ]
+///     },
+///     ...
+///   ]
+/// }
+/// </pre>
+/// If the call is successful, the response body will contain one prediction
+/// entry per instance in the request body. If prediction fails for any
+/// instance, the response body will contain no predictions and will contian
+/// a single error entry instead.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PredictRequest {
+    /// Required. The resource name of a model or a version.
+    ///
+    /// Authorization: requires `Viewer` role on the parent project.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    ///
+    /// Required. The prediction request body.
+    #[prost(message, optional, tag = "2")]
+    pub http_body: ::core::option::Option<super::super::super::api::HttpBody>,
+}
+#[doc = r" Generated client implementations."]
+pub mod online_prediction_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " The Prediction API, which serves predictions for models managed by"]
+    #[doc = " ModelService."]
+    #[derive(Debug, Clone)]
+    pub struct OnlinePredictionServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> OnlinePredictionServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> OnlinePredictionServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            OnlinePredictionServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Performs prediction on the data in the request."]
+        #[doc = ""]
+        #[doc = " **** REMOVE FROM GENERATED DOCUMENTATION"]
+        pub async fn predict(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PredictRequest>,
+        ) -> Result<tonic::Response<super::super::super::super::api::HttpBody>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.OnlinePredictionService/Predict",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Represents a machine learning solution.
 ///
 /// A model can have multiple versions, each of which is a deployed, trained
@@ -1246,368 +1608,6 @@ pub mod job_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.cloud.ml.v1.JobService/CancelJob");
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Request for predictions to be issued against a trained model.
-///
-/// The body of the request is a single JSON object with a single top-level
-/// field:
-///
-/// <dl>
-///   <dt>instances</dt>
-///   <dd>A JSON array containing values representing the instances to use for
-///       prediction.</dd>
-/// </dl>
-///
-/// The structure of each element of the instances list is determined by your
-/// model's input definition. Instances can include named inputs or can contain
-/// only unlabeled values.
-///
-/// Not all data includes named inputs. Some instances will be simple
-/// JSON values (boolean, number, or string). However, instances are often lists
-/// of simple values, or complex nested lists. Here are some examples of request
-/// bodies:
-///
-/// CSV data with each row encoded as a string value:
-/// <pre>
-/// {"instances": ["1.0,true,\\"x\\"", "-2.0,false,\\"y\\""]}
-/// </pre>
-/// Plain text:
-/// <pre>
-/// {"instances": ["the quick brown fox", "la bruja le dio"]}
-/// </pre>
-/// Sentences encoded as lists of words (vectors of strings):
-/// <pre>
-/// {
-///   "instances": [
-///     \["the","quick","brown"\],
-///     \["la","bruja","le"\],
-///     ...
-///   ]
-/// }
-/// </pre>
-/// Floating point scalar values:
-/// <pre>
-/// {"instances": [0.0, 1.1, 2.2]}
-/// </pre>
-/// Vectors of integers:
-/// <pre>
-/// {
-///   "instances": [
-///     [0, 1, 2],
-///     [3, 4, 5],
-///     ...
-///   ]
-/// }
-/// </pre>
-/// Tensors (in this case, two-dimensional tensors):
-/// <pre>
-/// {
-///   "instances": [
-///     [
-///       [0, 1, 2],
-///       [3, 4, 5]
-///     ],
-///     ...
-///   ]
-/// }
-/// </pre>
-/// Images can be represented different ways. In this encoding scheme the first
-/// two dimensions represent the rows and columns of the image, and the third
-/// contains lists (vectors) of the R, G, and B values for each pixel.
-/// <pre>
-/// {
-///   "instances": [
-///     [
-///       [
-///         [138, 30, 66],
-///         [130, 20, 56],
-///         ...
-///       ],
-///       [
-///         [126, 38, 61],
-///         [122, 24, 57],
-///         ...
-///       ],
-///       ...
-///     ],
-///     ...
-///   ]
-/// }
-/// </pre>
-/// JSON strings must be encoded as UTF-8. To send binary data, you must
-/// base64-encode the data and mark it as binary. To mark a JSON string
-/// as binary, replace it with a JSON object with a single attribute named `b64`:
-/// <pre>{"b64": "..."} </pre>
-/// For example:
-///
-/// Two Serialized tf.Examples (fake data, for illustrative purposes only):
-/// <pre>
-/// {"instances": [{"b64": "X5ad6u"}, {"b64": "IA9j4nx"}]}
-/// </pre>
-/// Two JPEG image byte strings (fake data, for illustrative purposes only):
-/// <pre>
-/// {"instances": [{"b64": "ASa8asdf"}, {"b64": "JLK7ljk3"}]}
-/// </pre>
-/// If your data includes named references, format each instance as a JSON object
-/// with the named references as the keys:
-///
-/// JSON input data to be preprocessed:
-/// <pre>
-/// {
-///   "instances": [
-///     {
-///       "a": 1.0,
-///       "b": true,
-///       "c": "x"
-///     },
-///     {
-///       "a": -2.0,
-///       "b": false,
-///       "c": "y"
-///     }
-///   ]
-/// }
-/// </pre>
-/// Some models have an underlying TensorFlow graph that accepts multiple input
-/// tensors. In this case, you should use the names of JSON name/value pairs to
-/// identify the input tensors, as shown in the following exmaples:
-///
-/// For a graph with input tensor aliases "tag" (string) and "image"
-/// (base64-encoded string):
-/// <pre>
-/// {
-///   "instances": [
-///     {
-///       "tag": "beach",
-///       "image": {"b64": "ASa8asdf"}
-///     },
-///     {
-///       "tag": "car",
-///       "image": {"b64": "JLK7ljk3"}
-///     }
-///   ]
-/// }
-/// </pre>
-/// For a graph with input tensor aliases "tag" (string) and "image"
-/// (3-dimensional array of 8-bit ints):
-/// <pre>
-/// {
-///   "instances": [
-///     {
-///       "tag": "beach",
-///       "image": [
-///         [
-///           [138, 30, 66],
-///           [130, 20, 56],
-///           ...
-///         ],
-///         [
-///           [126, 38, 61],
-///           [122, 24, 57],
-///           ...
-///         ],
-///         ...
-///       ]
-///     },
-///     {
-///       "tag": "car",
-///       "image": [
-///         [
-///           [255, 0, 102],
-///           [255, 0, 97],
-///           ...
-///         ],
-///         [
-///           [254, 1, 101],
-///           [254, 2, 93],
-///           ...
-///         ],
-///         ...
-///       ]
-///     },
-///     ...
-///   ]
-/// }
-/// </pre>
-/// If the call is successful, the response body will contain one prediction
-/// entry per instance in the request body. If prediction fails for any
-/// instance, the response body will contain no predictions and will contian
-/// a single error entry instead.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PredictRequest {
-    /// Required. The resource name of a model or a version.
-    ///
-    /// Authorization: requires `Viewer` role on the parent project.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    ///
-    /// Required. The prediction request body.
-    #[prost(message, optional, tag = "2")]
-    pub http_body: ::core::option::Option<super::super::super::api::HttpBody>,
-}
-#[doc = r" Generated client implementations."]
-pub mod online_prediction_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " The Prediction API, which serves predictions for models managed by"]
-    #[doc = " ModelService."]
-    #[derive(Debug, Clone)]
-    pub struct OnlinePredictionServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> OnlinePredictionServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> OnlinePredictionServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            OnlinePredictionServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Performs prediction on the data in the request."]
-        #[doc = ""]
-        #[doc = " **** REMOVE FROM GENERATED DOCUMENTATION"]
-        pub async fn predict(
-            &mut self,
-            request: impl tonic::IntoRequest<super::PredictRequest>,
-        ) -> Result<tonic::Response<super::super::super::super::api::HttpBody>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.OnlinePredictionService/Predict",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Requests service account information associated with a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetConfigRequest {
-    /// Required. The project name.
-    ///
-    /// Authorization: requires `Viewer` role on the specified project.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Returns service account information associated with a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetConfigResponse {
-    /// The service account Cloud ML uses to access resources in the project.
-    #[prost(string, tag = "1")]
-    pub service_account: ::prost::alloc::string::String,
-    /// The project number for `service_account`.
-    #[prost(int64, tag = "2")]
-    pub service_account_project: i64,
-}
-#[doc = r" Generated client implementations."]
-pub mod project_management_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Allows retrieving project related information."]
-    #[derive(Debug, Clone)]
-    pub struct ProjectManagementServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ProjectManagementServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ProjectManagementServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ProjectManagementServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Get the service account information associated with your project. You need"]
-        #[doc = " this information in order to grant the service account persmissions for"]
-        #[doc = " the Google Cloud Storage location where you put your model training code"]
-        #[doc = " for training the model with Google Cloud Machine Learning."]
-        pub async fn get_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetConfigRequest>,
-        ) -> Result<tonic::Response<super::GetConfigResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ProjectManagementService/GetConfig",
-            );
             self.inner.unary(request.into_request(), path, codec).await
         }
     }

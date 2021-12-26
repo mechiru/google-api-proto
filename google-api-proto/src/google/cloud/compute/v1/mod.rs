@@ -564,7 +564,7 @@ pub mod address {
         DnsResolver = 476114556,
         /// VM internal/alias IP, Internal LB service IP, etc.
         GceEndpoint = 230515243,
-        /// A regional internal IP address range reserved for the VLAN attachment that is used in IPsec-encrypted Cloud Interconnect. This regional internal IP address range must not overlap with any IP address range of subnet/route in the VPC network and its peering networks. After the VLAN attachment is created with the reserved IP address range, when creating a new VPN gateway, its interface IP address is allocated from the associated VLAN attachment���s IP address range.
+        /// A regional internal IP address range reserved for the VLAN attachment that is used in IPsec-encrypted Cloud Interconnect. This regional internal IP address range must not overlap with any IP address range of subnet/route in the VPC network and its peering networks. After the VLAN attachment is created with the reserved IP address range, when creating a new VPN gateway, its interface IP address is allocated from the associated VLAN attachment’s IP address range.
         IpsecInterconnect = 340437251,
         /// External IP automatically reserved for Cloud NAT.
         NatAuto = 163666477,
@@ -2258,7 +2258,7 @@ pub struct AutoscalingPolicyScalingSchedule {
     /// The start timestamps of time intervals when this scaling schedule is to provide a scaling signal. This field uses the extended cron format (with an optional year field). The expression can describe a single timestamp if the optional year is set, in which case the scaling schedule runs once. The schedule is interpreted with respect to time_zone. This field is required. Note: These timestamps only describe when autoscaler starts providing the scaling signal. The VMs need additional time to become serving.
     #[prost(string, optional, tag = "375820951")]
     pub schedule: ::core::option::Option<::prost::alloc::string::String>,
-    /// The time zone to use when interpreting the schedule. The value of this field must be a time zone name from the tz database: <http://en.wikipedia.org/wiki/Tz_database.> This field is assigned a default value of ���UTC��� if left empty.
+    /// The time zone to use when interpreting the schedule. The value of this field must be a time zone name from the tz database: <http://en.wikipedia.org/wiki/Tz_database.> This field is assigned a default value of “UTC” if left empty.
     #[prost(string, optional, tag = "36848094")]
     pub time_zone: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -5577,7 +5577,7 @@ pub struct ForwardingRule {
     #[prost(string, optional, tag = "42976943")]
     pub i_p_address: ::core::option::Option<::prost::alloc::string::String>,
     /// The IP protocol to which this rule applies. For protocol forwarding, valid options are TCP, UDP, ESP, AH, SCTP, ICMP and L3_DEFAULT. The valid IP protocols are different for different load balancing products as described in [Load balancing features](<https://cloud.google.com/load-balancing/docs/features#protocols_from_the_load_balancer_to_the_backends>).
-    /// Check the IPProtocol enum for the list of possible values.
+    /// Check the IPProtocolEnum enum for the list of possible values.
     #[prost(string, optional, tag = "488094525")]
     pub i_p_protocol: ::core::option::Option<::prost::alloc::string::String>,
     /// This field is used along with the backend_service field for Internal TCP/UDP Load Balancing or Network Load Balancing, or with the target field for internal and external TargetInstance. You can only use one of ports and port_range, or allPorts. The three are mutually exclusive. For TCP, UDP and SCTP traffic, packets addressed to any ports will be forwarded to the target or backendService.
@@ -5677,9 +5677,9 @@ pub mod forwarding_rule {
     /// The IP protocol to which this rule applies. For protocol forwarding, valid options are TCP, UDP, ESP, AH, SCTP, ICMP and L3_DEFAULT. The valid IP protocols are different for different load balancing products as described in [Load balancing features](<https://cloud.google.com/load-balancing/docs/features#protocols_from_the_load_balancer_to_the_backends>).
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum IpProtocol {
+    pub enum IpProtocolEnum {
         /// A value indicating that the enum field is not set.
-        UndefinedIPProtocol = 0,
+        UndefinedIPProtocolEnum = 0,
         Ah = 2087,
         Esp = 68962,
         Icmp = 2241597,
@@ -9728,7 +9728,7 @@ pub struct InstanceGroupManagersAbandonInstancesRequest {
 /// InstanceGroupManagers.applyUpdatesToInstances
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstanceGroupManagersApplyUpdatesRequest {
-    /// Flag to update all instances instead of specified list of ���instances���. If the flag is set to true then the instances may not be specified in the request.
+    /// Flag to update all instances instead of specified list of “instances”. If the flag is set to true then the instances may not be specified in the request.
     #[prost(bool, optional, tag = "403676512")]
     pub all_instances: ::core::option::Option<bool>,
     /// The list of URLs of one or more instances for which you want to apply updates. Each URL can be a full URL or a partial URL, such as zones/\[ZONE]/instances/[INSTANCE_NAME\].
@@ -17231,7 +17231,7 @@ pub struct RegionInstanceGroupManagersAbandonInstancesRequest {
 /// RegionInstanceGroupManagers.applyUpdatesToInstances
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RegionInstanceGroupManagersApplyUpdatesRequest {
-    /// Flag to update all instances instead of specified list of ���instances���. If the flag is set to true then the instances may not be specified in the request.
+    /// Flag to update all instances instead of specified list of “instances”. If the flag is set to true then the instances may not be specified in the request.
     #[prost(bool, optional, tag = "403676512")]
     pub all_instances: ::core::option::Option<bool>,
     /// The list of URLs of one or more instances for which you want to apply updates. Each URL can be a full URL or a partial URL, such as zones/\[ZONE]/instances/[INSTANCE_NAME\].

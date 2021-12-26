@@ -69,6 +69,238 @@ pub struct FinalizeMfaPhoneResponseInfo {
     #[prost(string, tag = "3")]
     pub phone_number: ::prost::alloc::string::String,
 }
+/// Finishes enrolling a second factor for the user.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FinalizeMfaEnrollmentRequest {
+    /// Required. ID token.
+    #[prost(string, tag = "1")]
+    pub id_token: ::prost::alloc::string::String,
+    /// Display name which is entered  by users to distinguish between different
+    /// second factors with same type or different type.
+    #[prost(string, tag = "3")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The ID of the Identity Platform tenant that the user enrolling MFA belongs
+    /// to. If not set, the user belongs to the default Identity Platform project.
+    #[prost(string, tag = "5")]
+    pub tenant_id: ::prost::alloc::string::String,
+    /// MFA enrollment information to be verified.
+    #[prost(
+        oneof = "finalize_mfa_enrollment_request::VerificationInfo",
+        tags = "4"
+    )]
+    pub verification_info:
+        ::core::option::Option<finalize_mfa_enrollment_request::VerificationInfo>,
+}
+/// Nested message and enum types in `FinalizeMfaEnrollmentRequest`.
+pub mod finalize_mfa_enrollment_request {
+    /// MFA enrollment information to be verified.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum VerificationInfo {
+        /// Verification info to authorize sending an SMS for phone verification.
+        #[prost(message, tag = "4")]
+        PhoneVerificationInfo(super::FinalizeMfaPhoneRequestInfo),
+    }
+}
+/// FinalizeMfaEnrollment response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FinalizeMfaEnrollmentResponse {
+    /// ID token updated to reflect MFA enrollment.
+    #[prost(string, tag = "1")]
+    pub id_token: ::prost::alloc::string::String,
+    /// Refresh token updated to reflect MFA enrollment.
+    #[prost(string, tag = "2")]
+    pub refresh_token: ::prost::alloc::string::String,
+    /// MFA verified enrollment information.
+    #[prost(
+        oneof = "finalize_mfa_enrollment_response::AuxiliaryAuthInfo",
+        tags = "3"
+    )]
+    pub auxiliary_auth_info:
+        ::core::option::Option<finalize_mfa_enrollment_response::AuxiliaryAuthInfo>,
+}
+/// Nested message and enum types in `FinalizeMfaEnrollmentResponse`.
+pub mod finalize_mfa_enrollment_response {
+    /// MFA verified enrollment information.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum AuxiliaryAuthInfo {
+        #[prost(message, tag = "3")]
+        PhoneAuthInfo(super::FinalizeMfaPhoneResponseInfo),
+    }
+}
+/// Sends MFA enrollment verification SMS for a user.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StartMfaEnrollmentRequest {
+    /// Required. User's ID token.
+    #[prost(string, tag = "1")]
+    pub id_token: ::prost::alloc::string::String,
+    /// The ID of the Identity Platform tenant that the user enrolling MFA belongs
+    /// to. If not set, the user belongs to the default Identity Platform project.
+    #[prost(string, tag = "4")]
+    pub tenant_id: ::prost::alloc::string::String,
+    /// MFA information by type of 2nd factor.
+    #[prost(oneof = "start_mfa_enrollment_request::EnrollmentInfo", tags = "3")]
+    pub enrollment_info: ::core::option::Option<start_mfa_enrollment_request::EnrollmentInfo>,
+}
+/// Nested message and enum types in `StartMfaEnrollmentRequest`.
+pub mod start_mfa_enrollment_request {
+    /// MFA information by type of 2nd factor.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum EnrollmentInfo {
+        /// Verification info to authorize sending an SMS for phone verification.
+        #[prost(message, tag = "3")]
+        PhoneEnrollmentInfo(super::StartMfaPhoneRequestInfo),
+    }
+}
+/// StartMfaEnrollment response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StartMfaEnrollmentResponse {
+    /// MFA start enrollment response by 2nd factor type.
+    #[prost(
+        oneof = "start_mfa_enrollment_response::EnrollmentResponse",
+        tags = "1"
+    )]
+    pub enrollment_response:
+        ::core::option::Option<start_mfa_enrollment_response::EnrollmentResponse>,
+}
+/// Nested message and enum types in `StartMfaEnrollmentResponse`.
+pub mod start_mfa_enrollment_response {
+    /// MFA start enrollment response by 2nd factor type.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum EnrollmentResponse {
+        /// Verification info to authorize sending an SMS for phone verification.
+        #[prost(message, tag = "1")]
+        PhoneSessionInfo(super::StartMfaPhoneResponseInfo),
+    }
+}
+/// Withdraws MFA.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WithdrawMfaRequest {
+    /// Required. User's ID token.
+    #[prost(string, tag = "1")]
+    pub id_token: ::prost::alloc::string::String,
+    /// Required. MFA enrollment id from a current MFA enrollment.
+    #[prost(string, tag = "2")]
+    pub mfa_enrollment_id: ::prost::alloc::string::String,
+    /// The ID of the Identity Platform tenant that the user unenrolling MFA
+    /// belongs to. If not set, the user belongs to the default Identity Platform
+    /// project.
+    #[prost(string, tag = "3")]
+    pub tenant_id: ::prost::alloc::string::String,
+}
+/// Withdraws MultiFactorAuth response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WithdrawMfaResponse {
+    /// ID token updated to reflect removal of the second factor.
+    #[prost(string, tag = "1")]
+    pub id_token: ::prost::alloc::string::String,
+    /// Refresh token updated to reflect removal of the second factor.
+    #[prost(string, tag = "2")]
+    pub refresh_token: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod account_management_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Account management for Identity Toolkit"]
+    #[derive(Debug, Clone)]
+    pub struct AccountManagementServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> AccountManagementServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> AccountManagementServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            AccountManagementServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Finishes enrolling a second factor for the user."]
+        pub async fn finalize_mfa_enrollment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::FinalizeMfaEnrollmentRequest>,
+        ) -> Result<tonic::Response<super::FinalizeMfaEnrollmentResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.identitytoolkit.v2.AccountManagementService/FinalizeMfaEnrollment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Step one of the MFA enrollment process. In SMS case, this sends an"]
+        #[doc = " SMS verification code to the user."]
+        pub async fn start_mfa_enrollment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::StartMfaEnrollmentRequest>,
+        ) -> Result<tonic::Response<super::StartMfaEnrollmentResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.identitytoolkit.v2.AccountManagementService/StartMfaEnrollment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Revokes one second factor from the enrolled second factors for an account."]
+        pub async fn withdraw_mfa(
+            &mut self,
+            request: impl tonic::IntoRequest<super::WithdrawMfaRequest>,
+        ) -> Result<tonic::Response<super::WithdrawMfaResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.identitytoolkit.v2.AccountManagementService/WithdrawMfa",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Finalizes sign-in by verifying MFA challenge.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FinalizeMfaSignInRequest {
@@ -245,229 +477,6 @@ pub mod authentication_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.identitytoolkit.v2.AuthenticationService/StartMfaSignIn",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Finishes enrolling a second factor for the user.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FinalizeMfaEnrollmentRequest {
-    /// Required. ID token.
-    #[prost(string, tag = "1")]
-    pub id_token: ::prost::alloc::string::String,
-    /// Display name which is entered  by users to distinguish between different
-    /// second factors with same type or different type.
-    #[prost(string, tag = "3")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The ID of the Identity Platform tenant that the user enrolling MFA belongs
-    /// to. If not set, the user belongs to the default Identity Platform project.
-    #[prost(string, tag = "5")]
-    pub tenant_id: ::prost::alloc::string::String,
-    /// MFA enrollment information to be verified.
-    #[prost(oneof = "finalize_mfa_enrollment_request::VerificationInfo", tags = "4")]
-    pub verification_info:
-        ::core::option::Option<finalize_mfa_enrollment_request::VerificationInfo>,
-}
-/// Nested message and enum types in `FinalizeMfaEnrollmentRequest`.
-pub mod finalize_mfa_enrollment_request {
-    /// MFA enrollment information to be verified.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum VerificationInfo {
-        /// Verification info to authorize sending an SMS for phone verification.
-        #[prost(message, tag = "4")]
-        PhoneVerificationInfo(super::FinalizeMfaPhoneRequestInfo),
-    }
-}
-/// FinalizeMfaEnrollment response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FinalizeMfaEnrollmentResponse {
-    /// ID token updated to reflect MFA enrollment.
-    #[prost(string, tag = "1")]
-    pub id_token: ::prost::alloc::string::String,
-    /// Refresh token updated to reflect MFA enrollment.
-    #[prost(string, tag = "2")]
-    pub refresh_token: ::prost::alloc::string::String,
-    /// MFA verified enrollment information.
-    #[prost(oneof = "finalize_mfa_enrollment_response::AuxiliaryAuthInfo", tags = "3")]
-    pub auxiliary_auth_info:
-        ::core::option::Option<finalize_mfa_enrollment_response::AuxiliaryAuthInfo>,
-}
-/// Nested message and enum types in `FinalizeMfaEnrollmentResponse`.
-pub mod finalize_mfa_enrollment_response {
-    /// MFA verified enrollment information.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum AuxiliaryAuthInfo {
-        #[prost(message, tag = "3")]
-        PhoneAuthInfo(super::FinalizeMfaPhoneResponseInfo),
-    }
-}
-/// Sends MFA enrollment verification SMS for a user.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StartMfaEnrollmentRequest {
-    /// Required. User's ID token.
-    #[prost(string, tag = "1")]
-    pub id_token: ::prost::alloc::string::String,
-    /// The ID of the Identity Platform tenant that the user enrolling MFA belongs
-    /// to. If not set, the user belongs to the default Identity Platform project.
-    #[prost(string, tag = "4")]
-    pub tenant_id: ::prost::alloc::string::String,
-    /// MFA information by type of 2nd factor.
-    #[prost(oneof = "start_mfa_enrollment_request::EnrollmentInfo", tags = "3")]
-    pub enrollment_info: ::core::option::Option<start_mfa_enrollment_request::EnrollmentInfo>,
-}
-/// Nested message and enum types in `StartMfaEnrollmentRequest`.
-pub mod start_mfa_enrollment_request {
-    /// MFA information by type of 2nd factor.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum EnrollmentInfo {
-        /// Verification info to authorize sending an SMS for phone verification.
-        #[prost(message, tag = "3")]
-        PhoneEnrollmentInfo(super::StartMfaPhoneRequestInfo),
-    }
-}
-/// StartMfaEnrollment response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StartMfaEnrollmentResponse {
-    /// MFA start enrollment response by 2nd factor type.
-    #[prost(oneof = "start_mfa_enrollment_response::EnrollmentResponse", tags = "1")]
-    pub enrollment_response:
-        ::core::option::Option<start_mfa_enrollment_response::EnrollmentResponse>,
-}
-/// Nested message and enum types in `StartMfaEnrollmentResponse`.
-pub mod start_mfa_enrollment_response {
-    /// MFA start enrollment response by 2nd factor type.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum EnrollmentResponse {
-        /// Verification info to authorize sending an SMS for phone verification.
-        #[prost(message, tag = "1")]
-        PhoneSessionInfo(super::StartMfaPhoneResponseInfo),
-    }
-}
-/// Withdraws MFA.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WithdrawMfaRequest {
-    /// Required. User's ID token.
-    #[prost(string, tag = "1")]
-    pub id_token: ::prost::alloc::string::String,
-    /// Required. MFA enrollment id from a current MFA enrollment.
-    #[prost(string, tag = "2")]
-    pub mfa_enrollment_id: ::prost::alloc::string::String,
-    /// The ID of the Identity Platform tenant that the user unenrolling MFA
-    /// belongs to. If not set, the user belongs to the default Identity Platform
-    /// project.
-    #[prost(string, tag = "3")]
-    pub tenant_id: ::prost::alloc::string::String,
-}
-/// Withdraws MultiFactorAuth response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WithdrawMfaResponse {
-    /// ID token updated to reflect removal of the second factor.
-    #[prost(string, tag = "1")]
-    pub id_token: ::prost::alloc::string::String,
-    /// Refresh token updated to reflect removal of the second factor.
-    #[prost(string, tag = "2")]
-    pub refresh_token: ::prost::alloc::string::String,
-}
-#[doc = r" Generated client implementations."]
-pub mod account_management_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Account management for Identity Toolkit"]
-    #[derive(Debug, Clone)]
-    pub struct AccountManagementServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> AccountManagementServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> AccountManagementServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            AccountManagementServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Finishes enrolling a second factor for the user."]
-        pub async fn finalize_mfa_enrollment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::FinalizeMfaEnrollmentRequest>,
-        ) -> Result<tonic::Response<super::FinalizeMfaEnrollmentResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.identitytoolkit.v2.AccountManagementService/FinalizeMfaEnrollment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Step one of the MFA enrollment process. In SMS case, this sends an"]
-        #[doc = " SMS verification code to the user."]
-        pub async fn start_mfa_enrollment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::StartMfaEnrollmentRequest>,
-        ) -> Result<tonic::Response<super::StartMfaEnrollmentResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.identitytoolkit.v2.AccountManagementService/StartMfaEnrollment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Revokes one second factor from the enrolled second factors for an account."]
-        pub async fn withdraw_mfa(
-            &mut self,
-            request: impl tonic::IntoRequest<super::WithdrawMfaRequest>,
-        ) -> Result<tonic::Response<super::WithdrawMfaResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.identitytoolkit.v2.AccountManagementService/WithdrawMfa",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

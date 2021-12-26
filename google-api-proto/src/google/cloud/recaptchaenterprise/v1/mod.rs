@@ -64,9 +64,18 @@ pub mod annotate_assessment_request {
     pub enum Reason {
         /// Default unspecified reason.
         Unspecified = 0,
-        /// Indicates a chargeback for fraud was issued for the transaction
-        /// associated with the assessment.
+        /// Indicates a chargeback was issued for the transaction associated with the
+        /// assessment, with no other details. When possible, specify the type by
+        /// using CHARGEBACK_FRAUD or CHARGEBACK_DISPUTE instead.
         Chargeback = 1,
+        /// Indicates a chargeback related to an alleged unauthorized transaction
+        /// from the perspective of the cardholder (for example, the card number was
+        /// stolen).
+        ChargebackFraud = 8,
+        /// Indicates a chargeback related to the cardholder having provided their
+        /// card but allegedly not being satisfied with the purchase
+        /// (for example, misrepresentation, attempted cancellation).
+        ChargebackDispute = 9,
         /// Indicates the transaction associated with the assessment is suspected of
         /// being fraudulent based on the payment method, billing details, shipping
         /// address or other transaction information.
@@ -146,7 +155,11 @@ pub struct RiskAnalysis {
     #[prost(float, tag = "1")]
     pub score: f32,
     /// Reasons contributing to the risk analysis verdict.
-    #[prost(enumeration = "risk_analysis::ClassificationReason", repeated, tag = "2")]
+    #[prost(
+        enumeration = "risk_analysis::ClassificationReason",
+        repeated,
+        tag = "2"
+    )]
     pub reasons: ::prost::alloc::vec::Vec<i32>,
 }
 /// Nested message and enum types in `RiskAnalysis`.
@@ -449,7 +462,10 @@ pub struct WebKeySettings {
     /// Settings for the frequency and difficulty at which this key triggers
     /// captcha challenges. This should only be specified for IntegrationTypes
     /// CHECKBOX and INVISIBLE.
-    #[prost(enumeration = "web_key_settings::ChallengeSecurityPreference", tag = "5")]
+    #[prost(
+        enumeration = "web_key_settings::ChallengeSecurityPreference",
+        tag = "5"
+    )]
     pub challenge_security_preference: i32,
 }
 /// Nested message and enum types in `WebKeySettings`.

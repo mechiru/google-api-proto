@@ -335,6 +335,141 @@ pub struct SourcePosition {
     #[prost(int32, tag = "4")]
     pub column: i32,
 }
+// Contains representations for CEL runtime values.
+
+/// Represents a CEL value.
+///
+/// This is similar to `google.protobuf.Value`, but can represent CEL's full
+/// range of values.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Value {
+    /// Required. The valid kinds of values.
+    #[prost(oneof = "value::Kind", tags = "1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 15")]
+    pub kind: ::core::option::Option<value::Kind>,
+}
+/// Nested message and enum types in `Value`.
+pub mod value {
+    /// Required. The valid kinds of values.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Kind {
+        /// Null value.
+        #[prost(enumeration = "::prost_types::NullValue", tag = "1")]
+        NullValue(i32),
+        /// Boolean value.
+        #[prost(bool, tag = "2")]
+        BoolValue(bool),
+        /// Signed integer value.
+        #[prost(int64, tag = "3")]
+        Int64Value(i64),
+        /// Unsigned integer value.
+        #[prost(uint64, tag = "4")]
+        Uint64Value(u64),
+        /// Floating point value.
+        #[prost(double, tag = "5")]
+        DoubleValue(f64),
+        /// UTF-8 string value.
+        #[prost(string, tag = "6")]
+        StringValue(::prost::alloc::string::String),
+        /// Byte string value.
+        #[prost(bytes, tag = "7")]
+        BytesValue(::prost::bytes::Bytes),
+        /// An enum value.
+        #[prost(message, tag = "9")]
+        EnumValue(super::EnumValue),
+        /// The proto message backing an object value.
+        #[prost(message, tag = "10")]
+        ObjectValue(::prost_types::Any),
+        /// Map value.
+        #[prost(message, tag = "11")]
+        MapValue(super::MapValue),
+        /// List value.
+        #[prost(message, tag = "12")]
+        ListValue(super::ListValue),
+        /// Type value.
+        #[prost(string, tag = "15")]
+        TypeValue(::prost::alloc::string::String),
+    }
+}
+/// An enum value.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EnumValue {
+    /// The fully qualified name of the enum type.
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// The value of the enum.
+    #[prost(int32, tag = "2")]
+    pub value: i32,
+}
+/// A list.
+///
+/// Wrapped in a message so 'not set' and empty can be differentiated, which is
+/// required for use in a 'oneof'.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListValue {
+    /// The ordered values in the list.
+    #[prost(message, repeated, tag = "1")]
+    pub values: ::prost::alloc::vec::Vec<Value>,
+}
+/// A map.
+///
+/// Wrapped in a message so 'not set' and empty can be differentiated, which is
+/// required for use in a 'oneof'.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MapValue {
+    /// The set of map entries.
+    ///
+    /// CEL has fewer restrictions on keys, so a protobuf map represenation
+    /// cannot be used.
+    #[prost(message, repeated, tag = "1")]
+    pub entries: ::prost::alloc::vec::Vec<map_value::Entry>,
+}
+/// Nested message and enum types in `MapValue`.
+pub mod map_value {
+    /// An entry in the map.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Entry {
+        /// The key.
+        ///
+        /// Must be unique with in the map.
+        /// Currently only boolean, int, uint, and string values can be keys.
+        #[prost(message, optional, tag = "1")]
+        pub key: ::core::option::Option<super::Value>,
+        /// The value.
+        #[prost(message, optional, tag = "2")]
+        pub value: ::core::option::Option<super::Value>,
+    }
+}
+/// Values of intermediate expressions produced when evaluating expression.
+/// Deprecated, use `EvalState` instead.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Explain {
+    /// All of the observed values.
+    ///
+    /// The field value_index is an index in the values list.
+    /// Separating values from steps is needed to remove redundant values.
+    #[prost(message, repeated, tag = "1")]
+    pub values: ::prost::alloc::vec::Vec<Value>,
+    /// List of steps.
+    ///
+    /// Repeated evaluations of the same expression generate new ExprStep
+    /// instances. The order of such ExprStep instances matches the order of
+    /// elements returned by Comprehension.iter_range.
+    #[prost(message, repeated, tag = "2")]
+    pub expr_steps: ::prost::alloc::vec::Vec<explain::ExprStep>,
+}
+/// Nested message and enum types in `Explain`.
+pub mod explain {
+    /// ID and value index of one step.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ExprStep {
+        /// ID of corresponding Expr node.
+        #[prost(int64, tag = "1")]
+        pub id: i64,
+        /// Index of the value in the values list.
+        #[prost(int32, tag = "2")]
+        pub value_index: i32,
+    }
+}
 // Protos for representing CEL declarations and typed checked expressions.
 
 /// A CEL expression which has been successfully type checked.
@@ -386,7 +521,10 @@ pub struct CheckedExpr {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Type {
     /// The kind of type.
-    #[prost(oneof = "r#type::TypeKind", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14")]
+    #[prost(
+        oneof = "r#type::TypeKind",
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14"
+    )]
     pub type_kind: ::core::option::Option<r#type::TypeKind>,
 }
 /// Nested message and enum types in `Type`.
@@ -666,141 +804,6 @@ pub struct Reference {
     /// constant if known at compile time.
     #[prost(message, optional, tag = "4")]
     pub value: ::core::option::Option<Constant>,
-}
-// Contains representations for CEL runtime values.
-
-/// Represents a CEL value.
-///
-/// This is similar to `google.protobuf.Value`, but can represent CEL's full
-/// range of values.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Value {
-    /// Required. The valid kinds of values.
-    #[prost(oneof = "value::Kind", tags = "1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 15")]
-    pub kind: ::core::option::Option<value::Kind>,
-}
-/// Nested message and enum types in `Value`.
-pub mod value {
-    /// Required. The valid kinds of values.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Kind {
-        /// Null value.
-        #[prost(enumeration = "::prost_types::NullValue", tag = "1")]
-        NullValue(i32),
-        /// Boolean value.
-        #[prost(bool, tag = "2")]
-        BoolValue(bool),
-        /// Signed integer value.
-        #[prost(int64, tag = "3")]
-        Int64Value(i64),
-        /// Unsigned integer value.
-        #[prost(uint64, tag = "4")]
-        Uint64Value(u64),
-        /// Floating point value.
-        #[prost(double, tag = "5")]
-        DoubleValue(f64),
-        /// UTF-8 string value.
-        #[prost(string, tag = "6")]
-        StringValue(::prost::alloc::string::String),
-        /// Byte string value.
-        #[prost(bytes, tag = "7")]
-        BytesValue(::prost::bytes::Bytes),
-        /// An enum value.
-        #[prost(message, tag = "9")]
-        EnumValue(super::EnumValue),
-        /// The proto message backing an object value.
-        #[prost(message, tag = "10")]
-        ObjectValue(::prost_types::Any),
-        /// Map value.
-        #[prost(message, tag = "11")]
-        MapValue(super::MapValue),
-        /// List value.
-        #[prost(message, tag = "12")]
-        ListValue(super::ListValue),
-        /// Type value.
-        #[prost(string, tag = "15")]
-        TypeValue(::prost::alloc::string::String),
-    }
-}
-/// An enum value.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EnumValue {
-    /// The fully qualified name of the enum type.
-    #[prost(string, tag = "1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// The value of the enum.
-    #[prost(int32, tag = "2")]
-    pub value: i32,
-}
-/// A list.
-///
-/// Wrapped in a message so 'not set' and empty can be differentiated, which is
-/// required for use in a 'oneof'.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListValue {
-    /// The ordered values in the list.
-    #[prost(message, repeated, tag = "1")]
-    pub values: ::prost::alloc::vec::Vec<Value>,
-}
-/// A map.
-///
-/// Wrapped in a message so 'not set' and empty can be differentiated, which is
-/// required for use in a 'oneof'.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MapValue {
-    /// The set of map entries.
-    ///
-    /// CEL has fewer restrictions on keys, so a protobuf map represenation
-    /// cannot be used.
-    #[prost(message, repeated, tag = "1")]
-    pub entries: ::prost::alloc::vec::Vec<map_value::Entry>,
-}
-/// Nested message and enum types in `MapValue`.
-pub mod map_value {
-    /// An entry in the map.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Entry {
-        /// The key.
-        ///
-        /// Must be unique with in the map.
-        /// Currently only boolean, int, uint, and string values can be keys.
-        #[prost(message, optional, tag = "1")]
-        pub key: ::core::option::Option<super::Value>,
-        /// The value.
-        #[prost(message, optional, tag = "2")]
-        pub value: ::core::option::Option<super::Value>,
-    }
-}
-/// Values of intermediate expressions produced when evaluating expression.
-/// Deprecated, use `EvalState` instead.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Explain {
-    /// All of the observed values.
-    ///
-    /// The field value_index is an index in the values list.
-    /// Separating values from steps is needed to remove redundant values.
-    #[prost(message, repeated, tag = "1")]
-    pub values: ::prost::alloc::vec::Vec<Value>,
-    /// List of steps.
-    ///
-    /// Repeated evaluations of the same expression generate new ExprStep
-    /// instances. The order of such ExprStep instances matches the order of
-    /// elements returned by Comprehension.iter_range.
-    #[prost(message, repeated, tag = "2")]
-    pub expr_steps: ::prost::alloc::vec::Vec<explain::ExprStep>,
-}
-/// Nested message and enum types in `Explain`.
-pub mod explain {
-    /// ID and value index of one step.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExprStep {
-        /// ID of corresponding Expr node.
-        #[prost(int64, tag = "1")]
-        pub id: i64,
-        /// Index of the value in the values list.
-        #[prost(int32, tag = "2")]
-        pub value_index: i32,
-    }
 }
 /// The state of an evaluation.
 ///

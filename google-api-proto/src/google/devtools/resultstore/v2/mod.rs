@@ -1,86 +1,3 @@
-/// The metadata for a file or an archive file entry.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct File {
-    /// The identifier of the file or archive entry.
-    /// User-provided, must be unique for the repeated field it is in. When an
-    /// Append RPC is called with a Files field populated, if a File already exists
-    /// with this ID, that File will be overwritten with the new File proto.
-    #[prost(string, tag = "1")]
-    pub uid: ::prost::alloc::string::String,
-    /// The URI of a file.
-    /// This could also be the URI of an entire archive.
-    /// Most log data doesn't need to be stored forever, so a ttl is suggested.
-    /// Note that if you ever move or delete the file at this URI, the link from
-    /// the server will be broken.
-    #[prost(string, tag = "2")]
-    pub uri: ::prost::alloc::string::String,
-    /// The length of the file in bytes.  Allows the filesize to be shown in the
-    /// UI.  Omit if file is still being written or length is not known.  This
-    /// could also be the length of an entire archive.
-    #[prost(message, optional, tag = "3")]
-    pub length: ::core::option::Option<i64>,
-    /// The content-type (aka MIME-type) of the file.  This is sent to the web
-    /// browser so it knows how to handle the file. (e.g. text/plain, image/jpeg,
-    /// text/html, etc). For zip archives, use "application/zip".
-    #[prost(string, tag = "4")]
-    pub content_type: ::prost::alloc::string::String,
-    /// If the above path, length, and content_type are referring to an archive,
-    /// and you wish to refer to a particular entry within that archive, put the
-    /// particular archive entry data here.
-    #[prost(message, optional, tag = "5")]
-    pub archive_entry: ::core::option::Option<ArchiveEntry>,
-    /// A url to a content display app/site for this file or archive entry.
-    #[prost(string, tag = "6")]
-    pub content_viewer: ::prost::alloc::string::String,
-    /// Whether to hide this file or archive entry in the UI.  Defaults to false.
-    /// A checkbox lets users see hidden files, but they're hidden by default.
-    #[prost(bool, tag = "7")]
-    pub hidden: bool,
-    /// A short description of what this file or archive entry contains. This
-    /// description should help someone viewing the list of these files to
-    /// understand the purpose of this file and what they would want to view it
-    /// for.
-    #[prost(string, tag = "8")]
-    pub description: ::prost::alloc::string::String,
-    /// The digest of this file in hexadecimal-like string if known.
-    #[prost(string, tag = "9")]
-    pub digest: ::prost::alloc::string::String,
-    /// The algorithm corresponding to the digest if known.
-    #[prost(enumeration = "file::HashType", tag = "10")]
-    pub hash_type: i32,
-}
-/// Nested message and enum types in `File`.
-pub mod file {
-    /// If known, the hash function used to compute this digest.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum HashType {
-        /// Unknown
-        Unspecified = 0,
-        /// MD5
-        Md5 = 1,
-        /// SHA-1
-        Sha1 = 2,
-        /// SHA-256
-        Sha256 = 3,
-    }
-}
-/// Information specific to an entry in an archive.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArchiveEntry {
-    /// The relative path of the entry within the archive.
-    #[prost(string, tag = "1")]
-    pub path: ::prost::alloc::string::String,
-    /// The uncompressed length of the archive entry in bytes.  Allows the entry
-    /// size to be shown in the UI.  Omit if the length is not known.
-    #[prost(message, optional, tag = "2")]
-    pub length: ::core::option::Option<i64>,
-    /// The content-type (aka MIME-type) of the archive entry. (e.g. text/plain,
-    /// image/jpeg, text/html, etc). This is sent to the web browser so it knows
-    /// how to handle the entry.
-    #[prost(string, tag = "3")]
-    pub content_type: ::prost::alloc::string::String,
-}
 /// Describes the status of a resource in both enum and string form.
 /// Only use description when conveying additional info not captured in the enum
 /// name.
@@ -350,6 +267,89 @@ pub struct AggregateCoverage {
     /// Aggregated coverage info for all source files that the actions cover.
     #[prost(message, repeated, tag = "1")]
     pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
+}
+/// The metadata for a file or an archive file entry.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct File {
+    /// The identifier of the file or archive entry.
+    /// User-provided, must be unique for the repeated field it is in. When an
+    /// Append RPC is called with a Files field populated, if a File already exists
+    /// with this ID, that File will be overwritten with the new File proto.
+    #[prost(string, tag = "1")]
+    pub uid: ::prost::alloc::string::String,
+    /// The URI of a file.
+    /// This could also be the URI of an entire archive.
+    /// Most log data doesn't need to be stored forever, so a ttl is suggested.
+    /// Note that if you ever move or delete the file at this URI, the link from
+    /// the server will be broken.
+    #[prost(string, tag = "2")]
+    pub uri: ::prost::alloc::string::String,
+    /// The length of the file in bytes.  Allows the filesize to be shown in the
+    /// UI.  Omit if file is still being written or length is not known.  This
+    /// could also be the length of an entire archive.
+    #[prost(message, optional, tag = "3")]
+    pub length: ::core::option::Option<i64>,
+    /// The content-type (aka MIME-type) of the file.  This is sent to the web
+    /// browser so it knows how to handle the file. (e.g. text/plain, image/jpeg,
+    /// text/html, etc). For zip archives, use "application/zip".
+    #[prost(string, tag = "4")]
+    pub content_type: ::prost::alloc::string::String,
+    /// If the above path, length, and content_type are referring to an archive,
+    /// and you wish to refer to a particular entry within that archive, put the
+    /// particular archive entry data here.
+    #[prost(message, optional, tag = "5")]
+    pub archive_entry: ::core::option::Option<ArchiveEntry>,
+    /// A url to a content display app/site for this file or archive entry.
+    #[prost(string, tag = "6")]
+    pub content_viewer: ::prost::alloc::string::String,
+    /// Whether to hide this file or archive entry in the UI.  Defaults to false.
+    /// A checkbox lets users see hidden files, but they're hidden by default.
+    #[prost(bool, tag = "7")]
+    pub hidden: bool,
+    /// A short description of what this file or archive entry contains. This
+    /// description should help someone viewing the list of these files to
+    /// understand the purpose of this file and what they would want to view it
+    /// for.
+    #[prost(string, tag = "8")]
+    pub description: ::prost::alloc::string::String,
+    /// The digest of this file in hexadecimal-like string if known.
+    #[prost(string, tag = "9")]
+    pub digest: ::prost::alloc::string::String,
+    /// The algorithm corresponding to the digest if known.
+    #[prost(enumeration = "file::HashType", tag = "10")]
+    pub hash_type: i32,
+}
+/// Nested message and enum types in `File`.
+pub mod file {
+    /// If known, the hash function used to compute this digest.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum HashType {
+        /// Unknown
+        Unspecified = 0,
+        /// MD5
+        Md5 = 1,
+        /// SHA-1
+        Sha1 = 2,
+        /// SHA-256
+        Sha256 = 3,
+    }
+}
+/// Information specific to an entry in an archive.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArchiveEntry {
+    /// The relative path of the entry within the archive.
+    #[prost(string, tag = "1")]
+    pub path: ::prost::alloc::string::String,
+    /// The uncompressed length of the archive entry in bytes.  Allows the entry
+    /// size to be shown in the UI.  Omit if the length is not known.
+    #[prost(message, optional, tag = "2")]
+    pub length: ::core::option::Option<i64>,
+    /// The content-type (aka MIME-type) of the archive entry. (e.g. text/plain,
+    /// image/jpeg, text/html, etc). This is sent to the web browser so it knows
+    /// how to handle the entry.
+    #[prost(string, tag = "3")]
+    pub content_type: ::prost::alloc::string::String,
 }
 /// Stores errors reading or parsing a file during post-processing.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2517,6 +2517,173 @@ pub mod result_store_download_client {
         }
     }
 }
+/// Request object for GetFile
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFileRequest {
+    /// This corresponds to the uri field in the File message.
+    #[prost(string, tag = "1")]
+    pub uri: ::prost::alloc::string::String,
+    /// The offset for the first byte to return in the read, relative to the start
+    /// of the resource.
+    ///
+    /// A `read_offset` that is negative or greater than the size of the resource
+    /// will cause an `OUT_OF_RANGE` error.
+    #[prost(int64, tag = "2")]
+    pub read_offset: i64,
+    /// The maximum number of `data` bytes the server is allowed to return in the
+    /// sum of all `ReadResponse` messages. A `read_limit` of zero indicates that
+    /// there is no limit, and a negative `read_limit` will cause an error.
+    ///
+    /// If the stream returns fewer bytes than allowed by the `read_limit` and no
+    /// error occurred, the stream includes all data from the `read_offset` to the
+    /// end of the resource.
+    #[prost(int64, tag = "3")]
+    pub read_limit: i64,
+    /// Only applies if the referenced file is a known archive type (ar, jar, zip)
+    /// The above read_offset and read_limit fields are applied to this entry.
+    /// If this file is not an archive, INVALID_ARGUMENT is thrown.
+    #[prost(string, tag = "4")]
+    pub archive_entry: ::prost::alloc::string::String,
+}
+/// Response object for GetFile
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFileResponse {
+    /// The file data.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub data: ::prost::bytes::Bytes,
+}
+/// Request object for GetFileTail
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFileTailRequest {
+    /// This corresponds to the uri field in the File message.
+    #[prost(string, tag = "1")]
+    pub uri: ::prost::alloc::string::String,
+    /// The offset for the first byte to return in the read, relative to the end
+    /// of the resource.
+    ///
+    /// A `read_offset` that is negative or greater than the size of the resource
+    /// will cause an `OUT_OF_RANGE` error.
+    #[prost(int64, tag = "2")]
+    pub read_offset: i64,
+    /// The maximum number of `data` bytes the server is allowed to return. The
+    /// server will return bytes starting from the tail of the file.
+    ///
+    /// A `read_limit` of zero indicates that there is no limit, and a negative
+    /// `read_limit` will cause an error.
+    #[prost(int64, tag = "3")]
+    pub read_limit: i64,
+    /// Only applies if the referenced file is a known archive type (ar, jar, zip)
+    /// The above read_offset and read_limit fields are applied to this entry.
+    /// If this file is not an archive, INVALID_ARGUMENT is thrown.
+    #[prost(string, tag = "4")]
+    pub archive_entry: ::prost::alloc::string::String,
+}
+/// Response object for GetFileTail
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFileTailResponse {
+    /// The file data, encoded with UTF-8.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub data: ::prost::bytes::Bytes,
+}
+#[doc = r" Generated client implementations."]
+pub mod result_store_file_download_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " This API allows download of File messages referenced in"]
+    #[doc = " ResultStore resources."]
+    #[derive(Debug, Clone)]
+    pub struct ResultStoreFileDownloadClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ResultStoreFileDownloadClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ResultStoreFileDownloadClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ResultStoreFileDownloadClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Retrieves the File with the given uri."]
+        #[doc = " returns a stream of bytes to be stitched together in order."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the File is not found."]
+        #[doc = " - If the given File uri is badly formatted."]
+        pub async fn get_file(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetFileRequest>,
+        ) -> Result<tonic::Response<tonic::codec::Streaming<super::GetFileResponse>>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreFileDownload/GetFile",
+            );
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
+        }
+        #[doc = " Retrieves the tail of a File with the given uri."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the File is not found."]
+        #[doc = " - If the given File uri is badly formatted."]
+        pub async fn get_file_tail(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetFileTailRequest>,
+        ) -> Result<tonic::Response<super::GetFileTailResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreFileDownload/GetFileTail",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// The upload metadata for an invocation
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UploadMetadata {
@@ -3998,171 +4165,6 @@ pub mod result_store_upload_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.devtools.resultstore.v2.ResultStoreUpload/GetInvocationUploadMetadata",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Request object for GetFile
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFileRequest {
-    /// This corresponds to the uri field in the File message.
-    #[prost(string, tag = "1")]
-    pub uri: ::prost::alloc::string::String,
-    /// The offset for the first byte to return in the read, relative to the start
-    /// of the resource.
-    ///
-    /// A `read_offset` that is negative or greater than the size of the resource
-    /// will cause an `OUT_OF_RANGE` error.
-    #[prost(int64, tag = "2")]
-    pub read_offset: i64,
-    /// The maximum number of `data` bytes the server is allowed to return in the
-    /// sum of all `ReadResponse` messages. A `read_limit` of zero indicates that
-    /// there is no limit, and a negative `read_limit` will cause an error.
-    ///
-    /// If the stream returns fewer bytes than allowed by the `read_limit` and no
-    /// error occurred, the stream includes all data from the `read_offset` to the
-    /// end of the resource.
-    #[prost(int64, tag = "3")]
-    pub read_limit: i64,
-    /// Only applies if the referenced file is a known archive type (ar, jar, zip)
-    /// The above read_offset and read_limit fields are applied to this entry.
-    /// If this file is not an archive, INVALID_ARGUMENT is thrown.
-    #[prost(string, tag = "4")]
-    pub archive_entry: ::prost::alloc::string::String,
-}
-/// Response object for GetFile
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFileResponse {
-    /// The file data.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub data: ::prost::bytes::Bytes,
-}
-/// Request object for GetFileTail
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFileTailRequest {
-    /// This corresponds to the uri field in the File message.
-    #[prost(string, tag = "1")]
-    pub uri: ::prost::alloc::string::String,
-    /// The offset for the first byte to return in the read, relative to the end
-    /// of the resource.
-    ///
-    /// A `read_offset` that is negative or greater than the size of the resource
-    /// will cause an `OUT_OF_RANGE` error.
-    #[prost(int64, tag = "2")]
-    pub read_offset: i64,
-    /// The maximum number of `data` bytes the server is allowed to return. The
-    /// server will return bytes starting from the tail of the file.
-    ///
-    /// A `read_limit` of zero indicates that there is no limit, and a negative
-    /// `read_limit` will cause an error.
-    #[prost(int64, tag = "3")]
-    pub read_limit: i64,
-    /// Only applies if the referenced file is a known archive type (ar, jar, zip)
-    /// The above read_offset and read_limit fields are applied to this entry.
-    /// If this file is not an archive, INVALID_ARGUMENT is thrown.
-    #[prost(string, tag = "4")]
-    pub archive_entry: ::prost::alloc::string::String,
-}
-/// Response object for GetFileTail
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFileTailResponse {
-    /// The file data, encoded with UTF-8.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub data: ::prost::bytes::Bytes,
-}
-#[doc = r" Generated client implementations."]
-pub mod result_store_file_download_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " This API allows download of File messages referenced in"]
-    #[doc = " ResultStore resources."]
-    #[derive(Debug, Clone)]
-    pub struct ResultStoreFileDownloadClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ResultStoreFileDownloadClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ResultStoreFileDownloadClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ResultStoreFileDownloadClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Retrieves the File with the given uri."]
-        #[doc = " returns a stream of bytes to be stitched together in order."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the File is not found."]
-        #[doc = " - If the given File uri is badly formatted."]
-        pub async fn get_file(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetFileRequest>,
-        ) -> Result<tonic::Response<tonic::codec::Streaming<super::GetFileResponse>>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreFileDownload/GetFile",
-            );
-            self.inner.server_streaming(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the tail of a File with the given uri."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the File is not found."]
-        #[doc = " - If the given File uri is badly formatted."]
-        pub async fn get_file_tail(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetFileTailRequest>,
-        ) -> Result<tonic::Response<super::GetFileTailResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreFileDownload/GetFileTail",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

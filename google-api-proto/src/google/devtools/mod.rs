@@ -19,7 +19,10 @@ pub mod clouderrorreporting;
 #[cfg(any(feature = "google-devtools-cloudprofiler-v2",))]
 pub mod cloudprofiler;
 
-#[cfg(any(feature = "google-devtools-cloudtrace-v1", feature = "google-devtools-cloudtrace-v2",))]
+#[cfg(any(
+    feature = "google-devtools-cloudtrace-v1",
+    feature = "google-devtools-cloudtrace-v2",
+))]
 pub mod cloudtrace;
 
 #[cfg(any(

@@ -1,3 +1,35 @@
+/// A processor type is responsible for performing a certain document
+/// understanding task on a certain type of document.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProcessorType {
+    /// The resource name of the processor type.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The type of the processor.
+    #[prost(string, tag = "2")]
+    pub r#type: ::prost::alloc::string::String,
+    /// The processor category.
+    #[prost(string, tag = "3")]
+    pub category: ::prost::alloc::string::String,
+    /// The locations in which this processor is available.
+    #[prost(message, repeated, tag = "4")]
+    pub available_locations: ::prost::alloc::vec::Vec<processor_type::LocationInfo>,
+    /// Whether the processor type allows creation. If yes, user can create a
+    /// processor of this processor type. Otherwise, user needs to require for
+    /// whitelisting.
+    #[prost(bool, tag = "6")]
+    pub allow_creation: bool,
+}
+/// Nested message and enum types in `ProcessorType`.
+pub mod processor_type {
+    /// The location information about where the processor is available.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct LocationInfo {
+        /// The location id.
+        #[prost(string, tag = "1")]
+        pub location_id: ::prost::alloc::string::String,
+    }
+}
 /// A vertex represents a 2D point in the image.
 /// NOTE: the vertex coordinates are in the same scale as the original image.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -918,38 +950,6 @@ pub mod document_output_config {
         /// Output config to write the results to Cloud Storage.
         #[prost(message, tag = "1")]
         GcsOutputConfig(GcsOutputConfig),
-    }
-}
-/// A processor type is responsible for performing a certain document
-/// understanding task on a certain type of document.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProcessorType {
-    /// The resource name of the processor type.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The type of the processor.
-    #[prost(string, tag = "2")]
-    pub r#type: ::prost::alloc::string::String,
-    /// The processor category.
-    #[prost(string, tag = "3")]
-    pub category: ::prost::alloc::string::String,
-    /// The locations in which this processor is available.
-    #[prost(message, repeated, tag = "4")]
-    pub available_locations: ::prost::alloc::vec::Vec<processor_type::LocationInfo>,
-    /// Whether the processor type allows creation. If yes, user can create a
-    /// processor of this processor type. Otherwise, user needs to require for
-    /// whitelisting.
-    #[prost(bool, tag = "6")]
-    pub allow_creation: bool,
-}
-/// Nested message and enum types in `ProcessorType`.
-pub mod processor_type {
-    /// The location information about where the processor is available.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct LocationInfo {
-        /// The location id.
-        #[prost(string, tag = "1")]
-        pub location_id: ::prost::alloc::string::String,
     }
 }
 /// The first-class citizen for DocumentAI. Each processor defines how to extract

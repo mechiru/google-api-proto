@@ -961,7 +961,9 @@ pub mod bigtable_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.bigtable.v2.Bigtable/ReadRows");
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Returns a sample of row keys in the table. The returned row keys will"]
         #[doc = " delimit contiguous sections of the table of approximately equal size,"]
@@ -983,7 +985,9 @@ pub mod bigtable_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.bigtable.v2.Bigtable/SampleRowKeys");
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Mutates a row atomically. Cells already present in the row are left"]
         #[doc = " unchanged unless explicitly changed by `mutation`."]
@@ -1021,7 +1025,9 @@ pub mod bigtable_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.bigtable.v2.Bigtable/MutateRows");
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Mutates a row atomically based on the output of a predicate Reader filter."]
         pub async fn check_and_mutate_row(

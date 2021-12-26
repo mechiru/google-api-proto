@@ -1958,7 +1958,10 @@ pub mod analyze_iam_policy_response {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct IamPolicyAnalysisOutputConfig {
     /// IAM policy analysis export destination.
-    #[prost(oneof = "iam_policy_analysis_output_config::Destination", tags = "1, 2")]
+    #[prost(
+        oneof = "iam_policy_analysis_output_config::Destination",
+        tags = "1, 2"
+    )]
     pub destination: ::core::option::Option<iam_policy_analysis_output_config::Destination>,
 }
 /// Nested message and enum types in `IamPolicyAnalysisOutputConfig`.

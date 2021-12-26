@@ -136,7 +136,10 @@ pub mod os_policy {
             #[prost(enumeration = "package_resource::DesiredState", tag = "1")]
             pub desired_state: i32,
             /// A system package.
-            #[prost(oneof = "package_resource::SystemPackage", tags = "2, 3, 4, 5, 6, 7, 8")]
+            #[prost(
+                oneof = "package_resource::SystemPackage",
+                tags = "2, 3, 4, 5, 6, 7, 8"
+            )]
             pub system_package: ::core::option::Option<package_resource::SystemPackage>,
         }
         /// Nested message and enum types in `PackageResource`.
@@ -603,385 +606,6 @@ pub mod fixed_or_percent {
         Percent(i32),
     }
 }
-// OS Inventory is a service for collecting and reporting operating
-// system and package information on VM instances.
-
-/// This API resource represents the available inventory data for a
-/// Compute Engine virtual machine (VM) instance at a given point in time.
-///
-/// You can use this API resource to determine the inventory data of your VM.
-///
-/// For more information, see [Information provided by OS inventory
-/// management](<https://cloud.google.com/compute/docs/instances/os-inventory-management#data-collected>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Inventory {
-    /// Output only. The `Inventory` API resource name.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/inventory`
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Base level operating system information for the VM.
-    #[prost(message, optional, tag = "1")]
-    pub os_info: ::core::option::Option<inventory::OsInfo>,
-    /// Output only. Inventory items related to the VM keyed by an opaque unique
-    /// identifier for each inventory item. The identifier is unique to each
-    /// distinct and addressable inventory item and will change, when there is a
-    /// new package version.
-    #[prost(btree_map = "string, message", tag = "2")]
-    pub items:
-        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, inventory::Item>,
-    /// Output only. Timestamp of the last reported inventory for the VM.
-    #[prost(message, optional, tag = "4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `Inventory`.
-pub mod inventory {
-    /// Operating system information for the VM.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct OsInfo {
-        /// The VM hostname.
-        #[prost(string, tag = "9")]
-        pub hostname: ::prost::alloc::string::String,
-        /// The operating system long name.
-        /// For example 'Debian GNU/Linux 9' or 'Microsoft Window Server 2019
-        /// Datacenter'.
-        #[prost(string, tag = "2")]
-        pub long_name: ::prost::alloc::string::String,
-        /// The operating system short name.
-        /// For example, 'windows' or 'debian'.
-        #[prost(string, tag = "3")]
-        pub short_name: ::prost::alloc::string::String,
-        /// The version of the operating system.
-        #[prost(string, tag = "4")]
-        pub version: ::prost::alloc::string::String,
-        /// The system architecture of the operating system.
-        #[prost(string, tag = "5")]
-        pub architecture: ::prost::alloc::string::String,
-        /// The kernel version of the operating system.
-        #[prost(string, tag = "6")]
-        pub kernel_version: ::prost::alloc::string::String,
-        /// The kernel release of the operating system.
-        #[prost(string, tag = "7")]
-        pub kernel_release: ::prost::alloc::string::String,
-        /// The current version of the OS Config agent running on the VM.
-        #[prost(string, tag = "8")]
-        pub osconfig_agent_version: ::prost::alloc::string::String,
-    }
-    /// A single piece of inventory on a VM.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Item {
-        /// Identifier for this item, unique across items for this VM.
-        #[prost(string, tag = "1")]
-        pub id: ::prost::alloc::string::String,
-        /// The origin of this inventory item.
-        #[prost(enumeration = "item::OriginType", tag = "2")]
-        pub origin_type: i32,
-        /// When this inventory item was first detected.
-        #[prost(message, optional, tag = "8")]
-        pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// When this inventory item was last modified.
-        #[prost(message, optional, tag = "9")]
-        pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// The specific type of inventory, correlating to its specific details.
-        #[prost(enumeration = "item::Type", tag = "5")]
-        pub r#type: i32,
-        /// Specific details of this inventory item based on its type.
-        #[prost(oneof = "item::Details", tags = "6, 7")]
-        pub details: ::core::option::Option<item::Details>,
-    }
-    /// Nested message and enum types in `Item`.
-    pub mod item {
-        /// The origin of a specific inventory item.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum OriginType {
-            /// Invalid. An origin type must be specified.
-            Unspecified = 0,
-            /// This inventory item was discovered as the result of the agent
-            /// reporting inventory via the reporting API.
-            InventoryReport = 1,
-        }
-        /// The different types of inventory that are tracked on a VM.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum Type {
-            /// Invalid. An type must be specified.
-            Unspecified = 0,
-            /// This represents a package that is installed on the VM.
-            InstalledPackage = 1,
-            /// This represents an update that is available for a package.
-            AvailablePackage = 2,
-        }
-        /// Specific details of this inventory item based on its type.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Details {
-            /// Software package present on the VM instance.
-            #[prost(message, tag = "6")]
-            InstalledPackage(super::SoftwarePackage),
-            /// Software package available to be installed on the VM instance.
-            #[prost(message, tag = "7")]
-            AvailablePackage(super::SoftwarePackage),
-        }
-    }
-    /// Software package information of the operating system.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SoftwarePackage {
-        /// Information about the different types of software packages.
-        #[prost(oneof = "software_package::Details", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9")]
-        pub details: ::core::option::Option<software_package::Details>,
-    }
-    /// Nested message and enum types in `SoftwarePackage`.
-    pub mod software_package {
-        /// Information about the different types of software packages.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Details {
-            /// Yum package info.
-            /// For details about the yum package manager, see
-            /// <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.>
-            #[prost(message, tag = "1")]
-            YumPackage(super::VersionedPackage),
-            /// Details of an APT package.
-            /// For details about the apt package manager, see
-            /// <https://wiki.debian.org/Apt.>
-            #[prost(message, tag = "2")]
-            AptPackage(super::VersionedPackage),
-            /// Details of a Zypper package.
-            /// For details about the Zypper package manager, see
-            /// <https://en.opensuse.org/SDB:Zypper_manual.>
-            #[prost(message, tag = "3")]
-            ZypperPackage(super::VersionedPackage),
-            /// Details of a Googet package.
-            ///  For details about the googet package manager, see
-            ///  <https://github.com/google/googet.>
-            #[prost(message, tag = "4")]
-            GoogetPackage(super::VersionedPackage),
-            /// Details of a Zypper patch.
-            /// For details about the Zypper package manager, see
-            /// <https://en.opensuse.org/SDB:Zypper_manual.>
-            #[prost(message, tag = "5")]
-            ZypperPatch(super::ZypperPatch),
-            /// Details of a Windows Update package.
-            /// See <https://docs.microsoft.com/en-us/windows/win32/api/_wua/> for
-            /// information about Windows Update.
-            #[prost(message, tag = "6")]
-            WuaPackage(super::WindowsUpdatePackage),
-            /// Details of a Windows Quick Fix engineering package.
-            /// See
-            /// <https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering>
-            /// for info in Windows Quick Fix Engineering.
-            #[prost(message, tag = "7")]
-            QfePackage(super::WindowsQuickFixEngineeringPackage),
-            /// Details of a COS package.
-            #[prost(message, tag = "8")]
-            CosPackage(super::VersionedPackage),
-            /// Details of Windows Application.
-            #[prost(message, tag = "9")]
-            WindowsApplication(super::WindowsApplication),
-        }
-    }
-    /// Information related to the a standard versioned package.  This includes
-    /// package info for APT, Yum, Zypper, and Googet package managers.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct VersionedPackage {
-        /// The name of the package.
-        #[prost(string, tag = "4")]
-        pub package_name: ::prost::alloc::string::String,
-        /// The system architecture this package is intended for.
-        #[prost(string, tag = "2")]
-        pub architecture: ::prost::alloc::string::String,
-        /// The version of the package.
-        #[prost(string, tag = "3")]
-        pub version: ::prost::alloc::string::String,
-    }
-    /// Details related to a Zypper Patch.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ZypperPatch {
-        /// The name of the patch.
-        #[prost(string, tag = "5")]
-        pub patch_name: ::prost::alloc::string::String,
-        /// The category of the patch.
-        #[prost(string, tag = "2")]
-        pub category: ::prost::alloc::string::String,
-        /// The severity specified for this patch
-        #[prost(string, tag = "3")]
-        pub severity: ::prost::alloc::string::String,
-        /// Any summary information provided about this patch.
-        #[prost(string, tag = "4")]
-        pub summary: ::prost::alloc::string::String,
-    }
-    /// Details related to a Windows Update package.
-    /// Field data and names are taken from Windows Update API IUpdate Interface:
-    /// <https://docs.microsoft.com/en-us/windows/win32/api/_wua/>
-    /// Descriptive fields like title, and description are localized based on
-    /// the locale of the VM being updated.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WindowsUpdatePackage {
-        /// The localized title of the update package.
-        #[prost(string, tag = "1")]
-        pub title: ::prost::alloc::string::String,
-        /// The localized description of the update package.
-        #[prost(string, tag = "2")]
-        pub description: ::prost::alloc::string::String,
-        /// The categories that are associated with this update package.
-        #[prost(message, repeated, tag = "3")]
-        pub categories: ::prost::alloc::vec::Vec<windows_update_package::WindowsUpdateCategory>,
-        /// A collection of Microsoft Knowledge Base article IDs that are associated
-        /// with the update package.
-        #[prost(string, repeated, tag = "4")]
-        pub kb_article_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// A hyperlink to the language-specific support information for the update.
-        #[prost(string, tag = "11")]
-        pub support_url: ::prost::alloc::string::String,
-        /// A collection of URLs that provide more information about the update
-        /// package.
-        #[prost(string, repeated, tag = "5")]
-        pub more_info_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Gets the identifier of an update package.  Stays the same across
-        /// revisions.
-        #[prost(string, tag = "6")]
-        pub update_id: ::prost::alloc::string::String,
-        /// The revision number of this update package.
-        #[prost(int32, tag = "7")]
-        pub revision_number: i32,
-        /// The last published date of the update, in (UTC) date and time.
-        #[prost(message, optional, tag = "10")]
-        pub last_deployment_change_time: ::core::option::Option<::prost_types::Timestamp>,
-    }
-    /// Nested message and enum types in `WindowsUpdatePackage`.
-    pub mod windows_update_package {
-        /// Categories specified by the Windows Update.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct WindowsUpdateCategory {
-            /// The identifier of the windows update category.
-            #[prost(string, tag = "1")]
-            pub id: ::prost::alloc::string::String,
-            /// The name of the windows update category.
-            #[prost(string, tag = "2")]
-            pub name: ::prost::alloc::string::String,
-        }
-    }
-    /// Information related to a Quick Fix Engineering package.
-    /// Fields are taken from Windows QuickFixEngineering Interface and match
-    /// the source names:
-    /// <https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering>
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WindowsQuickFixEngineeringPackage {
-        /// A short textual description of the QFE update.
-        #[prost(string, tag = "1")]
-        pub caption: ::prost::alloc::string::String,
-        /// A textual description of the QFE update.
-        #[prost(string, tag = "2")]
-        pub description: ::prost::alloc::string::String,
-        /// Unique identifier associated with a particular QFE update.
-        #[prost(string, tag = "3")]
-        pub hot_fix_id: ::prost::alloc::string::String,
-        /// Date that the QFE update was installed.  Mapped from installed_on field.
-        #[prost(message, optional, tag = "5")]
-        pub install_time: ::core::option::Option<::prost_types::Timestamp>,
-    }
-    /// Contains information about a Windows application as retrieved from the
-    /// Windows Registry. For more information about these fields, see
-    ///
-    /// [Windows Installer Properties for the Uninstall
-    /// Registry](<https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key>){:
-    /// class="external" }
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WindowsApplication {
-        /// The name of the application or product.
-        #[prost(string, tag = "1")]
-        pub display_name: ::prost::alloc::string::String,
-        /// The version of the product or application in string format.
-        #[prost(string, tag = "2")]
-        pub display_version: ::prost::alloc::string::String,
-        /// The name of the manufacturer for the product or application.
-        #[prost(string, tag = "3")]
-        pub publisher: ::prost::alloc::string::String,
-        /// The last time this product received service. The value of this property
-        /// is replaced each time a patch is applied or removed from the product or
-        /// the command-line option is used to repair the product.
-        #[prost(message, optional, tag = "4")]
-        pub install_date: ::core::option::Option<super::super::super::super::r#type::Date>,
-        /// The internet address for technical support.
-        #[prost(string, tag = "5")]
-        pub help_link: ::prost::alloc::string::String,
-    }
-}
-/// A request message for getting inventory data for the specified VM.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetInventoryRequest {
-    /// Required. API resource name for inventory resource.
-    ///
-    /// Format:
-    /// `projects/{project}/locations/{location}/instances/{instance}/inventory`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance}`, either Compute Engine  `instance-id` or `instance-name`
-    /// can be provided.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Inventory view indicating what information should be included in the
-    /// inventory resource. If unspecified, the default view is BASIC.
-    #[prost(enumeration = "InventoryView", tag = "2")]
-    pub view: i32,
-}
-/// A request message for listing inventory data for all VMs in the specified
-/// location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListInventoriesRequest {
-    /// Required. The parent resource name.
-    ///
-    /// Format: `projects/{project}/locations/{location}/instances/{instance}`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be
-    /// provided. For `{instance}`, only hyphen or dash character is supported to
-    /// list inventories across VMs.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Inventory view indicating what information should be included in the
-    /// inventory resource. If unspecified, the default view is BASIC.
-    #[prost(enumeration = "InventoryView", tag = "2")]
-    pub view: i32,
-    /// The maximum number of results to return.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// A pagination token returned from a previous call to
-    /// `ListInventories` that indicates where this listing
-    /// should continue from.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// If provided, this field specifies the criteria that must be met by a
-    /// `Inventory` API resource to be included in the response.
-    #[prost(string, tag = "5")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// A response message for listing inventory data for all VMs in a specified
-/// location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListInventoriesResponse {
-    /// List of inventory objects.
-    #[prost(message, repeated, tag = "1")]
-    pub inventories: ::prost::alloc::vec::Vec<Inventory>,
-    /// The pagination token to retrieve the next page of inventory objects.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The view for inventory objects.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum InventoryView {
-    /// The default value.
-    /// The API defaults to the BASIC view.
-    Unspecified = 0,
-    /// Returns the basic inventory information that includes `os_info`.
-    Basic = 1,
-    /// Returns all fields.
-    Full = 2,
-}
 /// OS policy assignment is an API resource that is used to
 /// apply a set of OS policies to a dynamically targeted group of Compute Engine
 /// VM instances.
@@ -1147,10 +771,16 @@ pub struct OsPolicyAssignmentOperationMetadata {
     #[prost(string, tag = "1")]
     pub os_policy_assignment: ::prost::alloc::string::String,
     /// The OS policy assignment API method.
-    #[prost(enumeration = "os_policy_assignment_operation_metadata::ApiMethod", tag = "2")]
+    #[prost(
+        enumeration = "os_policy_assignment_operation_metadata::ApiMethod",
+        tag = "2"
+    )]
     pub api_method: i32,
     /// State of the rollout
-    #[prost(enumeration = "os_policy_assignment_operation_metadata::RolloutState", tag = "3")]
+    #[prost(
+        enumeration = "os_policy_assignment_operation_metadata::RolloutState",
+        tag = "3"
+    )]
     pub rollout_state: i32,
     /// Rollout start time
     #[prost(message, optional, tag = "4")]
@@ -1826,6 +1456,388 @@ pub mod cvs_sv3 {
         /// No impact.
         None = 3,
     }
+}
+// OS Inventory is a service for collecting and reporting operating
+// system and package information on VM instances.
+
+/// This API resource represents the available inventory data for a
+/// Compute Engine virtual machine (VM) instance at a given point in time.
+///
+/// You can use this API resource to determine the inventory data of your VM.
+///
+/// For more information, see [Information provided by OS inventory
+/// management](<https://cloud.google.com/compute/docs/instances/os-inventory-management#data-collected>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Inventory {
+    /// Output only. The `Inventory` API resource name.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/inventory`
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Base level operating system information for the VM.
+    #[prost(message, optional, tag = "1")]
+    pub os_info: ::core::option::Option<inventory::OsInfo>,
+    /// Output only. Inventory items related to the VM keyed by an opaque unique
+    /// identifier for each inventory item. The identifier is unique to each
+    /// distinct and addressable inventory item and will change, when there is a
+    /// new package version.
+    #[prost(btree_map = "string, message", tag = "2")]
+    pub items:
+        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, inventory::Item>,
+    /// Output only. Timestamp of the last reported inventory for the VM.
+    #[prost(message, optional, tag = "4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `Inventory`.
+pub mod inventory {
+    /// Operating system information for the VM.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct OsInfo {
+        /// The VM hostname.
+        #[prost(string, tag = "9")]
+        pub hostname: ::prost::alloc::string::String,
+        /// The operating system long name.
+        /// For example 'Debian GNU/Linux 9' or 'Microsoft Window Server 2019
+        /// Datacenter'.
+        #[prost(string, tag = "2")]
+        pub long_name: ::prost::alloc::string::String,
+        /// The operating system short name.
+        /// For example, 'windows' or 'debian'.
+        #[prost(string, tag = "3")]
+        pub short_name: ::prost::alloc::string::String,
+        /// The version of the operating system.
+        #[prost(string, tag = "4")]
+        pub version: ::prost::alloc::string::String,
+        /// The system architecture of the operating system.
+        #[prost(string, tag = "5")]
+        pub architecture: ::prost::alloc::string::String,
+        /// The kernel version of the operating system.
+        #[prost(string, tag = "6")]
+        pub kernel_version: ::prost::alloc::string::String,
+        /// The kernel release of the operating system.
+        #[prost(string, tag = "7")]
+        pub kernel_release: ::prost::alloc::string::String,
+        /// The current version of the OS Config agent running on the VM.
+        #[prost(string, tag = "8")]
+        pub osconfig_agent_version: ::prost::alloc::string::String,
+    }
+    /// A single piece of inventory on a VM.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Item {
+        /// Identifier for this item, unique across items for this VM.
+        #[prost(string, tag = "1")]
+        pub id: ::prost::alloc::string::String,
+        /// The origin of this inventory item.
+        #[prost(enumeration = "item::OriginType", tag = "2")]
+        pub origin_type: i32,
+        /// When this inventory item was first detected.
+        #[prost(message, optional, tag = "8")]
+        pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// When this inventory item was last modified.
+        #[prost(message, optional, tag = "9")]
+        pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// The specific type of inventory, correlating to its specific details.
+        #[prost(enumeration = "item::Type", tag = "5")]
+        pub r#type: i32,
+        /// Specific details of this inventory item based on its type.
+        #[prost(oneof = "item::Details", tags = "6, 7")]
+        pub details: ::core::option::Option<item::Details>,
+    }
+    /// Nested message and enum types in `Item`.
+    pub mod item {
+        /// The origin of a specific inventory item.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum OriginType {
+            /// Invalid. An origin type must be specified.
+            Unspecified = 0,
+            /// This inventory item was discovered as the result of the agent
+            /// reporting inventory via the reporting API.
+            InventoryReport = 1,
+        }
+        /// The different types of inventory that are tracked on a VM.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum Type {
+            /// Invalid. An type must be specified.
+            Unspecified = 0,
+            /// This represents a package that is installed on the VM.
+            InstalledPackage = 1,
+            /// This represents an update that is available for a package.
+            AvailablePackage = 2,
+        }
+        /// Specific details of this inventory item based on its type.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Details {
+            /// Software package present on the VM instance.
+            #[prost(message, tag = "6")]
+            InstalledPackage(super::SoftwarePackage),
+            /// Software package available to be installed on the VM instance.
+            #[prost(message, tag = "7")]
+            AvailablePackage(super::SoftwarePackage),
+        }
+    }
+    /// Software package information of the operating system.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SoftwarePackage {
+        /// Information about the different types of software packages.
+        #[prost(
+            oneof = "software_package::Details",
+            tags = "1, 2, 3, 4, 5, 6, 7, 8, 9"
+        )]
+        pub details: ::core::option::Option<software_package::Details>,
+    }
+    /// Nested message and enum types in `SoftwarePackage`.
+    pub mod software_package {
+        /// Information about the different types of software packages.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Details {
+            /// Yum package info.
+            /// For details about the yum package manager, see
+            /// <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.>
+            #[prost(message, tag = "1")]
+            YumPackage(super::VersionedPackage),
+            /// Details of an APT package.
+            /// For details about the apt package manager, see
+            /// <https://wiki.debian.org/Apt.>
+            #[prost(message, tag = "2")]
+            AptPackage(super::VersionedPackage),
+            /// Details of a Zypper package.
+            /// For details about the Zypper package manager, see
+            /// <https://en.opensuse.org/SDB:Zypper_manual.>
+            #[prost(message, tag = "3")]
+            ZypperPackage(super::VersionedPackage),
+            /// Details of a Googet package.
+            ///  For details about the googet package manager, see
+            ///  <https://github.com/google/googet.>
+            #[prost(message, tag = "4")]
+            GoogetPackage(super::VersionedPackage),
+            /// Details of a Zypper patch.
+            /// For details about the Zypper package manager, see
+            /// <https://en.opensuse.org/SDB:Zypper_manual.>
+            #[prost(message, tag = "5")]
+            ZypperPatch(super::ZypperPatch),
+            /// Details of a Windows Update package.
+            /// See <https://docs.microsoft.com/en-us/windows/win32/api/_wua/> for
+            /// information about Windows Update.
+            #[prost(message, tag = "6")]
+            WuaPackage(super::WindowsUpdatePackage),
+            /// Details of a Windows Quick Fix engineering package.
+            /// See
+            /// <https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering>
+            /// for info in Windows Quick Fix Engineering.
+            #[prost(message, tag = "7")]
+            QfePackage(super::WindowsQuickFixEngineeringPackage),
+            /// Details of a COS package.
+            #[prost(message, tag = "8")]
+            CosPackage(super::VersionedPackage),
+            /// Details of Windows Application.
+            #[prost(message, tag = "9")]
+            WindowsApplication(super::WindowsApplication),
+        }
+    }
+    /// Information related to the a standard versioned package.  This includes
+    /// package info for APT, Yum, Zypper, and Googet package managers.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct VersionedPackage {
+        /// The name of the package.
+        #[prost(string, tag = "4")]
+        pub package_name: ::prost::alloc::string::String,
+        /// The system architecture this package is intended for.
+        #[prost(string, tag = "2")]
+        pub architecture: ::prost::alloc::string::String,
+        /// The version of the package.
+        #[prost(string, tag = "3")]
+        pub version: ::prost::alloc::string::String,
+    }
+    /// Details related to a Zypper Patch.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ZypperPatch {
+        /// The name of the patch.
+        #[prost(string, tag = "5")]
+        pub patch_name: ::prost::alloc::string::String,
+        /// The category of the patch.
+        #[prost(string, tag = "2")]
+        pub category: ::prost::alloc::string::String,
+        /// The severity specified for this patch
+        #[prost(string, tag = "3")]
+        pub severity: ::prost::alloc::string::String,
+        /// Any summary information provided about this patch.
+        #[prost(string, tag = "4")]
+        pub summary: ::prost::alloc::string::String,
+    }
+    /// Details related to a Windows Update package.
+    /// Field data and names are taken from Windows Update API IUpdate Interface:
+    /// <https://docs.microsoft.com/en-us/windows/win32/api/_wua/>
+    /// Descriptive fields like title, and description are localized based on
+    /// the locale of the VM being updated.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WindowsUpdatePackage {
+        /// The localized title of the update package.
+        #[prost(string, tag = "1")]
+        pub title: ::prost::alloc::string::String,
+        /// The localized description of the update package.
+        #[prost(string, tag = "2")]
+        pub description: ::prost::alloc::string::String,
+        /// The categories that are associated with this update package.
+        #[prost(message, repeated, tag = "3")]
+        pub categories: ::prost::alloc::vec::Vec<windows_update_package::WindowsUpdateCategory>,
+        /// A collection of Microsoft Knowledge Base article IDs that are associated
+        /// with the update package.
+        #[prost(string, repeated, tag = "4")]
+        pub kb_article_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// A hyperlink to the language-specific support information for the update.
+        #[prost(string, tag = "11")]
+        pub support_url: ::prost::alloc::string::String,
+        /// A collection of URLs that provide more information about the update
+        /// package.
+        #[prost(string, repeated, tag = "5")]
+        pub more_info_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Gets the identifier of an update package.  Stays the same across
+        /// revisions.
+        #[prost(string, tag = "6")]
+        pub update_id: ::prost::alloc::string::String,
+        /// The revision number of this update package.
+        #[prost(int32, tag = "7")]
+        pub revision_number: i32,
+        /// The last published date of the update, in (UTC) date and time.
+        #[prost(message, optional, tag = "10")]
+        pub last_deployment_change_time: ::core::option::Option<::prost_types::Timestamp>,
+    }
+    /// Nested message and enum types in `WindowsUpdatePackage`.
+    pub mod windows_update_package {
+        /// Categories specified by the Windows Update.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct WindowsUpdateCategory {
+            /// The identifier of the windows update category.
+            #[prost(string, tag = "1")]
+            pub id: ::prost::alloc::string::String,
+            /// The name of the windows update category.
+            #[prost(string, tag = "2")]
+            pub name: ::prost::alloc::string::String,
+        }
+    }
+    /// Information related to a Quick Fix Engineering package.
+    /// Fields are taken from Windows QuickFixEngineering Interface and match
+    /// the source names:
+    /// <https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering>
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WindowsQuickFixEngineeringPackage {
+        /// A short textual description of the QFE update.
+        #[prost(string, tag = "1")]
+        pub caption: ::prost::alloc::string::String,
+        /// A textual description of the QFE update.
+        #[prost(string, tag = "2")]
+        pub description: ::prost::alloc::string::String,
+        /// Unique identifier associated with a particular QFE update.
+        #[prost(string, tag = "3")]
+        pub hot_fix_id: ::prost::alloc::string::String,
+        /// Date that the QFE update was installed.  Mapped from installed_on field.
+        #[prost(message, optional, tag = "5")]
+        pub install_time: ::core::option::Option<::prost_types::Timestamp>,
+    }
+    /// Contains information about a Windows application as retrieved from the
+    /// Windows Registry. For more information about these fields, see
+    ///
+    /// [Windows Installer Properties for the Uninstall
+    /// Registry](<https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key>){:
+    /// class="external" }
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WindowsApplication {
+        /// The name of the application or product.
+        #[prost(string, tag = "1")]
+        pub display_name: ::prost::alloc::string::String,
+        /// The version of the product or application in string format.
+        #[prost(string, tag = "2")]
+        pub display_version: ::prost::alloc::string::String,
+        /// The name of the manufacturer for the product or application.
+        #[prost(string, tag = "3")]
+        pub publisher: ::prost::alloc::string::String,
+        /// The last time this product received service. The value of this property
+        /// is replaced each time a patch is applied or removed from the product or
+        /// the command-line option is used to repair the product.
+        #[prost(message, optional, tag = "4")]
+        pub install_date: ::core::option::Option<super::super::super::super::r#type::Date>,
+        /// The internet address for technical support.
+        #[prost(string, tag = "5")]
+        pub help_link: ::prost::alloc::string::String,
+    }
+}
+/// A request message for getting inventory data for the specified VM.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetInventoryRequest {
+    /// Required. API resource name for inventory resource.
+    ///
+    /// Format:
+    /// `projects/{project}/locations/{location}/instances/{instance}/inventory`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance}`, either Compute Engine  `instance-id` or `instance-name`
+    /// can be provided.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Inventory view indicating what information should be included in the
+    /// inventory resource. If unspecified, the default view is BASIC.
+    #[prost(enumeration = "InventoryView", tag = "2")]
+    pub view: i32,
+}
+/// A request message for listing inventory data for all VMs in the specified
+/// location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListInventoriesRequest {
+    /// Required. The parent resource name.
+    ///
+    /// Format: `projects/{project}/locations/{location}/instances/{instance}`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be
+    /// provided. For `{instance}`, only hyphen or dash character is supported to
+    /// list inventories across VMs.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Inventory view indicating what information should be included in the
+    /// inventory resource. If unspecified, the default view is BASIC.
+    #[prost(enumeration = "InventoryView", tag = "2")]
+    pub view: i32,
+    /// The maximum number of results to return.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// A pagination token returned from a previous call to
+    /// `ListInventories` that indicates where this listing
+    /// should continue from.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// If provided, this field specifies the criteria that must be met by a
+    /// `Inventory` API resource to be included in the response.
+    #[prost(string, tag = "5")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// A response message for listing inventory data for all VMs in a specified
+/// location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListInventoriesResponse {
+    /// List of inventory objects.
+    #[prost(message, repeated, tag = "1")]
+    pub inventories: ::prost::alloc::vec::Vec<Inventory>,
+    /// The pagination token to retrieve the next page of inventory objects.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The view for inventory objects.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum InventoryView {
+    /// The default value.
+    /// The API defaults to the BASIC view.
+    Unspecified = 0,
+    /// Returns the basic inventory information that includes `os_info`.
+    Basic = 1,
+    /// Returns all fields.
+    Full = 2,
 }
 #[doc = r" Generated client implementations."]
 pub mod os_config_zonal_service_client {

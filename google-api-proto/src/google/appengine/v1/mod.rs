@@ -1,112 +1,121 @@
-/// An Instance resource is the computing unit that App Engine uses to
-/// automatically scale an application.
+/// A domain that a user has been authorized to administer. To authorize use
+/// of a domain, verify ownership via
+/// [Webmaster Central](<https://www.google.com/webmasters/verification/home>).
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Instance {
-    /// Output only. Full path to the Instance resource in the API.
-    /// Example: `apps/myapp/services/default/versions/v1/instances/instance-1`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Relative name of the instance within the version.
-    /// Example: `instance-1`.
-    #[prost(string, tag = "2")]
-    pub id: ::prost::alloc::string::String,
-    /// Output only. App Engine release this instance is running on.
-    #[prost(string, tag = "3")]
-    pub app_engine_release: ::prost::alloc::string::String,
-    /// Output only. Availability of the instance.
-    #[prost(enumeration = "instance::Availability", tag = "4")]
-    pub availability: i32,
-    /// Output only. Name of the virtual machine where this instance lives. Only applicable
-    /// for instances in App Engine flexible environment.
-    #[prost(string, tag = "5")]
-    pub vm_name: ::prost::alloc::string::String,
-    /// Output only. Zone where the virtual machine is located. Only applicable for instances
-    /// in App Engine flexible environment.
-    #[prost(string, tag = "6")]
-    pub vm_zone_name: ::prost::alloc::string::String,
-    /// Output only. Virtual machine ID of this instance. Only applicable for instances in
-    /// App Engine flexible environment.
-    #[prost(string, tag = "7")]
-    pub vm_id: ::prost::alloc::string::String,
-    /// Output only. Time that this instance was started.
+pub struct AuthorizedDomain {
+    /// Full path to the `AuthorizedDomain` resource in the API. Example:
+    /// `apps/myapp/authorizedDomains/example.com`.
     ///
     /// @OutputOnly
-    #[prost(message, optional, tag = "8")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Number of requests since this instance was started.
-    #[prost(int32, tag = "9")]
-    pub requests: i32,
-    /// Output only. Number of errors since this instance was started.
-    #[prost(int32, tag = "10")]
-    pub errors: i32,
-    /// Output only. Average queries per second (QPS) over the last minute.
-    #[prost(float, tag = "11")]
-    pub qps: f32,
-    /// Output only. Average latency (ms) over the last minute.
-    #[prost(int32, tag = "12")]
-    pub average_latency: i32,
-    /// Output only. Total memory in use (bytes).
-    #[prost(int64, tag = "13")]
-    pub memory_usage: i64,
-    /// Output only. Status of the virtual machine where this instance lives. Only applicable
-    /// for instances in App Engine flexible environment.
-    #[prost(string, tag = "14")]
-    pub vm_status: ::prost::alloc::string::String,
-    /// Output only. Whether this instance is in debug mode. Only applicable for instances in
-    /// App Engine flexible environment.
-    #[prost(bool, tag = "15")]
-    pub vm_debug_enabled: bool,
-    /// Output only. The IP address of this instance. Only applicable for instances in App
-    /// Engine flexible environment.
-    #[prost(string, tag = "16")]
-    pub vm_ip: ::prost::alloc::string::String,
-    /// Output only. The liveness health check of this instance. Only applicable for instances
-    /// in App Engine flexible environment.
-    #[prost(enumeration = "instance::liveness::LivenessState", tag = "17")]
-    pub vm_liveness: i32,
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Fully qualified domain name of the domain authorized for use. Example:
+    /// `example.com`.
+    #[prost(string, tag = "2")]
+    pub id: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `Instance`.
-pub mod instance {
-    /// Wrapper for LivenessState enum.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Liveness {}
-    /// Nested message and enum types in `Liveness`.
-    pub mod liveness {
-        /// Liveness health check status for Flex instances.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum LivenessState {
-            /// There is no liveness health check for the instance. Only applicable for
-            /// instances in App Engine standard environment.
-            Unspecified = 0,
-            /// The health checking system is aware of the instance but its health is
-            /// not known at the moment.
-            Unknown = 1,
-            /// The instance is reachable i.e. a connection to the application health
-            /// checking endpoint can be established, and conforms to the requirements
-            /// defined by the health check.
-            Healthy = 2,
-            /// The instance is reachable, but does not conform to the requirements
-            /// defined by the health check.
-            Unhealthy = 3,
-            /// The instance is being drained. The existing connections to the instance
-            /// have time to complete, but the new ones are being refused.
-            Draining = 4,
-            /// The instance is unreachable i.e. a connection to the application health
-            /// checking endpoint cannot be established, or the server does not respond
-            /// within the specified timeout.
-            Timeout = 5,
-        }
-    }
-    /// Availability of the instance.
+/// A domain serving an App Engine application.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DomainMapping {
+    /// Full path to the `DomainMapping` resource in the API. Example:
+    /// `apps/myapp/domainMapping/example.com`.
+    ///
+    /// @OutputOnly
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Relative name of the domain serving the application. Example:
+    /// `example.com`.
+    #[prost(string, tag = "2")]
+    pub id: ::prost::alloc::string::String,
+    /// SSL configuration for this domain. If unconfigured, this domain will not
+    /// serve with SSL.
+    #[prost(message, optional, tag = "3")]
+    pub ssl_settings: ::core::option::Option<SslSettings>,
+    /// The resource records required to configure this domain mapping. These
+    /// records must be added to the domain's DNS configuration in order to
+    /// serve the application via this domain mapping.
+    ///
+    /// @OutputOnly
+    #[prost(message, repeated, tag = "4")]
+    pub resource_records: ::prost::alloc::vec::Vec<ResourceRecord>,
+}
+/// SSL configuration for a `DomainMapping` resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SslSettings {
+    /// ID of the `AuthorizedCertificate` resource configuring SSL for the
+    /// application. Clearing this field will remove SSL support.
+    ///
+    /// By default, a managed certificate is automatically created for every
+    /// domain mapping. To omit SSL support or to configure SSL manually, specify
+    /// `SslManagementType.MANUAL` on a `CREATE` or `UPDATE` request. You must
+    /// be authorized to administer the `AuthorizedCertificate` resource to
+    /// manually map it to a `DomainMapping` resource.
+    /// Example: `12345`.
+    #[prost(string, tag = "1")]
+    pub certificate_id: ::prost::alloc::string::String,
+    /// SSL management type for this domain. If `AUTOMATIC`, a managed certificate
+    /// is automatically provisioned. If `MANUAL`, `certificate_id` must be
+    /// manually specified in order to configure SSL for this domain.
+    #[prost(enumeration = "ssl_settings::SslManagementType", tag = "3")]
+    pub ssl_management_type: i32,
+    /// ID of the managed `AuthorizedCertificate` resource currently being
+    /// provisioned, if applicable. Until the new managed certificate has been
+    /// successfully provisioned, the previous SSL state will be preserved. Once
+    /// the provisioning process completes, the `certificate_id` field will reflect
+    /// the new managed certificate and this field will be left empty. To remove
+    /// SSL support while there is still a pending managed certificate, clear the
+    /// `certificate_id` field with an `UpdateDomainMappingRequest`.
+    ///
+    /// @OutputOnly
+    #[prost(string, tag = "4")]
+    pub pending_managed_certificate_id: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `SslSettings`.
+pub mod ssl_settings {
+    /// The SSL management type for this domain.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum Availability {
+    pub enum SslManagementType {
+        /// Defaults to `AUTOMATIC`.
         Unspecified = 0,
-        Resident = 1,
-        Dynamic = 2,
+        /// SSL support for this domain is configured automatically. The mapped SSL
+        /// certificate will be automatically renewed.
+        Automatic = 1,
+        /// SSL support for this domain is configured manually by the user. Either
+        /// the domain has no SSL support or a user-obtained SSL certificate has been
+        /// explictly mapped to this domain.
+        Manual = 2,
+    }
+}
+/// A DNS resource record.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResourceRecord {
+    /// Relative name of the object affected by this record. Only applicable for
+    /// `CNAME` records. Example: 'www'.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Data for this record. Values vary by record type, as defined in RFC 1035
+    /// (section 5) and RFC 1034 (section 3.6.1).
+    #[prost(string, tag = "2")]
+    pub rrdata: ::prost::alloc::string::String,
+    /// Resource record type. Example: `AAAA`.
+    #[prost(enumeration = "resource_record::RecordType", tag = "3")]
+    pub r#type: i32,
+}
+/// Nested message and enum types in `ResourceRecord`.
+pub mod resource_record {
+    /// A resource record type.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RecordType {
+        /// An unknown resource record.
+        Unspecified = 0,
+        /// An A resource record. Data is an IPv4 address.
+        A = 1,
+        /// An AAAA resource record. Data is an IPv6 address.
+        Aaaa = 2,
+        /// A CNAME resource record. Data is a domain name to be aliased.
+        Cname = 3,
     }
 }
 /// An Application resource contains the top-level configuration of an App
@@ -421,126 +430,6 @@ pub enum ManagementStatus {
     /// may still be serving.
     FailedRetryingCaaChecking = 8,
 }
-/// A domain that a user has been authorized to administer. To authorize use
-/// of a domain, verify ownership via
-/// [Webmaster Central](<https://www.google.com/webmasters/verification/home>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AuthorizedDomain {
-    /// Full path to the `AuthorizedDomain` resource in the API. Example:
-    /// `apps/myapp/authorizedDomains/example.com`.
-    ///
-    /// @OutputOnly
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Fully qualified domain name of the domain authorized for use. Example:
-    /// `example.com`.
-    #[prost(string, tag = "2")]
-    pub id: ::prost::alloc::string::String,
-}
-/// A domain serving an App Engine application.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DomainMapping {
-    /// Full path to the `DomainMapping` resource in the API. Example:
-    /// `apps/myapp/domainMapping/example.com`.
-    ///
-    /// @OutputOnly
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Relative name of the domain serving the application. Example:
-    /// `example.com`.
-    #[prost(string, tag = "2")]
-    pub id: ::prost::alloc::string::String,
-    /// SSL configuration for this domain. If unconfigured, this domain will not
-    /// serve with SSL.
-    #[prost(message, optional, tag = "3")]
-    pub ssl_settings: ::core::option::Option<SslSettings>,
-    /// The resource records required to configure this domain mapping. These
-    /// records must be added to the domain's DNS configuration in order to
-    /// serve the application via this domain mapping.
-    ///
-    /// @OutputOnly
-    #[prost(message, repeated, tag = "4")]
-    pub resource_records: ::prost::alloc::vec::Vec<ResourceRecord>,
-}
-/// SSL configuration for a `DomainMapping` resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SslSettings {
-    /// ID of the `AuthorizedCertificate` resource configuring SSL for the
-    /// application. Clearing this field will remove SSL support.
-    ///
-    /// By default, a managed certificate is automatically created for every
-    /// domain mapping. To omit SSL support or to configure SSL manually, specify
-    /// `SslManagementType.MANUAL` on a `CREATE` or `UPDATE` request. You must
-    /// be authorized to administer the `AuthorizedCertificate` resource to
-    /// manually map it to a `DomainMapping` resource.
-    /// Example: `12345`.
-    #[prost(string, tag = "1")]
-    pub certificate_id: ::prost::alloc::string::String,
-    /// SSL management type for this domain. If `AUTOMATIC`, a managed certificate
-    /// is automatically provisioned. If `MANUAL`, `certificate_id` must be
-    /// manually specified in order to configure SSL for this domain.
-    #[prost(enumeration = "ssl_settings::SslManagementType", tag = "3")]
-    pub ssl_management_type: i32,
-    /// ID of the managed `AuthorizedCertificate` resource currently being
-    /// provisioned, if applicable. Until the new managed certificate has been
-    /// successfully provisioned, the previous SSL state will be preserved. Once
-    /// the provisioning process completes, the `certificate_id` field will reflect
-    /// the new managed certificate and this field will be left empty. To remove
-    /// SSL support while there is still a pending managed certificate, clear the
-    /// `certificate_id` field with an `UpdateDomainMappingRequest`.
-    ///
-    /// @OutputOnly
-    #[prost(string, tag = "4")]
-    pub pending_managed_certificate_id: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `SslSettings`.
-pub mod ssl_settings {
-    /// The SSL management type for this domain.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SslManagementType {
-        /// Defaults to `AUTOMATIC`.
-        Unspecified = 0,
-        /// SSL support for this domain is configured automatically. The mapped SSL
-        /// certificate will be automatically renewed.
-        Automatic = 1,
-        /// SSL support for this domain is configured manually by the user. Either
-        /// the domain has no SSL support or a user-obtained SSL certificate has been
-        /// explictly mapped to this domain.
-        Manual = 2,
-    }
-}
-/// A DNS resource record.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResourceRecord {
-    /// Relative name of the object affected by this record. Only applicable for
-    /// `CNAME` records. Example: 'www'.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Data for this record. Values vary by record type, as defined in RFC 1035
-    /// (section 5) and RFC 1034 (section 3.6.1).
-    #[prost(string, tag = "2")]
-    pub rrdata: ::prost::alloc::string::String,
-    /// Resource record type. Example: `AAAA`.
-    #[prost(enumeration = "resource_record::RecordType", tag = "3")]
-    pub r#type: i32,
-}
-/// Nested message and enum types in `ResourceRecord`.
-pub mod resource_record {
-    /// A resource record type.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RecordType {
-        /// An unknown resource record.
-        Unspecified = 0,
-        /// An A resource record. Data is an IPv4 address.
-        A = 1,
-        /// An AAAA resource record. Data is an IPv6 address.
-        Aaaa = 2,
-        /// A CNAME resource record. Data is a domain name to be aliased.
-        Cname = 3,
-    }
-}
 /// A single firewall rule that is evaluated against incoming traffic
 /// and provides an action to take on matched requests.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -585,6 +474,117 @@ pub mod firewall_rule {
         Allow = 1,
         /// Matching requests are denied.
         Deny = 2,
+    }
+}
+/// An Instance resource is the computing unit that App Engine uses to
+/// automatically scale an application.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Instance {
+    /// Output only. Full path to the Instance resource in the API.
+    /// Example: `apps/myapp/services/default/versions/v1/instances/instance-1`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Relative name of the instance within the version.
+    /// Example: `instance-1`.
+    #[prost(string, tag = "2")]
+    pub id: ::prost::alloc::string::String,
+    /// Output only. App Engine release this instance is running on.
+    #[prost(string, tag = "3")]
+    pub app_engine_release: ::prost::alloc::string::String,
+    /// Output only. Availability of the instance.
+    #[prost(enumeration = "instance::Availability", tag = "4")]
+    pub availability: i32,
+    /// Output only. Name of the virtual machine where this instance lives. Only applicable
+    /// for instances in App Engine flexible environment.
+    #[prost(string, tag = "5")]
+    pub vm_name: ::prost::alloc::string::String,
+    /// Output only. Zone where the virtual machine is located. Only applicable for instances
+    /// in App Engine flexible environment.
+    #[prost(string, tag = "6")]
+    pub vm_zone_name: ::prost::alloc::string::String,
+    /// Output only. Virtual machine ID of this instance. Only applicable for instances in
+    /// App Engine flexible environment.
+    #[prost(string, tag = "7")]
+    pub vm_id: ::prost::alloc::string::String,
+    /// Output only. Time that this instance was started.
+    ///
+    /// @OutputOnly
+    #[prost(message, optional, tag = "8")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Number of requests since this instance was started.
+    #[prost(int32, tag = "9")]
+    pub requests: i32,
+    /// Output only. Number of errors since this instance was started.
+    #[prost(int32, tag = "10")]
+    pub errors: i32,
+    /// Output only. Average queries per second (QPS) over the last minute.
+    #[prost(float, tag = "11")]
+    pub qps: f32,
+    /// Output only. Average latency (ms) over the last minute.
+    #[prost(int32, tag = "12")]
+    pub average_latency: i32,
+    /// Output only. Total memory in use (bytes).
+    #[prost(int64, tag = "13")]
+    pub memory_usage: i64,
+    /// Output only. Status of the virtual machine where this instance lives. Only applicable
+    /// for instances in App Engine flexible environment.
+    #[prost(string, tag = "14")]
+    pub vm_status: ::prost::alloc::string::String,
+    /// Output only. Whether this instance is in debug mode. Only applicable for instances in
+    /// App Engine flexible environment.
+    #[prost(bool, tag = "15")]
+    pub vm_debug_enabled: bool,
+    /// Output only. The IP address of this instance. Only applicable for instances in App
+    /// Engine flexible environment.
+    #[prost(string, tag = "16")]
+    pub vm_ip: ::prost::alloc::string::String,
+    /// Output only. The liveness health check of this instance. Only applicable for instances
+    /// in App Engine flexible environment.
+    #[prost(enumeration = "instance::liveness::LivenessState", tag = "17")]
+    pub vm_liveness: i32,
+}
+/// Nested message and enum types in `Instance`.
+pub mod instance {
+    /// Wrapper for LivenessState enum.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Liveness {}
+    /// Nested message and enum types in `Liveness`.
+    pub mod liveness {
+        /// Liveness health check status for Flex instances.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum LivenessState {
+            /// There is no liveness health check for the instance. Only applicable for
+            /// instances in App Engine standard environment.
+            Unspecified = 0,
+            /// The health checking system is aware of the instance but its health is
+            /// not known at the moment.
+            Unknown = 1,
+            /// The instance is reachable i.e. a connection to the application health
+            /// checking endpoint can be established, and conforms to the requirements
+            /// defined by the health check.
+            Healthy = 2,
+            /// The instance is reachable, but does not conform to the requirements
+            /// defined by the health check.
+            Unhealthy = 3,
+            /// The instance is being drained. The existing connections to the instance
+            /// have time to complete, but the new ones are being refused.
+            Draining = 4,
+            /// The instance is unreachable i.e. a connection to the application health
+            /// checking endpoint cannot be established, or the server does not respond
+            /// within the specified timeout.
+            Timeout = 5,
+        }
+    }
+    /// Availability of the instance.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Availability {
+        Unspecified = 0,
+        Resident = 1,
+        Dynamic = 2,
     }
 }
 /// [Google Cloud Endpoints](<https://cloud.google.com/appengine/docs/python/endpoints/>)

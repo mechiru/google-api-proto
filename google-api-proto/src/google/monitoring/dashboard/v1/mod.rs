@@ -401,6 +401,15 @@ pub mod statistical_time_series_filter {
         ClusterOutlier = 1,
     }
 }
+/// A chart that displays alert policy data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AlertChart {
+    /// Required. The resource name of the alert policy. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
 /// TimeSeriesQuery collects the set of supported methods for querying time
 /// series data from the Stackdriver metrics API.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -670,15 +679,6 @@ pub mod scorecard {
         #[prost(message, tag = "5")]
         SparkChartView(SparkChartView),
     }
-}
-/// A chart that displays alert policy data.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AlertChart {
-    /// Required. The resource name of the alert policy. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
 }
 /// A widget that displays textual content.
 #[derive(Clone, PartialEq, ::prost::Message)]

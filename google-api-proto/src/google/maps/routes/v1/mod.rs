@@ -1,47 +1,3 @@
-/// Information related to how and why a fallback result was used. If this field
-/// is set, then it means the server used a different routing mode from your
-/// preferred mode as fallback.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FallbackInfo {
-    /// Routing mode used for the response. If fallback was triggered, the mode
-    /// may be different from routing preference set in the original client
-    /// request.
-    #[prost(enumeration = "FallbackRoutingMode", tag = "1")]
-    pub routing_mode: i32,
-    /// The reason why fallback response was used instead of the original response.
-    /// This field is only populated when the fallback mode is triggered and the
-    /// fallback response is returned.
-    #[prost(enumeration = "FallbackReason", tag = "2")]
-    pub reason: i32,
-}
-/// Reasons for using fallback response.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum FallbackReason {
-    /// No fallback reason specified.
-    Unspecified = 0,
-    /// A server error happened while calculating routes with your preferred
-    /// routing mode, but we were able to return a result calculated by an
-    /// alternative mode.
-    ServerError = 1,
-    /// We were not able to finish the calculation with your preferred routing mode
-    /// on time, but we were able to return a result calculated by an alternative
-    /// mode.
-    LatencyExceeded = 2,
-}
-/// Actual routing mode used for returned fallback response.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum FallbackRoutingMode {
-    /// Not used.
-    Unspecified = 0,
-    /// Indicates the "TRAFFIC_UNAWARE" routing mode was used to compute the
-    /// response.
-    FallbackTrafficUnaware = 1,
-    /// Indicates the "TRAFFIC_AWARE" routing mode was used to compute the
-    /// response.
-    FallbackTrafficAware = 2,
-}
 /// Encapsulates an encoded polyline.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Polyline {
@@ -92,6 +48,73 @@ pub enum PolylineEncoding {
     /// Specifies a polyline using the [GeoJSON LineString
     /// format](<https://tools.ietf.org/html/rfc7946#section-3.1.4>)
     GeoJsonLinestring = 2,
+}
+/// List of toll passes around the world that we support.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TollPass {
+    /// Not used. If this value is used, then the request fails.
+    Unspecified = 0,
+    /// Australia-wide toll pass.
+    /// See additional details at <https://www.linkt.com.au/.>
+    AuLinkt = 2,
+    /// Argentina toll pass. See additional details at <https://telepase.com.ar>
+    ArTelepase = 3,
+    /// Brazil toll pass. See additional details at <https://conectcar.com.>
+    BrConectcar = 7,
+    /// Brazil toll pass. See additional details at <https://movemais.com.>
+    BrMoveMais = 8,
+    /// Brazil toll pass. See additional details at <https://www.semparar.com.br.>
+    BrSemParar = 9,
+    /// Brazil toll pass. See additional details at <https://taggy.com.br.>
+    BrTaggy = 10,
+    /// Brazil toll pass. See additional details at
+    /// <https://veloe.com.br/site/onde-usar.>
+    BrVeloe = 11,
+    /// Indonesia.
+    /// E-card provided by multiple banks used to pay for tolls. All e-cards
+    /// via banks are charged the same so only one enum value is needed. E.g.
+    /// Bank Mandiri <https://www.bankmandiri.co.id/e-money>
+    /// BCA <https://www.bca.co.id/flazz>
+    /// BNI <https://www.bni.co.id/id-id/ebanking/tapcash>
+    IdEToll = 16,
+    /// Mexico toll pass.
+    MxTagIave = 12,
+    /// Mexico toll pass company. One of many operating in Mexico City. See
+    /// additional details at <https://www.televia.com.mx.>
+    MxTagTelevia = 13,
+    /// Mexico toll pass. See additional details at
+    /// <https://www.viapass.com.mx/viapass/web_home.aspx.>
+    MxViapass = 14,
+    /// State pass of California, United States. Passes vary between Standard,
+    /// Flex, and Clean Air. Flex and Clean Air have settings for carpool. See
+    /// additional details at <https://www.bayareafastrak.org/en/home/index.shtml.>
+    UsCaFastrak = 4,
+    /// State pass of Illinois, United States. See additional details at
+    /// <https://www.illinoistollway.com/about-ipass.>
+    UsIlIpass = 5,
+    /// State pass of Massachusetts, United States. See additional details at
+    /// <https://www.mass.gov/ezdrivema.>
+    UsMaEzpassma = 6,
+    /// State pass of New York, United States. See additional details at
+    /// <https://www.e-zpassny.com.>
+    UsNyEzpassny = 15,
+    /// State pass of the Washington state, United States.
+    UsWaGoodToGo = 1,
+}
+/// A set of values describing the vehicle's emission type.
+/// Applies only to the DRIVE travel mode.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum VehicleEmissionType {
+    /// No emission type specified. Default to GASOLINE.
+    Unspecified = 0,
+    /// Gasoline/petrol fueled vehicle.
+    Gasoline = 1,
+    /// Electricity powered vehicle.
+    Electric = 2,
+    /// Hybrid fuel (such as gasoline + electric) vehicle.
+    Hybrid = 3,
 }
 /// Encapsulates a waypoint. Waypoints mark both the beginning and end of a
 /// route, and include intermediate stops along the route.
@@ -153,6 +176,262 @@ pub struct Location {
     /// field only for `DRIVE` and `TWO_WHEELER` travel modes.
     #[prost(message, optional, tag = "2")]
     pub heading: ::core::option::Option<i32>,
+}
+/// ComputeRoutes request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeRoutesRequest {
+    /// Required. Origin waypoint.
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<Waypoint>,
+    /// Required. Destination waypoint.
+    #[prost(message, optional, tag = "2")]
+    pub destination: ::core::option::Option<Waypoint>,
+    /// Optional. A set of waypoints along the route (excluding terminal points),
+    /// for either stopping at or passing by. Up to 25 intermediate waypoints are
+    /// supported.
+    #[prost(message, repeated, tag = "3")]
+    pub intermediates: ::prost::alloc::vec::Vec<Waypoint>,
+    /// Optional. Specifies the mode of transportation.
+    #[prost(enumeration = "RouteTravelMode", tag = "4")]
+    pub travel_mode: i32,
+    /// Optional. Specifies how to compute the route. The server
+    /// attempts to use the selected routing preference to compute the route. If
+    ///  the routing preference results in an error or an extra long latency, then
+    /// an error is returned. In the future, we might implement a fallback
+    /// mechanism to use a different option when the preferred option does not give
+    /// a valid result. You can specify this option only when the `travel_mode` is
+    /// `DRIVE` or `TWO_WHEELER`, otherwise the request fails.
+    #[prost(enumeration = "RoutingPreference", tag = "5")]
+    pub routing_preference: i32,
+    /// Optional. Specifies your preference for the quality of the polyline.
+    #[prost(enumeration = "PolylineQuality", tag = "6")]
+    pub polyline_quality: i32,
+    /// Optional. Specifies the preferred encoding for the polyline.
+    #[prost(enumeration = "PolylineEncoding", tag = "12")]
+    pub polyline_encoding: i32,
+    /// Optional. The departure time. If you don't set this value, then this value
+    /// defaults to the time that you made the request. If you set this value to a
+    /// time that has already occurred, then the request fails.
+    #[prost(message, optional, tag = "7")]
+    pub departure_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Specifies whether to calculate alternate routes in addition to the route.
+    #[prost(bool, tag = "8")]
+    pub compute_alternative_routes: bool,
+    /// Optional. A set of conditions to satisfy that affect the way routes are
+    /// calculated.
+    #[prost(message, optional, tag = "9")]
+    pub route_modifiers: ::core::option::Option<RouteModifiers>,
+    /// Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more
+    /// information, see
+    /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.> See
+    /// [Language Support](<https://developers.google.com/maps/faq#languagesupport>)
+    /// for the list of supported languages. When you don't provide this value, the
+    /// display language is inferred from the location of the route request.
+    #[prost(string, tag = "10")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Optional. Specifies the units of measure for the display fields. This
+    /// includes the `instruction` field in `NavigationInstruction`. The units of
+    /// measure used for the route, leg, step distance, and duration are not
+    /// affected by this value. If you don't provide this value, then the display
+    /// units are inferred from the location of the request.
+    #[prost(enumeration = "Units", tag = "11")]
+    pub units: i32,
+}
+/// Encapsulates a set of optional conditions to satisfy when calculating the
+/// routes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RouteModifiers {
+    /// Specifies whether to avoid toll roads where reasonable. Preference will be
+    /// given to routes not containing toll roads. Applies only to the `DRIVE` and
+    /// `TWO_WHEELER` travel modes.
+    #[prost(bool, tag = "1")]
+    pub avoid_tolls: bool,
+    /// Specifies whether to avoid highways where reasonable. Preference will be
+    /// given to routes not containing highways. Applies only to the `DRIVE` and
+    /// `TWO_WHEELER` travel modes.
+    #[prost(bool, tag = "2")]
+    pub avoid_highways: bool,
+    /// Specifies whether to avoid ferries where reasonable. Preference will be
+    /// given to routes not containing travel by ferries.
+    /// Applies only to the `DRIVE` and`TWO_WHEELER` travel modes.
+    #[prost(bool, tag = "3")]
+    pub avoid_ferries: bool,
+    /// Specifies whether to avoid navigating indoors where reasonable. Preference
+    /// will be given to routes not containing indoor navigation.
+    /// Applies only to the `WALK` travel mode.
+    #[prost(bool, tag = "4")]
+    pub avoid_indoor: bool,
+    /// Specifies the vehicle information.
+    #[prost(message, optional, tag = "5")]
+    pub vehicle_info: ::core::option::Option<VehicleInfo>,
+    /// Encapsulates information about toll passes.
+    /// If toll passes are provided, the API tries to return the pass price. If
+    /// toll passes are not provided, the API treats the toll pass as unknown and
+    /// tries to return the cash price.
+    /// Applies only to the DRIVE and TWO_WHEELER travel modes.
+    #[prost(enumeration = "TollPass", repeated, tag = "6")]
+    pub toll_passes: ::prost::alloc::vec::Vec<i32>,
+}
+/// Encapsulates the vehicle information, such as the license plate last
+/// character.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VehicleInfo {
+    /// Specifies the license plate last character. Could be a digit or a letter.
+    #[prost(string, tag = "1")]
+    pub license_plate_last_character: ::prost::alloc::string::String,
+    /// Describes the vehicle's emission type.
+    /// Applies only to the DRIVE travel mode.
+    #[prost(enumeration = "VehicleEmissionType", tag = "2")]
+    pub emission_type: i32,
+}
+/// A set of values used to specify the mode of travel.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum RouteTravelMode {
+    /// No travel mode specified. Defaults to `DRIVE`.
+    TravelModeUnspecified = 0,
+    /// Travel by passenger car.
+    Drive = 1,
+    /// Travel by bicycle.
+    Bicycle = 2,
+    /// Travel by walking.
+    Walk = 3,
+    /// Two-wheeled, motorized vehicle. For example, motorcycle. Note that this
+    /// differs from the `BICYCLE` travel mode which covers human-powered mode.
+    TwoWheeler = 4,
+    /// Travel by licensed taxi, which may allow the vehicle to travel on
+    /// designated taxi lanes in some areas.
+    Taxi = 5,
+}
+/// A set of values that specify factors to take into consideration when
+/// calculating the route.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum RoutingPreference {
+    /// No routing preference specified. Default to `TRAFFIC_AWARE`.
+    Unspecified = 0,
+    /// Computes routes without taking traffic conditions into consideration.
+    /// Suitable when traffic conditions don't matter. Using this value produces
+    /// the lowest latency.
+    TrafficUnaware = 1,
+    /// Calculates routes taking traffic conditions into consideration. In contrast
+    /// to `TRAFFIC_AWARE_OPTIMAL`, some optimizations are applied to significantly
+    /// reduce latency.
+    TrafficAware = 2,
+    /// Calculates the routes taking traffic conditions into consideration,
+    /// without applying most performance optimizations. Using this value produces
+    /// the highest latency.
+    TrafficAwareOptimal = 3,
+}
+/// A set of values that specify the unit of measure used in the display.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Units {
+    /// Units of measure not specified. Defaults to the unit of measure inferred
+    /// from the request.
+    Unspecified = 0,
+    /// Metric units of measure.
+    Metric = 1,
+    /// Imperial (English) units of measure.
+    Imperial = 2,
+}
+/// ComputeCustomRoutes request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeCustomRoutesRequest {
+    /// Required. Origin waypoint.
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<Waypoint>,
+    /// Required. Destination waypoint.
+    #[prost(message, optional, tag = "2")]
+    pub destination: ::core::option::Option<Waypoint>,
+    /// Optional. A set of waypoints along the route (excluding terminal points), for either
+    /// stopping at or passing by. Up to 25 intermediate waypoints are supported.
+    #[prost(message, repeated, tag = "3")]
+    pub intermediates: ::prost::alloc::vec::Vec<Waypoint>,
+    /// Optional. Specifies the mode of transportation. Only DRIVE is supported now.
+    #[prost(enumeration = "RouteTravelMode", tag = "4")]
+    pub travel_mode: i32,
+    /// Optional. Specifies how to compute the route. The server attempts to use the selected
+    /// routing preference to compute the route. If the routing preference results
+    /// in an error or an extra long latency, then an error is returned. In the
+    /// future, we might implement a fallback mechanism to use a different option
+    /// when the preferred option does not give a valid result. You can specify
+    /// this option only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`,
+    /// otherwise the request fails.
+    #[prost(enumeration = "RoutingPreference", tag = "5")]
+    pub routing_preference: i32,
+    /// Optional. Specifies your preference for the quality of the polyline.
+    #[prost(enumeration = "PolylineQuality", tag = "6")]
+    pub polyline_quality: i32,
+    /// Optional. Specifies the preferred encoding for the polyline.
+    #[prost(enumeration = "PolylineEncoding", tag = "13")]
+    pub polyline_encoding: i32,
+    /// Optional. The departure time. If you don't set this value, then this value
+    /// defaults to the time that you made the request. If you set this value to a
+    /// time that has already occurred, then the request fails.
+    #[prost(message, optional, tag = "7")]
+    pub departure_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. A set of conditions to satisfy that affect the way routes are calculated.
+    #[prost(message, optional, tag = "11")]
+    pub route_modifiers: ::core::option::Option<RouteModifiers>,
+    /// Required. A route objective to optimize for.
+    #[prost(message, optional, tag = "12")]
+    pub route_objective: ::core::option::Option<RouteObjective>,
+    /// Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more
+    /// information, see
+    /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.> See
+    /// [Language Support](<https://developers.google.com/maps/faq#languagesupport>)
+    /// for the list of supported languages. When you don't provide this value, the
+    /// display language is inferred from the location of the route request.
+    #[prost(string, tag = "9")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Optional. Specifies the units of measure for the display fields. This includes the
+    /// `instruction` field in `NavigationInstruction`. The units of measure used
+    /// for the route, leg, step distance, and duration are not affected by this
+    /// value. If you don't provide this value, then the display units are inferred
+    /// from the location of the request.
+    #[prost(enumeration = "Units", tag = "10")]
+    pub units: i32,
+}
+/// Encapsulates an objective to optimize for by ComputeCustomRoutes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RouteObjective {
+    /// The route objective.
+    #[prost(oneof = "route_objective::Objective", tags = "1")]
+    pub objective: ::core::option::Option<route_objective::Objective>,
+}
+/// Nested message and enum types in `RouteObjective`.
+pub mod route_objective {
+    /// Encapsulates a RateCard route objective.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct RateCard {
+        /// Optional. Cost per minute.
+        #[prost(message, optional, tag = "2")]
+        pub cost_per_minute: ::core::option::Option<rate_card::MonetaryCost>,
+        /// Optional. Cost per kilometer.
+        #[prost(message, optional, tag = "3")]
+        pub cost_per_km: ::core::option::Option<rate_card::MonetaryCost>,
+        /// Optional. Whether to include toll cost in the overall cost.
+        #[prost(bool, tag = "4")]
+        pub include_tolls: bool,
+    }
+    /// Nested message and enum types in `RateCard`.
+    pub mod rate_card {
+        /// Encapsulates the cost used in the rate card.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct MonetaryCost {
+            /// Required. The cost value in local currency inferred from the request.
+            #[prost(double, tag = "1")]
+            pub value: f64,
+        }
+    }
+    /// The route objective.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Objective {
+        /// The RateCard objective.
+        #[prost(message, tag = "1")]
+        RateCard(RateCard),
+    }
 }
 /// Encapsulates a route, which consists of a series of connected road segments
 /// that join beginning, ending, and intermediate waypoints.
@@ -457,329 +736,6 @@ pub enum Maneuver {
     /// Turn right at the roundabout.
     RoundaboutRight = 18,
 }
-/// A set of values describing the vehicle's emission type.
-/// Applies only to the DRIVE travel mode.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum VehicleEmissionType {
-    /// No emission type specified. Default to GASOLINE.
-    Unspecified = 0,
-    /// Gasoline/petrol fueled vehicle.
-    Gasoline = 1,
-    /// Electricity powered vehicle.
-    Electric = 2,
-    /// Hybrid fuel (such as gasoline + electric) vehicle.
-    Hybrid = 3,
-}
-/// List of toll passes around the world that we support.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TollPass {
-    /// Not used. If this value is used, then the request fails.
-    Unspecified = 0,
-    /// Australia-wide toll pass.
-    /// See additional details at <https://www.linkt.com.au/.>
-    AuLinkt = 2,
-    /// Argentina toll pass. See additional details at <https://telepase.com.ar>
-    ArTelepase = 3,
-    /// Brazil toll pass. See additional details at <https://conectcar.com.>
-    BrConectcar = 7,
-    /// Brazil toll pass. See additional details at <https://movemais.com.>
-    BrMoveMais = 8,
-    /// Brazil toll pass. See additional details at <https://www.semparar.com.br.>
-    BrSemParar = 9,
-    /// Brazil toll pass. See additional details at <https://taggy.com.br.>
-    BrTaggy = 10,
-    /// Brazil toll pass. See additional details at
-    /// <https://veloe.com.br/site/onde-usar.>
-    BrVeloe = 11,
-    /// Indonesia.
-    /// E-card provided by multiple banks used to pay for tolls. All e-cards
-    /// via banks are charged the same so only one enum value is needed. E.g.
-    /// Bank Mandiri <https://www.bankmandiri.co.id/e-money>
-    /// BCA <https://www.bca.co.id/flazz>
-    /// BNI <https://www.bni.co.id/id-id/ebanking/tapcash>
-    IdEToll = 16,
-    /// Mexico toll pass.
-    MxTagIave = 12,
-    /// Mexico toll pass company. One of many operating in Mexico City. See
-    /// additional details at <https://www.televia.com.mx.>
-    MxTagTelevia = 13,
-    /// Mexico toll pass. See additional details at
-    /// <https://www.viapass.com.mx/viapass/web_home.aspx.>
-    MxViapass = 14,
-    /// State pass of California, United States. Passes vary between Standard,
-    /// Flex, and Clean Air. Flex and Clean Air have settings for carpool. See
-    /// additional details at <https://www.bayareafastrak.org/en/home/index.shtml.>
-    UsCaFastrak = 4,
-    /// State pass of Illinois, United States. See additional details at
-    /// <https://www.illinoistollway.com/about-ipass.>
-    UsIlIpass = 5,
-    /// State pass of Massachusetts, United States. See additional details at
-    /// <https://www.mass.gov/ezdrivema.>
-    UsMaEzpassma = 6,
-    /// State pass of New York, United States. See additional details at
-    /// <https://www.e-zpassny.com.>
-    UsNyEzpassny = 15,
-    /// State pass of the Washington state, United States.
-    UsWaGoodToGo = 1,
-}
-/// ComputeRoutes request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeRoutesRequest {
-    /// Required. Origin waypoint.
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<Waypoint>,
-    /// Required. Destination waypoint.
-    #[prost(message, optional, tag = "2")]
-    pub destination: ::core::option::Option<Waypoint>,
-    /// Optional. A set of waypoints along the route (excluding terminal points),
-    /// for either stopping at or passing by. Up to 25 intermediate waypoints are
-    /// supported.
-    #[prost(message, repeated, tag = "3")]
-    pub intermediates: ::prost::alloc::vec::Vec<Waypoint>,
-    /// Optional. Specifies the mode of transportation.
-    #[prost(enumeration = "RouteTravelMode", tag = "4")]
-    pub travel_mode: i32,
-    /// Optional. Specifies how to compute the route. The server
-    /// attempts to use the selected routing preference to compute the route. If
-    ///  the routing preference results in an error or an extra long latency, then
-    /// an error is returned. In the future, we might implement a fallback
-    /// mechanism to use a different option when the preferred option does not give
-    /// a valid result. You can specify this option only when the `travel_mode` is
-    /// `DRIVE` or `TWO_WHEELER`, otherwise the request fails.
-    #[prost(enumeration = "RoutingPreference", tag = "5")]
-    pub routing_preference: i32,
-    /// Optional. Specifies your preference for the quality of the polyline.
-    #[prost(enumeration = "PolylineQuality", tag = "6")]
-    pub polyline_quality: i32,
-    /// Optional. Specifies the preferred encoding for the polyline.
-    #[prost(enumeration = "PolylineEncoding", tag = "12")]
-    pub polyline_encoding: i32,
-    /// Optional. The departure time. If you don't set this value, then this value
-    /// defaults to the time that you made the request. If you set this value to a
-    /// time that has already occurred, then the request fails.
-    #[prost(message, optional, tag = "7")]
-    pub departure_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Specifies whether to calculate alternate routes in addition to the route.
-    #[prost(bool, tag = "8")]
-    pub compute_alternative_routes: bool,
-    /// Optional. A set of conditions to satisfy that affect the way routes are
-    /// calculated.
-    #[prost(message, optional, tag = "9")]
-    pub route_modifiers: ::core::option::Option<RouteModifiers>,
-    /// Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more
-    /// information, see
-    /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.> See
-    /// [Language Support](<https://developers.google.com/maps/faq#languagesupport>)
-    /// for the list of supported languages. When you don't provide this value, the
-    /// display language is inferred from the location of the route request.
-    #[prost(string, tag = "10")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Optional. Specifies the units of measure for the display fields. This
-    /// includes the `instruction` field in `NavigationInstruction`. The units of
-    /// measure used for the route, leg, step distance, and duration are not
-    /// affected by this value. If you don't provide this value, then the display
-    /// units are inferred from the location of the request.
-    #[prost(enumeration = "Units", tag = "11")]
-    pub units: i32,
-}
-/// Encapsulates a set of optional conditions to satisfy when calculating the
-/// routes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RouteModifiers {
-    /// Specifies whether to avoid toll roads where reasonable. Preference will be
-    /// given to routes not containing toll roads. Applies only to the `DRIVE` and
-    /// `TWO_WHEELER` travel modes.
-    #[prost(bool, tag = "1")]
-    pub avoid_tolls: bool,
-    /// Specifies whether to avoid highways where reasonable. Preference will be
-    /// given to routes not containing highways. Applies only to the `DRIVE` and
-    /// `TWO_WHEELER` travel modes.
-    #[prost(bool, tag = "2")]
-    pub avoid_highways: bool,
-    /// Specifies whether to avoid ferries where reasonable. Preference will be
-    /// given to routes not containing travel by ferries.
-    /// Applies only to the `DRIVE` and`TWO_WHEELER` travel modes.
-    #[prost(bool, tag = "3")]
-    pub avoid_ferries: bool,
-    /// Specifies whether to avoid navigating indoors where reasonable. Preference
-    /// will be given to routes not containing indoor navigation.
-    /// Applies only to the `WALK` travel mode.
-    #[prost(bool, tag = "4")]
-    pub avoid_indoor: bool,
-    /// Specifies the vehicle information.
-    #[prost(message, optional, tag = "5")]
-    pub vehicle_info: ::core::option::Option<VehicleInfo>,
-    /// Encapsulates information about toll passes.
-    /// If toll passes are provided, the API tries to return the pass price. If
-    /// toll passes are not provided, the API treats the toll pass as unknown and
-    /// tries to return the cash price.
-    /// Applies only to the DRIVE and TWO_WHEELER travel modes.
-    #[prost(enumeration = "TollPass", repeated, tag = "6")]
-    pub toll_passes: ::prost::alloc::vec::Vec<i32>,
-}
-/// Encapsulates the vehicle information, such as the license plate last
-/// character.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VehicleInfo {
-    /// Specifies the license plate last character. Could be a digit or a letter.
-    #[prost(string, tag = "1")]
-    pub license_plate_last_character: ::prost::alloc::string::String,
-    /// Describes the vehicle's emission type.
-    /// Applies only to the DRIVE travel mode.
-    #[prost(enumeration = "VehicleEmissionType", tag = "2")]
-    pub emission_type: i32,
-}
-/// A set of values used to specify the mode of travel.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum RouteTravelMode {
-    /// No travel mode specified. Defaults to `DRIVE`.
-    TravelModeUnspecified = 0,
-    /// Travel by passenger car.
-    Drive = 1,
-    /// Travel by bicycle.
-    Bicycle = 2,
-    /// Travel by walking.
-    Walk = 3,
-    /// Two-wheeled, motorized vehicle. For example, motorcycle. Note that this
-    /// differs from the `BICYCLE` travel mode which covers human-powered mode.
-    TwoWheeler = 4,
-    /// Travel by licensed taxi, which may allow the vehicle to travel on
-    /// designated taxi lanes in some areas.
-    Taxi = 5,
-}
-/// A set of values that specify factors to take into consideration when
-/// calculating the route.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum RoutingPreference {
-    /// No routing preference specified. Default to `TRAFFIC_AWARE`.
-    Unspecified = 0,
-    /// Computes routes without taking traffic conditions into consideration.
-    /// Suitable when traffic conditions don't matter. Using this value produces
-    /// the lowest latency.
-    TrafficUnaware = 1,
-    /// Calculates routes taking traffic conditions into consideration. In contrast
-    /// to `TRAFFIC_AWARE_OPTIMAL`, some optimizations are applied to significantly
-    /// reduce latency.
-    TrafficAware = 2,
-    /// Calculates the routes taking traffic conditions into consideration,
-    /// without applying most performance optimizations. Using this value produces
-    /// the highest latency.
-    TrafficAwareOptimal = 3,
-}
-/// A set of values that specify the unit of measure used in the display.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum Units {
-    /// Units of measure not specified. Defaults to the unit of measure inferred
-    /// from the request.
-    Unspecified = 0,
-    /// Metric units of measure.
-    Metric = 1,
-    /// Imperial (English) units of measure.
-    Imperial = 2,
-}
-/// ComputeCustomRoutes request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeCustomRoutesRequest {
-    /// Required. Origin waypoint.
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<Waypoint>,
-    /// Required. Destination waypoint.
-    #[prost(message, optional, tag = "2")]
-    pub destination: ::core::option::Option<Waypoint>,
-    /// Optional. A set of waypoints along the route (excluding terminal points), for either
-    /// stopping at or passing by. Up to 25 intermediate waypoints are supported.
-    #[prost(message, repeated, tag = "3")]
-    pub intermediates: ::prost::alloc::vec::Vec<Waypoint>,
-    /// Optional. Specifies the mode of transportation. Only DRIVE is supported now.
-    #[prost(enumeration = "RouteTravelMode", tag = "4")]
-    pub travel_mode: i32,
-    /// Optional. Specifies how to compute the route. The server attempts to use the selected
-    /// routing preference to compute the route. If the routing preference results
-    /// in an error or an extra long latency, then an error is returned. In the
-    /// future, we might implement a fallback mechanism to use a different option
-    /// when the preferred option does not give a valid result. You can specify
-    /// this option only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`,
-    /// otherwise the request fails.
-    #[prost(enumeration = "RoutingPreference", tag = "5")]
-    pub routing_preference: i32,
-    /// Optional. Specifies your preference for the quality of the polyline.
-    #[prost(enumeration = "PolylineQuality", tag = "6")]
-    pub polyline_quality: i32,
-    /// Optional. Specifies the preferred encoding for the polyline.
-    #[prost(enumeration = "PolylineEncoding", tag = "13")]
-    pub polyline_encoding: i32,
-    /// Optional. The departure time. If you don't set this value, then this value
-    /// defaults to the time that you made the request. If you set this value to a
-    /// time that has already occurred, then the request fails.
-    #[prost(message, optional, tag = "7")]
-    pub departure_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. A set of conditions to satisfy that affect the way routes are calculated.
-    #[prost(message, optional, tag = "11")]
-    pub route_modifiers: ::core::option::Option<RouteModifiers>,
-    /// Required. A route objective to optimize for.
-    #[prost(message, optional, tag = "12")]
-    pub route_objective: ::core::option::Option<RouteObjective>,
-    /// Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more
-    /// information, see
-    /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.> See
-    /// [Language Support](<https://developers.google.com/maps/faq#languagesupport>)
-    /// for the list of supported languages. When you don't provide this value, the
-    /// display language is inferred from the location of the route request.
-    #[prost(string, tag = "9")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Optional. Specifies the units of measure for the display fields. This includes the
-    /// `instruction` field in `NavigationInstruction`. The units of measure used
-    /// for the route, leg, step distance, and duration are not affected by this
-    /// value. If you don't provide this value, then the display units are inferred
-    /// from the location of the request.
-    #[prost(enumeration = "Units", tag = "10")]
-    pub units: i32,
-}
-/// Encapsulates an objective to optimize for by ComputeCustomRoutes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RouteObjective {
-    /// The route objective.
-    #[prost(oneof = "route_objective::Objective", tags = "1")]
-    pub objective: ::core::option::Option<route_objective::Objective>,
-}
-/// Nested message and enum types in `RouteObjective`.
-pub mod route_objective {
-    /// Encapsulates a RateCard route objective.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct RateCard {
-        /// Optional. Cost per minute.
-        #[prost(message, optional, tag = "2")]
-        pub cost_per_minute: ::core::option::Option<rate_card::MonetaryCost>,
-        /// Optional. Cost per kilometer.
-        #[prost(message, optional, tag = "3")]
-        pub cost_per_km: ::core::option::Option<rate_card::MonetaryCost>,
-        /// Optional. Whether to include toll cost in the overall cost.
-        #[prost(bool, tag = "4")]
-        pub include_tolls: bool,
-    }
-    /// Nested message and enum types in `RateCard`.
-    pub mod rate_card {
-        /// Encapsulates the cost used in the rate card.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct MonetaryCost {
-            /// Required. The cost value in local currency inferred from the request.
-            #[prost(double, tag = "1")]
-            pub value: f64,
-        }
-    }
-    /// The route objective.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Objective {
-        /// The RateCard objective.
-        #[prost(message, tag = "1")]
-        RateCard(RateCard),
-    }
-}
 /// Encapsulates a custom route computed based on the route objective specified
 /// by the customer. CustomRoute contains a route and a route token, which can be
 /// passed to NavSDK to reconstruct the custom route for turn by turn navigation.
@@ -795,6 +751,50 @@ pub struct CustomRoute {
     /// opaque blob.
     #[prost(string, tag = "12")]
     pub token: ::prost::alloc::string::String,
+}
+/// Information related to how and why a fallback result was used. If this field
+/// is set, then it means the server used a different routing mode from your
+/// preferred mode as fallback.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FallbackInfo {
+    /// Routing mode used for the response. If fallback was triggered, the mode
+    /// may be different from routing preference set in the original client
+    /// request.
+    #[prost(enumeration = "FallbackRoutingMode", tag = "1")]
+    pub routing_mode: i32,
+    /// The reason why fallback response was used instead of the original response.
+    /// This field is only populated when the fallback mode is triggered and the
+    /// fallback response is returned.
+    #[prost(enumeration = "FallbackReason", tag = "2")]
+    pub reason: i32,
+}
+/// Reasons for using fallback response.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum FallbackReason {
+    /// No fallback reason specified.
+    Unspecified = 0,
+    /// A server error happened while calculating routes with your preferred
+    /// routing mode, but we were able to return a result calculated by an
+    /// alternative mode.
+    ServerError = 1,
+    /// We were not able to finish the calculation with your preferred routing mode
+    /// on time, but we were able to return a result calculated by an alternative
+    /// mode.
+    LatencyExceeded = 2,
+}
+/// Actual routing mode used for returned fallback response.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum FallbackRoutingMode {
+    /// Not used.
+    Unspecified = 0,
+    /// Indicates the "TRAFFIC_UNAWARE" routing mode was used to compute the
+    /// response.
+    FallbackTrafficUnaware = 1,
+    /// Indicates the "TRAFFIC_AWARE" routing mode was used to compute the
+    /// response.
+    FallbackTrafficAware = 2,
 }
 /// ComputeCustomRoutes response message.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1141,7 +1141,9 @@ pub mod routes_preferred_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.maps.routes.v1.RoutesPreferred/ComputeRouteMatrix",
             );
-            self.inner.server_streaming(request.into_request(), path, codec).await
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
         }
         #[doc = " Given a set of terminal and intermediate waypoints, and a route objective,"]
         #[doc = " computes the best route for the route objective. Also returns fastest route"]
