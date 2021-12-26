@@ -19,7 +19,7 @@ else
   fi
 
   git add xtask/proto \
-    && git commit -m "xtask: update git submodule googleapis/googleapis"
+    && git commit -m "xtask: update submodule googleapis/googleapis"
   git add google-api-proto \
     && git commit -m "google-api-proto: regenerate code"
 
@@ -30,9 +30,8 @@ else
   cargo release \
         --execute \
         --no-confirm \
-        --no-publish \
         --package google-api-proto \
-        --token "$CARGO_API_TOKEN" \
+        --token "$CARGO_REGISTRY_TOKEN" \
         --verbose \
         alpha
 fi
