@@ -1,0 +1,24 @@
+name: pub
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: '0 0,6,12,18 * * *'
+
+jobs:
+  pub:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+        profile: minimal
+        components: rustfmt
+    - run: pub.sh
+      env:
+        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
