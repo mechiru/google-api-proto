@@ -19,6 +19,7 @@ jobs:
         override: true
         profile: minimal
         components: rustfmt
+    - uses: arduino/setup-protoc@v1
     - run: cargo install cargo-release
     - run: ./pub.sh
       env:
