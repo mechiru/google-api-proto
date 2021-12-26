@@ -1,8 +1,15 @@
 [package]
 name = "google-api-proto"
 version = "1.0.0-alpha.0"
+authors = ["mechiru <u9053u6d41@gmail.com>"]
 edition = "2018"
-publish = false
+license = "MIT OR Apache-2.0"
+description = "This library generated from googleapis/googleapis using tonic-build."
+repository = "https://github.com/mechiru/google-api-proto"
+documentation = "https://mechiru.github.io/google-api-proto/google-api-proto/index.html"
+categories = ["api-bindings"]
+keywords = ["google", "api", "googleapis", "gcloud", "gcp"]
+readme = "../README.md"
 
 [package.metadata.release]
 pre-release-commit-message = "{{crate_name}}: bump to v{{version}}"
