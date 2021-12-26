@@ -6,7 +6,7 @@ use google_api_proto::google::spanner::admin::database::v1::{
 use google_authz::GoogleAuthz;
 use tonic::{transport::Channel, Request};
 
-const HELP: &str = "cargo run --bin tonic -- <GCP_PROJECT_ID> <SPANNER_INSTANCE>";
+const HELP: &str = "cargo run --bin spanner -- <GCP_PROJECT_ID> <SPANNER_INSTANCE>";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
