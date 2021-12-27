@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["notification_stage","Nested message and enum types in `NotificationStage`."]],"struct":[["InstanceEvent",""],["NotificationStage","Payload proto for Notification logs."]]});

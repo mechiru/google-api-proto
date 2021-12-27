@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["DriveAddOnManifest","Drive add-on manifest."],["DriveExtensionPoint","A generic extension point with common features, e.g. something that simply needs a corresponding run function to work."]]});

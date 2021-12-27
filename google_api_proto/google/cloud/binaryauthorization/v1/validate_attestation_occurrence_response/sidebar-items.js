@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Result","The enum returned in the “result” field."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Participant",""],["Role","The role of the participant."]]});

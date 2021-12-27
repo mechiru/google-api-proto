@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ActivityType","Different types of the logs."]]});

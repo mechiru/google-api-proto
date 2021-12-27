@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["DataCatalogClient","Data Catalog API service allows you to discover, understand, and manage your data."]]});

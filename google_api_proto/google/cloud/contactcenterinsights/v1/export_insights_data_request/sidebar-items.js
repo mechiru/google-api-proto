@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Destination","Exporter destination."],["WriteDisposition","Specifies the action that occurs if the destination table already exists."]],"struct":[["BigQueryDestination","A BigQuery Table Reference."]]});

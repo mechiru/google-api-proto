@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["road_stretch","Nested message and enum types in `RoadStretch`."]],"struct":[["RoadStretch","One road stretch that should be rendered."]]});

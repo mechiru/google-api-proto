@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Billing","Billing identifies which billing structure the customer is using."]],"struct":[["FeatureSpec","Multi-cluster Ingress: The configuration for the MultiClusterIngress feature."]]});

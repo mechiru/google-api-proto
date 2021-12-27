@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["google_api_proto"];

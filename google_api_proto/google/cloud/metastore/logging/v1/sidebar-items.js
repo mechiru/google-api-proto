@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["RequestsLogEntry","Stackdriver structured-payload for events generated from Hive Metastore API requests."],["SystemActivityLogEntry","Stackdriver structured-payload for events generated from Hive Metastore system activity."]]});

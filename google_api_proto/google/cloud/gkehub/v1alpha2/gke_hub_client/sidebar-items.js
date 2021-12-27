@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GkeHubClient","The GKE Hub service handles the registration of many Kubernetes clusters to Google Cloud, represented with the [Membership][google.cloud.gkehub.v1alpha2.Membership] resource."]]});

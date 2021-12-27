@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["BareMetalSolutionClient","Performs management operations on Bare Metal Solution servers."]]});

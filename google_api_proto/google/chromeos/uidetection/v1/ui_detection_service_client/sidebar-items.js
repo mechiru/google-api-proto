@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["UiDetectionServiceClient","Provides image-based UI detection service."]]});

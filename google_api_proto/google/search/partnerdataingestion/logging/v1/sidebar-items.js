@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["IngestDetailsLog","Log message used to send to Platform Logging."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Mode","Required. The mode in which Feature values are exported."]],"struct":[["FullExport","Describes exporting all historical Feature values of all entities of the EntityType between [start_time, end_time]."],["SnapshotExport","Describes exporting the latest Feature values of all entities of the EntityType between [start_time, snapshot_time]."]]});

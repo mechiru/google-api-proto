@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["DocsAddOnManifest","Docs add-on manifest."],["DocsExtensionPoint","Common format for declaring a Docs add-on’s triggers."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["publisher_client","Generated client implementations."]],"struct":[["PublishChannelConnectionEventsRequest","The request message for the PublishChannelConnectionEvents method."],["PublishChannelConnectionEventsResponse","The response message for the PublishChannelConnectionEvents method."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["BytesType","The type of data being sent for inspection. To learn more, see Supported file types."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["State","The possible states for this VRF."]],"struct":[["QosPolicy","QOS policy parameters."],["VlanAttachment","VLAN attachment details."]]});

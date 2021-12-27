@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["EndpointServiceClient","A service for managing Vertex AI’s Endpoints."]]});

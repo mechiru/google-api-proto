@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["EntryType","Required. Entry type."],["Spec","Type- and system-specific information. Specifications for types contain fields common to all entries of a given type, and sub-specifications with fields specific to a given source system."],["System","The source system of the entry."],["TypeSpec","Type specification."]]});

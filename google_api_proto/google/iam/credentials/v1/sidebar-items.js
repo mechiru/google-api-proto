@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["iam_credentials_client","Generated client implementations."]],"struct":[["GenerateAccessTokenRequest",""],["GenerateAccessTokenResponse",""],["GenerateIdTokenRequest",""],["GenerateIdTokenResponse",""],["SignBlobRequest",""],["SignBlobResponse",""],["SignJwtRequest",""],["SignJwtResponse",""]]});
