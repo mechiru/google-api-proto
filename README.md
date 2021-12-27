@@ -1,7 +1,7 @@
 # google-api-proto
 
 [![ci](https://github.com/mechiru/google-api-proto/workflows/ci/badge.svg)](https://github.com/mechiru/google-api-proto/actions?query=workflow:ci)
-[![doc](https://github.com/mechiru/google-api-proto/workflows/doc/badge.svg)](https://mechiru.github.io/google-api-proto/google-api-proto/index.html)
+[![doc](https://github.com/mechiru/google-api-proto/workflows/doc/badge.svg)](https://mechiru.github.io/google-api-proto/google_api_proto/index.html)
 [![version](https://img.shields.io/crates/v/google-api-proto.svg)](https://crates.io/crates/google-api-proto)
 
 This library generated from [googleapis/googleapis][] using [tonic-build][].
