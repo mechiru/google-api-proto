@@ -26,4 +26,4 @@ jobs:
     - uses: arduino/setup-protoc@v1
     - run: cargo build -v
     - run: cargo test -v
-    - run: cargo xtask all
+    - run: cargo xtask generate
