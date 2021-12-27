@@ -83,7 +83,6 @@ use tonic::{transport::Channel, Request};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut args = env::args().skip(1);
     let project = "google project id";
     let instance = "spanner instance name";
 
