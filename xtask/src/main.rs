@@ -35,17 +35,22 @@ fn main() -> anyhow::Result<()> {
         temp_dir: PathBuf::from("xtask/temp"),
     };
 
-    match env::args().nth(1).as_ref().map_or("", String::as_str) {
-        "all" => {
-            clean(&opt)?;
-            generate(opt.clone())?;
-            test(opt.manifest_path())
+    let mut args = env::args().skip(1);
+    while let Some(target) = args.next() {
+        match target.as_str() {
+            "all" => {
+                clean(&opt)?;
+                generate(&opt)?;
+                test(opt.manifest_path())?;
+            }
+            "generate" => generate(&opt)?,
+            "test" => test(opt.manifest_path())?,
+            "clean" => clean(&opt)?,
+            _ => help()?,
         }
-        "generate" => generate(opt),
-        "test" => test(opt.manifest_path()),
-        "clean" => clean(&opt),
-        _ => help(),
     }
+
+    Ok(())
 }
 
 fn help() -> anyhow::Result<()> {
@@ -58,7 +63,7 @@ fn clean(opt: &Opt) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn generate(opt: Opt) -> anyhow::Result<()> {
+fn generate(opt: &Opt) -> anyhow::Result<()> {
     let protos = Protos::from_dir(&opt.input_proto_dir)?;
     Manifest::read(opt.manifest_path())?.overwrite_features(protos.feature_names()?).write()?;
 
