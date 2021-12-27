@@ -18,6 +18,8 @@ else
   if [ ${CI:-false} ]; then
     git config --local user.name "mechiru"
     git config --local user.email "mechiru@users.noreply.github.com"
+    git remote remove origin
+    git remote add origin "https://$(git config user.name):${MY_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
   fi
 
   git add xtask/proto \
