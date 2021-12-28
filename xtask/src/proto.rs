@@ -176,6 +176,7 @@ impl Import {
 
     fn as_feature(&self, protos: &[Proto]) -> anyhow::Result<String> {
         for proto in protos {
+            // TODO(mechiru): check proto root directory
             if proto.path.ends_with(&self.raw_path) {
                 return Ok(proto.package.as_feature());
             }
