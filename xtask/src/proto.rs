@@ -15,8 +15,10 @@ impl Protos {
         let mut protos = Vec::new();
         for entry in fs::read_dir(dir)? {
             let path = entry?.path();
-            if path.file_stem().filter(|&name| name == "google" || name == "grafeas").is_some() {
-                protos.append(&mut Self::from_path(path)?);
+            if let Some(name) = path.file_name().map(|name| name.to_string_lossy()) {
+                if !name.starts_with('.') {
+                    protos.append(&mut Self::from_path(path)?);
+                }
             }
         }
         Ok(Self { protos })
