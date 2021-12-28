@@ -40,11 +40,7 @@ impl Protos {
     }
 
     pub fn proto_paths(&self) -> Vec<&Path> {
-        let mut paths = Vec::new();
-        for proto in &self.protos {
-            paths.push(proto.path.as_path());
-        }
-        paths
+        self.protos.iter().map(|proto| proto.path.as_path()).collect()
     }
 
     // map<feature name, set of dependent feature names>
