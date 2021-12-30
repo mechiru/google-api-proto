@@ -470,6 +470,9 @@
 <span id="470">470</span>
 <span id="471">471</span>
 <span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-actions-sdk-v2&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-actions-sdk-v2-conversation&quot;</span>,
@@ -852,6 +855,9 @@
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-firestore-v1beta1&quot;</span>,
 ))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">firestore</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-gapic-metadata&quot;</span>,))]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gapic</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-genomics-v1&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-genomics-v1alpha2&quot;</span>,))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">genomics</span>;
