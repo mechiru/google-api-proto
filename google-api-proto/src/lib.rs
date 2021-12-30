@@ -320,6 +320,7 @@ pub mod ccc;
     feature = "google-firestore-bundle",
     feature = "google-firestore-v1",
     feature = "google-firestore-v1beta1",
+    feature = "google-gapic-metadata",
     feature = "google-genomics-v1",
     feature = "google-genomics-v1alpha2",
     feature = "google-geo-type",

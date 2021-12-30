@@ -381,6 +381,9 @@ pub mod firebase;
 ))]
 pub mod firestore;
 
+#[cfg(any(feature = "google-gapic-metadata",))]
+pub mod gapic;
+
 #[cfg(any(feature = "google-genomics-v1", feature = "google-genomics-v1alpha2",))]
 pub mod genomics;
 
