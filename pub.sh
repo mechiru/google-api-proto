@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-set -u
-set +e
+set -eu
 
 cd $(dirname ${BASH_SOURCE:-$0})
 
@@ -8,32 +7,33 @@ echo "Update git submodule"
 git submodule update --remote --rebase xtask/proto
 
 echo "Run xtask clean generate"
-if ! cargo xtask clean generate; then
-  exit 1
-fi
+cargo xtask clean generate
 
-if git diff --exit-code --quiet; then
+if [ $(git diff HEAD --name-only | wc -l) -eq 0 ]; then
   echo "No changes!"
   exit 0
 fi
 
 echo "Run xtask test"
-if ! cargo xtask test; then
-  exit 1
-fi
+cargo xtask test
 
 if [ ${CI:-false} ]; then
   git config --local user.name "mechiru"
   git config --local user.email "$(git config user.name)@users.noreply.github.com"
 fi
 
-git add xtask/proto \
-  && git commit -m "xtask: update submodule googleapis/googleapis"
-git add google-api-proto \
-  && git commit -m "google-api-proto: regenerate code"
+if [ $(git diff HEAD --name-only xtask/proto | wc -l) -gt 0 ]; then
+  git add xtask/proto
+  git commit -m "xtask: update submodule googleapis/googleapis"
+fi
+
+if [ $(git diff HEAD --name-only google-api-proto | wc -l) -gt 0 ]; then
+  git add google-api-proto
+  git commit -m "google-api-proto: regenerate code"
+fi
 
 echo "Sync with the origin repository"
-git push -u origin master
+git push origin master
 
 echo "Publish to crates.io"
 cargo release \
