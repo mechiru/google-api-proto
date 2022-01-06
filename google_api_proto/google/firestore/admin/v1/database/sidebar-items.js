@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ConcurrencyMode","The type of concurrency control mode for transactions."],["DatabaseType","The type of the database. See https://cloud.google.com/datastore/docs/firestore-or-datastore for information about how to choose."]]});

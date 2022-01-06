@@ -756,6 +756,25 @@
 <span id="756">756</span>
 <span id="757">757</span>
 <span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
 </pre><pre class="rust"><code><span class="doccomment">/// An event signifying a change in state of a [migration from Cloud Datastore to</span>
 <span class="doccomment">/// Cloud Firestore in Datastore</span>
 <span class="doccomment">/// mode](&lt;https://cloud.google.com/datastore/docs/upgrade-to-firestore&gt;).</span>
@@ -1237,6 +1256,25 @@
     <span class="doccomment">/// The index resource ID that this operation is acting on.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">index_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Metadata for Datastore to Firestore migration operations.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The DatastoreFirestoreMigration operation is not started by the end-user via</span>
+<span class="doccomment">/// an explicit &quot;creation&quot; method. This is an intentional deviation from the LRO</span>
+<span class="doccomment">/// design pattern.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This singleton resource can be accessed at:</span>
+<span class="doccomment">/// `projects/{project_id}/datastore-firestore-migration`</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DatastoreFirestoreMigrationMetadata</span> {
+    <span class="doccomment">/// The current state of migration from Cloud Datastore to Cloud Firestore in</span>
+    <span class="doccomment">/// Datastore mode.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;MigrationState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">migration_state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The current step of migration from Cloud Datastore to Cloud Firestore in</span>
+    <span class="doccomment">/// Datastore mode.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;MigrationStep&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">migration_step</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// Operation types.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>

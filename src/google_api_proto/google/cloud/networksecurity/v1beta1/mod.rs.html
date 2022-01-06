@@ -889,6 +889,23 @@
 <span id="889">889</span>
 <span id="890">890</span>
 <span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Represents the metadata of the long-running operation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
@@ -1164,19 +1181,23 @@
             <span class="doccomment">/// Optional. List of peer identities to match for authorization. At least one</span>
             <span class="doccomment">/// principal should match. Each peer can be an exact match, or a prefix</span>
             <span class="doccomment">/// match (example, &quot;namespace/*&quot;) or a suffix match (example, //</span>
-            <span class="doccomment">/// */service-account&quot;) or a presence match &quot;*&quot;.</span>
+            <span class="doccomment">/// */service-account&quot;) or a presence match &quot;*&quot;. Authorization based on the</span>
+            <span class="doccomment">/// principal name without certificate validation (configured by</span>
+            <span class="doccomment">/// ServerTlsPolicy resource) is considered insecure.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">principals</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
             <span class="doccomment">/// Optional. List of CIDR ranges to match based on source IP address. At least one</span>
             <span class="doccomment">/// IP block should match. Single IP (e.g., &quot;1.2.3.4&quot;) and CIDR (e.g.,</span>
-            <span class="doccomment">/// &quot;1.2.3.0/24&quot;) are supported.</span>
+            <span class="doccomment">/// &quot;1.2.3.0/24&quot;) are supported. Authorization based on source IP alone</span>
+            <span class="doccomment">/// should be avoided. The IP addresses of any load balancers or proxies</span>
+            <span class="doccomment">/// should be considered untrusted.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">ip_blocks</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
         }
         <span class="doccomment">/// Specification of traffic destination attributes.</span>
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
         <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Destination</span> {
-            <span class="doccomment">/// Required. List of host names to match. Matched against HOST header in</span>
+            <span class="doccomment">/// Required. List of host names to match. Matched against the &quot;:authority&quot; header in</span>
             <span class="doccomment">/// http requests. At least one host should match. Each host can be an</span>
             <span class="doccomment">/// exact match, or a prefix match (example &quot;mydomain.*&quot;) or a suffix</span>
             <span class="doccomment">/// match (example // *.myorg.com&quot;) or a presence(any) match &quot;*&quot;.</span>
@@ -1189,9 +1210,11 @@
             <span class="doccomment">/// match. Should not be set for gRPC services.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">methods</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// Optional. Match against key:value pair in http header. Provides a</span>
-            <span class="doccomment">/// flexible match based on HTTP headers, for potentially</span>
-            <span class="doccomment">/// advanced use cases. At least one header should match.</span>
+            <span class="doccomment">/// Optional. Match against key:value pair in http header. Provides a flexible match</span>
+            <span class="doccomment">/// based on HTTP headers, for potentially advanced use cases. At least one</span>
+            <span class="doccomment">/// header should match. Avoid using header matches to make authorization</span>
+            <span class="doccomment">/// decisions unless there is a strong guarantee that requests arrive</span>
+            <span class="doccomment">/// through a trusted client or proxy.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">http_header_match</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">destination::HttpHeaderMatch</span><span class="op">&gt;</span>,
         }
@@ -1235,6 +1258,8 @@
         <span class="doccomment">/// Grant access.</span>
         <span class="ident">Allow</span> <span class="op">=</span> <span class="number">1</span>,
         <span class="doccomment">/// Deny access.</span>
+        <span class="doccomment">/// Deny rules should be avoided unless they are used to provide a default</span>
+        <span class="doccomment">/// &quot;deny all&quot; fallback.</span>
         <span class="ident">Deny</span> <span class="op">=</span> <span class="number">2</span>,
     }
 }
@@ -1318,13 +1343,14 @@
 <span class="doccomment">/// ServerTlsPolicy is a resource that specifies how a server should authenticate</span>
 <span class="doccomment">/// incoming requests. This resource itself does not affect configuration unless</span>
 <span class="doccomment">/// it is attached to a target https proxy or endpoint config selector resource.</span>
+<span class="doccomment">///</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ServerTlsPolicy</span> {
     <span class="doccomment">/// Required. Name of the ServerTlsPolicy resource. It matches the pattern</span>
     <span class="doccomment">/// `projects/*/locations/{location}/serverTlsPolicies/{server_tls_policy}`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Free-text description of the resource.</span>
+    <span class="doccomment">/// Free-text description of the resource.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Output only. The timestamp when the resource was created.</span>
@@ -1333,29 +1359,33 @@
     <span class="doccomment">/// Output only. The timestamp when the resource was updated.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Set of label tags associated with the resource.</span>
+    <span class="doccomment">/// Set of label tags associated with the resource.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
         <span class="ident">::prost::alloc::string::String</span>,
         <span class="ident">::prost::alloc::string::String</span>,
     <span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Determines if server allows plaintext connections. If set to true, server</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Determines if server allows plaintext connections. If set to true, server</span>
     <span class="doccomment">/// allows plain text connections. By default, it is set to false. This setting</span>
-    <span class="doccomment">/// is not exclusive of other encryption modes. For example, if allow_open and</span>
-    <span class="doccomment">/// mtls_policy are set, server allows both plain text and mTLS connections.</span>
-    <span class="doccomment">/// See documentation of other encryption modes to confirm compatibility.</span>
+    <span class="doccomment">/// is not exclusive of other encryption modes. For example, if `allow_open`</span>
+    <span class="doccomment">/// and `mtls_policy` are set, server allows both plain text and mTLS</span>
+    <span class="doccomment">/// connections. See documentation of other encryption modes to confirm</span>
+    <span class="doccomment">/// compatibility.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">allow_open</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Optional. Defines a mechanism to provision server identity (public and private keys).</span>
-    <span class="doccomment">/// Cannot be combined with allow_open as a permissive mode that allows both</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Defines a mechanism to provision server identity (public and private keys).</span>
+    <span class="doccomment">/// Cannot be combined with `allow_open` as a permissive mode that allows both</span>
     <span class="doccomment">/// plain text and TLS is not supported.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">server_certificate</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CertificateProvider</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Defines a mechanism to provision peer validation certificates for peer to</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Defines a mechanism to provision peer validation certificates for peer to</span>
     <span class="doccomment">/// peer authentication (Mutual TLS - mTLS). If not specified, client</span>
     <span class="doccomment">/// certificate will not be requested. The connection is treated as TLS and not</span>
-    <span class="doccomment">/// mTLS. If allow_open and mtls_policy are set, server allows both plain text</span>
-    <span class="doccomment">/// and mTLS connections.</span>
+    <span class="doccomment">/// mTLS. If `allow_open` and `mtls_policy` are set, server allows both plain</span>
+    <span class="doccomment">/// text and mTLS connections.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mtls_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">server_tls_policy::MtlsPolicy</span><span class="op">&gt;</span>,
 }
@@ -1364,7 +1394,8 @@
     <span class="doccomment">/// Specification of the MTLSPolicy.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MtlsPolicy</span> {
-        <span class="doccomment">/// Required. Defines the mechanism to obtain the Certificate Authority certificate to</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Defines the mechanism to obtain the Certificate Authority certificate to</span>
         <span class="doccomment">/// validate the client certificate.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">client_validation_ca</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ValidationCa</span><span class="op">&gt;</span>,
@@ -1450,6 +1481,9 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">network_security_client</span> {
     <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
     <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Network Security API provides resources to configure authentication and&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; authorization policies. Refer to per API resource documentation for more&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; information.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NetworkSecurityClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
