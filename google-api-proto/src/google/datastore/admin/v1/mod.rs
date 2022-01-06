@@ -480,6 +480,25 @@ pub struct IndexOperationMetadata {
     #[prost(string, tag = "3")]
     pub index_id: ::prost::alloc::string::String,
 }
+/// Metadata for Datastore to Firestore migration operations.
+///
+/// The DatastoreFirestoreMigration operation is not started by the end-user via
+/// an explicit "creation" method. This is an intentional deviation from the LRO
+/// design pattern.
+///
+/// This singleton resource can be accessed at:
+/// `projects/{project_id}/datastore-firestore-migration`
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DatastoreFirestoreMigrationMetadata {
+    /// The current state of migration from Cloud Datastore to Cloud Firestore in
+    /// Datastore mode.
+    #[prost(enumeration = "MigrationState", tag = "1")]
+    pub migration_state: i32,
+    /// The current step of migration from Cloud Datastore to Cloud Firestore in
+    /// Datastore mode.
+    #[prost(enumeration = "MigrationStep", tag = "2")]
+    pub migration_step: i32,
+}
 /// Operation types.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
