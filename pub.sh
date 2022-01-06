@@ -4,7 +4,7 @@ set -eu
 cd $(dirname ${BASH_SOURCE:-$0})
 
 echo "Update git submodule"
-git submodule update --remote --rebase xtask/proto
+git submodule update --remote --checkout xtask/proto
 
 echo "Run xtask clean generate"
 cargo xtask clean generate
