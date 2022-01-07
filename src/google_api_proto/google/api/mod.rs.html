@@ -3629,6 +3629,49 @@
 ))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">serviceusage</span>;
 
+<span class="doccomment">/// An indicator of the behavior of a given field (for example, that a field</span>
+<span class="doccomment">/// is required in requests, or given as output but ignored as input).</span>
+<span class="doccomment">/// This **does not** change the behavior in protocol buffers itself; it only</span>
+<span class="doccomment">/// denotes the behavior and may affect how API tooling handles the field.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note: This enum **may** receive new values in the future.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FieldBehavior</span> {
+    <span class="doccomment">/// Conventional default for enums. Do not use this.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Specifically denotes a field as optional.</span>
+    <span class="doccomment">/// While all fields in protocol buffers are optional, this may be specified</span>
+    <span class="doccomment">/// for emphasis if appropriate.</span>
+    <span class="ident">Optional</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Denotes a field as required.</span>
+    <span class="doccomment">/// This indicates that the field **must** be provided as part of the request,</span>
+    <span class="doccomment">/// and failure to do so will cause an error (usually `INVALID_ARGUMENT`).</span>
+    <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Denotes a field as output only.</span>
+    <span class="doccomment">/// This indicates that the field is provided in responses, but including the</span>
+    <span class="doccomment">/// field in a request does nothing (the server *must* ignore it and</span>
+    <span class="doccomment">/// *must not* throw an error as a result of the field&#39;s presence).</span>
+    <span class="ident">OutputOnly</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Denotes a field as input only.</span>
+    <span class="doccomment">/// This indicates that the field is provided in requests, and the</span>
+    <span class="doccomment">/// corresponding field is not included in output.</span>
+    <span class="ident">InputOnly</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// Denotes a field as immutable.</span>
+    <span class="doccomment">/// This indicates that the field may be set once in a request to create a</span>
+    <span class="doccomment">/// resource, but may not be changed thereafter.</span>
+    <span class="ident">Immutable</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="doccomment">/// Denotes that a (repeated) field is an unordered list.</span>
+    <span class="doccomment">/// This indicates that the service may provide the elements of the list</span>
+    <span class="doccomment">/// in any arbitrary  order, rather than the order the user originally</span>
+    <span class="doccomment">/// provided. Additionally, the list&#39;s order may or may not be stable.</span>
+    <span class="ident">UnorderedList</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="doccomment">/// Denotes that this field returns a non-empty default value if not set.</span>
+    <span class="doccomment">/// This indicates that if the user provides the empty value in a request,</span>
+    <span class="doccomment">/// a non-empty value will be returned. The user will not be aware of what</span>
+    <span class="doccomment">/// non-empty value to expect.</span>
+    <span class="ident">NonEmptyDefault</span> <span class="op">=</span> <span class="number">7</span>,
+}
 <span class="doccomment">/// Defines the HTTP configuration for an API service. It contains a list of</span>
 <span class="doccomment">/// \[HttpRule][google.api.HttpRule\], each specifying the mapping of an RPC method</span>
 <span class="doccomment">/// to one or more HTTP REST API methods.</span>
@@ -3991,49 +4034,6 @@
     <span class="doccomment">/// The path matched by this custom verb.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// An indicator of the behavior of a given field (for example, that a field</span>
-<span class="doccomment">/// is required in requests, or given as output but ignored as input).</span>
-<span class="doccomment">/// This **does not** change the behavior in protocol buffers itself; it only</span>
-<span class="doccomment">/// denotes the behavior and may affect how API tooling handles the field.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note: This enum **may** receive new values in the future.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FieldBehavior</span> {
-    <span class="doccomment">/// Conventional default for enums. Do not use this.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Specifically denotes a field as optional.</span>
-    <span class="doccomment">/// While all fields in protocol buffers are optional, this may be specified</span>
-    <span class="doccomment">/// for emphasis if appropriate.</span>
-    <span class="ident">Optional</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Denotes a field as required.</span>
-    <span class="doccomment">/// This indicates that the field **must** be provided as part of the request,</span>
-    <span class="doccomment">/// and failure to do so will cause an error (usually `INVALID_ARGUMENT`).</span>
-    <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Denotes a field as output only.</span>
-    <span class="doccomment">/// This indicates that the field is provided in responses, but including the</span>
-    <span class="doccomment">/// field in a request does nothing (the server *must* ignore it and</span>
-    <span class="doccomment">/// *must not* throw an error as a result of the field&#39;s presence).</span>
-    <span class="ident">OutputOnly</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Denotes a field as input only.</span>
-    <span class="doccomment">/// This indicates that the field is provided in requests, and the</span>
-    <span class="doccomment">/// corresponding field is not included in output.</span>
-    <span class="ident">InputOnly</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// Denotes a field as immutable.</span>
-    <span class="doccomment">/// This indicates that the field may be set once in a request to create a</span>
-    <span class="doccomment">/// resource, but may not be changed thereafter.</span>
-    <span class="ident">Immutable</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// Denotes that a (repeated) field is an unordered list.</span>
-    <span class="doccomment">/// This indicates that the service may provide the elements of the list</span>
-    <span class="doccomment">/// in any arbitrary  order, rather than the order the user originally</span>
-    <span class="doccomment">/// provided. Additionally, the list&#39;s order may or may not be stable.</span>
-    <span class="ident">UnorderedList</span> <span class="op">=</span> <span class="number">6</span>,
-    <span class="doccomment">/// Denotes that this field returns a non-empty default value if not set.</span>
-    <span class="doccomment">/// This indicates that if the user provides the empty value in a request,</span>
-    <span class="doccomment">/// a non-empty value will be returned. The user will not be aware of what</span>
-    <span class="doccomment">/// non-empty value to expect.</span>
-    <span class="ident">NonEmptyDefault</span> <span class="op">=</span> <span class="number">7</span>,
 }
 <span class="doccomment">/// A simple descriptor of a resource type.</span>
 <span class="doccomment">///</span>

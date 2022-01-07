@@ -4434,7 +4434,6 @@
 <span id="4434">4434</span>
 <span id="4435">4435</span>
 <span id="4436">4436</span>
-<span id="4437">4437</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Metadata describing the Batch operation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchOperationMetadata</span> {
@@ -4703,8 +4702,7 @@
     <span class="doccomment">/// Optional. The ID to use for the batch, which will become the final component of</span>
     <span class="doccomment">/// the batch&#39;s resource name.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This value must be 4-63 characters. Valid characters</span>
-    <span class="doccomment">/// are /\[a-z][0-9\]-/.</span>
+    <span class="doccomment">/// This value must be 4-63 characters. Valid characters are `/\[a-z][0-9\]-/`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">batch_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. A unique ID used to identify the request. If the service</span>

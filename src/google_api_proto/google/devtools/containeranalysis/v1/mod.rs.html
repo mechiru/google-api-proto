@@ -201,7 +201,7 @@
 </pre><pre class="rust"><code><span class="doccomment">/// Request to get a vulnerability summary for some set of occurrences.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetVulnerabilityOccurrencesSummaryRequest</span> {
-    <span class="doccomment">/// The name of the project to get a vulnerability summary for in the form of</span>
+    <span class="doccomment">/// Required. The name of the project to get a vulnerability summary for in the form of</span>
     <span class="doccomment">/// `projects/\[PROJECT_ID\]`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,

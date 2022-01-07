@@ -2304,6 +2304,92 @@
 <span id="2304">2304</span>
 <span id="2305">2305</span>
 <span id="2306">2306</span>
+<span id="2307">2307</span>
+<span id="2308">2308</span>
+<span id="2309">2309</span>
+<span id="2310">2310</span>
+<span id="2311">2311</span>
+<span id="2312">2312</span>
+<span id="2313">2313</span>
+<span id="2314">2314</span>
+<span id="2315">2315</span>
+<span id="2316">2316</span>
+<span id="2317">2317</span>
+<span id="2318">2318</span>
+<span id="2319">2319</span>
+<span id="2320">2320</span>
+<span id="2321">2321</span>
+<span id="2322">2322</span>
+<span id="2323">2323</span>
+<span id="2324">2324</span>
+<span id="2325">2325</span>
+<span id="2326">2326</span>
+<span id="2327">2327</span>
+<span id="2328">2328</span>
+<span id="2329">2329</span>
+<span id="2330">2330</span>
+<span id="2331">2331</span>
+<span id="2332">2332</span>
+<span id="2333">2333</span>
+<span id="2334">2334</span>
+<span id="2335">2335</span>
+<span id="2336">2336</span>
+<span id="2337">2337</span>
+<span id="2338">2338</span>
+<span id="2339">2339</span>
+<span id="2340">2340</span>
+<span id="2341">2341</span>
+<span id="2342">2342</span>
+<span id="2343">2343</span>
+<span id="2344">2344</span>
+<span id="2345">2345</span>
+<span id="2346">2346</span>
+<span id="2347">2347</span>
+<span id="2348">2348</span>
+<span id="2349">2349</span>
+<span id="2350">2350</span>
+<span id="2351">2351</span>
+<span id="2352">2352</span>
+<span id="2353">2353</span>
+<span id="2354">2354</span>
+<span id="2355">2355</span>
+<span id="2356">2356</span>
+<span id="2357">2357</span>
+<span id="2358">2358</span>
+<span id="2359">2359</span>
+<span id="2360">2360</span>
+<span id="2361">2361</span>
+<span id="2362">2362</span>
+<span id="2363">2363</span>
+<span id="2364">2364</span>
+<span id="2365">2365</span>
+<span id="2366">2366</span>
+<span id="2367">2367</span>
+<span id="2368">2368</span>
+<span id="2369">2369</span>
+<span id="2370">2370</span>
+<span id="2371">2371</span>
+<span id="2372">2372</span>
+<span id="2373">2373</span>
+<span id="2374">2374</span>
+<span id="2375">2375</span>
+<span id="2376">2376</span>
+<span id="2377">2377</span>
+<span id="2378">2378</span>
+<span id="2379">2379</span>
+<span id="2380">2380</span>
+<span id="2381">2381</span>
+<span id="2382">2382</span>
+<span id="2383">2383</span>
+<span id="2384">2384</span>
+<span id="2385">2385</span>
+<span id="2386">2386</span>
+<span id="2387">2387</span>
+<span id="2388">2388</span>
+<span id="2389">2389</span>
+<span id="2390">2390</span>
+<span id="2391">2391</span>
+<span id="2392">2392</span>
 </pre><pre class="rust"><code><span class="doccomment">/// An artifact that can be deployed in some runtime.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeploymentNote</span> {
@@ -2491,6 +2577,9 @@
     <span class="doccomment">/// The last time this resource was scanned.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">last_scan_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time occurrences related to this discovery occurrence were archived.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">archive_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `DiscoveryOccurrence`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">discovery_occurrence</span> {
@@ -3202,441 +3291,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">intoto_statement</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">InTotoStatement</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Common Vulnerability Scoring System version 3.</span>
-<span class="doccomment">/// For details, see &lt;https://www.first.org/cvss/specification-document&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CvsSv3</span> {
-    <span class="doccomment">/// The base score is a function of the base metric scores.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">base_score</span>: <span class="ident">f32</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exploitability_score</span>: <span class="ident">f32</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">impact_score</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// Base Metrics</span>
-    <span class="doccomment">/// Represents the intrinsic characteristics of a vulnerability that are</span>
-    <span class="doccomment">/// constant over time and across user environments.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::AttackVector&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attack_vector</span>: <span class="ident">i32</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::AttackComplexity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attack_complexity</span>: <span class="ident">i32</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::PrivilegesRequired&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">privileges_required</span>: <span class="ident">i32</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::UserInteraction&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_interaction</span>: <span class="ident">i32</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Scope&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">scope</span>: <span class="ident">i32</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confidentiality_impact</span>: <span class="ident">i32</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">integrity_impact</span>: <span class="ident">i32</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">availability_impact</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CVSSv3`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cvs_sv3</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackVector</span> {
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="ident">Network</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="ident">Adjacent</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="ident">Local</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="ident">Physical</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackComplexity</span> {
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="ident">Low</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="ident">High</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PrivilegesRequired</span> {
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="ident">High</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserInteraction</span> {
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Scope</span> {
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="ident">Unchanged</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="ident">Changed</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Impact</span> {
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="ident">High</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// This represents a particular channel of distribution for a given package.</span>
-<span class="doccomment">/// E.g., Debian&#39;s jessie-backports dpkg mirror.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Distribution</span> {
-    <span class="doccomment">/// Required. The cpe_uri in [CPE format](&lt;https://cpe.mitre.org/specification/&gt;)</span>
-    <span class="doccomment">/// denoting the package manager version distributing a package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The CPU architecture for which packages in this distribution channel were</span>
-    <span class="doccomment">/// built.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Architecture&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The latest available version of this package in this distribution channel.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">latest_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A freeform string denoting the maintainer of this package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">maintainer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The distribution channel-specific homepage for this package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The distribution channel-specific description of this package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// An occurrence of a particular package installation found within a system&#39;s</span>
-<span class="doccomment">/// filesystem. E.g., glibc was found in `/var/lib/dpkg/status`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Location</span> {
-    <span class="doccomment">/// Required. The CPE URI in [CPE format](&lt;https://cpe.mitre.org/specification/&gt;)</span>
-    <span class="doccomment">/// denoting the package manager version distributing a package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The version installed at this location.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The path from which we gathered that this package/version is installed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// This represents a particular package that is distributed over various</span>
-<span class="doccomment">/// channels. E.g., glibc (aka libc6) is distributed by many, at various</span>
-<span class="doccomment">/// versions.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageNote</span> {
-    <span class="doccomment">/// Required. Immutable. The name of the package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The various channels by which a package is distributed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">distribution</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Distribution</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Details on how a particular software package was installed on a system.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageOccurrence</span> {
-    <span class="doccomment">/// Output only. The name of the installed package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. All of the places within the filesystem versions of this package</span>
-    <span class="doccomment">/// have been found.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">location</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Location</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Version contains structured information about the version of a package.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Version</span> {
-    <span class="doccomment">/// Used to correct mistakes in the version numbering scheme.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">epoch</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Required only when version kind is NORMAL. The main part of the version</span>
-    <span class="doccomment">/// name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The iteration of the package build from the above version.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">revision</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Whether this version is specifying part of an inclusive range. Grafeas</span>
-    <span class="doccomment">/// does not have the capability to specify version ranges; instead we have</span>
-    <span class="doccomment">/// fields that specify start version and end versions. At times this is</span>
-    <span class="doccomment">/// insufficient - we also need to specify whether the version is included in</span>
-    <span class="doccomment">/// the range or is excluded from the range. This boolean is expected to be set</span>
-    <span class="doccomment">/// to true when the version is included in a range.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inclusive</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Required. Distinguishes between sentinel MIN/MAX versions and normal</span>
-    <span class="doccomment">/// versions.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;version::VersionKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Human readable version string. This string is of the form</span>
-    <span class="doccomment">/// &lt;epoch&gt;:&lt;name&gt;-&lt;revision&gt; and is only set when kind is NORMAL.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">full_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Version`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">version</span> {
-    <span class="doccomment">/// Whether this is an ordinary package version or a sentinel MIN/MAX version.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VersionKind</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A standard package version.</span>
-        <span class="ident">Normal</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A special version representing negative infinity.</span>
-        <span class="ident">Minimum</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// A special version representing positive infinity.</span>
-        <span class="ident">Maximum</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Instruction set architectures supported by various package managers.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Architecture</span> {
-    <span class="doccomment">/// Unknown architecture.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// X86 architecture.</span>
-    <span class="ident">X86</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// X64 architecture.</span>
-    <span class="ident">X64</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// A security vulnerability that can be found in resources.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VulnerabilityNote</span> {
-    <span class="doccomment">/// The CVSS score of this vulnerability. CVSS score is on a scale of 0 - 10</span>
-    <span class="doccomment">/// where 0 indicates low severity and 10 indicates high severity.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cvss_score</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// The note provider assigned severity of this vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Details of all known distros and packages affected by this vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">vulnerability_note::Detail</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The full description of the CVSSv3 for this vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cvss_v3</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CvsSv3</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Windows details get their own format because the information format and</span>
-    <span class="doccomment">/// model don&#39;t match a normal detail. Specifically Windows updates are done as</span>
-    <span class="doccomment">/// patches, thus Windows vulnerabilities really are a missing package, rather</span>
-    <span class="doccomment">/// than a package being at an incorrect version.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">windows_details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">vulnerability_note::WindowsDetail</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time this information was last changed at the source. This is an</span>
-    <span class="doccomment">/// upstream timestamp from the underlying information source - e.g. Ubuntu</span>
-    <span class="doccomment">/// security tracker.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">source_update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `VulnerabilityNote`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vulnerability_note</span> {
-    <span class="doccomment">/// A detail for a distro and package affected by this vulnerability and its</span>
-    <span class="doccomment">/// associated fix (if one is available).</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Detail</span> {
-        <span class="doccomment">/// The distro assigned severity of this vulnerability.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">severity_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// A vendor-specific description of this vulnerability.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The type of package; whether native or non native (e.g., ruby gems,</span>
-        <span class="doccomment">/// node.js packages, etc.).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">package_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Required. The [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;) this</span>
-        <span class="doccomment">/// vulnerability affects.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">affected_cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Required. The package this vulnerability affects.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">affected_package</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The version number at the start of an interval in which this</span>
-        <span class="doccomment">/// vulnerability exists. A vulnerability can affect a package between</span>
-        <span class="doccomment">/// version numbers that are disjoint sets of intervals (example:</span>
-        <span class="doccomment">/// \[1.0.0-1.1.0\], \[2.4.6-2.4.8\] and \[4.5.6-4.6.8\]) each of which will be</span>
-        <span class="doccomment">/// represented in its own Detail. If a specific affected version is provided</span>
-        <span class="doccomment">/// by a vulnerability database, affected_version_start and</span>
-        <span class="doccomment">/// affected_version_end will be the same in that Detail.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">affected_version_start</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The version number at the end of an interval in which this vulnerability</span>
-        <span class="doccomment">/// exists. A vulnerability can affect a package between version numbers</span>
-        <span class="doccomment">/// that are disjoint sets of intervals (example: \[1.0.0-1.1.0\],</span>
-        <span class="doccomment">/// \[2.4.6-2.4.8\] and \[4.5.6-4.6.8\]) each of which will be represented in its</span>
-        <span class="doccomment">/// own Detail. If a specific affected version is provided by a vulnerability</span>
-        <span class="doccomment">/// database, affected_version_start and affected_version_end will be the</span>
-        <span class="doccomment">/// same in that Detail.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">affected_version_end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The distro recommended [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;)</span>
-        <span class="doccomment">/// to update to that contains a fix for this vulnerability. It is possible</span>
-        <span class="doccomment">/// for this to be different from the affected_cpe_uri.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">fixed_cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The distro recommended package to update to that contains a fix for this</span>
-        <span class="doccomment">/// vulnerability. It is possible for this to be different from the</span>
-        <span class="doccomment">/// affected_package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">fixed_package</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The distro recommended version to update to that contains a</span>
-        <span class="doccomment">/// fix for this vulnerability. Setting this to VersionKind.MAXIMUM means no</span>
-        <span class="doccomment">/// such version is yet available.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">fixed_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Whether this detail is obsolete. Occurrences are expected not to point to</span>
-        <span class="doccomment">/// obsolete details.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">is_obsolete</span>: <span class="ident">bool</span>,
-        <span class="doccomment">/// The time this information was last changed at the source. This is an</span>
-        <span class="doccomment">/// upstream timestamp from the underlying information source - e.g. Ubuntu</span>
-        <span class="doccomment">/// security tracker.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">source_update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The source from which the information in this Detail was obtained.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The name of the vendor of the product.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">vendor</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsDetail</span> {
-        <span class="doccomment">/// Required. The [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;) this</span>
-        <span class="doccomment">/// vulnerability affects.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Required. The name of this vulnerability.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The description of this vulnerability.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Required. The names of the KBs which have hotfixes to mitigate this</span>
-        <span class="doccomment">/// vulnerability. Note that there may be multiple hotfixes (and thus</span>
-        <span class="doccomment">/// multiple KBs) that mitigate a given vulnerability. Currently any listed</span>
-        <span class="doccomment">/// KBs presence is considered a fix.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">fixing_kbs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">windows_detail::KnowledgeBase</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `WindowsDetail`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windows_detail</span> {
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KnowledgeBase</span> {
-            <span class="doccomment">/// The KB name (generally of the form KB\[0-9\]+ (e.g., KB123456)).</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// A link to the KB in the [Windows update catalog]</span>
-            <span class="doccomment">/// (&lt;https://www.catalog.update.microsoft.com/&gt;).</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-    }
-}
-<span class="doccomment">/// An occurrence of a severity vulnerability on a resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VulnerabilityOccurrence</span> {
-    <span class="doccomment">/// The type of package; whether native or non native (e.g., ruby gems, node.js</span>
-    <span class="doccomment">/// packages, etc.).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The note provider assigned severity of this vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. The CVSS score of this vulnerability. CVSS score is on a</span>
-    <span class="doccomment">/// scale of 0 - 10 where 0 indicates low severity and 10 indicates high</span>
-    <span class="doccomment">/// severity.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cvss_score</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// The cvss v3 score for the vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cvssv3</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">vulnerability_occurrence::Cvssv3</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. The set of affected locations and their fixes (if available)</span>
-    <span class="doccomment">/// within the associated resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">package_issue</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">vulnerability_occurrence::PackageIssue</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. A one sentence description of this vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">short_description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. A detailed description of this vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">long_description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. URLs related to this vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">related_urls</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RelatedUrl</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The distro assigned severity for this vulnerability when it is available,</span>
-    <span class="doccomment">/// otherwise this is the note provider assigned severity.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// When there are multiple PackageIssues for this vulnerability, they can have</span>
-    <span class="doccomment">/// different effective severities because some might be provided by the distro</span>
-    <span class="doccomment">/// while others are provided by the language ecosystem for a language pack.</span>
-    <span class="doccomment">/// For this reason, it is advised to use the effective severity on the</span>
-    <span class="doccomment">/// PackageIssue level. In the case where multiple PackageIssues have differing</span>
-    <span class="doccomment">/// effective severities, this field should be the highest severity for any of</span>
-    <span class="doccomment">/// the PackageIssues.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">effective_severity</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Whether at least one of the affected packages has a fix</span>
-    <span class="doccomment">/// available.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fix_available</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `VulnerabilityOccurrence`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vulnerability_occurrence</span> {
-    <span class="doccomment">/// The CVSS v3 score for this vulnerability.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Cvssv3</span> {
-        <span class="doccomment">/// The base score for for this vulnerability according to cvss v3.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">base_score</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// The severity rating assigned to this vulnerability by vulnerability</span>
-        <span class="doccomment">/// provider.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
-    }
-    <span class="doccomment">/// A detail for a distro and package this vulnerability occurrence was found</span>
-    <span class="doccomment">/// in and its associated fix (if one is available).</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageIssue</span> {
-        <span class="doccomment">/// Required. The [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;) this</span>
-        <span class="doccomment">/// vulnerability was found in.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">affected_cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Required. The package this vulnerability was found in.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">affected_package</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Required. The version of the package that is installed on the resource</span>
-        <span class="doccomment">/// affected by this vulnerability.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">affected_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;) this vulnerability</span>
-        <span class="doccomment">/// was fixed in. It is possible for this to be different from the</span>
-        <span class="doccomment">/// affected_cpe_uri.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">fixed_cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The package this vulnerability was fixed in. It is possible for this to</span>
-        <span class="doccomment">/// be different from the affected_package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">fixed_package</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Required. The version of the package this vulnerability was fixed in.</span>
-        <span class="doccomment">/// Setting this to VersionKind.MAXIMUM means no fix is yet available.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">fixed_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Output only. Whether a fix is available for this package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">fix_available</span>: <span class="ident">bool</span>,
-        <span class="doccomment">/// The type of package (e.g. OS, MAVEN, GO).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">package_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The distro or language system assigned severity for this vulnerability</span>
-        <span class="doccomment">/// when that is available and note provider assigned severity when it is not</span>
-        <span class="doccomment">/// available.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">effective_severity</span>: <span class="ident">i32</span>,
-    }
-}
 <span class="doccomment">/// Note provider assigned severity/impact ranking.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
@@ -3839,6 +3493,126 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">base_resource_url</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// This represents a particular channel of distribution for a given package.</span>
+<span class="doccomment">/// E.g., Debian&#39;s jessie-backports dpkg mirror.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Distribution</span> {
+    <span class="doccomment">/// Required. The cpe_uri in [CPE format](&lt;https://cpe.mitre.org/specification/&gt;)</span>
+    <span class="doccomment">/// denoting the package manager version distributing a package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The CPU architecture for which packages in this distribution channel were</span>
+    <span class="doccomment">/// built.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Architecture&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The latest available version of this package in this distribution channel.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">latest_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A freeform string denoting the maintainer of this package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">maintainer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The distribution channel-specific homepage for this package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The distribution channel-specific description of this package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// An occurrence of a particular package installation found within a system&#39;s</span>
+<span class="doccomment">/// filesystem. E.g., glibc was found in `/var/lib/dpkg/status`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Location</span> {
+    <span class="doccomment">/// Required. The CPE URI in [CPE format](&lt;https://cpe.mitre.org/specification/&gt;)</span>
+    <span class="doccomment">/// denoting the package manager version distributing a package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The version installed at this location.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The path from which we gathered that this package/version is installed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// This represents a particular package that is distributed over various</span>
+<span class="doccomment">/// channels. E.g., glibc (aka libc6) is distributed by many, at various</span>
+<span class="doccomment">/// versions.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageNote</span> {
+    <span class="doccomment">/// Required. Immutable. The name of the package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The various channels by which a package is distributed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">distribution</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Distribution</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details on how a particular software package was installed on a system.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageOccurrence</span> {
+    <span class="doccomment">/// Output only. The name of the installed package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. All of the places within the filesystem versions of this package</span>
+    <span class="doccomment">/// have been found.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">location</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Location</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Version contains structured information about the version of a package.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Version</span> {
+    <span class="doccomment">/// Used to correct mistakes in the version numbering scheme.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">epoch</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Required only when version kind is NORMAL. The main part of the version</span>
+    <span class="doccomment">/// name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The iteration of the package build from the above version.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">revision</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Whether this version is specifying part of an inclusive range. Grafeas</span>
+    <span class="doccomment">/// does not have the capability to specify version ranges; instead we have</span>
+    <span class="doccomment">/// fields that specify start version and end versions. At times this is</span>
+    <span class="doccomment">/// insufficient - we also need to specify whether the version is included in</span>
+    <span class="doccomment">/// the range or is excluded from the range. This boolean is expected to be set</span>
+    <span class="doccomment">/// to true when the version is included in a range.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inclusive</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Required. Distinguishes between sentinel MIN/MAX versions and normal</span>
+    <span class="doccomment">/// versions.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;version::VersionKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Human readable version string. This string is of the form</span>
+    <span class="doccomment">/// &lt;epoch&gt;:&lt;name&gt;-&lt;revision&gt; and is only set when kind is NORMAL.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">full_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Version`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">version</span> {
+    <span class="doccomment">/// Whether this is an ordinary package version or a sentinel MIN/MAX version.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VersionKind</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// A standard package version.</span>
+        <span class="ident">Normal</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A special version representing negative infinity.</span>
+        <span class="ident">Minimum</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// A special version representing positive infinity.</span>
+        <span class="ident">Maximum</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Instruction set architectures supported by various package managers.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Architecture</span> {
+    <span class="doccomment">/// Unknown architecture.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// X86 architecture.</span>
+    <span class="ident">X86</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// X64 architecture.</span>
+    <span class="ident">X64</span> <span class="op">=</span> <span class="number">2</span>,
+}
 <span class="doccomment">/// An Upgrade Note represents a potential upgrade of a package to a given</span>
 <span class="doccomment">/// version. For each package version combination (i.e. bash 4.0, bash 4.1,</span>
 <span class="doccomment">/// bash 4.1.2), there will be an Upgrade Note. For Windows, windows_update field</span>
@@ -3955,6 +3729,404 @@
     <span class="doccomment">/// Required for Windows OS. Represents the metadata about the Windows update.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">windows_update</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">WindowsUpdate</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Common Vulnerability Scoring System version 3.</span>
+<span class="doccomment">/// For details, see &lt;https://www.first.org/cvss/specification-document&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CvsSv3</span> {
+    <span class="doccomment">/// The base score is a function of the base metric scores.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">base_score</span>: <span class="ident">f32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exploitability_score</span>: <span class="ident">f32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">impact_score</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// Base Metrics</span>
+    <span class="doccomment">/// Represents the intrinsic characteristics of a vulnerability that are</span>
+    <span class="doccomment">/// constant over time and across user environments.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::AttackVector&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attack_vector</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::AttackComplexity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attack_complexity</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::PrivilegesRequired&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">privileges_required</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::UserInteraction&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_interaction</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Scope&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">scope</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidentiality_impact</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">integrity_impact</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">availability_impact</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CVSSv3`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cvs_sv3</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackVector</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Network</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Adjacent</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="ident">Local</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="ident">Physical</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackComplexity</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PrivilegesRequired</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserInteraction</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Scope</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Unchanged</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Changed</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Impact</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Common Vulnerability Scoring System.</span>
+<span class="doccomment">/// For details, see &lt;https://www.first.org/cvss/specification-document&gt;</span>
+<span class="doccomment">/// This is a message we will try to use for storing multiple versions of</span>
+<span class="doccomment">/// CVSS. The intention is that as new versions of CVSS scores get added, we</span>
+<span class="doccomment">/// will be able to modify this message rather than adding new protos for each</span>
+<span class="doccomment">/// new version of the score.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Cvss</span> {
+    <span class="doccomment">/// The base score is a function of the base metric scores.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">base_score</span>: <span class="ident">f32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exploitability_score</span>: <span class="ident">f32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">impact_score</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// Base Metrics</span>
+    <span class="doccomment">/// Represents the intrinsic characteristics of a vulnerability that are</span>
+    <span class="doccomment">/// constant over time and across user environments.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvss::AttackVector&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attack_vector</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvss::AttackComplexity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attack_complexity</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvss::Authentication&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authentication</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvss::PrivilegesRequired&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">privileges_required</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvss::UserInteraction&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_interaction</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvss::Scope&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">scope</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvss::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidentiality_impact</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvss::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">integrity_impact</span>: <span class="ident">i32</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvss::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">availability_impact</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CVSS`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cvss</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackVector</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Network</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Adjacent</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="ident">Local</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="ident">Physical</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackComplexity</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Authentication</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Multiple</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Single</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PrivilegesRequired</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserInteraction</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Scope</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Unchanged</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Changed</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Impact</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// A security vulnerability that can be found in resources.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VulnerabilityNote</span> {
+    <span class="doccomment">/// The CVSS score of this vulnerability. CVSS score is on a scale of 0 - 10</span>
+    <span class="doccomment">/// where 0 indicates low severity and 10 indicates high severity.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cvss_score</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// The note provider assigned severity of this vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Details of all known distros and packages affected by this vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">vulnerability_note::Detail</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The full description of the CVSSv3 for this vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cvss_v3</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CvsSv3</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Windows details get their own format because the information format and</span>
+    <span class="doccomment">/// model don&#39;t match a normal detail. Specifically Windows updates are done as</span>
+    <span class="doccomment">/// patches, thus Windows vulnerabilities really are a missing package, rather</span>
+    <span class="doccomment">/// than a package being at an incorrect version.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">windows_details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">vulnerability_note::WindowsDetail</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time this information was last changed at the source. This is an</span>
+    <span class="doccomment">/// upstream timestamp from the underlying information source - e.g. Ubuntu</span>
+    <span class="doccomment">/// security tracker.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source_update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `VulnerabilityNote`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vulnerability_note</span> {
+    <span class="doccomment">/// A detail for a distro and package affected by this vulnerability and its</span>
+    <span class="doccomment">/// associated fix (if one is available).</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Detail</span> {
+        <span class="doccomment">/// The distro assigned severity of this vulnerability.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">severity_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// A vendor-specific description of this vulnerability.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The type of package; whether native or non native (e.g., ruby gems,</span>
+        <span class="doccomment">/// node.js packages, etc.).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">package_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Required. The [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;) this</span>
+        <span class="doccomment">/// vulnerability affects.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">affected_cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Required. The package this vulnerability affects.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">affected_package</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The version number at the start of an interval in which this</span>
+        <span class="doccomment">/// vulnerability exists. A vulnerability can affect a package between</span>
+        <span class="doccomment">/// version numbers that are disjoint sets of intervals (example:</span>
+        <span class="doccomment">/// \[1.0.0-1.1.0\], \[2.4.6-2.4.8\] and \[4.5.6-4.6.8\]) each of which will be</span>
+        <span class="doccomment">/// represented in its own Detail. If a specific affected version is provided</span>
+        <span class="doccomment">/// by a vulnerability database, affected_version_start and</span>
+        <span class="doccomment">/// affected_version_end will be the same in that Detail.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">affected_version_start</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The version number at the end of an interval in which this vulnerability</span>
+        <span class="doccomment">/// exists. A vulnerability can affect a package between version numbers</span>
+        <span class="doccomment">/// that are disjoint sets of intervals (example: \[1.0.0-1.1.0\],</span>
+        <span class="doccomment">/// \[2.4.6-2.4.8\] and \[4.5.6-4.6.8\]) each of which will be represented in its</span>
+        <span class="doccomment">/// own Detail. If a specific affected version is provided by a vulnerability</span>
+        <span class="doccomment">/// database, affected_version_start and affected_version_end will be the</span>
+        <span class="doccomment">/// same in that Detail.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">affected_version_end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The distro recommended [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;)</span>
+        <span class="doccomment">/// to update to that contains a fix for this vulnerability. It is possible</span>
+        <span class="doccomment">/// for this to be different from the affected_cpe_uri.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">fixed_cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The distro recommended package to update to that contains a fix for this</span>
+        <span class="doccomment">/// vulnerability. It is possible for this to be different from the</span>
+        <span class="doccomment">/// affected_package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">fixed_package</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The distro recommended version to update to that contains a</span>
+        <span class="doccomment">/// fix for this vulnerability. Setting this to VersionKind.MAXIMUM means no</span>
+        <span class="doccomment">/// such version is yet available.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">fixed_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Whether this detail is obsolete. Occurrences are expected not to point to</span>
+        <span class="doccomment">/// obsolete details.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">is_obsolete</span>: <span class="ident">bool</span>,
+        <span class="doccomment">/// The time this information was last changed at the source. This is an</span>
+        <span class="doccomment">/// upstream timestamp from the underlying information source - e.g. Ubuntu</span>
+        <span class="doccomment">/// security tracker.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">source_update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The source from which the information in this Detail was obtained.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The name of the vendor of the product.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">vendor</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsDetail</span> {
+        <span class="doccomment">/// Required. The [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;) this</span>
+        <span class="doccomment">/// vulnerability affects.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Required. The name of this vulnerability.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The description of this vulnerability.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Required. The names of the KBs which have hotfixes to mitigate this</span>
+        <span class="doccomment">/// vulnerability. Note that there may be multiple hotfixes (and thus</span>
+        <span class="doccomment">/// multiple KBs) that mitigate a given vulnerability. Currently any listed</span>
+        <span class="doccomment">/// KBs presence is considered a fix.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">fixing_kbs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">windows_detail::KnowledgeBase</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `WindowsDetail`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windows_detail</span> {
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KnowledgeBase</span> {
+            <span class="doccomment">/// The KB name (generally of the form KB\[0-9\]+ (e.g., KB123456)).</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// A link to the KB in the [Windows update catalog]</span>
+            <span class="doccomment">/// (&lt;https://www.catalog.update.microsoft.com/&gt;).</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+    }
+}
+<span class="doccomment">/// An occurrence of a severity vulnerability on a resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VulnerabilityOccurrence</span> {
+    <span class="doccomment">/// The type of package; whether native or non native (e.g., ruby gems, node.js</span>
+    <span class="doccomment">/// packages, etc.).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The note provider assigned severity of this vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. The CVSS score of this vulnerability. CVSS score is on a</span>
+    <span class="doccomment">/// scale of 0 - 10 where 0 indicates low severity and 10 indicates high</span>
+    <span class="doccomment">/// severity.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cvss_score</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// The cvss v3 score for the vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cvssv3</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Cvss</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. The set of affected locations and their fixes (if available)</span>
+    <span class="doccomment">/// within the associated resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">package_issue</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">vulnerability_occurrence::PackageIssue</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. A one sentence description of this vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">short_description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. A detailed description of this vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">long_description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. URLs related to this vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">related_urls</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RelatedUrl</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The distro assigned severity for this vulnerability when it is available,</span>
+    <span class="doccomment">/// otherwise this is the note provider assigned severity.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When there are multiple PackageIssues for this vulnerability, they can have</span>
+    <span class="doccomment">/// different effective severities because some might be provided by the distro</span>
+    <span class="doccomment">/// while others are provided by the language ecosystem for a language pack.</span>
+    <span class="doccomment">/// For this reason, it is advised to use the effective severity on the</span>
+    <span class="doccomment">/// PackageIssue level. In the case where multiple PackageIssues have differing</span>
+    <span class="doccomment">/// effective severities, this field should be the highest severity for any of</span>
+    <span class="doccomment">/// the PackageIssues.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">effective_severity</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Whether at least one of the affected packages has a fix</span>
+    <span class="doccomment">/// available.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fix_available</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `VulnerabilityOccurrence`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vulnerability_occurrence</span> {
+    <span class="doccomment">/// A detail for a distro and package this vulnerability occurrence was found</span>
+    <span class="doccomment">/// in and its associated fix (if one is available).</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageIssue</span> {
+        <span class="doccomment">/// Required. The [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;) this</span>
+        <span class="doccomment">/// vulnerability was found in.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">affected_cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Required. The package this vulnerability was found in.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">affected_package</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Required. The version of the package that is installed on the resource</span>
+        <span class="doccomment">/// affected by this vulnerability.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">affected_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The [CPE URI](&lt;https://cpe.mitre.org/specification/&gt;) this vulnerability</span>
+        <span class="doccomment">/// was fixed in. It is possible for this to be different from the</span>
+        <span class="doccomment">/// affected_cpe_uri.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">fixed_cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The package this vulnerability was fixed in. It is possible for this to</span>
+        <span class="doccomment">/// be different from the affected_package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">fixed_package</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Required. The version of the package this vulnerability was fixed in.</span>
+        <span class="doccomment">/// Setting this to VersionKind.MAXIMUM means no fix is yet available.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">fixed_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Version</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Output only. Whether a fix is available for this package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">fix_available</span>: <span class="ident">bool</span>,
+        <span class="doccomment">/// The type of package (e.g. OS, MAVEN, GO).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">package_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The distro or language system assigned severity for this vulnerability</span>
+        <span class="doccomment">/// when that is available and note provider assigned severity when it is not</span>
+        <span class="doccomment">/// available.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">effective_severity</span>: <span class="ident">i32</span>,
+    }
 }
 <span class="doccomment">/// An instance of an analysis type that has been found on a resource.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
