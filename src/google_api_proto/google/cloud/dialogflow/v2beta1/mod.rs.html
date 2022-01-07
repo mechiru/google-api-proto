@@ -9494,6 +9494,17 @@
 <span id="9494">9494</span>
 <span id="9495">9495</span>
 <span id="9496">9496</span>
+<span id="9497">9497</span>
+<span id="9498">9498</span>
+<span id="9499">9499</span>
+<span id="9500">9500</span>
+<span id="9501">9501</span>
+<span id="9502">9502</span>
+<span id="9503">9503</span>
+<span id="9504">9504</span>
+<span id="9505">9505</span>
+<span id="9506">9506</span>
+<span id="9507">9507</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Each intent parameter has a type, called the entity type, which dictates</span>
 <span class="doccomment">/// exactly how data from an end-user expression is extracted.</span>
 <span class="doccomment">///</span>
@@ -17664,6 +17675,9 @@
         <span class="doccomment">/// Configs of custom conversation model.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">conversation_model_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ConversationModelConfig</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Configs for processing conversation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">conversation_process_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ConversationProcessConfig</span><span class="op">&gt;</span>,
     }
     <span class="doccomment">/// Detail human agent assistant config.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -17800,6 +17814,14 @@
         <span class="doccomment">/// ID&gt;/conversationModels/&lt;Model ID&gt;`.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">model</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Config to process conversation.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConversationProcessConfig</span> {
+        <span class="doccomment">/// Number of recent non-small-talk sentences to use as context for article</span>
+        <span class="doccomment">/// and FAQ suggestion</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">recent_sentences_count</span>: <span class="ident">i32</span>,
     }
     <span class="doccomment">/// Configuration for analyses to run on each conversation message.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

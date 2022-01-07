@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["source_object","Nested message and enum types in `SourceObject`."]],"struct":[["SourceObject","Description of a source object for a composition request."]]});
