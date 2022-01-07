@@ -17,7 +17,7 @@ fi
 echo "Run xtask test"
 cargo xtask test
 
-if [ ${CI:-false} ]; then
+if "${CI:-false}"; then
   git config --local user.name "mechiru"
   git config --local user.email "$(git config user.name)@users.noreply.github.com"
 fi
