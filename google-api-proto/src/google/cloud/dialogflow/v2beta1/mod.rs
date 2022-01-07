@@ -8168,6 +8168,9 @@ pub mod human_agent_assistant_config {
         /// Configs of custom conversation model.
         #[prost(message, optional, tag = "7")]
         pub conversation_model_config: ::core::option::Option<ConversationModelConfig>,
+        /// Configs for processing conversation.
+        #[prost(message, optional, tag = "8")]
+        pub conversation_process_config: ::core::option::Option<ConversationProcessConfig>,
     }
     /// Detail human agent assistant config.
     #[derive(Clone, PartialEq, ::prost::Message)]
@@ -8304,6 +8307,14 @@ pub mod human_agent_assistant_config {
         /// ID>/conversationModels/<Model ID>`.
         #[prost(string, tag = "1")]
         pub model: ::prost::alloc::string::String,
+    }
+    /// Config to process conversation.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConversationProcessConfig {
+        /// Number of recent non-small-talk sentences to use as context for article
+        /// and FAQ suggestion
+        #[prost(int32, tag = "2")]
+        pub recent_sentences_count: i32,
     }
     /// Configuration for analyses to run on each conversation message.
     #[derive(Clone, PartialEq, ::prost::Message)]
