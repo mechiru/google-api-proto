@@ -110,6 +110,13 @@ pub struct ClusterOperationMetadata {
 /// Runtime configuration for a workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RuntimeConfig {
+    /// Optional. Version of the batch runtime.
+    #[prost(string, tag = "1")]
+    pub version: ::prost::alloc::string::String,
+    /// Optional. Optional custom container image for the job runtime environment. If
+    /// not specified, a default container image will be used.
+    #[prost(string, tag = "2")]
+    pub container_image: ::prost::alloc::string::String,
     /// Optional. A mapping of property names to values, which are used to configure workload
     /// execution.
     #[prost(btree_map = "string, string", tag = "3")]
@@ -196,6 +203,9 @@ pub struct RuntimeInfo {
     /// Output only. A URI pointing to the location of the stdout and stderr of the workload.
     #[prost(string, tag = "2")]
     pub output_uri: ::prost::alloc::string::String,
+    /// Output only. A URI pointing to the location of the diagnostics tarball.
+    #[prost(string, tag = "3")]
+    pub diagnostic_output_uri: ::prost::alloc::string::String,
 }
 /// Cluster components that can be activated.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -256,7 +266,8 @@ pub struct CreateBatchRequest {
     /// Optional. The ID to use for the batch, which will become the final component of
     /// the batch's resource name.
     ///
-    /// This value must be 4-63 characters. Valid characters are `/\[a-z][0-9\]-/`.
+    /// This value must be 4-63 characters. Valid characters
+    /// are /\[a-z][0-9\]-/.
     #[prost(string, tag = "3")]
     pub batch_id: ::prost::alloc::string::String,
     /// Optional. A unique ID used to identify the request. If the service
@@ -1793,11 +1804,23 @@ pub struct JobScheduling {
     /// 4 times within 10 minute window.
     ///
     /// Maximum value is 10.
+    ///
+    /// **Note:** Currently, this restartable job option is
+    /// not supported in Dataproc
+    /// [workflow
+    /// template](<https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template>)
+    /// jobs.
     #[prost(int32, tag = "1")]
     pub max_failures_per_hour: i32,
     /// Optional. Maximum number of times in total a driver may be restarted as a result of
     /// driver exiting with non-zero code before job is reported failed.
     /// Maximum value is 240.
+    ///
+    /// **Note:** Currently, this restartable job option is
+    /// not supported in Dataproc
+    /// [workflow
+    /// template](<https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template>)
+    /// jobs.
     #[prost(int32, tag = "2")]
     pub max_failures_total: i32,
 }
@@ -2173,8 +2196,9 @@ pub struct Cluster {
     /// unique. Names of deleted clusters can be reused.
     #[prost(string, tag = "2")]
     pub cluster_name: ::prost::alloc::string::String,
-    /// Required. The cluster config. Note that Dataproc may set
-    /// default values, and values may change when clusters are updated.
+    /// Optional. The cluster config for a cluster of Compute Engine Instances.
+    /// Note that Dataproc may set default values, and values may change
+    /// when clusters are updated.
     #[prost(message, optional, tag = "3")]
     pub config: ::core::option::Option<ClusterConfig>,
     /// Optional. The labels to associate with this cluster.
@@ -2695,6 +2719,13 @@ pub struct DiskConfig {
     /// config and installed binaries.
     #[prost(int32, tag = "2")]
     pub num_local_ssds: i32,
+    /// Optional. Interface type of local SSDs (default is "scsi").
+    /// Valid values: "scsi" (Small Computer System Interface),
+    /// "nvme" (Non-Volatile Memory Express).
+    /// See [SSD Interface
+    /// types](<https://cloud.google.com/compute/docs/disks/local-ssd#performance>).
+    #[prost(string, tag = "4")]
+    pub local_ssd_interface: ::prost::alloc::string::String,
 }
 /// Specifies an executable to run on a fully configured node and a
 /// timeout period for executable completion.
@@ -4008,7 +4039,7 @@ pub struct CreateWorkflowTemplateRequest {
     /// Required. The resource name of the region or location, as described
     /// in <https://cloud.google.com/apis/design/resource_names.>
     ///
-    /// * For `projects.regions.workflowTemplates,create`, the resource name of the
+    /// * For `projects.regions.workflowTemplates.create`, the resource name of the
     ///   region has the following format:
     ///   `projects/{project_id}/regions/{region}`
     ///
