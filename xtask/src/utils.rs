@@ -1,13 +1,4 @@
-use std::{
-    fs,
-    path::{Path, PathBuf},
-};
-
-pub fn join_path(base: impl Into<PathBuf>, segment: impl AsRef<Path>) -> PathBuf {
-    let mut base = base.into();
-    base.push(segment);
-    base
-}
+use std::{fs, path::Path};
 
 pub fn cleanup(path: impl AsRef<Path>, exclude: &'static [&'static str]) -> anyhow::Result<()> {
     if !path.as_ref().exists() {

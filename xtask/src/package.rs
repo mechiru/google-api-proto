@@ -87,7 +87,7 @@ impl Module {
         for (name, module) in &self.modules {
             if !module.is_well_known_type() {
                 items.push(Item::Module(name.escaped().into(), module.features()));
-                module.generate(crate::utils::join_path(out_dir.clone(), name.unescaped()))?;
+                module.generate(out_dir.join(name.unescaped()))?;
             }
         }
 
@@ -149,14 +149,12 @@ impl Items {
         Ok(output)
     }
 
-    fn write(&self, out_dir: impl Into<PathBuf>, file_name: &str) -> anyhow::Result<()> {
+    fn write(&self, out_dir: &Path, file_name: &str) -> anyhow::Result<()> {
         if self.0.is_empty() {
             return Ok(());
         }
-        let out_dir = out_dir.into();
-        fs::create_dir_all(&out_dir)?;
-        let path = crate::utils::join_path(out_dir, file_name);
-        fs::write(path, self.print()?).map_err(Into::into)
+        fs::create_dir_all(out_dir)?;
+        fs::write(out_dir.join(file_name), self.print()?).map_err(Into::into)
     }
 }
 

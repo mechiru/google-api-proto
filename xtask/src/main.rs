@@ -20,11 +20,11 @@ struct Opt {
 
 impl Opt {
     fn manifest_path(&self) -> PathBuf {
-        utils::join_path(self.output_crate_dir.clone(), "Cargo.toml")
+        self.output_crate_dir.join("Cargo.toml")
     }
 
     fn output_package_src(&self) -> PathBuf {
-        utils::join_path(self.output_crate_dir.clone(), "src")
+        self.output_crate_dir.join("src")
     }
 }
 
