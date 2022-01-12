@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["batch_predict_output_info","Nested message and enum types in `BatchPredictOutputInfo`."]],"struct":[["BatchPredictOutputInfo","Further describes this batch predict’s output. Supplements"]]});
+initSidebarItems({"mod":[["batch_predict_output_info","Nested message and enum types in `BatchPredictOutputInfo`."]],"struct":[["BatchPredictOutputInfo","Further describes this batch predict’s output. Supplements [BatchPredictOutputConfig][google.cloud.automl.v1.BatchPredictOutputConfig]."]]});

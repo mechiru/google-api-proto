@@ -3678,71 +3678,11 @@
 <span id="3678">3678</span>
 <span id="3679">3679</span>
 <span id="3680">3680</span>
-<span id="3681">3681</span>
-<span id="3682">3682</span>
-<span id="3683">3683</span>
-<span id="3684">3684</span>
-<span id="3685">3685</span>
-<span id="3686">3686</span>
-<span id="3687">3687</span>
-<span id="3688">3688</span>
-<span id="3689">3689</span>
-<span id="3690">3690</span>
-<span id="3691">3691</span>
-<span id="3692">3692</span>
-<span id="3693">3693</span>
-<span id="3694">3694</span>
-<span id="3695">3695</span>
-<span id="3696">3696</span>
-<span id="3697">3697</span>
-<span id="3698">3698</span>
-<span id="3699">3699</span>
-<span id="3700">3700</span>
-<span id="3701">3701</span>
-<span id="3702">3702</span>
-<span id="3703">3703</span>
-<span id="3704">3704</span>
-<span id="3705">3705</span>
-<span id="3706">3706</span>
-<span id="3707">3707</span>
-<span id="3708">3708</span>
-<span id="3709">3709</span>
-<span id="3710">3710</span>
-<span id="3711">3711</span>
-<span id="3712">3712</span>
-<span id="3713">3713</span>
-<span id="3714">3714</span>
-<span id="3715">3715</span>
-<span id="3716">3716</span>
-<span id="3717">3717</span>
-<span id="3718">3718</span>
-<span id="3719">3719</span>
-<span id="3720">3720</span>
-<span id="3721">3721</span>
-<span id="3722">3722</span>
-<span id="3723">3723</span>
-<span id="3724">3724</span>
-<span id="3725">3725</span>
-<span id="3726">3726</span>
-<span id="3727">3727</span>
-<span id="3728">3728</span>
-<span id="3729">3729</span>
-<span id="3730">3730</span>
-<span id="3731">3731</span>
-<span id="3732">3732</span>
-<span id="3733">3733</span>
-<span id="3734">3734</span>
-<span id="3735">3735</span>
-<span id="3736">3736</span>
-<span id="3737">3737</span>
-<span id="3738">3738</span>
-<span id="3739">3739</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A definition of an annotation spec.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationSpec</span> {
     <span class="doccomment">/// Output only. Resource name of the annotation spec.</span>
     <span class="doccomment">/// Form:</span>
-    <span class="doccomment">///</span>
     <span class="doccomment">/// &#39;projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/annotationSpecs/{annotation_spec_id}&#39;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -3870,7 +3810,6 @@
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfusionMatrix</span> {
         <span class="doccomment">/// Output only. IDs of the annotation specs used in the confusion matrix.</span>
         <span class="doccomment">/// For Tables CLASSIFICATION</span>
-        <span class="doccomment">///</span>
         <span class="doccomment">/// \[prediction_type][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]</span>
         <span class="doccomment">/// only list of \[annotation_spec_display_name-s][\] is populated.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
@@ -3878,7 +3817,6 @@
         <span class="doccomment">/// Output only. Display name of the annotation specs used in the confusion</span>
         <span class="doccomment">/// matrix, as they were at the moment of the evaluation. For Tables</span>
         <span class="doccomment">/// CLASSIFICATION</span>
-        <span class="doccomment">///</span>
         <span class="doccomment">/// \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\],</span>
         <span class="doccomment">/// distinct values of the target column at the moment of the model</span>
         <span class="doccomment">/// evaluation are populated here.</span>
@@ -3937,7 +3875,7 @@
     <span class="doccomment">/// `model_type`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">base_model_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The train budget of creating this model, expressed in milli node</span>
+    <span class="doccomment">/// Optional. The train budget of creating this model, expressed in milli node</span>
     <span class="doccomment">/// hours i.e. 1,000 value in this field means 1 node hour. The actual</span>
     <span class="doccomment">/// `train_cost` will be equal or less than this value. If further model</span>
     <span class="doccomment">/// training ceases to provide any improvements, it will stop without using</span>
@@ -4048,7 +3986,7 @@
     <span class="doccomment">/// e.g. `BUDGET_REACHED`, `MODEL_CONVERGED`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">stop_reason</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The train budget of creating this model, expressed in milli node</span>
+    <span class="doccomment">/// Optional. The train budget of creating this model, expressed in milli node</span>
     <span class="doccomment">/// hours i.e. 1,000 value in this field means 1 node hour. The actual</span>
     <span class="doccomment">/// `train_cost` will be equal or less than this value. If further model</span>
     <span class="doccomment">/// training ceases to provide any improvements, it will stop without using</span>
@@ -4077,7 +4015,6 @@
     <span class="doccomment">/// Input only. The number of nodes to deploy the model on. A node is an</span>
     <span class="doccomment">/// abstraction of a machine resource, which can handle online prediction QPS</span>
     <span class="doccomment">/// as given in the model&#39;s</span>
-    <span class="doccomment">///</span>
     <span class="doccomment">/// \[node_qps][google.cloud.automl.v1.ImageClassificationModelMetadata.node_qps\].</span>
     <span class="doccomment">/// Must be between 1 and 100, inclusive on both ends.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
@@ -4089,7 +4026,6 @@
     <span class="doccomment">/// Input only. The number of nodes to deploy the model on. A node is an</span>
     <span class="doccomment">/// abstraction of a machine resource, which can handle online prediction QPS</span>
     <span class="doccomment">/// as given in the model&#39;s</span>
-    <span class="doccomment">///</span>
     <span class="doccomment">/// \[qps_per_node][google.cloud.automl.v1.ImageObjectDetectionModelMetadata.qps_per_node\].</span>
     <span class="doccomment">/// Must be between 1 and 100, inclusive on both ends.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
@@ -4659,7 +4595,6 @@
 <span class="doccomment">/// \[bigquery_source][google.cloud.automl.v1.InputConfig.bigquery_source\].</span>
 <span class="doccomment">/// All input is concatenated into a</span>
 <span class="doccomment">/// single</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// \[primary_table_spec_id][google.cloud.automl.v1.TablesDatasetMetadata.primary_table_spec_id\]</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// **For gcs_source:**</span>
@@ -4676,9 +4611,7 @@
 <span class="doccomment">/// First three sample rows of a CSV file:</span>
 <span class="doccomment">/// &lt;pre&gt;</span>
 <span class="doccomment">/// &quot;Id&quot;,&quot;First Name&quot;,&quot;Last Name&quot;,&quot;Dob&quot;,&quot;Addresses&quot;</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// &quot;1&quot;,&quot;John&quot;,&quot;Doe&quot;,&quot;1968-01-22&quot;,&quot;\[{&quot;status&quot;:&quot;current&quot;,&quot;address&quot;:&quot;123_First_Avenue&quot;,&quot;city&quot;:&quot;Seattle&quot;,&quot;state&quot;:&quot;WA&quot;,&quot;zip&quot;:&quot;11111&quot;,&quot;numberOfYears&quot;:&quot;1&quot;},{&quot;status&quot;:&quot;previous&quot;,&quot;address&quot;:&quot;456_Main_Street&quot;,&quot;city&quot;:&quot;Portland&quot;,&quot;state&quot;:&quot;OR&quot;,&quot;zip&quot;:&quot;22222&quot;,&quot;numberOfYears&quot;:&quot;5&quot;}\]&quot;</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// &quot;2&quot;,&quot;Jane&quot;,&quot;Doe&quot;,&quot;1980-10-16&quot;,&quot;\[{&quot;status&quot;:&quot;current&quot;,&quot;address&quot;:&quot;789_Any_Avenue&quot;,&quot;city&quot;:&quot;Albany&quot;,&quot;state&quot;:&quot;NY&quot;,&quot;zip&quot;:&quot;33333&quot;,&quot;numberOfYears&quot;:&quot;2&quot;},{&quot;status&quot;:&quot;previous&quot;,&quot;address&quot;:&quot;321_Main_Street&quot;,&quot;city&quot;:&quot;Hoboken&quot;,&quot;state&quot;:&quot;NJ&quot;,&quot;zip&quot;:&quot;44444&quot;,&quot;numberOfYears&quot;:&quot;3&quot;}\]}</span>
 <span class="doccomment">/// &lt;/pre&gt;</span>
 <span class="doccomment">/// **For bigquery_source:**</span>
@@ -5017,7 +4950,6 @@
 <span class="doccomment">/// contain values for the corresponding columns.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The column names must contain the model&#39;s</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// \[input_feature_column_specs&#39;][google.cloud.automl.v1.TablesModelMetadata.input_feature_column_specs\]</span>
 <span class="doccomment">/// \[display_name-s][google.cloud.automl.v1.ColumnSpec.display_name\]</span>
 <span class="doccomment">/// (order doesn&#39;t matter). The columns corresponding to the model&#39;s</span>
@@ -5029,9 +4961,7 @@
 <span class="doccomment">/// Sample rows from a CSV file:</span>
 <span class="doccomment">/// &lt;pre&gt;</span>
 <span class="doccomment">/// &quot;First Name&quot;,&quot;Last Name&quot;,&quot;Dob&quot;,&quot;Addresses&quot;</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// &quot;John&quot;,&quot;Doe&quot;,&quot;1968-01-22&quot;,&quot;\[{&quot;status&quot;:&quot;current&quot;,&quot;address&quot;:&quot;123_First_Avenue&quot;,&quot;city&quot;:&quot;Seattle&quot;,&quot;state&quot;:&quot;WA&quot;,&quot;zip&quot;:&quot;11111&quot;,&quot;numberOfYears&quot;:&quot;1&quot;},{&quot;status&quot;:&quot;previous&quot;,&quot;address&quot;:&quot;456_Main_Street&quot;,&quot;city&quot;:&quot;Portland&quot;,&quot;state&quot;:&quot;OR&quot;,&quot;zip&quot;:&quot;22222&quot;,&quot;numberOfYears&quot;:&quot;5&quot;}\]&quot;</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// &quot;Jane&quot;,&quot;Doe&quot;,&quot;1980-10-16&quot;,&quot;\[{&quot;status&quot;:&quot;current&quot;,&quot;address&quot;:&quot;789_Any_Avenue&quot;,&quot;city&quot;:&quot;Albany&quot;,&quot;state&quot;:&quot;NY&quot;,&quot;zip&quot;:&quot;33333&quot;,&quot;numberOfYears&quot;:&quot;2&quot;},{&quot;status&quot;:&quot;previous&quot;,&quot;address&quot;:&quot;321_Main_Street&quot;,&quot;city&quot;:&quot;Hoboken&quot;,&quot;state&quot;:&quot;NJ&quot;,&quot;zip&quot;:&quot;44444&quot;,&quot;numberOfYears&quot;:&quot;3&quot;}\]}</span>
 <span class="doccomment">/// &lt;/pre&gt;</span>
 <span class="doccomment">/// **For bigquery_source:**</span>
@@ -5040,7 +4970,6 @@
 <span class="doccomment">/// table must be 100GB or smaller.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The column names must contain the model&#39;s</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// \[input_feature_column_specs&#39;][google.cloud.automl.v1.TablesModelMetadata.input_feature_column_specs\]</span>
 <span class="doccomment">/// \[display_name-s][google.cloud.automl.v1.ColumnSpec.display_name\]</span>
 <span class="doccomment">/// (order doesn&#39;t matter). The columns corresponding to the model&#39;s</span>
@@ -5120,19 +5049,16 @@
 <span class="doccomment">///         Output depends on whether the dataset was imported from Google Cloud</span>
 <span class="doccomment">///         Storage or BigQuery.</span>
 <span class="doccomment">///         Google Cloud Storage case:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[gcs_destination][google.cloud.automl.v1p1beta.OutputConfig.gcs_destination\]</span>
+<span class="doccomment">///           \[gcs_destination][google.cloud.automl.v1p1beta.OutputConfig.gcs_destination\]</span>
 <span class="doccomment">///           must be set. Exported are CSV file(s) `tables_1.csv`,</span>
 <span class="doccomment">///           `tables_2.csv`,...,`tables_N.csv` with each having as header line</span>
 <span class="doccomment">///           the table&#39;s column names, and all other lines contain values for</span>
 <span class="doccomment">///           the header columns.</span>
 <span class="doccomment">///         BigQuery case:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[bigquery_destination][google.cloud.automl.v1p1beta.OutputConfig.bigquery_destination\]</span>
+<span class="doccomment">///           \[bigquery_destination][google.cloud.automl.v1p1beta.OutputConfig.bigquery_destination\]</span>
 <span class="doccomment">///           pointing to a BigQuery project must be set. In the given project a</span>
 <span class="doccomment">///           new dataset will be created with name</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// `export_data_&lt;automl-dataset-display-name&gt;_&lt;timestamp-of-export-call&gt;`</span>
+<span class="doccomment">///           `export_data_&lt;automl-dataset-display-name&gt;_&lt;timestamp-of-export-call&gt;`</span>
 <span class="doccomment">///           where &lt;automl-dataset-display-name&gt; will be made</span>
 <span class="doccomment">///           BigQuery-dataset-name compatible (e.g. most special characters will</span>
 <span class="doccomment">///           become underscores), and timestamp will be in</span>
@@ -5163,7 +5089,6 @@
 <span class="doccomment">/// Output configuration for BatchPredict Action.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// As destination the</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// \[gcs_destination][google.cloud.automl.v1.BatchPredictOutputConfig.gcs_destination\]</span>
 <span class="doccomment">/// must be set unless specified otherwise for a domain. If gcs_destination is</span>
 <span class="doccomment">/// set then in the given directory a new directory is created. Its name</span>
@@ -5189,9 +5114,7 @@
 <span class="doccomment">///         predictions). These files will have a JSON representation of a proto</span>
 <span class="doccomment">///         that wraps the same &quot;ID&quot; : &quot;&lt;id_value&gt;&quot; but here followed by</span>
 <span class="doccomment">///         exactly one</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[`google.rpc.Status`\](https:</span>
-<span class="doccomment">/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)</span>
+<span class="doccomment">///         \[`google.rpc.Status`\](&lt;https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto&gt;)</span>
 <span class="doccomment">///         containing only `code` and `message`fields.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///  *  For Image Object Detection:</span>
@@ -5211,9 +5134,7 @@
 <span class="doccomment">///         predictions). These files will have a JSON representation of a proto</span>
 <span class="doccomment">///         that wraps the same &quot;ID&quot; : &quot;&lt;id_value&gt;&quot; but here followed by</span>
 <span class="doccomment">///         exactly one</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[`google.rpc.Status`\](https:</span>
-<span class="doccomment">/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)</span>
+<span class="doccomment">///         \[`google.rpc.Status`\](&lt;https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto&gt;)</span>
 <span class="doccomment">///         containing only `code` and `message`fields.</span>
 <span class="doccomment">///  *  For Video Classification:</span>
 <span class="doccomment">///         In the created directory a video_classification.csv file, and a .JSON</span>
@@ -5221,8 +5142,7 @@
 <span class="doccomment">///         line in given CSV(s)), will be created.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///         The format of video_classification.csv is:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END,JSON_FILE_NAME,STATUS</span>
+<span class="doccomment">///         GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END,JSON_FILE_NAME,STATUS</span>
 <span class="doccomment">///         where:</span>
 <span class="doccomment">///         GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END = matches 1 to 1</span>
 <span class="doccomment">///             the prediction input lines (i.e. video_classification.csv has</span>
@@ -5250,8 +5170,7 @@
 <span class="doccomment">///         lines in given CSV(s)).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///         The format of video_object_tracking.csv is:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END,JSON_FILE_NAME,STATUS</span>
+<span class="doccomment">///         GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END,JSON_FILE_NAME,STATUS</span>
 <span class="doccomment">///         where:</span>
 <span class="doccomment">///         GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END = matches 1 to 1</span>
 <span class="doccomment">///             the prediction input lines (i.e. video_object_tracking.csv has</span>
@@ -5286,9 +5205,7 @@
 <span class="doccomment">///         `errors_N.jsonl` files will be created (N depends on total number of</span>
 <span class="doccomment">///         failed predictions). These files will have a JSON representation of a</span>
 <span class="doccomment">///         proto that wraps input file followed by exactly one</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[`google.rpc.Status`\](https:</span>
-<span class="doccomment">/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)</span>
+<span class="doccomment">///         \[`google.rpc.Status`\](&lt;https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto&gt;)</span>
 <span class="doccomment">///         containing only `code` and `message`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///  *  For Text Sentiment:</span>
@@ -5310,9 +5227,7 @@
 <span class="doccomment">///         `errors_N.jsonl` files will be created (N depends on total number of</span>
 <span class="doccomment">///         failed predictions). These files will have a JSON representation of a</span>
 <span class="doccomment">///         proto that wraps input file followed by exactly one</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[`google.rpc.Status`\](https:</span>
-<span class="doccomment">/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)</span>
+<span class="doccomment">///         \[`google.rpc.Status`\](&lt;https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto&gt;)</span>
 <span class="doccomment">///         containing only `code` and `message`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///   *  For Text Extraction:</span>
@@ -5346,34 +5261,26 @@
 <span class="doccomment">///         proto that wraps either the &quot;id&quot; : &quot;&lt;id_value&gt;&quot; (in case of inline)</span>
 <span class="doccomment">///         or the document proto (in case of document) but here followed by</span>
 <span class="doccomment">///         exactly one</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[`google.rpc.Status`\](https:</span>
-<span class="doccomment">/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)</span>
+<span class="doccomment">///         \[`google.rpc.Status`\](&lt;https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto&gt;)</span>
 <span class="doccomment">///         containing only `code` and `message`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///  *  For Tables:</span>
 <span class="doccomment">///         Output depends on whether</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[gcs_destination][google.cloud.automl.v1p1beta.BatchPredictOutputConfig.gcs_destination\]</span>
+<span class="doccomment">///         \[gcs_destination][google.cloud.automl.v1p1beta.BatchPredictOutputConfig.gcs_destination\]</span>
 <span class="doccomment">///         or</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[bigquery_destination][google.cloud.automl.v1p1beta.BatchPredictOutputConfig.bigquery_destination\]</span>
+<span class="doccomment">///         \[bigquery_destination][google.cloud.automl.v1p1beta.BatchPredictOutputConfig.bigquery_destination\]</span>
 <span class="doccomment">///         is set (either is allowed).</span>
 <span class="doccomment">///         Google Cloud Storage case:</span>
 <span class="doccomment">///           In the created directory files `tables_1.csv`, `tables_2.csv`,...,</span>
 <span class="doccomment">///           `tables_N.csv` will be created, where N may be 1, and depends on</span>
 <span class="doccomment">///           the total number of the successfully predicted rows.</span>
 <span class="doccomment">///           For all CLASSIFICATION</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]:</span>
+<span class="doccomment">///           \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]:</span>
 <span class="doccomment">///             Each .csv file will contain a header, listing all columns&#39;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[display_name-s][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]</span>
+<span class="doccomment">///             \[display_name-s][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]</span>
 <span class="doccomment">///             given on input followed by M target column names in the format of</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// &quot;&lt;\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]&gt;_&lt;target</span>
+<span class="doccomment">///             &quot;&lt;\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]</span>
+<span class="doccomment">///             \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]&gt;_&lt;target</span>
 <span class="doccomment">///             value&gt;_score&quot; where M is the number of distinct target values,</span>
 <span class="doccomment">///             i.e. number of distinct values in the target column of the table</span>
 <span class="doccomment">///             used to train the model. Subsequent lines will contain the</span>
@@ -5381,16 +5288,13 @@
 <span class="doccomment">///             i.e. the target, columns having the corresponding prediction</span>
 <span class="doccomment">///             \[scores][google.cloud.automl.v1p1beta.TablesAnnotation.score\].</span>
 <span class="doccomment">///           For REGRESSION and FORECASTING</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]:</span>
+<span class="doccomment">///           \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]:</span>
 <span class="doccomment">///             Each .csv file will contain a header, listing all columns&#39;</span>
 <span class="doccomment">///             \[display_name-s][google.cloud.automl.v1p1beta.display_name\]</span>
 <span class="doccomment">///             given on input followed by the predicted target column with name</span>
 <span class="doccomment">///             in the format of</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// &quot;predicted_&lt;\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]&gt;&quot;</span>
+<span class="doccomment">///             &quot;predicted_&lt;\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]</span>
+<span class="doccomment">///             \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]&gt;&quot;</span>
 <span class="doccomment">///             Subsequent lines will contain the respective values of</span>
 <span class="doccomment">///             successfully predicted rows, with the last, i.e. the target,</span>
 <span class="doccomment">///             column having the predicted target value.</span>
@@ -5399,14 +5303,11 @@
 <span class="doccomment">///             created (N depends on total number of failed rows). These files</span>
 <span class="doccomment">///             will have analogous format as `tables_*.csv`, but always with a</span>
 <span class="doccomment">///             single target column having</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[`google.rpc.Status`\](https:</span>
-<span class="doccomment">/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)</span>
+<span class="doccomment">///             \[`google.rpc.Status`\](&lt;https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto&gt;)</span>
 <span class="doccomment">///             represented as a JSON string, and containing only `code` and</span>
 <span class="doccomment">///             `message`.</span>
 <span class="doccomment">///         BigQuery case:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[bigquery_destination][google.cloud.automl.v1p1beta.OutputConfig.bigquery_destination\]</span>
+<span class="doccomment">///           \[bigquery_destination][google.cloud.automl.v1p1beta.OutputConfig.bigquery_destination\]</span>
 <span class="doccomment">///           pointing to a BigQuery project must be set. In the given project a</span>
 <span class="doccomment">///           new dataset will be created with name</span>
 <span class="doccomment">///           `prediction_&lt;model-display-name&gt;_&lt;timestamp-of-prediction-call&gt;`</span>
@@ -5416,31 +5317,23 @@
 <span class="doccomment">///           YYYY_MM_DDThh_mm_ss_sssZ &quot;based on ISO-8601&quot; format. In the dataset</span>
 <span class="doccomment">///           two tables will be created, `predictions`, and `errors`.</span>
 <span class="doccomment">///           The `predictions` table&#39;s column names will be the input columns&#39;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[display_name-s][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]</span>
+<span class="doccomment">///           \[display_name-s][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]</span>
 <span class="doccomment">///           followed by the target column with name in the format of</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// &quot;predicted_&lt;\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]&gt;&quot;</span>
+<span class="doccomment">///           &quot;predicted_&lt;\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]</span>
+<span class="doccomment">///           \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]&gt;&quot;</span>
 <span class="doccomment">///           The input feature columns will contain the respective values of</span>
 <span class="doccomment">///           successfully predicted rows, with the target column having an</span>
 <span class="doccomment">///           ARRAY of</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[AnnotationPayloads][google.cloud.automl.v1p1beta.AnnotationPayload\],</span>
+<span class="doccomment">///           \[AnnotationPayloads][google.cloud.automl.v1p1beta.AnnotationPayload\],</span>
 <span class="doccomment">///           represented as STRUCT-s, containing</span>
 <span class="doccomment">///           \[TablesAnnotation][google.cloud.automl.v1p1beta.TablesAnnotation\].</span>
 <span class="doccomment">///           The `errors` table contains rows for which the prediction has</span>
 <span class="doccomment">///           failed, it has analogous input columns while the target column name</span>
 <span class="doccomment">///           is in the format of</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// &quot;errors_&lt;\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]&gt;&quot;,</span>
+<span class="doccomment">///           &quot;errors_&lt;\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]</span>
+<span class="doccomment">///           \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]&gt;&quot;,</span>
 <span class="doccomment">///           and as a value has</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// \[`google.rpc.Status`\](https:</span>
-<span class="doccomment">/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)</span>
+<span class="doccomment">///           \[`google.rpc.Status`\](&lt;https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto&gt;)</span>
 <span class="doccomment">///           represented as a STRUCT, and containing only `code` and `message`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchPredictOutputConfig</span> {
@@ -5491,9 +5384,7 @@
     <span class="doccomment">///            the container. The container is verified to work correctly on</span>
     <span class="doccomment">///            ubuntu 16.04 operating system. See more at</span>
     <span class="doccomment">///            [containers</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// quickstart](https:</span>
-    <span class="doccomment">/// //cloud.google.com/vision/automl/docs/containers-gcs-quickstart)</span>
+    <span class="doccomment">///            quickstart](&lt;https://cloud.google.com/vision/automl/docs/containers-gcs-quickstart&gt;)</span>
     <span class="doccomment">/// * core_ml - Used for iOS mobile devices.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">model_format</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -5673,7 +5564,6 @@
         <span class="kw">pub</span> <span class="ident">page_number</span>: <span class="ident">i32</span>,
         <span class="doccomment">/// The position of the \[text_segment][google.cloud.automl.v1.Document.Layout.text_segment\] in the page.</span>
         <span class="doccomment">/// Contains exactly 4</span>
-        <span class="doccomment">///</span>
         <span class="doccomment">/// \[normalized_vertices][google.cloud.automl.v1p1beta.BoundingPoly.normalized_vertices\]</span>
         <span class="doccomment">/// and they are connected by edges in the order provided, which will</span>
         <span class="doccomment">/// represent a rectangle parallel to the frame. The</span>
@@ -5867,171 +5757,92 @@
         <span class="ident">TextSentimentDatasetMetadata</span>(<span class="ident"><span class="kw">super</span>::TextSentimentDatasetMetadata</span>),
     }
 }
-<span class="doccomment">/// Metadata used across all long running operations returned by AutoML API.</span>
+<span class="doccomment">/// API proto representing a trained machine learning model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
-    <span class="doccomment">/// Output only. Progress of operation. Range: [0, 100].</span>
-    <span class="doccomment">/// Not used currently.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">progress_percent</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Partial failures encountered.</span>
-    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
-    <span class="doccomment">/// This field should never exceed 20 entries.</span>
-    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Time when the operation was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Model</span> {
+    <span class="doccomment">/// Output only. Resource name of the model.</span>
+    <span class="doccomment">/// Format: `projects/{project_id}/locations/{location_id}/models/{model_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The name of the model to show in the interface. The name can be</span>
+    <span class="doccomment">/// up to 32 characters long and can consist only of ASCII Latin letters A-Z</span>
+    <span class="doccomment">/// and a-z, underscores</span>
+    <span class="doccomment">/// (_), and ASCII digits 0-9. It must start with a letter.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The resource ID of the dataset used to create the model. The dataset must</span>
+    <span class="doccomment">/// come from the same ancestor project and location.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Timestamp when the model training finished  and can be used for prediction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Time when the operation was updated for the last time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="doccomment">/// Output only. Timestamp when this model was last updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Ouptut only. Details of specific operation. Even if this field is empty,</span>
-    <span class="doccomment">/// the presence allows to distinguish different types of operations.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;operation_metadata::Details&quot;</span>,
-        <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;8, 24, 25, 10, 30, 15, 16, 21, 22&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">operation_metadata::Details</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `OperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">operation_metadata</span> {
-    <span class="doccomment">/// Ouptut only. Details of specific operation. Even if this field is empty,</span>
-    <span class="doccomment">/// the presence allows to distinguish different types of operations.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
-        <span class="doccomment">/// Details of a Delete operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="ident">DeleteDetails</span>(<span class="ident"><span class="kw">super</span>::DeleteOperationMetadata</span>),
-        <span class="doccomment">/// Details of a DeployModel operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;24&quot;</span>)]</span>
-        <span class="ident">DeployModelDetails</span>(<span class="ident"><span class="kw">super</span>::DeployModelOperationMetadata</span>),
-        <span class="doccomment">/// Details of an UndeployModel operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>)]</span>
-        <span class="ident">UndeployModelDetails</span>(<span class="ident"><span class="kw">super</span>::UndeployModelOperationMetadata</span>),
-        <span class="doccomment">/// Details of CreateModel operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="ident">CreateModelDetails</span>(<span class="ident"><span class="kw">super</span>::CreateModelOperationMetadata</span>),
-        <span class="doccomment">/// Details of CreateDataset operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;30&quot;</span>)]</span>
-        <span class="ident">CreateDatasetDetails</span>(<span class="ident"><span class="kw">super</span>::CreateDatasetOperationMetadata</span>),
-        <span class="doccomment">/// Details of ImportData operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-        <span class="ident">ImportDataDetails</span>(<span class="ident"><span class="kw">super</span>::ImportDataOperationMetadata</span>),
-        <span class="doccomment">/// Details of BatchPredict operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
-        <span class="ident">BatchPredictDetails</span>(<span class="ident"><span class="kw">super</span>::BatchPredictOperationMetadata</span>),
-        <span class="doccomment">/// Details of ExportData operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>)]</span>
-        <span class="ident">ExportDataDetails</span>(<span class="ident"><span class="kw">super</span>::ExportDataOperationMetadata</span>),
-        <span class="doccomment">/// Details of ExportModel operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
-        <span class="ident">ExportModelDetails</span>(<span class="ident"><span class="kw">super</span>::ExportModelOperationMetadata</span>),
-    }
-}
-<span class="doccomment">/// Details of operations that perform deletes of any entities.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteOperationMetadata</span> {}
-<span class="doccomment">/// Details of DeployModel operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeployModelOperationMetadata</span> {}
-<span class="doccomment">/// Details of UndeployModel operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UndeployModelOperationMetadata</span> {}
-<span class="doccomment">/// Details of CreateDataset operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateDatasetOperationMetadata</span> {}
-<span class="doccomment">/// Details of CreateModel operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateModelOperationMetadata</span> {}
-<span class="doccomment">/// Details of ImportData operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportDataOperationMetadata</span> {}
-<span class="doccomment">/// Details of ExportData operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDataOperationMetadata</span> {
-    <span class="doccomment">/// Output only. Information further describing this export data&#39;s output.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">output_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_data_operation_metadata::ExportDataOutputInfo</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ExportDataOperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_data_operation_metadata</span> {
-    <span class="doccomment">/// Further describes this export data&#39;s output.</span>
-    <span class="doccomment">/// Supplements</span>
-    <span class="doccomment">/// \[OutputConfig][google.cloud.automl.v1.OutputConfig\].</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDataOutputInfo</span> {
-        <span class="doccomment">/// The output location to which the exported data is written.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;export_data_output_info::OutputLocation&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">output_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_data_output_info::OutputLocation</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `ExportDataOutputInfo`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_data_output_info</span> {
-        <span class="doccomment">/// The output location to which the exported data is written.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OutputLocation</span> {
-            <span class="doccomment">/// The full path of the Google Cloud Storage directory created, into which</span>
-            <span class="doccomment">/// the exported data is written.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="ident">GcsOutputDirectory</span>(<span class="ident">::prost::alloc::string::String</span>),
-        }
-    }
-}
-<span class="doccomment">/// Details of BatchPredict operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchPredictOperationMetadata</span> {
-    <span class="doccomment">/// Output only. The input config that was given upon starting this</span>
-    <span class="doccomment">/// batch predict operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">input_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BatchPredictInputConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Information further describing this batch predict&#39;s output.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">output_info</span>:
-        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">batch_predict_operation_metadata::BatchPredictOutputInfo</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `BatchPredictOperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">batch_predict_operation_metadata</span> {
-    <span class="doccomment">/// Further describes this batch predict&#39;s output.</span>
-    <span class="doccomment">/// Supplements</span>
+    <span class="doccomment">/// Output only. Deployment state of the model. A model can only serve</span>
+    <span class="doccomment">/// prediction requests after it gets deployed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;model::DeploymentState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">deployment_state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Used to perform a consistent read-modify-write updates. If not set, a blind</span>
+    <span class="doccomment">/// &quot;overwrite&quot; update happens.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The labels with user-defined metadata to organize your model.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// \[BatchPredictOutputConfig][google.cloud.automl.v1.BatchPredictOutputConfig\].</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchPredictOutputInfo</span> {
-        <span class="doccomment">/// The output location into which prediction output is written.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;batch_predict_output_info::OutputLocation&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">output_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">batch_predict_output_info::OutputLocation</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `BatchPredictOutputInfo`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">batch_predict_output_info</span> {
-        <span class="doccomment">/// The output location into which prediction output is written.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OutputLocation</span> {
-            <span class="doccomment">/// The full path of the Google Cloud Storage directory created, into which</span>
-            <span class="doccomment">/// the prediction output is written.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="ident">GcsOutputDirectory</span>(<span class="ident">::prost::alloc::string::String</span>),
-        }
-    }
+    <span class="doccomment">/// Label keys and values can be no longer than 64 characters</span>
+    <span class="doccomment">/// (Unicode codepoints), can only contain lowercase letters, numeric</span>
+    <span class="doccomment">/// characters, underscores and dashes. International characters are allowed.</span>
+    <span class="doccomment">/// Label values are optional. Label keys must start with a letter.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See &lt;https://goo.gl/xmQnxf&gt; for more information on and examples of labels.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;34&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Required.</span>
+    <span class="doccomment">/// The model metadata that is specific to the problem type.</span>
+    <span class="doccomment">/// Must match the metadata type of the dataset used to train the model.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;model::ModelMetadata&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;15, 13, 14, 20, 19, 22&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">model_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">model::ModelMetadata</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Details of ExportModel operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportModelOperationMetadata</span> {
-    <span class="doccomment">/// Output only. Information further describing the output of this model</span>
-    <span class="doccomment">/// export.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">output_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_model_operation_metadata::ExportModelOutputInfo</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ExportModelOperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_model_operation_metadata</span> {
-    <span class="doccomment">/// Further describes the output of model export.</span>
-    <span class="doccomment">/// Supplements</span>
-    <span class="doccomment">/// \[ModelExportOutputConfig][google.cloud.automl.v1.ModelExportOutputConfig\].</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportModelOutputInfo</span> {
-        <span class="doccomment">/// The full path of the Google Cloud Storage directory created, into which</span>
-        <span class="doccomment">/// the model will be exported.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">gcs_output_directory</span>: <span class="ident">::prost::alloc::string::String</span>,
+<span class="doccomment">/// Nested message and enum types in `Model`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">model</span> {
+    <span class="doccomment">/// Deployment state of the model.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DeploymentState</span> {
+        <span class="doccomment">/// Should not be used, an un-set enum has this value by default.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Model is deployed.</span>
+        <span class="ident">Deployed</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Model is not deployed.</span>
+        <span class="ident">Undeployed</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// Required.</span>
+    <span class="doccomment">/// The model metadata that is specific to the problem type.</span>
+    <span class="doccomment">/// Must match the metadata type of the dataset used to train the model.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelMetadata</span> {
+        <span class="doccomment">/// Metadata for translation models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+        <span class="ident">TranslationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TranslationModelMetadata</span>),
+        <span class="doccomment">/// Metadata for image classification models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+        <span class="ident">ImageClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::ImageClassificationModelMetadata</span>),
+        <span class="doccomment">/// Metadata for text classification models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+        <span class="ident">TextClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextClassificationModelMetadata</span>),
+        <span class="doccomment">/// Metadata for image object detection models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
+        <span class="ident">ImageObjectDetectionModelMetadata</span>(<span class="ident"><span class="kw">super</span>::ImageObjectDetectionModelMetadata</span>),
+        <span class="doccomment">/// Metadata for text extraction models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;19&quot;</span>)]</span>
+        <span class="ident">TextExtractionModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextExtractionModelMetadata</span>),
+        <span class="doccomment">/// Metadata for text sentiment models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
+        <span class="ident">TextSentimentModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextSentimentModelMetadata</span>),
     }
 }
 <span class="doccomment">/// Annotation details for image object detection.</span>
@@ -6211,6 +6022,78 @@
     <span class="kw">pub</span> <span class="ident">confusion_matrix</span>:
         <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">classification_evaluation_metrics::ConfusionMatrix</span><span class="op">&gt;</span>,
 }
+<span class="doccomment">/// Evaluation results of a model.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModelEvaluation</span> {
+    <span class="doccomment">/// Output only. Resource name of the model evaluation.</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// `projects/{project_id}/locations/{location_id}/models/{model_id}/modelEvaluations/{model_evaluation_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The ID of the annotation spec that the model evaluation applies to. The</span>
+    <span class="doccomment">/// The ID is empty for the overall model evaluation.</span>
+    <span class="doccomment">/// For Tables annotation specs in the dataset do not exist and this ID is</span>
+    <span class="doccomment">/// always not set, but for CLASSIFICATION</span>
+    <span class="doccomment">/// \[prediction_type-s][google.cloud.automl.v1.TablesModelMetadata.prediction_type\]</span>
+    <span class="doccomment">/// the</span>
+    <span class="doccomment">/// \[display_name][google.cloud.automl.v1.ModelEvaluation.display_name\]</span>
+    <span class="doccomment">/// field is used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">annotation_spec_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The value of</span>
+    <span class="doccomment">/// \[display_name][google.cloud.automl.v1.AnnotationSpec.display_name\]</span>
+    <span class="doccomment">/// at the moment when the model was trained. Because this field returns a</span>
+    <span class="doccomment">/// value at model training time, for different models trained from the same</span>
+    <span class="doccomment">/// dataset, the values may differ, since display names could had been changed</span>
+    <span class="doccomment">/// between the two model&#39;s trainings. For Tables CLASSIFICATION</span>
+    <span class="doccomment">/// \[prediction_type-s][google.cloud.automl.v1.TablesModelMetadata.prediction_type\]</span>
+    <span class="doccomment">/// distinct values of the target column at the moment of the model evaluation</span>
+    <span class="doccomment">/// are populated here.</span>
+    <span class="doccomment">/// The display_name is empty for the overall model evaluation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Timestamp when this model evaluation was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The number of examples used for model evaluation, i.e. for</span>
+    <span class="doccomment">/// which ground truth from time of model creation is compared against the</span>
+    <span class="doccomment">/// predicted annotations created by the model.</span>
+    <span class="doccomment">/// For overall ModelEvaluation (i.e. with annotation_spec_id not set) this is</span>
+    <span class="doccomment">/// the total number of all examples used for evaluation.</span>
+    <span class="doccomment">/// Otherwise, this is the count of examples that according to the ground</span>
+    <span class="doccomment">/// truth were annotated by the</span>
+    <span class="doccomment">/// \[annotation_spec_id][google.cloud.automl.v1.ModelEvaluation.annotation_spec_id\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">evaluated_example_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Problem type specific evaluation metrics.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;model_evaluation::Metrics&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;8, 9, 12, 11, 13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metrics</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">model_evaluation::Metrics</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ModelEvaluation`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">model_evaluation</span> {
+    <span class="doccomment">/// Output only. Problem type specific evaluation metrics.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Metrics</span> {
+        <span class="doccomment">/// Model evaluation metrics for image, text, video and tables</span>
+        <span class="doccomment">/// classification.</span>
+        <span class="doccomment">/// Tables problem is considered a classification when the target column</span>
+        <span class="doccomment">/// is CATEGORY DataType.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="ident">ClassificationEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::ClassificationEvaluationMetrics</span>),
+        <span class="doccomment">/// Model evaluation metrics for translation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="ident">TranslationEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::TranslationEvaluationMetrics</span>),
+        <span class="doccomment">/// Model evaluation metrics for image object detection.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+        <span class="ident">ImageObjectDetectionEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::ImageObjectDetectionEvaluationMetrics</span>),
+        <span class="doccomment">/// Evaluation metrics for text sentiment models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="ident">TextSentimentEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::TextSentimentEvaluationMetrics</span>),
+        <span class="doccomment">/// Evaluation metrics for text extraction models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+        <span class="ident">TextExtractionEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::TextExtractionEvaluationMetrics</span>),
+    }
+}
 <span class="doccomment">/// Contains annotation information that is relevant to AutoML.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationPayload</span> {
@@ -6220,7 +6103,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">annotation_spec_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Output only. The value of</span>
-    <span class="doccomment">/// \[display_name][google.cloud.automl.v1.AnnotationSpec.display_name\]</span>
+    <span class="doccomment">/// \[display_name][google.cloud.automl.v1p1beta.AnnotationSpec.display_name\]</span>
     <span class="doccomment">/// when the model was trained. Because this field returns a value at model</span>
     <span class="doccomment">/// training time, for different models trained using the same dataset, the</span>
     <span class="doccomment">/// returned value could be different as model owner could update the</span>
@@ -6291,7 +6174,6 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// `feature_importance`</span>
     <span class="doccomment">/// : (boolean) Whether</span>
-    <span class="doccomment">///</span>
     <span class="doccomment">/// \[feature_importance][google.cloud.automl.v1.TablesModelColumnInfo.feature_importance\]</span>
     <span class="doccomment">///   is populated in the returned list of</span>
     <span class="doccomment">///   \[TablesAnnotation][google.cloud.automl.v1.TablesAnnotation\]</span>
@@ -6476,7 +6358,7 @@
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; AutoML Prediction API.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; On any input that is documented to expect a string parameter in&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; snake_case or kebab-case, either of those cases is accepted.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; snake_case or dash-case, either of those cases is accepted.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
@@ -6610,170 +6492,6 @@
         }
     }
 }
-<span class="doccomment">/// API proto representing a trained machine learning model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Model</span> {
-    <span class="doccomment">/// Output only. Resource name of the model.</span>
-    <span class="doccomment">/// Format: `projects/{project_id}/locations/{location_id}/models/{model_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The name of the model to show in the interface. The name can be</span>
-    <span class="doccomment">/// up to 32 characters long and can consist only of ASCII Latin letters A-Z</span>
-    <span class="doccomment">/// and a-z, underscores</span>
-    <span class="doccomment">/// (_), and ASCII digits 0-9. It must start with a letter.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The resource ID of the dataset used to create the model. The dataset must</span>
-    <span class="doccomment">/// come from the same ancestor project and location.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Timestamp when the model training finished  and can be used for prediction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp when this model was last updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Deployment state of the model. A model can only serve</span>
-    <span class="doccomment">/// prediction requests after it gets deployed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;model::DeploymentState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">deployment_state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Used to perform a consistent read-modify-write updates. If not set, a blind</span>
-    <span class="doccomment">/// &quot;overwrite&quot; update happens.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The labels with user-defined metadata to organize your model.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Label keys and values can be no longer than 64 characters</span>
-    <span class="doccomment">/// (Unicode codepoints), can only contain lowercase letters, numeric</span>
-    <span class="doccomment">/// characters, underscores and dashes. International characters are allowed.</span>
-    <span class="doccomment">/// Label values are optional. Label keys must start with a letter.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See &lt;https://goo.gl/xmQnxf&gt; for more information on and examples of labels.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;34&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Required.</span>
-    <span class="doccomment">/// The model metadata that is specific to the problem type.</span>
-    <span class="doccomment">/// Must match the metadata type of the dataset used to train the model.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;model::ModelMetadata&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;15, 13, 14, 20, 19, 22&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">model_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">model::ModelMetadata</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Model`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">model</span> {
-    <span class="doccomment">/// Deployment state of the model.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DeploymentState</span> {
-        <span class="doccomment">/// Should not be used, an un-set enum has this value by default.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Model is deployed.</span>
-        <span class="ident">Deployed</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Model is not deployed.</span>
-        <span class="ident">Undeployed</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// Required.</span>
-    <span class="doccomment">/// The model metadata that is specific to the problem type.</span>
-    <span class="doccomment">/// Must match the metadata type of the dataset used to train the model.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelMetadata</span> {
-        <span class="doccomment">/// Metadata for translation models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-        <span class="ident">TranslationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TranslationModelMetadata</span>),
-        <span class="doccomment">/// Metadata for image classification models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-        <span class="ident">ImageClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::ImageClassificationModelMetadata</span>),
-        <span class="doccomment">/// Metadata for text classification models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-        <span class="ident">TextClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextClassificationModelMetadata</span>),
-        <span class="doccomment">/// Metadata for image object detection models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
-        <span class="ident">ImageObjectDetectionModelMetadata</span>(<span class="ident"><span class="kw">super</span>::ImageObjectDetectionModelMetadata</span>),
-        <span class="doccomment">/// Metadata for text extraction models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;19&quot;</span>)]</span>
-        <span class="ident">TextExtractionModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextExtractionModelMetadata</span>),
-        <span class="doccomment">/// Metadata for text sentiment models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
-        <span class="ident">TextSentimentModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextSentimentModelMetadata</span>),
-    }
-}
-<span class="doccomment">/// Evaluation results of a model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModelEvaluation</span> {
-    <span class="doccomment">/// Output only. Resource name of the model evaluation.</span>
-    <span class="doccomment">/// Format:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `projects/{project_id}/locations/{location_id}/models/{model_id}/modelEvaluations/{model_evaluation_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The ID of the annotation spec that the model evaluation applies to. The</span>
-    <span class="doccomment">/// The ID is empty for the overall model evaluation.</span>
-    <span class="doccomment">/// For Tables annotation specs in the dataset do not exist and this ID is</span>
-    <span class="doccomment">/// always not set, but for CLASSIFICATION</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// \[prediction_type-s][google.cloud.automl.v1.TablesModelMetadata.prediction_type\]</span>
-    <span class="doccomment">/// the</span>
-    <span class="doccomment">/// \[display_name][google.cloud.automl.v1.ModelEvaluation.display_name\]</span>
-    <span class="doccomment">/// field is used.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">annotation_spec_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The value of</span>
-    <span class="doccomment">/// \[display_name][google.cloud.automl.v1.AnnotationSpec.display_name\]</span>
-    <span class="doccomment">/// at the moment when the model was trained. Because this field returns a</span>
-    <span class="doccomment">/// value at model training time, for different models trained from the same</span>
-    <span class="doccomment">/// dataset, the values may differ, since display names could had been changed</span>
-    <span class="doccomment">/// between the two model&#39;s trainings. For Tables CLASSIFICATION</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// \[prediction_type-s][google.cloud.automl.v1.TablesModelMetadata.prediction_type\]</span>
-    <span class="doccomment">/// distinct values of the target column at the moment of the model evaluation</span>
-    <span class="doccomment">/// are populated here.</span>
-    <span class="doccomment">/// The display_name is empty for the overall model evaluation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Timestamp when this model evaluation was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The number of examples used for model evaluation, i.e. for</span>
-    <span class="doccomment">/// which ground truth from time of model creation is compared against the</span>
-    <span class="doccomment">/// predicted annotations created by the model.</span>
-    <span class="doccomment">/// For overall ModelEvaluation (i.e. with annotation_spec_id not set) this is</span>
-    <span class="doccomment">/// the total number of all examples used for evaluation.</span>
-    <span class="doccomment">/// Otherwise, this is the count of examples that according to the ground</span>
-    <span class="doccomment">/// truth were annotated by the</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// \[annotation_spec_id][google.cloud.automl.v1.ModelEvaluation.annotation_spec_id\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">evaluated_example_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Problem type specific evaluation metrics.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;model_evaluation::Metrics&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;8, 9, 12, 11, 13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metrics</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">model_evaluation::Metrics</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ModelEvaluation`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">model_evaluation</span> {
-    <span class="doccomment">/// Output only. Problem type specific evaluation metrics.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Metrics</span> {
-        <span class="doccomment">/// Model evaluation metrics for image, text, video and tables</span>
-        <span class="doccomment">/// classification.</span>
-        <span class="doccomment">/// Tables problem is considered a classification when the target column</span>
-        <span class="doccomment">/// is CATEGORY DataType.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="ident">ClassificationEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::ClassificationEvaluationMetrics</span>),
-        <span class="doccomment">/// Model evaluation metrics for translation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="ident">TranslationEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::TranslationEvaluationMetrics</span>),
-        <span class="doccomment">/// Model evaluation metrics for image object detection.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-        <span class="ident">ImageObjectDetectionEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::ImageObjectDetectionEvaluationMetrics</span>),
-        <span class="doccomment">/// Evaluation metrics for text sentiment models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-        <span class="ident">TextSentimentEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::TextSentimentEvaluationMetrics</span>),
-        <span class="doccomment">/// Evaluation metrics for text extraction models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-        <span class="ident">TextExtractionEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::TextExtractionEvaluationMetrics</span>),
-    }
-}
 <span class="doccomment">/// Request message for \[AutoMl.CreateDataset][google.cloud.automl.v1.AutoMl.CreateDataset\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateDatasetRequest</span> {
@@ -6800,8 +6518,7 @@
     <span class="doccomment">/// An expression for filtering the results of the request.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">///   * `dataset_metadata` - for existence of the case (e.g.</span>
-    <span class="doccomment">///             `image_classification_dataset_metadata:*`). Some examples of</span>
-    <span class="doccomment">///             using the filter are:</span>
+    <span class="doccomment">///             `image_classification_dataset_metadata:*`). Some examples of using the filter are:</span>
     <span class="doccomment">///</span>
     <span class="doccomment">///   * `translation_dataset_metadata:*` --&gt; The dataset has</span>
     <span class="doccomment">///                                          `translation_dataset_metadata`.</span>
@@ -7061,7 +6778,7 @@
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Currently the only supported `location_id` is \&quot;us-central1\&quot;.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; On any input that is documented to expect a string parameter in&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; snake_case or kebab-case, either of those cases is accepted.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; snake_case or dash-case, either of those cases is accepted.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
@@ -7362,7 +7079,6 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deploys a model. If a model is already deployed, deploying it with the&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; same parameters has no effect. Deploying with different parametrs&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; (as e.g. changing&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [node_number][google.cloud.automl.v1p1beta.ImageObjectDetectionModelDeploymentMetadata.node_number])&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;  will reset the deployment state without pausing the model&#39;s availability.&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
@@ -7474,6 +7190,172 @@
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
+    }
+}
+<span class="doccomment">/// Metadata used across all long running operations returned by AutoML API.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
+    <span class="doccomment">/// Output only. Progress of operation. Range: [0, 100].</span>
+    <span class="doccomment">/// Not used currently.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">progress_percent</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Partial failures encountered.</span>
+    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
+    <span class="doccomment">/// This field should never exceed 20 entries.</span>
+    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Time when the operation was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Time when the operation was updated for the last time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Ouptut only. Details of specific operation. Even if this field is empty,</span>
+    <span class="doccomment">/// the presence allows to distinguish different types of operations.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;operation_metadata::Details&quot;</span>,
+        <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;8, 24, 25, 10, 30, 15, 16, 21, 22&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">operation_metadata::Details</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `OperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">operation_metadata</span> {
+    <span class="doccomment">/// Ouptut only. Details of specific operation. Even if this field is empty,</span>
+    <span class="doccomment">/// the presence allows to distinguish different types of operations.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
+        <span class="doccomment">/// Details of a Delete operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="ident">DeleteDetails</span>(<span class="ident"><span class="kw">super</span>::DeleteOperationMetadata</span>),
+        <span class="doccomment">/// Details of a DeployModel operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;24&quot;</span>)]</span>
+        <span class="ident">DeployModelDetails</span>(<span class="ident"><span class="kw">super</span>::DeployModelOperationMetadata</span>),
+        <span class="doccomment">/// Details of an UndeployModel operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>)]</span>
+        <span class="ident">UndeployModelDetails</span>(<span class="ident"><span class="kw">super</span>::UndeployModelOperationMetadata</span>),
+        <span class="doccomment">/// Details of CreateModel operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="ident">CreateModelDetails</span>(<span class="ident"><span class="kw">super</span>::CreateModelOperationMetadata</span>),
+        <span class="doccomment">/// Details of CreateDataset operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;30&quot;</span>)]</span>
+        <span class="ident">CreateDatasetDetails</span>(<span class="ident"><span class="kw">super</span>::CreateDatasetOperationMetadata</span>),
+        <span class="doccomment">/// Details of ImportData operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+        <span class="ident">ImportDataDetails</span>(<span class="ident"><span class="kw">super</span>::ImportDataOperationMetadata</span>),
+        <span class="doccomment">/// Details of BatchPredict operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+        <span class="ident">BatchPredictDetails</span>(<span class="ident"><span class="kw">super</span>::BatchPredictOperationMetadata</span>),
+        <span class="doccomment">/// Details of ExportData operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>)]</span>
+        <span class="ident">ExportDataDetails</span>(<span class="ident"><span class="kw">super</span>::ExportDataOperationMetadata</span>),
+        <span class="doccomment">/// Details of ExportModel operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
+        <span class="ident">ExportModelDetails</span>(<span class="ident"><span class="kw">super</span>::ExportModelOperationMetadata</span>),
+    }
+}
+<span class="doccomment">/// Details of operations that perform deletes of any entities.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteOperationMetadata</span> {}
+<span class="doccomment">/// Details of DeployModel operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeployModelOperationMetadata</span> {}
+<span class="doccomment">/// Details of UndeployModel operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UndeployModelOperationMetadata</span> {}
+<span class="doccomment">/// Details of CreateDataset operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateDatasetOperationMetadata</span> {}
+<span class="doccomment">/// Details of CreateModel operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateModelOperationMetadata</span> {}
+<span class="doccomment">/// Details of ImportData operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportDataOperationMetadata</span> {}
+<span class="doccomment">/// Details of ExportData operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDataOperationMetadata</span> {
+    <span class="doccomment">/// Output only. Information further describing this export data&#39;s output.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">output_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_data_operation_metadata::ExportDataOutputInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExportDataOperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_data_operation_metadata</span> {
+    <span class="doccomment">/// Further describes this export data&#39;s output.</span>
+    <span class="doccomment">/// Supplements</span>
+    <span class="doccomment">/// \[OutputConfig][google.cloud.automl.v1.OutputConfig\].</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDataOutputInfo</span> {
+        <span class="doccomment">/// The output location to which the exported data is written.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;export_data_output_info::OutputLocation&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">output_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_data_output_info::OutputLocation</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `ExportDataOutputInfo`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_data_output_info</span> {
+        <span class="doccomment">/// The output location to which the exported data is written.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OutputLocation</span> {
+            <span class="doccomment">/// The full path of the Google Cloud Storage directory created, into which</span>
+            <span class="doccomment">/// the exported data is written.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="ident">GcsOutputDirectory</span>(<span class="ident">::prost::alloc::string::String</span>),
+        }
+    }
+}
+<span class="doccomment">/// Details of BatchPredict operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchPredictOperationMetadata</span> {
+    <span class="doccomment">/// Output only. The input config that was given upon starting this</span>
+    <span class="doccomment">/// batch predict operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">input_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BatchPredictInputConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Information further describing this batch predict&#39;s output.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">output_info</span>:
+        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">batch_predict_operation_metadata::BatchPredictOutputInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `BatchPredictOperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">batch_predict_operation_metadata</span> {
+    <span class="doccomment">/// Further describes this batch predict&#39;s output.</span>
+    <span class="doccomment">/// Supplements</span>
+    <span class="doccomment">/// \[BatchPredictOutputConfig][google.cloud.automl.v1.BatchPredictOutputConfig\].</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchPredictOutputInfo</span> {
+        <span class="doccomment">/// The output location into which prediction output is written.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;batch_predict_output_info::OutputLocation&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">output_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">batch_predict_output_info::OutputLocation</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `BatchPredictOutputInfo`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">batch_predict_output_info</span> {
+        <span class="doccomment">/// The output location into which prediction output is written.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OutputLocation</span> {
+            <span class="doccomment">/// The full path of the Google Cloud Storage directory created, into which</span>
+            <span class="doccomment">/// the prediction output is written.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="ident">GcsOutputDirectory</span>(<span class="ident">::prost::alloc::string::String</span>),
+        }
+    }
+}
+<span class="doccomment">/// Details of ExportModel operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportModelOperationMetadata</span> {
+    <span class="doccomment">/// Output only. Information further describing the output of this model</span>
+    <span class="doccomment">/// export.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">output_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_model_operation_metadata::ExportModelOutputInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExportModelOperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_model_operation_metadata</span> {
+    <span class="doccomment">/// Further describes the output of model export.</span>
+    <span class="doccomment">/// Supplements</span>
+    <span class="doccomment">/// \[ModelExportOutputConfig][google.cloud.automl.v1.ModelExportOutputConfig\].</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportModelOutputInfo</span> {
+        <span class="doccomment">/// The full path of the Google Cloud Storage directory created, into which</span>
+        <span class="doccomment">/// the model will be exported.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">gcs_output_directory</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
 }
 </code></pre></div>
