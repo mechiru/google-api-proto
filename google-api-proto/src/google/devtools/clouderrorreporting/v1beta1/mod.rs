@@ -163,6 +163,151 @@ pub enum ResolutionStatus {
     /// The error group is muted and excluded by default on group stats requests.
     Muted = 4,
 }
+/// A request for reporting an individual error event.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReportErrorEventRequest {
+    /// Required. The resource name of the Google Cloud Platform project. Written
+    /// as `projects/{projectId}`, where `{projectId}` is the
+    /// [Google Cloud Platform project
+    /// ID](<https://support.google.com/cloud/answer/6158840>).
+    ///
+    /// Example: // `projects/my-project-123`.
+    #[prost(string, tag = "1")]
+    pub project_name: ::prost::alloc::string::String,
+    /// Required. The error event to be reported.
+    #[prost(message, optional, tag = "2")]
+    pub event: ::core::option::Option<ReportedErrorEvent>,
+}
+/// Response for reporting an individual error event.
+/// Data may be added to this message in the future.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReportErrorEventResponse {}
+/// An error event which is reported to the Error Reporting system.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReportedErrorEvent {
+    /// Optional. Time when the event occurred.
+    /// If not provided, the time when the event was received by the
+    /// Error Reporting system will be used.
+    #[prost(message, optional, tag = "1")]
+    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The service context in which this error has occurred.
+    #[prost(message, optional, tag = "2")]
+    pub service_context: ::core::option::Option<ServiceContext>,
+    /// Required. The error message.
+    /// If no `context.reportLocation` is provided, the message must contain a
+    /// header (typically consisting of the exception type name and an error
+    /// message) and an exception stack trace in one of the supported programming
+    /// languages and formats.
+    /// Supported languages are Java, Python, JavaScript, Ruby, C#, PHP, and Go.
+    /// Supported stack trace formats are:
+    ///
+    /// * **Java**: Must be the return value of
+    /// \[`Throwable.printStackTrace()`\](<https://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html#printStackTrace%28%29>).
+    /// * **Python**: Must be the return value of
+    /// \[`traceback.format_exc()`\](<https://docs.python.org/2/library/traceback.html#traceback.format_exc>).
+    /// * **JavaScript**: Must be the value of
+    /// \[`error.stack`\](<https://github.com/v8/v8/wiki/Stack-Trace-API>) as returned
+    /// by V8.
+    /// * **Ruby**: Must contain frames returned by
+    /// \[`Exception.backtrace`\](<https://ruby-doc.org/core-2.2.0/Exception.html#method-i-backtrace>).
+    /// * **C#**: Must be the return value of
+    /// \[`Exception.ToString()`\](<https://msdn.microsoft.com/en-us/library/system.exception.tostring.aspx>).
+    /// * **PHP**: Must start with `PHP (Notice|Parse error|Fatal error|Warning)`
+    /// and contain the result of
+    /// \[`(string)$exception`\](<http://php.net/manual/en/exception.tostring.php>).
+    /// * **Go**: Must be the return value of
+    /// \[`runtime.Stack()`\](<https://golang.org/pkg/runtime/debug/#Stack>).
+    #[prost(string, tag = "3")]
+    pub message: ::prost::alloc::string::String,
+    /// Optional. A description of the context in which the error occurred.
+    #[prost(message, optional, tag = "4")]
+    pub context: ::core::option::Option<ErrorContext>,
+}
+#[doc = r" Generated client implementations."]
+pub mod report_errors_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " An API for reporting error events."]
+    #[derive(Debug, Clone)]
+    pub struct ReportErrorsServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ReportErrorsServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ReportErrorsServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ReportErrorsServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Report an individual error event and record the event to a log."]
+        #[doc = ""]
+        #[doc = " This endpoint accepts **either** an OAuth token,"]
+        #[doc = " **or** an [API key](https://support.google.com/cloud/answer/6158862)"]
+        #[doc = " for authentication. To use an API key, append it to the URL as the value of"]
+        #[doc = " a `key` parameter. For example:"]
+        #[doc = ""]
+        #[doc = " `POST"]
+        #[doc = " https://clouderrorreporting.googleapis.com/v1beta1/{projectName}/events:report?key=123ABC456`"]
+        #[doc = ""]
+        #[doc = " **Note:** [Error Reporting](/error-reporting) is a global service built"]
+        #[doc = " on Cloud Logging and doesn't analyze logs stored"]
+        #[doc = " in regional log buckets or logs routed to other Google Cloud projects."]
+        #[doc = ""]
+        #[doc = " For more information, see"]
+        #[doc = " [Using Error Reporting with regionalized"]
+        #[doc = " logs](/error-reporting/docs/regionalization)."]
+        pub async fn report_error_event(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ReportErrorEventRequest>,
+        ) -> Result<tonic::Response<super::ReportErrorEventResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.clouderrorreporting.v1beta1.ReportErrorsService/ReportErrorEvent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Specifies a set of `ErrorGroupStats` to return.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGroupStatsRequest {
@@ -666,151 +811,6 @@ pub mod error_group_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.devtools.clouderrorreporting.v1beta1.ErrorGroupService/UpdateGroup",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// A request for reporting an individual error event.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportErrorEventRequest {
-    /// Required. The resource name of the Google Cloud Platform project. Written
-    /// as `projects/{projectId}`, where `{projectId}` is the
-    /// [Google Cloud Platform project
-    /// ID](<https://support.google.com/cloud/answer/6158840>).
-    ///
-    /// Example: // `projects/my-project-123`.
-    #[prost(string, tag = "1")]
-    pub project_name: ::prost::alloc::string::String,
-    /// Required. The error event to be reported.
-    #[prost(message, optional, tag = "2")]
-    pub event: ::core::option::Option<ReportedErrorEvent>,
-}
-/// Response for reporting an individual error event.
-/// Data may be added to this message in the future.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportErrorEventResponse {}
-/// An error event which is reported to the Error Reporting system.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportedErrorEvent {
-    /// Optional. Time when the event occurred.
-    /// If not provided, the time when the event was received by the
-    /// Error Reporting system will be used.
-    #[prost(message, optional, tag = "1")]
-    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The service context in which this error has occurred.
-    #[prost(message, optional, tag = "2")]
-    pub service_context: ::core::option::Option<ServiceContext>,
-    /// Required. The error message.
-    /// If no `context.reportLocation` is provided, the message must contain a
-    /// header (typically consisting of the exception type name and an error
-    /// message) and an exception stack trace in one of the supported programming
-    /// languages and formats.
-    /// Supported languages are Java, Python, JavaScript, Ruby, C#, PHP, and Go.
-    /// Supported stack trace formats are:
-    ///
-    /// * **Java**: Must be the return value of
-    /// \[`Throwable.printStackTrace()`\](<https://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html#printStackTrace%28%29>).
-    /// * **Python**: Must be the return value of
-    /// \[`traceback.format_exc()`\](<https://docs.python.org/2/library/traceback.html#traceback.format_exc>).
-    /// * **JavaScript**: Must be the value of
-    /// \[`error.stack`\](<https://github.com/v8/v8/wiki/Stack-Trace-API>) as returned
-    /// by V8.
-    /// * **Ruby**: Must contain frames returned by
-    /// \[`Exception.backtrace`\](<https://ruby-doc.org/core-2.2.0/Exception.html#method-i-backtrace>).
-    /// * **C#**: Must be the return value of
-    /// \[`Exception.ToString()`\](<https://msdn.microsoft.com/en-us/library/system.exception.tostring.aspx>).
-    /// * **PHP**: Must start with `PHP (Notice|Parse error|Fatal error|Warning)`
-    /// and contain the result of
-    /// \[`(string)$exception`\](<http://php.net/manual/en/exception.tostring.php>).
-    /// * **Go**: Must be the return value of
-    /// \[`runtime.Stack()`\](<https://golang.org/pkg/runtime/debug/#Stack>).
-    #[prost(string, tag = "3")]
-    pub message: ::prost::alloc::string::String,
-    /// Optional. A description of the context in which the error occurred.
-    #[prost(message, optional, tag = "4")]
-    pub context: ::core::option::Option<ErrorContext>,
-}
-#[doc = r" Generated client implementations."]
-pub mod report_errors_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " An API for reporting error events."]
-    #[derive(Debug, Clone)]
-    pub struct ReportErrorsServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ReportErrorsServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ReportErrorsServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ReportErrorsServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Report an individual error event and record the event to a log."]
-        #[doc = ""]
-        #[doc = " This endpoint accepts **either** an OAuth token,"]
-        #[doc = " **or** an [API key](https://support.google.com/cloud/answer/6158862)"]
-        #[doc = " for authentication. To use an API key, append it to the URL as the value of"]
-        #[doc = " a `key` parameter. For example:"]
-        #[doc = ""]
-        #[doc = " `POST"]
-        #[doc = " https://clouderrorreporting.googleapis.com/v1beta1/{projectName}/events:report?key=123ABC456`"]
-        #[doc = ""]
-        #[doc = " **Note:** [Error Reporting](/error-reporting) is a global service built"]
-        #[doc = " on Cloud Logging and doesn't analyze logs stored"]
-        #[doc = " in regional log buckets or logs routed to other Google Cloud projects."]
-        #[doc = ""]
-        #[doc = " For more information, see"]
-        #[doc = " [Using Error Reporting with regionalized"]
-        #[doc = " logs](/error-reporting/docs/regionalization)."]
-        pub async fn report_error_event(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ReportErrorEventRequest>,
-        ) -> Result<tonic::Response<super::ReportErrorEventResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.clouderrorreporting.v1beta1.ReportErrorsService/ReportErrorEvent",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

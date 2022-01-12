@@ -1,397 +1,3 @@
-/// An internal checker allows Uptime checks to run on private/internal GCP
-/// resources.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InternalChecker {
-    /// A unique resource name for this InternalChecker. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/internalCheckers/[INTERNAL_CHECKER_ID\]
-    ///
-    /// `\[PROJECT_ID_OR_NUMBER\]` is the Stackdriver Workspace project for the
-    /// Uptime check config associated with the internal checker.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The checker's human-readable name. The display name
-    /// should be unique within a Stackdriver Workspace in order to make it easier
-    /// to identify; however, uniqueness is not enforced.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The [GCP VPC network](<https://cloud.google.com/vpc/docs/vpc>) where the
-    /// internal resource lives (ex: "default").
-    #[prost(string, tag = "3")]
-    pub network: ::prost::alloc::string::String,
-    /// The GCP zone the Uptime check should egress from. Only respected for
-    /// internal Uptime checks, where internal_network is specified.
-    #[prost(string, tag = "4")]
-    pub gcp_zone: ::prost::alloc::string::String,
-    /// The GCP project ID where the internal checker lives. Not necessary
-    /// the same as the Workspace project.
-    #[prost(string, tag = "6")]
-    pub peer_project_id: ::prost::alloc::string::String,
-    /// The current operational state of the internal checker.
-    #[prost(enumeration = "internal_checker::State", tag = "7")]
-    pub state: i32,
-}
-/// Nested message and enum types in `InternalChecker`.
-pub mod internal_checker {
-    /// Operational states for an internal checker.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// An internal checker should never be in the unspecified state.
-        Unspecified = 0,
-        /// The checker is being created, provisioned, and configured. A checker in
-        /// this state can be returned by `ListInternalCheckers` or
-        /// `GetInternalChecker`, as well as by examining the [long running
-        /// Operation](<https://cloud.google.com/apis/design/design_patterns#long_running_operations>)
-        /// that created it.
-        Creating = 1,
-        /// The checker is running and available for use. A checker in this state
-        /// can be returned by `ListInternalCheckers` or `GetInternalChecker` as
-        /// well as by examining the [long running
-        /// Operation](<https://cloud.google.com/apis/design/design_patterns#long_running_operations>)
-        /// that created it.
-        /// If a checker is being torn down, it is neither visible nor usable, so
-        /// there is no "deleting" or "down" state.
-        Running = 2,
-    }
-}
-/// This message configures which resources and services to monitor for
-/// availability.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UptimeCheckConfig {
-    /// A unique resource name for this Uptime check configuration. The format is:
-    ///
-    ///      projects/\[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID\]
-    ///
-    /// `\[PROJECT_ID_OR_NUMBER\]` is the Workspace host project associated with the
-    /// Uptime check.
-    ///
-    /// This field should be omitted when creating the Uptime check configuration;
-    /// on create, the resource name is assigned by the server and included in the
-    /// response.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// A human-friendly name for the Uptime check configuration. The display name
-    /// should be unique within a Stackdriver Workspace in order to make it easier
-    /// to identify; however, uniqueness is not enforced. Required.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// How often, in seconds, the Uptime check is performed.
-    /// Currently, the only supported values are `60s` (1 minute), `300s`
-    /// (5 minutes), `600s` (10 minutes), and `900s` (15 minutes). Optional,
-    /// defaults to `60s`.
-    #[prost(message, optional, tag = "7")]
-    pub period: ::core::option::Option<::prost_types::Duration>,
-    /// The maximum amount of time to wait for the request to complete (must be
-    /// between 1 and 60 seconds). Required.
-    #[prost(message, optional, tag = "8")]
-    pub timeout: ::core::option::Option<::prost_types::Duration>,
-    /// The content that is expected to appear in the data returned by the target
-    /// server against which the check is run.  Currently, only the first entry
-    /// in the `content_matchers` list is supported, and additional entries will
-    /// be ignored. This field is optional and should only be specified if a
-    /// content match is required as part of the/ Uptime check.
-    #[prost(message, repeated, tag = "9")]
-    pub content_matchers: ::prost::alloc::vec::Vec<uptime_check_config::ContentMatcher>,
-    /// The list of regions from which the check will be run.
-    /// Some regions contain one location, and others contain more than one.
-    /// If this field is specified, enough regions must be provided to include a
-    /// minimum of 3 locations.  Not specifying this field will result in Uptime
-    /// checks running from all available regions.
-    #[prost(enumeration = "UptimeCheckRegion", repeated, tag = "10")]
-    pub selected_regions: ::prost::alloc::vec::Vec<i32>,
-    /// If this is `true`, then checks are made only from the 'internal_checkers'.
-    /// If it is `false`, then checks are made only from the 'selected_regions'.
-    /// It is an error to provide 'selected_regions' when is_internal is `true`,
-    /// or to provide 'internal_checkers' when is_internal is `false`.
-    #[deprecated]
-    #[prost(bool, tag = "15")]
-    pub is_internal: bool,
-    /// The internal checkers that this check will egress from. If `is_internal` is
-    /// `true` and this list is empty, the check will egress from all the
-    /// InternalCheckers configured for the project that owns this
-    /// `UptimeCheckConfig`.
-    #[deprecated]
-    #[prost(message, repeated, tag = "14")]
-    pub internal_checkers: ::prost::alloc::vec::Vec<InternalChecker>,
-    /// The resource the check is checking. Required.
-    #[prost(oneof = "uptime_check_config::Resource", tags = "3, 4")]
-    pub resource: ::core::option::Option<uptime_check_config::Resource>,
-    /// The type of Uptime check request.
-    #[prost(oneof = "uptime_check_config::CheckRequestType", tags = "5, 6")]
-    pub check_request_type: ::core::option::Option<uptime_check_config::CheckRequestType>,
-}
-/// Nested message and enum types in `UptimeCheckConfig`.
-pub mod uptime_check_config {
-    /// The resource submessage for group checks. It can be used instead of a
-    /// monitored resource, when multiple resources are being monitored.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ResourceGroup {
-        /// The group of resources being monitored. Should be only the `\[GROUP_ID\]`,
-        /// and not the full-path
-        /// `projects/\[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID\]`.
-        #[prost(string, tag = "1")]
-        pub group_id: ::prost::alloc::string::String,
-        /// The resource type of the group members.
-        #[prost(enumeration = "super::GroupResourceType", tag = "2")]
-        pub resource_type: i32,
-    }
-    /// Information involved in an HTTP/HTTPS Uptime check request.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct HttpCheck {
-        /// The HTTP request method to use for the check. If set to
-        /// `METHOD_UNSPECIFIED` then `request_method` defaults to `GET`.
-        #[prost(enumeration = "http_check::RequestMethod", tag = "8")]
-        pub request_method: i32,
-        /// If `true`, use HTTPS instead of HTTP to run the check.
-        #[prost(bool, tag = "1")]
-        pub use_ssl: bool,
-        /// Optional (defaults to "/"). The path to the page against which to run
-        /// the check. Will be combined with the `host` (specified within the
-        /// `monitored_resource`) and `port` to construct the full URL. If the
-        /// provided path does not begin with "/", a "/" will be prepended
-        /// automatically.
-        #[prost(string, tag = "2")]
-        pub path: ::prost::alloc::string::String,
-        /// Optional (defaults to 80 when `use_ssl` is `false`, and 443 when
-        /// `use_ssl` is `true`). The TCP port on the HTTP server against which to
-        /// run the check. Will be combined with host (specified within the
-        /// `monitored_resource`) and `path` to construct the full URL.
-        #[prost(int32, tag = "3")]
-        pub port: i32,
-        /// The authentication information. Optional when creating an HTTP check;
-        /// defaults to empty.
-        #[prost(message, optional, tag = "4")]
-        pub auth_info: ::core::option::Option<http_check::BasicAuthentication>,
-        /// Boolean specifying whether to encrypt the header information.
-        /// Encryption should be specified for any headers related to authentication
-        /// that you do not wish to be seen when retrieving the configuration. The
-        /// server will be responsible for encrypting the headers.
-        /// On Get/List calls, if `mask_headers` is set to `true` then the headers
-        /// will be obscured with `******.`
-        #[prost(bool, tag = "5")]
-        pub mask_headers: bool,
-        /// The list of headers to send as part of the Uptime check request.
-        /// If two headers have the same key and different values, they should
-        /// be entered as a single header, with the value being a comma-separated
-        /// list of all the desired values as described at
-        /// <https://www.w3.org/Protocols/rfc2616/rfc2616.txt> (page 31).
-        /// Entering two separate headers with the same key in a Create call will
-        /// cause the first to be overwritten by the second.
-        /// The maximum number of headers allowed is 100.
-        #[prost(btree_map = "string, string", tag = "6")]
-        pub headers: ::prost::alloc::collections::BTreeMap<
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        >,
-        /// The content type header to use for the check. The following
-        /// configurations result in errors:
-        /// 1. Content type is specified in both the `headers` field and the
-        /// `content_type` field.
-        /// 2. Request method is `GET` and `content_type` is not `TYPE_UNSPECIFIED`
-        /// 3. Request method is `POST` and `content_type` is `TYPE_UNSPECIFIED`.
-        /// 4. Request method is `POST` and a "Content-Type" header is provided via
-        /// `headers` field. The `content_type` field should be used instead.
-        #[prost(enumeration = "http_check::ContentType", tag = "9")]
-        pub content_type: i32,
-        /// Boolean specifying whether to include SSL certificate validation as a
-        /// part of the Uptime check. Only applies to checks where
-        /// `monitored_resource` is set to `uptime_url`. If `use_ssl` is `false`,
-        /// setting `validate_ssl` to `true` has no effect.
-        #[prost(bool, tag = "7")]
-        pub validate_ssl: bool,
-        /// The request body associated with the HTTP POST request. If `content_type`
-        /// is `URL_ENCODED`, the body passed in must be URL-encoded. Users can
-        /// provide a `Content-Length` header via the `headers` field or the API will
-        /// do so. If the `request_method` is `GET` and `body` is not empty, the API
-        /// will return an error. The maximum byte size is 1 megabyte. Note: As with
-        /// all `bytes` fields, JSON representations are base64 encoded. e.g.:
-        /// "foo=bar" in URL-encoded form is "foo%3Dbar" and in base64 encoding is
-        /// "Zm9vJTI1M0RiYXI=".
-        #[prost(bytes = "bytes", tag = "10")]
-        pub body: ::prost::bytes::Bytes,
-    }
-    /// Nested message and enum types in `HttpCheck`.
-    pub mod http_check {
-        /// The authentication parameters to provide to the specified resource or
-        /// URL that requires a username and password. Currently, only
-        /// [Basic HTTP authentication](<https://tools.ietf.org/html/rfc7617>) is
-        /// supported in Uptime checks.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct BasicAuthentication {
-            /// The username to use when authenticating with the HTTP server.
-            #[prost(string, tag = "1")]
-            pub username: ::prost::alloc::string::String,
-            /// The password to use when authenticating with the HTTP server.
-            #[prost(string, tag = "2")]
-            pub password: ::prost::alloc::string::String,
-        }
-        /// The HTTP request method options.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum RequestMethod {
-            /// No request method specified.
-            MethodUnspecified = 0,
-            /// GET request.
-            Get = 1,
-            /// POST request.
-            Post = 2,
-        }
-        /// Header options corresponding to the content type of a HTTP request body.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum ContentType {
-            /// No content type specified.
-            TypeUnspecified = 0,
-            /// `body` is in URL-encoded form. Equivalent to setting the `Content-Type`
-            /// to `application/x-www-form-urlencoded` in the HTTP request.
-            UrlEncoded = 1,
-        }
-    }
-    /// Information required for a TCP Uptime check request.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct TcpCheck {
-        /// The TCP port on the server against which to run the check. Will be
-        /// combined with host (specified within the `monitored_resource`) to
-        /// construct the full URL. Required.
-        #[prost(int32, tag = "1")]
-        pub port: i32,
-    }
-    /// Optional. Used to perform content matching. This allows matching based on
-    /// substrings and regular expressions, together with their negations. Only the
-    /// first 4&nbsp;MB of an HTTP or HTTPS check's response (and the first
-    /// 1&nbsp;MB of a TCP check's response) are examined for purposes of content
-    /// matching.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ContentMatcher {
-        /// String or regex content to match. Maximum 1024 bytes. An empty `content`
-        /// string indicates no content matching is to be performed.
-        #[prost(string, tag = "1")]
-        pub content: ::prost::alloc::string::String,
-        /// The type of content matcher that will be applied to the server output,
-        /// compared to the `content` string when the check is run.
-        #[prost(enumeration = "content_matcher::ContentMatcherOption", tag = "2")]
-        pub matcher: i32,
-    }
-    /// Nested message and enum types in `ContentMatcher`.
-    pub mod content_matcher {
-        /// Options to perform content matching.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum ContentMatcherOption {
-            /// No content matcher type specified (maintained for backward
-            /// compatibility, but deprecated for future use).
-            /// Treated as `CONTAINS_STRING`.
-            Unspecified = 0,
-            /// Selects substring matching. The match succeeds if the output contains
-            /// the `content` string.  This is the default value for checks without
-            /// a `matcher` option, or where the value of `matcher` is
-            /// `CONTENT_MATCHER_OPTION_UNSPECIFIED`.
-            ContainsString = 1,
-            /// Selects negation of substring matching. The match succeeds if the
-            /// output does _NOT_ contain the `content` string.
-            NotContainsString = 2,
-            /// Selects regular-expression matching. The match succeeds of the output
-            /// matches the regular expression specified in the `content` string.
-            /// Regex matching is only supported for HTTP/HTTPS checks.
-            MatchesRegex = 3,
-            /// Selects negation of regular-expression matching. The match succeeds if
-            /// the output does _NOT_ match the regular expression specified in the
-            /// `content` string. Regex matching is only supported for HTTP/HTTPS
-            /// checks.
-            NotMatchesRegex = 4,
-        }
-    }
-    /// The resource the check is checking. Required.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Resource {
-        /// The [monitored
-        /// resource](<https://cloud.google.com/monitoring/api/resources>) associated
-        /// with the configuration.
-        /// The following monitored resource types are valid for this field:
-        ///   `uptime_url`,
-        ///   `gce_instance`,
-        ///   `gae_app`,
-        ///   `aws_ec2_instance`,
-        ///   `aws_elb_load_balancer`
-        ///   `k8s_service`
-        #[prost(message, tag = "3")]
-        MonitoredResource(super::super::super::api::MonitoredResource),
-        /// The group resource associated with the configuration.
-        #[prost(message, tag = "4")]
-        ResourceGroup(ResourceGroup),
-    }
-    /// The type of Uptime check request.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum CheckRequestType {
-        /// Contains information needed to make an HTTP or HTTPS check.
-        #[prost(message, tag = "5")]
-        HttpCheck(HttpCheck),
-        /// Contains information needed to make a TCP check.
-        #[prost(message, tag = "6")]
-        TcpCheck(TcpCheck),
-    }
-}
-/// Contains the region, location, and list of IP
-/// addresses where checkers in the location run from.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UptimeCheckIp {
-    /// A broad region category in which the IP address is located.
-    #[prost(enumeration = "UptimeCheckRegion", tag = "1")]
-    pub region: i32,
-    /// A more specific location within the region that typically encodes
-    /// a particular city/town/metro (and its containing state/province or country)
-    /// within the broader umbrella region category.
-    #[prost(string, tag = "2")]
-    pub location: ::prost::alloc::string::String,
-    /// The IP address from which the Uptime check originates. This is a fully
-    /// specified IP address (not an IP address range). Most IP addresses, as of
-    /// this publication, are in IPv4 format; however, one should not rely on the
-    /// IP addresses being in IPv4 format indefinitely, and should support
-    /// interpreting this field in either IPv4 or IPv6 format.
-    #[prost(string, tag = "3")]
-    pub ip_address: ::prost::alloc::string::String,
-}
-/// The regions from which an Uptime check can be run.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum UptimeCheckRegion {
-    /// Default value if no region is specified. Will result in Uptime checks
-    /// running from all regions.
-    RegionUnspecified = 0,
-    /// Allows checks to run from locations within the United States of America.
-    Usa = 1,
-    /// Allows checks to run from locations within the continent of Europe.
-    Europe = 2,
-    /// Allows checks to run from locations within the continent of South
-    /// America.
-    SouthAmerica = 3,
-    /// Allows checks to run from locations within the Asia Pacific area (ex:
-    /// Singapore).
-    AsiaPacific = 4,
-}
-/// The supported resource types that can be used as values of
-/// `group_resource.resource_type`.
-/// `INSTANCE` includes `gce_instance` and `aws_ec2_instance` resource types.
-/// The resource types `gae_app` and `uptime_url` are not valid here because
-/// group checks on App Engine modules and URLs are not allowed.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum GroupResourceType {
-    /// Default value (not valid).
-    ResourceTypeUnspecified = 0,
-    /// A group of instances from Google Cloud Platform (GCP) or
-    /// Amazon Web Services (AWS).
-    Instance = 1,
-    /// A group of Amazon ELB load balancers.
-    AwsElbLoadBalancer = 2,
-}
 /// A single strongly-typed value.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TypedValue {
@@ -826,253 +432,6 @@ pub enum ServiceTier {
     /// more details, see [the service tiers
     /// documentation](<https://cloud.google.com/monitoring/workspaces/tiers>).
     Premium = 2,
-}
-/// A single data point in a time series.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Point {
-    /// The time interval to which the data point applies.  For `GAUGE` metrics,
-    /// the start time is optional, but if it is supplied, it must equal the
-    /// end time.  For `DELTA` metrics, the start
-    /// and end time should specify a non-zero interval, with subsequent points
-    /// specifying contiguous and non-overlapping intervals.  For `CUMULATIVE`
-    /// metrics, the start and end time should specify a non-zero interval, with
-    /// subsequent points specifying the same start time and increasing end times,
-    /// until an event resets the cumulative value to zero and sets a new start
-    /// time for the following points.
-    #[prost(message, optional, tag = "1")]
-    pub interval: ::core::option::Option<TimeInterval>,
-    /// The value of the data point.
-    #[prost(message, optional, tag = "2")]
-    pub value: ::core::option::Option<TypedValue>,
-}
-/// A collection of data points that describes the time-varying values
-/// of a metric. A time series is identified by a combination of a
-/// fully-specified monitored resource and a fully-specified metric.
-/// This type is used for both listing and creating time series.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimeSeries {
-    /// The associated metric. A fully-specified metric used to identify the time
-    /// series.
-    #[prost(message, optional, tag = "1")]
-    pub metric: ::core::option::Option<super::super::api::Metric>,
-    /// The associated monitored resource.  Custom metrics can use only certain
-    /// monitored resource types in their time series data. For more information,
-    /// see [Monitored resources for custom
-    /// metrics](<https://cloud.google.com/monitoring/custom-metrics/creating-metrics#custom-metric-resources>).
-    #[prost(message, optional, tag = "2")]
-    pub resource: ::core::option::Option<super::super::api::MonitoredResource>,
-    /// Output only. The associated monitored resource metadata. When reading a
-    /// time series, this field will include metadata labels that are explicitly
-    /// named in the reduction. When creating a time series, this field is ignored.
-    #[prost(message, optional, tag = "7")]
-    pub metadata: ::core::option::Option<super::super::api::MonitoredResourceMetadata>,
-    /// The metric kind of the time series. When listing time series, this metric
-    /// kind might be different from the metric kind of the associated metric if
-    /// this time series is an alignment or reduction of other time series.
-    ///
-    /// When creating a time series, this field is optional. If present, it must be
-    /// the same as the metric kind of the associated metric. If the associated
-    /// metric's descriptor must be auto-created, then this field specifies the
-    /// metric kind of the new descriptor and must be either `GAUGE` (the default)
-    /// or `CUMULATIVE`.
-    #[prost(
-        enumeration = "super::super::api::metric_descriptor::MetricKind",
-        tag = "3"
-    )]
-    pub metric_kind: i32,
-    /// The value type of the time series. When listing time series, this value
-    /// type might be different from the value type of the associated metric if
-    /// this time series is an alignment or reduction of other time series.
-    ///
-    /// When creating a time series, this field is optional. If present, it must be
-    /// the same as the type of the data in the `points` field.
-    #[prost(
-        enumeration = "super::super::api::metric_descriptor::ValueType",
-        tag = "4"
-    )]
-    pub value_type: i32,
-    /// The data points of this time series. When listing time series, points are
-    /// returned in reverse time order.
-    ///
-    /// When creating a time series, this field must contain exactly one point and
-    /// the point's type must be the same as the value type of the associated
-    /// metric. If the associated metric's descriptor must be auto-created, then
-    /// the value type of the descriptor is determined by the point's type, which
-    /// must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`.
-    #[prost(message, repeated, tag = "5")]
-    pub points: ::prost::alloc::vec::Vec<Point>,
-    /// The units in which the metric value is reported. It is only applicable
-    /// if the `value_type` is `INT64`, `DOUBLE`, or `DISTRIBUTION`. The `unit`
-    /// defines the representation of the stored metric values.
-    #[prost(string, tag = "8")]
-    pub unit: ::prost::alloc::string::String,
-}
-/// A descriptor for the labels and points in a time series.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimeSeriesDescriptor {
-    /// Descriptors for the labels.
-    #[prost(message, repeated, tag = "1")]
-    pub label_descriptors: ::prost::alloc::vec::Vec<super::super::api::LabelDescriptor>,
-    /// Descriptors for the point data value columns.
-    #[prost(message, repeated, tag = "5")]
-    pub point_descriptors: ::prost::alloc::vec::Vec<time_series_descriptor::ValueDescriptor>,
-}
-/// Nested message and enum types in `TimeSeriesDescriptor`.
-pub mod time_series_descriptor {
-    /// A descriptor for the value columns in a data point.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ValueDescriptor {
-        /// The value key.
-        #[prost(string, tag = "1")]
-        pub key: ::prost::alloc::string::String,
-        /// The value type.
-        #[prost(
-            enumeration = "super::super::super::api::metric_descriptor::ValueType",
-            tag = "2"
-        )]
-        pub value_type: i32,
-        /// The value stream kind.
-        #[prost(
-            enumeration = "super::super::super::api::metric_descriptor::MetricKind",
-            tag = "3"
-        )]
-        pub metric_kind: i32,
-        /// The unit in which `time_series` point values are reported. `unit`
-        /// follows the UCUM format for units as seen in
-        /// <https://unitsofmeasure.org/ucum.html.>
-        /// `unit` is only valid if `value_type` is INTEGER, DOUBLE, DISTRIBUTION.
-        #[prost(string, tag = "4")]
-        pub unit: ::prost::alloc::string::String,
-    }
-}
-/// Represents the values of a time series associated with a
-/// TimeSeriesDescriptor.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimeSeriesData {
-    /// The values of the labels in the time series identifier, given in the same
-    /// order as the `label_descriptors` field of the TimeSeriesDescriptor
-    /// associated with this object. Each value must have a value of the type
-    /// given in the corresponding entry of `label_descriptors`.
-    #[prost(message, repeated, tag = "1")]
-    pub label_values: ::prost::alloc::vec::Vec<LabelValue>,
-    /// The points in the time series.
-    #[prost(message, repeated, tag = "2")]
-    pub point_data: ::prost::alloc::vec::Vec<time_series_data::PointData>,
-}
-/// Nested message and enum types in `TimeSeriesData`.
-pub mod time_series_data {
-    /// A point's value columns and time interval. Each point has one or more
-    /// point values corresponding to the entries in `point_descriptors` field in
-    /// the TimeSeriesDescriptor associated with this object.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PointData {
-        /// The values that make up the point.
-        #[prost(message, repeated, tag = "1")]
-        pub values: ::prost::alloc::vec::Vec<super::TypedValue>,
-        /// The time interval associated with the point.
-        #[prost(message, optional, tag = "2")]
-        pub time_interval: ::core::option::Option<super::TimeInterval>,
-    }
-}
-/// A label value.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelValue {
-    /// The label value can be a bool, int64, or string.
-    #[prost(oneof = "label_value::Value", tags = "1, 2, 3")]
-    pub value: ::core::option::Option<label_value::Value>,
-}
-/// Nested message and enum types in `LabelValue`.
-pub mod label_value {
-    /// The label value can be a bool, int64, or string.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Value {
-        /// A bool label value.
-        #[prost(bool, tag = "1")]
-        BoolValue(bool),
-        /// An int64 label value.
-        #[prost(int64, tag = "2")]
-        Int64Value(i64),
-        /// A string label value.
-        #[prost(string, tag = "3")]
-        StringValue(::prost::alloc::string::String),
-    }
-}
-/// An error associated with a query in the time series query language format.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryError {
-    /// The location of the time series query language text that this error applies
-    /// to.
-    #[prost(message, optional, tag = "1")]
-    pub locator: ::core::option::Option<TextLocator>,
-    /// The error message.
-    #[prost(string, tag = "2")]
-    pub message: ::prost::alloc::string::String,
-}
-/// A locator for text. Indicates a particular part of the text of a request or
-/// of an object referenced in the request.
-///
-/// For example, suppose the request field `text` contains:
-///
-///   text: "The quick brown fox jumps over the lazy dog."
-///
-/// Then the locator:
-///
-///   source: "text"
-///   start_position {
-///     line: 1
-///     column: 17
-///   }
-///   end_position {
-///     line: 1
-///     column: 19
-///   }
-///
-/// refers to the part of the text: "fox".
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextLocator {
-    /// The source of the text. The source may be a field in the request, in which
-    /// case its format is the format of the
-    /// google.rpc.BadRequest.FieldViolation.field field in
-    /// <https://cloud.google.com/apis/design/errors#error_details.> It may also be
-    /// be a source other than the request field (e.g. a macro definition
-    /// referenced in the text of the query), in which case this is the name of
-    /// the source (e.g. the macro name).
-    #[prost(string, tag = "1")]
-    pub source: ::prost::alloc::string::String,
-    /// The position of the first byte within the text.
-    #[prost(message, optional, tag = "2")]
-    pub start_position: ::core::option::Option<text_locator::Position>,
-    /// The position of the last byte within the text.
-    #[prost(message, optional, tag = "3")]
-    pub end_position: ::core::option::Option<text_locator::Position>,
-    /// If `source`, `start_position`, and `end_position` describe a call on
-    /// some object (e.g. a macro in the time series query language text) and a
-    /// location is to be designated in that object's text, `nested_locator`
-    /// identifies the location within that object.
-    #[prost(message, optional, boxed, tag = "4")]
-    pub nested_locator: ::core::option::Option<::prost::alloc::boxed::Box<TextLocator>>,
-    /// When `nested_locator` is set, this field gives the reason for the nesting.
-    /// Usually, the reason is a macro invocation. In that case, the macro name
-    /// (including the leading '@') signals the location of the macro call
-    /// in the text and a macro argument name (including the leading '$') signals
-    /// the location of the macro argument inside the macro body that got
-    /// substituted away.
-    #[prost(string, tag = "5")]
-    pub nesting_reason: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `TextLocator`.
-pub mod text_locator {
-    /// The position of a byte within the text.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Position {
-        /// The line, starting with 1, where the byte is positioned.
-        #[prost(int32, tag = "1")]
-        pub line: i32,
-        /// The column within the line, starting with 1, where the byte is
-        /// positioned. This is a byte index even though the text is UTF-8.
-        #[prost(int32, tag = "2")]
-        pub column: i32,
-    }
 }
 /// Describes a change made to a configuration.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1514,571 +873,6 @@ pub mod alert_policy {
         AndWithMatchingResource = 3,
     }
 }
-/// The `ListMonitoredResourceDescriptors` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListMonitoredResourceDescriptorsRequest {
-    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
-    /// which to execute the request. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER\]
-    #[prost(string, tag = "5")]
-    pub name: ::prost::alloc::string::String,
-    /// An optional \[filter\](<https://cloud.google.com/monitoring/api/v3/filters>)
-    /// describing the descriptors to be returned.  The filter can reference the
-    /// descriptor's type and labels. For example, the following filter returns
-    /// only Google Compute Engine descriptors that have an `id` label:
-    ///
-    ///     resource.type = starts_with("gce_") AND resource.label:id
-    #[prost(string, tag = "2")]
-    pub filter: ::prost::alloc::string::String,
-    /// A positive number that is the maximum number of results to return.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// If this field is not empty then it must contain the `nextPageToken` value
-    /// returned by a previous call to this method.  Using this field causes the
-    /// method to return additional results from the previous method call.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The `ListMonitoredResourceDescriptors` response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListMonitoredResourceDescriptorsResponse {
-    /// The monitored resource descriptors that are available to this project
-    /// and that match `filter`, if present.
-    #[prost(message, repeated, tag = "1")]
-    pub resource_descriptors:
-        ::prost::alloc::vec::Vec<super::super::api::MonitoredResourceDescriptor>,
-    /// If there are more results than have been returned, then this field is set
-    /// to a non-empty value.  To see the additional results,
-    /// use that value as `page_token` in the next call to this method.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The `GetMonitoredResourceDescriptor` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetMonitoredResourceDescriptorRequest {
-    /// Required. The monitored resource descriptor to get.  The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/monitoredResourceDescriptors/[RESOURCE_TYPE\]
-    ///
-    /// The `\[RESOURCE_TYPE\]` is a predefined type, such as
-    /// `cloudsql_database`.
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The `ListMetricDescriptors` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListMetricDescriptorsRequest {
-    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
-    /// which to execute the request. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER\]
-    #[prost(string, tag = "5")]
-    pub name: ::prost::alloc::string::String,
-    /// If this field is empty, all custom and
-    /// system-defined metric descriptors are returned.
-    /// Otherwise, the \[filter\](<https://cloud.google.com/monitoring/api/v3/filters>)
-    /// specifies which metric descriptors are to be
-    /// returned. For example, the following filter matches all
-    /// [custom metrics](<https://cloud.google.com/monitoring/custom-metrics>):
-    ///
-    ///     metric.type = starts_with("custom.googleapis.com/")
-    #[prost(string, tag = "2")]
-    pub filter: ::prost::alloc::string::String,
-    /// A positive number that is the maximum number of results to return.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// If this field is not empty then it must contain the `nextPageToken` value
-    /// returned by a previous call to this method.  Using this field causes the
-    /// method to return additional results from the previous method call.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The `ListMetricDescriptors` response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListMetricDescriptorsResponse {
-    /// The metric descriptors that are available to the project
-    /// and that match the value of `filter`, if present.
-    #[prost(message, repeated, tag = "1")]
-    pub metric_descriptors: ::prost::alloc::vec::Vec<super::super::api::MetricDescriptor>,
-    /// If there are more results than have been returned, then this field is set
-    /// to a non-empty value.  To see the additional results,
-    /// use that value as `page_token` in the next call to this method.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The `GetMetricDescriptor` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetMetricDescriptorRequest {
-    /// Required. The metric descriptor on which to execute the request. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/metricDescriptors/[METRIC_ID\]
-    ///
-    /// An example value of `\[METRIC_ID\]` is
-    /// `"compute.googleapis.com/instance/disk/read_bytes_count"`.
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The `CreateMetricDescriptor` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateMetricDescriptorRequest {
-    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
-    /// which to execute the request. The format is:
-    /// 4
-    ///     projects/\[PROJECT_ID_OR_NUMBER\]
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The new [custom metric](<https://cloud.google.com/monitoring/custom-metrics>)
-    /// descriptor.
-    #[prost(message, optional, tag = "2")]
-    pub metric_descriptor: ::core::option::Option<super::super::api::MetricDescriptor>,
-}
-/// The `DeleteMetricDescriptor` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteMetricDescriptorRequest {
-    /// Required. The metric descriptor on which to execute the request. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/metricDescriptors/[METRIC_ID\]
-    ///
-    /// An example of `\[METRIC_ID\]` is:
-    /// `"custom.googleapis.com/my_test_metric"`.
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The `ListTimeSeries` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTimeSeriesRequest {
-    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>),
-    /// organization or folder on which to execute the request. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER\]
-    ///     organizations/\[ORGANIZATION_ID\]
-    ///     folders/\[FOLDER_ID\]
-    #[prost(string, tag = "10")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. A [monitoring filter](<https://cloud.google.com/monitoring/api/v3/filters>)
-    /// that specifies which time series should be returned.  The filter must
-    /// specify a single metric type, and can additionally specify metric labels
-    /// and other information. For example:
-    ///
-    ///     metric.type = "compute.googleapis.com/instance/cpu/usage_time" AND
-    ///         metric.labels.instance_name = "my-instance-name"
-    #[prost(string, tag = "2")]
-    pub filter: ::prost::alloc::string::String,
-    /// Required. The time interval for which results should be returned. Only time series
-    /// that contain data points in the specified interval are included
-    /// in the response.
-    #[prost(message, optional, tag = "4")]
-    pub interval: ::core::option::Option<TimeInterval>,
-    /// Specifies the alignment of data points in individual time series as
-    /// well as how to combine the retrieved time series across specified labels.
-    ///
-    /// By default (if no `aggregation` is explicitly specified), the raw time
-    /// series data is returned.
-    #[prost(message, optional, tag = "5")]
-    pub aggregation: ::core::option::Option<Aggregation>,
-    /// Apply a second aggregation after `aggregation` is applied. May only be
-    /// specified if `aggregation` is specified.
-    #[prost(message, optional, tag = "11")]
-    pub secondary_aggregation: ::core::option::Option<Aggregation>,
-    /// Unsupported: must be left blank. The points in each time series are
-    /// currently returned in reverse time order (most recent to oldest).
-    #[prost(string, tag = "6")]
-    pub order_by: ::prost::alloc::string::String,
-    /// Required. Specifies which information is returned about the time series.
-    #[prost(enumeration = "list_time_series_request::TimeSeriesView", tag = "7")]
-    pub view: i32,
-    /// A positive number that is the maximum number of results to return. If
-    /// `page_size` is empty or more than 100,000 results, the effective
-    /// `page_size` is 100,000 results. If `view` is set to `FULL`, this is the
-    /// maximum number of `Points` returned. If `view` is set to `HEADERS`, this is
-    /// the maximum number of `TimeSeries` returned.
-    #[prost(int32, tag = "8")]
-    pub page_size: i32,
-    /// If this field is not empty then it must contain the `nextPageToken` value
-    /// returned by a previous call to this method.  Using this field causes the
-    /// method to return additional results from the previous method call.
-    #[prost(string, tag = "9")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `ListTimeSeriesRequest`.
-pub mod list_time_series_request {
-    /// Controls which fields are returned by `ListTimeSeries`.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum TimeSeriesView {
-        /// Returns the identity of the metric(s), the time series,
-        /// and the time series data.
-        Full = 0,
-        /// Returns the identity of the metric and the time series resource,
-        /// but not the time series data.
-        Headers = 1,
-    }
-}
-/// The `ListTimeSeries` response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTimeSeriesResponse {
-    /// One or more time series that match the filter included in the request.
-    #[prost(message, repeated, tag = "1")]
-    pub time_series: ::prost::alloc::vec::Vec<TimeSeries>,
-    /// If there are more results than have been returned, then this field is set
-    /// to a non-empty value.  To see the additional results,
-    /// use that value as `page_token` in the next call to this method.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Query execution errors that may have caused the time series data returned
-    /// to be incomplete.
-    #[prost(message, repeated, tag = "3")]
-    pub execution_errors: ::prost::alloc::vec::Vec<super::super::rpc::Status>,
-    /// The unit in which all `time_series` point values are reported. `unit`
-    /// follows the UCUM format for units as seen in
-    /// <https://unitsofmeasure.org/ucum.html.>
-    /// If different `time_series` have different units (for example, because they
-    /// come from different metric types, or a unit is absent), then `unit` will be
-    /// "{not_a_unit}".
-    #[prost(string, tag = "5")]
-    pub unit: ::prost::alloc::string::String,
-}
-/// The `CreateTimeSeries` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTimeSeriesRequest {
-    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
-    /// which to execute the request. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER\]
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The new data to be added to a list of time series.
-    /// Adds at most one data point to each of several time series.  The new data
-    /// point must be more recent than any other point in its time series.  Each
-    /// `TimeSeries` value must fully specify a unique time series by supplying
-    /// all label values for the metric and the monitored resource.
-    ///
-    /// The maximum number of `TimeSeries` objects per `Create` request is 200.
-    #[prost(message, repeated, tag = "2")]
-    pub time_series: ::prost::alloc::vec::Vec<TimeSeries>,
-}
-/// DEPRECATED. Used to hold per-time-series error status.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTimeSeriesError {
-    /// DEPRECATED. Time series ID that resulted in the `status` error.
-    #[deprecated]
-    #[prost(message, optional, tag = "1")]
-    pub time_series: ::core::option::Option<TimeSeries>,
-    /// DEPRECATED. The status of the requested write operation for `time_series`.
-    #[deprecated]
-    #[prost(message, optional, tag = "2")]
-    pub status: ::core::option::Option<super::super::rpc::Status>,
-}
-/// Summary of the result of a failed request to write data to a time series.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTimeSeriesSummary {
-    /// The number of points in the request.
-    #[prost(int32, tag = "1")]
-    pub total_point_count: i32,
-    /// The number of points that were successfully written.
-    #[prost(int32, tag = "2")]
-    pub success_point_count: i32,
-    /// The number of points that failed to be written. Order is not guaranteed.
-    #[prost(message, repeated, tag = "3")]
-    pub errors: ::prost::alloc::vec::Vec<create_time_series_summary::Error>,
-}
-/// Nested message and enum types in `CreateTimeSeriesSummary`.
-pub mod create_time_series_summary {
-    /// Detailed information about an error category.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Error {
-        /// The status of the requested write operation.
-        #[prost(message, optional, tag = "1")]
-        pub status: ::core::option::Option<super::super::super::rpc::Status>,
-        /// The number of points that couldn't be written because of `status`.
-        #[prost(int32, tag = "2")]
-        pub point_count: i32,
-    }
-}
-/// The `QueryTimeSeries` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryTimeSeriesRequest {
-    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
-    /// which to execute the request. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER\]
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The query in the [Monitoring Query
-    /// Language](<https://cloud.google.com/monitoring/mql/reference>) format.
-    /// The default time zone is in UTC.
-    #[prost(string, tag = "7")]
-    pub query: ::prost::alloc::string::String,
-    /// A positive number that is the maximum number of time_series_data to return.
-    #[prost(int32, tag = "9")]
-    pub page_size: i32,
-    /// If this field is not empty then it must contain the `nextPageToken` value
-    /// returned by a previous call to this method.  Using this field causes the
-    /// method to return additional results from the previous method call.
-    #[prost(string, tag = "10")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The `QueryTimeSeries` response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryTimeSeriesResponse {
-    /// The descriptor for the time series data.
-    #[prost(message, optional, tag = "8")]
-    pub time_series_descriptor: ::core::option::Option<TimeSeriesDescriptor>,
-    /// The time series data.
-    #[prost(message, repeated, tag = "9")]
-    pub time_series_data: ::prost::alloc::vec::Vec<TimeSeriesData>,
-    /// If there are more results than have been returned, then this field is set
-    /// to a non-empty value.  To see the additional results, use that value as
-    /// `page_token` in the next call to this method.
-    #[prost(string, tag = "10")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Query execution errors that may have caused the time series data returned
-    /// to be incomplete. The available data will be available in the
-    /// response.
-    #[prost(message, repeated, tag = "11")]
-    pub partial_errors: ::prost::alloc::vec::Vec<super::super::rpc::Status>,
-}
-/// This is an error detail intended to be used with INVALID_ARGUMENT errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryErrorList {
-    /// Errors in parsing the time series query language text. The number of errors
-    /// in the response may be limited.
-    #[prost(message, repeated, tag = "1")]
-    pub errors: ::prost::alloc::vec::Vec<QueryError>,
-    /// A summary of all the errors.
-    #[prost(string, tag = "2")]
-    pub error_summary: ::prost::alloc::string::String,
-}
-#[doc = r" Generated client implementations."]
-pub mod metric_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Manages metric descriptors, monitored resource descriptors, and"]
-    #[doc = " time series data."]
-    #[derive(Debug, Clone)]
-    pub struct MetricServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> MetricServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> MetricServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            MetricServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Lists monitored resource descriptors that match a filter. This method does not require a Workspace."]
-        pub async fn list_monitored_resource_descriptors(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListMonitoredResourceDescriptorsRequest>,
-        ) -> Result<tonic::Response<super::ListMonitoredResourceDescriptorsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.MetricService/ListMonitoredResourceDescriptors",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets a single monitored resource descriptor. This method does not require a Workspace."]
-        pub async fn get_monitored_resource_descriptor(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetMonitoredResourceDescriptorRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::api::MonitoredResourceDescriptor>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.MetricService/GetMonitoredResourceDescriptor",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Lists metric descriptors that match a filter. This method does not require a Workspace."]
-        pub async fn list_metric_descriptors(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListMetricDescriptorsRequest>,
-        ) -> Result<tonic::Response<super::ListMetricDescriptorsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.MetricService/ListMetricDescriptors",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets a single metric descriptor. This method does not require a Workspace."]
-        pub async fn get_metric_descriptor(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetMetricDescriptorRequest>,
-        ) -> Result<tonic::Response<super::super::super::api::MetricDescriptor>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.MetricService/GetMetricDescriptor",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a new metric descriptor."]
-        #[doc = " The creation is executed asynchronously and callers may check the returned"]
-        #[doc = " operation to track its progress."]
-        #[doc = " User-created metric descriptors define"]
-        #[doc = " [custom metrics](https://cloud.google.com/monitoring/custom-metrics)."]
-        pub async fn create_metric_descriptor(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateMetricDescriptorRequest>,
-        ) -> Result<tonic::Response<super::super::super::api::MetricDescriptor>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.MetricService/CreateMetricDescriptor",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes a metric descriptor. Only user-created"]
-        #[doc = " [custom metrics](https://cloud.google.com/monitoring/custom-metrics) can be"]
-        #[doc = " deleted."]
-        pub async fn delete_metric_descriptor(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteMetricDescriptorRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.MetricService/DeleteMetricDescriptor",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Lists time series that match a filter. This method does not require a Workspace."]
-        pub async fn list_time_series(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListTimeSeriesRequest>,
-        ) -> Result<tonic::Response<super::ListTimeSeriesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.MetricService/ListTimeSeries",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates or adds data to one or more time series."]
-        #[doc = " The response is empty if all time series in the request were written."]
-        #[doc = " If any time series could not be written, a corresponding failure message is"]
-        #[doc = " included in the error response."]
-        pub async fn create_time_series(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateTimeSeriesRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.MetricService/CreateTimeSeries",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates or adds data to one or more service time series. A service time"]
-        #[doc = " series is a time series for a metric from a Google Cloud service. The"]
-        #[doc = " response is empty if all time series in the request were written. If any"]
-        #[doc = " time series could not be written, a corresponding failure message is"]
-        #[doc = " included in the error response. This endpoint rejects writes to"]
-        #[doc = " user-defined metrics."]
-        #[doc = " This method is only for use by Google Cloud services. Use"]
-        #[doc = " [projects.timeSeries.create][google.monitoring.v3.MetricService.CreateTimeSeries]"]
-        #[doc = " instead."]
-        pub async fn create_service_time_series(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateTimeSeriesRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.MetricService/CreateServiceTimeSeries",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// The protocol for the `CreateAlertPolicy` request.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateAlertPolicyRequest {
@@ -2358,298 +1152,26 @@ pub mod alert_policy_service_client {
         }
     }
 }
-/// The protocol for the `ListUptimeCheckConfigs` request.
+/// The context of a span. This is attached to an
+/// \[Exemplar][google.api.Distribution.Exemplar\]
+/// in \[Distribution][google.api.Distribution\] values during aggregation.
+///
+/// It contains the name of a span with format:
+///
+///     projects/\[PROJECT_ID_OR_NUMBER]/traces/[TRACE_ID]/spans/[SPAN_ID\]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListUptimeCheckConfigsRequest {
-    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>)
-    /// whose Uptime check configurations are listed. The format is:
+pub struct SpanContext {
+    /// The resource name of the span. The format is:
     ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER\]
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/traces/[TRACE_ID]/spans/[SPAN_ID\]
+    ///
+    /// `\[TRACE_ID\]` is a unique identifier for a trace within a project;
+    /// it is a 32-character hexadecimal encoding of a 16-byte array.
+    ///
+    /// `\[SPAN_ID\]` is a unique identifier for a span within a trace; it
+    /// is a 16-character hexadecimal encoding of an 8-byte array.
     #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of results to return in a single response. The server
-    /// may further constrain the maximum number of results returned in a single
-    /// page. If the page_size is <=0, the server will decide the number of results
-    /// to be returned.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// If this field is not empty then it must contain the `nextPageToken` value
-    /// returned by a previous call to this method.  Using this field causes the
-    /// method to return more results from the previous method call.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The protocol for the `ListUptimeCheckConfigs` response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListUptimeCheckConfigsResponse {
-    /// The returned Uptime check configurations.
-    #[prost(message, repeated, tag = "1")]
-    pub uptime_check_configs: ::prost::alloc::vec::Vec<UptimeCheckConfig>,
-    /// This field represents the pagination token to retrieve the next page of
-    /// results. If the value is empty, it means no further results for the
-    /// request. To retrieve the next page of results, the value of the
-    /// next_page_token is passed to the subsequent List method call (in the
-    /// request message's page_token field).
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// The total number of Uptime check configurations for the project,
-    /// irrespective of any pagination.
-    #[prost(int32, tag = "3")]
-    pub total_size: i32,
-}
-/// The protocol for the `GetUptimeCheckConfig` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetUptimeCheckConfigRequest {
-    /// Required. The Uptime check configuration to retrieve. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID\]
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The protocol for the `CreateUptimeCheckConfig` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateUptimeCheckConfigRequest {
-    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) in
-    /// which to create the Uptime check. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER\]
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The new Uptime check configuration.
-    #[prost(message, optional, tag = "2")]
-    pub uptime_check_config: ::core::option::Option<UptimeCheckConfig>,
-}
-/// The protocol for the `UpdateUptimeCheckConfig` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateUptimeCheckConfigRequest {
-    /// Optional. If present, only the listed fields in the current Uptime check
-    /// configuration are updated with values from the new configuration. If this
-    /// field is empty, then the current configuration is completely replaced with
-    /// the new configuration.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Required. If an `updateMask` has been specified, this field gives
-    /// the values for the set of fields mentioned in the `updateMask`. If an
-    /// `updateMask` has not been given, this Uptime check configuration replaces
-    /// the current configuration. If a field is mentioned in `updateMask` but
-    /// the corresonding field is omitted in this partial Uptime check
-    /// configuration, it has the effect of deleting/clearing the field from the
-    /// configuration on the server.
-    ///
-    /// The following fields can be updated: `display_name`,
-    /// `http_check`, `tcp_check`, `timeout`, `content_matchers`, and
-    /// `selected_regions`.
-    #[prost(message, optional, tag = "3")]
-    pub uptime_check_config: ::core::option::Option<UptimeCheckConfig>,
-}
-/// The protocol for the `DeleteUptimeCheckConfig` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteUptimeCheckConfigRequest {
-    /// Required. The Uptime check configuration to delete. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID\]
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The protocol for the `ListUptimeCheckIps` request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListUptimeCheckIpsRequest {
-    /// The maximum number of results to return in a single response. The server
-    /// may further constrain the maximum number of results returned in a single
-    /// page. If the page_size is <=0, the server will decide the number of results
-    /// to be returned.
-    /// NOTE: this field is not yet implemented
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// If this field is not empty then it must contain the `nextPageToken` value
-    /// returned by a previous call to this method.  Using this field causes the
-    /// method to return more results from the previous method call.
-    /// NOTE: this field is not yet implemented
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The protocol for the `ListUptimeCheckIps` response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListUptimeCheckIpsResponse {
-    /// The returned list of IP addresses (including region and location) that the
-    /// checkers run from.
-    #[prost(message, repeated, tag = "1")]
-    pub uptime_check_ips: ::prost::alloc::vec::Vec<UptimeCheckIp>,
-    /// This field represents the pagination token to retrieve the next page of
-    /// results. If the value is empty, it means no further results for the
-    /// request. To retrieve the next page of results, the value of the
-    /// next_page_token is passed to the subsequent List method call (in the
-    /// request message's page_token field).
-    /// NOTE: this field is not yet implemented
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-#[doc = r" Generated client implementations."]
-pub mod uptime_check_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " The UptimeCheckService API is used to manage (list, create, delete, edit)"]
-    #[doc = " Uptime check configurations in the Stackdriver Monitoring product. An Uptime"]
-    #[doc = " check is a piece of configuration that determines which resources and"]
-    #[doc = " services to monitor for availability. These configurations can also be"]
-    #[doc = " configured interactively by navigating to the [Cloud Console]"]
-    #[doc = " (http://console.cloud.google.com), selecting the appropriate project,"]
-    #[doc = " clicking on \"Monitoring\" on the left-hand side to navigate to Stackdriver,"]
-    #[doc = " and then clicking on \"Uptime\"."]
-    #[derive(Debug, Clone)]
-    pub struct UptimeCheckServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> UptimeCheckServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> UptimeCheckServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            UptimeCheckServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Lists the existing valid Uptime check configurations for the project"]
-        #[doc = " (leaving out any invalid configurations)."]
-        pub async fn list_uptime_check_configs(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListUptimeCheckConfigsRequest>,
-        ) -> Result<tonic::Response<super::ListUptimeCheckConfigsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.UptimeCheckService/ListUptimeCheckConfigs",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets a single Uptime check configuration."]
-        pub async fn get_uptime_check_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetUptimeCheckConfigRequest>,
-        ) -> Result<tonic::Response<super::UptimeCheckConfig>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.UptimeCheckService/GetUptimeCheckConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a new Uptime check configuration."]
-        pub async fn create_uptime_check_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateUptimeCheckConfigRequest>,
-        ) -> Result<tonic::Response<super::UptimeCheckConfig>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.UptimeCheckService/CreateUptimeCheckConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates an Uptime check configuration. You can either replace the entire"]
-        #[doc = " configuration with a new one or replace only certain fields in the current"]
-        #[doc = " configuration by specifying the fields to be updated via `updateMask`."]
-        #[doc = " Returns the updated configuration."]
-        pub async fn update_uptime_check_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateUptimeCheckConfigRequest>,
-        ) -> Result<tonic::Response<super::UptimeCheckConfig>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.UptimeCheckService/UpdateUptimeCheckConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes an Uptime check configuration. Note that this method will fail"]
-        #[doc = " if the Uptime check configuration is referenced by an alert policy or"]
-        #[doc = " other dependent configs that would be rendered invalid by the deletion."]
-        pub async fn delete_uptime_check_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteUptimeCheckConfigRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.UptimeCheckService/DeleteUptimeCheckConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Returns the list of IP addresses that checkers run from"]
-        pub async fn list_uptime_check_ips(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListUptimeCheckIpsRequest>,
-        ) -> Result<tonic::Response<super::ListUptimeCheckIpsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.monitoring.v3.UptimeCheckService/ListUptimeCheckIps",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
+    pub span_name: ::prost::alloc::string::String,
 }
 /// A `Service` is a discrete, autonomous, and network-accessible unit, designed
 /// to solve an individual concern
@@ -3554,6 +2076,749 @@ pub mod service_monitoring_service_client {
         }
     }
 }
+/// An internal checker allows Uptime checks to run on private/internal GCP
+/// resources.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InternalChecker {
+    /// A unique resource name for this InternalChecker. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/internalCheckers/[INTERNAL_CHECKER_ID\]
+    ///
+    /// `\[PROJECT_ID_OR_NUMBER\]` is the Stackdriver Workspace project for the
+    /// Uptime check config associated with the internal checker.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The checker's human-readable name. The display name
+    /// should be unique within a Stackdriver Workspace in order to make it easier
+    /// to identify; however, uniqueness is not enforced.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The [GCP VPC network](<https://cloud.google.com/vpc/docs/vpc>) where the
+    /// internal resource lives (ex: "default").
+    #[prost(string, tag = "3")]
+    pub network: ::prost::alloc::string::String,
+    /// The GCP zone the Uptime check should egress from. Only respected for
+    /// internal Uptime checks, where internal_network is specified.
+    #[prost(string, tag = "4")]
+    pub gcp_zone: ::prost::alloc::string::String,
+    /// The GCP project ID where the internal checker lives. Not necessary
+    /// the same as the Workspace project.
+    #[prost(string, tag = "6")]
+    pub peer_project_id: ::prost::alloc::string::String,
+    /// The current operational state of the internal checker.
+    #[prost(enumeration = "internal_checker::State", tag = "7")]
+    pub state: i32,
+}
+/// Nested message and enum types in `InternalChecker`.
+pub mod internal_checker {
+    /// Operational states for an internal checker.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// An internal checker should never be in the unspecified state.
+        Unspecified = 0,
+        /// The checker is being created, provisioned, and configured. A checker in
+        /// this state can be returned by `ListInternalCheckers` or
+        /// `GetInternalChecker`, as well as by examining the [long running
+        /// Operation](<https://cloud.google.com/apis/design/design_patterns#long_running_operations>)
+        /// that created it.
+        Creating = 1,
+        /// The checker is running and available for use. A checker in this state
+        /// can be returned by `ListInternalCheckers` or `GetInternalChecker` as
+        /// well as by examining the [long running
+        /// Operation](<https://cloud.google.com/apis/design/design_patterns#long_running_operations>)
+        /// that created it.
+        /// If a checker is being torn down, it is neither visible nor usable, so
+        /// there is no "deleting" or "down" state.
+        Running = 2,
+    }
+}
+/// This message configures which resources and services to monitor for
+/// availability.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UptimeCheckConfig {
+    /// A unique resource name for this Uptime check configuration. The format is:
+    ///
+    ///      projects/\[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID\]
+    ///
+    /// `\[PROJECT_ID_OR_NUMBER\]` is the Workspace host project associated with the
+    /// Uptime check.
+    ///
+    /// This field should be omitted when creating the Uptime check configuration;
+    /// on create, the resource name is assigned by the server and included in the
+    /// response.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// A human-friendly name for the Uptime check configuration. The display name
+    /// should be unique within a Stackdriver Workspace in order to make it easier
+    /// to identify; however, uniqueness is not enforced. Required.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// How often, in seconds, the Uptime check is performed.
+    /// Currently, the only supported values are `60s` (1 minute), `300s`
+    /// (5 minutes), `600s` (10 minutes), and `900s` (15 minutes). Optional,
+    /// defaults to `60s`.
+    #[prost(message, optional, tag = "7")]
+    pub period: ::core::option::Option<::prost_types::Duration>,
+    /// The maximum amount of time to wait for the request to complete (must be
+    /// between 1 and 60 seconds). Required.
+    #[prost(message, optional, tag = "8")]
+    pub timeout: ::core::option::Option<::prost_types::Duration>,
+    /// The content that is expected to appear in the data returned by the target
+    /// server against which the check is run.  Currently, only the first entry
+    /// in the `content_matchers` list is supported, and additional entries will
+    /// be ignored. This field is optional and should only be specified if a
+    /// content match is required as part of the/ Uptime check.
+    #[prost(message, repeated, tag = "9")]
+    pub content_matchers: ::prost::alloc::vec::Vec<uptime_check_config::ContentMatcher>,
+    /// The list of regions from which the check will be run.
+    /// Some regions contain one location, and others contain more than one.
+    /// If this field is specified, enough regions must be provided to include a
+    /// minimum of 3 locations.  Not specifying this field will result in Uptime
+    /// checks running from all available regions.
+    #[prost(enumeration = "UptimeCheckRegion", repeated, tag = "10")]
+    pub selected_regions: ::prost::alloc::vec::Vec<i32>,
+    /// If this is `true`, then checks are made only from the 'internal_checkers'.
+    /// If it is `false`, then checks are made only from the 'selected_regions'.
+    /// It is an error to provide 'selected_regions' when is_internal is `true`,
+    /// or to provide 'internal_checkers' when is_internal is `false`.
+    #[deprecated]
+    #[prost(bool, tag = "15")]
+    pub is_internal: bool,
+    /// The internal checkers that this check will egress from. If `is_internal` is
+    /// `true` and this list is empty, the check will egress from all the
+    /// InternalCheckers configured for the project that owns this
+    /// `UptimeCheckConfig`.
+    #[deprecated]
+    #[prost(message, repeated, tag = "14")]
+    pub internal_checkers: ::prost::alloc::vec::Vec<InternalChecker>,
+    /// The resource the check is checking. Required.
+    #[prost(oneof = "uptime_check_config::Resource", tags = "3, 4")]
+    pub resource: ::core::option::Option<uptime_check_config::Resource>,
+    /// The type of Uptime check request.
+    #[prost(oneof = "uptime_check_config::CheckRequestType", tags = "5, 6")]
+    pub check_request_type: ::core::option::Option<uptime_check_config::CheckRequestType>,
+}
+/// Nested message and enum types in `UptimeCheckConfig`.
+pub mod uptime_check_config {
+    /// The resource submessage for group checks. It can be used instead of a
+    /// monitored resource, when multiple resources are being monitored.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ResourceGroup {
+        /// The group of resources being monitored. Should be only the `\[GROUP_ID\]`,
+        /// and not the full-path
+        /// `projects/\[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID\]`.
+        #[prost(string, tag = "1")]
+        pub group_id: ::prost::alloc::string::String,
+        /// The resource type of the group members.
+        #[prost(enumeration = "super::GroupResourceType", tag = "2")]
+        pub resource_type: i32,
+    }
+    /// Information involved in an HTTP/HTTPS Uptime check request.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct HttpCheck {
+        /// The HTTP request method to use for the check. If set to
+        /// `METHOD_UNSPECIFIED` then `request_method` defaults to `GET`.
+        #[prost(enumeration = "http_check::RequestMethod", tag = "8")]
+        pub request_method: i32,
+        /// If `true`, use HTTPS instead of HTTP to run the check.
+        #[prost(bool, tag = "1")]
+        pub use_ssl: bool,
+        /// Optional (defaults to "/"). The path to the page against which to run
+        /// the check. Will be combined with the `host` (specified within the
+        /// `monitored_resource`) and `port` to construct the full URL. If the
+        /// provided path does not begin with "/", a "/" will be prepended
+        /// automatically.
+        #[prost(string, tag = "2")]
+        pub path: ::prost::alloc::string::String,
+        /// Optional (defaults to 80 when `use_ssl` is `false`, and 443 when
+        /// `use_ssl` is `true`). The TCP port on the HTTP server against which to
+        /// run the check. Will be combined with host (specified within the
+        /// `monitored_resource`) and `path` to construct the full URL.
+        #[prost(int32, tag = "3")]
+        pub port: i32,
+        /// The authentication information. Optional when creating an HTTP check;
+        /// defaults to empty.
+        #[prost(message, optional, tag = "4")]
+        pub auth_info: ::core::option::Option<http_check::BasicAuthentication>,
+        /// Boolean specifying whether to encrypt the header information.
+        /// Encryption should be specified for any headers related to authentication
+        /// that you do not wish to be seen when retrieving the configuration. The
+        /// server will be responsible for encrypting the headers.
+        /// On Get/List calls, if `mask_headers` is set to `true` then the headers
+        /// will be obscured with `******.`
+        #[prost(bool, tag = "5")]
+        pub mask_headers: bool,
+        /// The list of headers to send as part of the Uptime check request.
+        /// If two headers have the same key and different values, they should
+        /// be entered as a single header, with the value being a comma-separated
+        /// list of all the desired values as described at
+        /// <https://www.w3.org/Protocols/rfc2616/rfc2616.txt> (page 31).
+        /// Entering two separate headers with the same key in a Create call will
+        /// cause the first to be overwritten by the second.
+        /// The maximum number of headers allowed is 100.
+        #[prost(btree_map = "string, string", tag = "6")]
+        pub headers: ::prost::alloc::collections::BTreeMap<
+            ::prost::alloc::string::String,
+            ::prost::alloc::string::String,
+        >,
+        /// The content type header to use for the check. The following
+        /// configurations result in errors:
+        /// 1. Content type is specified in both the `headers` field and the
+        /// `content_type` field.
+        /// 2. Request method is `GET` and `content_type` is not `TYPE_UNSPECIFIED`
+        /// 3. Request method is `POST` and `content_type` is `TYPE_UNSPECIFIED`.
+        /// 4. Request method is `POST` and a "Content-Type" header is provided via
+        /// `headers` field. The `content_type` field should be used instead.
+        #[prost(enumeration = "http_check::ContentType", tag = "9")]
+        pub content_type: i32,
+        /// Boolean specifying whether to include SSL certificate validation as a
+        /// part of the Uptime check. Only applies to checks where
+        /// `monitored_resource` is set to `uptime_url`. If `use_ssl` is `false`,
+        /// setting `validate_ssl` to `true` has no effect.
+        #[prost(bool, tag = "7")]
+        pub validate_ssl: bool,
+        /// The request body associated with the HTTP POST request. If `content_type`
+        /// is `URL_ENCODED`, the body passed in must be URL-encoded. Users can
+        /// provide a `Content-Length` header via the `headers` field or the API will
+        /// do so. If the `request_method` is `GET` and `body` is not empty, the API
+        /// will return an error. The maximum byte size is 1 megabyte. Note: As with
+        /// all `bytes` fields, JSON representations are base64 encoded. e.g.:
+        /// "foo=bar" in URL-encoded form is "foo%3Dbar" and in base64 encoding is
+        /// "Zm9vJTI1M0RiYXI=".
+        #[prost(bytes = "bytes", tag = "10")]
+        pub body: ::prost::bytes::Bytes,
+    }
+    /// Nested message and enum types in `HttpCheck`.
+    pub mod http_check {
+        /// The authentication parameters to provide to the specified resource or
+        /// URL that requires a username and password. Currently, only
+        /// [Basic HTTP authentication](<https://tools.ietf.org/html/rfc7617>) is
+        /// supported in Uptime checks.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct BasicAuthentication {
+            /// The username to use when authenticating with the HTTP server.
+            #[prost(string, tag = "1")]
+            pub username: ::prost::alloc::string::String,
+            /// The password to use when authenticating with the HTTP server.
+            #[prost(string, tag = "2")]
+            pub password: ::prost::alloc::string::String,
+        }
+        /// The HTTP request method options.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum RequestMethod {
+            /// No request method specified.
+            MethodUnspecified = 0,
+            /// GET request.
+            Get = 1,
+            /// POST request.
+            Post = 2,
+        }
+        /// Header options corresponding to the content type of a HTTP request body.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum ContentType {
+            /// No content type specified.
+            TypeUnspecified = 0,
+            /// `body` is in URL-encoded form. Equivalent to setting the `Content-Type`
+            /// to `application/x-www-form-urlencoded` in the HTTP request.
+            UrlEncoded = 1,
+        }
+    }
+    /// Information required for a TCP Uptime check request.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TcpCheck {
+        /// The TCP port on the server against which to run the check. Will be
+        /// combined with host (specified within the `monitored_resource`) to
+        /// construct the full URL. Required.
+        #[prost(int32, tag = "1")]
+        pub port: i32,
+    }
+    /// Optional. Used to perform content matching. This allows matching based on
+    /// substrings and regular expressions, together with their negations. Only the
+    /// first 4&nbsp;MB of an HTTP or HTTPS check's response (and the first
+    /// 1&nbsp;MB of a TCP check's response) are examined for purposes of content
+    /// matching.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ContentMatcher {
+        /// String or regex content to match. Maximum 1024 bytes. An empty `content`
+        /// string indicates no content matching is to be performed.
+        #[prost(string, tag = "1")]
+        pub content: ::prost::alloc::string::String,
+        /// The type of content matcher that will be applied to the server output,
+        /// compared to the `content` string when the check is run.
+        #[prost(enumeration = "content_matcher::ContentMatcherOption", tag = "2")]
+        pub matcher: i32,
+    }
+    /// Nested message and enum types in `ContentMatcher`.
+    pub mod content_matcher {
+        /// Options to perform content matching.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum ContentMatcherOption {
+            /// No content matcher type specified (maintained for backward
+            /// compatibility, but deprecated for future use).
+            /// Treated as `CONTAINS_STRING`.
+            Unspecified = 0,
+            /// Selects substring matching. The match succeeds if the output contains
+            /// the `content` string.  This is the default value for checks without
+            /// a `matcher` option, or where the value of `matcher` is
+            /// `CONTENT_MATCHER_OPTION_UNSPECIFIED`.
+            ContainsString = 1,
+            /// Selects negation of substring matching. The match succeeds if the
+            /// output does _NOT_ contain the `content` string.
+            NotContainsString = 2,
+            /// Selects regular-expression matching. The match succeeds of the output
+            /// matches the regular expression specified in the `content` string.
+            /// Regex matching is only supported for HTTP/HTTPS checks.
+            MatchesRegex = 3,
+            /// Selects negation of regular-expression matching. The match succeeds if
+            /// the output does _NOT_ match the regular expression specified in the
+            /// `content` string. Regex matching is only supported for HTTP/HTTPS
+            /// checks.
+            NotMatchesRegex = 4,
+        }
+    }
+    /// The resource the check is checking. Required.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Resource {
+        /// The [monitored
+        /// resource](<https://cloud.google.com/monitoring/api/resources>) associated
+        /// with the configuration.
+        /// The following monitored resource types are valid for this field:
+        ///   `uptime_url`,
+        ///   `gce_instance`,
+        ///   `gae_app`,
+        ///   `aws_ec2_instance`,
+        ///   `aws_elb_load_balancer`
+        ///   `k8s_service`
+        #[prost(message, tag = "3")]
+        MonitoredResource(super::super::super::api::MonitoredResource),
+        /// The group resource associated with the configuration.
+        #[prost(message, tag = "4")]
+        ResourceGroup(ResourceGroup),
+    }
+    /// The type of Uptime check request.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum CheckRequestType {
+        /// Contains information needed to make an HTTP or HTTPS check.
+        #[prost(message, tag = "5")]
+        HttpCheck(HttpCheck),
+        /// Contains information needed to make a TCP check.
+        #[prost(message, tag = "6")]
+        TcpCheck(TcpCheck),
+    }
+}
+/// Contains the region, location, and list of IP
+/// addresses where checkers in the location run from.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UptimeCheckIp {
+    /// A broad region category in which the IP address is located.
+    #[prost(enumeration = "UptimeCheckRegion", tag = "1")]
+    pub region: i32,
+    /// A more specific location within the region that typically encodes
+    /// a particular city/town/metro (and its containing state/province or country)
+    /// within the broader umbrella region category.
+    #[prost(string, tag = "2")]
+    pub location: ::prost::alloc::string::String,
+    /// The IP address from which the Uptime check originates. This is a fully
+    /// specified IP address (not an IP address range). Most IP addresses, as of
+    /// this publication, are in IPv4 format; however, one should not rely on the
+    /// IP addresses being in IPv4 format indefinitely, and should support
+    /// interpreting this field in either IPv4 or IPv6 format.
+    #[prost(string, tag = "3")]
+    pub ip_address: ::prost::alloc::string::String,
+}
+/// The regions from which an Uptime check can be run.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum UptimeCheckRegion {
+    /// Default value if no region is specified. Will result in Uptime checks
+    /// running from all regions.
+    RegionUnspecified = 0,
+    /// Allows checks to run from locations within the United States of America.
+    Usa = 1,
+    /// Allows checks to run from locations within the continent of Europe.
+    Europe = 2,
+    /// Allows checks to run from locations within the continent of South
+    /// America.
+    SouthAmerica = 3,
+    /// Allows checks to run from locations within the Asia Pacific area (ex:
+    /// Singapore).
+    AsiaPacific = 4,
+}
+/// The supported resource types that can be used as values of
+/// `group_resource.resource_type`.
+/// `INSTANCE` includes `gce_instance` and `aws_ec2_instance` resource types.
+/// The resource types `gae_app` and `uptime_url` are not valid here because
+/// group checks on App Engine modules and URLs are not allowed.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum GroupResourceType {
+    /// Default value (not valid).
+    ResourceTypeUnspecified = 0,
+    /// A group of instances from Google Cloud Platform (GCP) or
+    /// Amazon Web Services (AWS).
+    Instance = 1,
+    /// A group of Amazon ELB load balancers.
+    AwsElbLoadBalancer = 2,
+}
+/// The protocol for the `ListUptimeCheckConfigs` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListUptimeCheckConfigsRequest {
+    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>)
+    /// whose Uptime check configurations are listed. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER\]
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of results to return in a single response. The server
+    /// may further constrain the maximum number of results returned in a single
+    /// page. If the page_size is <=0, the server will decide the number of results
+    /// to be returned.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// If this field is not empty then it must contain the `nextPageToken` value
+    /// returned by a previous call to this method.  Using this field causes the
+    /// method to return more results from the previous method call.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The protocol for the `ListUptimeCheckConfigs` response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListUptimeCheckConfigsResponse {
+    /// The returned Uptime check configurations.
+    #[prost(message, repeated, tag = "1")]
+    pub uptime_check_configs: ::prost::alloc::vec::Vec<UptimeCheckConfig>,
+    /// This field represents the pagination token to retrieve the next page of
+    /// results. If the value is empty, it means no further results for the
+    /// request. To retrieve the next page of results, the value of the
+    /// next_page_token is passed to the subsequent List method call (in the
+    /// request message's page_token field).
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// The total number of Uptime check configurations for the project,
+    /// irrespective of any pagination.
+    #[prost(int32, tag = "3")]
+    pub total_size: i32,
+}
+/// The protocol for the `GetUptimeCheckConfig` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetUptimeCheckConfigRequest {
+    /// Required. The Uptime check configuration to retrieve. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID\]
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The protocol for the `CreateUptimeCheckConfig` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateUptimeCheckConfigRequest {
+    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) in
+    /// which to create the Uptime check. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER\]
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The new Uptime check configuration.
+    #[prost(message, optional, tag = "2")]
+    pub uptime_check_config: ::core::option::Option<UptimeCheckConfig>,
+}
+/// The protocol for the `UpdateUptimeCheckConfig` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateUptimeCheckConfigRequest {
+    /// Optional. If present, only the listed fields in the current Uptime check
+    /// configuration are updated with values from the new configuration. If this
+    /// field is empty, then the current configuration is completely replaced with
+    /// the new configuration.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Required. If an `updateMask` has been specified, this field gives
+    /// the values for the set of fields mentioned in the `updateMask`. If an
+    /// `updateMask` has not been given, this Uptime check configuration replaces
+    /// the current configuration. If a field is mentioned in `updateMask` but
+    /// the corresonding field is omitted in this partial Uptime check
+    /// configuration, it has the effect of deleting/clearing the field from the
+    /// configuration on the server.
+    ///
+    /// The following fields can be updated: `display_name`,
+    /// `http_check`, `tcp_check`, `timeout`, `content_matchers`, and
+    /// `selected_regions`.
+    #[prost(message, optional, tag = "3")]
+    pub uptime_check_config: ::core::option::Option<UptimeCheckConfig>,
+}
+/// The protocol for the `DeleteUptimeCheckConfig` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteUptimeCheckConfigRequest {
+    /// Required. The Uptime check configuration to delete. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID\]
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The protocol for the `ListUptimeCheckIps` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListUptimeCheckIpsRequest {
+    /// The maximum number of results to return in a single response. The server
+    /// may further constrain the maximum number of results returned in a single
+    /// page. If the page_size is <=0, the server will decide the number of results
+    /// to be returned.
+    /// NOTE: this field is not yet implemented
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// If this field is not empty then it must contain the `nextPageToken` value
+    /// returned by a previous call to this method.  Using this field causes the
+    /// method to return more results from the previous method call.
+    /// NOTE: this field is not yet implemented
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The protocol for the `ListUptimeCheckIps` response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListUptimeCheckIpsResponse {
+    /// The returned list of IP addresses (including region and location) that the
+    /// checkers run from.
+    #[prost(message, repeated, tag = "1")]
+    pub uptime_check_ips: ::prost::alloc::vec::Vec<UptimeCheckIp>,
+    /// This field represents the pagination token to retrieve the next page of
+    /// results. If the value is empty, it means no further results for the
+    /// request. To retrieve the next page of results, the value of the
+    /// next_page_token is passed to the subsequent List method call (in the
+    /// request message's page_token field).
+    /// NOTE: this field is not yet implemented
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod uptime_check_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " The UptimeCheckService API is used to manage (list, create, delete, edit)"]
+    #[doc = " Uptime check configurations in the Stackdriver Monitoring product. An Uptime"]
+    #[doc = " check is a piece of configuration that determines which resources and"]
+    #[doc = " services to monitor for availability. These configurations can also be"]
+    #[doc = " configured interactively by navigating to the [Cloud Console]"]
+    #[doc = " (http://console.cloud.google.com), selecting the appropriate project,"]
+    #[doc = " clicking on \"Monitoring\" on the left-hand side to navigate to Stackdriver,"]
+    #[doc = " and then clicking on \"Uptime\"."]
+    #[derive(Debug, Clone)]
+    pub struct UptimeCheckServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> UptimeCheckServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> UptimeCheckServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            UptimeCheckServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Lists the existing valid Uptime check configurations for the project"]
+        #[doc = " (leaving out any invalid configurations)."]
+        pub async fn list_uptime_check_configs(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListUptimeCheckConfigsRequest>,
+        ) -> Result<tonic::Response<super::ListUptimeCheckConfigsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.UptimeCheckService/ListUptimeCheckConfigs",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets a single Uptime check configuration."]
+        pub async fn get_uptime_check_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetUptimeCheckConfigRequest>,
+        ) -> Result<tonic::Response<super::UptimeCheckConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.UptimeCheckService/GetUptimeCheckConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a new Uptime check configuration."]
+        pub async fn create_uptime_check_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateUptimeCheckConfigRequest>,
+        ) -> Result<tonic::Response<super::UptimeCheckConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.UptimeCheckService/CreateUptimeCheckConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates an Uptime check configuration. You can either replace the entire"]
+        #[doc = " configuration with a new one or replace only certain fields in the current"]
+        #[doc = " configuration by specifying the fields to be updated via `updateMask`."]
+        #[doc = " Returns the updated configuration."]
+        pub async fn update_uptime_check_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateUptimeCheckConfigRequest>,
+        ) -> Result<tonic::Response<super::UptimeCheckConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.UptimeCheckService/UpdateUptimeCheckConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes an Uptime check configuration. Note that this method will fail"]
+        #[doc = " if the Uptime check configuration is referenced by an alert policy or"]
+        #[doc = " other dependent configs that would be rendered invalid by the deletion."]
+        pub async fn delete_uptime_check_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteUptimeCheckConfigRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.UptimeCheckService/DeleteUptimeCheckConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Returns the list of IP addresses that checkers run from"]
+        pub async fn list_uptime_check_ips(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListUptimeCheckIpsRequest>,
+        ) -> Result<tonic::Response<super::ListUptimeCheckIpsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.UptimeCheckService/ListUptimeCheckIps",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// The description of a dynamic collection of monitored resources. Each group
+/// has a filter that is matched against monitored resources and their associated
+/// metadata. If a group's filter matches an available monitored resource, then
+/// that resource is a member of that group.  Groups can contain any number of
+/// monitored resources, and each monitored resource can be a member of any
+/// number of groups.
+///
+/// Groups can be nested in parent-child hierarchies. The `parentName` field
+/// identifies an optional parent for each group.  If a group has a parent, then
+/// the only monitored resources available to be matched by the group's filter
+/// are the resources contained in the parent group.  In other words, a group
+/// contains the monitored resources that match its filter and the filters of all
+/// the group's ancestors.  A group without a parent can contain any monitored
+/// resource.
+///
+/// For example, consider an infrastructure running a set of instances with two
+/// user-defined tags: `"environment"` and `"role"`. A parent group has a filter,
+/// `environment="production"`.  A child of that parent group has a filter,
+/// `role="transcoder"`.  The parent group contains all instances in the
+/// production environment, regardless of their roles.  The child group contains
+/// instances that have the transcoder role *and* are in the production
+/// environment.
+///
+/// The monitored resources contained in a group can change at any moment,
+/// depending on what resources exist and what filters are associated with the
+/// group and its ancestors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Group {
+    /// Output only. The name of this group. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID\]
+    ///
+    /// When creating a group, this field is ignored and a new name is created
+    /// consisting of the project specified in the call to `CreateGroup`
+    /// and a unique `\[GROUP_ID\]` that is generated automatically.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// A user-assigned name for this group, used only for display purposes.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The name of the group's parent, if it has one. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID\]
+    ///
+    /// For groups with no parent, `parent_name` is the empty string, `""`.
+    #[prost(string, tag = "3")]
+    pub parent_name: ::prost::alloc::string::String,
+    /// The filter used to determine which monitored resources belong to this
+    /// group.
+    #[prost(string, tag = "5")]
+    pub filter: ::prost::alloc::string::String,
+    /// If true, the members of this group are considered to be a cluster.
+    /// The system can perform additional analysis on groups that are clusters.
+    #[prost(bool, tag = "6")]
+    pub is_cluster: bool,
+}
 /// A description of a notification channel. The descriptor includes
 /// the properties of the channel and the set of labels or fields that
 /// must be specified to configure channels of a given type.
@@ -4210,83 +3475,6 @@ pub struct DroppedLabels {
         ::prost::alloc::string::String,
     >,
 }
-/// The context of a span. This is attached to an
-/// \[Exemplar][google.api.Distribution.Exemplar\]
-/// in \[Distribution][google.api.Distribution\] values during aggregation.
-///
-/// It contains the name of a span with format:
-///
-///     projects/\[PROJECT_ID_OR_NUMBER]/traces/[TRACE_ID]/spans/[SPAN_ID\]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SpanContext {
-    /// The resource name of the span. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/traces/[TRACE_ID]/spans/[SPAN_ID\]
-    ///
-    /// `\[TRACE_ID\]` is a unique identifier for a trace within a project;
-    /// it is a 32-character hexadecimal encoding of a 16-byte array.
-    ///
-    /// `\[SPAN_ID\]` is a unique identifier for a span within a trace; it
-    /// is a 16-character hexadecimal encoding of an 8-byte array.
-    #[prost(string, tag = "1")]
-    pub span_name: ::prost::alloc::string::String,
-}
-/// The description of a dynamic collection of monitored resources. Each group
-/// has a filter that is matched against monitored resources and their associated
-/// metadata. If a group's filter matches an available monitored resource, then
-/// that resource is a member of that group.  Groups can contain any number of
-/// monitored resources, and each monitored resource can be a member of any
-/// number of groups.
-///
-/// Groups can be nested in parent-child hierarchies. The `parentName` field
-/// identifies an optional parent for each group.  If a group has a parent, then
-/// the only monitored resources available to be matched by the group's filter
-/// are the resources contained in the parent group.  In other words, a group
-/// contains the monitored resources that match its filter and the filters of all
-/// the group's ancestors.  A group without a parent can contain any monitored
-/// resource.
-///
-/// For example, consider an infrastructure running a set of instances with two
-/// user-defined tags: `"environment"` and `"role"`. A parent group has a filter,
-/// `environment="production"`.  A child of that parent group has a filter,
-/// `role="transcoder"`.  The parent group contains all instances in the
-/// production environment, regardless of their roles.  The child group contains
-/// instances that have the transcoder role *and* are in the production
-/// environment.
-///
-/// The monitored resources contained in a group can change at any moment,
-/// depending on what resources exist and what filters are associated with the
-/// group and its ancestors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Group {
-    /// Output only. The name of this group. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID\]
-    ///
-    /// When creating a group, this field is ignored and a new name is created
-    /// consisting of the project specified in the call to `CreateGroup`
-    /// and a unique `\[GROUP_ID\]` that is generated automatically.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// A user-assigned name for this group, used only for display purposes.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The name of the group's parent, if it has one. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID\]
-    ///
-    /// For groups with no parent, `parent_name` is the empty string, `""`.
-    #[prost(string, tag = "3")]
-    pub parent_name: ::prost::alloc::string::String,
-    /// The filter used to determine which monitored resources belong to this
-    /// group.
-    #[prost(string, tag = "5")]
-    pub filter: ::prost::alloc::string::String,
-    /// If true, the members of this group are considered to be a cluster.
-    /// The system can perform additional analysis on groups that are clusters.
-    #[prost(bool, tag = "6")]
-    pub is_cluster: bool,
-}
 /// The `ListGroup` request.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGroupsRequest {
@@ -4618,6 +3806,818 @@ pub mod group_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.monitoring.v3.GroupService/ListGroupMembers",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A single data point in a time series.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Point {
+    /// The time interval to which the data point applies.  For `GAUGE` metrics,
+    /// the start time is optional, but if it is supplied, it must equal the
+    /// end time.  For `DELTA` metrics, the start
+    /// and end time should specify a non-zero interval, with subsequent points
+    /// specifying contiguous and non-overlapping intervals.  For `CUMULATIVE`
+    /// metrics, the start and end time should specify a non-zero interval, with
+    /// subsequent points specifying the same start time and increasing end times,
+    /// until an event resets the cumulative value to zero and sets a new start
+    /// time for the following points.
+    #[prost(message, optional, tag = "1")]
+    pub interval: ::core::option::Option<TimeInterval>,
+    /// The value of the data point.
+    #[prost(message, optional, tag = "2")]
+    pub value: ::core::option::Option<TypedValue>,
+}
+/// A collection of data points that describes the time-varying values
+/// of a metric. A time series is identified by a combination of a
+/// fully-specified monitored resource and a fully-specified metric.
+/// This type is used for both listing and creating time series.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimeSeries {
+    /// The associated metric. A fully-specified metric used to identify the time
+    /// series.
+    #[prost(message, optional, tag = "1")]
+    pub metric: ::core::option::Option<super::super::api::Metric>,
+    /// The associated monitored resource.  Custom metrics can use only certain
+    /// monitored resource types in their time series data. For more information,
+    /// see [Monitored resources for custom
+    /// metrics](<https://cloud.google.com/monitoring/custom-metrics/creating-metrics#custom-metric-resources>).
+    #[prost(message, optional, tag = "2")]
+    pub resource: ::core::option::Option<super::super::api::MonitoredResource>,
+    /// Output only. The associated monitored resource metadata. When reading a
+    /// time series, this field will include metadata labels that are explicitly
+    /// named in the reduction. When creating a time series, this field is ignored.
+    #[prost(message, optional, tag = "7")]
+    pub metadata: ::core::option::Option<super::super::api::MonitoredResourceMetadata>,
+    /// The metric kind of the time series. When listing time series, this metric
+    /// kind might be different from the metric kind of the associated metric if
+    /// this time series is an alignment or reduction of other time series.
+    ///
+    /// When creating a time series, this field is optional. If present, it must be
+    /// the same as the metric kind of the associated metric. If the associated
+    /// metric's descriptor must be auto-created, then this field specifies the
+    /// metric kind of the new descriptor and must be either `GAUGE` (the default)
+    /// or `CUMULATIVE`.
+    #[prost(
+        enumeration = "super::super::api::metric_descriptor::MetricKind",
+        tag = "3"
+    )]
+    pub metric_kind: i32,
+    /// The value type of the time series. When listing time series, this value
+    /// type might be different from the value type of the associated metric if
+    /// this time series is an alignment or reduction of other time series.
+    ///
+    /// When creating a time series, this field is optional. If present, it must be
+    /// the same as the type of the data in the `points` field.
+    #[prost(
+        enumeration = "super::super::api::metric_descriptor::ValueType",
+        tag = "4"
+    )]
+    pub value_type: i32,
+    /// The data points of this time series. When listing time series, points are
+    /// returned in reverse time order.
+    ///
+    /// When creating a time series, this field must contain exactly one point and
+    /// the point's type must be the same as the value type of the associated
+    /// metric. If the associated metric's descriptor must be auto-created, then
+    /// the value type of the descriptor is determined by the point's type, which
+    /// must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`.
+    #[prost(message, repeated, tag = "5")]
+    pub points: ::prost::alloc::vec::Vec<Point>,
+    /// The units in which the metric value is reported. It is only applicable
+    /// if the `value_type` is `INT64`, `DOUBLE`, or `DISTRIBUTION`. The `unit`
+    /// defines the representation of the stored metric values.
+    #[prost(string, tag = "8")]
+    pub unit: ::prost::alloc::string::String,
+}
+/// A descriptor for the labels and points in a time series.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimeSeriesDescriptor {
+    /// Descriptors for the labels.
+    #[prost(message, repeated, tag = "1")]
+    pub label_descriptors: ::prost::alloc::vec::Vec<super::super::api::LabelDescriptor>,
+    /// Descriptors for the point data value columns.
+    #[prost(message, repeated, tag = "5")]
+    pub point_descriptors: ::prost::alloc::vec::Vec<time_series_descriptor::ValueDescriptor>,
+}
+/// Nested message and enum types in `TimeSeriesDescriptor`.
+pub mod time_series_descriptor {
+    /// A descriptor for the value columns in a data point.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ValueDescriptor {
+        /// The value key.
+        #[prost(string, tag = "1")]
+        pub key: ::prost::alloc::string::String,
+        /// The value type.
+        #[prost(
+            enumeration = "super::super::super::api::metric_descriptor::ValueType",
+            tag = "2"
+        )]
+        pub value_type: i32,
+        /// The value stream kind.
+        #[prost(
+            enumeration = "super::super::super::api::metric_descriptor::MetricKind",
+            tag = "3"
+        )]
+        pub metric_kind: i32,
+        /// The unit in which `time_series` point values are reported. `unit`
+        /// follows the UCUM format for units as seen in
+        /// <https://unitsofmeasure.org/ucum.html.>
+        /// `unit` is only valid if `value_type` is INTEGER, DOUBLE, DISTRIBUTION.
+        #[prost(string, tag = "4")]
+        pub unit: ::prost::alloc::string::String,
+    }
+}
+/// Represents the values of a time series associated with a
+/// TimeSeriesDescriptor.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimeSeriesData {
+    /// The values of the labels in the time series identifier, given in the same
+    /// order as the `label_descriptors` field of the TimeSeriesDescriptor
+    /// associated with this object. Each value must have a value of the type
+    /// given in the corresponding entry of `label_descriptors`.
+    #[prost(message, repeated, tag = "1")]
+    pub label_values: ::prost::alloc::vec::Vec<LabelValue>,
+    /// The points in the time series.
+    #[prost(message, repeated, tag = "2")]
+    pub point_data: ::prost::alloc::vec::Vec<time_series_data::PointData>,
+}
+/// Nested message and enum types in `TimeSeriesData`.
+pub mod time_series_data {
+    /// A point's value columns and time interval. Each point has one or more
+    /// point values corresponding to the entries in `point_descriptors` field in
+    /// the TimeSeriesDescriptor associated with this object.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PointData {
+        /// The values that make up the point.
+        #[prost(message, repeated, tag = "1")]
+        pub values: ::prost::alloc::vec::Vec<super::TypedValue>,
+        /// The time interval associated with the point.
+        #[prost(message, optional, tag = "2")]
+        pub time_interval: ::core::option::Option<super::TimeInterval>,
+    }
+}
+/// A label value.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelValue {
+    /// The label value can be a bool, int64, or string.
+    #[prost(oneof = "label_value::Value", tags = "1, 2, 3")]
+    pub value: ::core::option::Option<label_value::Value>,
+}
+/// Nested message and enum types in `LabelValue`.
+pub mod label_value {
+    /// The label value can be a bool, int64, or string.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Value {
+        /// A bool label value.
+        #[prost(bool, tag = "1")]
+        BoolValue(bool),
+        /// An int64 label value.
+        #[prost(int64, tag = "2")]
+        Int64Value(i64),
+        /// A string label value.
+        #[prost(string, tag = "3")]
+        StringValue(::prost::alloc::string::String),
+    }
+}
+/// An error associated with a query in the time series query language format.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryError {
+    /// The location of the time series query language text that this error applies
+    /// to.
+    #[prost(message, optional, tag = "1")]
+    pub locator: ::core::option::Option<TextLocator>,
+    /// The error message.
+    #[prost(string, tag = "2")]
+    pub message: ::prost::alloc::string::String,
+}
+/// A locator for text. Indicates a particular part of the text of a request or
+/// of an object referenced in the request.
+///
+/// For example, suppose the request field `text` contains:
+///
+///   text: "The quick brown fox jumps over the lazy dog."
+///
+/// Then the locator:
+///
+///   source: "text"
+///   start_position {
+///     line: 1
+///     column: 17
+///   }
+///   end_position {
+///     line: 1
+///     column: 19
+///   }
+///
+/// refers to the part of the text: "fox".
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextLocator {
+    /// The source of the text. The source may be a field in the request, in which
+    /// case its format is the format of the
+    /// google.rpc.BadRequest.FieldViolation.field field in
+    /// <https://cloud.google.com/apis/design/errors#error_details.> It may also be
+    /// be a source other than the request field (e.g. a macro definition
+    /// referenced in the text of the query), in which case this is the name of
+    /// the source (e.g. the macro name).
+    #[prost(string, tag = "1")]
+    pub source: ::prost::alloc::string::String,
+    /// The position of the first byte within the text.
+    #[prost(message, optional, tag = "2")]
+    pub start_position: ::core::option::Option<text_locator::Position>,
+    /// The position of the last byte within the text.
+    #[prost(message, optional, tag = "3")]
+    pub end_position: ::core::option::Option<text_locator::Position>,
+    /// If `source`, `start_position`, and `end_position` describe a call on
+    /// some object (e.g. a macro in the time series query language text) and a
+    /// location is to be designated in that object's text, `nested_locator`
+    /// identifies the location within that object.
+    #[prost(message, optional, boxed, tag = "4")]
+    pub nested_locator: ::core::option::Option<::prost::alloc::boxed::Box<TextLocator>>,
+    /// When `nested_locator` is set, this field gives the reason for the nesting.
+    /// Usually, the reason is a macro invocation. In that case, the macro name
+    /// (including the leading '@') signals the location of the macro call
+    /// in the text and a macro argument name (including the leading '$') signals
+    /// the location of the macro argument inside the macro body that got
+    /// substituted away.
+    #[prost(string, tag = "5")]
+    pub nesting_reason: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `TextLocator`.
+pub mod text_locator {
+    /// The position of a byte within the text.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Position {
+        /// The line, starting with 1, where the byte is positioned.
+        #[prost(int32, tag = "1")]
+        pub line: i32,
+        /// The column within the line, starting with 1, where the byte is
+        /// positioned. This is a byte index even though the text is UTF-8.
+        #[prost(int32, tag = "2")]
+        pub column: i32,
+    }
+}
+/// The `ListMonitoredResourceDescriptors` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListMonitoredResourceDescriptorsRequest {
+    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
+    /// which to execute the request. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER\]
+    #[prost(string, tag = "5")]
+    pub name: ::prost::alloc::string::String,
+    /// An optional \[filter\](<https://cloud.google.com/monitoring/api/v3/filters>)
+    /// describing the descriptors to be returned.  The filter can reference the
+    /// descriptor's type and labels. For example, the following filter returns
+    /// only Google Compute Engine descriptors that have an `id` label:
+    ///
+    ///     resource.type = starts_with("gce_") AND resource.label:id
+    #[prost(string, tag = "2")]
+    pub filter: ::prost::alloc::string::String,
+    /// A positive number that is the maximum number of results to return.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// If this field is not empty then it must contain the `nextPageToken` value
+    /// returned by a previous call to this method.  Using this field causes the
+    /// method to return additional results from the previous method call.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The `ListMonitoredResourceDescriptors` response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListMonitoredResourceDescriptorsResponse {
+    /// The monitored resource descriptors that are available to this project
+    /// and that match `filter`, if present.
+    #[prost(message, repeated, tag = "1")]
+    pub resource_descriptors:
+        ::prost::alloc::vec::Vec<super::super::api::MonitoredResourceDescriptor>,
+    /// If there are more results than have been returned, then this field is set
+    /// to a non-empty value.  To see the additional results,
+    /// use that value as `page_token` in the next call to this method.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The `GetMonitoredResourceDescriptor` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetMonitoredResourceDescriptorRequest {
+    /// Required. The monitored resource descriptor to get.  The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/monitoredResourceDescriptors/[RESOURCE_TYPE\]
+    ///
+    /// The `\[RESOURCE_TYPE\]` is a predefined type, such as
+    /// `cloudsql_database`.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The `ListMetricDescriptors` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListMetricDescriptorsRequest {
+    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
+    /// which to execute the request. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER\]
+    #[prost(string, tag = "5")]
+    pub name: ::prost::alloc::string::String,
+    /// If this field is empty, all custom and
+    /// system-defined metric descriptors are returned.
+    /// Otherwise, the \[filter\](<https://cloud.google.com/monitoring/api/v3/filters>)
+    /// specifies which metric descriptors are to be
+    /// returned. For example, the following filter matches all
+    /// [custom metrics](<https://cloud.google.com/monitoring/custom-metrics>):
+    ///
+    ///     metric.type = starts_with("custom.googleapis.com/")
+    #[prost(string, tag = "2")]
+    pub filter: ::prost::alloc::string::String,
+    /// A positive number that is the maximum number of results to return.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// If this field is not empty then it must contain the `nextPageToken` value
+    /// returned by a previous call to this method.  Using this field causes the
+    /// method to return additional results from the previous method call.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The `ListMetricDescriptors` response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListMetricDescriptorsResponse {
+    /// The metric descriptors that are available to the project
+    /// and that match the value of `filter`, if present.
+    #[prost(message, repeated, tag = "1")]
+    pub metric_descriptors: ::prost::alloc::vec::Vec<super::super::api::MetricDescriptor>,
+    /// If there are more results than have been returned, then this field is set
+    /// to a non-empty value.  To see the additional results,
+    /// use that value as `page_token` in the next call to this method.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The `GetMetricDescriptor` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetMetricDescriptorRequest {
+    /// Required. The metric descriptor on which to execute the request. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/metricDescriptors/[METRIC_ID\]
+    ///
+    /// An example value of `\[METRIC_ID\]` is
+    /// `"compute.googleapis.com/instance/disk/read_bytes_count"`.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The `CreateMetricDescriptor` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateMetricDescriptorRequest {
+    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
+    /// which to execute the request. The format is:
+    /// 4
+    ///     projects/\[PROJECT_ID_OR_NUMBER\]
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The new [custom metric](<https://cloud.google.com/monitoring/custom-metrics>)
+    /// descriptor.
+    #[prost(message, optional, tag = "2")]
+    pub metric_descriptor: ::core::option::Option<super::super::api::MetricDescriptor>,
+}
+/// The `DeleteMetricDescriptor` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteMetricDescriptorRequest {
+    /// Required. The metric descriptor on which to execute the request. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/metricDescriptors/[METRIC_ID\]
+    ///
+    /// An example of `\[METRIC_ID\]` is:
+    /// `"custom.googleapis.com/my_test_metric"`.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The `ListTimeSeries` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTimeSeriesRequest {
+    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>),
+    /// organization or folder on which to execute the request. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER\]
+    ///     organizations/\[ORGANIZATION_ID\]
+    ///     folders/\[FOLDER_ID\]
+    #[prost(string, tag = "10")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. A [monitoring filter](<https://cloud.google.com/monitoring/api/v3/filters>)
+    /// that specifies which time series should be returned.  The filter must
+    /// specify a single metric type, and can additionally specify metric labels
+    /// and other information. For example:
+    ///
+    ///     metric.type = "compute.googleapis.com/instance/cpu/usage_time" AND
+    ///         metric.labels.instance_name = "my-instance-name"
+    #[prost(string, tag = "2")]
+    pub filter: ::prost::alloc::string::String,
+    /// Required. The time interval for which results should be returned. Only time series
+    /// that contain data points in the specified interval are included
+    /// in the response.
+    #[prost(message, optional, tag = "4")]
+    pub interval: ::core::option::Option<TimeInterval>,
+    /// Specifies the alignment of data points in individual time series as
+    /// well as how to combine the retrieved time series across specified labels.
+    ///
+    /// By default (if no `aggregation` is explicitly specified), the raw time
+    /// series data is returned.
+    #[prost(message, optional, tag = "5")]
+    pub aggregation: ::core::option::Option<Aggregation>,
+    /// Apply a second aggregation after `aggregation` is applied. May only be
+    /// specified if `aggregation` is specified.
+    #[prost(message, optional, tag = "11")]
+    pub secondary_aggregation: ::core::option::Option<Aggregation>,
+    /// Unsupported: must be left blank. The points in each time series are
+    /// currently returned in reverse time order (most recent to oldest).
+    #[prost(string, tag = "6")]
+    pub order_by: ::prost::alloc::string::String,
+    /// Required. Specifies which information is returned about the time series.
+    #[prost(enumeration = "list_time_series_request::TimeSeriesView", tag = "7")]
+    pub view: i32,
+    /// A positive number that is the maximum number of results to return. If
+    /// `page_size` is empty or more than 100,000 results, the effective
+    /// `page_size` is 100,000 results. If `view` is set to `FULL`, this is the
+    /// maximum number of `Points` returned. If `view` is set to `HEADERS`, this is
+    /// the maximum number of `TimeSeries` returned.
+    #[prost(int32, tag = "8")]
+    pub page_size: i32,
+    /// If this field is not empty then it must contain the `nextPageToken` value
+    /// returned by a previous call to this method.  Using this field causes the
+    /// method to return additional results from the previous method call.
+    #[prost(string, tag = "9")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ListTimeSeriesRequest`.
+pub mod list_time_series_request {
+    /// Controls which fields are returned by `ListTimeSeries`.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum TimeSeriesView {
+        /// Returns the identity of the metric(s), the time series,
+        /// and the time series data.
+        Full = 0,
+        /// Returns the identity of the metric and the time series resource,
+        /// but not the time series data.
+        Headers = 1,
+    }
+}
+/// The `ListTimeSeries` response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTimeSeriesResponse {
+    /// One or more time series that match the filter included in the request.
+    #[prost(message, repeated, tag = "1")]
+    pub time_series: ::prost::alloc::vec::Vec<TimeSeries>,
+    /// If there are more results than have been returned, then this field is set
+    /// to a non-empty value.  To see the additional results,
+    /// use that value as `page_token` in the next call to this method.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Query execution errors that may have caused the time series data returned
+    /// to be incomplete.
+    #[prost(message, repeated, tag = "3")]
+    pub execution_errors: ::prost::alloc::vec::Vec<super::super::rpc::Status>,
+    /// The unit in which all `time_series` point values are reported. `unit`
+    /// follows the UCUM format for units as seen in
+    /// <https://unitsofmeasure.org/ucum.html.>
+    /// If different `time_series` have different units (for example, because they
+    /// come from different metric types, or a unit is absent), then `unit` will be
+    /// "{not_a_unit}".
+    #[prost(string, tag = "5")]
+    pub unit: ::prost::alloc::string::String,
+}
+/// The `CreateTimeSeries` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTimeSeriesRequest {
+    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
+    /// which to execute the request. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER\]
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The new data to be added to a list of time series.
+    /// Adds at most one data point to each of several time series.  The new data
+    /// point must be more recent than any other point in its time series.  Each
+    /// `TimeSeries` value must fully specify a unique time series by supplying
+    /// all label values for the metric and the monitored resource.
+    ///
+    /// The maximum number of `TimeSeries` objects per `Create` request is 200.
+    #[prost(message, repeated, tag = "2")]
+    pub time_series: ::prost::alloc::vec::Vec<TimeSeries>,
+}
+/// DEPRECATED. Used to hold per-time-series error status.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTimeSeriesError {
+    /// DEPRECATED. Time series ID that resulted in the `status` error.
+    #[deprecated]
+    #[prost(message, optional, tag = "1")]
+    pub time_series: ::core::option::Option<TimeSeries>,
+    /// DEPRECATED. The status of the requested write operation for `time_series`.
+    #[deprecated]
+    #[prost(message, optional, tag = "2")]
+    pub status: ::core::option::Option<super::super::rpc::Status>,
+}
+/// Summary of the result of a failed request to write data to a time series.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTimeSeriesSummary {
+    /// The number of points in the request.
+    #[prost(int32, tag = "1")]
+    pub total_point_count: i32,
+    /// The number of points that were successfully written.
+    #[prost(int32, tag = "2")]
+    pub success_point_count: i32,
+    /// The number of points that failed to be written. Order is not guaranteed.
+    #[prost(message, repeated, tag = "3")]
+    pub errors: ::prost::alloc::vec::Vec<create_time_series_summary::Error>,
+}
+/// Nested message and enum types in `CreateTimeSeriesSummary`.
+pub mod create_time_series_summary {
+    /// Detailed information about an error category.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Error {
+        /// The status of the requested write operation.
+        #[prost(message, optional, tag = "1")]
+        pub status: ::core::option::Option<super::super::super::rpc::Status>,
+        /// The number of points that couldn't be written because of `status`.
+        #[prost(int32, tag = "2")]
+        pub point_count: i32,
+    }
+}
+/// The `QueryTimeSeries` request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryTimeSeriesRequest {
+    /// Required. The \[project\](<https://cloud.google.com/monitoring/api/v3#project_name>) on
+    /// which to execute the request. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER\]
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The query in the [Monitoring Query
+    /// Language](<https://cloud.google.com/monitoring/mql/reference>) format.
+    /// The default time zone is in UTC.
+    #[prost(string, tag = "7")]
+    pub query: ::prost::alloc::string::String,
+    /// A positive number that is the maximum number of time_series_data to return.
+    #[prost(int32, tag = "9")]
+    pub page_size: i32,
+    /// If this field is not empty then it must contain the `nextPageToken` value
+    /// returned by a previous call to this method.  Using this field causes the
+    /// method to return additional results from the previous method call.
+    #[prost(string, tag = "10")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The `QueryTimeSeries` response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryTimeSeriesResponse {
+    /// The descriptor for the time series data.
+    #[prost(message, optional, tag = "8")]
+    pub time_series_descriptor: ::core::option::Option<TimeSeriesDescriptor>,
+    /// The time series data.
+    #[prost(message, repeated, tag = "9")]
+    pub time_series_data: ::prost::alloc::vec::Vec<TimeSeriesData>,
+    /// If there are more results than have been returned, then this field is set
+    /// to a non-empty value.  To see the additional results, use that value as
+    /// `page_token` in the next call to this method.
+    #[prost(string, tag = "10")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Query execution errors that may have caused the time series data returned
+    /// to be incomplete. The available data will be available in the
+    /// response.
+    #[prost(message, repeated, tag = "11")]
+    pub partial_errors: ::prost::alloc::vec::Vec<super::super::rpc::Status>,
+}
+/// This is an error detail intended to be used with INVALID_ARGUMENT errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryErrorList {
+    /// Errors in parsing the time series query language text. The number of errors
+    /// in the response may be limited.
+    #[prost(message, repeated, tag = "1")]
+    pub errors: ::prost::alloc::vec::Vec<QueryError>,
+    /// A summary of all the errors.
+    #[prost(string, tag = "2")]
+    pub error_summary: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod metric_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Manages metric descriptors, monitored resource descriptors, and"]
+    #[doc = " time series data."]
+    #[derive(Debug, Clone)]
+    pub struct MetricServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> MetricServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> MetricServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            MetricServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Lists monitored resource descriptors that match a filter. This method does not require a Workspace."]
+        pub async fn list_monitored_resource_descriptors(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListMonitoredResourceDescriptorsRequest>,
+        ) -> Result<tonic::Response<super::ListMonitoredResourceDescriptorsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.MetricService/ListMonitoredResourceDescriptors",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets a single monitored resource descriptor. This method does not require a Workspace."]
+        pub async fn get_monitored_resource_descriptor(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetMonitoredResourceDescriptorRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::api::MonitoredResourceDescriptor>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.MetricService/GetMonitoredResourceDescriptor",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists metric descriptors that match a filter. This method does not require a Workspace."]
+        pub async fn list_metric_descriptors(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListMetricDescriptorsRequest>,
+        ) -> Result<tonic::Response<super::ListMetricDescriptorsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.MetricService/ListMetricDescriptors",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets a single metric descriptor. This method does not require a Workspace."]
+        pub async fn get_metric_descriptor(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetMetricDescriptorRequest>,
+        ) -> Result<tonic::Response<super::super::super::api::MetricDescriptor>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.MetricService/GetMetricDescriptor",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a new metric descriptor."]
+        #[doc = " The creation is executed asynchronously and callers may check the returned"]
+        #[doc = " operation to track its progress."]
+        #[doc = " User-created metric descriptors define"]
+        #[doc = " [custom metrics](https://cloud.google.com/monitoring/custom-metrics)."]
+        pub async fn create_metric_descriptor(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateMetricDescriptorRequest>,
+        ) -> Result<tonic::Response<super::super::super::api::MetricDescriptor>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.MetricService/CreateMetricDescriptor",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes a metric descriptor. Only user-created"]
+        #[doc = " [custom metrics](https://cloud.google.com/monitoring/custom-metrics) can be"]
+        #[doc = " deleted."]
+        pub async fn delete_metric_descriptor(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteMetricDescriptorRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.MetricService/DeleteMetricDescriptor",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists time series that match a filter. This method does not require a Workspace."]
+        pub async fn list_time_series(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListTimeSeriesRequest>,
+        ) -> Result<tonic::Response<super::ListTimeSeriesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.MetricService/ListTimeSeries",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates or adds data to one or more time series."]
+        #[doc = " The response is empty if all time series in the request were written."]
+        #[doc = " If any time series could not be written, a corresponding failure message is"]
+        #[doc = " included in the error response."]
+        pub async fn create_time_series(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateTimeSeriesRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.MetricService/CreateTimeSeries",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates or adds data to one or more service time series. A service time"]
+        #[doc = " series is a time series for a metric from a Google Cloud service. The"]
+        #[doc = " response is empty if all time series in the request were written. If any"]
+        #[doc = " time series could not be written, a corresponding failure message is"]
+        #[doc = " included in the error response. This endpoint rejects writes to"]
+        #[doc = " user-defined metrics."]
+        #[doc = " This method is only for use by Google Cloud services. Use"]
+        #[doc = " [projects.timeSeries.create][google.monitoring.v3.MetricService.CreateTimeSeries]"]
+        #[doc = " instead."]
+        pub async fn create_service_time_series(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateTimeSeriesRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.monitoring.v3.MetricService/CreateServiceTimeSeries",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

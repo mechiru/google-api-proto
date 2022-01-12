@@ -51,25 +51,35 @@ pub mod event_handler {
         StaticPromptName(::prost::alloc::string::String),
     }
 }
-/// Defines a global intent handler. Global intent events are scoped to the
-/// entire Actions project and may be overridden by intent handlers in a scene.
-/// Intent names must be unique within an Actions project.
-///
-/// Global intents can be matched anytime during a session, allowing users to
-/// access common flows like  "get help" or "go back home." They can also be
-/// used to deep link users into specific flows when they invoke an Action.
-///
-/// Note, the intent name is specified in the name of the file.
+/// Registers events that trigger as the result of a true condition.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GlobalIntentEvent {
-    /// Optional. Destination scene which the conversation should jump to. The state of the
-    /// current scene is destroyed on the transition.
+pub struct ConditionalEvent {
+    /// Required. Filter condition for this event to trigger. If condition is evaluated to
+    /// true then the associated `handler` will be triggered.
+    /// The following variable references are supported:
+    ///   `$session` - To reference data in session storage.
+    ///   `$user` - To reference data in user storage.
+    /// The following boolean operators are supported (with examples):
+    ///   `&&` - `session.params.counter > 0 && session.params.counter < 100`
+    ///   `||` - `session.params.foo == "John" || session.params.counter == "Adam"`
+    ///   `!`  - `!(session.params.counter == 5)`
+    /// The following comparisons are supported:
+    ///   `==`, `!=`, `<`, `>`, `<=`, `>=`
+    /// The following list and string operators are supported (with examples):
+    ///   `in`        - "Watermelon" in `session.params.fruitList`
+    ///   `size`      - `size(session.params.fruitList) > 2`
+    ///   `substring` - `session.params.fullName.contains("John")`
     #[prost(string, tag = "1")]
+    pub condition: ::prost::alloc::string::String,
+    /// Optional. Destination scene which the conversation should jump to when the associated
+    /// condition is evaluated to true. The state of the current scene is destroyed
+    /// on the transition.
+    #[prost(string, tag = "2")]
     pub transition_to_scene: ::prost::alloc::string::String,
-    /// Optional. Event handler which is triggered when the intent is matched. Should execute
-    /// before transitioning to the destination scene. Useful to generate Prompts
-    /// in response to events.
-    #[prost(message, optional, tag = "2")]
+    /// Optional. Event handler which is triggered when the associated condition is evaluated
+    /// to `true`. Should execute before transitioning to the destination scene.
+    /// Useful to generate Prompts in response to events.
+    #[prost(message, optional, tag = "3")]
     pub handler: ::core::option::Option<EventHandler>,
 }
 /// Intents map open-ended user input to structured objects. Spoken
@@ -149,53 +159,6 @@ pub mod intent {
             EntitySetReferences(EntitySetReferences),
         }
     }
-}
-/// Registers events that trigger as the result of a true condition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConditionalEvent {
-    /// Required. Filter condition for this event to trigger. If condition is evaluated to
-    /// true then the associated `handler` will be triggered.
-    /// The following variable references are supported:
-    ///   `$session` - To reference data in session storage.
-    ///   `$user` - To reference data in user storage.
-    /// The following boolean operators are supported (with examples):
-    ///   `&&` - `session.params.counter > 0 && session.params.counter < 100`
-    ///   `||` - `session.params.foo == "John" || session.params.counter == "Adam"`
-    ///   `!`  - `!(session.params.counter == 5)`
-    /// The following comparisons are supported:
-    ///   `==`, `!=`, `<`, `>`, `<=`, `>=`
-    /// The following list and string operators are supported (with examples):
-    ///   `in`        - "Watermelon" in `session.params.fruitList`
-    ///   `size`      - `size(session.params.fruitList) > 2`
-    ///   `substring` - `session.params.fullName.contains("John")`
-    #[prost(string, tag = "1")]
-    pub condition: ::prost::alloc::string::String,
-    /// Optional. Destination scene which the conversation should jump to when the associated
-    /// condition is evaluated to true. The state of the current scene is destroyed
-    /// on the transition.
-    #[prost(string, tag = "2")]
-    pub transition_to_scene: ::prost::alloc::string::String,
-    /// Optional. Event handler which is triggered when the associated condition is evaluated
-    /// to `true`. Should execute before transitioning to the destination scene.
-    /// Useful to generate Prompts in response to events.
-    #[prost(message, optional, tag = "3")]
-    pub handler: ::core::option::Option<EventHandler>,
-}
-/// Registers Events which trigger as the result of an intent match.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct IntentEvent {
-    /// Required. Intent triggering the event.
-    #[prost(string, tag = "1")]
-    pub intent: ::prost::alloc::string::String,
-    /// Optional. Destination scene which the conversation should jump to. The state of the
-    /// current scene is destroyed on the transition.
-    #[prost(string, tag = "2")]
-    pub transition_to_scene: ::prost::alloc::string::String,
-    /// Optional. Event handler which is triggered when the intent is matched. Should execute
-    /// before transitioning to the destination scene. Useful to generate prompts
-    /// in response to events.
-    #[prost(message, optional, tag = "3")]
-    pub handler: ::core::option::Option<EventHandler>,
 }
 /// Configuration for a slot. Slots are single units of data that can be filled
 /// through natural language (ie. intent parameters), session parameters, and
@@ -309,6 +272,43 @@ pub mod slot {
         #[prost(message, optional, tag = "2")]
         pub constant: ::core::option::Option<::prost_types::Value>,
     }
+}
+/// Registers Events which trigger as the result of an intent match.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IntentEvent {
+    /// Required. Intent triggering the event.
+    #[prost(string, tag = "1")]
+    pub intent: ::prost::alloc::string::String,
+    /// Optional. Destination scene which the conversation should jump to. The state of the
+    /// current scene is destroyed on the transition.
+    #[prost(string, tag = "2")]
+    pub transition_to_scene: ::prost::alloc::string::String,
+    /// Optional. Event handler which is triggered when the intent is matched. Should execute
+    /// before transitioning to the destination scene. Useful to generate prompts
+    /// in response to events.
+    #[prost(message, optional, tag = "3")]
+    pub handler: ::core::option::Option<EventHandler>,
+}
+/// Defines a global intent handler. Global intent events are scoped to the
+/// entire Actions project and may be overridden by intent handlers in a scene.
+/// Intent names must be unique within an Actions project.
+///
+/// Global intents can be matched anytime during a session, allowing users to
+/// access common flows like  "get help" or "go back home." They can also be
+/// used to deep link users into specific flows when they invoke an Action.
+///
+/// Note, the intent name is specified in the name of the file.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GlobalIntentEvent {
+    /// Optional. Destination scene which the conversation should jump to. The state of the
+    /// current scene is destroyed on the transition.
+    #[prost(string, tag = "1")]
+    pub transition_to_scene: ::prost::alloc::string::String,
+    /// Optional. Event handler which is triggered when the intent is matched. Should execute
+    /// before transitioning to the destination scene. Useful to generate Prompts
+    /// in response to events.
+    #[prost(message, optional, tag = "2")]
+    pub handler: ::core::option::Option<EventHandler>,
 }
 /// Scene is the basic unit of control flow when designing a conversation. They
 /// can be chained together with other scenes, generate prompts for the end user,

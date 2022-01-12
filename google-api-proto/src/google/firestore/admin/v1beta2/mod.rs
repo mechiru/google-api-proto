@@ -133,75 +133,6 @@ pub mod index {
         NeedsRepair = 3,
     }
 }
-/// Represents a single field in the database.
-///
-/// Fields are grouped by their "Collection Group", which represent all
-/// collections in the database with the same id.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Field {
-    /// A field name of the form
-    /// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}`
-    ///
-    /// A field path may be a simple field name, e.g. `address` or a path to fields
-    /// within map_value , e.g. `address.city`,
-    /// or a special field path. The only valid special field is `*`, which
-    /// represents any field.
-    ///
-    /// Field paths may be quoted using ` (backtick). The only character that needs
-    /// to be escaped within a quoted field path is the backtick character itself,
-    /// escaped using a backslash. Special characters in field paths that
-    /// must be quoted include: `*`, `.`,
-    /// ``` (backtick), `[`, `]`, as well as any ascii symbolic characters.
-    ///
-    /// Examples:
-    /// (Note: Comments here are written in markdown syntax, so there is an
-    ///  additional layer of backticks to represent a code block)
-    /// `\`address.city\`` represents a field named `address.city`, not the map key
-    /// `city` in the field `address`.
-    /// `\`*\`` represents a field named `*`, not any field.
-    ///
-    /// A special `Field` contains the default indexing settings for all fields.
-    /// This field's resource name is:
-    /// `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*`
-    /// Indexes defined on this `Field` will be applied to all fields which do not
-    /// have their own `Field` index configuration.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The index configuration for this field. If unset, field indexing will
-    /// revert to the configuration defined by the `ancestor_field`. To
-    /// explicitly remove all indexes for this field, specify an index config
-    /// with an empty list of indexes.
-    #[prost(message, optional, tag = "2")]
-    pub index_config: ::core::option::Option<field::IndexConfig>,
-}
-/// Nested message and enum types in `Field`.
-pub mod field {
-    /// The index configuration for this field.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct IndexConfig {
-        /// The indexes supported for this field.
-        #[prost(message, repeated, tag = "1")]
-        pub indexes: ::prost::alloc::vec::Vec<super::Index>,
-        /// Output only. When true, the `Field`'s index configuration is set from the
-        /// configuration specified by the `ancestor_field`.
-        /// When false, the `Field`'s index configuration is defined explicitly.
-        #[prost(bool, tag = "2")]
-        pub uses_ancestor_config: bool,
-        /// Output only. Specifies the resource name of the `Field` from which this field's
-        /// index configuration is set (when `uses_ancestor_config` is true),
-        /// or from which it *would* be set if this field had no index configuration
-        /// (when `uses_ancestor_config` is false).
-        #[prost(string, tag = "3")]
-        pub ancestor_field: ::prost::alloc::string::String,
-        /// Output only
-        /// When true, the `Field`'s index configuration is in the process of being
-        /// reverted. Once complete, the index config will transition to the same
-        /// state as the field specified by `ancestor_field`, at which point
-        /// `uses_ancestor_config` will be `true` and `reverting` will be `false`.
-        #[prost(bool, tag = "4")]
-        pub reverting: bool,
-    }
-}
 /// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from
 /// \[FirestoreAdmin.CreateIndex][google.firestore.admin.v1beta2.FirestoreAdmin.CreateIndex\].
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -382,6 +313,75 @@ pub enum OperationState {
     /// Request has finished being cancelled after user called
     /// google.longrunning.Operations.CancelOperation.
     Cancelled = 7,
+}
+/// Represents a single field in the database.
+///
+/// Fields are grouped by their "Collection Group", which represent all
+/// collections in the database with the same id.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Field {
+    /// A field name of the form
+    /// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}`
+    ///
+    /// A field path may be a simple field name, e.g. `address` or a path to fields
+    /// within map_value , e.g. `address.city`,
+    /// or a special field path. The only valid special field is `*`, which
+    /// represents any field.
+    ///
+    /// Field paths may be quoted using ` (backtick). The only character that needs
+    /// to be escaped within a quoted field path is the backtick character itself,
+    /// escaped using a backslash. Special characters in field paths that
+    /// must be quoted include: `*`, `.`,
+    /// ``` (backtick), `[`, `]`, as well as any ascii symbolic characters.
+    ///
+    /// Examples:
+    /// (Note: Comments here are written in markdown syntax, so there is an
+    ///  additional layer of backticks to represent a code block)
+    /// `\`address.city\`` represents a field named `address.city`, not the map key
+    /// `city` in the field `address`.
+    /// `\`*\`` represents a field named `*`, not any field.
+    ///
+    /// A special `Field` contains the default indexing settings for all fields.
+    /// This field's resource name is:
+    /// `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*`
+    /// Indexes defined on this `Field` will be applied to all fields which do not
+    /// have their own `Field` index configuration.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The index configuration for this field. If unset, field indexing will
+    /// revert to the configuration defined by the `ancestor_field`. To
+    /// explicitly remove all indexes for this field, specify an index config
+    /// with an empty list of indexes.
+    #[prost(message, optional, tag = "2")]
+    pub index_config: ::core::option::Option<field::IndexConfig>,
+}
+/// Nested message and enum types in `Field`.
+pub mod field {
+    /// The index configuration for this field.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct IndexConfig {
+        /// The indexes supported for this field.
+        #[prost(message, repeated, tag = "1")]
+        pub indexes: ::prost::alloc::vec::Vec<super::Index>,
+        /// Output only. When true, the `Field`'s index configuration is set from the
+        /// configuration specified by the `ancestor_field`.
+        /// When false, the `Field`'s index configuration is defined explicitly.
+        #[prost(bool, tag = "2")]
+        pub uses_ancestor_config: bool,
+        /// Output only. Specifies the resource name of the `Field` from which this field's
+        /// index configuration is set (when `uses_ancestor_config` is true),
+        /// or from which it *would* be set if this field had no index configuration
+        /// (when `uses_ancestor_config` is false).
+        #[prost(string, tag = "3")]
+        pub ancestor_field: ::prost::alloc::string::String,
+        /// Output only
+        /// When true, the `Field`'s index configuration is in the process of being
+        /// reverted. Once complete, the index config will transition to the same
+        /// state as the field specified by `ancestor_field`, at which point
+        /// `uses_ancestor_config` will be `true` and `reverting` will be `false`.
+        #[prost(bool, tag = "4")]
+        pub reverting: bool,
+    }
 }
 /// The request for \[FirestoreAdmin.CreateIndex][google.firestore.admin.v1beta2.FirestoreAdmin.CreateIndex\].
 #[derive(Clone, PartialEq, ::prost::Message)]

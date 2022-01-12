@@ -396,6 +396,209 @@ pub enum AnnotationType {
     /// General classification. Allowed for continuous evaluation.
     GeneralClassificationAnnotation = 14,
 }
+/// Describes an evaluation between a machine learning model's predictions and
+/// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Evaluation {
+    /// Output only. Resource name of an evaluation. The name has the following
+    /// format:
+    ///
+    /// "projects/<var>{project_id}</var>/datasets/<var>{dataset_id}</var>/evaluations/<var>{evaluation_id</var>}'
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Options used in the evaluation job that created this
+    /// evaluation.
+    #[prost(message, optional, tag = "2")]
+    pub config: ::core::option::Option<EvaluationConfig>,
+    /// Output only. Timestamp for when the evaluation job that created this
+    /// evaluation ran.
+    #[prost(message, optional, tag = "3")]
+    pub evaluation_job_run_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp for when this evaluation was created.
+    #[prost(message, optional, tag = "4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Metrics comparing predictions to ground truth labels.
+    #[prost(message, optional, tag = "5")]
+    pub evaluation_metrics: ::core::option::Option<EvaluationMetrics>,
+    /// Output only. Type of task that the model version being evaluated performs,
+    /// as defined in the
+    ///
+    /// \[evaluationJobConfig.inputConfig.annotationType][google.cloud.datalabeling.v1beta1.EvaluationJobConfig.input_config\]
+    /// field of the evaluation job that created this evaluation.
+    #[prost(enumeration = "AnnotationType", tag = "6")]
+    pub annotation_type: i32,
+    /// Output only. The number of items in the ground truth dataset that were used
+    /// for this evaluation. Only populated when the evaulation is for certain
+    /// AnnotationTypes.
+    #[prost(int64, tag = "7")]
+    pub evaluated_item_count: i64,
+}
+/// Configuration details used for calculating evaluation metrics and creating an
+/// \[Evaluation][google.cloud.datalabeling.v1beta1.Evaluation\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EvaluationConfig {
+    /// Vertical specific options for general metrics.
+    #[prost(oneof = "evaluation_config::VerticalOption", tags = "1")]
+    pub vertical_option: ::core::option::Option<evaluation_config::VerticalOption>,
+}
+/// Nested message and enum types in `EvaluationConfig`.
+pub mod evaluation_config {
+    /// Vertical specific options for general metrics.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum VerticalOption {
+        /// Only specify this field if the related model performs image object
+        /// detection (`IMAGE_BOUNDING_BOX_ANNOTATION`). Describes how to evaluate
+        /// bounding boxes.
+        #[prost(message, tag = "1")]
+        BoundingBoxEvaluationOptions(super::BoundingBoxEvaluationOptions),
+    }
+}
+/// Options regarding evaluation between bounding boxes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BoundingBoxEvaluationOptions {
+    /// Minimum
+    /// [intersection-over-union
+    ///
+    /// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)
+    /// required for 2 bounding boxes to be considered a match. This must be a
+    /// number between 0 and 1.
+    #[prost(float, tag = "1")]
+    pub iou_threshold: f32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EvaluationMetrics {
+    /// Common metrics covering most general cases.
+    #[prost(oneof = "evaluation_metrics::Metrics", tags = "1, 2")]
+    pub metrics: ::core::option::Option<evaluation_metrics::Metrics>,
+}
+/// Nested message and enum types in `EvaluationMetrics`.
+pub mod evaluation_metrics {
+    /// Common metrics covering most general cases.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Metrics {
+        #[prost(message, tag = "1")]
+        ClassificationMetrics(super::ClassificationMetrics),
+        #[prost(message, tag = "2")]
+        ObjectDetectionMetrics(super::ObjectDetectionMetrics),
+    }
+}
+/// Metrics calculated for a classification model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ClassificationMetrics {
+    /// Precision-recall curve based on ground truth labels, predicted labels, and
+    /// scores for the predicted labels.
+    #[prost(message, optional, tag = "1")]
+    pub pr_curve: ::core::option::Option<PrCurve>,
+    /// Confusion matrix of predicted labels vs. ground truth labels.
+    #[prost(message, optional, tag = "2")]
+    pub confusion_matrix: ::core::option::Option<ConfusionMatrix>,
+}
+/// Metrics calculated for an image object detection (bounding box) model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ObjectDetectionMetrics {
+    /// Precision-recall curve.
+    #[prost(message, optional, tag = "1")]
+    pub pr_curve: ::core::option::Option<PrCurve>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PrCurve {
+    /// The annotation spec of the label for which the precision-recall curve
+    /// calculated. If this field is empty, that means the precision-recall curve
+    /// is an aggregate curve for all labels.
+    #[prost(message, optional, tag = "1")]
+    pub annotation_spec: ::core::option::Option<AnnotationSpec>,
+    /// Area under the precision-recall curve. Not to be confused with area under
+    /// a receiver operating characteristic (ROC) curve.
+    #[prost(float, tag = "2")]
+    pub area_under_curve: f32,
+    /// Entries that make up the precision-recall graph. Each entry is a "point" on
+    /// the graph drawn for a different `confidence_threshold`.
+    #[prost(message, repeated, tag = "3")]
+    pub confidence_metrics_entries: ::prost::alloc::vec::Vec<pr_curve::ConfidenceMetricsEntry>,
+    /// Mean average prcision of this curve.
+    #[prost(float, tag = "4")]
+    pub mean_average_precision: f32,
+}
+/// Nested message and enum types in `PrCurve`.
+pub mod pr_curve {
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfidenceMetricsEntry {
+        /// Threshold used for this entry.
+        ///
+        /// For classification tasks, this is a classification threshold: a
+        /// predicted label is categorized as positive or negative (in the context of
+        /// this point on the PR curve) based on whether the label's score meets this
+        /// threshold.
+        ///
+        /// For image object detection (bounding box) tasks, this is the
+        /// [intersection-over-union
+        ///
+        /// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)
+        /// threshold for the context of this point on the PR curve.
+        #[prost(float, tag = "1")]
+        pub confidence_threshold: f32,
+        /// Recall value.
+        #[prost(float, tag = "2")]
+        pub recall: f32,
+        /// Precision value.
+        #[prost(float, tag = "3")]
+        pub precision: f32,
+        /// Harmonic mean of recall and precision.
+        #[prost(float, tag = "4")]
+        pub f1_score: f32,
+        /// Recall value for entries with label that has highest score.
+        #[prost(float, tag = "5")]
+        pub recall_at1: f32,
+        /// Precision value for entries with label that has highest score.
+        #[prost(float, tag = "6")]
+        pub precision_at1: f32,
+        /// The harmonic mean of \[recall_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at1\] and \[precision_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at1\].
+        #[prost(float, tag = "7")]
+        pub f1_score_at1: f32,
+        /// Recall value for entries with label that has highest 5 scores.
+        #[prost(float, tag = "8")]
+        pub recall_at5: f32,
+        /// Precision value for entries with label that has highest 5 scores.
+        #[prost(float, tag = "9")]
+        pub precision_at5: f32,
+        /// The harmonic mean of \[recall_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at5\] and \[precision_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at5\].
+        #[prost(float, tag = "10")]
+        pub f1_score_at5: f32,
+    }
+}
+/// Confusion matrix of the model running the classification. Only applicable
+/// when the metrics entry aggregates multiple labels. Not applicable when the
+/// entry is for a single label.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConfusionMatrix {
+    #[prost(message, repeated, tag = "1")]
+    pub row: ::prost::alloc::vec::Vec<confusion_matrix::Row>,
+}
+/// Nested message and enum types in `ConfusionMatrix`.
+pub mod confusion_matrix {
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfusionMatrixEntry {
+        /// The annotation spec of a predicted label.
+        #[prost(message, optional, tag = "1")]
+        pub annotation_spec: ::core::option::Option<super::AnnotationSpec>,
+        /// Number of items predicted to have this label. (The ground truth label for
+        /// these items is the `Row.annotationSpec` of this entry's parent.)
+        #[prost(int32, tag = "2")]
+        pub item_count: i32,
+    }
+    /// A row in the confusion matrix. Each entry in this row has the same
+    /// ground truth label.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Row {
+        /// The annotation spec of the ground truth label for this row.
+        #[prost(message, optional, tag = "1")]
+        pub annotation_spec: ::core::option::Option<super::AnnotationSpec>,
+        /// A list of the confusion matrix entries. One entry for each possible
+        /// predicted label.
+        #[prost(message, repeated, tag = "2")]
+        pub entries: ::prost::alloc::vec::Vec<ConfusionMatrixEntry>,
+    }
+}
 /// Container of information about an image.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ImagePayload {
@@ -1225,209 +1428,6 @@ pub struct CreateInstructionMetadata {
     /// Timestamp when create instruction request was created.
     #[prost(message, optional, tag = "3")]
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Describes an evaluation between a machine learning model's predictions and
-/// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Evaluation {
-    /// Output only. Resource name of an evaluation. The name has the following
-    /// format:
-    ///
-    /// "projects/<var>{project_id}</var>/datasets/<var>{dataset_id}</var>/evaluations/<var>{evaluation_id</var>}'
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Options used in the evaluation job that created this
-    /// evaluation.
-    #[prost(message, optional, tag = "2")]
-    pub config: ::core::option::Option<EvaluationConfig>,
-    /// Output only. Timestamp for when the evaluation job that created this
-    /// evaluation ran.
-    #[prost(message, optional, tag = "3")]
-    pub evaluation_job_run_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp for when this evaluation was created.
-    #[prost(message, optional, tag = "4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Metrics comparing predictions to ground truth labels.
-    #[prost(message, optional, tag = "5")]
-    pub evaluation_metrics: ::core::option::Option<EvaluationMetrics>,
-    /// Output only. Type of task that the model version being evaluated performs,
-    /// as defined in the
-    ///
-    /// \[evaluationJobConfig.inputConfig.annotationType][google.cloud.datalabeling.v1beta1.EvaluationJobConfig.input_config\]
-    /// field of the evaluation job that created this evaluation.
-    #[prost(enumeration = "AnnotationType", tag = "6")]
-    pub annotation_type: i32,
-    /// Output only. The number of items in the ground truth dataset that were used
-    /// for this evaluation. Only populated when the evaulation is for certain
-    /// AnnotationTypes.
-    #[prost(int64, tag = "7")]
-    pub evaluated_item_count: i64,
-}
-/// Configuration details used for calculating evaluation metrics and creating an
-/// \[Evaluation][google.cloud.datalabeling.v1beta1.Evaluation\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EvaluationConfig {
-    /// Vertical specific options for general metrics.
-    #[prost(oneof = "evaluation_config::VerticalOption", tags = "1")]
-    pub vertical_option: ::core::option::Option<evaluation_config::VerticalOption>,
-}
-/// Nested message and enum types in `EvaluationConfig`.
-pub mod evaluation_config {
-    /// Vertical specific options for general metrics.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum VerticalOption {
-        /// Only specify this field if the related model performs image object
-        /// detection (`IMAGE_BOUNDING_BOX_ANNOTATION`). Describes how to evaluate
-        /// bounding boxes.
-        #[prost(message, tag = "1")]
-        BoundingBoxEvaluationOptions(super::BoundingBoxEvaluationOptions),
-    }
-}
-/// Options regarding evaluation between bounding boxes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BoundingBoxEvaluationOptions {
-    /// Minimum
-    /// [intersection-over-union
-    ///
-    /// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)
-    /// required for 2 bounding boxes to be considered a match. This must be a
-    /// number between 0 and 1.
-    #[prost(float, tag = "1")]
-    pub iou_threshold: f32,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EvaluationMetrics {
-    /// Common metrics covering most general cases.
-    #[prost(oneof = "evaluation_metrics::Metrics", tags = "1, 2")]
-    pub metrics: ::core::option::Option<evaluation_metrics::Metrics>,
-}
-/// Nested message and enum types in `EvaluationMetrics`.
-pub mod evaluation_metrics {
-    /// Common metrics covering most general cases.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Metrics {
-        #[prost(message, tag = "1")]
-        ClassificationMetrics(super::ClassificationMetrics),
-        #[prost(message, tag = "2")]
-        ObjectDetectionMetrics(super::ObjectDetectionMetrics),
-    }
-}
-/// Metrics calculated for a classification model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClassificationMetrics {
-    /// Precision-recall curve based on ground truth labels, predicted labels, and
-    /// scores for the predicted labels.
-    #[prost(message, optional, tag = "1")]
-    pub pr_curve: ::core::option::Option<PrCurve>,
-    /// Confusion matrix of predicted labels vs. ground truth labels.
-    #[prost(message, optional, tag = "2")]
-    pub confusion_matrix: ::core::option::Option<ConfusionMatrix>,
-}
-/// Metrics calculated for an image object detection (bounding box) model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ObjectDetectionMetrics {
-    /// Precision-recall curve.
-    #[prost(message, optional, tag = "1")]
-    pub pr_curve: ::core::option::Option<PrCurve>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PrCurve {
-    /// The annotation spec of the label for which the precision-recall curve
-    /// calculated. If this field is empty, that means the precision-recall curve
-    /// is an aggregate curve for all labels.
-    #[prost(message, optional, tag = "1")]
-    pub annotation_spec: ::core::option::Option<AnnotationSpec>,
-    /// Area under the precision-recall curve. Not to be confused with area under
-    /// a receiver operating characteristic (ROC) curve.
-    #[prost(float, tag = "2")]
-    pub area_under_curve: f32,
-    /// Entries that make up the precision-recall graph. Each entry is a "point" on
-    /// the graph drawn for a different `confidence_threshold`.
-    #[prost(message, repeated, tag = "3")]
-    pub confidence_metrics_entries: ::prost::alloc::vec::Vec<pr_curve::ConfidenceMetricsEntry>,
-    /// Mean average prcision of this curve.
-    #[prost(float, tag = "4")]
-    pub mean_average_precision: f32,
-}
-/// Nested message and enum types in `PrCurve`.
-pub mod pr_curve {
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfidenceMetricsEntry {
-        /// Threshold used for this entry.
-        ///
-        /// For classification tasks, this is a classification threshold: a
-        /// predicted label is categorized as positive or negative (in the context of
-        /// this point on the PR curve) based on whether the label's score meets this
-        /// threshold.
-        ///
-        /// For image object detection (bounding box) tasks, this is the
-        /// [intersection-over-union
-        ///
-        /// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)
-        /// threshold for the context of this point on the PR curve.
-        #[prost(float, tag = "1")]
-        pub confidence_threshold: f32,
-        /// Recall value.
-        #[prost(float, tag = "2")]
-        pub recall: f32,
-        /// Precision value.
-        #[prost(float, tag = "3")]
-        pub precision: f32,
-        /// Harmonic mean of recall and precision.
-        #[prost(float, tag = "4")]
-        pub f1_score: f32,
-        /// Recall value for entries with label that has highest score.
-        #[prost(float, tag = "5")]
-        pub recall_at1: f32,
-        /// Precision value for entries with label that has highest score.
-        #[prost(float, tag = "6")]
-        pub precision_at1: f32,
-        /// The harmonic mean of \[recall_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at1\] and \[precision_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at1\].
-        #[prost(float, tag = "7")]
-        pub f1_score_at1: f32,
-        /// Recall value for entries with label that has highest 5 scores.
-        #[prost(float, tag = "8")]
-        pub recall_at5: f32,
-        /// Precision value for entries with label that has highest 5 scores.
-        #[prost(float, tag = "9")]
-        pub precision_at5: f32,
-        /// The harmonic mean of \[recall_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at5\] and \[precision_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at5\].
-        #[prost(float, tag = "10")]
-        pub f1_score_at5: f32,
-    }
-}
-/// Confusion matrix of the model running the classification. Only applicable
-/// when the metrics entry aggregates multiple labels. Not applicable when the
-/// entry is for a single label.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfusionMatrix {
-    #[prost(message, repeated, tag = "1")]
-    pub row: ::prost::alloc::vec::Vec<confusion_matrix::Row>,
-}
-/// Nested message and enum types in `ConfusionMatrix`.
-pub mod confusion_matrix {
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfusionMatrixEntry {
-        /// The annotation spec of a predicted label.
-        #[prost(message, optional, tag = "1")]
-        pub annotation_spec: ::core::option::Option<super::AnnotationSpec>,
-        /// Number of items predicted to have this label. (The ground truth label for
-        /// these items is the `Row.annotationSpec` of this entry's parent.)
-        #[prost(int32, tag = "2")]
-        pub item_count: i32,
-    }
-    /// A row in the confusion matrix. Each entry in this row has the same
-    /// ground truth label.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Row {
-        /// The annotation spec of the ground truth label for this row.
-        #[prost(message, optional, tag = "1")]
-        pub annotation_spec: ::core::option::Option<super::AnnotationSpec>,
-        /// A list of the confusion matrix entries. One entry for each possible
-        /// predicted label.
-        #[prost(message, repeated, tag = "2")]
-        pub entries: ::prost::alloc::vec::Vec<ConfusionMatrixEntry>,
-    }
 }
 /// Defines an evaluation job that runs periodically to generate
 /// \[Evaluations][google.cloud.datalabeling.v1beta1.Evaluation\]. [Creating an evaluation

@@ -2266,217 +2266,6 @@ pub struct DeletePatchDeploymentRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-#[doc = r" Generated client implementations."]
-pub mod os_config_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " OS Config API"]
-    #[doc = ""]
-    #[doc = " The OS Config service is a server-side component that you can use to"]
-    #[doc = " manage package installations and patch jobs for virtual machine instances."]
-    #[derive(Debug, Clone)]
-    pub struct OsConfigServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> OsConfigServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> OsConfigServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            OsConfigServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Patch VM instances by creating and running a patch job."]
-        pub async fn execute_patch_job(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ExecutePatchJobRequest>,
-        ) -> Result<tonic::Response<super::PatchJob>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigService/ExecutePatchJob",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get the patch job. This can be used to track the progress of an"]
-        #[doc = " ongoing patch job or review the details of completed jobs."]
-        pub async fn get_patch_job(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetPatchJobRequest>,
-        ) -> Result<tonic::Response<super::PatchJob>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigService/GetPatchJob",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Cancel a patch job. The patch job must be active. Canceled patch jobs"]
-        #[doc = " cannot be restarted."]
-        pub async fn cancel_patch_job(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CancelPatchJobRequest>,
-        ) -> Result<tonic::Response<super::PatchJob>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigService/CancelPatchJob",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get a list of patch jobs."]
-        pub async fn list_patch_jobs(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListPatchJobsRequest>,
-        ) -> Result<tonic::Response<super::ListPatchJobsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigService/ListPatchJobs",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get a list of instance details for a given patch job."]
-        pub async fn list_patch_job_instance_details(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListPatchJobInstanceDetailsRequest>,
-        ) -> Result<tonic::Response<super::ListPatchJobInstanceDetailsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigService/ListPatchJobInstanceDetails",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Create an OS Config patch deployment."]
-        pub async fn create_patch_deployment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreatePatchDeploymentRequest>,
-        ) -> Result<tonic::Response<super::PatchDeployment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigService/CreatePatchDeployment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get an OS Config patch deployment."]
-        pub async fn get_patch_deployment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetPatchDeploymentRequest>,
-        ) -> Result<tonic::Response<super::PatchDeployment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigService/GetPatchDeployment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get a page of OS Config patch deployments."]
-        pub async fn list_patch_deployments(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListPatchDeploymentsRequest>,
-        ) -> Result<tonic::Response<super::ListPatchDeploymentsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigService/ListPatchDeployments",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Delete an OS Config patch deployment."]
-        pub async fn delete_patch_deployment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeletePatchDeploymentRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigService/DeletePatchDeployment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// Get a report of the OS policy assignment for a VM instance.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOsPolicyAssignmentReportRequest {
@@ -2751,6 +2540,217 @@ pub mod os_policy_assignment_report {
             /// The policy is non-compliant if one or more underlying resources are
             /// non-compliant.
             NonCompliant = 2,
+        }
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod os_config_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " OS Config API"]
+    #[doc = ""]
+    #[doc = " The OS Config service is a server-side component that you can use to"]
+    #[doc = " manage package installations and patch jobs for virtual machine instances."]
+    #[derive(Debug, Clone)]
+    pub struct OsConfigServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> OsConfigServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> OsConfigServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            OsConfigServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Patch VM instances by creating and running a patch job."]
+        pub async fn execute_patch_job(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ExecutePatchJobRequest>,
+        ) -> Result<tonic::Response<super::PatchJob>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigService/ExecutePatchJob",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get the patch job. This can be used to track the progress of an"]
+        #[doc = " ongoing patch job or review the details of completed jobs."]
+        pub async fn get_patch_job(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetPatchJobRequest>,
+        ) -> Result<tonic::Response<super::PatchJob>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigService/GetPatchJob",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Cancel a patch job. The patch job must be active. Canceled patch jobs"]
+        #[doc = " cannot be restarted."]
+        pub async fn cancel_patch_job(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CancelPatchJobRequest>,
+        ) -> Result<tonic::Response<super::PatchJob>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigService/CancelPatchJob",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get a list of patch jobs."]
+        pub async fn list_patch_jobs(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListPatchJobsRequest>,
+        ) -> Result<tonic::Response<super::ListPatchJobsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigService/ListPatchJobs",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get a list of instance details for a given patch job."]
+        pub async fn list_patch_job_instance_details(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListPatchJobInstanceDetailsRequest>,
+        ) -> Result<tonic::Response<super::ListPatchJobInstanceDetailsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigService/ListPatchJobInstanceDetails",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Create an OS Config patch deployment."]
+        pub async fn create_patch_deployment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreatePatchDeploymentRequest>,
+        ) -> Result<tonic::Response<super::PatchDeployment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigService/CreatePatchDeployment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get an OS Config patch deployment."]
+        pub async fn get_patch_deployment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetPatchDeploymentRequest>,
+        ) -> Result<tonic::Response<super::PatchDeployment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigService/GetPatchDeployment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get a page of OS Config patch deployments."]
+        pub async fn list_patch_deployments(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListPatchDeploymentsRequest>,
+        ) -> Result<tonic::Response<super::ListPatchDeploymentsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigService/ListPatchDeployments",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete an OS Config patch deployment."]
+        pub async fn delete_patch_deployment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeletePatchDeploymentRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigService/DeletePatchDeployment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
         }
     }
 }

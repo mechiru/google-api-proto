@@ -1,26 +1,3 @@
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EncryptionConfiguration {
-    /// Optional. Describes the Cloud KMS encryption key that will be used to
-    /// protect destination BigQuery table. The BigQuery Service Account associated
-    /// with your project requires access to this encryption key.
-    #[prost(message, optional, tag = "1")]
-    pub kms_key_name: ::core::option::Option<::prost::alloc::string::String>,
-}
-/// Id path of a model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ModelReference {
-    /// Required. The ID of the project containing this model.
-    #[prost(string, tag = "1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Required. The ID of the dataset containing this model.
-    #[prost(string, tag = "2")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// Required. The ID of the model. The ID must contain only
-    /// letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum
-    /// length is 1,024 characters.
-    #[prost(string, tag = "3")]
-    pub model_id: ::prost::alloc::string::String,
-}
 /// The type of a variable, e.g., a function argument.
 /// Examples:
 /// INT64: {type_kind="INT64"}
@@ -115,6 +92,29 @@ pub struct StandardSqlTableType {
     /// The columns in this table type
     #[prost(message, repeated, tag = "1")]
     pub columns: ::prost::alloc::vec::Vec<StandardSqlField>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EncryptionConfiguration {
+    /// Optional. Describes the Cloud KMS encryption key that will be used to
+    /// protect destination BigQuery table. The BigQuery Service Account associated
+    /// with your project requires access to this encryption key.
+    #[prost(message, optional, tag = "1")]
+    pub kms_key_name: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Id path of a model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ModelReference {
+    /// Required. The ID of the project containing this model.
+    #[prost(string, tag = "1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// Required. The ID of the dataset containing this model.
+    #[prost(string, tag = "2")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// Required. The ID of the model. The ID must contain only
+    /// letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum
+    /// length is 1,024 characters.
+    #[prost(string, tag = "3")]
+    pub model_id: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TableReference {

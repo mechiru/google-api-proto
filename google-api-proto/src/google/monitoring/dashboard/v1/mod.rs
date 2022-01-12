@@ -1,3 +1,12 @@
+/// A chart that displays alert policy data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AlertChart {
+    /// Required. The resource name of the alert policy. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
 /// Describes how to combine multiple time series to provide a different view of
 /// the data.  Aggregation of time series is done in two steps. First, each time
 /// series in the set is _aligned_ to the same time interval boundaries, then the
@@ -400,15 +409,6 @@ pub mod statistical_time_series_filter {
         /// Compute the outlier score of each stream.
         ClusterOutlier = 1,
     }
-}
-/// A chart that displays alert policy data.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AlertChart {
-    /// Required. The resource name of the alert policy. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
 }
 /// TimeSeriesQuery collects the set of supported methods for querying time
 /// series data from the Stackdriver metrics API.

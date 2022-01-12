@@ -1,52 +1,3 @@
-/// An artifact that can be deployed in some runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeploymentNote {
-    /// Required. Resource URI for the artifact being deployed.
-    #[prost(string, repeated, tag = "1")]
-    pub resource_uri: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// The period during which some deployable was active in a runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeploymentOccurrence {
-    /// Identity of the user that triggered this deployment.
-    #[prost(string, tag = "1")]
-    pub user_email: ::prost::alloc::string::String,
-    /// Required. Beginning of the lifetime of this deployment.
-    #[prost(message, optional, tag = "2")]
-    pub deploy_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// End of the lifetime of this deployment.
-    #[prost(message, optional, tag = "3")]
-    pub undeploy_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Configuration used to create this deployment.
-    #[prost(string, tag = "4")]
-    pub config: ::prost::alloc::string::String,
-    /// Address of the runtime element hosting this deployment.
-    #[prost(string, tag = "5")]
-    pub address: ::prost::alloc::string::String,
-    /// Output only. Resource URI for the artifact being deployed taken from
-    /// the deployable field with the same name.
-    #[prost(string, repeated, tag = "6")]
-    pub resource_uri: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Platform hosting this deployment.
-    #[prost(enumeration = "deployment_occurrence::Platform", tag = "7")]
-    pub platform: i32,
-}
-/// Nested message and enum types in `DeploymentOccurrence`.
-pub mod deployment_occurrence {
-    /// Types of platforms.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Platform {
-        /// Unknown.
-        Unspecified = 0,
-        /// Google Container Engine.
-        Gke = 1,
-        /// Google App Engine: Flexible Environment.
-        Flex = 2,
-        /// Custom user-defined platform.
-        Custom = 3,
-    }
-}
 /// Metadata for any related URL information.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RelatedUrl {
@@ -154,370 +105,6 @@ pub enum NoteKind {
     Compliance = 9,
     /// This represents a DSSE attestation Note
     DsseAttestation = 10,
-}
-/// A note that indicates a type of analysis a provider would perform. This note
-/// exists in a provider's project. A `Discovery` occurrence is created in a
-/// consumer's project at the start of analysis.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DiscoveryNote {
-    /// Required. Immutable. The kind of analysis that is handled by this
-    /// discovery.
-    #[prost(enumeration = "NoteKind", tag = "1")]
-    pub analysis_kind: i32,
-}
-/// Provides information about the analysis status of a discovered resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DiscoveryOccurrence {
-    /// Whether the resource is continuously analyzed.
-    #[prost(enumeration = "discovery_occurrence::ContinuousAnalysis", tag = "1")]
-    pub continuous_analysis: i32,
-    /// The status of discovery for the resource.
-    #[prost(enumeration = "discovery_occurrence::AnalysisStatus", tag = "2")]
-    pub analysis_status: i32,
-    /// When an error is encountered this will contain a LocalizedMessage under
-    /// details to show to the user. The LocalizedMessage is output only and
-    /// populated by the API.
-    #[prost(message, optional, tag = "3")]
-    pub analysis_status_error: ::core::option::Option<super::super::google::rpc::Status>,
-    /// The CPE of the resource being scanned.
-    #[prost(string, tag = "4")]
-    pub cpe: ::prost::alloc::string::String,
-    /// The last time this resource was scanned.
-    #[prost(message, optional, tag = "5")]
-    pub last_scan_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time occurrences related to this discovery occurrence were archived.
-    #[prost(message, optional, tag = "6")]
-    pub archive_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `DiscoveryOccurrence`.
-pub mod discovery_occurrence {
-    /// Whether the resource is continuously analyzed.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ContinuousAnalysis {
-        /// Unknown.
-        Unspecified = 0,
-        /// The resource is continuously analyzed.
-        Active = 1,
-        /// The resource is ignored for continuous analysis.
-        Inactive = 2,
-    }
-    /// Analysis status for a resource. Currently for initial analysis only (not
-    /// updated in continuous analysis).
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AnalysisStatus {
-        /// Unknown.
-        Unspecified = 0,
-        /// Resource is known but no action has been taken yet.
-        Pending = 1,
-        /// Resource is being analyzed.
-        Scanning = 2,
-        /// Analysis has finished successfully.
-        FinishedSuccess = 3,
-        /// Analysis has finished unsuccessfully, the analysis itself is in a bad
-        /// state.
-        FinishedFailed = 4,
-        /// The resource is known not to be supported
-        FinishedUnsupported = 5,
-    }
-}
-/// Provenance of a build. Contains all information needed to verify the full
-/// details about the build from source to completion.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BuildProvenance {
-    /// Required. Unique identifier of the build.
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-    /// ID of the project.
-    #[prost(string, tag = "2")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Commands requested by the build.
-    #[prost(message, repeated, tag = "3")]
-    pub commands: ::prost::alloc::vec::Vec<Command>,
-    /// Output of the build.
-    #[prost(message, repeated, tag = "4")]
-    pub built_artifacts: ::prost::alloc::vec::Vec<Artifact>,
-    /// Time at which the build was created.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Time at which execution of the build was started.
-    #[prost(message, optional, tag = "6")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Time at which execution of the build was finished.
-    #[prost(message, optional, tag = "7")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// E-mail address of the user who initiated this build. Note that this was the
-    /// user's e-mail address at the time the build was initiated; this address may
-    /// not represent the same end-user for all time.
-    #[prost(string, tag = "8")]
-    pub creator: ::prost::alloc::string::String,
-    /// URI where any logs for this provenance were written.
-    #[prost(string, tag = "9")]
-    pub logs_uri: ::prost::alloc::string::String,
-    /// Details of the Source input to the build.
-    #[prost(message, optional, tag = "10")]
-    pub source_provenance: ::core::option::Option<Source>,
-    /// Trigger identifier if the build was triggered automatically; empty if not.
-    #[prost(string, tag = "11")]
-    pub trigger_id: ::prost::alloc::string::String,
-    /// Special options applied to this build. This is a catch-all field where
-    /// build providers can enter any desired additional details.
-    #[prost(btree_map = "string, string", tag = "12")]
-    pub build_options: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Version string of the builder at the time this build was executed.
-    #[prost(string, tag = "13")]
-    pub builder_version: ::prost::alloc::string::String,
-}
-/// Source describes the location of the source used for the build.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Source {
-    /// If provided, the input binary artifacts for the build came from this
-    /// location.
-    #[prost(string, tag = "1")]
-    pub artifact_storage_source_uri: ::prost::alloc::string::String,
-    /// Hash(es) of the build source, which can be used to verify that the original
-    /// source integrity was maintained in the build.
-    ///
-    /// The keys to this map are file paths used as build source and the values
-    /// contain the hash values for those files.
-    ///
-    /// If the build source came in a single package such as a gzipped tarfile
-    /// (.tar.gz), the FileHash will be for the single path to that file.
-    #[prost(btree_map = "string, message", tag = "2")]
-    pub file_hashes:
-        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, FileHashes>,
-    /// If provided, the source code used for the build came from this location.
-    #[prost(message, optional, tag = "3")]
-    pub context: ::core::option::Option<SourceContext>,
-    /// If provided, some of the source code used for the build may be found in
-    /// these locations, in the case where the source repository had multiple
-    /// remotes or submodules. This list will not include the context specified in
-    /// the context field.
-    #[prost(message, repeated, tag = "4")]
-    pub additional_contexts: ::prost::alloc::vec::Vec<SourceContext>,
-}
-/// Container message for hashes of byte content of files, used in source
-/// messages to verify integrity of source input to the build.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileHashes {
-    /// Required. Collection of file hashes.
-    #[prost(message, repeated, tag = "1")]
-    pub file_hash: ::prost::alloc::vec::Vec<Hash>,
-}
-/// Container message for hash values.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Hash {
-    /// Required. The type of hash that was performed, e.g. "SHA-256".
-    #[prost(string, tag = "1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Required. The hash value.
-    #[prost(bytes = "bytes", tag = "2")]
-    pub value: ::prost::bytes::Bytes,
-}
-/// Command describes a step performed as part of the build pipeline.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Command {
-    /// Required. Name of the command, as presented on the command line, or if the
-    /// command is packaged as a Docker container, as presented to `docker pull`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Environment variables set before running this command.
-    #[prost(string, repeated, tag = "2")]
-    pub env: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Command-line arguments used when executing this command.
-    #[prost(string, repeated, tag = "3")]
-    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Working directory (relative to project source root) used when running this
-    /// command.
-    #[prost(string, tag = "4")]
-    pub dir: ::prost::alloc::string::String,
-    /// Optional unique identifier for this command, used in wait_for to reference
-    /// this command as a dependency.
-    #[prost(string, tag = "5")]
-    pub id: ::prost::alloc::string::String,
-    /// The ID(s) of the command(s) that this command depends on.
-    #[prost(string, repeated, tag = "6")]
-    pub wait_for: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Artifact describes a build product.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Artifact {
-    /// Hash or checksum value of a binary, or Docker Registry 2.0 digest of a
-    /// container.
-    #[prost(string, tag = "1")]
-    pub checksum: ::prost::alloc::string::String,
-    /// Artifact ID, if any; for container images, this will be a URL by digest
-    /// like `gcr.io/projectID/imagename@sha256:123456`.
-    #[prost(string, tag = "2")]
-    pub id: ::prost::alloc::string::String,
-    /// Related artifact names. This may be the path to a binary or jar file, or in
-    /// the case of a container build, the name used to push the container image to
-    /// Google Container Registry, as presented to `docker push`. Note that a
-    /// single Artifact ID can have multiple names, for example if two tags are
-    /// applied to one image.
-    #[prost(string, repeated, tag = "3")]
-    pub names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// A SourceContext is a reference to a tree of files. A SourceContext together
-/// with a path point to a unique revision of a single file or directory.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SourceContext {
-    /// Labels with user defined metadata.
-    #[prost(btree_map = "string, string", tag = "4")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// A SourceContext can refer any one of the following types of repositories.
-    #[prost(oneof = "source_context::Context", tags = "1, 2, 3")]
-    pub context: ::core::option::Option<source_context::Context>,
-}
-/// Nested message and enum types in `SourceContext`.
-pub mod source_context {
-    /// A SourceContext can refer any one of the following types of repositories.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Context {
-        /// A SourceContext referring to a revision in a Google Cloud Source Repo.
-        #[prost(message, tag = "1")]
-        CloudRepo(super::CloudRepoSourceContext),
-        /// A SourceContext referring to a Gerrit project.
-        #[prost(message, tag = "2")]
-        Gerrit(super::GerritSourceContext),
-        /// A SourceContext referring to any third party Git repo (e.g., GitHub).
-        #[prost(message, tag = "3")]
-        Git(super::GitSourceContext),
-    }
-}
-/// An alias to a repo revision.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AliasContext {
-    /// The alias kind.
-    #[prost(enumeration = "alias_context::Kind", tag = "1")]
-    pub kind: i32,
-    /// The alias name.
-    #[prost(string, tag = "2")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `AliasContext`.
-pub mod alias_context {
-    /// The type of an alias.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Kind {
-        /// Unknown.
-        Unspecified = 0,
-        /// Git tag.
-        Fixed = 1,
-        /// Git branch.
-        Movable = 2,
-        /// Used to specify non-standard aliases. For example, if a Git repo has a
-        /// ref named "refs/foo/bar".
-        Other = 4,
-    }
-}
-/// A CloudRepoSourceContext denotes a particular revision in a Google Cloud
-/// Source Repo.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CloudRepoSourceContext {
-    /// The ID of the repo.
-    #[prost(message, optional, tag = "1")]
-    pub repo_id: ::core::option::Option<RepoId>,
-    /// A revision in a Cloud Repo can be identified by either its revision ID or
-    /// its alias.
-    #[prost(oneof = "cloud_repo_source_context::Revision", tags = "2, 3")]
-    pub revision: ::core::option::Option<cloud_repo_source_context::Revision>,
-}
-/// Nested message and enum types in `CloudRepoSourceContext`.
-pub mod cloud_repo_source_context {
-    /// A revision in a Cloud Repo can be identified by either its revision ID or
-    /// its alias.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Revision {
-        /// A revision ID.
-        #[prost(string, tag = "2")]
-        RevisionId(::prost::alloc::string::String),
-        /// An alias, which may be a branch or tag.
-        #[prost(message, tag = "3")]
-        AliasContext(super::AliasContext),
-    }
-}
-/// A SourceContext referring to a Gerrit project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GerritSourceContext {
-    /// The URI of a running Gerrit instance.
-    #[prost(string, tag = "1")]
-    pub host_uri: ::prost::alloc::string::String,
-    /// The full project name within the host. Projects may be nested, so
-    /// "project/subproject" is a valid project name. The "repo name" is the
-    /// hostURI/project.
-    #[prost(string, tag = "2")]
-    pub gerrit_project: ::prost::alloc::string::String,
-    /// A revision in a Gerrit project can be identified by either its revision ID
-    /// or its alias.
-    #[prost(oneof = "gerrit_source_context::Revision", tags = "3, 4")]
-    pub revision: ::core::option::Option<gerrit_source_context::Revision>,
-}
-/// Nested message and enum types in `GerritSourceContext`.
-pub mod gerrit_source_context {
-    /// A revision in a Gerrit project can be identified by either its revision ID
-    /// or its alias.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Revision {
-        /// A revision (commit) ID.
-        #[prost(string, tag = "3")]
-        RevisionId(::prost::alloc::string::String),
-        /// An alias, which may be a branch or tag.
-        #[prost(message, tag = "4")]
-        AliasContext(super::AliasContext),
-    }
-}
-/// A GitSourceContext denotes a particular revision in a third party Git
-/// repository (e.g., GitHub).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GitSourceContext {
-    /// Git repository URL.
-    #[prost(string, tag = "1")]
-    pub url: ::prost::alloc::string::String,
-    /// Git commit hash.
-    #[prost(string, tag = "2")]
-    pub revision_id: ::prost::alloc::string::String,
-}
-/// A unique identifier for a Cloud Repo.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RepoId {
-    /// A cloud repo can be identified by either its project ID and repository name
-    /// combination, or its globally unique identifier.
-    #[prost(oneof = "repo_id::Id", tags = "1, 2")]
-    pub id: ::core::option::Option<repo_id::Id>,
-}
-/// Nested message and enum types in `RepoId`.
-pub mod repo_id {
-    /// A cloud repo can be identified by either its project ID and repository name
-    /// combination, or its globally unique identifier.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Id {
-        /// A combination of a project ID and a repo name.
-        #[prost(message, tag = "1")]
-        ProjectRepoId(super::ProjectRepoId),
-        /// A server-assigned, globally unique identifier.
-        #[prost(string, tag = "2")]
-        Uid(::prost::alloc::string::String),
-    }
-}
-/// Selects a repo using a Google Cloud Platform project ID (e.g.,
-/// winged-cargo-31) and a repo name within that project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProjectRepoId {
-    /// The ID of the project.
-    #[prost(string, tag = "1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The name of the repo. Leave empty for the default repo.
-    #[prost(string, tag = "2")]
-    pub repo_name: ::prost::alloc::string::String,
 }
 // An attestation wrapper with a PGP-compatible signature. This message only
 // supports `ATTACHED` signatures, where the payload that is signed is included
@@ -861,6 +448,303 @@ pub struct Subject {
         ::prost::alloc::string::String,
     >,
 }
+/// Provenance of a build. Contains all information needed to verify the full
+/// details about the build from source to completion.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BuildProvenance {
+    /// Required. Unique identifier of the build.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// ID of the project.
+    #[prost(string, tag = "2")]
+    pub project_id: ::prost::alloc::string::String,
+    /// Commands requested by the build.
+    #[prost(message, repeated, tag = "3")]
+    pub commands: ::prost::alloc::vec::Vec<Command>,
+    /// Output of the build.
+    #[prost(message, repeated, tag = "4")]
+    pub built_artifacts: ::prost::alloc::vec::Vec<Artifact>,
+    /// Time at which the build was created.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Time at which execution of the build was started.
+    #[prost(message, optional, tag = "6")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Time at which execution of the build was finished.
+    #[prost(message, optional, tag = "7")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// E-mail address of the user who initiated this build. Note that this was the
+    /// user's e-mail address at the time the build was initiated; this address may
+    /// not represent the same end-user for all time.
+    #[prost(string, tag = "8")]
+    pub creator: ::prost::alloc::string::String,
+    /// URI where any logs for this provenance were written.
+    #[prost(string, tag = "9")]
+    pub logs_uri: ::prost::alloc::string::String,
+    /// Details of the Source input to the build.
+    #[prost(message, optional, tag = "10")]
+    pub source_provenance: ::core::option::Option<Source>,
+    /// Trigger identifier if the build was triggered automatically; empty if not.
+    #[prost(string, tag = "11")]
+    pub trigger_id: ::prost::alloc::string::String,
+    /// Special options applied to this build. This is a catch-all field where
+    /// build providers can enter any desired additional details.
+    #[prost(btree_map = "string, string", tag = "12")]
+    pub build_options: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Version string of the builder at the time this build was executed.
+    #[prost(string, tag = "13")]
+    pub builder_version: ::prost::alloc::string::String,
+}
+/// Source describes the location of the source used for the build.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Source {
+    /// If provided, the input binary artifacts for the build came from this
+    /// location.
+    #[prost(string, tag = "1")]
+    pub artifact_storage_source_uri: ::prost::alloc::string::String,
+    /// Hash(es) of the build source, which can be used to verify that the original
+    /// source integrity was maintained in the build.
+    ///
+    /// The keys to this map are file paths used as build source and the values
+    /// contain the hash values for those files.
+    ///
+    /// If the build source came in a single package such as a gzipped tarfile
+    /// (.tar.gz), the FileHash will be for the single path to that file.
+    #[prost(btree_map = "string, message", tag = "2")]
+    pub file_hashes:
+        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, FileHashes>,
+    /// If provided, the source code used for the build came from this location.
+    #[prost(message, optional, tag = "3")]
+    pub context: ::core::option::Option<SourceContext>,
+    /// If provided, some of the source code used for the build may be found in
+    /// these locations, in the case where the source repository had multiple
+    /// remotes or submodules. This list will not include the context specified in
+    /// the context field.
+    #[prost(message, repeated, tag = "4")]
+    pub additional_contexts: ::prost::alloc::vec::Vec<SourceContext>,
+}
+/// Container message for hashes of byte content of files, used in source
+/// messages to verify integrity of source input to the build.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileHashes {
+    /// Required. Collection of file hashes.
+    #[prost(message, repeated, tag = "1")]
+    pub file_hash: ::prost::alloc::vec::Vec<Hash>,
+}
+/// Container message for hash values.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Hash {
+    /// Required. The type of hash that was performed, e.g. "SHA-256".
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Required. The hash value.
+    #[prost(bytes = "bytes", tag = "2")]
+    pub value: ::prost::bytes::Bytes,
+}
+/// Command describes a step performed as part of the build pipeline.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Command {
+    /// Required. Name of the command, as presented on the command line, or if the
+    /// command is packaged as a Docker container, as presented to `docker pull`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Environment variables set before running this command.
+    #[prost(string, repeated, tag = "2")]
+    pub env: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Command-line arguments used when executing this command.
+    #[prost(string, repeated, tag = "3")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Working directory (relative to project source root) used when running this
+    /// command.
+    #[prost(string, tag = "4")]
+    pub dir: ::prost::alloc::string::String,
+    /// Optional unique identifier for this command, used in wait_for to reference
+    /// this command as a dependency.
+    #[prost(string, tag = "5")]
+    pub id: ::prost::alloc::string::String,
+    /// The ID(s) of the command(s) that this command depends on.
+    #[prost(string, repeated, tag = "6")]
+    pub wait_for: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Artifact describes a build product.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Artifact {
+    /// Hash or checksum value of a binary, or Docker Registry 2.0 digest of a
+    /// container.
+    #[prost(string, tag = "1")]
+    pub checksum: ::prost::alloc::string::String,
+    /// Artifact ID, if any; for container images, this will be a URL by digest
+    /// like `gcr.io/projectID/imagename@sha256:123456`.
+    #[prost(string, tag = "2")]
+    pub id: ::prost::alloc::string::String,
+    /// Related artifact names. This may be the path to a binary or jar file, or in
+    /// the case of a container build, the name used to push the container image to
+    /// Google Container Registry, as presented to `docker push`. Note that a
+    /// single Artifact ID can have multiple names, for example if two tags are
+    /// applied to one image.
+    #[prost(string, repeated, tag = "3")]
+    pub names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// A SourceContext is a reference to a tree of files. A SourceContext together
+/// with a path point to a unique revision of a single file or directory.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SourceContext {
+    /// Labels with user defined metadata.
+    #[prost(btree_map = "string, string", tag = "4")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// A SourceContext can refer any one of the following types of repositories.
+    #[prost(oneof = "source_context::Context", tags = "1, 2, 3")]
+    pub context: ::core::option::Option<source_context::Context>,
+}
+/// Nested message and enum types in `SourceContext`.
+pub mod source_context {
+    /// A SourceContext can refer any one of the following types of repositories.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Context {
+        /// A SourceContext referring to a revision in a Google Cloud Source Repo.
+        #[prost(message, tag = "1")]
+        CloudRepo(super::CloudRepoSourceContext),
+        /// A SourceContext referring to a Gerrit project.
+        #[prost(message, tag = "2")]
+        Gerrit(super::GerritSourceContext),
+        /// A SourceContext referring to any third party Git repo (e.g., GitHub).
+        #[prost(message, tag = "3")]
+        Git(super::GitSourceContext),
+    }
+}
+/// An alias to a repo revision.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AliasContext {
+    /// The alias kind.
+    #[prost(enumeration = "alias_context::Kind", tag = "1")]
+    pub kind: i32,
+    /// The alias name.
+    #[prost(string, tag = "2")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `AliasContext`.
+pub mod alias_context {
+    /// The type of an alias.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Kind {
+        /// Unknown.
+        Unspecified = 0,
+        /// Git tag.
+        Fixed = 1,
+        /// Git branch.
+        Movable = 2,
+        /// Used to specify non-standard aliases. For example, if a Git repo has a
+        /// ref named "refs/foo/bar".
+        Other = 4,
+    }
+}
+/// A CloudRepoSourceContext denotes a particular revision in a Google Cloud
+/// Source Repo.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CloudRepoSourceContext {
+    /// The ID of the repo.
+    #[prost(message, optional, tag = "1")]
+    pub repo_id: ::core::option::Option<RepoId>,
+    /// A revision in a Cloud Repo can be identified by either its revision ID or
+    /// its alias.
+    #[prost(oneof = "cloud_repo_source_context::Revision", tags = "2, 3")]
+    pub revision: ::core::option::Option<cloud_repo_source_context::Revision>,
+}
+/// Nested message and enum types in `CloudRepoSourceContext`.
+pub mod cloud_repo_source_context {
+    /// A revision in a Cloud Repo can be identified by either its revision ID or
+    /// its alias.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Revision {
+        /// A revision ID.
+        #[prost(string, tag = "2")]
+        RevisionId(::prost::alloc::string::String),
+        /// An alias, which may be a branch or tag.
+        #[prost(message, tag = "3")]
+        AliasContext(super::AliasContext),
+    }
+}
+/// A SourceContext referring to a Gerrit project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GerritSourceContext {
+    /// The URI of a running Gerrit instance.
+    #[prost(string, tag = "1")]
+    pub host_uri: ::prost::alloc::string::String,
+    /// The full project name within the host. Projects may be nested, so
+    /// "project/subproject" is a valid project name. The "repo name" is the
+    /// hostURI/project.
+    #[prost(string, tag = "2")]
+    pub gerrit_project: ::prost::alloc::string::String,
+    /// A revision in a Gerrit project can be identified by either its revision ID
+    /// or its alias.
+    #[prost(oneof = "gerrit_source_context::Revision", tags = "3, 4")]
+    pub revision: ::core::option::Option<gerrit_source_context::Revision>,
+}
+/// Nested message and enum types in `GerritSourceContext`.
+pub mod gerrit_source_context {
+    /// A revision in a Gerrit project can be identified by either its revision ID
+    /// or its alias.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Revision {
+        /// A revision (commit) ID.
+        #[prost(string, tag = "3")]
+        RevisionId(::prost::alloc::string::String),
+        /// An alias, which may be a branch or tag.
+        #[prost(message, tag = "4")]
+        AliasContext(super::AliasContext),
+    }
+}
+/// A GitSourceContext denotes a particular revision in a third party Git
+/// repository (e.g., GitHub).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GitSourceContext {
+    /// Git repository URL.
+    #[prost(string, tag = "1")]
+    pub url: ::prost::alloc::string::String,
+    /// Git commit hash.
+    #[prost(string, tag = "2")]
+    pub revision_id: ::prost::alloc::string::String,
+}
+/// A unique identifier for a Cloud Repo.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RepoId {
+    /// A cloud repo can be identified by either its project ID and repository name
+    /// combination, or its globally unique identifier.
+    #[prost(oneof = "repo_id::Id", tags = "1, 2")]
+    pub id: ::core::option::Option<repo_id::Id>,
+}
+/// Nested message and enum types in `RepoId`.
+pub mod repo_id {
+    /// A cloud repo can be identified by either its project ID and repository name
+    /// combination, or its globally unique identifier.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Id {
+        /// A combination of a project ID and a repo name.
+        #[prost(message, tag = "1")]
+        ProjectRepoId(super::ProjectRepoId),
+        /// A server-assigned, globally unique identifier.
+        #[prost(string, tag = "2")]
+        Uid(::prost::alloc::string::String),
+    }
+}
+/// Selects a repo using a Google Cloud Platform project ID (e.g.,
+/// winged-cargo-31) and a repo name within that project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProjectRepoId {
+    /// The ID of the project.
+    #[prost(string, tag = "1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The name of the repo. Leave empty for the default repo.
+    #[prost(string, tag = "2")]
+    pub repo_name: ::prost::alloc::string::String,
+}
 /// Note holding the version of the provider's builder and the signature of the
 /// provenance message in the build details occurrence.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -993,6 +877,122 @@ pub struct NonCompliantFile {
     /// Explains why a file is non compliant for a CIS check.
     #[prost(string, tag = "3")]
     pub reason: ::prost::alloc::string::String,
+}
+/// An artifact that can be deployed in some runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeploymentNote {
+    /// Required. Resource URI for the artifact being deployed.
+    #[prost(string, repeated, tag = "1")]
+    pub resource_uri: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// The period during which some deployable was active in a runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeploymentOccurrence {
+    /// Identity of the user that triggered this deployment.
+    #[prost(string, tag = "1")]
+    pub user_email: ::prost::alloc::string::String,
+    /// Required. Beginning of the lifetime of this deployment.
+    #[prost(message, optional, tag = "2")]
+    pub deploy_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// End of the lifetime of this deployment.
+    #[prost(message, optional, tag = "3")]
+    pub undeploy_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Configuration used to create this deployment.
+    #[prost(string, tag = "4")]
+    pub config: ::prost::alloc::string::String,
+    /// Address of the runtime element hosting this deployment.
+    #[prost(string, tag = "5")]
+    pub address: ::prost::alloc::string::String,
+    /// Output only. Resource URI for the artifact being deployed taken from
+    /// the deployable field with the same name.
+    #[prost(string, repeated, tag = "6")]
+    pub resource_uri: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Platform hosting this deployment.
+    #[prost(enumeration = "deployment_occurrence::Platform", tag = "7")]
+    pub platform: i32,
+}
+/// Nested message and enum types in `DeploymentOccurrence`.
+pub mod deployment_occurrence {
+    /// Types of platforms.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Platform {
+        /// Unknown.
+        Unspecified = 0,
+        /// Google Container Engine.
+        Gke = 1,
+        /// Google App Engine: Flexible Environment.
+        Flex = 2,
+        /// Custom user-defined platform.
+        Custom = 3,
+    }
+}
+/// A note that indicates a type of analysis a provider would perform. This note
+/// exists in a provider's project. A `Discovery` occurrence is created in a
+/// consumer's project at the start of analysis.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DiscoveryNote {
+    /// Required. Immutable. The kind of analysis that is handled by this
+    /// discovery.
+    #[prost(enumeration = "NoteKind", tag = "1")]
+    pub analysis_kind: i32,
+}
+/// Provides information about the analysis status of a discovered resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DiscoveryOccurrence {
+    /// Whether the resource is continuously analyzed.
+    #[prost(enumeration = "discovery_occurrence::ContinuousAnalysis", tag = "1")]
+    pub continuous_analysis: i32,
+    /// The status of discovery for the resource.
+    #[prost(enumeration = "discovery_occurrence::AnalysisStatus", tag = "2")]
+    pub analysis_status: i32,
+    /// When an error is encountered this will contain a LocalizedMessage under
+    /// details to show to the user. The LocalizedMessage is output only and
+    /// populated by the API.
+    #[prost(message, optional, tag = "3")]
+    pub analysis_status_error: ::core::option::Option<super::super::google::rpc::Status>,
+    /// The CPE of the resource being scanned.
+    #[prost(string, tag = "4")]
+    pub cpe: ::prost::alloc::string::String,
+    /// The last time this resource was scanned.
+    #[prost(message, optional, tag = "5")]
+    pub last_scan_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time occurrences related to this discovery occurrence were archived.
+    #[prost(message, optional, tag = "6")]
+    pub archive_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `DiscoveryOccurrence`.
+pub mod discovery_occurrence {
+    /// Whether the resource is continuously analyzed.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ContinuousAnalysis {
+        /// Unknown.
+        Unspecified = 0,
+        /// The resource is continuously analyzed.
+        Active = 1,
+        /// The resource is ignored for continuous analysis.
+        Inactive = 2,
+    }
+    /// Analysis status for a resource. Currently for initial analysis only (not
+    /// updated in continuous analysis).
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AnalysisStatus {
+        /// Unknown.
+        Unspecified = 0,
+        /// Resource is known but no action has been taken yet.
+        Pending = 1,
+        /// Resource is being analyzed.
+        Scanning = 2,
+        /// Analysis has finished successfully.
+        FinishedSuccess = 3,
+        /// Analysis has finished unsuccessfully, the analysis itself is in a bad
+        /// state.
+        FinishedFailed = 4,
+        /// The resource is known not to be supported
+        FinishedUnsupported = 5,
+    }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DsseAttestationNote {

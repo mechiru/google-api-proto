@@ -1,3 +1,354 @@
+/// Describes a logs-based metric. The value of the metric is the number of log
+/// entries that match a logs filter in a given time interval.
+///
+/// Logs-based metrics can also be used to extract values from logs and create a
+/// distribution of the values. The distribution records the statistics of the
+/// extracted values along with an optional histogram of the values as specified
+/// by the bucket options.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LogMetric {
+    /// Required. The client-assigned metric identifier.
+    /// Examples: `"error_count"`, `"nginx/requests"`.
+    ///
+    /// Metric identifiers are limited to 100 characters and can include only the
+    /// following characters: `A-Z`, `a-z`, `0-9`, and the special characters
+    /// `_-.,+!*',()%/`. The forward-slash character (`/`) denotes a hierarchy of
+    /// name pieces, and it cannot be the first character of the name.
+    ///
+    /// The metric identifier in this field must not be
+    /// \[URL-encoded\](<https://en.wikipedia.org/wiki/Percent-encoding>).
+    /// However, when the metric identifier appears as the `\[METRIC_ID\]` part of a
+    /// `metric_name` API parameter, then the metric identifier must be
+    /// URL-encoded. Example: `"projects/my-project/metrics/nginx%2Frequests"`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. A description of this metric, which is used in documentation.
+    /// The maximum length of the description is 8000 characters.
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// Required. An [advanced logs
+    /// filter](<https://cloud.google.com/logging/docs/view/advanced_filters>) which
+    /// is used to match log entries. Example:
+    ///
+    ///     "resource.type=gae_app AND severity>=ERROR"
+    ///
+    /// The maximum length of the filter is 20000 characters.
+    #[prost(string, tag = "3")]
+    pub filter: ::prost::alloc::string::String,
+    /// Optional. The metric descriptor associated with the logs-based metric.
+    /// If unspecified, it uses a default metric descriptor with a DELTA metric
+    /// kind, INT64 value type, with no labels and a unit of "1". Such a metric
+    /// counts the number of log entries matching the `filter` expression.
+    ///
+    /// The `name`, `type`, and `description` fields in the `metric_descriptor`
+    /// are output only, and is constructed using the `name` and `description`
+    /// field in the LogMetric.
+    ///
+    /// To create a logs-based metric that records a distribution of log values, a
+    /// DELTA metric kind with a DISTRIBUTION value type must be used along with
+    /// a `value_extractor` expression in the LogMetric.
+    ///
+    /// Each label in the metric descriptor must have a matching label
+    /// name as the key and an extractor expression as the value in the
+    /// `label_extractors` map.
+    ///
+    /// The `metric_kind` and `value_type` fields in the `metric_descriptor` cannot
+    /// be updated once initially configured. New labels can be added in the
+    /// `metric_descriptor`, but existing labels cannot be modified except for
+    /// their description.
+    #[prost(message, optional, tag = "5")]
+    pub metric_descriptor: ::core::option::Option<super::super::api::MetricDescriptor>,
+    /// Optional. A `value_extractor` is required when using a distribution
+    /// logs-based metric to extract the values to record from a log entry.
+    /// Two functions are supported for value extraction: `EXTRACT(field)` or
+    /// `REGEXP_EXTRACT(field, regex)`. The argument are:
+    ///   1. field: The name of the log entry field from which the value is to be
+    ///      extracted.
+    ///   2. regex: A regular expression using the Google RE2 syntax
+    ///      (<https://github.com/google/re2/wiki/Syntax>) with a single capture
+    ///      group to extract data from the specified log entry field. The value
+    ///      of the field is converted to a string before applying the regex.
+    ///      It is an error to specify a regex that does not include exactly one
+    ///      capture group.
+    ///
+    /// The result of the extraction must be convertible to a double type, as the
+    /// distribution always records double values. If either the extraction or
+    /// the conversion to double fails, then those values are not recorded in the
+    /// distribution.
+    ///
+    /// Example: `REGEXP_EXTRACT(jsonPayload.request, ".*quantity=(\d+).*")`
+    #[prost(string, tag = "6")]
+    pub value_extractor: ::prost::alloc::string::String,
+    /// Optional. A map from a label key string to an extractor expression which is
+    /// used to extract data from a log entry field and assign as the label value.
+    /// Each label key specified in the LabelDescriptor must have an associated
+    /// extractor expression in this map. The syntax of the extractor expression
+    /// is the same as for the `value_extractor` field.
+    ///
+    /// The extracted value is converted to the type defined in the label
+    /// descriptor. If the either the extraction or the type conversion fails,
+    /// the label will have a default value. The default value for a string
+    /// label is an empty string, for an integer label its 0, and for a boolean
+    /// label its `false`.
+    ///
+    /// Note that there are upper bounds on the maximum number of labels and the
+    /// number of active time series that are allowed in a project.
+    #[prost(btree_map = "string, string", tag = "7")]
+    pub label_extractors: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Optional. The `bucket_options` are required when the logs-based metric is
+    /// using a DISTRIBUTION value type and it describes the bucket boundaries
+    /// used to create a histogram of the extracted values.
+    #[prost(message, optional, tag = "8")]
+    pub bucket_options: ::core::option::Option<super::super::api::distribution::BucketOptions>,
+    /// Output only. The creation timestamp of the metric.
+    ///
+    /// This field may not be present for older metrics.
+    #[prost(message, optional, tag = "9")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The last update timestamp of the metric.
+    ///
+    /// This field may not be present for older metrics.
+    #[prost(message, optional, tag = "10")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Deprecated. The API version that created or updated this metric.
+    /// The v2 format is used by default and cannot be changed.
+    #[deprecated]
+    #[prost(enumeration = "log_metric::ApiVersion", tag = "4")]
+    pub version: i32,
+}
+/// Nested message and enum types in `LogMetric`.
+pub mod log_metric {
+    /// Logging API version.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ApiVersion {
+        /// Logging API v2.
+        V2 = 0,
+        /// Logging API v1.
+        V1 = 1,
+    }
+}
+/// The parameters to ListLogMetrics.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListLogMetricsRequest {
+    /// Required. The name of the project containing the metrics:
+    ///
+    ///     "projects/\[PROJECT_ID\]"
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. If present, then retrieve the next batch of results from the
+    /// preceding call to this method. `pageToken` must be the value of
+    /// `nextPageToken` from the previous response. The values of other method
+    /// parameters should be identical to those in the previous call.
+    #[prost(string, tag = "2")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. The maximum number of results to return from this request.
+    /// Non-positive values are ignored. The presence of `nextPageToken` in the
+    /// response indicates that more results might be available.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+}
+/// Result returned from ListLogMetrics.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListLogMetricsResponse {
+    /// A list of logs-based metrics.
+    #[prost(message, repeated, tag = "1")]
+    pub metrics: ::prost::alloc::vec::Vec<LogMetric>,
+    /// If there might be more results than appear in this response, then
+    /// `nextPageToken` is included. To get the next set of results, call this
+    /// method again using the value of `nextPageToken` as `pageToken`.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The parameters to GetLogMetric.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetLogMetricRequest {
+    /// Required. The resource name of the desired metric:
+    ///
+    ///     "projects/\[PROJECT_ID]/metrics/[METRIC_ID\]"
+    #[prost(string, tag = "1")]
+    pub metric_name: ::prost::alloc::string::String,
+}
+/// The parameters to CreateLogMetric.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateLogMetricRequest {
+    /// Required. The resource name of the project in which to create the metric:
+    ///
+    ///     "projects/\[PROJECT_ID\]"
+    ///
+    /// The new metric must be provided in the request.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The new logs-based metric, which must not have an identifier that
+    /// already exists.
+    #[prost(message, optional, tag = "2")]
+    pub metric: ::core::option::Option<LogMetric>,
+}
+/// The parameters to UpdateLogMetric.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateLogMetricRequest {
+    /// Required. The resource name of the metric to update:
+    ///
+    ///     "projects/\[PROJECT_ID]/metrics/[METRIC_ID\]"
+    ///
+    /// The updated metric must be provided in the request and it's
+    /// `name` field must be the same as `\[METRIC_ID\]` If the metric
+    /// does not exist in `\[PROJECT_ID\]`, then a new metric is created.
+    #[prost(string, tag = "1")]
+    pub metric_name: ::prost::alloc::string::String,
+    /// Required. The updated metric.
+    #[prost(message, optional, tag = "2")]
+    pub metric: ::core::option::Option<LogMetric>,
+}
+/// The parameters to DeleteLogMetric.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteLogMetricRequest {
+    /// Required. The resource name of the metric to delete:
+    ///
+    ///     "projects/\[PROJECT_ID]/metrics/[METRIC_ID\]"
+    #[prost(string, tag = "1")]
+    pub metric_name: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod metrics_service_v2_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for configuring logs-based metrics."]
+    #[derive(Debug, Clone)]
+    pub struct MetricsServiceV2Client<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> MetricsServiceV2Client<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> MetricsServiceV2Client<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            MetricsServiceV2Client::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Lists logs-based metrics."]
+        pub async fn list_log_metrics(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListLogMetricsRequest>,
+        ) -> Result<tonic::Response<super::ListLogMetricsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.logging.v2.MetricsServiceV2/ListLogMetrics",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets a logs-based metric."]
+        pub async fn get_log_metric(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetLogMetricRequest>,
+        ) -> Result<tonic::Response<super::LogMetric>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.logging.v2.MetricsServiceV2/GetLogMetric",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a logs-based metric."]
+        pub async fn create_log_metric(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateLogMetricRequest>,
+        ) -> Result<tonic::Response<super::LogMetric>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.logging.v2.MetricsServiceV2/CreateLogMetric",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates or updates a logs-based metric."]
+        pub async fn update_log_metric(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateLogMetricRequest>,
+        ) -> Result<tonic::Response<super::LogMetric>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.logging.v2.MetricsServiceV2/UpdateLogMetric",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes a logs-based metric."]
+        pub async fn delete_log_metric(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteLogMetricRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.logging.v2.MetricsServiceV2/DeleteLogMetric",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// An individual entry in a log.
 ///
 ///
@@ -2045,357 +2396,6 @@ pub mod logging_service_v2_client {
             self.inner
                 .streaming(request.into_streaming_request(), path, codec)
                 .await
-        }
-    }
-}
-/// Describes a logs-based metric. The value of the metric is the number of log
-/// entries that match a logs filter in a given time interval.
-///
-/// Logs-based metrics can also be used to extract values from logs and create a
-/// distribution of the values. The distribution records the statistics of the
-/// extracted values along with an optional histogram of the values as specified
-/// by the bucket options.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LogMetric {
-    /// Required. The client-assigned metric identifier.
-    /// Examples: `"error_count"`, `"nginx/requests"`.
-    ///
-    /// Metric identifiers are limited to 100 characters and can include only the
-    /// following characters: `A-Z`, `a-z`, `0-9`, and the special characters
-    /// `_-.,+!*',()%/`. The forward-slash character (`/`) denotes a hierarchy of
-    /// name pieces, and it cannot be the first character of the name.
-    ///
-    /// The metric identifier in this field must not be
-    /// \[URL-encoded\](<https://en.wikipedia.org/wiki/Percent-encoding>).
-    /// However, when the metric identifier appears as the `\[METRIC_ID\]` part of a
-    /// `metric_name` API parameter, then the metric identifier must be
-    /// URL-encoded. Example: `"projects/my-project/metrics/nginx%2Frequests"`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. A description of this metric, which is used in documentation.
-    /// The maximum length of the description is 8000 characters.
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// Required. An [advanced logs
-    /// filter](<https://cloud.google.com/logging/docs/view/advanced_filters>) which
-    /// is used to match log entries. Example:
-    ///
-    ///     "resource.type=gae_app AND severity>=ERROR"
-    ///
-    /// The maximum length of the filter is 20000 characters.
-    #[prost(string, tag = "3")]
-    pub filter: ::prost::alloc::string::String,
-    /// Optional. The metric descriptor associated with the logs-based metric.
-    /// If unspecified, it uses a default metric descriptor with a DELTA metric
-    /// kind, INT64 value type, with no labels and a unit of "1". Such a metric
-    /// counts the number of log entries matching the `filter` expression.
-    ///
-    /// The `name`, `type`, and `description` fields in the `metric_descriptor`
-    /// are output only, and is constructed using the `name` and `description`
-    /// field in the LogMetric.
-    ///
-    /// To create a logs-based metric that records a distribution of log values, a
-    /// DELTA metric kind with a DISTRIBUTION value type must be used along with
-    /// a `value_extractor` expression in the LogMetric.
-    ///
-    /// Each label in the metric descriptor must have a matching label
-    /// name as the key and an extractor expression as the value in the
-    /// `label_extractors` map.
-    ///
-    /// The `metric_kind` and `value_type` fields in the `metric_descriptor` cannot
-    /// be updated once initially configured. New labels can be added in the
-    /// `metric_descriptor`, but existing labels cannot be modified except for
-    /// their description.
-    #[prost(message, optional, tag = "5")]
-    pub metric_descriptor: ::core::option::Option<super::super::api::MetricDescriptor>,
-    /// Optional. A `value_extractor` is required when using a distribution
-    /// logs-based metric to extract the values to record from a log entry.
-    /// Two functions are supported for value extraction: `EXTRACT(field)` or
-    /// `REGEXP_EXTRACT(field, regex)`. The argument are:
-    ///   1. field: The name of the log entry field from which the value is to be
-    ///      extracted.
-    ///   2. regex: A regular expression using the Google RE2 syntax
-    ///      (<https://github.com/google/re2/wiki/Syntax>) with a single capture
-    ///      group to extract data from the specified log entry field. The value
-    ///      of the field is converted to a string before applying the regex.
-    ///      It is an error to specify a regex that does not include exactly one
-    ///      capture group.
-    ///
-    /// The result of the extraction must be convertible to a double type, as the
-    /// distribution always records double values. If either the extraction or
-    /// the conversion to double fails, then those values are not recorded in the
-    /// distribution.
-    ///
-    /// Example: `REGEXP_EXTRACT(jsonPayload.request, ".*quantity=(\d+).*")`
-    #[prost(string, tag = "6")]
-    pub value_extractor: ::prost::alloc::string::String,
-    /// Optional. A map from a label key string to an extractor expression which is
-    /// used to extract data from a log entry field and assign as the label value.
-    /// Each label key specified in the LabelDescriptor must have an associated
-    /// extractor expression in this map. The syntax of the extractor expression
-    /// is the same as for the `value_extractor` field.
-    ///
-    /// The extracted value is converted to the type defined in the label
-    /// descriptor. If the either the extraction or the type conversion fails,
-    /// the label will have a default value. The default value for a string
-    /// label is an empty string, for an integer label its 0, and for a boolean
-    /// label its `false`.
-    ///
-    /// Note that there are upper bounds on the maximum number of labels and the
-    /// number of active time series that are allowed in a project.
-    #[prost(btree_map = "string, string", tag = "7")]
-    pub label_extractors: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Optional. The `bucket_options` are required when the logs-based metric is
-    /// using a DISTRIBUTION value type and it describes the bucket boundaries
-    /// used to create a histogram of the extracted values.
-    #[prost(message, optional, tag = "8")]
-    pub bucket_options: ::core::option::Option<super::super::api::distribution::BucketOptions>,
-    /// Output only. The creation timestamp of the metric.
-    ///
-    /// This field may not be present for older metrics.
-    #[prost(message, optional, tag = "9")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The last update timestamp of the metric.
-    ///
-    /// This field may not be present for older metrics.
-    #[prost(message, optional, tag = "10")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Deprecated. The API version that created or updated this metric.
-    /// The v2 format is used by default and cannot be changed.
-    #[deprecated]
-    #[prost(enumeration = "log_metric::ApiVersion", tag = "4")]
-    pub version: i32,
-}
-/// Nested message and enum types in `LogMetric`.
-pub mod log_metric {
-    /// Logging API version.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ApiVersion {
-        /// Logging API v2.
-        V2 = 0,
-        /// Logging API v1.
-        V1 = 1,
-    }
-}
-/// The parameters to ListLogMetrics.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListLogMetricsRequest {
-    /// Required. The name of the project containing the metrics:
-    ///
-    ///     "projects/\[PROJECT_ID\]"
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. If present, then retrieve the next batch of results from the
-    /// preceding call to this method. `pageToken` must be the value of
-    /// `nextPageToken` from the previous response. The values of other method
-    /// parameters should be identical to those in the previous call.
-    #[prost(string, tag = "2")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. The maximum number of results to return from this request.
-    /// Non-positive values are ignored. The presence of `nextPageToken` in the
-    /// response indicates that more results might be available.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-}
-/// Result returned from ListLogMetrics.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListLogMetricsResponse {
-    /// A list of logs-based metrics.
-    #[prost(message, repeated, tag = "1")]
-    pub metrics: ::prost::alloc::vec::Vec<LogMetric>,
-    /// If there might be more results than appear in this response, then
-    /// `nextPageToken` is included. To get the next set of results, call this
-    /// method again using the value of `nextPageToken` as `pageToken`.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The parameters to GetLogMetric.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetLogMetricRequest {
-    /// Required. The resource name of the desired metric:
-    ///
-    ///     "projects/\[PROJECT_ID]/metrics/[METRIC_ID\]"
-    #[prost(string, tag = "1")]
-    pub metric_name: ::prost::alloc::string::String,
-}
-/// The parameters to CreateLogMetric.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateLogMetricRequest {
-    /// Required. The resource name of the project in which to create the metric:
-    ///
-    ///     "projects/\[PROJECT_ID\]"
-    ///
-    /// The new metric must be provided in the request.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The new logs-based metric, which must not have an identifier that
-    /// already exists.
-    #[prost(message, optional, tag = "2")]
-    pub metric: ::core::option::Option<LogMetric>,
-}
-/// The parameters to UpdateLogMetric.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateLogMetricRequest {
-    /// Required. The resource name of the metric to update:
-    ///
-    ///     "projects/\[PROJECT_ID]/metrics/[METRIC_ID\]"
-    ///
-    /// The updated metric must be provided in the request and it's
-    /// `name` field must be the same as `\[METRIC_ID\]` If the metric
-    /// does not exist in `\[PROJECT_ID\]`, then a new metric is created.
-    #[prost(string, tag = "1")]
-    pub metric_name: ::prost::alloc::string::String,
-    /// Required. The updated metric.
-    #[prost(message, optional, tag = "2")]
-    pub metric: ::core::option::Option<LogMetric>,
-}
-/// The parameters to DeleteLogMetric.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteLogMetricRequest {
-    /// Required. The resource name of the metric to delete:
-    ///
-    ///     "projects/\[PROJECT_ID]/metrics/[METRIC_ID\]"
-    #[prost(string, tag = "1")]
-    pub metric_name: ::prost::alloc::string::String,
-}
-#[doc = r" Generated client implementations."]
-pub mod metrics_service_v2_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for configuring logs-based metrics."]
-    #[derive(Debug, Clone)]
-    pub struct MetricsServiceV2Client<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> MetricsServiceV2Client<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> MetricsServiceV2Client<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            MetricsServiceV2Client::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Lists logs-based metrics."]
-        pub async fn list_log_metrics(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListLogMetricsRequest>,
-        ) -> Result<tonic::Response<super::ListLogMetricsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.logging.v2.MetricsServiceV2/ListLogMetrics",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets a logs-based metric."]
-        pub async fn get_log_metric(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetLogMetricRequest>,
-        ) -> Result<tonic::Response<super::LogMetric>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.logging.v2.MetricsServiceV2/GetLogMetric",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a logs-based metric."]
-        pub async fn create_log_metric(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateLogMetricRequest>,
-        ) -> Result<tonic::Response<super::LogMetric>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.logging.v2.MetricsServiceV2/CreateLogMetric",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates or updates a logs-based metric."]
-        pub async fn update_log_metric(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateLogMetricRequest>,
-        ) -> Result<tonic::Response<super::LogMetric>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.logging.v2.MetricsServiceV2/UpdateLogMetric",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes a logs-based metric."]
-        pub async fn delete_log_metric(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteLogMetricRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.logging.v2.MetricsServiceV2/DeleteLogMetric",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
         }
     }
 }

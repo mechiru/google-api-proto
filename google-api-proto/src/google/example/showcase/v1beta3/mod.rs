@@ -1,489 +1,3 @@
-/// A session is a suite of tests, generally being made in the context
-/// of testing code generation.
-///
-/// A session defines tests it may expect, based on which version of the
-/// code generation spec is in use.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Session {
-    /// The name of the session. The ID must conform to ^\[a-z\]+$
-    /// If this is not provided, Showcase chooses one at random.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The version this session is using.
-    #[prost(enumeration = "session::Version", tag = "2")]
-    pub version: i32,
-}
-/// Nested message and enum types in `Session`.
-pub mod session {
-    /// The specification versions understood by Showcase.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Version {
-        /// Unspecified version. If passed on creation, the session will default
-        /// to using the latest stable release.
-        Unspecified = 0,
-        /// The latest v1. Currently, this is v1.0.
-        V1Latest = 1,
-        /// v1.0. (Until the spec is "GA", this will be a moving target.)
-        V10 = 2,
-    }
-}
-/// The request for the CreateSession method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateSessionRequest {
-    /// The session to be created.
-    /// Sessions are immutable once they are created (although they can
-    /// be deleted).
-    #[prost(message, optional, tag = "1")]
-    pub session: ::core::option::Option<Session>,
-}
-/// The request for the GetSession method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetSessionRequest {
-    /// The session to be retrieved.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request for the ListSessions method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSessionsRequest {
-    /// The maximum number of sessions to return per page.
-    #[prost(int32, tag = "1")]
-    pub page_size: i32,
-    /// The page token, for retrieving subsequent pages.
-    #[prost(string, tag = "2")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response for the ListSessions method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSessionsResponse {
-    /// The sessions being returned.
-    #[prost(message, repeated, tag = "1")]
-    pub sessions: ::prost::alloc::vec::Vec<Session>,
-    /// The next page token, if any.
-    /// An empty value here means the last page has been reached.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request for the DeleteSession method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteSessionRequest {
-    /// The session to be deleted.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for reporting on a session.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportSessionRequest {
-    /// The session to be reported on.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Response message for reporting on a session.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportSessionResponse {
-    /// The state of the report.
-    #[prost(enumeration = "report_session_response::Result", tag = "1")]
-    pub result: i32,
-    /// The test runs of this session.
-    #[prost(message, repeated, tag = "2")]
-    pub test_runs: ::prost::alloc::vec::Vec<TestRun>,
-}
-/// Nested message and enum types in `ReportSessionResponse`.
-pub mod report_session_response {
-    /// The topline state of the report.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Result {
-        Unspecified = 0,
-        /// The session is complete, and everything passed.
-        Passed = 1,
-        /// The session had an explicit failure.
-        Failed = 2,
-        /// The session is incomplete. This is a failure response.
-        Incomplete = 3,
-    }
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Test {
-    /// The name of the test.
-    /// The tests/* portion of the names are hard-coded, and do not change
-    /// from session to session.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The expectation level for this test.
-    #[prost(enumeration = "test::ExpectationLevel", tag = "2")]
-    pub expectation_level: i32,
-    /// A description of the test.
-    #[prost(string, tag = "3")]
-    pub description: ::prost::alloc::string::String,
-    /// The blueprints that will satisfy this test. There may be multiple
-    /// blueprints that can signal to the server that this test case is being
-    /// exercised. Although multiple blueprints are specified, only a single
-    /// blueprint needs to be run to signal that the test case was exercised.
-    #[prost(message, repeated, tag = "4")]
-    pub blueprints: ::prost::alloc::vec::Vec<test::Blueprint>,
-}
-/// Nested message and enum types in `Test`.
-pub mod test {
-    /// A blueprint is an explicit definition of methods and requests that are
-    /// needed to be made to test this specific test case. Ideally this would be
-    /// represented by something more robust like CEL, but as of writing this, I am
-    /// unsure if CEL is ready.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Blueprint {
-        /// The name of this blueprint.
-        #[prost(string, tag = "1")]
-        pub name: ::prost::alloc::string::String,
-        /// A description of this blueprint.
-        #[prost(string, tag = "2")]
-        pub description: ::prost::alloc::string::String,
-        /// The initial request to trigger this test.
-        #[prost(message, optional, tag = "3")]
-        pub request: ::core::option::Option<blueprint::Invocation>,
-        /// An ordered list of method calls that can be called to trigger this test.
-        #[prost(message, repeated, tag = "4")]
-        pub additional_requests: ::prost::alloc::vec::Vec<blueprint::Invocation>,
-    }
-    /// Nested message and enum types in `Blueprint`.
-    pub mod blueprint {
-        /// A message representing a method invocation.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Invocation {
-            /// The fully qualified name of the showcase method to be invoked.
-            #[prost(string, tag = "1")]
-            pub method: ::prost::alloc::string::String,
-            /// The request to be made if a specific request is necessary.
-            #[prost(bytes = "bytes", tag = "2")]
-            pub serialized_request: ::prost::bytes::Bytes,
-        }
-    }
-    /// Whether or not a test is required, recommended, or optional.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ExpectationLevel {
-        Unspecified = 0,
-        /// This test is strictly required.
-        Required = 1,
-        /// This test is recommended.
-        ///
-        /// If a generator explicitly ignores a recommended test (see `DeleteTest`),
-        /// then the report may still pass, but with a warning.
-        ///
-        /// If a generator skips a recommended test and does not explicitly
-        /// express that intention, the report will fail.
-        Recommended = 2,
-        /// This test is optional.
-        ///
-        /// If a generator explicitly ignores an optional test (see `DeleteTest`),
-        /// then the report may still pass, and no warning will be issued.
-        ///
-        /// If a generator skips an optional test and does not explicitly
-        /// express that intention, the report may still pass, but with a
-        /// warning.
-        Optional = 3,
-    }
-}
-/// An issue found in the test.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Issue {
-    /// The type of the issue.
-    #[prost(enumeration = "issue::Type", tag = "1")]
-    pub r#type: i32,
-    /// The severity of the issue.
-    #[prost(enumeration = "issue::Severity", tag = "2")]
-    pub severity: i32,
-    /// A description of the issue.
-    #[prost(string, tag = "3")]
-    pub description: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `Issue`.
-pub mod issue {
-    /// The different potential types of issues.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        Unspecified = 0,
-        /// The test was never instrumented.
-        Skipped = 1,
-        /// The test was started but never confirmed.
-        Pending = 2,
-        /// The test was instrumented, but Showcase got an unexpected
-        /// value when the generator tried to confirm success.
-        IncorrectConfirmation = 3,
-    }
-    /// Severity levels.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Severity {
-        Unspecified = 0,
-        /// Errors.
-        Error = 1,
-        /// Warnings.
-        Warning = 2,
-    }
-}
-/// The request for the ListTests method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTestsRequest {
-    /// The session.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of tests to return per page.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The page token, for retrieving subsequent pages.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response for the ListTests method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTestsResponse {
-    /// The tests being returned.
-    #[prost(message, repeated, tag = "1")]
-    pub tests: ::prost::alloc::vec::Vec<Test>,
-    /// The next page token, if any.
-    /// An empty value here means the last page has been reached.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A TestRun is the result of running a Test.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TestRun {
-    /// The name of the test.
-    /// The tests/* portion of the names are hard-coded, and do not change
-    /// from session to session.
-    #[prost(string, tag = "1")]
-    pub test: ::prost::alloc::string::String,
-    /// An issue found with the test run. If empty, this test run was successful.
-    #[prost(message, optional, tag = "2")]
-    pub issue: ::core::option::Option<Issue>,
-}
-/// Request message for deleting a test.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTestRequest {
-    /// The test to be deleted.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VerifyTestRequest {
-    /// The test to have an answer registered to it.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The answer from the test.
-    #[prost(bytes = "bytes", tag = "2")]
-    pub answer: ::prost::bytes::Bytes,
-    /// The answers from the test if multiple are to be checked
-    #[prost(bytes = "bytes", repeated, tag = "3")]
-    pub answers: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VerifyTestResponse {
-    /// An issue if check answer was unsuccessful. This will be empty if the check
-    /// answer succeeded.
-    #[prost(message, optional, tag = "1")]
-    pub issue: ::core::option::Option<Issue>,
-}
-#[doc = r" Generated client implementations."]
-pub mod testing_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " A service to facilitate running discrete sets of tests"]
-    #[doc = " against Showcase."]
-    #[derive(Debug, Clone)]
-    pub struct TestingClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> TestingClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> TestingClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            TestingClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Creates a new testing session."]
-        pub async fn create_session(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateSessionRequest>,
-        ) -> Result<tonic::Response<super::Session>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1beta3.Testing/CreateSession",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets a testing session."]
-        pub async fn get_session(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetSessionRequest>,
-        ) -> Result<tonic::Response<super::Session>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1beta3.Testing/GetSession",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Lists the current test sessions."]
-        pub async fn list_sessions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListSessionsRequest>,
-        ) -> Result<tonic::Response<super::ListSessionsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1beta3.Testing/ListSessions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Delete a test session."]
-        pub async fn delete_session(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteSessionRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1beta3.Testing/DeleteSession",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Report on the status of a session."]
-        #[doc = " This generates a report detailing which tests have been completed,"]
-        #[doc = " and an overall rollup."]
-        pub async fn report_session(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ReportSessionRequest>,
-        ) -> Result<tonic::Response<super::ReportSessionResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1beta3.Testing/ReportSession",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List the tests of a sessesion."]
-        pub async fn list_tests(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListTestsRequest>,
-        ) -> Result<tonic::Response<super::ListTestsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1beta3.Testing/ListTests",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Explicitly decline to implement a test."]
-        #[doc = ""]
-        #[doc = " This removes the test from subsequent `ListTests` calls, and"]
-        #[doc = " attempting to do the test will error."]
-        #[doc = ""]
-        #[doc = " This method will error if attempting to delete a required test."]
-        pub async fn delete_test(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteTestRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1beta3.Testing/DeleteTest",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Register a response to a test."]
-        #[doc = ""]
-        #[doc = " In cases where a test involves registering a final answer at the"]
-        #[doc = " end of the test, this method provides the means to do so."]
-        pub async fn verify_test(
-            &mut self,
-            request: impl tonic::IntoRequest<super::VerifyTestRequest>,
-        ) -> Result<tonic::Response<super::VerifyTestResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1beta3.Testing/VerifyTest",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// The request message used for the Echo, Collect and Chat methods.
 /// If content or opt are set in this message then the request will succeed.
 /// If status is set in this message then the status will be returned as an
@@ -993,6 +507,492 @@ pub mod sequence_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.example.showcase.v1beta3.SequenceService/AttemptSequence",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A session is a suite of tests, generally being made in the context
+/// of testing code generation.
+///
+/// A session defines tests it may expect, based on which version of the
+/// code generation spec is in use.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Session {
+    /// The name of the session. The ID must conform to ^\[a-z\]+$
+    /// If this is not provided, Showcase chooses one at random.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The version this session is using.
+    #[prost(enumeration = "session::Version", tag = "2")]
+    pub version: i32,
+}
+/// Nested message and enum types in `Session`.
+pub mod session {
+    /// The specification versions understood by Showcase.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Version {
+        /// Unspecified version. If passed on creation, the session will default
+        /// to using the latest stable release.
+        Unspecified = 0,
+        /// The latest v1. Currently, this is v1.0.
+        V1Latest = 1,
+        /// v1.0. (Until the spec is "GA", this will be a moving target.)
+        V10 = 2,
+    }
+}
+/// The request for the CreateSession method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateSessionRequest {
+    /// The session to be created.
+    /// Sessions are immutable once they are created (although they can
+    /// be deleted).
+    #[prost(message, optional, tag = "1")]
+    pub session: ::core::option::Option<Session>,
+}
+/// The request for the GetSession method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetSessionRequest {
+    /// The session to be retrieved.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request for the ListSessions method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSessionsRequest {
+    /// The maximum number of sessions to return per page.
+    #[prost(int32, tag = "1")]
+    pub page_size: i32,
+    /// The page token, for retrieving subsequent pages.
+    #[prost(string, tag = "2")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for the ListSessions method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSessionsResponse {
+    /// The sessions being returned.
+    #[prost(message, repeated, tag = "1")]
+    pub sessions: ::prost::alloc::vec::Vec<Session>,
+    /// The next page token, if any.
+    /// An empty value here means the last page has been reached.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request for the DeleteSession method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteSessionRequest {
+    /// The session to be deleted.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for reporting on a session.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReportSessionRequest {
+    /// The session to be reported on.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Response message for reporting on a session.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReportSessionResponse {
+    /// The state of the report.
+    #[prost(enumeration = "report_session_response::Result", tag = "1")]
+    pub result: i32,
+    /// The test runs of this session.
+    #[prost(message, repeated, tag = "2")]
+    pub test_runs: ::prost::alloc::vec::Vec<TestRun>,
+}
+/// Nested message and enum types in `ReportSessionResponse`.
+pub mod report_session_response {
+    /// The topline state of the report.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Result {
+        Unspecified = 0,
+        /// The session is complete, and everything passed.
+        Passed = 1,
+        /// The session had an explicit failure.
+        Failed = 2,
+        /// The session is incomplete. This is a failure response.
+        Incomplete = 3,
+    }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Test {
+    /// The name of the test.
+    /// The tests/* portion of the names are hard-coded, and do not change
+    /// from session to session.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The expectation level for this test.
+    #[prost(enumeration = "test::ExpectationLevel", tag = "2")]
+    pub expectation_level: i32,
+    /// A description of the test.
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+    /// The blueprints that will satisfy this test. There may be multiple
+    /// blueprints that can signal to the server that this test case is being
+    /// exercised. Although multiple blueprints are specified, only a single
+    /// blueprint needs to be run to signal that the test case was exercised.
+    #[prost(message, repeated, tag = "4")]
+    pub blueprints: ::prost::alloc::vec::Vec<test::Blueprint>,
+}
+/// Nested message and enum types in `Test`.
+pub mod test {
+    /// A blueprint is an explicit definition of methods and requests that are
+    /// needed to be made to test this specific test case. Ideally this would be
+    /// represented by something more robust like CEL, but as of writing this, I am
+    /// unsure if CEL is ready.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Blueprint {
+        /// The name of this blueprint.
+        #[prost(string, tag = "1")]
+        pub name: ::prost::alloc::string::String,
+        /// A description of this blueprint.
+        #[prost(string, tag = "2")]
+        pub description: ::prost::alloc::string::String,
+        /// The initial request to trigger this test.
+        #[prost(message, optional, tag = "3")]
+        pub request: ::core::option::Option<blueprint::Invocation>,
+        /// An ordered list of method calls that can be called to trigger this test.
+        #[prost(message, repeated, tag = "4")]
+        pub additional_requests: ::prost::alloc::vec::Vec<blueprint::Invocation>,
+    }
+    /// Nested message and enum types in `Blueprint`.
+    pub mod blueprint {
+        /// A message representing a method invocation.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Invocation {
+            /// The fully qualified name of the showcase method to be invoked.
+            #[prost(string, tag = "1")]
+            pub method: ::prost::alloc::string::String,
+            /// The request to be made if a specific request is necessary.
+            #[prost(bytes = "bytes", tag = "2")]
+            pub serialized_request: ::prost::bytes::Bytes,
+        }
+    }
+    /// Whether or not a test is required, recommended, or optional.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ExpectationLevel {
+        Unspecified = 0,
+        /// This test is strictly required.
+        Required = 1,
+        /// This test is recommended.
+        ///
+        /// If a generator explicitly ignores a recommended test (see `DeleteTest`),
+        /// then the report may still pass, but with a warning.
+        ///
+        /// If a generator skips a recommended test and does not explicitly
+        /// express that intention, the report will fail.
+        Recommended = 2,
+        /// This test is optional.
+        ///
+        /// If a generator explicitly ignores an optional test (see `DeleteTest`),
+        /// then the report may still pass, and no warning will be issued.
+        ///
+        /// If a generator skips an optional test and does not explicitly
+        /// express that intention, the report may still pass, but with a
+        /// warning.
+        Optional = 3,
+    }
+}
+/// An issue found in the test.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Issue {
+    /// The type of the issue.
+    #[prost(enumeration = "issue::Type", tag = "1")]
+    pub r#type: i32,
+    /// The severity of the issue.
+    #[prost(enumeration = "issue::Severity", tag = "2")]
+    pub severity: i32,
+    /// A description of the issue.
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `Issue`.
+pub mod issue {
+    /// The different potential types of issues.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        Unspecified = 0,
+        /// The test was never instrumented.
+        Skipped = 1,
+        /// The test was started but never confirmed.
+        Pending = 2,
+        /// The test was instrumented, but Showcase got an unexpected
+        /// value when the generator tried to confirm success.
+        IncorrectConfirmation = 3,
+    }
+    /// Severity levels.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Severity {
+        Unspecified = 0,
+        /// Errors.
+        Error = 1,
+        /// Warnings.
+        Warning = 2,
+    }
+}
+/// The request for the ListTests method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTestsRequest {
+    /// The session.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of tests to return per page.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The page token, for retrieving subsequent pages.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response for the ListTests method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTestsResponse {
+    /// The tests being returned.
+    #[prost(message, repeated, tag = "1")]
+    pub tests: ::prost::alloc::vec::Vec<Test>,
+    /// The next page token, if any.
+    /// An empty value here means the last page has been reached.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A TestRun is the result of running a Test.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TestRun {
+    /// The name of the test.
+    /// The tests/* portion of the names are hard-coded, and do not change
+    /// from session to session.
+    #[prost(string, tag = "1")]
+    pub test: ::prost::alloc::string::String,
+    /// An issue found with the test run. If empty, this test run was successful.
+    #[prost(message, optional, tag = "2")]
+    pub issue: ::core::option::Option<Issue>,
+}
+/// Request message for deleting a test.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteTestRequest {
+    /// The test to be deleted.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VerifyTestRequest {
+    /// The test to have an answer registered to it.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The answer from the test.
+    #[prost(bytes = "bytes", tag = "2")]
+    pub answer: ::prost::bytes::Bytes,
+    /// The answers from the test if multiple are to be checked
+    #[prost(bytes = "bytes", repeated, tag = "3")]
+    pub answers: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VerifyTestResponse {
+    /// An issue if check answer was unsuccessful. This will be empty if the check
+    /// answer succeeded.
+    #[prost(message, optional, tag = "1")]
+    pub issue: ::core::option::Option<Issue>,
+}
+#[doc = r" Generated client implementations."]
+pub mod testing_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " A service to facilitate running discrete sets of tests"]
+    #[doc = " against Showcase."]
+    #[derive(Debug, Clone)]
+    pub struct TestingClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> TestingClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> TestingClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            TestingClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Creates a new testing session."]
+        pub async fn create_session(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateSessionRequest>,
+        ) -> Result<tonic::Response<super::Session>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1beta3.Testing/CreateSession",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets a testing session."]
+        pub async fn get_session(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetSessionRequest>,
+        ) -> Result<tonic::Response<super::Session>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1beta3.Testing/GetSession",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists the current test sessions."]
+        pub async fn list_sessions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListSessionsRequest>,
+        ) -> Result<tonic::Response<super::ListSessionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1beta3.Testing/ListSessions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete a test session."]
+        pub async fn delete_session(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteSessionRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1beta3.Testing/DeleteSession",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Report on the status of a session."]
+        #[doc = " This generates a report detailing which tests have been completed,"]
+        #[doc = " and an overall rollup."]
+        pub async fn report_session(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ReportSessionRequest>,
+        ) -> Result<tonic::Response<super::ReportSessionResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1beta3.Testing/ReportSession",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List the tests of a sessesion."]
+        pub async fn list_tests(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListTestsRequest>,
+        ) -> Result<tonic::Response<super::ListTestsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1beta3.Testing/ListTests",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Explicitly decline to implement a test."]
+        #[doc = ""]
+        #[doc = " This removes the test from subsequent `ListTests` calls, and"]
+        #[doc = " attempting to do the test will error."]
+        #[doc = ""]
+        #[doc = " This method will error if attempting to delete a required test."]
+        pub async fn delete_test(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteTestRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1beta3.Testing/DeleteTest",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Register a response to a test."]
+        #[doc = ""]
+        #[doc = " In cases where a test involves registering a final answer at the"]
+        #[doc = " end of the test, this method provides the means to do so."]
+        pub async fn verify_test(
+            &mut self,
+            request: impl tonic::IntoRequest<super::VerifyTestRequest>,
+        ) -> Result<tonic::Response<super::VerifyTestResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1beta3.Testing/VerifyTest",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
