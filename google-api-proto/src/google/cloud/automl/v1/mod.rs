@@ -3,7 +3,6 @@
 pub struct AnnotationSpec {
     /// Output only. Resource name of the annotation spec.
     /// Form:
-    ///
     /// 'projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/annotationSpecs/{annotation_spec_id}'
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -131,7 +130,6 @@ pub mod classification_evaluation_metrics {
     pub struct ConfusionMatrix {
         /// Output only. IDs of the annotation specs used in the confusion matrix.
         /// For Tables CLASSIFICATION
-        ///
         /// \[prediction_type][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]
         /// only list of \[annotation_spec_display_name-s][\] is populated.
         #[prost(string, repeated, tag = "1")]
@@ -139,7 +137,6 @@ pub mod classification_evaluation_metrics {
         /// Output only. Display name of the annotation specs used in the confusion
         /// matrix, as they were at the moment of the evaluation. For Tables
         /// CLASSIFICATION
-        ///
         /// \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\],
         /// distinct values of the target column at the moment of the model
         /// evaluation are populated here.
@@ -198,7 +195,7 @@ pub struct ImageClassificationModelMetadata {
     /// `model_type`.
     #[prost(string, tag = "1")]
     pub base_model_id: ::prost::alloc::string::String,
-    /// The train budget of creating this model, expressed in milli node
+    /// Optional. The train budget of creating this model, expressed in milli node
     /// hours i.e. 1,000 value in this field means 1 node hour. The actual
     /// `train_cost` will be equal or less than this value. If further model
     /// training ceases to provide any improvements, it will stop without using
@@ -309,7 +306,7 @@ pub struct ImageObjectDetectionModelMetadata {
     /// e.g. `BUDGET_REACHED`, `MODEL_CONVERGED`.
     #[prost(string, tag = "5")]
     pub stop_reason: ::prost::alloc::string::String,
-    /// The train budget of creating this model, expressed in milli node
+    /// Optional. The train budget of creating this model, expressed in milli node
     /// hours i.e. 1,000 value in this field means 1 node hour. The actual
     /// `train_cost` will be equal or less than this value. If further model
     /// training ceases to provide any improvements, it will stop without using
@@ -338,7 +335,6 @@ pub struct ImageClassificationModelDeploymentMetadata {
     /// Input only. The number of nodes to deploy the model on. A node is an
     /// abstraction of a machine resource, which can handle online prediction QPS
     /// as given in the model's
-    ///
     /// \[node_qps][google.cloud.automl.v1.ImageClassificationModelMetadata.node_qps\].
     /// Must be between 1 and 100, inclusive on both ends.
     #[prost(int64, tag = "1")]
@@ -350,7 +346,6 @@ pub struct ImageObjectDetectionModelDeploymentMetadata {
     /// Input only. The number of nodes to deploy the model on. A node is an
     /// abstraction of a machine resource, which can handle online prediction QPS
     /// as given in the model's
-    ///
     /// \[qps_per_node][google.cloud.automl.v1.ImageObjectDetectionModelMetadata.qps_per_node\].
     /// Must be between 1 and 100, inclusive on both ends.
     #[prost(int64, tag = "1")]
@@ -920,7 +915,6 @@ pub struct BoundingPoly {
 /// \[bigquery_source][google.cloud.automl.v1.InputConfig.bigquery_source\].
 /// All input is concatenated into a
 /// single
-///
 /// \[primary_table_spec_id][google.cloud.automl.v1.TablesDatasetMetadata.primary_table_spec_id\]
 ///
 /// **For gcs_source:**
@@ -937,9 +931,7 @@ pub struct BoundingPoly {
 /// First three sample rows of a CSV file:
 /// <pre>
 /// "Id","First Name","Last Name","Dob","Addresses"
-///
 /// "1","John","Doe","1968-01-22","\[{"status":"current","address":"123_First_Avenue","city":"Seattle","state":"WA","zip":"11111","numberOfYears":"1"},{"status":"previous","address":"456_Main_Street","city":"Portland","state":"OR","zip":"22222","numberOfYears":"5"}\]"
-///
 /// "2","Jane","Doe","1980-10-16","\[{"status":"current","address":"789_Any_Avenue","city":"Albany","state":"NY","zip":"33333","numberOfYears":"2"},{"status":"previous","address":"321_Main_Street","city":"Hoboken","state":"NJ","zip":"44444","numberOfYears":"3"}\]}
 /// </pre>
 /// **For bigquery_source:**
@@ -1278,7 +1270,6 @@ pub mod input_config {
 /// contain values for the corresponding columns.
 ///
 /// The column names must contain the model's
-///
 /// \[input_feature_column_specs'][google.cloud.automl.v1.TablesModelMetadata.input_feature_column_specs\]
 /// \[display_name-s][google.cloud.automl.v1.ColumnSpec.display_name\]
 /// (order doesn't matter). The columns corresponding to the model's
@@ -1290,9 +1281,7 @@ pub mod input_config {
 /// Sample rows from a CSV file:
 /// <pre>
 /// "First Name","Last Name","Dob","Addresses"
-///
 /// "John","Doe","1968-01-22","\[{"status":"current","address":"123_First_Avenue","city":"Seattle","state":"WA","zip":"11111","numberOfYears":"1"},{"status":"previous","address":"456_Main_Street","city":"Portland","state":"OR","zip":"22222","numberOfYears":"5"}\]"
-///
 /// "Jane","Doe","1980-10-16","\[{"status":"current","address":"789_Any_Avenue","city":"Albany","state":"NY","zip":"33333","numberOfYears":"2"},{"status":"previous","address":"321_Main_Street","city":"Hoboken","state":"NJ","zip":"44444","numberOfYears":"3"}\]}
 /// </pre>
 /// **For bigquery_source:**
@@ -1301,7 +1290,6 @@ pub mod input_config {
 /// table must be 100GB or smaller.
 ///
 /// The column names must contain the model's
-///
 /// \[input_feature_column_specs'][google.cloud.automl.v1.TablesModelMetadata.input_feature_column_specs\]
 /// \[display_name-s][google.cloud.automl.v1.ColumnSpec.display_name\]
 /// (order doesn't matter). The columns corresponding to the model's
@@ -1381,19 +1369,16 @@ pub struct DocumentInputConfig {
 ///         Output depends on whether the dataset was imported from Google Cloud
 ///         Storage or BigQuery.
 ///         Google Cloud Storage case:
-///
-/// \[gcs_destination][google.cloud.automl.v1p1beta.OutputConfig.gcs_destination\]
+///           \[gcs_destination][google.cloud.automl.v1p1beta.OutputConfig.gcs_destination\]
 ///           must be set. Exported are CSV file(s) `tables_1.csv`,
 ///           `tables_2.csv`,...,`tables_N.csv` with each having as header line
 ///           the table's column names, and all other lines contain values for
 ///           the header columns.
 ///         BigQuery case:
-///
-/// \[bigquery_destination][google.cloud.automl.v1p1beta.OutputConfig.bigquery_destination\]
+///           \[bigquery_destination][google.cloud.automl.v1p1beta.OutputConfig.bigquery_destination\]
 ///           pointing to a BigQuery project must be set. In the given project a
 ///           new dataset will be created with name
-///
-/// `export_data_<automl-dataset-display-name>_<timestamp-of-export-call>`
+///           `export_data_<automl-dataset-display-name>_<timestamp-of-export-call>`
 ///           where <automl-dataset-display-name> will be made
 ///           BigQuery-dataset-name compatible (e.g. most special characters will
 ///           become underscores), and timestamp will be in
@@ -1424,7 +1409,6 @@ pub mod output_config {
 /// Output configuration for BatchPredict Action.
 ///
 /// As destination the
-///
 /// \[gcs_destination][google.cloud.automl.v1.BatchPredictOutputConfig.gcs_destination\]
 /// must be set unless specified otherwise for a domain. If gcs_destination is
 /// set then in the given directory a new directory is created. Its name
@@ -1450,9 +1434,7 @@ pub mod output_config {
 ///         predictions). These files will have a JSON representation of a proto
 ///         that wraps the same "ID" : "<id_value>" but here followed by
 ///         exactly one
-///
-/// \[`google.rpc.Status`\](https:
-/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)
+///         \[`google.rpc.Status`\](<https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto>)
 ///         containing only `code` and `message`fields.
 ///
 ///  *  For Image Object Detection:
@@ -1472,9 +1454,7 @@ pub mod output_config {
 ///         predictions). These files will have a JSON representation of a proto
 ///         that wraps the same "ID" : "<id_value>" but here followed by
 ///         exactly one
-///
-/// \[`google.rpc.Status`\](https:
-/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)
+///         \[`google.rpc.Status`\](<https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto>)
 ///         containing only `code` and `message`fields.
 ///  *  For Video Classification:
 ///         In the created directory a video_classification.csv file, and a .JSON
@@ -1482,8 +1462,7 @@ pub mod output_config {
 ///         line in given CSV(s)), will be created.
 ///
 ///         The format of video_classification.csv is:
-///
-/// GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END,JSON_FILE_NAME,STATUS
+///         GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END,JSON_FILE_NAME,STATUS
 ///         where:
 ///         GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END = matches 1 to 1
 ///             the prediction input lines (i.e. video_classification.csv has
@@ -1511,8 +1490,7 @@ pub mod output_config {
 ///         lines in given CSV(s)).
 ///
 ///         The format of video_object_tracking.csv is:
-///
-/// GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END,JSON_FILE_NAME,STATUS
+///         GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END,JSON_FILE_NAME,STATUS
 ///         where:
 ///         GCS_FILE_PATH,TIME_SEGMENT_START,TIME_SEGMENT_END = matches 1 to 1
 ///             the prediction input lines (i.e. video_object_tracking.csv has
@@ -1547,9 +1525,7 @@ pub mod output_config {
 ///         `errors_N.jsonl` files will be created (N depends on total number of
 ///         failed predictions). These files will have a JSON representation of a
 ///         proto that wraps input file followed by exactly one
-///
-/// \[`google.rpc.Status`\](https:
-/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)
+///         \[`google.rpc.Status`\](<https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto>)
 ///         containing only `code` and `message`.
 ///
 ///  *  For Text Sentiment:
@@ -1571,9 +1547,7 @@ pub mod output_config {
 ///         `errors_N.jsonl` files will be created (N depends on total number of
 ///         failed predictions). These files will have a JSON representation of a
 ///         proto that wraps input file followed by exactly one
-///
-/// \[`google.rpc.Status`\](https:
-/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)
+///         \[`google.rpc.Status`\](<https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto>)
 ///         containing only `code` and `message`.
 ///
 ///   *  For Text Extraction:
@@ -1607,34 +1581,26 @@ pub mod output_config {
 ///         proto that wraps either the "id" : "<id_value>" (in case of inline)
 ///         or the document proto (in case of document) but here followed by
 ///         exactly one
-///
-/// \[`google.rpc.Status`\](https:
-/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)
+///         \[`google.rpc.Status`\](<https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto>)
 ///         containing only `code` and `message`.
 ///
 ///  *  For Tables:
 ///         Output depends on whether
-///
-/// \[gcs_destination][google.cloud.automl.v1p1beta.BatchPredictOutputConfig.gcs_destination\]
+///         \[gcs_destination][google.cloud.automl.v1p1beta.BatchPredictOutputConfig.gcs_destination\]
 ///         or
-///
-/// \[bigquery_destination][google.cloud.automl.v1p1beta.BatchPredictOutputConfig.bigquery_destination\]
+///         \[bigquery_destination][google.cloud.automl.v1p1beta.BatchPredictOutputConfig.bigquery_destination\]
 ///         is set (either is allowed).
 ///         Google Cloud Storage case:
 ///           In the created directory files `tables_1.csv`, `tables_2.csv`,...,
 ///           `tables_N.csv` will be created, where N may be 1, and depends on
 ///           the total number of the successfully predicted rows.
 ///           For all CLASSIFICATION
-///
-/// \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]:
+///           \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]:
 ///             Each .csv file will contain a header, listing all columns'
-///
-/// \[display_name-s][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]
+///             \[display_name-s][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]
 ///             given on input followed by M target column names in the format of
-///
-/// "<\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]
-///
-/// \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]>_<target
+///             "<\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]
+///             \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]>_<target
 ///             value>_score" where M is the number of distinct target values,
 ///             i.e. number of distinct values in the target column of the table
 ///             used to train the model. Subsequent lines will contain the
@@ -1642,16 +1608,13 @@ pub mod output_config {
 ///             i.e. the target, columns having the corresponding prediction
 ///             \[scores][google.cloud.automl.v1p1beta.TablesAnnotation.score\].
 ///           For REGRESSION and FORECASTING
-///
-/// \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]:
+///           \[prediction_type-s][google.cloud.automl.v1p1beta.TablesModelMetadata.prediction_type\]:
 ///             Each .csv file will contain a header, listing all columns'
 ///             \[display_name-s][google.cloud.automl.v1p1beta.display_name\]
 ///             given on input followed by the predicted target column with name
 ///             in the format of
-///
-/// "predicted_<\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]
-///
-/// \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]>"
+///             "predicted_<\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]
+///             \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]>"
 ///             Subsequent lines will contain the respective values of
 ///             successfully predicted rows, with the last, i.e. the target,
 ///             column having the predicted target value.
@@ -1660,14 +1623,11 @@ pub mod output_config {
 ///             created (N depends on total number of failed rows). These files
 ///             will have analogous format as `tables_*.csv`, but always with a
 ///             single target column having
-///
-/// \[`google.rpc.Status`\](https:
-/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)
+///             \[`google.rpc.Status`\](<https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto>)
 ///             represented as a JSON string, and containing only `code` and
 ///             `message`.
 ///         BigQuery case:
-///
-/// \[bigquery_destination][google.cloud.automl.v1p1beta.OutputConfig.bigquery_destination\]
+///           \[bigquery_destination][google.cloud.automl.v1p1beta.OutputConfig.bigquery_destination\]
 ///           pointing to a BigQuery project must be set. In the given project a
 ///           new dataset will be created with name
 ///           `prediction_<model-display-name>_<timestamp-of-prediction-call>`
@@ -1677,31 +1637,23 @@ pub mod output_config {
 ///           YYYY_MM_DDThh_mm_ss_sssZ "based on ISO-8601" format. In the dataset
 ///           two tables will be created, `predictions`, and `errors`.
 ///           The `predictions` table's column names will be the input columns'
-///
-/// \[display_name-s][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]
+///           \[display_name-s][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]
 ///           followed by the target column with name in the format of
-///
-/// "predicted_<\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]
-///
-/// \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]>"
+///           "predicted_<\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]
+///           \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]>"
 ///           The input feature columns will contain the respective values of
 ///           successfully predicted rows, with the target column having an
 ///           ARRAY of
-///
-/// \[AnnotationPayloads][google.cloud.automl.v1p1beta.AnnotationPayload\],
+///           \[AnnotationPayloads][google.cloud.automl.v1p1beta.AnnotationPayload\],
 ///           represented as STRUCT-s, containing
 ///           \[TablesAnnotation][google.cloud.automl.v1p1beta.TablesAnnotation\].
 ///           The `errors` table contains rows for which the prediction has
 ///           failed, it has analogous input columns while the target column name
 ///           is in the format of
-///
-/// "errors_<\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]
-///
-/// \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]>",
+///           "errors_<\[target_column_specs][google.cloud.automl.v1p1beta.TablesModelMetadata.target_column_spec\]
+///           \[display_name][google.cloud.automl.v1p1beta.ColumnSpec.display_name\]>",
 ///           and as a value has
-///
-/// \[`google.rpc.Status`\](https:
-/// //github.com/googleapis/googleapis/blob/master/google/rpc/status.proto)
+///           \[`google.rpc.Status`\](<https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto>)
 ///           represented as a STRUCT, and containing only `code` and `message`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BatchPredictOutputConfig {
@@ -1752,9 +1704,7 @@ pub struct ModelExportOutputConfig {
     ///            the container. The container is verified to work correctly on
     ///            ubuntu 16.04 operating system. See more at
     ///            [containers
-    ///
-    /// quickstart](https:
-    /// //cloud.google.com/vision/automl/docs/containers-gcs-quickstart)
+    ///            quickstart](<https://cloud.google.com/vision/automl/docs/containers-gcs-quickstart>)
     /// * core_ml - Used for iOS mobile devices.
     #[prost(string, tag = "4")]
     pub model_format: ::prost::alloc::string::String,
@@ -1934,7 +1884,6 @@ pub mod document {
         pub page_number: i32,
         /// The position of the \[text_segment][google.cloud.automl.v1.Document.Layout.text_segment\] in the page.
         /// Contains exactly 4
-        ///
         /// \[normalized_vertices][google.cloud.automl.v1p1beta.BoundingPoly.normalized_vertices\]
         /// and they are connected by edges in the order provided, which will
         /// represent a rectangle parallel to the frame. The
@@ -2128,171 +2077,92 @@ pub mod dataset {
         TextSentimentDatasetMetadata(super::TextSentimentDatasetMetadata),
     }
 }
-/// Metadata used across all long running operations returned by AutoML API.
+/// API proto representing a trained machine learning model.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadata {
-    /// Output only. Progress of operation. Range: [0, 100].
-    /// Not used currently.
-    #[prost(int32, tag = "13")]
-    pub progress_percent: i32,
-    /// Output only. Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// This field should never exceed 20 entries.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag = "2")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Output only. Time when the operation was created.
-    #[prost(message, optional, tag = "3")]
+pub struct Model {
+    /// Output only. Resource name of the model.
+    /// Format: `projects/{project_id}/locations/{location_id}/models/{model_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The name of the model to show in the interface. The name can be
+    /// up to 32 characters long and can consist only of ASCII Latin letters A-Z
+    /// and a-z, underscores
+    /// (_), and ASCII digits 0-9. It must start with a letter.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Required. The resource ID of the dataset used to create the model. The dataset must
+    /// come from the same ancestor project and location.
+    #[prost(string, tag = "3")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// Output only. Timestamp when the model training finished  and can be used for prediction.
+    #[prost(message, optional, tag = "7")]
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time when the operation was updated for the last time.
-    #[prost(message, optional, tag = "4")]
+    /// Output only. Timestamp when this model was last updated.
+    #[prost(message, optional, tag = "11")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Ouptut only. Details of specific operation. Even if this field is empty,
-    /// the presence allows to distinguish different types of operations.
-    #[prost(
-        oneof = "operation_metadata::Details",
-        tags = "8, 24, 25, 10, 30, 15, 16, 21, 22"
-    )]
-    pub details: ::core::option::Option<operation_metadata::Details>,
-}
-/// Nested message and enum types in `OperationMetadata`.
-pub mod operation_metadata {
-    /// Ouptut only. Details of specific operation. Even if this field is empty,
-    /// the presence allows to distinguish different types of operations.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Details {
-        /// Details of a Delete operation.
-        #[prost(message, tag = "8")]
-        DeleteDetails(super::DeleteOperationMetadata),
-        /// Details of a DeployModel operation.
-        #[prost(message, tag = "24")]
-        DeployModelDetails(super::DeployModelOperationMetadata),
-        /// Details of an UndeployModel operation.
-        #[prost(message, tag = "25")]
-        UndeployModelDetails(super::UndeployModelOperationMetadata),
-        /// Details of CreateModel operation.
-        #[prost(message, tag = "10")]
-        CreateModelDetails(super::CreateModelOperationMetadata),
-        /// Details of CreateDataset operation.
-        #[prost(message, tag = "30")]
-        CreateDatasetDetails(super::CreateDatasetOperationMetadata),
-        /// Details of ImportData operation.
-        #[prost(message, tag = "15")]
-        ImportDataDetails(super::ImportDataOperationMetadata),
-        /// Details of BatchPredict operation.
-        #[prost(message, tag = "16")]
-        BatchPredictDetails(super::BatchPredictOperationMetadata),
-        /// Details of ExportData operation.
-        #[prost(message, tag = "21")]
-        ExportDataDetails(super::ExportDataOperationMetadata),
-        /// Details of ExportModel operation.
-        #[prost(message, tag = "22")]
-        ExportModelDetails(super::ExportModelOperationMetadata),
-    }
-}
-/// Details of operations that perform deletes of any entities.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteOperationMetadata {}
-/// Details of DeployModel operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeployModelOperationMetadata {}
-/// Details of UndeployModel operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UndeployModelOperationMetadata {}
-/// Details of CreateDataset operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateDatasetOperationMetadata {}
-/// Details of CreateModel operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateModelOperationMetadata {}
-/// Details of ImportData operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportDataOperationMetadata {}
-/// Details of ExportData operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportDataOperationMetadata {
-    /// Output only. Information further describing this export data's output.
-    #[prost(message, optional, tag = "1")]
-    pub output_info: ::core::option::Option<export_data_operation_metadata::ExportDataOutputInfo>,
-}
-/// Nested message and enum types in `ExportDataOperationMetadata`.
-pub mod export_data_operation_metadata {
-    /// Further describes this export data's output.
-    /// Supplements
-    /// \[OutputConfig][google.cloud.automl.v1.OutputConfig\].
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExportDataOutputInfo {
-        /// The output location to which the exported data is written.
-        #[prost(oneof = "export_data_output_info::OutputLocation", tags = "1")]
-        pub output_location: ::core::option::Option<export_data_output_info::OutputLocation>,
-    }
-    /// Nested message and enum types in `ExportDataOutputInfo`.
-    pub mod export_data_output_info {
-        /// The output location to which the exported data is written.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum OutputLocation {
-            /// The full path of the Google Cloud Storage directory created, into which
-            /// the exported data is written.
-            #[prost(string, tag = "1")]
-            GcsOutputDirectory(::prost::alloc::string::String),
-        }
-    }
-}
-/// Details of BatchPredict operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchPredictOperationMetadata {
-    /// Output only. The input config that was given upon starting this
-    /// batch predict operation.
-    #[prost(message, optional, tag = "1")]
-    pub input_config: ::core::option::Option<BatchPredictInputConfig>,
-    /// Output only. Information further describing this batch predict's output.
-    #[prost(message, optional, tag = "2")]
-    pub output_info:
-        ::core::option::Option<batch_predict_operation_metadata::BatchPredictOutputInfo>,
-}
-/// Nested message and enum types in `BatchPredictOperationMetadata`.
-pub mod batch_predict_operation_metadata {
-    /// Further describes this batch predict's output.
-    /// Supplements
+    /// Output only. Deployment state of the model. A model can only serve
+    /// prediction requests after it gets deployed.
+    #[prost(enumeration = "model::DeploymentState", tag = "8")]
+    pub deployment_state: i32,
+    /// Used to perform a consistent read-modify-write updates. If not set, a blind
+    /// "overwrite" update happens.
+    #[prost(string, tag = "10")]
+    pub etag: ::prost::alloc::string::String,
+    /// Optional. The labels with user-defined metadata to organize your model.
     ///
-    /// \[BatchPredictOutputConfig][google.cloud.automl.v1.BatchPredictOutputConfig\].
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct BatchPredictOutputInfo {
-        /// The output location into which prediction output is written.
-        #[prost(oneof = "batch_predict_output_info::OutputLocation", tags = "1")]
-        pub output_location: ::core::option::Option<batch_predict_output_info::OutputLocation>,
-    }
-    /// Nested message and enum types in `BatchPredictOutputInfo`.
-    pub mod batch_predict_output_info {
-        /// The output location into which prediction output is written.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum OutputLocation {
-            /// The full path of the Google Cloud Storage directory created, into which
-            /// the prediction output is written.
-            #[prost(string, tag = "1")]
-            GcsOutputDirectory(::prost::alloc::string::String),
-        }
-    }
+    /// Label keys and values can be no longer than 64 characters
+    /// (Unicode codepoints), can only contain lowercase letters, numeric
+    /// characters, underscores and dashes. International characters are allowed.
+    /// Label values are optional. Label keys must start with a letter.
+    ///
+    /// See <https://goo.gl/xmQnxf> for more information on and examples of labels.
+    #[prost(btree_map = "string, string", tag = "34")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Required.
+    /// The model metadata that is specific to the problem type.
+    /// Must match the metadata type of the dataset used to train the model.
+    #[prost(oneof = "model::ModelMetadata", tags = "15, 13, 14, 20, 19, 22")]
+    pub model_metadata: ::core::option::Option<model::ModelMetadata>,
 }
-/// Details of ExportModel operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportModelOperationMetadata {
-    /// Output only. Information further describing the output of this model
-    /// export.
-    #[prost(message, optional, tag = "2")]
-    pub output_info: ::core::option::Option<export_model_operation_metadata::ExportModelOutputInfo>,
-}
-/// Nested message and enum types in `ExportModelOperationMetadata`.
-pub mod export_model_operation_metadata {
-    /// Further describes the output of model export.
-    /// Supplements
-    /// \[ModelExportOutputConfig][google.cloud.automl.v1.ModelExportOutputConfig\].
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExportModelOutputInfo {
-        /// The full path of the Google Cloud Storage directory created, into which
-        /// the model will be exported.
-        #[prost(string, tag = "1")]
-        pub gcs_output_directory: ::prost::alloc::string::String,
+/// Nested message and enum types in `Model`.
+pub mod model {
+    /// Deployment state of the model.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DeploymentState {
+        /// Should not be used, an un-set enum has this value by default.
+        Unspecified = 0,
+        /// Model is deployed.
+        Deployed = 1,
+        /// Model is not deployed.
+        Undeployed = 2,
+    }
+    /// Required.
+    /// The model metadata that is specific to the problem type.
+    /// Must match the metadata type of the dataset used to train the model.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ModelMetadata {
+        /// Metadata for translation models.
+        #[prost(message, tag = "15")]
+        TranslationModelMetadata(super::TranslationModelMetadata),
+        /// Metadata for image classification models.
+        #[prost(message, tag = "13")]
+        ImageClassificationModelMetadata(super::ImageClassificationModelMetadata),
+        /// Metadata for text classification models.
+        #[prost(message, tag = "14")]
+        TextClassificationModelMetadata(super::TextClassificationModelMetadata),
+        /// Metadata for image object detection models.
+        #[prost(message, tag = "20")]
+        ImageObjectDetectionModelMetadata(super::ImageObjectDetectionModelMetadata),
+        /// Metadata for text extraction models.
+        #[prost(message, tag = "19")]
+        TextExtractionModelMetadata(super::TextExtractionModelMetadata),
+        /// Metadata for text sentiment models.
+        #[prost(message, tag = "22")]
+        TextSentimentModelMetadata(super::TextSentimentModelMetadata),
     }
 }
 /// Annotation details for image object detection.
@@ -2472,6 +2342,78 @@ pub struct TextSentimentEvaluationMetrics {
     pub confusion_matrix:
         ::core::option::Option<classification_evaluation_metrics::ConfusionMatrix>,
 }
+/// Evaluation results of a model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ModelEvaluation {
+    /// Output only. Resource name of the model evaluation.
+    /// Format:
+    /// `projects/{project_id}/locations/{location_id}/models/{model_id}/modelEvaluations/{model_evaluation_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. The ID of the annotation spec that the model evaluation applies to. The
+    /// The ID is empty for the overall model evaluation.
+    /// For Tables annotation specs in the dataset do not exist and this ID is
+    /// always not set, but for CLASSIFICATION
+    /// \[prediction_type-s][google.cloud.automl.v1.TablesModelMetadata.prediction_type\]
+    /// the
+    /// \[display_name][google.cloud.automl.v1.ModelEvaluation.display_name\]
+    /// field is used.
+    #[prost(string, tag = "2")]
+    pub annotation_spec_id: ::prost::alloc::string::String,
+    /// Output only. The value of
+    /// \[display_name][google.cloud.automl.v1.AnnotationSpec.display_name\]
+    /// at the moment when the model was trained. Because this field returns a
+    /// value at model training time, for different models trained from the same
+    /// dataset, the values may differ, since display names could had been changed
+    /// between the two model's trainings. For Tables CLASSIFICATION
+    /// \[prediction_type-s][google.cloud.automl.v1.TablesModelMetadata.prediction_type\]
+    /// distinct values of the target column at the moment of the model evaluation
+    /// are populated here.
+    /// The display_name is empty for the overall model evaluation.
+    #[prost(string, tag = "15")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. Timestamp when this model evaluation was created.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The number of examples used for model evaluation, i.e. for
+    /// which ground truth from time of model creation is compared against the
+    /// predicted annotations created by the model.
+    /// For overall ModelEvaluation (i.e. with annotation_spec_id not set) this is
+    /// the total number of all examples used for evaluation.
+    /// Otherwise, this is the count of examples that according to the ground
+    /// truth were annotated by the
+    /// \[annotation_spec_id][google.cloud.automl.v1.ModelEvaluation.annotation_spec_id\].
+    #[prost(int32, tag = "6")]
+    pub evaluated_example_count: i32,
+    /// Output only. Problem type specific evaluation metrics.
+    #[prost(oneof = "model_evaluation::Metrics", tags = "8, 9, 12, 11, 13")]
+    pub metrics: ::core::option::Option<model_evaluation::Metrics>,
+}
+/// Nested message and enum types in `ModelEvaluation`.
+pub mod model_evaluation {
+    /// Output only. Problem type specific evaluation metrics.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Metrics {
+        /// Model evaluation metrics for image, text, video and tables
+        /// classification.
+        /// Tables problem is considered a classification when the target column
+        /// is CATEGORY DataType.
+        #[prost(message, tag = "8")]
+        ClassificationEvaluationMetrics(super::ClassificationEvaluationMetrics),
+        /// Model evaluation metrics for translation.
+        #[prost(message, tag = "9")]
+        TranslationEvaluationMetrics(super::TranslationEvaluationMetrics),
+        /// Model evaluation metrics for image object detection.
+        #[prost(message, tag = "12")]
+        ImageObjectDetectionEvaluationMetrics(super::ImageObjectDetectionEvaluationMetrics),
+        /// Evaluation metrics for text sentiment models.
+        #[prost(message, tag = "11")]
+        TextSentimentEvaluationMetrics(super::TextSentimentEvaluationMetrics),
+        /// Evaluation metrics for text extraction models.
+        #[prost(message, tag = "13")]
+        TextExtractionEvaluationMetrics(super::TextExtractionEvaluationMetrics),
+    }
+}
 /// Contains annotation information that is relevant to AutoML.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AnnotationPayload {
@@ -2481,7 +2423,7 @@ pub struct AnnotationPayload {
     #[prost(string, tag = "1")]
     pub annotation_spec_id: ::prost::alloc::string::String,
     /// Output only. The value of
-    /// \[display_name][google.cloud.automl.v1.AnnotationSpec.display_name\]
+    /// \[display_name][google.cloud.automl.v1p1beta.AnnotationSpec.display_name\]
     /// when the model was trained. Because this field returns a value at model
     /// training time, for different models trained using the same dataset, the
     /// returned value could be different as model owner could update the
@@ -2552,7 +2494,6 @@ pub struct PredictRequest {
     ///
     /// `feature_importance`
     /// : (boolean) Whether
-    ///
     /// \[feature_importance][google.cloud.automl.v1.TablesModelColumnInfo.feature_importance\]
     ///   is populated in the returned list of
     ///   \[TablesAnnotation][google.cloud.automl.v1.TablesAnnotation\]
@@ -2737,7 +2678,7 @@ pub mod prediction_service_client {
     #[doc = " AutoML Prediction API."]
     #[doc = ""]
     #[doc = " On any input that is documented to expect a string parameter in"]
-    #[doc = " snake_case or kebab-case, either of those cases is accepted."]
+    #[doc = " snake_case or dash-case, either of those cases is accepted."]
     #[derive(Debug, Clone)]
     pub struct PredictionServiceClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -2871,170 +2812,6 @@ pub mod prediction_service_client {
         }
     }
 }
-/// API proto representing a trained machine learning model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Model {
-    /// Output only. Resource name of the model.
-    /// Format: `projects/{project_id}/locations/{location_id}/models/{model_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The name of the model to show in the interface. The name can be
-    /// up to 32 characters long and can consist only of ASCII Latin letters A-Z
-    /// and a-z, underscores
-    /// (_), and ASCII digits 0-9. It must start with a letter.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Required. The resource ID of the dataset used to create the model. The dataset must
-    /// come from the same ancestor project and location.
-    #[prost(string, tag = "3")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// Output only. Timestamp when the model training finished  and can be used for prediction.
-    #[prost(message, optional, tag = "7")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp when this model was last updated.
-    #[prost(message, optional, tag = "11")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Deployment state of the model. A model can only serve
-    /// prediction requests after it gets deployed.
-    #[prost(enumeration = "model::DeploymentState", tag = "8")]
-    pub deployment_state: i32,
-    /// Used to perform a consistent read-modify-write updates. If not set, a blind
-    /// "overwrite" update happens.
-    #[prost(string, tag = "10")]
-    pub etag: ::prost::alloc::string::String,
-    /// Optional. The labels with user-defined metadata to organize your model.
-    ///
-    /// Label keys and values can be no longer than 64 characters
-    /// (Unicode codepoints), can only contain lowercase letters, numeric
-    /// characters, underscores and dashes. International characters are allowed.
-    /// Label values are optional. Label keys must start with a letter.
-    ///
-    /// See <https://goo.gl/xmQnxf> for more information on and examples of labels.
-    #[prost(btree_map = "string, string", tag = "34")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Required.
-    /// The model metadata that is specific to the problem type.
-    /// Must match the metadata type of the dataset used to train the model.
-    #[prost(oneof = "model::ModelMetadata", tags = "15, 13, 14, 20, 19, 22")]
-    pub model_metadata: ::core::option::Option<model::ModelMetadata>,
-}
-/// Nested message and enum types in `Model`.
-pub mod model {
-    /// Deployment state of the model.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DeploymentState {
-        /// Should not be used, an un-set enum has this value by default.
-        Unspecified = 0,
-        /// Model is deployed.
-        Deployed = 1,
-        /// Model is not deployed.
-        Undeployed = 2,
-    }
-    /// Required.
-    /// The model metadata that is specific to the problem type.
-    /// Must match the metadata type of the dataset used to train the model.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ModelMetadata {
-        /// Metadata for translation models.
-        #[prost(message, tag = "15")]
-        TranslationModelMetadata(super::TranslationModelMetadata),
-        /// Metadata for image classification models.
-        #[prost(message, tag = "13")]
-        ImageClassificationModelMetadata(super::ImageClassificationModelMetadata),
-        /// Metadata for text classification models.
-        #[prost(message, tag = "14")]
-        TextClassificationModelMetadata(super::TextClassificationModelMetadata),
-        /// Metadata for image object detection models.
-        #[prost(message, tag = "20")]
-        ImageObjectDetectionModelMetadata(super::ImageObjectDetectionModelMetadata),
-        /// Metadata for text extraction models.
-        #[prost(message, tag = "19")]
-        TextExtractionModelMetadata(super::TextExtractionModelMetadata),
-        /// Metadata for text sentiment models.
-        #[prost(message, tag = "22")]
-        TextSentimentModelMetadata(super::TextSentimentModelMetadata),
-    }
-}
-/// Evaluation results of a model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ModelEvaluation {
-    /// Output only. Resource name of the model evaluation.
-    /// Format:
-    ///
-    /// `projects/{project_id}/locations/{location_id}/models/{model_id}/modelEvaluations/{model_evaluation_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. The ID of the annotation spec that the model evaluation applies to. The
-    /// The ID is empty for the overall model evaluation.
-    /// For Tables annotation specs in the dataset do not exist and this ID is
-    /// always not set, but for CLASSIFICATION
-    ///
-    /// \[prediction_type-s][google.cloud.automl.v1.TablesModelMetadata.prediction_type\]
-    /// the
-    /// \[display_name][google.cloud.automl.v1.ModelEvaluation.display_name\]
-    /// field is used.
-    #[prost(string, tag = "2")]
-    pub annotation_spec_id: ::prost::alloc::string::String,
-    /// Output only. The value of
-    /// \[display_name][google.cloud.automl.v1.AnnotationSpec.display_name\]
-    /// at the moment when the model was trained. Because this field returns a
-    /// value at model training time, for different models trained from the same
-    /// dataset, the values may differ, since display names could had been changed
-    /// between the two model's trainings. For Tables CLASSIFICATION
-    ///
-    /// \[prediction_type-s][google.cloud.automl.v1.TablesModelMetadata.prediction_type\]
-    /// distinct values of the target column at the moment of the model evaluation
-    /// are populated here.
-    /// The display_name is empty for the overall model evaluation.
-    #[prost(string, tag = "15")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. Timestamp when this model evaluation was created.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The number of examples used for model evaluation, i.e. for
-    /// which ground truth from time of model creation is compared against the
-    /// predicted annotations created by the model.
-    /// For overall ModelEvaluation (i.e. with annotation_spec_id not set) this is
-    /// the total number of all examples used for evaluation.
-    /// Otherwise, this is the count of examples that according to the ground
-    /// truth were annotated by the
-    ///
-    /// \[annotation_spec_id][google.cloud.automl.v1.ModelEvaluation.annotation_spec_id\].
-    #[prost(int32, tag = "6")]
-    pub evaluated_example_count: i32,
-    /// Output only. Problem type specific evaluation metrics.
-    #[prost(oneof = "model_evaluation::Metrics", tags = "8, 9, 12, 11, 13")]
-    pub metrics: ::core::option::Option<model_evaluation::Metrics>,
-}
-/// Nested message and enum types in `ModelEvaluation`.
-pub mod model_evaluation {
-    /// Output only. Problem type specific evaluation metrics.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Metrics {
-        /// Model evaluation metrics for image, text, video and tables
-        /// classification.
-        /// Tables problem is considered a classification when the target column
-        /// is CATEGORY DataType.
-        #[prost(message, tag = "8")]
-        ClassificationEvaluationMetrics(super::ClassificationEvaluationMetrics),
-        /// Model evaluation metrics for translation.
-        #[prost(message, tag = "9")]
-        TranslationEvaluationMetrics(super::TranslationEvaluationMetrics),
-        /// Model evaluation metrics for image object detection.
-        #[prost(message, tag = "12")]
-        ImageObjectDetectionEvaluationMetrics(super::ImageObjectDetectionEvaluationMetrics),
-        /// Evaluation metrics for text sentiment models.
-        #[prost(message, tag = "11")]
-        TextSentimentEvaluationMetrics(super::TextSentimentEvaluationMetrics),
-        /// Evaluation metrics for text extraction models.
-        #[prost(message, tag = "13")]
-        TextExtractionEvaluationMetrics(super::TextExtractionEvaluationMetrics),
-    }
-}
 /// Request message for \[AutoMl.CreateDataset][google.cloud.automl.v1.AutoMl.CreateDataset\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateDatasetRequest {
@@ -3061,8 +2838,7 @@ pub struct ListDatasetsRequest {
     /// An expression for filtering the results of the request.
     ///
     ///   * `dataset_metadata` - for existence of the case (e.g.
-    ///             `image_classification_dataset_metadata:*`). Some examples of
-    ///             using the filter are:
+    ///             `image_classification_dataset_metadata:*`). Some examples of using the filter are:
     ///
     ///   * `translation_dataset_metadata:*` --> The dataset has
     ///                                          `translation_dataset_metadata`.
@@ -3322,7 +3098,7 @@ pub mod auto_ml_client {
     #[doc = " Currently the only supported `location_id` is \"us-central1\"."]
     #[doc = ""]
     #[doc = " On any input that is documented to expect a string parameter in"]
-    #[doc = " snake_case or kebab-case, either of those cases is accepted."]
+    #[doc = " snake_case or dash-case, either of those cases is accepted."]
     #[derive(Debug, Clone)]
     pub struct AutoMlClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -3623,7 +3399,6 @@ pub mod auto_ml_client {
         #[doc = " Deploys a model. If a model is already deployed, deploying it with the"]
         #[doc = " same parameters has no effect. Deploying with different parametrs"]
         #[doc = " (as e.g. changing"]
-        #[doc = ""]
         #[doc = " [node_number][google.cloud.automl.v1p1beta.ImageObjectDetectionModelDeploymentMetadata.node_number])"]
         #[doc = "  will reset the deployment state without pausing the model's availability."]
         #[doc = ""]
@@ -3735,5 +3510,171 @@ pub mod auto_ml_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+    }
+}
+/// Metadata used across all long running operations returned by AutoML API.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadata {
+    /// Output only. Progress of operation. Range: [0, 100].
+    /// Not used currently.
+    #[prost(int32, tag = "13")]
+    pub progress_percent: i32,
+    /// Output only. Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// This field should never exceed 20 entries.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag = "2")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Output only. Time when the operation was created.
+    #[prost(message, optional, tag = "3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time when the operation was updated for the last time.
+    #[prost(message, optional, tag = "4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Ouptut only. Details of specific operation. Even if this field is empty,
+    /// the presence allows to distinguish different types of operations.
+    #[prost(
+        oneof = "operation_metadata::Details",
+        tags = "8, 24, 25, 10, 30, 15, 16, 21, 22"
+    )]
+    pub details: ::core::option::Option<operation_metadata::Details>,
+}
+/// Nested message and enum types in `OperationMetadata`.
+pub mod operation_metadata {
+    /// Ouptut only. Details of specific operation. Even if this field is empty,
+    /// the presence allows to distinguish different types of operations.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Details {
+        /// Details of a Delete operation.
+        #[prost(message, tag = "8")]
+        DeleteDetails(super::DeleteOperationMetadata),
+        /// Details of a DeployModel operation.
+        #[prost(message, tag = "24")]
+        DeployModelDetails(super::DeployModelOperationMetadata),
+        /// Details of an UndeployModel operation.
+        #[prost(message, tag = "25")]
+        UndeployModelDetails(super::UndeployModelOperationMetadata),
+        /// Details of CreateModel operation.
+        #[prost(message, tag = "10")]
+        CreateModelDetails(super::CreateModelOperationMetadata),
+        /// Details of CreateDataset operation.
+        #[prost(message, tag = "30")]
+        CreateDatasetDetails(super::CreateDatasetOperationMetadata),
+        /// Details of ImportData operation.
+        #[prost(message, tag = "15")]
+        ImportDataDetails(super::ImportDataOperationMetadata),
+        /// Details of BatchPredict operation.
+        #[prost(message, tag = "16")]
+        BatchPredictDetails(super::BatchPredictOperationMetadata),
+        /// Details of ExportData operation.
+        #[prost(message, tag = "21")]
+        ExportDataDetails(super::ExportDataOperationMetadata),
+        /// Details of ExportModel operation.
+        #[prost(message, tag = "22")]
+        ExportModelDetails(super::ExportModelOperationMetadata),
+    }
+}
+/// Details of operations that perform deletes of any entities.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteOperationMetadata {}
+/// Details of DeployModel operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeployModelOperationMetadata {}
+/// Details of UndeployModel operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UndeployModelOperationMetadata {}
+/// Details of CreateDataset operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateDatasetOperationMetadata {}
+/// Details of CreateModel operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateModelOperationMetadata {}
+/// Details of ImportData operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportDataOperationMetadata {}
+/// Details of ExportData operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportDataOperationMetadata {
+    /// Output only. Information further describing this export data's output.
+    #[prost(message, optional, tag = "1")]
+    pub output_info: ::core::option::Option<export_data_operation_metadata::ExportDataOutputInfo>,
+}
+/// Nested message and enum types in `ExportDataOperationMetadata`.
+pub mod export_data_operation_metadata {
+    /// Further describes this export data's output.
+    /// Supplements
+    /// \[OutputConfig][google.cloud.automl.v1.OutputConfig\].
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ExportDataOutputInfo {
+        /// The output location to which the exported data is written.
+        #[prost(oneof = "export_data_output_info::OutputLocation", tags = "1")]
+        pub output_location: ::core::option::Option<export_data_output_info::OutputLocation>,
+    }
+    /// Nested message and enum types in `ExportDataOutputInfo`.
+    pub mod export_data_output_info {
+        /// The output location to which the exported data is written.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum OutputLocation {
+            /// The full path of the Google Cloud Storage directory created, into which
+            /// the exported data is written.
+            #[prost(string, tag = "1")]
+            GcsOutputDirectory(::prost::alloc::string::String),
+        }
+    }
+}
+/// Details of BatchPredict operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchPredictOperationMetadata {
+    /// Output only. The input config that was given upon starting this
+    /// batch predict operation.
+    #[prost(message, optional, tag = "1")]
+    pub input_config: ::core::option::Option<BatchPredictInputConfig>,
+    /// Output only. Information further describing this batch predict's output.
+    #[prost(message, optional, tag = "2")]
+    pub output_info:
+        ::core::option::Option<batch_predict_operation_metadata::BatchPredictOutputInfo>,
+}
+/// Nested message and enum types in `BatchPredictOperationMetadata`.
+pub mod batch_predict_operation_metadata {
+    /// Further describes this batch predict's output.
+    /// Supplements
+    /// \[BatchPredictOutputConfig][google.cloud.automl.v1.BatchPredictOutputConfig\].
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct BatchPredictOutputInfo {
+        /// The output location into which prediction output is written.
+        #[prost(oneof = "batch_predict_output_info::OutputLocation", tags = "1")]
+        pub output_location: ::core::option::Option<batch_predict_output_info::OutputLocation>,
+    }
+    /// Nested message and enum types in `BatchPredictOutputInfo`.
+    pub mod batch_predict_output_info {
+        /// The output location into which prediction output is written.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum OutputLocation {
+            /// The full path of the Google Cloud Storage directory created, into which
+            /// the prediction output is written.
+            #[prost(string, tag = "1")]
+            GcsOutputDirectory(::prost::alloc::string::String),
+        }
+    }
+}
+/// Details of ExportModel operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportModelOperationMetadata {
+    /// Output only. Information further describing the output of this model
+    /// export.
+    #[prost(message, optional, tag = "2")]
+    pub output_info: ::core::option::Option<export_model_operation_metadata::ExportModelOutputInfo>,
+}
+/// Nested message and enum types in `ExportModelOperationMetadata`.
+pub mod export_model_operation_metadata {
+    /// Further describes the output of model export.
+    /// Supplements
+    /// \[ModelExportOutputConfig][google.cloud.automl.v1.ModelExportOutputConfig\].
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ExportModelOutputInfo {
+        /// The full path of the Google Cloud Storage directory created, into which
+        /// the model will be exported.
+        #[prost(string, tag = "1")]
+        pub gcs_output_directory: ::prost::alloc::string::String,
     }
 }
