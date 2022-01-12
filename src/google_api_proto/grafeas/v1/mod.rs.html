@@ -2390,56 +2390,7 @@
 <span id="2390">2390</span>
 <span id="2391">2391</span>
 <span id="2392">2392</span>
-</pre><pre class="rust"><code><span class="doccomment">/// An artifact that can be deployed in some runtime.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeploymentNote</span> {
-    <span class="doccomment">/// Required. Resource URI for the artifact being deployed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_uri</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The period during which some deployable was active in a runtime.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeploymentOccurrence</span> {
-    <span class="doccomment">/// Identity of the user that triggered this deployment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_email</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Beginning of the lifetime of this deployment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">deploy_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// End of the lifetime of this deployment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">undeploy_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Configuration used to create this deployment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">config</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Address of the runtime element hosting this deployment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">address</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Resource URI for the artifact being deployed taken from</span>
-    <span class="doccomment">/// the deployable field with the same name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_uri</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Platform hosting this deployment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;deployment_occurrence::Platform&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">platform</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `DeploymentOccurrence`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">deployment_occurrence</span> {
-    <span class="doccomment">/// Types of platforms.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Platform</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Google Container Engine.</span>
-        <span class="ident">Gke</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Google App Engine: Flexible Environment.</span>
-        <span class="ident">Flex</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Custom user-defined platform.</span>
-        <span class="ident">Custom</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Metadata for any related URL information.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Metadata for any related URL information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RelatedUrl</span> {
     <span class="doccomment">/// Specific URL associated with the resource.</span>
@@ -2546,370 +2497,6 @@
     <span class="ident">Compliance</span> <span class="op">=</span> <span class="number">9</span>,
     <span class="doccomment">/// This represents a DSSE attestation Note</span>
     <span class="ident">DsseAttestation</span> <span class="op">=</span> <span class="number">10</span>,
-}
-<span class="doccomment">/// A note that indicates a type of analysis a provider would perform. This note</span>
-<span class="doccomment">/// exists in a provider&#39;s project. A `Discovery` occurrence is created in a</span>
-<span class="doccomment">/// consumer&#39;s project at the start of analysis.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryNote</span> {
-    <span class="doccomment">/// Required. Immutable. The kind of analysis that is handled by this</span>
-    <span class="doccomment">/// discovery.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;NoteKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">analysis_kind</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Provides information about the analysis status of a discovered resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryOccurrence</span> {
-    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::ContinuousAnalysis&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">continuous_analysis</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The status of discovery for the resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::AnalysisStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">analysis_status</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// When an error is encountered this will contain a LocalizedMessage under</span>
-    <span class="doccomment">/// details to show to the user. The LocalizedMessage is output only and</span>
-    <span class="doccomment">/// populated by the API.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">analysis_status_error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::google::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The CPE of the resource being scanned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cpe</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The last time this resource was scanned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_scan_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time occurrences related to this discovery occurrence were archived.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">archive_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `DiscoveryOccurrence`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">discovery_occurrence</span> {
-    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContinuousAnalysis</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The resource is continuously analyzed.</span>
-        <span class="ident">Active</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The resource is ignored for continuous analysis.</span>
-        <span class="ident">Inactive</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// Analysis status for a resource. Currently for initial analysis only (not</span>
-    <span class="doccomment">/// updated in continuous analysis).</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AnalysisStatus</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Resource is known but no action has been taken yet.</span>
-        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Resource is being analyzed.</span>
-        <span class="ident">Scanning</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Analysis has finished successfully.</span>
-        <span class="ident">FinishedSuccess</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Analysis has finished unsuccessfully, the analysis itself is in a bad</span>
-        <span class="doccomment">/// state.</span>
-        <span class="ident">FinishedFailed</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// The resource is known not to be supported</span>
-        <span class="ident">FinishedUnsupported</span> <span class="op">=</span> <span class="number">5</span>,
-    }
-}
-<span class="doccomment">/// Provenance of a build. Contains all information needed to verify the full</span>
-<span class="doccomment">/// details about the build from source to completion.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BuildProvenance</span> {
-    <span class="doccomment">/// Required. Unique identifier of the build.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// ID of the project.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Commands requested by the build.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">commands</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Command</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output of the build.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">built_artifacts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Artifact</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Time at which the build was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Time at which execution of the build was started.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Time at which execution of the build was finished.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// E-mail address of the user who initiated this build. Note that this was the</span>
-    <span class="doccomment">/// user&#39;s e-mail address at the time the build was initiated; this address may</span>
-    <span class="doccomment">/// not represent the same end-user for all time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">creator</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// URI where any logs for this provenance were written.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">logs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Details of the Source input to the build.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">source_provenance</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Source</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Trigger identifier if the build was triggered automatically; empty if not.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">trigger_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Special options applied to this build. This is a catch-all field where</span>
-    <span class="doccomment">/// build providers can enter any desired additional details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">build_options</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Version string of the builder at the time this build was executed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">builder_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Source describes the location of the source used for the build.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
-    <span class="doccomment">/// If provided, the input binary artifacts for the build came from this</span>
-    <span class="doccomment">/// location.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">artifact_storage_source_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Hash(es) of the build source, which can be used to verify that the original</span>
-    <span class="doccomment">/// source integrity was maintained in the build.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The keys to this map are file paths used as build source and the values</span>
-    <span class="doccomment">/// contain the hash values for those files.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the build source came in a single package such as a gzipped tarfile</span>
-    <span class="doccomment">/// (.tar.gz), the FileHash will be for the single path to that file.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file_hashes</span>:
-        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">FileHashes</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If provided, the source code used for the build came from this location.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">context</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">SourceContext</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If provided, some of the source code used for the build may be found in</span>
-    <span class="doccomment">/// these locations, in the case where the source repository had multiple</span>
-    <span class="doccomment">/// remotes or submodules. This list will not include the context specified in</span>
-    <span class="doccomment">/// the context field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">additional_contexts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">SourceContext</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Container message for hashes of byte content of files, used in source</span>
-<span class="doccomment">/// messages to verify integrity of source input to the build.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileHashes</span> {
-    <span class="doccomment">/// Required. Collection of file hashes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file_hash</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Hash</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Container message for hash values.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hash</span> {
-    <span class="doccomment">/// Required. The type of hash that was performed, e.g. &quot;SHA-256&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The hash value.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::prost::bytes::Bytes</span>,
-}
-<span class="doccomment">/// Command describes a step performed as part of the build pipeline.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Command</span> {
-    <span class="doccomment">/// Required. Name of the command, as presented on the command line, or if the</span>
-    <span class="doccomment">/// command is packaged as a Docker container, as presented to `docker pull`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Environment variables set before running this command.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">env</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Command-line arguments used when executing this command.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">args</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Working directory (relative to project source root) used when running this</span>
-    <span class="doccomment">/// command.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dir</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional unique identifier for this command, used in wait_for to reference</span>
-    <span class="doccomment">/// this command as a dependency.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The ID(s) of the command(s) that this command depends on.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">wait_for</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Artifact describes a build product.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Artifact</span> {
-    <span class="doccomment">/// Hash or checksum value of a binary, or Docker Registry 2.0 digest of a</span>
-    <span class="doccomment">/// container.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">checksum</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Artifact ID, if any; for container images, this will be a URL by digest</span>
-    <span class="doccomment">/// like `gcr.io/projectID/imagename@sha256:123456`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Related artifact names. This may be the path to a binary or jar file, or in</span>
-    <span class="doccomment">/// the case of a container build, the name used to push the container image to</span>
-    <span class="doccomment">/// Google Container Registry, as presented to `docker push`. Note that a</span>
-    <span class="doccomment">/// single Artifact ID can have multiple names, for example if two tags are</span>
-    <span class="doccomment">/// applied to one image.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A SourceContext is a reference to a tree of files. A SourceContext together</span>
-<span class="doccomment">/// with a path point to a unique revision of a single file or directory.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourceContext</span> {
-    <span class="doccomment">/// Labels with user defined metadata.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// A SourceContext can refer any one of the following types of repositories.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;source_context::Context&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">context</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">source_context::Context</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `SourceContext`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">source_context</span> {
-    <span class="doccomment">/// A SourceContext can refer any one of the following types of repositories.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Context</span> {
-        <span class="doccomment">/// A SourceContext referring to a revision in a Google Cloud Source Repo.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">CloudRepo</span>(<span class="ident"><span class="kw">super</span>::CloudRepoSourceContext</span>),
-        <span class="doccomment">/// A SourceContext referring to a Gerrit project.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Gerrit</span>(<span class="ident"><span class="kw">super</span>::GerritSourceContext</span>),
-        <span class="doccomment">/// A SourceContext referring to any third party Git repo (e.g., GitHub).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">Git</span>(<span class="ident"><span class="kw">super</span>::GitSourceContext</span>),
-    }
-}
-<span class="doccomment">/// An alias to a repo revision.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AliasContext</span> {
-    <span class="doccomment">/// The alias kind.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;alias_context::Kind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The alias name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AliasContext`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">alias_context</span> {
-    <span class="doccomment">/// The type of an alias.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Git tag.</span>
-        <span class="ident">Fixed</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Git branch.</span>
-        <span class="ident">Movable</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Used to specify non-standard aliases. For example, if a Git repo has a</span>
-        <span class="doccomment">/// ref named &quot;refs/foo/bar&quot;.</span>
-        <span class="ident">Other</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-}
-<span class="doccomment">/// A CloudRepoSourceContext denotes a particular revision in a Google Cloud</span>
-<span class="doccomment">/// Source Repo.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CloudRepoSourceContext</span> {
-    <span class="doccomment">/// The ID of the repo.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">repo_id</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RepoId</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A revision in a Cloud Repo can be identified by either its revision ID or</span>
-    <span class="doccomment">/// its alias.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;cloud_repo_source_context::Revision&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">revision</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">cloud_repo_source_context::Revision</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CloudRepoSourceContext`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cloud_repo_source_context</span> {
-    <span class="doccomment">/// A revision in a Cloud Repo can be identified by either its revision ID or</span>
-    <span class="doccomment">/// its alias.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Revision</span> {
-        <span class="doccomment">/// A revision ID.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">RevisionId</span>(<span class="ident">::prost::alloc::string::String</span>),
-        <span class="doccomment">/// An alias, which may be a branch or tag.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">AliasContext</span>(<span class="ident"><span class="kw">super</span>::AliasContext</span>),
-    }
-}
-<span class="doccomment">/// A SourceContext referring to a Gerrit project.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GerritSourceContext</span> {
-    <span class="doccomment">/// The URI of a running Gerrit instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">host_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The full project name within the host. Projects may be nested, so</span>
-    <span class="doccomment">/// &quot;project/subproject&quot; is a valid project name. The &quot;repo name&quot; is the</span>
-    <span class="doccomment">/// hostURI/project.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gerrit_project</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A revision in a Gerrit project can be identified by either its revision ID</span>
-    <span class="doccomment">/// or its alias.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;gerrit_source_context::Revision&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">revision</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">gerrit_source_context::Revision</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `GerritSourceContext`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gerrit_source_context</span> {
-    <span class="doccomment">/// A revision in a Gerrit project can be identified by either its revision ID</span>
-    <span class="doccomment">/// or its alias.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Revision</span> {
-        <span class="doccomment">/// A revision (commit) ID.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">RevisionId</span>(<span class="ident">::prost::alloc::string::String</span>),
-        <span class="doccomment">/// An alias, which may be a branch or tag.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">AliasContext</span>(<span class="ident"><span class="kw">super</span>::AliasContext</span>),
-    }
-}
-<span class="doccomment">/// A GitSourceContext denotes a particular revision in a third party Git</span>
-<span class="doccomment">/// repository (e.g., GitHub).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GitSourceContext</span> {
-    <span class="doccomment">/// Git repository URL.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Git commit hash.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">revision_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A unique identifier for a Cloud Repo.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RepoId</span> {
-    <span class="doccomment">/// A cloud repo can be identified by either its project ID and repository name</span>
-    <span class="doccomment">/// combination, or its globally unique identifier.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;repo_id::Id&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">repo_id::Id</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `RepoId`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">repo_id</span> {
-    <span class="doccomment">/// A cloud repo can be identified by either its project ID and repository name</span>
-    <span class="doccomment">/// combination, or its globally unique identifier.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Id</span> {
-        <span class="doccomment">/// A combination of a project ID and a repo name.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">ProjectRepoId</span>(<span class="ident"><span class="kw">super</span>::ProjectRepoId</span>),
-        <span class="doccomment">/// A server-assigned, globally unique identifier.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Uid</span>(<span class="ident">::prost::alloc::string::String</span>),
-    }
-}
-<span class="doccomment">/// Selects a repo using a Google Cloud Platform project ID (e.g.,</span>
-<span class="doccomment">/// winged-cargo-31) and a repo name within that project.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProjectRepoId</span> {
-    <span class="doccomment">/// The ID of the project.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The name of the repo. Leave empty for the default repo.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">repo_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="comment">// An attestation wrapper with a PGP-compatible signature. This message only</span>
 <span class="comment">// supports `ATTACHED` signatures, where the payload that is signed is included</span>
@@ -3253,6 +2840,303 @@
         <span class="ident">::prost::alloc::string::String</span>,
     <span class="op">&gt;</span>,
 }
+<span class="doccomment">/// Provenance of a build. Contains all information needed to verify the full</span>
+<span class="doccomment">/// details about the build from source to completion.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BuildProvenance</span> {
+    <span class="doccomment">/// Required. Unique identifier of the build.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// ID of the project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Commands requested by the build.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">commands</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Command</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output of the build.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">built_artifacts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Artifact</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Time at which the build was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Time at which execution of the build was started.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Time at which execution of the build was finished.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// E-mail address of the user who initiated this build. Note that this was the</span>
+    <span class="doccomment">/// user&#39;s e-mail address at the time the build was initiated; this address may</span>
+    <span class="doccomment">/// not represent the same end-user for all time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">creator</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// URI where any logs for this provenance were written.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">logs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Details of the Source input to the build.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source_provenance</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Source</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Trigger identifier if the build was triggered automatically; empty if not.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">trigger_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Special options applied to this build. This is a catch-all field where</span>
+    <span class="doccomment">/// build providers can enter any desired additional details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">build_options</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Version string of the builder at the time this build was executed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">builder_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Source describes the location of the source used for the build.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
+    <span class="doccomment">/// If provided, the input binary artifacts for the build came from this</span>
+    <span class="doccomment">/// location.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">artifact_storage_source_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Hash(es) of the build source, which can be used to verify that the original</span>
+    <span class="doccomment">/// source integrity was maintained in the build.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The keys to this map are file paths used as build source and the values</span>
+    <span class="doccomment">/// contain the hash values for those files.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the build source came in a single package such as a gzipped tarfile</span>
+    <span class="doccomment">/// (.tar.gz), the FileHash will be for the single path to that file.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file_hashes</span>:
+        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">FileHashes</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If provided, the source code used for the build came from this location.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">context</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">SourceContext</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If provided, some of the source code used for the build may be found in</span>
+    <span class="doccomment">/// these locations, in the case where the source repository had multiple</span>
+    <span class="doccomment">/// remotes or submodules. This list will not include the context specified in</span>
+    <span class="doccomment">/// the context field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">additional_contexts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">SourceContext</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Container message for hashes of byte content of files, used in source</span>
+<span class="doccomment">/// messages to verify integrity of source input to the build.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileHashes</span> {
+    <span class="doccomment">/// Required. Collection of file hashes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file_hash</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Hash</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Container message for hash values.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hash</span> {
+    <span class="doccomment">/// Required. The type of hash that was performed, e.g. &quot;SHA-256&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The hash value.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::prost::bytes::Bytes</span>,
+}
+<span class="doccomment">/// Command describes a step performed as part of the build pipeline.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Command</span> {
+    <span class="doccomment">/// Required. Name of the command, as presented on the command line, or if the</span>
+    <span class="doccomment">/// command is packaged as a Docker container, as presented to `docker pull`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Environment variables set before running this command.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">env</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Command-line arguments used when executing this command.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">args</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Working directory (relative to project source root) used when running this</span>
+    <span class="doccomment">/// command.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dir</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional unique identifier for this command, used in wait_for to reference</span>
+    <span class="doccomment">/// this command as a dependency.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The ID(s) of the command(s) that this command depends on.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">wait_for</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Artifact describes a build product.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Artifact</span> {
+    <span class="doccomment">/// Hash or checksum value of a binary, or Docker Registry 2.0 digest of a</span>
+    <span class="doccomment">/// container.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">checksum</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Artifact ID, if any; for container images, this will be a URL by digest</span>
+    <span class="doccomment">/// like `gcr.io/projectID/imagename@sha256:123456`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Related artifact names. This may be the path to a binary or jar file, or in</span>
+    <span class="doccomment">/// the case of a container build, the name used to push the container image to</span>
+    <span class="doccomment">/// Google Container Registry, as presented to `docker push`. Note that a</span>
+    <span class="doccomment">/// single Artifact ID can have multiple names, for example if two tags are</span>
+    <span class="doccomment">/// applied to one image.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A SourceContext is a reference to a tree of files. A SourceContext together</span>
+<span class="doccomment">/// with a path point to a unique revision of a single file or directory.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourceContext</span> {
+    <span class="doccomment">/// Labels with user defined metadata.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// A SourceContext can refer any one of the following types of repositories.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;source_context::Context&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">context</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">source_context::Context</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `SourceContext`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">source_context</span> {
+    <span class="doccomment">/// A SourceContext can refer any one of the following types of repositories.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Context</span> {
+        <span class="doccomment">/// A SourceContext referring to a revision in a Google Cloud Source Repo.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">CloudRepo</span>(<span class="ident"><span class="kw">super</span>::CloudRepoSourceContext</span>),
+        <span class="doccomment">/// A SourceContext referring to a Gerrit project.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Gerrit</span>(<span class="ident"><span class="kw">super</span>::GerritSourceContext</span>),
+        <span class="doccomment">/// A SourceContext referring to any third party Git repo (e.g., GitHub).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">Git</span>(<span class="ident"><span class="kw">super</span>::GitSourceContext</span>),
+    }
+}
+<span class="doccomment">/// An alias to a repo revision.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AliasContext</span> {
+    <span class="doccomment">/// The alias kind.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;alias_context::Kind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The alias name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AliasContext`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">alias_context</span> {
+    <span class="doccomment">/// The type of an alias.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Git tag.</span>
+        <span class="ident">Fixed</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Git branch.</span>
+        <span class="ident">Movable</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Used to specify non-standard aliases. For example, if a Git repo has a</span>
+        <span class="doccomment">/// ref named &quot;refs/foo/bar&quot;.</span>
+        <span class="ident">Other</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+}
+<span class="doccomment">/// A CloudRepoSourceContext denotes a particular revision in a Google Cloud</span>
+<span class="doccomment">/// Source Repo.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CloudRepoSourceContext</span> {
+    <span class="doccomment">/// The ID of the repo.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">repo_id</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RepoId</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A revision in a Cloud Repo can be identified by either its revision ID or</span>
+    <span class="doccomment">/// its alias.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;cloud_repo_source_context::Revision&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">revision</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">cloud_repo_source_context::Revision</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CloudRepoSourceContext`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cloud_repo_source_context</span> {
+    <span class="doccomment">/// A revision in a Cloud Repo can be identified by either its revision ID or</span>
+    <span class="doccomment">/// its alias.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Revision</span> {
+        <span class="doccomment">/// A revision ID.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">RevisionId</span>(<span class="ident">::prost::alloc::string::String</span>),
+        <span class="doccomment">/// An alias, which may be a branch or tag.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">AliasContext</span>(<span class="ident"><span class="kw">super</span>::AliasContext</span>),
+    }
+}
+<span class="doccomment">/// A SourceContext referring to a Gerrit project.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GerritSourceContext</span> {
+    <span class="doccomment">/// The URI of a running Gerrit instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">host_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The full project name within the host. Projects may be nested, so</span>
+    <span class="doccomment">/// &quot;project/subproject&quot; is a valid project name. The &quot;repo name&quot; is the</span>
+    <span class="doccomment">/// hostURI/project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gerrit_project</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A revision in a Gerrit project can be identified by either its revision ID</span>
+    <span class="doccomment">/// or its alias.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;gerrit_source_context::Revision&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">revision</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">gerrit_source_context::Revision</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `GerritSourceContext`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gerrit_source_context</span> {
+    <span class="doccomment">/// A revision in a Gerrit project can be identified by either its revision ID</span>
+    <span class="doccomment">/// or its alias.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Revision</span> {
+        <span class="doccomment">/// A revision (commit) ID.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">RevisionId</span>(<span class="ident">::prost::alloc::string::String</span>),
+        <span class="doccomment">/// An alias, which may be a branch or tag.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">AliasContext</span>(<span class="ident"><span class="kw">super</span>::AliasContext</span>),
+    }
+}
+<span class="doccomment">/// A GitSourceContext denotes a particular revision in a third party Git</span>
+<span class="doccomment">/// repository (e.g., GitHub).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GitSourceContext</span> {
+    <span class="doccomment">/// Git repository URL.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Git commit hash.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">revision_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A unique identifier for a Cloud Repo.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RepoId</span> {
+    <span class="doccomment">/// A cloud repo can be identified by either its project ID and repository name</span>
+    <span class="doccomment">/// combination, or its globally unique identifier.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;repo_id::Id&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">repo_id::Id</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `RepoId`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">repo_id</span> {
+    <span class="doccomment">/// A cloud repo can be identified by either its project ID and repository name</span>
+    <span class="doccomment">/// combination, or its globally unique identifier.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Id</span> {
+        <span class="doccomment">/// A combination of a project ID and a repo name.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">ProjectRepoId</span>(<span class="ident"><span class="kw">super</span>::ProjectRepoId</span>),
+        <span class="doccomment">/// A server-assigned, globally unique identifier.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Uid</span>(<span class="ident">::prost::alloc::string::String</span>),
+    }
+}
+<span class="doccomment">/// Selects a repo using a Google Cloud Platform project ID (e.g.,</span>
+<span class="doccomment">/// winged-cargo-31) and a repo name within that project.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProjectRepoId</span> {
+    <span class="doccomment">/// The ID of the project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the repo. Leave empty for the default repo.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">repo_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Note holding the version of the provider&#39;s builder and the signature of the</span>
 <span class="doccomment">/// provenance message in the build details occurrence.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -3385,6 +3269,122 @@
     <span class="doccomment">/// Explains why a file is non compliant for a CIS check.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">reason</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// An artifact that can be deployed in some runtime.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeploymentNote</span> {
+    <span class="doccomment">/// Required. Resource URI for the artifact being deployed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_uri</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The period during which some deployable was active in a runtime.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeploymentOccurrence</span> {
+    <span class="doccomment">/// Identity of the user that triggered this deployment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_email</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Beginning of the lifetime of this deployment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">deploy_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// End of the lifetime of this deployment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">undeploy_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Configuration used to create this deployment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">config</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Address of the runtime element hosting this deployment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">address</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Resource URI for the artifact being deployed taken from</span>
+    <span class="doccomment">/// the deployable field with the same name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_uri</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Platform hosting this deployment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;deployment_occurrence::Platform&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">platform</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `DeploymentOccurrence`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">deployment_occurrence</span> {
+    <span class="doccomment">/// Types of platforms.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Platform</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Google Container Engine.</span>
+        <span class="ident">Gke</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Google App Engine: Flexible Environment.</span>
+        <span class="ident">Flex</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Custom user-defined platform.</span>
+        <span class="ident">Custom</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// A note that indicates a type of analysis a provider would perform. This note</span>
+<span class="doccomment">/// exists in a provider&#39;s project. A `Discovery` occurrence is created in a</span>
+<span class="doccomment">/// consumer&#39;s project at the start of analysis.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryNote</span> {
+    <span class="doccomment">/// Required. Immutable. The kind of analysis that is handled by this</span>
+    <span class="doccomment">/// discovery.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;NoteKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">analysis_kind</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Provides information about the analysis status of a discovered resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryOccurrence</span> {
+    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::ContinuousAnalysis&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">continuous_analysis</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The status of discovery for the resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::AnalysisStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">analysis_status</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// When an error is encountered this will contain a LocalizedMessage under</span>
+    <span class="doccomment">/// details to show to the user. The LocalizedMessage is output only and</span>
+    <span class="doccomment">/// populated by the API.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">analysis_status_error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::google::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The CPE of the resource being scanned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cpe</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The last time this resource was scanned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_scan_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time occurrences related to this discovery occurrence were archived.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">archive_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `DiscoveryOccurrence`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">discovery_occurrence</span> {
+    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContinuousAnalysis</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The resource is continuously analyzed.</span>
+        <span class="ident">Active</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The resource is ignored for continuous analysis.</span>
+        <span class="ident">Inactive</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// Analysis status for a resource. Currently for initial analysis only (not</span>
+    <span class="doccomment">/// updated in continuous analysis).</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AnalysisStatus</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Resource is known but no action has been taken yet.</span>
+        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Resource is being analyzed.</span>
+        <span class="ident">Scanning</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Analysis has finished successfully.</span>
+        <span class="ident">FinishedSuccess</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Analysis has finished unsuccessfully, the analysis itself is in a bad</span>
+        <span class="doccomment">/// state.</span>
+        <span class="ident">FinishedFailed</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// The resource is known not to be supported</span>
+        <span class="ident">FinishedUnsupported</span> <span class="op">=</span> <span class="number">5</span>,
+    }
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DsseAttestationNote</span> {

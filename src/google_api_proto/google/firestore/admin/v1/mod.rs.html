@@ -964,7 +964,68 @@
 <span id="964">964</span>
 <span id="965">965</span>
 <span id="966">966</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Cloud Firestore indexes enable simple and complex queries against</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A Cloud Firestore Database.</span>
+<span class="doccomment">/// Currently only one database is allowed per cloud project; this database</span>
+<span class="doccomment">/// must have a `database_id` of &#39;(default)&#39;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Database</span> {
+    <span class="doccomment">/// The resource name of the Database.</span>
+    <span class="doccomment">/// Format: `projects/{project}/databases/{database}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The location of the database. Available databases are listed at</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/firestore/docs/locations.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">location_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type of the database.</span>
+    <span class="doccomment">/// See &lt;https://cloud.google.com/datastore/docs/firestore-or-datastore&gt; for</span>
+    <span class="doccomment">/// information about how to choose.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;database::DatabaseType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The concurrency control mode to use for this database.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;database::ConcurrencyMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">concurrency_mode</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// This checksum is computed by the server based on the value of other</span>
+    <span class="doccomment">/// fields, and may be sent on update and delete requests to ensure the</span>
+    <span class="doccomment">/// client has an up-to-date value before proceeding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;99&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Database`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">database</span> {
+    <span class="doccomment">/// The type of the database.</span>
+    <span class="doccomment">/// See &lt;https://cloud.google.com/datastore/docs/firestore-or-datastore&gt; for</span>
+    <span class="doccomment">/// information about how to choose.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DatabaseType</span> {
+        <span class="doccomment">/// The default value. This value is used if the database type is omitted.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Firestore Native Mode</span>
+        <span class="ident">FirestoreNative</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Firestore in Datastore Mode.</span>
+        <span class="ident">DatastoreMode</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// The type of concurrency control mode for transactions.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConcurrencyMode</span> {
+        <span class="doccomment">/// Not used.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Use optimistic concurrency control by default. This setting is available</span>
+        <span class="doccomment">/// for Cloud Firestore customers.</span>
+        <span class="ident">Optimistic</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Use pessimistic concurrency control by default. This setting is available</span>
+        <span class="doccomment">/// for Cloud Firestore customers.</span>
+        <span class="doccomment">/// This is the default setting for Cloud Firestore.</span>
+        <span class="ident">Pessimistic</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Use optimistic concurrency control with entity groups by default. This is</span>
+        <span class="doccomment">/// the only available setting for Cloud Datastore customers.</span>
+        <span class="doccomment">/// This is the default setting for Cloud Datastore.</span>
+        <span class="ident">OptimisticWithEntityGroups</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Cloud Firestore indexes enable simple and complex queries against</span>
 <span class="doccomment">/// documents in a database.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Index</span> {
@@ -1097,136 +1158,6 @@
         <span class="doccomment">/// that last attempted to create this index failed, then re-create the</span>
         <span class="doccomment">/// index.</span>
         <span class="ident">NeedsRepair</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Represents a single field in the database.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Fields are grouped by their &quot;Collection Group&quot;, which represent all</span>
-<span class="doccomment">/// collections in the database with the same id.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Field</span> {
-    <span class="doccomment">/// Required. A field name of the form</span>
-    <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A field path may be a simple field name, e.g. `address` or a path to fields</span>
-    <span class="doccomment">/// within map_value , e.g. `address.city`,</span>
-    <span class="doccomment">/// or a special field path. The only valid special field is `*`, which</span>
-    <span class="doccomment">/// represents any field.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Field paths may be quoted using ` (backtick). The only character that needs</span>
-    <span class="doccomment">/// to be escaped within a quoted field path is the backtick character itself,</span>
-    <span class="doccomment">/// escaped using a backslash. Special characters in field paths that</span>
-    <span class="doccomment">/// must be quoted include: `*`, `.`,</span>
-    <span class="doccomment">/// ``` (backtick), `[`, `]`, as well as any ascii symbolic characters.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples:</span>
-    <span class="doccomment">/// (Note: Comments here are written in markdown syntax, so there is an</span>
-    <span class="doccomment">///  additional layer of backticks to represent a code block)</span>
-    <span class="doccomment">/// `\`address.city\`` represents a field named `address.city`, not the map key</span>
-    <span class="doccomment">/// `city` in the field `address`.</span>
-    <span class="doccomment">/// `\`*\`` represents a field named `*`, not any field.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A special `Field` contains the default indexing settings for all fields.</span>
-    <span class="doccomment">/// This field&#39;s resource name is:</span>
-    <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*`</span>
-    <span class="doccomment">/// Indexes defined on this `Field` will be applied to all fields which do not</span>
-    <span class="doccomment">/// have their own `Field` index configuration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The index configuration for this field. If unset, field indexing will</span>
-    <span class="doccomment">/// revert to the configuration defined by the `ancestor_field`. To</span>
-    <span class="doccomment">/// explicitly remove all indexes for this field, specify an index config</span>
-    <span class="doccomment">/// with an empty list of indexes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">index_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">field::IndexConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Field`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">field</span> {
-    <span class="doccomment">/// The index configuration for this field.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IndexConfig</span> {
-        <span class="doccomment">/// The indexes supported for this field.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">indexes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Index</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Output only. When true, the `Field`&#39;s index configuration is set from the</span>
-        <span class="doccomment">/// configuration specified by the `ancestor_field`.</span>
-        <span class="doccomment">/// When false, the `Field`&#39;s index configuration is defined explicitly.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">uses_ancestor_config</span>: <span class="ident">bool</span>,
-        <span class="doccomment">/// Output only. Specifies the resource name of the `Field` from which this field&#39;s</span>
-        <span class="doccomment">/// index configuration is set (when `uses_ancestor_config` is true),</span>
-        <span class="doccomment">/// or from which it *would* be set if this field had no index configuration</span>
-        <span class="doccomment">/// (when `uses_ancestor_config` is false).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">ancestor_field</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Output only</span>
-        <span class="doccomment">/// When true, the `Field`&#39;s index configuration is in the process of being</span>
-        <span class="doccomment">/// reverted. Once complete, the index config will transition to the same</span>
-        <span class="doccomment">/// state as the field specified by `ancestor_field`, at which point</span>
-        <span class="doccomment">/// `uses_ancestor_config` will be `true` and `reverting` will be `false`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">reverting</span>: <span class="ident">bool</span>,
-    }
-}
-<span class="doccomment">/// A Cloud Firestore Database.</span>
-<span class="doccomment">/// Currently only one database is allowed per cloud project; this database</span>
-<span class="doccomment">/// must have a `database_id` of &#39;(default)&#39;.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Database</span> {
-    <span class="doccomment">/// The resource name of the Database.</span>
-    <span class="doccomment">/// Format: `projects/{project}/databases/{database}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The location of the database. Available databases are listed at</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/firestore/docs/locations.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">location_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type of the database.</span>
-    <span class="doccomment">/// See &lt;https://cloud.google.com/datastore/docs/firestore-or-datastore&gt; for</span>
-    <span class="doccomment">/// information about how to choose.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;database::DatabaseType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The concurrency control mode to use for this database.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;database::ConcurrencyMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">concurrency_mode</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// This checksum is computed by the server based on the value of other</span>
-    <span class="doccomment">/// fields, and may be sent on update and delete requests to ensure the</span>
-    <span class="doccomment">/// client has an up-to-date value before proceeding.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;99&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Database`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">database</span> {
-    <span class="doccomment">/// The type of the database.</span>
-    <span class="doccomment">/// See &lt;https://cloud.google.com/datastore/docs/firestore-or-datastore&gt; for</span>
-    <span class="doccomment">/// information about how to choose.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DatabaseType</span> {
-        <span class="doccomment">/// The default value. This value is used if the database type is omitted.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Firestore Native Mode</span>
-        <span class="ident">FirestoreNative</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Firestore in Datastore Mode.</span>
-        <span class="ident">DatastoreMode</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// The type of concurrency control mode for transactions.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConcurrencyMode</span> {
-        <span class="doccomment">/// Not used.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Use optimistic concurrency control by default. This setting is available</span>
-        <span class="doccomment">/// for Cloud Firestore customers.</span>
-        <span class="ident">Optimistic</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Use pessimistic concurrency control by default. This setting is available</span>
-        <span class="doccomment">/// for Cloud Firestore customers.</span>
-        <span class="doccomment">/// This is the default setting for Cloud Firestore.</span>
-        <span class="ident">Pessimistic</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Use optimistic concurrency control with entity groups by default. This is</span>
-        <span class="doccomment">/// the only available setting for Cloud Datastore customers.</span>
-        <span class="doccomment">/// This is the default setting for Cloud Datastore.</span>
-        <span class="ident">OptimisticWithEntityGroups</span> <span class="op">=</span> <span class="number">3</span>,
     }
 }
 <span class="doccomment">/// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from</span>
@@ -1410,6 +1341,78 @@
     <span class="doccomment">/// google.longrunning.Operations.CancelOperation.</span>
     <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">7</span>,
 }
+<span class="doccomment">/// Represents a single field in the database.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Fields are grouped by their &quot;Collection Group&quot;, which represent all</span>
+<span class="doccomment">/// collections in the database with the same id.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Field</span> {
+    <span class="doccomment">/// Required. A field name of the form</span>
+    <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// A field path may be a simple field name, e.g. `address` or a path to fields</span>
+    <span class="doccomment">/// within map_value , e.g. `address.city`,</span>
+    <span class="doccomment">/// or a special field path. The only valid special field is `*`, which</span>
+    <span class="doccomment">/// represents any field.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Field paths may be quoted using ` (backtick). The only character that needs</span>
+    <span class="doccomment">/// to be escaped within a quoted field path is the backtick character itself,</span>
+    <span class="doccomment">/// escaped using a backslash. Special characters in field paths that</span>
+    <span class="doccomment">/// must be quoted include: `*`, `.`,</span>
+    <span class="doccomment">/// ``` (backtick), `[`, `]`, as well as any ascii symbolic characters.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">/// (Note: Comments here are written in markdown syntax, so there is an</span>
+    <span class="doccomment">///  additional layer of backticks to represent a code block)</span>
+    <span class="doccomment">/// `\`address.city\`` represents a field named `address.city`, not the map key</span>
+    <span class="doccomment">/// `city` in the field `address`.</span>
+    <span class="doccomment">/// `\`*\`` represents a field named `*`, not any field.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// A special `Field` contains the default indexing settings for all fields.</span>
+    <span class="doccomment">/// This field&#39;s resource name is:</span>
+    <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*`</span>
+    <span class="doccomment">/// Indexes defined on this `Field` will be applied to all fields which do not</span>
+    <span class="doccomment">/// have their own `Field` index configuration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The index configuration for this field. If unset, field indexing will</span>
+    <span class="doccomment">/// revert to the configuration defined by the `ancestor_field`. To</span>
+    <span class="doccomment">/// explicitly remove all indexes for this field, specify an index config</span>
+    <span class="doccomment">/// with an empty list of indexes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">index_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">field::IndexConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Field`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">field</span> {
+    <span class="doccomment">/// The index configuration for this field.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IndexConfig</span> {
+        <span class="doccomment">/// The indexes supported for this field.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">indexes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Index</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Output only. When true, the `Field`&#39;s index configuration is set from the</span>
+        <span class="doccomment">/// configuration specified by the `ancestor_field`.</span>
+        <span class="doccomment">/// When false, the `Field`&#39;s index configuration is defined explicitly.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">uses_ancestor_config</span>: <span class="ident">bool</span>,
+        <span class="doccomment">/// Output only. Specifies the resource name of the `Field` from which this field&#39;s</span>
+        <span class="doccomment">/// index configuration is set (when `uses_ancestor_config` is true),</span>
+        <span class="doccomment">/// or from which it *would* be set if this field had no index configuration</span>
+        <span class="doccomment">/// (when `uses_ancestor_config` is false).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">ancestor_field</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Output only</span>
+        <span class="doccomment">/// When true, the `Field`&#39;s index configuration is in the process of being</span>
+        <span class="doccomment">/// reverted. Once complete, the index config will transition to the same</span>
+        <span class="doccomment">/// state as the field specified by `ancestor_field`, at which point</span>
+        <span class="doccomment">/// `uses_ancestor_config` will be `true` and `reverting` will be `false`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">reverting</span>: <span class="ident">bool</span>,
+    }
+}
+<span class="doccomment">/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocationMetadata</span> {}
 <span class="doccomment">/// A request to list the Firestore Databases in all locations for a project.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListDatabasesRequest</span> {
@@ -1927,9 +1930,6 @@
         }
     }
 }
-<span class="doccomment">/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocationMetadata</span> {}
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../search-index.js" data-search-js="../../../../../../search.js"></div>
     <script src="../../../../../../main.js"></script><script src="../../../../../../source-script.js"></script><script src="../../../../../../source-files.js"></script>

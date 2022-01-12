@@ -449,6 +449,154 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::Any</span><span class="op">&gt;</span>,
 }
+<span class="doccomment">/// The canonical error codes for gRPC APIs.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Sometimes multiple error codes may apply.  Services should return</span>
+<span class="doccomment">/// the most specific error code that applies.  For example, prefer</span>
+<span class="doccomment">/// `OUT_OF_RANGE` over `FAILED_PRECONDITION` if both codes apply.</span>
+<span class="doccomment">/// Similarly prefer `NOT_FOUND` or `ALREADY_EXISTS` over `FAILED_PRECONDITION`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
+    <span class="doccomment">/// Not an error; returned on success</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 200 OK</span>
+    <span class="prelude-val">Ok</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// The operation was cancelled, typically by the caller.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 499 Client Closed Request</span>
+    <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Unknown error.  For example, this error may be returned when</span>
+    <span class="doccomment">/// a `Status` value received from another address space belongs to</span>
+    <span class="doccomment">/// an error space that is not known in this address space.  Also</span>
+    <span class="doccomment">/// errors raised by APIs that do not return enough error information</span>
+    <span class="doccomment">/// may be converted to this error.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 500 Internal Server Error</span>
+    <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// The client specified an invalid argument.  Note that this differs</span>
+    <span class="doccomment">/// from `FAILED_PRECONDITION`.  `INVALID_ARGUMENT` indicates arguments</span>
+    <span class="doccomment">/// that are problematic regardless of the state of the system</span>
+    <span class="doccomment">/// (e.g., a malformed file name).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 400 Bad Request</span>
+    <span class="ident">InvalidArgument</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// The deadline expired before the operation could complete. For operations</span>
+    <span class="doccomment">/// that change the state of the system, this error may be returned</span>
+    <span class="doccomment">/// even if the operation has completed successfully.  For example, a</span>
+    <span class="doccomment">/// successful response from a server could have been delayed long</span>
+    <span class="doccomment">/// enough for the deadline to expire.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 504 Gateway Timeout</span>
+    <span class="ident">DeadlineExceeded</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// Some requested entity (e.g., file or directory) was not found.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note to server developers: if a request is denied for an entire class</span>
+    <span class="doccomment">/// of users, such as gradual feature rollout or undocumented whitelist,</span>
+    <span class="doccomment">/// `NOT_FOUND` may be used. If a request is denied for some users within</span>
+    <span class="doccomment">/// a class of users, such as user-based access control, `PERMISSION_DENIED`</span>
+    <span class="doccomment">/// must be used.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 404 Not Found</span>
+    <span class="ident">NotFound</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="doccomment">/// The entity that a client attempted to create (e.g., file or directory)</span>
+    <span class="doccomment">/// already exists.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 409 Conflict</span>
+    <span class="ident">AlreadyExists</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="doccomment">/// The caller does not have permission to execute the specified</span>
+    <span class="doccomment">/// operation. `PERMISSION_DENIED` must not be used for rejections</span>
+    <span class="doccomment">/// caused by exhausting some resource (use `RESOURCE_EXHAUSTED`</span>
+    <span class="doccomment">/// instead for those errors). `PERMISSION_DENIED` must not be</span>
+    <span class="doccomment">/// used if the caller can not be identified (use `UNAUTHENTICATED`</span>
+    <span class="doccomment">/// instead for those errors). This error code does not imply the</span>
+    <span class="doccomment">/// request is valid or the requested entity exists or satisfies</span>
+    <span class="doccomment">/// other pre-conditions.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 403 Forbidden</span>
+    <span class="ident">PermissionDenied</span> <span class="op">=</span> <span class="number">7</span>,
+    <span class="doccomment">/// The request does not have valid authentication credentials for the</span>
+    <span class="doccomment">/// operation.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 401 Unauthorized</span>
+    <span class="ident">Unauthenticated</span> <span class="op">=</span> <span class="number">16</span>,
+    <span class="doccomment">/// Some resource has been exhausted, perhaps a per-user quota, or</span>
+    <span class="doccomment">/// perhaps the entire file system is out of space.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 429 Too Many Requests</span>
+    <span class="ident">ResourceExhausted</span> <span class="op">=</span> <span class="number">8</span>,
+    <span class="doccomment">/// The operation was rejected because the system is not in a state</span>
+    <span class="doccomment">/// required for the operation&#39;s execution.  For example, the directory</span>
+    <span class="doccomment">/// to be deleted is non-empty, an rmdir operation is applied to</span>
+    <span class="doccomment">/// a non-directory, etc.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Service implementors can use the following guidelines to decide</span>
+    <span class="doccomment">/// between `FAILED_PRECONDITION`, `ABORTED`, and `UNAVAILABLE`:</span>
+    <span class="doccomment">///  (a) Use `UNAVAILABLE` if the client can retry just the failing call.</span>
+    <span class="doccomment">///  (b) Use `ABORTED` if the client should retry at a higher level</span>
+    <span class="doccomment">///      (e.g., when a client-specified test-and-set fails, indicating the</span>
+    <span class="doccomment">///      client should restart a read-modify-write sequence).</span>
+    <span class="doccomment">///  (c) Use `FAILED_PRECONDITION` if the client should not retry until</span>
+    <span class="doccomment">///      the system state has been explicitly fixed.  E.g., if an &quot;rmdir&quot;</span>
+    <span class="doccomment">///      fails because the directory is non-empty, `FAILED_PRECONDITION`</span>
+    <span class="doccomment">///      should be returned since the client should not retry unless</span>
+    <span class="doccomment">///      the files are deleted from the directory.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 400 Bad Request</span>
+    <span class="ident">FailedPrecondition</span> <span class="op">=</span> <span class="number">9</span>,
+    <span class="doccomment">/// The operation was aborted, typically due to a concurrency issue such as</span>
+    <span class="doccomment">/// a sequencer check failure or transaction abort.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See the guidelines above for deciding between `FAILED_PRECONDITION`,</span>
+    <span class="doccomment">/// `ABORTED`, and `UNAVAILABLE`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 409 Conflict</span>
+    <span class="ident">Aborted</span> <span class="op">=</span> <span class="number">10</span>,
+    <span class="doccomment">/// The operation was attempted past the valid range.  E.g., seeking or</span>
+    <span class="doccomment">/// reading past end-of-file.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Unlike `INVALID_ARGUMENT`, this error indicates a problem that may</span>
+    <span class="doccomment">/// be fixed if the system state changes. For example, a 32-bit file</span>
+    <span class="doccomment">/// system will generate `INVALID_ARGUMENT` if asked to read at an</span>
+    <span class="doccomment">/// offset that is not in the range \[0,2^32-1\], but it will generate</span>
+    <span class="doccomment">/// `OUT_OF_RANGE` if asked to read from an offset past the current</span>
+    <span class="doccomment">/// file size.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// There is a fair bit of overlap between `FAILED_PRECONDITION` and</span>
+    <span class="doccomment">/// `OUT_OF_RANGE`.  We recommend using `OUT_OF_RANGE` (the more specific</span>
+    <span class="doccomment">/// error) when it applies so that callers who are iterating through</span>
+    <span class="doccomment">/// a space can easily look for an `OUT_OF_RANGE` error to detect when</span>
+    <span class="doccomment">/// they are done.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 400 Bad Request</span>
+    <span class="ident">OutOfRange</span> <span class="op">=</span> <span class="number">11</span>,
+    <span class="doccomment">/// The operation is not implemented or is not supported/enabled in this</span>
+    <span class="doccomment">/// service.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 501 Not Implemented</span>
+    <span class="ident">Unimplemented</span> <span class="op">=</span> <span class="number">12</span>,
+    <span class="doccomment">/// Internal errors.  This means that some invariants expected by the</span>
+    <span class="doccomment">/// underlying system have been broken.  This error code is reserved</span>
+    <span class="doccomment">/// for serious errors.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 500 Internal Server Error</span>
+    <span class="ident">Internal</span> <span class="op">=</span> <span class="number">13</span>,
+    <span class="doccomment">/// The service is currently unavailable.  This is most likely a</span>
+    <span class="doccomment">/// transient condition, which can be corrected by retrying with</span>
+    <span class="doccomment">/// a backoff. Note that it is not always safe to retry</span>
+    <span class="doccomment">/// non-idempotent operations.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See the guidelines above for deciding between `FAILED_PRECONDITION`,</span>
+    <span class="doccomment">/// `ABORTED`, and `UNAVAILABLE`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 503 Service Unavailable</span>
+    <span class="ident">Unavailable</span> <span class="op">=</span> <span class="number">14</span>,
+    <span class="doccomment">/// Unrecoverable data loss or corruption.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// HTTP Mapping: 500 Internal Server Error</span>
+    <span class="ident">DataLoss</span> <span class="op">=</span> <span class="number">15</span>,
+}
 <span class="doccomment">/// Describes when the clients can retry a failed request. Clients could ignore</span>
 <span class="doccomment">/// the recommendation here or retry when this information is missing from error</span>
 <span class="doccomment">/// responses.</span>
@@ -701,154 +849,6 @@
     <span class="doccomment">/// The localized error message in the above locale.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The canonical error codes for gRPC APIs.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Sometimes multiple error codes may apply.  Services should return</span>
-<span class="doccomment">/// the most specific error code that applies.  For example, prefer</span>
-<span class="doccomment">/// `OUT_OF_RANGE` over `FAILED_PRECONDITION` if both codes apply.</span>
-<span class="doccomment">/// Similarly prefer `NOT_FOUND` or `ALREADY_EXISTS` over `FAILED_PRECONDITION`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
-    <span class="doccomment">/// Not an error; returned on success</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 200 OK</span>
-    <span class="prelude-val">Ok</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// The operation was cancelled, typically by the caller.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 499 Client Closed Request</span>
-    <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Unknown error.  For example, this error may be returned when</span>
-    <span class="doccomment">/// a `Status` value received from another address space belongs to</span>
-    <span class="doccomment">/// an error space that is not known in this address space.  Also</span>
-    <span class="doccomment">/// errors raised by APIs that do not return enough error information</span>
-    <span class="doccomment">/// may be converted to this error.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 500 Internal Server Error</span>
-    <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// The client specified an invalid argument.  Note that this differs</span>
-    <span class="doccomment">/// from `FAILED_PRECONDITION`.  `INVALID_ARGUMENT` indicates arguments</span>
-    <span class="doccomment">/// that are problematic regardless of the state of the system</span>
-    <span class="doccomment">/// (e.g., a malformed file name).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 400 Bad Request</span>
-    <span class="ident">InvalidArgument</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// The deadline expired before the operation could complete. For operations</span>
-    <span class="doccomment">/// that change the state of the system, this error may be returned</span>
-    <span class="doccomment">/// even if the operation has completed successfully.  For example, a</span>
-    <span class="doccomment">/// successful response from a server could have been delayed long</span>
-    <span class="doccomment">/// enough for the deadline to expire.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 504 Gateway Timeout</span>
-    <span class="ident">DeadlineExceeded</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// Some requested entity (e.g., file or directory) was not found.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note to server developers: if a request is denied for an entire class</span>
-    <span class="doccomment">/// of users, such as gradual feature rollout or undocumented whitelist,</span>
-    <span class="doccomment">/// `NOT_FOUND` may be used. If a request is denied for some users within</span>
-    <span class="doccomment">/// a class of users, such as user-based access control, `PERMISSION_DENIED`</span>
-    <span class="doccomment">/// must be used.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 404 Not Found</span>
-    <span class="ident">NotFound</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// The entity that a client attempted to create (e.g., file or directory)</span>
-    <span class="doccomment">/// already exists.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 409 Conflict</span>
-    <span class="ident">AlreadyExists</span> <span class="op">=</span> <span class="number">6</span>,
-    <span class="doccomment">/// The caller does not have permission to execute the specified</span>
-    <span class="doccomment">/// operation. `PERMISSION_DENIED` must not be used for rejections</span>
-    <span class="doccomment">/// caused by exhausting some resource (use `RESOURCE_EXHAUSTED`</span>
-    <span class="doccomment">/// instead for those errors). `PERMISSION_DENIED` must not be</span>
-    <span class="doccomment">/// used if the caller can not be identified (use `UNAUTHENTICATED`</span>
-    <span class="doccomment">/// instead for those errors). This error code does not imply the</span>
-    <span class="doccomment">/// request is valid or the requested entity exists or satisfies</span>
-    <span class="doccomment">/// other pre-conditions.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 403 Forbidden</span>
-    <span class="ident">PermissionDenied</span> <span class="op">=</span> <span class="number">7</span>,
-    <span class="doccomment">/// The request does not have valid authentication credentials for the</span>
-    <span class="doccomment">/// operation.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 401 Unauthorized</span>
-    <span class="ident">Unauthenticated</span> <span class="op">=</span> <span class="number">16</span>,
-    <span class="doccomment">/// Some resource has been exhausted, perhaps a per-user quota, or</span>
-    <span class="doccomment">/// perhaps the entire file system is out of space.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 429 Too Many Requests</span>
-    <span class="ident">ResourceExhausted</span> <span class="op">=</span> <span class="number">8</span>,
-    <span class="doccomment">/// The operation was rejected because the system is not in a state</span>
-    <span class="doccomment">/// required for the operation&#39;s execution.  For example, the directory</span>
-    <span class="doccomment">/// to be deleted is non-empty, an rmdir operation is applied to</span>
-    <span class="doccomment">/// a non-directory, etc.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Service implementors can use the following guidelines to decide</span>
-    <span class="doccomment">/// between `FAILED_PRECONDITION`, `ABORTED`, and `UNAVAILABLE`:</span>
-    <span class="doccomment">///  (a) Use `UNAVAILABLE` if the client can retry just the failing call.</span>
-    <span class="doccomment">///  (b) Use `ABORTED` if the client should retry at a higher level</span>
-    <span class="doccomment">///      (e.g., when a client-specified test-and-set fails, indicating the</span>
-    <span class="doccomment">///      client should restart a read-modify-write sequence).</span>
-    <span class="doccomment">///  (c) Use `FAILED_PRECONDITION` if the client should not retry until</span>
-    <span class="doccomment">///      the system state has been explicitly fixed.  E.g., if an &quot;rmdir&quot;</span>
-    <span class="doccomment">///      fails because the directory is non-empty, `FAILED_PRECONDITION`</span>
-    <span class="doccomment">///      should be returned since the client should not retry unless</span>
-    <span class="doccomment">///      the files are deleted from the directory.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 400 Bad Request</span>
-    <span class="ident">FailedPrecondition</span> <span class="op">=</span> <span class="number">9</span>,
-    <span class="doccomment">/// The operation was aborted, typically due to a concurrency issue such as</span>
-    <span class="doccomment">/// a sequencer check failure or transaction abort.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See the guidelines above for deciding between `FAILED_PRECONDITION`,</span>
-    <span class="doccomment">/// `ABORTED`, and `UNAVAILABLE`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 409 Conflict</span>
-    <span class="ident">Aborted</span> <span class="op">=</span> <span class="number">10</span>,
-    <span class="doccomment">/// The operation was attempted past the valid range.  E.g., seeking or</span>
-    <span class="doccomment">/// reading past end-of-file.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Unlike `INVALID_ARGUMENT`, this error indicates a problem that may</span>
-    <span class="doccomment">/// be fixed if the system state changes. For example, a 32-bit file</span>
-    <span class="doccomment">/// system will generate `INVALID_ARGUMENT` if asked to read at an</span>
-    <span class="doccomment">/// offset that is not in the range \[0,2^32-1\], but it will generate</span>
-    <span class="doccomment">/// `OUT_OF_RANGE` if asked to read from an offset past the current</span>
-    <span class="doccomment">/// file size.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// There is a fair bit of overlap between `FAILED_PRECONDITION` and</span>
-    <span class="doccomment">/// `OUT_OF_RANGE`.  We recommend using `OUT_OF_RANGE` (the more specific</span>
-    <span class="doccomment">/// error) when it applies so that callers who are iterating through</span>
-    <span class="doccomment">/// a space can easily look for an `OUT_OF_RANGE` error to detect when</span>
-    <span class="doccomment">/// they are done.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 400 Bad Request</span>
-    <span class="ident">OutOfRange</span> <span class="op">=</span> <span class="number">11</span>,
-    <span class="doccomment">/// The operation is not implemented or is not supported/enabled in this</span>
-    <span class="doccomment">/// service.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 501 Not Implemented</span>
-    <span class="ident">Unimplemented</span> <span class="op">=</span> <span class="number">12</span>,
-    <span class="doccomment">/// Internal errors.  This means that some invariants expected by the</span>
-    <span class="doccomment">/// underlying system have been broken.  This error code is reserved</span>
-    <span class="doccomment">/// for serious errors.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 500 Internal Server Error</span>
-    <span class="ident">Internal</span> <span class="op">=</span> <span class="number">13</span>,
-    <span class="doccomment">/// The service is currently unavailable.  This is most likely a</span>
-    <span class="doccomment">/// transient condition, which can be corrected by retrying with</span>
-    <span class="doccomment">/// a backoff. Note that it is not always safe to retry</span>
-    <span class="doccomment">/// non-idempotent operations.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See the guidelines above for deciding between `FAILED_PRECONDITION`,</span>
-    <span class="doccomment">/// `ABORTED`, and `UNAVAILABLE`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 503 Service Unavailable</span>
-    <span class="ident">Unavailable</span> <span class="op">=</span> <span class="number">14</span>,
-    <span class="doccomment">/// Unrecoverable data loss or corruption.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HTTP Mapping: 500 Internal Server Error</span>
-    <span class="ident">DataLoss</span> <span class="op">=</span> <span class="number">15</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>

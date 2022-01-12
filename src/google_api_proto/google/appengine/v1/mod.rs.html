@@ -3414,294 +3414,98 @@
 <span id="3414">3414</span>
 <span id="3415">3415</span>
 <span id="3416">3416</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A domain that a user has been authorized to administer. To authorize use</span>
-<span class="doccomment">/// of a domain, verify ownership via</span>
-<span class="doccomment">/// [Webmaster Central](&lt;https://www.google.com/webmasters/verification/home&gt;).</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A NetworkSettings resource is a container for ingress settings for a version</span>
+<span class="doccomment">/// or service.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthorizedDomain</span> {
-    <span class="doccomment">/// Full path to the `AuthorizedDomain` resource in the API. Example:</span>
-    <span class="doccomment">/// `apps/myapp/authorizedDomains/example.com`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Fully qualified domain name of the domain authorized for use. Example:</span>
-    <span class="doccomment">/// `example.com`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NetworkSettings</span> {
+    <span class="doccomment">/// The ingress settings for version or service.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;network_settings::IngressTrafficAllowed&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ingress_traffic_allowed</span>: <span class="ident">i32</span>,
 }
-<span class="doccomment">/// A domain serving an App Engine application.</span>
+<span class="doccomment">/// Nested message and enum types in `NetworkSettings`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">network_settings</span> {
+    <span class="doccomment">/// If unspecified, INGRESS_TRAFFIC_ALLOWED_ALL will be used.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">IngressTrafficAllowed</span> {
+        <span class="doccomment">/// Unspecified</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Allow HTTP traffic from public and private sources.</span>
+        <span class="ident">All</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Allow HTTP traffic from only private VPC sources.</span>
+        <span class="ident">InternalOnly</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Allow HTTP traffic from private VPC sources and through load balancers.</span>
+        <span class="ident">InternalAndLb</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// A Service resource is a logical component of an application that can share</span>
+<span class="doccomment">/// state and communicate in a secure fashion with other services.</span>
+<span class="doccomment">/// For example, an application that handles customer requests might</span>
+<span class="doccomment">/// include separate services to handle tasks such as backend data</span>
+<span class="doccomment">/// analysis or API requests from mobile devices. Each service has a</span>
+<span class="doccomment">/// collection of versions that define a specific set of code used to</span>
+<span class="doccomment">/// implement the functionality of that service.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DomainMapping</span> {
-    <span class="doccomment">/// Full path to the `DomainMapping` resource in the API. Example:</span>
-    <span class="doccomment">/// `apps/myapp/domainMapping/example.com`.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Service</span> {
+    <span class="doccomment">/// Full path to the Service resource in the API.</span>
+    <span class="doccomment">/// Example: `apps/myapp/services/default`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// @OutputOnly</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Relative name of the domain serving the application. Example:</span>
-    <span class="doccomment">/// `example.com`.</span>
+    <span class="doccomment">/// Relative name of the service within the application.</span>
+    <span class="doccomment">/// Example: `default`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// SSL configuration for this domain. If unconfigured, this domain will not</span>
-    <span class="doccomment">/// serve with SSL.</span>
+    <span class="doccomment">/// Mapping that defines fractional HTTP traffic diversion to</span>
+    <span class="doccomment">/// different versions within the service.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ssl_settings</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">SslSettings</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The resource records required to configure this domain mapping. These</span>
-    <span class="doccomment">/// records must be added to the domain&#39;s DNS configuration in order to</span>
-    <span class="doccomment">/// serve the application via this domain mapping.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_records</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ResourceRecord</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">split</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">TrafficSplit</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Ingress settings for this service. Will apply to all versions.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">network_settings</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">NetworkSettings</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// SSL configuration for a `DomainMapping` resource.</span>
+<span class="doccomment">/// Traffic routing configuration for versions within a single service. Traffic</span>
+<span class="doccomment">/// splits define how traffic directed to the service is assigned to versions.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SslSettings</span> {
-    <span class="doccomment">/// ID of the `AuthorizedCertificate` resource configuring SSL for the</span>
-    <span class="doccomment">/// application. Clearing this field will remove SSL support.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default, a managed certificate is automatically created for every</span>
-    <span class="doccomment">/// domain mapping. To omit SSL support or to configure SSL manually, specify</span>
-    <span class="doccomment">/// `SslManagementType.MANUAL` on a `CREATE` or `UPDATE` request. You must</span>
-    <span class="doccomment">/// be authorized to administer the `AuthorizedCertificate` resource to</span>
-    <span class="doccomment">/// manually map it to a `DomainMapping` resource.</span>
-    <span class="doccomment">/// Example: `12345`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">certificate_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// SSL management type for this domain. If `AUTOMATIC`, a managed certificate</span>
-    <span class="doccomment">/// is automatically provisioned. If `MANUAL`, `certificate_id` must be</span>
-    <span class="doccomment">/// manually specified in order to configure SSL for this domain.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ssl_settings::SslManagementType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ssl_management_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// ID of the managed `AuthorizedCertificate` resource currently being</span>
-    <span class="doccomment">/// provisioned, if applicable. Until the new managed certificate has been</span>
-    <span class="doccomment">/// successfully provisioned, the previous SSL state will be preserved. Once</span>
-    <span class="doccomment">/// the provisioning process completes, the `certificate_id` field will reflect</span>
-    <span class="doccomment">/// the new managed certificate and this field will be left empty. To remove</span>
-    <span class="doccomment">/// SSL support while there is still a pending managed certificate, clear the</span>
-    <span class="doccomment">/// `certificate_id` field with an `UpdateDomainMappingRequest`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">pending_managed_certificate_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TrafficSplit</span> {
+    <span class="doccomment">/// Mechanism used to determine which version a request is sent to.</span>
+    <span class="doccomment">/// The traffic selection algorithm will</span>
+    <span class="doccomment">/// be stable for either type until allocations are changed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;traffic_split::ShardBy&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">shard_by</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Mapping from version IDs within the service to fractional</span>
+    <span class="doccomment">/// (0.000, 1] allocations of traffic for that version. Each version can</span>
+    <span class="doccomment">/// be specified only once, but some versions in the service may not</span>
+    <span class="doccomment">/// have any traffic allocation. Services that have traffic allocated</span>
+    <span class="doccomment">/// cannot be deleted until either the service is deleted or</span>
+    <span class="doccomment">/// their traffic allocation is removed. Allocations must sum to 1.</span>
+    <span class="doccomment">/// Up to two decimal place precision is supported for IP-based splits and</span>
+    <span class="doccomment">/// up to three decimal places is supported for cookie-based splits.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, double&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">allocations</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">f64</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Nested message and enum types in `SslSettings`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ssl_settings</span> {
-    <span class="doccomment">/// The SSL management type for this domain.</span>
+<span class="doccomment">/// Nested message and enum types in `TrafficSplit`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">traffic_split</span> {
+    <span class="doccomment">/// Available sharding mechanisms.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
     <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SslManagementType</span> {
-        <span class="doccomment">/// Defaults to `AUTOMATIC`.</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ShardBy</span> {
+        <span class="doccomment">/// Diversion method unspecified.</span>
         <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// SSL support for this domain is configured automatically. The mapped SSL</span>
-        <span class="doccomment">/// certificate will be automatically renewed.</span>
-        <span class="ident">Automatic</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// SSL support for this domain is configured manually by the user. Either</span>
-        <span class="doccomment">/// the domain has no SSL support or a user-obtained SSL certificate has been</span>
-        <span class="doccomment">/// explictly mapped to this domain.</span>
-        <span class="ident">Manual</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Diversion based on a specially named cookie, &quot;GOOGAPPUID.&quot; The cookie</span>
+        <span class="doccomment">/// must be set by the application itself or no diversion will occur.</span>
+        <span class="ident">Cookie</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Diversion based on applying the modulus operation to a fingerprint</span>
+        <span class="doccomment">/// of the IP address.</span>
+        <span class="ident">Ip</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Diversion based on weighted random assignment. An incoming request is</span>
+        <span class="doccomment">/// randomly routed to a version in the traffic split, with probability</span>
+        <span class="doccomment">/// proportional to the version&#39;s traffic share.</span>
+        <span class="ident">Random</span> <span class="op">=</span> <span class="number">3</span>,
     }
-}
-<span class="doccomment">/// A DNS resource record.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResourceRecord</span> {
-    <span class="doccomment">/// Relative name of the object affected by this record. Only applicable for</span>
-    <span class="doccomment">/// `CNAME` records. Example: &#39;www&#39;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Data for this record. Values vary by record type, as defined in RFC 1035</span>
-    <span class="doccomment">/// (section 5) and RFC 1034 (section 3.6.1).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">rrdata</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Resource record type. Example: `AAAA`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;resource_record::RecordType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ResourceRecord`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">resource_record</span> {
-    <span class="doccomment">/// A resource record type.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RecordType</span> {
-        <span class="doccomment">/// An unknown resource record.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// An A resource record. Data is an IPv4 address.</span>
-        <span class="ident">A</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// An AAAA resource record. Data is an IPv6 address.</span>
-        <span class="ident">Aaaa</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// A CNAME resource record. Data is a domain name to be aliased.</span>
-        <span class="ident">Cname</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// An Application resource contains the top-level configuration of an App</span>
-<span class="doccomment">/// Engine application.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Application</span> {
-    <span class="doccomment">/// Full path to the Application resource in the API.</span>
-    <span class="doccomment">/// Example: `apps/myapp`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Identifier of the Application resource. This identifier is equivalent</span>
-    <span class="doccomment">/// to the project ID of the Google Cloud Platform project where you want to</span>
-    <span class="doccomment">/// deploy your application.</span>
-    <span class="doccomment">/// Example: `myapp`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// HTTP path dispatch rules for requests to the application that do not</span>
-    <span class="doccomment">/// explicitly target a service or version. Rules are order-dependent.</span>
-    <span class="doccomment">/// Up to 20 dispatch rules can be supported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dispatch_rules</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">UrlDispatchRule</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Google Apps authentication domain that controls which users can access</span>
-    <span class="doccomment">/// this application.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Defaults to open access for any Google Account.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">auth_domain</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Location from which this application runs. Application instances</span>
-    <span class="doccomment">/// run out of the data centers in the specified location, which is also where</span>
-    <span class="doccomment">/// all of the application&#39;s end user content is stored.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Defaults to `us-central`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// View the list of</span>
-    <span class="doccomment">/// [supported locations](&lt;https://cloud.google.com/appengine/docs/locations&gt;).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">location_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Google Cloud Storage bucket that can be used for storing files</span>
-    <span class="doccomment">/// associated with this application. This bucket is associated with the</span>
-    <span class="doccomment">/// application and can be used by the gcloud deployment commands.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">code_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Cookie expiration policy for this application.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">default_cookie_expiration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Serving status of this application.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;application::ServingStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">serving_status</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Hostname used to reach this application, as resolved by App Engine.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">default_hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Google Cloud Storage bucket that can be used by this application to store</span>
-    <span class="doccomment">/// content.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">default_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">iap</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">application::IdentityAwareProxy</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The Google Container Registry domain used for storing managed build docker</span>
-    <span class="doccomment">/// images for this application.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcr_domain</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type of the Cloud Firestore or Cloud Datastore database associated with</span>
-    <span class="doccomment">/// this application.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;application::DatabaseType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">database_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The feature specific settings to be used in the application.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;18&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">feature_settings</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">application::FeatureSettings</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Application`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">application</span> {
-    <span class="doccomment">/// Identity-Aware Proxy</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IdentityAwareProxy</span> {
-        <span class="doccomment">/// Whether the serving infrastructure will authenticate and</span>
-        <span class="doccomment">/// authorize all incoming requests.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// If true, the `oauth2_client_id` and `oauth2_client_secret`</span>
-        <span class="doccomment">/// fields must be non-empty.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">enabled</span>: <span class="ident">bool</span>,
-        <span class="doccomment">/// OAuth2 client ID to use for the authentication flow.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">oauth2_client_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// OAuth2 client secret to use for the authentication flow.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// For security reasons, this value cannot be retrieved via the API.</span>
-        <span class="doccomment">/// Instead, the SHA-256 hash of the value is returned in the</span>
-        <span class="doccomment">/// `oauth2_client_secret_sha256` field.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// @InputOnly</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">oauth2_client_secret</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Hex-encoded SHA-256 hash of the client secret.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// @OutputOnly</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">oauth2_client_secret_sha256</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// The feature specific settings to be used in the application. These define</span>
-    <span class="doccomment">/// behaviors that are user configurable.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FeatureSettings</span> {
-        <span class="doccomment">/// Boolean value indicating if split health checks should be used instead</span>
-        <span class="doccomment">/// of the legacy health checks. At an app.yaml level, this means defaulting</span>
-        <span class="doccomment">/// to &#39;readiness_check&#39; and &#39;liveness_check&#39; values instead of</span>
-        <span class="doccomment">/// &#39;health_check&#39; ones. Once the legacy &#39;health_check&#39; behavior is</span>
-        <span class="doccomment">/// deprecated, and this value is always true, this setting can</span>
-        <span class="doccomment">/// be removed.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">split_health_checks</span>: <span class="ident">bool</span>,
-        <span class="doccomment">/// If true, use [Container-Optimized OS](&lt;https://cloud.google.com/container-optimized-os/&gt;)</span>
-        <span class="doccomment">/// base image for VMs, rather than a base Debian image.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">use_container_optimized_os</span>: <span class="ident">bool</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ServingStatus</span> {
-        <span class="doccomment">/// Serving status is unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Application is serving.</span>
-        <span class="ident">Serving</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Application has been disabled by the user.</span>
-        <span class="ident">UserDisabled</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Application has been disabled by the system.</span>
-        <span class="ident">SystemDisabled</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DatabaseType</span> {
-        <span class="doccomment">/// Database type is unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Cloud Datastore</span>
-        <span class="ident">CloudDatastore</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Cloud Firestore Native</span>
-        <span class="ident">CloudFirestore</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Cloud Firestore in Datastore Mode</span>
-        <span class="ident">CloudDatastoreCompatibility</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Rules to match an HTTP request and dispatch that request to a service.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UrlDispatchRule</span> {
-    <span class="doccomment">/// Domain name to match against. The wildcard &quot;`*`&quot; is supported if</span>
-    <span class="doccomment">/// specified before a period: &quot;`*.`&quot;.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Defaults to matching all domains: &quot;`*`&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">domain</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Pathname within the host. Must start with a &quot;`/`&quot;. A</span>
-    <span class="doccomment">/// single &quot;`*`&quot; can be included at the end of the path.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The sum of the lengths of the domain and path may not</span>
-    <span class="doccomment">/// exceed 100 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Resource ID of a service in this application that should</span>
-    <span class="doccomment">/// serve the matched request. The service must already</span>
-    <span class="doccomment">/// exist. Example: `default`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// An SSL certificate that a user has been authorized to administer. A user</span>
 <span class="doccomment">/// is authorized to administer any certificate that applies to one of their</span>
@@ -3845,163 +3649,6 @@
     <span class="doccomment">/// added for the given domain. The last successfully provisioned certificate</span>
     <span class="doccomment">/// may still be serving.</span>
     <span class="ident">FailedRetryingCaaChecking</span> <span class="op">=</span> <span class="number">8</span>,
-}
-<span class="doccomment">/// A single firewall rule that is evaluated against incoming traffic</span>
-<span class="doccomment">/// and provides an action to take on matched requests.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FirewallRule</span> {
-    <span class="doccomment">/// A positive integer between [1, Int32.MaxValue-1] that defines the order of</span>
-    <span class="doccomment">/// rule evaluation. Rules with the lowest priority are evaluated first.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A default rule at priority Int32.MaxValue matches all IPv4 and IPv6 traffic</span>
-    <span class="doccomment">/// when no previous rule matches. Only the action of this rule can be modified</span>
-    <span class="doccomment">/// by the user.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">priority</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The action to take on matched requests.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;firewall_rule::Action&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">action</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// IP address or range, defined using CIDR notation, of requests that this</span>
-    <span class="doccomment">/// rule applies to. You can use the wildcard character &quot;*&quot; to match all IPs</span>
-    <span class="doccomment">/// equivalent to &quot;0/0&quot; and &quot;::/0&quot; together.</span>
-    <span class="doccomment">/// Examples: `192.168.1.1` or `192.168.0.0/16` or `2001:db8::/32`</span>
-    <span class="doccomment">///           or `2001:0db8:0000:0042:0000:8a2e:0370:7334`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// &lt;p&gt;Truncation will be silently performed on addresses which are not</span>
-    <span class="doccomment">/// properly truncated. For example, `1.2.3.4/24` is accepted as the same</span>
-    <span class="doccomment">/// address as `1.2.3.0/24`. Similarly, for IPv6, `2001:db8::1/32` is accepted</span>
-    <span class="doccomment">/// as the same address as `2001:db8::/32`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">source_range</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// An optional string description of this rule.</span>
-    <span class="doccomment">/// This field has a maximum length of 100 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `FirewallRule`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">firewall_rule</span> {
-    <span class="doccomment">/// Available actions to take on matching requests.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Action</span> {
-        <span class="ident">UnspecifiedAction</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Matching requests are allowed.</span>
-        <span class="ident">Allow</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Matching requests are denied.</span>
-        <span class="ident">Deny</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// An Instance resource is the computing unit that App Engine uses to</span>
-<span class="doccomment">/// automatically scale an application.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Instance</span> {
-    <span class="doccomment">/// Output only. Full path to the Instance resource in the API.</span>
-    <span class="doccomment">/// Example: `apps/myapp/services/default/versions/v1/instances/instance-1`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Relative name of the instance within the version.</span>
-    <span class="doccomment">/// Example: `instance-1`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. App Engine release this instance is running on.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">app_engine_release</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Availability of the instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;instance::Availability&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">availability</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Name of the virtual machine where this instance lives. Only applicable</span>
-    <span class="doccomment">/// for instances in App Engine flexible environment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vm_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Zone where the virtual machine is located. Only applicable for instances</span>
-    <span class="doccomment">/// in App Engine flexible environment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vm_zone_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Virtual machine ID of this instance. Only applicable for instances in</span>
-    <span class="doccomment">/// App Engine flexible environment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vm_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Time that this instance was started.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Number of requests since this instance was started.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">requests</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Number of errors since this instance was started.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">errors</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Average queries per second (QPS) over the last minute.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">qps</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// Output only. Average latency (ms) over the last minute.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">average_latency</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Total memory in use (bytes).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">memory_usage</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Output only. Status of the virtual machine where this instance lives. Only applicable</span>
-    <span class="doccomment">/// for instances in App Engine flexible environment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vm_status</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Whether this instance is in debug mode. Only applicable for instances in</span>
-    <span class="doccomment">/// App Engine flexible environment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vm_debug_enabled</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Output only. The IP address of this instance. Only applicable for instances in App</span>
-    <span class="doccomment">/// Engine flexible environment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vm_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The liveness health check of this instance. Only applicable for instances</span>
-    <span class="doccomment">/// in App Engine flexible environment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;instance::liveness::LivenessState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vm_liveness</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Instance`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">instance</span> {
-    <span class="doccomment">/// Wrapper for LivenessState enum.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Liveness</span> {}
-    <span class="doccomment">/// Nested message and enum types in `Liveness`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">liveness</span> {
-        <span class="doccomment">/// Liveness health check status for Flex instances.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LivenessState</span> {
-            <span class="doccomment">/// There is no liveness health check for the instance. Only applicable for</span>
-            <span class="doccomment">/// instances in App Engine standard environment.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// The health checking system is aware of the instance but its health is</span>
-            <span class="doccomment">/// not known at the moment.</span>
-            <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">1</span>,
-            <span class="doccomment">/// The instance is reachable i.e. a connection to the application health</span>
-            <span class="doccomment">/// checking endpoint can be established, and conforms to the requirements</span>
-            <span class="doccomment">/// defined by the health check.</span>
-            <span class="ident">Healthy</span> <span class="op">=</span> <span class="number">2</span>,
-            <span class="doccomment">/// The instance is reachable, but does not conform to the requirements</span>
-            <span class="doccomment">/// defined by the health check.</span>
-            <span class="ident">Unhealthy</span> <span class="op">=</span> <span class="number">3</span>,
-            <span class="doccomment">/// The instance is being drained. The existing connections to the instance</span>
-            <span class="doccomment">/// have time to complete, but the new ones are being refused.</span>
-            <span class="ident">Draining</span> <span class="op">=</span> <span class="number">4</span>,
-            <span class="doccomment">/// The instance is unreachable i.e. a connection to the application health</span>
-            <span class="doccomment">/// checking endpoint cannot be established, or the server does not respond</span>
-            <span class="doccomment">/// within the specified timeout.</span>
-            <span class="ident">Timeout</span> <span class="op">=</span> <span class="number">5</span>,
-        }
-    }
-    <span class="doccomment">/// Availability of the instance.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Availability</span> {
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="ident">Resident</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="ident">Dynamic</span> <span class="op">=</span> <span class="number">2</span>,
-    }
 }
 <span class="doccomment">/// [Google Cloud Endpoints](&lt;https://cloud.google.com/appengine/docs/python/endpoints/&gt;)</span>
 <span class="doccomment">/// configuration for API handlers.</span>
@@ -4325,6 +3972,175 @@
     <span class="doccomment">/// parameters are reserved for the redirect.</span>
     <span class="ident">SecureAlways</span> <span class="op">=</span> <span class="number">3</span>,
 }
+<span class="doccomment">/// An Application resource contains the top-level configuration of an App</span>
+<span class="doccomment">/// Engine application.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Application</span> {
+    <span class="doccomment">/// Full path to the Application resource in the API.</span>
+    <span class="doccomment">/// Example: `apps/myapp`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Identifier of the Application resource. This identifier is equivalent</span>
+    <span class="doccomment">/// to the project ID of the Google Cloud Platform project where you want to</span>
+    <span class="doccomment">/// deploy your application.</span>
+    <span class="doccomment">/// Example: `myapp`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// HTTP path dispatch rules for requests to the application that do not</span>
+    <span class="doccomment">/// explicitly target a service or version. Rules are order-dependent.</span>
+    <span class="doccomment">/// Up to 20 dispatch rules can be supported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dispatch_rules</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">UrlDispatchRule</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Google Apps authentication domain that controls which users can access</span>
+    <span class="doccomment">/// this application.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Defaults to open access for any Google Account.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">auth_domain</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Location from which this application runs. Application instances</span>
+    <span class="doccomment">/// run out of the data centers in the specified location, which is also where</span>
+    <span class="doccomment">/// all of the application&#39;s end user content is stored.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Defaults to `us-central`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// View the list of</span>
+    <span class="doccomment">/// [supported locations](&lt;https://cloud.google.com/appengine/docs/locations&gt;).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">location_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Google Cloud Storage bucket that can be used for storing files</span>
+    <span class="doccomment">/// associated with this application. This bucket is associated with the</span>
+    <span class="doccomment">/// application and can be used by the gcloud deployment commands.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">code_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Cookie expiration policy for this application.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">default_cookie_expiration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Serving status of this application.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;application::ServingStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">serving_status</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Hostname used to reach this application, as resolved by App Engine.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">default_hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Google Cloud Storage bucket that can be used by this application to store</span>
+    <span class="doccomment">/// content.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">default_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">iap</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">application::IdentityAwareProxy</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The Google Container Registry domain used for storing managed build docker</span>
+    <span class="doccomment">/// images for this application.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcr_domain</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type of the Cloud Firestore or Cloud Datastore database associated with</span>
+    <span class="doccomment">/// this application.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;application::DatabaseType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">database_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The feature specific settings to be used in the application.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;18&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">feature_settings</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">application::FeatureSettings</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Application`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">application</span> {
+    <span class="doccomment">/// Identity-Aware Proxy</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IdentityAwareProxy</span> {
+        <span class="doccomment">/// Whether the serving infrastructure will authenticate and</span>
+        <span class="doccomment">/// authorize all incoming requests.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// If true, the `oauth2_client_id` and `oauth2_client_secret`</span>
+        <span class="doccomment">/// fields must be non-empty.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">enabled</span>: <span class="ident">bool</span>,
+        <span class="doccomment">/// OAuth2 client ID to use for the authentication flow.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">oauth2_client_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// OAuth2 client secret to use for the authentication flow.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// For security reasons, this value cannot be retrieved via the API.</span>
+        <span class="doccomment">/// Instead, the SHA-256 hash of the value is returned in the</span>
+        <span class="doccomment">/// `oauth2_client_secret_sha256` field.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// @InputOnly</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">oauth2_client_secret</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Hex-encoded SHA-256 hash of the client secret.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// @OutputOnly</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">oauth2_client_secret_sha256</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// The feature specific settings to be used in the application. These define</span>
+    <span class="doccomment">/// behaviors that are user configurable.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FeatureSettings</span> {
+        <span class="doccomment">/// Boolean value indicating if split health checks should be used instead</span>
+        <span class="doccomment">/// of the legacy health checks. At an app.yaml level, this means defaulting</span>
+        <span class="doccomment">/// to &#39;readiness_check&#39; and &#39;liveness_check&#39; values instead of</span>
+        <span class="doccomment">/// &#39;health_check&#39; ones. Once the legacy &#39;health_check&#39; behavior is</span>
+        <span class="doccomment">/// deprecated, and this value is always true, this setting can</span>
+        <span class="doccomment">/// be removed.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">split_health_checks</span>: <span class="ident">bool</span>,
+        <span class="doccomment">/// If true, use [Container-Optimized OS](&lt;https://cloud.google.com/container-optimized-os/&gt;)</span>
+        <span class="doccomment">/// base image for VMs, rather than a base Debian image.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">use_container_optimized_os</span>: <span class="ident">bool</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ServingStatus</span> {
+        <span class="doccomment">/// Serving status is unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Application is serving.</span>
+        <span class="ident">Serving</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Application has been disabled by the user.</span>
+        <span class="ident">UserDisabled</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Application has been disabled by the system.</span>
+        <span class="ident">SystemDisabled</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DatabaseType</span> {
+        <span class="doccomment">/// Database type is unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Cloud Datastore</span>
+        <span class="ident">CloudDatastore</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Cloud Firestore Native</span>
+        <span class="ident">CloudFirestore</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Cloud Firestore in Datastore Mode</span>
+        <span class="ident">CloudDatastoreCompatibility</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Rules to match an HTTP request and dispatch that request to a service.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UrlDispatchRule</span> {
+    <span class="doccomment">/// Domain name to match against. The wildcard &quot;`*`&quot; is supported if</span>
+    <span class="doccomment">/// specified before a period: &quot;`*.`&quot;.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Defaults to matching all domains: &quot;`*`&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">domain</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Pathname within the host. Must start with a &quot;`/`&quot;. A</span>
+    <span class="doccomment">/// single &quot;`*`&quot; can be included at the end of the path.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The sum of the lengths of the domain and path may not</span>
+    <span class="doccomment">/// exceed 100 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Resource ID of a service in this application that should</span>
+    <span class="doccomment">/// serve the matched request. The service must already</span>
+    <span class="doccomment">/// exist. Example: `default`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Code and application artifacts used to deploy a version to App Engine.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Deployment</span> {
@@ -4410,28 +4226,281 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">files_count</span>: <span class="ident">i32</span>,
 }
-<span class="doccomment">/// A NetworkSettings resource is a container for ingress settings for a version</span>
-<span class="doccomment">/// or service.</span>
+<span class="doccomment">/// A domain that a user has been authorized to administer. To authorize use</span>
+<span class="doccomment">/// of a domain, verify ownership via</span>
+<span class="doccomment">/// [Webmaster Central](&lt;https://www.google.com/webmasters/verification/home&gt;).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NetworkSettings</span> {
-    <span class="doccomment">/// The ingress settings for version or service.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;network_settings::IngressTrafficAllowed&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ingress_traffic_allowed</span>: <span class="ident">i32</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthorizedDomain</span> {
+    <span class="doccomment">/// Full path to the `AuthorizedDomain` resource in the API. Example:</span>
+    <span class="doccomment">/// `apps/myapp/authorizedDomains/example.com`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Fully qualified domain name of the domain authorized for use. Example:</span>
+    <span class="doccomment">/// `example.com`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Nested message and enum types in `NetworkSettings`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">network_settings</span> {
-    <span class="doccomment">/// If unspecified, INGRESS_TRAFFIC_ALLOWED_ALL will be used.</span>
+<span class="doccomment">/// A domain serving an App Engine application.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DomainMapping</span> {
+    <span class="doccomment">/// Full path to the `DomainMapping` resource in the API. Example:</span>
+    <span class="doccomment">/// `apps/myapp/domainMapping/example.com`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Relative name of the domain serving the application. Example:</span>
+    <span class="doccomment">/// `example.com`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// SSL configuration for this domain. If unconfigured, this domain will not</span>
+    <span class="doccomment">/// serve with SSL.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ssl_settings</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">SslSettings</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The resource records required to configure this domain mapping. These</span>
+    <span class="doccomment">/// records must be added to the domain&#39;s DNS configuration in order to</span>
+    <span class="doccomment">/// serve the application via this domain mapping.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_records</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ResourceRecord</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// SSL configuration for a `DomainMapping` resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SslSettings</span> {
+    <span class="doccomment">/// ID of the `AuthorizedCertificate` resource configuring SSL for the</span>
+    <span class="doccomment">/// application. Clearing this field will remove SSL support.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// By default, a managed certificate is automatically created for every</span>
+    <span class="doccomment">/// domain mapping. To omit SSL support or to configure SSL manually, specify</span>
+    <span class="doccomment">/// `SslManagementType.MANUAL` on a `CREATE` or `UPDATE` request. You must</span>
+    <span class="doccomment">/// be authorized to administer the `AuthorizedCertificate` resource to</span>
+    <span class="doccomment">/// manually map it to a `DomainMapping` resource.</span>
+    <span class="doccomment">/// Example: `12345`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">certificate_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// SSL management type for this domain. If `AUTOMATIC`, a managed certificate</span>
+    <span class="doccomment">/// is automatically provisioned. If `MANUAL`, `certificate_id` must be</span>
+    <span class="doccomment">/// manually specified in order to configure SSL for this domain.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ssl_settings::SslManagementType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ssl_management_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// ID of the managed `AuthorizedCertificate` resource currently being</span>
+    <span class="doccomment">/// provisioned, if applicable. Until the new managed certificate has been</span>
+    <span class="doccomment">/// successfully provisioned, the previous SSL state will be preserved. Once</span>
+    <span class="doccomment">/// the provisioning process completes, the `certificate_id` field will reflect</span>
+    <span class="doccomment">/// the new managed certificate and this field will be left empty. To remove</span>
+    <span class="doccomment">/// SSL support while there is still a pending managed certificate, clear the</span>
+    <span class="doccomment">/// `certificate_id` field with an `UpdateDomainMappingRequest`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">pending_managed_certificate_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `SslSettings`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ssl_settings</span> {
+    <span class="doccomment">/// The SSL management type for this domain.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
     <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">IngressTrafficAllowed</span> {
-        <span class="doccomment">/// Unspecified</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SslManagementType</span> {
+        <span class="doccomment">/// Defaults to `AUTOMATIC`.</span>
         <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Allow HTTP traffic from public and private sources.</span>
-        <span class="ident">All</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Allow HTTP traffic from only private VPC sources.</span>
-        <span class="ident">InternalOnly</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Allow HTTP traffic from private VPC sources and through load balancers.</span>
-        <span class="ident">InternalAndLb</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// SSL support for this domain is configured automatically. The mapped SSL</span>
+        <span class="doccomment">/// certificate will be automatically renewed.</span>
+        <span class="ident">Automatic</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// SSL support for this domain is configured manually by the user. Either</span>
+        <span class="doccomment">/// the domain has no SSL support or a user-obtained SSL certificate has been</span>
+        <span class="doccomment">/// explictly mapped to this domain.</span>
+        <span class="ident">Manual</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// A DNS resource record.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResourceRecord</span> {
+    <span class="doccomment">/// Relative name of the object affected by this record. Only applicable for</span>
+    <span class="doccomment">/// `CNAME` records. Example: &#39;www&#39;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Data for this record. Values vary by record type, as defined in RFC 1035</span>
+    <span class="doccomment">/// (section 5) and RFC 1034 (section 3.6.1).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">rrdata</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Resource record type. Example: `AAAA`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;resource_record::RecordType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ResourceRecord`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">resource_record</span> {
+    <span class="doccomment">/// A resource record type.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RecordType</span> {
+        <span class="doccomment">/// An unknown resource record.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// An A resource record. Data is an IPv4 address.</span>
+        <span class="ident">A</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// An AAAA resource record. Data is an IPv6 address.</span>
+        <span class="ident">Aaaa</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// A CNAME resource record. Data is a domain name to be aliased.</span>
+        <span class="ident">Cname</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// A single firewall rule that is evaluated against incoming traffic</span>
+<span class="doccomment">/// and provides an action to take on matched requests.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FirewallRule</span> {
+    <span class="doccomment">/// A positive integer between [1, Int32.MaxValue-1] that defines the order of</span>
+    <span class="doccomment">/// rule evaluation. Rules with the lowest priority are evaluated first.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// A default rule at priority Int32.MaxValue matches all IPv4 and IPv6 traffic</span>
+    <span class="doccomment">/// when no previous rule matches. Only the action of this rule can be modified</span>
+    <span class="doccomment">/// by the user.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">priority</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The action to take on matched requests.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;firewall_rule::Action&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">action</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// IP address or range, defined using CIDR notation, of requests that this</span>
+    <span class="doccomment">/// rule applies to. You can use the wildcard character &quot;*&quot; to match all IPs</span>
+    <span class="doccomment">/// equivalent to &quot;0/0&quot; and &quot;::/0&quot; together.</span>
+    <span class="doccomment">/// Examples: `192.168.1.1` or `192.168.0.0/16` or `2001:db8::/32`</span>
+    <span class="doccomment">///           or `2001:0db8:0000:0042:0000:8a2e:0370:7334`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// &lt;p&gt;Truncation will be silently performed on addresses which are not</span>
+    <span class="doccomment">/// properly truncated. For example, `1.2.3.4/24` is accepted as the same</span>
+    <span class="doccomment">/// address as `1.2.3.0/24`. Similarly, for IPv6, `2001:db8::1/32` is accepted</span>
+    <span class="doccomment">/// as the same address as `2001:db8::/32`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source_range</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// An optional string description of this rule.</span>
+    <span class="doccomment">/// This field has a maximum length of 100 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `FirewallRule`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">firewall_rule</span> {
+    <span class="doccomment">/// Available actions to take on matching requests.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Action</span> {
+        <span class="ident">UnspecifiedAction</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Matching requests are allowed.</span>
+        <span class="ident">Allow</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Matching requests are denied.</span>
+        <span class="ident">Deny</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// An Instance resource is the computing unit that App Engine uses to</span>
+<span class="doccomment">/// automatically scale an application.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Instance</span> {
+    <span class="doccomment">/// Output only. Full path to the Instance resource in the API.</span>
+    <span class="doccomment">/// Example: `apps/myapp/services/default/versions/v1/instances/instance-1`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Relative name of the instance within the version.</span>
+    <span class="doccomment">/// Example: `instance-1`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. App Engine release this instance is running on.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">app_engine_release</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Availability of the instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;instance::Availability&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">availability</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Name of the virtual machine where this instance lives. Only applicable</span>
+    <span class="doccomment">/// for instances in App Engine flexible environment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vm_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Zone where the virtual machine is located. Only applicable for instances</span>
+    <span class="doccomment">/// in App Engine flexible environment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vm_zone_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Virtual machine ID of this instance. Only applicable for instances in</span>
+    <span class="doccomment">/// App Engine flexible environment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vm_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Time that this instance was started.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// @OutputOnly</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Number of requests since this instance was started.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">requests</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Number of errors since this instance was started.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">errors</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Average queries per second (QPS) over the last minute.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">qps</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// Output only. Average latency (ms) over the last minute.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">average_latency</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Total memory in use (bytes).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">memory_usage</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Output only. Status of the virtual machine where this instance lives. Only applicable</span>
+    <span class="doccomment">/// for instances in App Engine flexible environment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vm_status</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Whether this instance is in debug mode. Only applicable for instances in</span>
+    <span class="doccomment">/// App Engine flexible environment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vm_debug_enabled</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Output only. The IP address of this instance. Only applicable for instances in App</span>
+    <span class="doccomment">/// Engine flexible environment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vm_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The liveness health check of this instance. Only applicable for instances</span>
+    <span class="doccomment">/// in App Engine flexible environment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;instance::liveness::LivenessState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vm_liveness</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Instance`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">instance</span> {
+    <span class="doccomment">/// Wrapper for LivenessState enum.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Liveness</span> {}
+    <span class="doccomment">/// Nested message and enum types in `Liveness`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">liveness</span> {
+        <span class="doccomment">/// Liveness health check status for Flex instances.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LivenessState</span> {
+            <span class="doccomment">/// There is no liveness health check for the instance. Only applicable for</span>
+            <span class="doccomment">/// instances in App Engine standard environment.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// The health checking system is aware of the instance but its health is</span>
+            <span class="doccomment">/// not known at the moment.</span>
+            <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">1</span>,
+            <span class="doccomment">/// The instance is reachable i.e. a connection to the application health</span>
+            <span class="doccomment">/// checking endpoint can be established, and conforms to the requirements</span>
+            <span class="doccomment">/// defined by the health check.</span>
+            <span class="ident">Healthy</span> <span class="op">=</span> <span class="number">2</span>,
+            <span class="doccomment">/// The instance is reachable, but does not conform to the requirements</span>
+            <span class="doccomment">/// defined by the health check.</span>
+            <span class="ident">Unhealthy</span> <span class="op">=</span> <span class="number">3</span>,
+            <span class="doccomment">/// The instance is being drained. The existing connections to the instance</span>
+            <span class="doccomment">/// have time to complete, but the new ones are being refused.</span>
+            <span class="ident">Draining</span> <span class="op">=</span> <span class="number">4</span>,
+            <span class="doccomment">/// The instance is unreachable i.e. a connection to the application health</span>
+            <span class="doccomment">/// checking endpoint cannot be established, or the server does not respond</span>
+            <span class="doccomment">/// within the specified timeout.</span>
+            <span class="ident">Timeout</span> <span class="op">=</span> <span class="number">5</span>,
+        }
+    }
+    <span class="doccomment">/// Availability of the instance.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Availability</span> {
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Resident</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Dynamic</span> <span class="op">=</span> <span class="number">2</span>,
     }
 }
 <span class="doccomment">/// A Version resource is a specific set of source code and configuration files</span>
@@ -5009,75 +5078,6 @@
     <span class="doccomment">/// settings are ignored until the state of the version changes</span>
     <span class="doccomment">/// to `SERVING`.</span>
     <span class="ident">Stopped</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// A Service resource is a logical component of an application that can share</span>
-<span class="doccomment">/// state and communicate in a secure fashion with other services.</span>
-<span class="doccomment">/// For example, an application that handles customer requests might</span>
-<span class="doccomment">/// include separate services to handle tasks such as backend data</span>
-<span class="doccomment">/// analysis or API requests from mobile devices. Each service has a</span>
-<span class="doccomment">/// collection of versions that define a specific set of code used to</span>
-<span class="doccomment">/// implement the functionality of that service.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Service</span> {
-    <span class="doccomment">/// Full path to the Service resource in the API.</span>
-    <span class="doccomment">/// Example: `apps/myapp/services/default`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Relative name of the service within the application.</span>
-    <span class="doccomment">/// Example: `default`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// @OutputOnly</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Mapping that defines fractional HTTP traffic diversion to</span>
-    <span class="doccomment">/// different versions within the service.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">split</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">TrafficSplit</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Ingress settings for this service. Will apply to all versions.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">network_settings</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">NetworkSettings</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Traffic routing configuration for versions within a single service. Traffic</span>
-<span class="doccomment">/// splits define how traffic directed to the service is assigned to versions.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TrafficSplit</span> {
-    <span class="doccomment">/// Mechanism used to determine which version a request is sent to.</span>
-    <span class="doccomment">/// The traffic selection algorithm will</span>
-    <span class="doccomment">/// be stable for either type until allocations are changed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;traffic_split::ShardBy&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">shard_by</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Mapping from version IDs within the service to fractional</span>
-    <span class="doccomment">/// (0.000, 1] allocations of traffic for that version. Each version can</span>
-    <span class="doccomment">/// be specified only once, but some versions in the service may not</span>
-    <span class="doccomment">/// have any traffic allocation. Services that have traffic allocated</span>
-    <span class="doccomment">/// cannot be deleted until either the service is deleted or</span>
-    <span class="doccomment">/// their traffic allocation is removed. Allocations must sum to 1.</span>
-    <span class="doccomment">/// Up to two decimal place precision is supported for IP-based splits and</span>
-    <span class="doccomment">/// up to three decimal places is supported for cookie-based splits.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, double&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">allocations</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">f64</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `TrafficSplit`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">traffic_split</span> {
-    <span class="doccomment">/// Available sharding mechanisms.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ShardBy</span> {
-        <span class="doccomment">/// Diversion method unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Diversion based on a specially named cookie, &quot;GOOGAPPUID.&quot; The cookie</span>
-        <span class="doccomment">/// must be set by the application itself or no diversion will occur.</span>
-        <span class="ident">Cookie</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Diversion based on applying the modulus operation to a fingerprint</span>
-        <span class="doccomment">/// of the IP address.</span>
-        <span class="ident">Ip</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Diversion based on weighted random assignment. An incoming request is</span>
-        <span class="doccomment">/// randomly routed to a version in the traffic split, with probability</span>
-        <span class="doccomment">/// proportional to the version&#39;s traffic share.</span>
-        <span class="ident">Random</span> <span class="op">=</span> <span class="number">3</span>,
-    }
 }
 <span class="doccomment">/// Request message for `Applications.GetApplication`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

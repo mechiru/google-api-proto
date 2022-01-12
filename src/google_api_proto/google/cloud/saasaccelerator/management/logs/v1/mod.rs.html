@@ -62,27 +62,7 @@
 <span id="62">62</span>
 <span id="63">63</span>
 <span id="64">64</span>
-</pre><pre class="rust"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceEvent</span> {
-    <span class="doccomment">/// The type of the event, e.g. Create, Update, etc.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">verb</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The state of the instance, e.g. &quot;RETRYING_CREATE_INSTANCE&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">stage</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A human-readable log message, e.g. &quot;error in stage: CREATING, err: location</span>
-    <span class="doccomment">/// not available&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">msg</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The ID to uniquely locate all logs associated with a given request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">trace_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The instance node which is the subject of the operation, if known.</span>
-    <span class="doccomment">/// Currently unused as tf actuation does not manage nodes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">node_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Payload proto for Notification logs.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Payload proto for Notification logs.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NotificationStage</span> {
     <span class="doccomment">/// The type of the Notification Service event.</span>
@@ -125,6 +105,26 @@
         <span class="doccomment">/// When a health status has been changed.</span>
         <span class="ident">HealthStatusChange</span> <span class="op">=</span> <span class="number">1</span>,
     }
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceEvent</span> {
+    <span class="doccomment">/// The type of the event, e.g. Create, Update, etc.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">verb</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The state of the instance, e.g. &quot;RETRYING_CREATE_INSTANCE&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">stage</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A human-readable log message, e.g. &quot;error in stage: CREATING, err: location</span>
+    <span class="doccomment">/// not available&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">msg</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The ID to uniquely locate all logs associated with a given request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">trace_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The instance node which is the subject of the operation, if known.</span>
+    <span class="doccomment">/// Currently unused as tf actuation does not manage nodes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">node_id</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../../../search-index.js" data-search-js="../../../../../../../../search.js"></div>

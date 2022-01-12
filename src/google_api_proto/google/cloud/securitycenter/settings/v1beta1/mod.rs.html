@@ -879,7 +879,18 @@
 <span id="879">879</span>
 <span id="880">880</span>
 <span id="881">881</span>
-</pre><pre class="rust"><code><span class="comment">// If this field is populated and billing_tier is STANDARD, this is</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Sink Settings for Security Command Center</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SinkSettings</span> {
+    <span class="doccomment">/// The resource name of the project to send logs to. This project must be</span>
+    <span class="doccomment">/// part of the same organization where the Security Center API is</span>
+    <span class="doccomment">/// enabled. The format is `projects/{project}`. If it is empty, we do</span>
+    <span class="doccomment">/// not output logs. If a project ID is provided it will be normalized to a</span>
+    <span class="doccomment">/// project number.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">logging_sink_project</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="comment">// If this field is populated and billing_tier is STANDARD, this is</span>
 <span class="comment">// indication of a point in the _past_ when a PREMIUM access ended.</span>
 
 <span class="doccomment">/// Billing settings</span>
@@ -925,17 +936,6 @@
     <span class="ident">TrialSubscription</span> <span class="op">=</span> <span class="number">2</span>,
     <span class="doccomment">/// Alpha customer for Premium billing tier</span>
     <span class="ident">Alpha</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="doccomment">/// Sink Settings for Security Command Center</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SinkSettings</span> {
-    <span class="doccomment">/// The resource name of the project to send logs to. This project must be</span>
-    <span class="doccomment">/// part of the same organization where the Security Center API is</span>
-    <span class="doccomment">/// enabled. The format is `projects/{project}`. If it is empty, we do</span>
-    <span class="doccomment">/// not output logs. If a project ID is provided it will be normalized to a</span>
-    <span class="doccomment">/// project number.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">logging_sink_project</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Component Settings for Security Command Center</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

@@ -1081,201 +1081,7 @@
 <span id="1081">1081</span>
 <span id="1082">1082</span>
 <span id="1083">1083</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Membership contains information about a member cluster.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Membership</span> {
-    <span class="doccomment">/// Output only. The full, unique name of this Membership resource in the format</span>
-    <span class="doccomment">/// `projects/*/locations/*/memberships/{membership_id}`, set during creation.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `membership_id` must be a valid RFC 1123 compliant DNS label:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///   1. At most 63 characters in length</span>
-    <span class="doccomment">///   2. It must consist of lower case alphanumeric characters or `-`</span>
-    <span class="doccomment">///   3. It must start and end with an alphanumeric character</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Which can be expressed as the regex: `\[a-z0-9]([-a-z0-9]*[a-z0-9\])?`,</span>
-    <span class="doccomment">/// with a maximum length of 63 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. GCP labels for this membership.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Description of this membership, limited to 63 characters.</span>
-    <span class="doccomment">/// Must match the regex: `\[a-zA-Z0-9\][a-zA-Z0-9_\-\.\ ]*`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field is present for legacy purposes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. State of the Membership resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">MembershipState</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. When the Membership was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. When the Membership was last updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. When the Membership was deleted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">delete_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. An externally-generated and managed ID for this Membership. This ID may</span>
-    <span class="doccomment">/// be modified after creation, but this is not recommended.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The ID must match the regex: `\[a-zA-Z0-9][a-zA-Z0-9_\-\.\]*`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If this Membership represents a Kubernetes cluster, this value should be</span>
-    <span class="doccomment">/// set to the UID of the `kube-system` namespace object.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">external_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. For clusters using Connect, the timestamp of the most recent connection</span>
-    <span class="doccomment">/// established with Google Cloud. This time is updated every several minutes,</span>
-    <span class="doccomment">/// not continuously. For clusters that do not use GKE Connect, or that have</span>
-    <span class="doccomment">/// never connected successfully, this field will be unset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_connection_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Google-generated UUID for this resource. This is unique across all</span>
-    <span class="doccomment">/// Membership resources. If a Membership resource is deleted and another</span>
-    <span class="doccomment">/// resource with the same name is created, it gets a different unique_id.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">unique_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. How to identify workloads from this Membership.</span>
-    <span class="doccomment">/// See the documentation on Workload Identity for more details:</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">authority</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Authority</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Type of resource represented by this Membership</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;membership::Type&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">membership::Type</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Membership`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">membership</span> {
-    <span class="doccomment">/// Type of resource represented by this Membership</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
-        <span class="doccomment">/// Optional. Endpoint information to reach this member.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">Endpoint</span>(<span class="ident"><span class="kw">super</span>::MembershipEndpoint</span>),
-    }
-}
-<span class="doccomment">/// MembershipEndpoint contains information needed to contact a Kubernetes API,</span>
-<span class="doccomment">/// endpoint and any additional Kubernetes metadata.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MembershipEndpoint</span> {
-    <span class="doccomment">/// Optional. GKE-specific information. Only present if this Membership is a GKE cluster.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gke_cluster</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GkeCluster</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Useful Kubernetes-specific metadata.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kubernetes_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">KubernetesMetadata</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// GkeCluster contains information specific to GKE clusters.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GkeCluster</span> {
-    <span class="doccomment">/// Immutable. Self-link of the GCP resource for the GKE cluster. For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Zonal clusters are also supported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_link</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// KubernetesMetadata provides informational metadata for Memberships</span>
-<span class="doccomment">/// representing Kubernetes clusters.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KubernetesMetadata</span> {
-    <span class="doccomment">/// Output only. Kubernetes API server version string as reported by `/version`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kubernetes_api_server_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Node providerID as reported by the first node in the list of nodes on</span>
-    <span class="doccomment">/// the Kubernetes endpoint. On Kubernetes platforms that support zero-node</span>
-    <span class="doccomment">/// clusters (like GKE-on-GCP), the node_count will be zero and the</span>
-    <span class="doccomment">/// node_provider_id will be empty.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">node_provider_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Node count as reported by Kubernetes nodes resources.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">node_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. vCPU count as reported by Kubernetes nodes resources.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vcpu_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. The total memory capacity as reported by the sum of all Kubernetes nodes</span>
-    <span class="doccomment">/// resources, defined in MB.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">memory_mb</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. The time at which these details were last updated. This update_time is</span>
-    <span class="doccomment">/// different from the Membership-level update_time since EndpointDetails are</span>
-    <span class="doccomment">/// updated internally for API consumers.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;100&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// MembershipState describes the state of a Membership resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MembershipState</span> {
-    <span class="doccomment">/// Output only. The current state of the Membership resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;membership_state::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `MembershipState`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">membership_state</span> {
-    <span class="doccomment">/// Code describes the state of a Membership resource.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
-        <span class="doccomment">/// The code is not set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The cluster is being registered.</span>
-        <span class="ident">Creating</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The cluster is registered.</span>
-        <span class="ident">Ready</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The cluster is being unregistered.</span>
-        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The Membership is being updated.</span>
-        <span class="ident">Updating</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// The Membership is being updated by the Hub Service.</span>
-        <span class="ident">ServiceUpdating</span> <span class="op">=</span> <span class="number">5</span>,
-    }
-}
-<span class="doccomment">/// Authority encodes how Google will recognize identities from this Membership.</span>
-<span class="doccomment">/// See the workload identity documentation for more details:</span>
-<span class="doccomment">/// &lt;https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Authority</span> {
-    <span class="doccomment">/// Optional. A JSON Web Token (JWT) issuer URI. `issuer` must start with `&lt;https://`&gt; and</span>
-    <span class="doccomment">/// be a valid URL with length &lt;2000 characters.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If set, then Google will allow valid OIDC tokens from this issuer to</span>
-    <span class="doccomment">/// authenticate within the workload_identity_pool. OIDC discovery will be</span>
-    <span class="doccomment">/// performed on this URI to validate tokens from the issuer.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Clearing `issuer` disables Workload Identity. `issuer` cannot be directly</span>
-    <span class="doccomment">/// modified; it must be cleared (and Workload Identity disabled) before using</span>
-    <span class="doccomment">/// a new issuer (and re-enabling Workload Identity).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">issuer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The name of the workload identity pool in which `issuer` will be</span>
-    <span class="doccomment">/// recognized.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// There is a single Workload Identity Pool per Hub that is shared</span>
-    <span class="doccomment">/// between all Memberships that belong to that Hub. For a Hub hosted in</span>
-    <span class="doccomment">/// {PROJECT_ID}, the workload pool format is `{PROJECT_ID}.hub.id.goog`,</span>
-    <span class="doccomment">/// although this is subject to change in newer versions of this API.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">workload_identity_pool</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. An identity provider that reflects the `issuer` in the workload identity</span>
-    <span class="doccomment">/// pool.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">identity_provider</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. OIDC verification keys for this Membership in JWKS format (RFC 7517).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// When this field is set, OIDC discovery will NOT be performed on `issuer`,</span>
-    <span class="doccomment">/// and instead OIDC tokens will be validated using this field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">oidc_jwks</span>: <span class="ident">::prost::bytes::Bytes</span>,
-}
-<span class="doccomment">/// Feature represents the settings and status of any Hub Feature.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Feature represents the settings and status of any Hub Feature.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Feature</span> {
     <span class="doccomment">/// Output only. The full, unique name of this Feature resource in the format</span>
@@ -1470,6 +1276,200 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;106&quot;</span>)]</span>
         <span class="ident">Configmanagement</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::configmanagement::v1::MembershipState</span>),
     }
+}
+<span class="doccomment">/// Membership contains information about a member cluster.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Membership</span> {
+    <span class="doccomment">/// Output only. The full, unique name of this Membership resource in the format</span>
+    <span class="doccomment">/// `projects/*/locations/*/memberships/{membership_id}`, set during creation.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `membership_id` must be a valid RFC 1123 compliant DNS label:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   1. At most 63 characters in length</span>
+    <span class="doccomment">///   2. It must consist of lower case alphanumeric characters or `-`</span>
+    <span class="doccomment">///   3. It must start and end with an alphanumeric character</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Which can be expressed as the regex: `\[a-z0-9]([-a-z0-9]*[a-z0-9\])?`,</span>
+    <span class="doccomment">/// with a maximum length of 63 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. GCP labels for this membership.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Description of this membership, limited to 63 characters.</span>
+    <span class="doccomment">/// Must match the regex: `\[a-zA-Z0-9\][a-zA-Z0-9_\-\.\ ]*`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field is present for legacy purposes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. State of the Membership resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">MembershipState</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. When the Membership was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. When the Membership was last updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. When the Membership was deleted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">delete_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. An externally-generated and managed ID for this Membership. This ID may</span>
+    <span class="doccomment">/// be modified after creation, but this is not recommended.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The ID must match the regex: `\[a-zA-Z0-9][a-zA-Z0-9_\-\.\]*`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this Membership represents a Kubernetes cluster, this value should be</span>
+    <span class="doccomment">/// set to the UID of the `kube-system` namespace object.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">external_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. For clusters using Connect, the timestamp of the most recent connection</span>
+    <span class="doccomment">/// established with Google Cloud. This time is updated every several minutes,</span>
+    <span class="doccomment">/// not continuously. For clusters that do not use GKE Connect, or that have</span>
+    <span class="doccomment">/// never connected successfully, this field will be unset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_connection_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Google-generated UUID for this resource. This is unique across all</span>
+    <span class="doccomment">/// Membership resources. If a Membership resource is deleted and another</span>
+    <span class="doccomment">/// resource with the same name is created, it gets a different unique_id.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">unique_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. How to identify workloads from this Membership.</span>
+    <span class="doccomment">/// See the documentation on Workload Identity for more details:</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authority</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Authority</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Type of resource represented by this Membership</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;membership::Type&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">membership::Type</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Membership`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">membership</span> {
+    <span class="doccomment">/// Type of resource represented by this Membership</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+        <span class="doccomment">/// Optional. Endpoint information to reach this member.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Endpoint</span>(<span class="ident"><span class="kw">super</span>::MembershipEndpoint</span>),
+    }
+}
+<span class="doccomment">/// MembershipEndpoint contains information needed to contact a Kubernetes API,</span>
+<span class="doccomment">/// endpoint and any additional Kubernetes metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MembershipEndpoint</span> {
+    <span class="doccomment">/// Optional. GKE-specific information. Only present if this Membership is a GKE cluster.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gke_cluster</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GkeCluster</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Useful Kubernetes-specific metadata.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kubernetes_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">KubernetesMetadata</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// GkeCluster contains information specific to GKE clusters.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GkeCluster</span> {
+    <span class="doccomment">/// Immutable. Self-link of the GCP resource for the GKE cluster. For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Zonal clusters are also supported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_link</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// KubernetesMetadata provides informational metadata for Memberships</span>
+<span class="doccomment">/// representing Kubernetes clusters.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KubernetesMetadata</span> {
+    <span class="doccomment">/// Output only. Kubernetes API server version string as reported by `/version`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kubernetes_api_server_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Node providerID as reported by the first node in the list of nodes on</span>
+    <span class="doccomment">/// the Kubernetes endpoint. On Kubernetes platforms that support zero-node</span>
+    <span class="doccomment">/// clusters (like GKE-on-GCP), the node_count will be zero and the</span>
+    <span class="doccomment">/// node_provider_id will be empty.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">node_provider_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Node count as reported by Kubernetes nodes resources.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">node_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. vCPU count as reported by Kubernetes nodes resources.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vcpu_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. The total memory capacity as reported by the sum of all Kubernetes nodes</span>
+    <span class="doccomment">/// resources, defined in MB.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">memory_mb</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. The time at which these details were last updated. This update_time is</span>
+    <span class="doccomment">/// different from the Membership-level update_time since EndpointDetails are</span>
+    <span class="doccomment">/// updated internally for API consumers.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;100&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// MembershipState describes the state of a Membership resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MembershipState</span> {
+    <span class="doccomment">/// Output only. The current state of the Membership resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;membership_state::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `MembershipState`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">membership_state</span> {
+    <span class="doccomment">/// Code describes the state of a Membership resource.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
+        <span class="doccomment">/// The code is not set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The cluster is being registered.</span>
+        <span class="ident">Creating</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The cluster is registered.</span>
+        <span class="ident">Ready</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The cluster is being unregistered.</span>
+        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The Membership is being updated.</span>
+        <span class="ident">Updating</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// The Membership is being updated by the Hub Service.</span>
+        <span class="ident">ServiceUpdating</span> <span class="op">=</span> <span class="number">5</span>,
+    }
+}
+<span class="doccomment">/// Authority encodes how Google will recognize identities from this Membership.</span>
+<span class="doccomment">/// See the workload identity documentation for more details:</span>
+<span class="doccomment">/// &lt;https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Authority</span> {
+    <span class="doccomment">/// Optional. A JSON Web Token (JWT) issuer URI. `issuer` must start with `&lt;https://`&gt; and</span>
+    <span class="doccomment">/// be a valid URL with length &lt;2000 characters.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If set, then Google will allow valid OIDC tokens from this issuer to</span>
+    <span class="doccomment">/// authenticate within the workload_identity_pool. OIDC discovery will be</span>
+    <span class="doccomment">/// performed on this URI to validate tokens from the issuer.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Clearing `issuer` disables Workload Identity. `issuer` cannot be directly</span>
+    <span class="doccomment">/// modified; it must be cleared (and Workload Identity disabled) before using</span>
+    <span class="doccomment">/// a new issuer (and re-enabling Workload Identity).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">issuer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The name of the workload identity pool in which `issuer` will be</span>
+    <span class="doccomment">/// recognized.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// There is a single Workload Identity Pool per Hub that is shared</span>
+    <span class="doccomment">/// between all Memberships that belong to that Hub. For a Hub hosted in</span>
+    <span class="doccomment">/// {PROJECT_ID}, the workload pool format is `{PROJECT_ID}.hub.id.goog`,</span>
+    <span class="doccomment">/// although this is subject to change in newer versions of this API.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">workload_identity_pool</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. An identity provider that reflects the `issuer` in the workload identity</span>
+    <span class="doccomment">/// pool.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">identity_provider</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. OIDC verification keys for this Membership in JWKS format (RFC 7517).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When this field is set, OIDC discovery will NOT be performed on `issuer`,</span>
+    <span class="doccomment">/// and instead OIDC tokens will be validated using this field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">oidc_jwks</span>: <span class="ident">::prost::bytes::Bytes</span>,
 }
 <span class="doccomment">/// Request message for `GkeHub.ListMemberships` method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

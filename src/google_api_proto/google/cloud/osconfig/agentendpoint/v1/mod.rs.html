@@ -1835,6 +1835,237 @@
     <span class="doccomment">/// This state is only applicable to the instance.</span>
     <span class="ident">NoOsPoliciesApplicable</span> <span class="op">=</span> <span class="number">4</span>,
 }
+<span class="comment">// OS Config Inventory is a service for collecting and reporting operating</span>
+<span class="comment">// system and package information on VM instances.</span>
+
+<span class="doccomment">/// The inventory details of a VM.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Inventory</span> {
+    <span class="doccomment">/// Base level operating system information for the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">inventory::OsInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A list of installed packages currently on the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">installed_packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">inventory::SoftwarePackage</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A list of software updates available for the VM as reported by the update</span>
+    <span class="doccomment">/// managers.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">available_packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">inventory::SoftwarePackage</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Inventory`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">inventory</span> {
+    <span class="doccomment">/// Operating system information for the VM.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsInfo</span> {
+        <span class="doccomment">/// The VM hostname.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The operating system long name.</span>
+        <span class="doccomment">/// For example &#39;Debian GNU/Linux 9&#39; or &#39;Microsoft Window Server 2019</span>
+        <span class="doccomment">/// Datacenter&#39;.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">long_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The operating system short name.</span>
+        <span class="doccomment">/// For example, &#39;windows&#39; or &#39;debian&#39;.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">short_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The version of the operating system.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The system architecture of the operating system.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The kernel version of the operating system.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">kernel_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The kernel release of the operating system.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">kernel_release</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The current version of the OS Config agent running on the VM.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">osconfig_agent_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Software package information of the operating system.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SoftwarePackage</span> {
+        <span class="doccomment">/// Information about the different types of software packages.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(
+            <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;software_package::Details&quot;</span>,
+            <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 8, 9&quot;</span>
+        )]</span>
+        <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">software_package::Details</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `SoftwarePackage`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">software_package</span> {
+        <span class="doccomment">/// Information about the different types of software packages.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
+            <span class="doccomment">/// Yum package info.</span>
+            <span class="doccomment">/// For details about the yum package manager, see</span>
+            <span class="doccomment">/// &lt;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="ident">YumPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of an APT package.</span>
+            <span class="doccomment">/// For details about the apt package manager, see</span>
+            <span class="doccomment">/// &lt;https://wiki.debian.org/Apt.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">AptPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of a Zypper package.</span>
+            <span class="doccomment">/// For details about the Zypper package manager, see</span>
+            <span class="doccomment">/// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="ident">ZypperPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of a Googet package.</span>
+            <span class="doccomment">///  For details about the googet package manager, see</span>
+            <span class="doccomment">///  &lt;https://github.com/google/googet.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+            <span class="ident">GoogetPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of a Zypper patch.</span>
+            <span class="doccomment">/// For details about the Zypper package manager, see</span>
+            <span class="doccomment">/// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+            <span class="ident">ZypperPatch</span>(<span class="ident"><span class="kw">super</span>::ZypperPatch</span>),
+            <span class="doccomment">/// Details of a Windows Update package.</span>
+            <span class="doccomment">/// See &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt; for</span>
+            <span class="doccomment">/// information about Windows Update.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+            <span class="ident">WuaPackage</span>(<span class="ident"><span class="kw">super</span>::WindowsUpdatePackage</span>),
+            <span class="doccomment">/// Details of a Windows Quick Fix engineering package.</span>
+            <span class="doccomment">/// See</span>
+            <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;</span>
+            <span class="doccomment">/// for info in Windows Quick Fix Engineering.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+            <span class="ident">QfePackage</span>(<span class="ident"><span class="kw">super</span>::WindowsQuickFixEngineeringPackage</span>),
+            <span class="doccomment">/// Details of a COS package.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+            <span class="ident">CosPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of Windows Application.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+            <span class="ident">WindowsApplication</span>(<span class="ident"><span class="kw">super</span>::WindowsApplication</span>),
+        }
+    }
+    <span class="doccomment">/// Information related to the a standard versioned package.  This includes</span>
+    <span class="doccomment">/// package info for APT, Yum, Zypper, and Googet package managers.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VersionedPackage</span> {
+        <span class="doccomment">/// The name of the package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">package_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The system architecture this package is intended for.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The version of the package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Information related to a Quick Fix Engineering package.</span>
+    <span class="doccomment">/// Fields are taken from Windows QuickFixEngineering Interface and match</span>
+    <span class="doccomment">/// the source names:</span>
+    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsQuickFixEngineeringPackage</span> {
+        <span class="doccomment">/// A short textual description of the QFE update.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">caption</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// A textual description of the QFE update.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Unique identifier associated with a particular QFE update.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">hot_fix_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Date that the QFE update was installed.  Mapped from installed_on field.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">install_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Details related to a Zypper Patch.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZypperPatch</span> {
+        <span class="doccomment">/// The name of the patch.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">patch_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The category of the patch.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">category</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The severity specified for this patch</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Any summary information provided about this patch.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">summary</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Details related to a Windows Update package.</span>
+    <span class="doccomment">/// Field data and names are taken from Windows Update API IUpdate Interface:</span>
+    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt;</span>
+    <span class="doccomment">/// Descriptive fields like title, and description are localized based on</span>
+    <span class="doccomment">/// the locale of the VM being updated.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdatePackage</span> {
+        <span class="doccomment">/// The localized title of the update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The localized description of the update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The categories that are associated with this update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">categories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">windows_update_package::WindowsUpdateCategory</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// A collection of Microsoft Knowledge Base article IDs that are associated</span>
+        <span class="doccomment">/// with the update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">kb_article_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// A hyperlink to the language-specific support information for the update.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">support_url</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// A collection of URLs that provide more information about the update</span>
+        <span class="doccomment">/// package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">more_info_urls</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Gets the identifier of an update package.  Stays the same across</span>
+        <span class="doccomment">/// revisions.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">update_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The revision number of this update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">revision_number</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// The last published date of the update, in (UTC) date and time.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">last_deployment_change_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `WindowsUpdatePackage`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windows_update_package</span> {
+        <span class="doccomment">/// Categories specified by the Windows Update.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdateCategory</span> {
+            <span class="doccomment">/// The identifier of the windows update category.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// The name of the windows update category.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+    }
+    <span class="doccomment">/// Details about Windows Application - based on Windows Registry.</span>
+    <span class="doccomment">/// All fields in this message are taken from:</span>
+    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key&gt;</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsApplication</span> {
+        <span class="doccomment">/// DisplayName field from Windows Registry.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// DisplayVersion field from Windows Registry.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">display_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Publisher field from Windows Registry.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">publisher</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Installation date field from Windows Registry.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">install_date</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Date</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// HelpLink field from Windows Registry.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">help_link</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
 <span class="doccomment">/// An OS policy defines the desired state configuration for an instance.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicy</span> {}
@@ -2610,237 +2841,6 @@
     <span class="doccomment">/// ExecStep specified by this PatchJob does not change.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">generation_number</span>: <span class="ident">i64</span>,
-}
-<span class="comment">// OS Config Inventory is a service for collecting and reporting operating</span>
-<span class="comment">// system and package information on VM instances.</span>
-
-<span class="doccomment">/// The inventory details of a VM.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Inventory</span> {
-    <span class="doccomment">/// Base level operating system information for the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">inventory::OsInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A list of installed packages currently on the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">installed_packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">inventory::SoftwarePackage</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A list of software updates available for the VM as reported by the update</span>
-    <span class="doccomment">/// managers.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">available_packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">inventory::SoftwarePackage</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Inventory`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">inventory</span> {
-    <span class="doccomment">/// Operating system information for the VM.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsInfo</span> {
-        <span class="doccomment">/// The VM hostname.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The operating system long name.</span>
-        <span class="doccomment">/// For example &#39;Debian GNU/Linux 9&#39; or &#39;Microsoft Window Server 2019</span>
-        <span class="doccomment">/// Datacenter&#39;.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">long_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The operating system short name.</span>
-        <span class="doccomment">/// For example, &#39;windows&#39; or &#39;debian&#39;.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">short_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The version of the operating system.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The system architecture of the operating system.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The kernel version of the operating system.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">kernel_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The kernel release of the operating system.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">kernel_release</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The current version of the OS Config agent running on the VM.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">osconfig_agent_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Software package information of the operating system.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SoftwarePackage</span> {
-        <span class="doccomment">/// Information about the different types of software packages.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(
-            <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;software_package::Details&quot;</span>,
-            <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 8, 9&quot;</span>
-        )]</span>
-        <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">software_package::Details</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `SoftwarePackage`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">software_package</span> {
-        <span class="doccomment">/// Information about the different types of software packages.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
-            <span class="doccomment">/// Yum package info.</span>
-            <span class="doccomment">/// For details about the yum package manager, see</span>
-            <span class="doccomment">/// &lt;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="ident">YumPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of an APT package.</span>
-            <span class="doccomment">/// For details about the apt package manager, see</span>
-            <span class="doccomment">/// &lt;https://wiki.debian.org/Apt.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">AptPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of a Zypper package.</span>
-            <span class="doccomment">/// For details about the Zypper package manager, see</span>
-            <span class="doccomment">/// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="ident">ZypperPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of a Googet package.</span>
-            <span class="doccomment">///  For details about the googet package manager, see</span>
-            <span class="doccomment">///  &lt;https://github.com/google/googet.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-            <span class="ident">GoogetPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of a Zypper patch.</span>
-            <span class="doccomment">/// For details about the Zypper package manager, see</span>
-            <span class="doccomment">/// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-            <span class="ident">ZypperPatch</span>(<span class="ident"><span class="kw">super</span>::ZypperPatch</span>),
-            <span class="doccomment">/// Details of a Windows Update package.</span>
-            <span class="doccomment">/// See &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt; for</span>
-            <span class="doccomment">/// information about Windows Update.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-            <span class="ident">WuaPackage</span>(<span class="ident"><span class="kw">super</span>::WindowsUpdatePackage</span>),
-            <span class="doccomment">/// Details of a Windows Quick Fix engineering package.</span>
-            <span class="doccomment">/// See</span>
-            <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;</span>
-            <span class="doccomment">/// for info in Windows Quick Fix Engineering.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-            <span class="ident">QfePackage</span>(<span class="ident"><span class="kw">super</span>::WindowsQuickFixEngineeringPackage</span>),
-            <span class="doccomment">/// Details of a COS package.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-            <span class="ident">CosPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of Windows Application.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-            <span class="ident">WindowsApplication</span>(<span class="ident"><span class="kw">super</span>::WindowsApplication</span>),
-        }
-    }
-    <span class="doccomment">/// Information related to the a standard versioned package.  This includes</span>
-    <span class="doccomment">/// package info for APT, Yum, Zypper, and Googet package managers.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VersionedPackage</span> {
-        <span class="doccomment">/// The name of the package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">package_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The system architecture this package is intended for.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The version of the package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Information related to a Quick Fix Engineering package.</span>
-    <span class="doccomment">/// Fields are taken from Windows QuickFixEngineering Interface and match</span>
-    <span class="doccomment">/// the source names:</span>
-    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsQuickFixEngineeringPackage</span> {
-        <span class="doccomment">/// A short textual description of the QFE update.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">caption</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// A textual description of the QFE update.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Unique identifier associated with a particular QFE update.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">hot_fix_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Date that the QFE update was installed.  Mapped from installed_on field.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">install_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Details related to a Zypper Patch.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZypperPatch</span> {
-        <span class="doccomment">/// The name of the patch.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">patch_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The category of the patch.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">category</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The severity specified for this patch</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Any summary information provided about this patch.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">summary</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Details related to a Windows Update package.</span>
-    <span class="doccomment">/// Field data and names are taken from Windows Update API IUpdate Interface:</span>
-    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt;</span>
-    <span class="doccomment">/// Descriptive fields like title, and description are localized based on</span>
-    <span class="doccomment">/// the locale of the VM being updated.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdatePackage</span> {
-        <span class="doccomment">/// The localized title of the update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The localized description of the update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The categories that are associated with this update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">categories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">windows_update_package::WindowsUpdateCategory</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// A collection of Microsoft Knowledge Base article IDs that are associated</span>
-        <span class="doccomment">/// with the update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">kb_article_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// A hyperlink to the language-specific support information for the update.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">support_url</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// A collection of URLs that provide more information about the update</span>
-        <span class="doccomment">/// package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">more_info_urls</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Gets the identifier of an update package.  Stays the same across</span>
-        <span class="doccomment">/// revisions.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">update_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The revision number of this update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">revision_number</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// The last published date of the update, in (UTC) date and time.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">last_deployment_change_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `WindowsUpdatePackage`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windows_update_package</span> {
-        <span class="doccomment">/// Categories specified by the Windows Update.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdateCategory</span> {
-            <span class="doccomment">/// The identifier of the windows update category.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The name of the windows update category.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-    }
-    <span class="doccomment">/// Details about Windows Application - based on Windows Registry.</span>
-    <span class="doccomment">/// All fields in this message are taken from:</span>
-    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key&gt;</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsApplication</span> {
-        <span class="doccomment">/// DisplayName field from Windows Registry.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// DisplayVersion field from Windows Registry.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">display_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Publisher field from Windows Registry.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">publisher</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Installation date field from Windows Registry.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">install_date</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Date</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// HelpLink field from Windows Registry.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">help_link</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
 }
 <span class="doccomment">/// A unit of work to be performed by the agent.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

@@ -1249,141 +1249,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">column</span>: <span class="ident">i32</span>,
 }
-<span class="comment">// Contains representations for CEL runtime values.</span>
-
-<span class="doccomment">/// Represents a CEL value.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This is similar to `google.protobuf.Value`, but can represent CEL&#39;s full</span>
-<span class="doccomment">/// range of values.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Value</span> {
-    <span class="doccomment">/// Required. The valid kinds of values.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;value::Kind&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">value::Kind</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Value`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">value</span> {
-    <span class="doccomment">/// Required. The valid kinds of values.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
-        <span class="doccomment">/// Null value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;::prost_types::NullValue&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">NullValue</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// Boolean value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">BoolValue</span>(<span class="ident">bool</span>),
-        <span class="doccomment">/// Signed integer value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">Int64Value</span>(<span class="ident">i64</span>),
-        <span class="doccomment">/// Unsigned integer value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">uint64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">Uint64Value</span>(<span class="ident">u64</span>),
-        <span class="doccomment">/// Floating point value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">DoubleValue</span>(<span class="ident">f64</span>),
-        <span class="doccomment">/// UTF-8 string value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">StringValue</span>(<span class="ident">::prost::alloc::string::String</span>),
-        <span class="doccomment">/// Byte string value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="ident">BytesValue</span>(<span class="ident">::prost::bytes::Bytes</span>),
-        <span class="doccomment">/// An enum value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="ident">EnumValue</span>(<span class="ident"><span class="kw">super</span>::EnumValue</span>),
-        <span class="doccomment">/// The proto message backing an object value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="ident">ObjectValue</span>(<span class="ident">::prost_types::Any</span>),
-        <span class="doccomment">/// Map value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-        <span class="ident">MapValue</span>(<span class="ident"><span class="kw">super</span>::MapValue</span>),
-        <span class="doccomment">/// List value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-        <span class="ident">ListValue</span>(<span class="ident"><span class="kw">super</span>::ListValue</span>),
-        <span class="doccomment">/// Type value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-        <span class="ident">TypeValue</span>(<span class="ident">::prost::alloc::string::String</span>),
-    }
-}
-<span class="doccomment">/// An enum value.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EnumValue</span> {
-    <span class="doccomment">/// The fully qualified name of the enum type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The value of the enum.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A list.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Wrapped in a message so &#39;not set&#39; and empty can be differentiated, which is</span>
-<span class="doccomment">/// required for use in a &#39;oneof&#39;.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListValue</span> {
-    <span class="doccomment">/// The ordered values in the list.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A map.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Wrapped in a message so &#39;not set&#39; and empty can be differentiated, which is</span>
-<span class="doccomment">/// required for use in a &#39;oneof&#39;.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MapValue</span> {
-    <span class="doccomment">/// The set of map entries.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// CEL has fewer restrictions on keys, so a protobuf map represenation</span>
-    <span class="doccomment">/// cannot be used.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">map_value::Entry</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `MapValue`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">map_value</span> {
-    <span class="doccomment">/// An entry in the map.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entry</span> {
-        <span class="doccomment">/// The key.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Must be unique with in the map.</span>
-        <span class="doccomment">/// Currently only boolean, int, uint, and string values can be keys.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Value</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Value</span><span class="op">&gt;</span>,
-    }
-}
-<span class="doccomment">/// Values of intermediate expressions produced when evaluating expression.</span>
-<span class="doccomment">/// Deprecated, use `EvalState` instead.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Explain</span> {
-    <span class="doccomment">/// All of the observed values.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The field value_index is an index in the values list.</span>
-    <span class="doccomment">/// Separating values from steps is needed to remove redundant values.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of steps.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Repeated evaluations of the same expression generate new ExprStep</span>
-    <span class="doccomment">/// instances. The order of such ExprStep instances matches the order of</span>
-    <span class="doccomment">/// elements returned by Comprehension.iter_range.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">expr_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">explain::ExprStep</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Explain`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">explain</span> {
-    <span class="doccomment">/// ID and value index of one step.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExprStep</span> {
-        <span class="doccomment">/// ID of corresponding Expr node.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Index of the value in the values list.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">value_index</span>: <span class="ident">i32</span>,
-    }
-}
 <span class="comment">// Protos for representing CEL declarations and typed checked expressions.</span>
 
 <span class="doccomment">/// A CEL expression which has been successfully type checked.</span>
@@ -1719,6 +1584,110 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Constant</span><span class="op">&gt;</span>,
 }
+<span class="comment">// Contains representations for CEL runtime values.</span>
+
+<span class="doccomment">/// Represents a CEL value.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This is similar to `google.protobuf.Value`, but can represent CEL&#39;s full</span>
+<span class="doccomment">/// range of values.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Value</span> {
+    <span class="doccomment">/// Required. The valid kinds of values.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;value::Kind&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">value::Kind</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Value`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">value</span> {
+    <span class="doccomment">/// Required. The valid kinds of values.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
+        <span class="doccomment">/// Null value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;::prost_types::NullValue&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">NullValue</span>(<span class="ident">i32</span>),
+        <span class="doccomment">/// Boolean value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">BoolValue</span>(<span class="ident">bool</span>),
+        <span class="doccomment">/// Signed integer value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">Int64Value</span>(<span class="ident">i64</span>),
+        <span class="doccomment">/// Unsigned integer value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">uint64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Uint64Value</span>(<span class="ident">u64</span>),
+        <span class="doccomment">/// Floating point value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">DoubleValue</span>(<span class="ident">f64</span>),
+        <span class="doccomment">/// UTF-8 string value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">StringValue</span>(<span class="ident">::prost::alloc::string::String</span>),
+        <span class="doccomment">/// Byte string value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="ident">BytesValue</span>(<span class="ident">::prost::bytes::Bytes</span>),
+        <span class="doccomment">/// An enum value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="ident">EnumValue</span>(<span class="ident"><span class="kw">super</span>::EnumValue</span>),
+        <span class="doccomment">/// The proto message backing an object value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="ident">ObjectValue</span>(<span class="ident">::prost_types::Any</span>),
+        <span class="doccomment">/// Map value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="ident">MapValue</span>(<span class="ident"><span class="kw">super</span>::MapValue</span>),
+        <span class="doccomment">/// List value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+        <span class="ident">ListValue</span>(<span class="ident"><span class="kw">super</span>::ListValue</span>),
+        <span class="doccomment">/// Type value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+        <span class="ident">TypeValue</span>(<span class="ident">::prost::alloc::string::String</span>),
+    }
+}
+<span class="doccomment">/// An enum value.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EnumValue</span> {
+    <span class="doccomment">/// The fully qualified name of the enum type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The value of the enum.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// A list.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Wrapped in a message so &#39;not set&#39; and empty can be differentiated, which is</span>
+<span class="doccomment">/// required for use in a &#39;oneof&#39;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListValue</span> {
+    <span class="doccomment">/// The ordered values in the list.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A map.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Wrapped in a message so &#39;not set&#39; and empty can be differentiated, which is</span>
+<span class="doccomment">/// required for use in a &#39;oneof&#39;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MapValue</span> {
+    <span class="doccomment">/// The set of map entries.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// CEL has fewer restrictions on keys, so a protobuf map represenation</span>
+    <span class="doccomment">/// cannot be used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">map_value::Entry</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `MapValue`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">map_value</span> {
+    <span class="doccomment">/// An entry in the map.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entry</span> {
+        <span class="doccomment">/// The key.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Must be unique with in the map.</span>
+        <span class="doccomment">/// Currently only boolean, int, uint, and string values can be keys.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Value</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Value</span><span class="op">&gt;</span>,
+    }
+}
 <span class="doccomment">/// The state of an evaluation.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Can represent an inital, partial, or completed state of evaluation.</span>
@@ -1825,6 +1794,37 @@
     <span class="doccomment">/// The ids of the expressions with unknown values.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">exprs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Values of intermediate expressions produced when evaluating expression.</span>
+<span class="doccomment">/// Deprecated, use `EvalState` instead.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Explain</span> {
+    <span class="doccomment">/// All of the observed values.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The field value_index is an index in the values list.</span>
+    <span class="doccomment">/// Separating values from steps is needed to remove redundant values.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of steps.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Repeated evaluations of the same expression generate new ExprStep</span>
+    <span class="doccomment">/// instances. The order of such ExprStep instances matches the order of</span>
+    <span class="doccomment">/// elements returned by Comprehension.iter_range.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">expr_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">explain::ExprStep</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Explain`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">explain</span> {
+    <span class="doccomment">/// ID and value index of one step.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExprStep</span> {
+        <span class="doccomment">/// ID of corresponding Expr node.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Index of the value in the values list.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">value_index</span>: <span class="ident">i32</span>,
+    }
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../search-index.js" data-search-js="../../../../../../search.js"></div>

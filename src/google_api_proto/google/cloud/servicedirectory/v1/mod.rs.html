@@ -923,7 +923,25 @@
 <span id="923">923</span>
 <span id="924">924</span>
 <span id="925">925</span>
-</pre><pre class="rust"><code><span class="doccomment">/// An individual endpoint that provides a</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A container for \[services][google.cloud.servicedirectory.v1.Service\].</span>
+<span class="doccomment">/// Namespaces allow administrators to group services together and define</span>
+<span class="doccomment">/// permissions for a collection of services.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Namespace</span> {
+    <span class="doccomment">/// Immutable. The resource name for the namespace in the format</span>
+    <span class="doccomment">/// `projects/*/locations/*/namespaces/*`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Resource labels associated with this Namespace.</span>
+    <span class="doccomment">/// No more than 64 user labels can be associated with a given resource.  Label</span>
+    <span class="doccomment">/// keys and values can be no longer than 63 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// An individual endpoint that provides a</span>
 <span class="doccomment">/// \[service][google.cloud.servicedirectory.v1.Service\]. The service must</span>
 <span class="doccomment">/// already exist to create an endpoint.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -967,24 +985,6 @@
     <span class="doccomment">/// Directory.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">annotations</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A container for \[services][google.cloud.servicedirectory.v1.Service\].</span>
-<span class="doccomment">/// Namespaces allow administrators to group services together and define</span>
-<span class="doccomment">/// permissions for a collection of services.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Namespace</span> {
-    <span class="doccomment">/// Immutable. The resource name for the namespace in the format</span>
-    <span class="doccomment">/// `projects/*/locations/*/namespaces/*`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Resource labels associated with this Namespace.</span>
-    <span class="doccomment">/// No more than 64 user labels can be associated with a given resource.  Label</span>
-    <span class="doccomment">/// keys and values can be no longer than 63 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
         <span class="ident">::prost::alloc::string::String</span>,
         <span class="ident">::prost::alloc::string::String</span>,
     <span class="op">&gt;</span>,

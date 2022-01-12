@@ -1633,39 +1633,7 @@
 <span id="1633">1633</span>
 <span id="1634">1634</span>
 <span id="1635">1635</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A processor type is responsible for performing a certain document</span>
-<span class="doccomment">/// understanding task on a certain type of document.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProcessorType</span> {
-    <span class="doccomment">/// The resource name of the processor type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type of the processor.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The processor category.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">category</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The locations in which this processor is available.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">available_locations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">processor_type::LocationInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Whether the processor type allows creation. If yes, user can create a</span>
-    <span class="doccomment">/// processor of this processor type. Otherwise, user needs to require for</span>
-    <span class="doccomment">/// whitelisting.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">allow_creation</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ProcessorType`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">processor_type</span> {
-    <span class="doccomment">/// The location information about where the processor is available.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocationInfo</span> {
-        <span class="doccomment">/// The location id.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">location_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
-<span class="doccomment">/// A vertex represents a 2D point in the image.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A vertex represents a 2D point in the image.</span>
 <span class="doccomment">/// NOTE: the vertex coordinates are in the same scale as the original image.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Vertex</span> {
@@ -2640,6 +2608,38 @@
         <span class="ident">Failed</span> <span class="op">=</span> <span class="number">6</span>,
         <span class="doccomment">/// The processor is being deleted, will be removed if successful.</span>
         <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">7</span>,
+    }
+}
+<span class="doccomment">/// A processor type is responsible for performing a certain document</span>
+<span class="doccomment">/// understanding task on a certain type of document.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProcessorType</span> {
+    <span class="doccomment">/// The resource name of the processor type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type of the processor.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The processor category.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">category</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The locations in which this processor is available.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">available_locations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">processor_type::LocationInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether the processor type allows creation. If yes, user can create a</span>
+    <span class="doccomment">/// processor of this processor type. Otherwise, user needs to require for</span>
+    <span class="doccomment">/// whitelisting.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">allow_creation</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ProcessorType`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">processor_type</span> {
+    <span class="doccomment">/// The location information about where the processor is available.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocationInfo</span> {
+        <span class="doccomment">/// The location id.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">location_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
 }
 <span class="doccomment">/// Request message for the process document method.</span>

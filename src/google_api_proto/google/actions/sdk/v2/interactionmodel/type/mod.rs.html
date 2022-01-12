@@ -162,15 +162,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">icon_url</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Type that matches any text if surrounding words context is close to provided</span>
-<span class="doccomment">/// training examples.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FreeTextType</span> {
-    <span class="doccomment">/// Optional. Elements that will be displayed on the canvas once an entity is extracted</span>
-    <span class="doccomment">/// from a query. Only relevant for canvas enabled apps.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EntityDisplay</span><span class="op">&gt;</span>,
-}
 <span class="doccomment">/// Type that matches text by regular expressions.</span>
 <span class="doccomment">/// **This message is localizable.**</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -197,6 +188,15 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">regular_expressions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     }
+}
+<span class="doccomment">/// Type that matches any text if surrounding words context is close to provided</span>
+<span class="doccomment">/// training examples.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FreeTextType</span> {
+    <span class="doccomment">/// Optional. Elements that will be displayed on the canvas once an entity is extracted</span>
+    <span class="doccomment">/// from a query. Only relevant for canvas enabled apps.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EntityDisplay</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Type that matches text by set of synonyms.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

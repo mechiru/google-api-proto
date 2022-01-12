@@ -3300,307 +3300,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// This API resource represents the vulnerability report for a specified</span>
-<span class="doccomment">/// Compute Engine virtual machine (VM) instance at a given point in time.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For more information, see [Vulnerability</span>
-<span class="doccomment">/// reports](&lt;https://cloud.google.com/compute/docs/instances/os-inventory-management#vulnerability-reports&gt;).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VulnerabilityReport</span> {
-    <span class="doccomment">/// Output only. The `vulnerabilityReport` API resource name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format:</span>
-    <span class="doccomment">/// `projects/{project_number}/locations/{location}/instances/{instance_id}/vulnerabilityReport`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. List of vulnerabilities affecting the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vulnerabilities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">vulnerability_report::Vulnerability</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The timestamp for when the last vulnerability report was</span>
-    <span class="doccomment">/// generated for the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `VulnerabilityReport`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vulnerability_report</span> {
-    <span class="doccomment">/// A vulnerability affecting the VM instance.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Vulnerability</span> {
-        <span class="doccomment">/// Contains metadata as per the upstream feed of the operating system and</span>
-        <span class="doccomment">/// NVD.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">vulnerability::Details</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM.</span>
-        <span class="doccomment">/// This field displays the inventory items affected by this vulnerability.</span>
-        <span class="doccomment">/// If the vulnerability report was not updated after the VM inventory</span>
-        <span class="doccomment">/// update, these values might not display in VM inventory. For some distros,</span>
-        <span class="doccomment">/// this field may be empty.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">installed_inventory_item_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM.</span>
-        <span class="doccomment">/// If the vulnerability report was not updated after the VM inventory</span>
-        <span class="doccomment">/// update, these values might not display in VM inventory. If there is no</span>
-        <span class="doccomment">/// available fix, the field is empty. The `inventory_item` value specifies</span>
-        <span class="doccomment">/// the latest `SoftwarePackage` available to the VM that fixes the</span>
-        <span class="doccomment">/// vulnerability.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">available_inventory_item_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The timestamp for when the vulnerability was first detected.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The timestamp for when the vulnerability was last modified.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Vulnerability`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vulnerability</span> {
-        <span class="doccomment">/// Contains metadata information for the vulnerability. This information is</span>
-        <span class="doccomment">/// collected from the upstream feed of the operating system.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Details</span> {
-            <span class="doccomment">/// The CVE of the vulnerability. CVE cannot be</span>
-            <span class="doccomment">/// empty and the combination of &lt;cve, classification&gt; should be unique</span>
-            <span class="doccomment">/// across vulnerabilities for a VM.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">cve</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The CVSS V2 score of this vulnerability. CVSS V2 score is on a scale of</span>
-            <span class="doccomment">/// 0 - 10 where 0 indicates low severity and 10 indicates high severity.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">cvss_v2_score</span>: <span class="ident">f32</span>,
-            <span class="doccomment">/// The full description of the CVSSv3 for this vulnerability from NVD.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">cvss_v3</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::CvsSv3</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// Assigned severity/impact ranking from the distro.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The note or description describing the vulnerability from the distro.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// Corresponds to the references attached to the `VulnerabilityDetails`.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">references</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">details::Reference</span><span class="op">&gt;</span>,
-        }
-        <span class="doccomment">/// Nested message and enum types in `Details`.</span>
-        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">details</span> {
-            <span class="doccomment">/// A reference for this vulnerability.</span>
-            <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-            <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Reference</span> {
-                <span class="doccomment">/// The url of the reference.</span>
-                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-                <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A request message for getting the vulnerability report for the specified VM.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetVulnerabilityReportRequest</span> {
-    <span class="doccomment">/// Required. API resource name for vulnerability resource.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format:</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/instances/{instance}/vulnerabilityReport`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For `{project}`, either `project-number` or `project-id` can be provided.</span>
-    <span class="doccomment">/// For `{instance}`, either Compute Engine `instance-id` or `instance-name`</span>
-    <span class="doccomment">/// can be provided.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A request message for listing vulnerability reports for all VM instances in</span>
-<span class="doccomment">/// the specified location.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVulnerabilityReportsRequest</span> {
-    <span class="doccomment">/// Required. The parent resource name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format: `projects/{project}/locations/{location}/instances/{instance}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For `{project}`, either `project-number` or `project-id` can be provided.</span>
-    <span class="doccomment">/// For `{instance}`, only `-` character is supported to list vulnerability</span>
-    <span class="doccomment">/// reports across VMs.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of results to return.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A pagination token returned from a previous call to</span>
-    <span class="doccomment">/// `ListVulnerabilityReports` that indicates where this listing</span>
-    <span class="doccomment">/// should continue from.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by a</span>
-    <span class="doccomment">/// `vulnerabilityReport` API resource to be included in the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A response message for listing vulnerability reports for all VM instances in</span>
-<span class="doccomment">/// the specified location.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVulnerabilityReportsResponse</span> {
-    <span class="doccomment">/// List of vulnerabilityReport objects.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vulnerability_reports</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">VulnerabilityReport</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The pagination token to retrieve the next page of vulnerabilityReports</span>
-    <span class="doccomment">/// object.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Common Vulnerability Scoring System version 3.</span>
-<span class="doccomment">/// For details, see &lt;https://www.first.org/cvss/specification-document&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CvsSv3</span> {
-    <span class="doccomment">/// The base score is a function of the base metric scores.</span>
-    <span class="doccomment">/// &lt;https://www.first.org/cvss/specification-document#Base-Metrics&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">base_score</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// The Exploitability sub-score equation is derived from the Base</span>
-    <span class="doccomment">/// Exploitability metrics.</span>
-    <span class="doccomment">/// &lt;https://www.first.org/cvss/specification-document#2-1-Exploitability-Metrics&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exploitability_score</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// The Impact sub-score equation is derived from the Base Impact metrics.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">impact_score</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// This metric reflects the context by which vulnerability exploitation is</span>
-    <span class="doccomment">/// possible.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::AttackVector&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attack_vector</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// This metric describes the conditions beyond the attacker&#39;s control that</span>
-    <span class="doccomment">/// must exist in order to exploit the vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::AttackComplexity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attack_complexity</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// This metric describes the level of privileges an attacker must possess</span>
-    <span class="doccomment">/// before successfully exploiting the vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::PrivilegesRequired&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">privileges_required</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// This metric captures the requirement for a human user, other than the</span>
-    <span class="doccomment">/// attacker, to participate in the successful compromise of the vulnerable</span>
-    <span class="doccomment">/// component.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::UserInteraction&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_interaction</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The Scope metric captures whether a vulnerability in one vulnerable</span>
-    <span class="doccomment">/// component impacts resources in components beyond its security scope.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Scope&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">scope</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// This metric measures the impact to the confidentiality of the information</span>
-    <span class="doccomment">/// resources managed by a software component due to a successfully exploited</span>
-    <span class="doccomment">/// vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confidentiality_impact</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// This metric measures the impact to integrity of a successfully exploited</span>
-    <span class="doccomment">/// vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">integrity_impact</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// This metric measures the impact to the availability of the impacted</span>
-    <span class="doccomment">/// component resulting from a successfully exploited vulnerability.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">availability_impact</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CVSSv3`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cvs_sv3</span> {
-    <span class="doccomment">/// This metric reflects the context by which vulnerability exploitation is</span>
-    <span class="doccomment">/// possible.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackVector</span> {
-        <span class="doccomment">/// Invalid value.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The vulnerable component is bound to the network stack and the set of</span>
-        <span class="doccomment">/// possible attackers extends beyond the other options listed below, up to</span>
-        <span class="doccomment">/// and including the entire Internet.</span>
-        <span class="ident">Network</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The vulnerable component is bound to the network stack, but the attack is</span>
-        <span class="doccomment">/// limited at the protocol level to a logically adjacent topology.</span>
-        <span class="ident">Adjacent</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The vulnerable component is not bound to the network stack and the</span>
-        <span class="doccomment">/// attacker&#39;s path is via read/write/execute capabilities.</span>
-        <span class="ident">Local</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The attack requires the attacker to physically touch or manipulate the</span>
-        <span class="doccomment">/// vulnerable component.</span>
-        <span class="ident">Physical</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-    <span class="doccomment">/// This metric describes the conditions beyond the attacker&#39;s control that</span>
-    <span class="doccomment">/// must exist in order to exploit the vulnerability.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackComplexity</span> {
-        <span class="doccomment">/// Invalid value.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Specialized access conditions or extenuating circumstances do not exist.</span>
-        <span class="doccomment">/// An attacker can expect repeatable success when attacking the vulnerable</span>
-        <span class="doccomment">/// component.</span>
-        <span class="ident">Low</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A successful attack depends on conditions beyond the attacker&#39;s control.</span>
-        <span class="doccomment">/// That is, a successful attack cannot be accomplished at will, but requires</span>
-        <span class="doccomment">/// the attacker to invest in some measurable amount of effort in preparation</span>
-        <span class="doccomment">/// or execution against the vulnerable component before a successful attack</span>
-        <span class="doccomment">/// can be expected.</span>
-        <span class="ident">High</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// This metric describes the level of privileges an attacker must possess</span>
-    <span class="doccomment">/// before successfully exploiting the vulnerability.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PrivilegesRequired</span> {
-        <span class="doccomment">/// Invalid value.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The attacker is unauthorized prior to attack, and therefore does not</span>
-        <span class="doccomment">/// require any access to settings or files of the vulnerable system to</span>
-        <span class="doccomment">/// carry out an attack.</span>
-        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The attacker requires privileges that provide basic user capabilities</span>
-        <span class="doccomment">/// that could normally affect only settings and files owned by a user.</span>
-        <span class="doccomment">/// Alternatively, an attacker with Low privileges has the ability to access</span>
-        <span class="doccomment">/// only non-sensitive resources.</span>
-        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The attacker requires privileges that provide significant (e.g.,</span>
-        <span class="doccomment">/// administrative) control over the vulnerable component allowing access to</span>
-        <span class="doccomment">/// component-wide settings and files.</span>
-        <span class="ident">High</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-    <span class="doccomment">/// This metric captures the requirement for a human user, other than the</span>
-    <span class="doccomment">/// attacker, to participate in the successful compromise of the vulnerable</span>
-    <span class="doccomment">/// component.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserInteraction</span> {
-        <span class="doccomment">/// Invalid value.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The vulnerable system can be exploited without interaction from any user.</span>
-        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Successful exploitation of this vulnerability requires a user to take</span>
-        <span class="doccomment">/// some action before the vulnerability can be exploited.</span>
-        <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// The Scope metric captures whether a vulnerability in one vulnerable</span>
-    <span class="doccomment">/// component impacts resources in components beyond its security scope.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Scope</span> {
-        <span class="doccomment">/// Invalid value.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// An exploited vulnerability can only affect resources managed by the same</span>
-        <span class="doccomment">/// security authority.</span>
-        <span class="ident">Unchanged</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// An exploited vulnerability can affect resources beyond the security scope</span>
-        <span class="doccomment">/// managed by the security authority of the vulnerable component.</span>
-        <span class="ident">Changed</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// The Impact metrics capture the effects of a successfully exploited</span>
-    <span class="doccomment">/// vulnerability on the component that suffers the worst outcome that is most</span>
-    <span class="doccomment">/// directly and predictably associated with the attack.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Impact</span> {
-        <span class="doccomment">/// Invalid value.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// High impact.</span>
-        <span class="ident">High</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Low impact.</span>
-        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// No impact.</span>
-        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
 <span class="comment">// OS Inventory is a service for collecting and reporting operating</span>
 <span class="comment">// system and package information on VM instances.</span>
 
@@ -3982,6 +3681,307 @@
     <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
     <span class="doccomment">/// Returns all fields.</span>
     <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// This API resource represents the vulnerability report for a specified</span>
+<span class="doccomment">/// Compute Engine virtual machine (VM) instance at a given point in time.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For more information, see [Vulnerability</span>
+<span class="doccomment">/// reports](&lt;https://cloud.google.com/compute/docs/instances/os-inventory-management#vulnerability-reports&gt;).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VulnerabilityReport</span> {
+    <span class="doccomment">/// Output only. The `vulnerabilityReport` API resource name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// `projects/{project_number}/locations/{location}/instances/{instance_id}/vulnerabilityReport`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. List of vulnerabilities affecting the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vulnerabilities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">vulnerability_report::Vulnerability</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The timestamp for when the last vulnerability report was</span>
+    <span class="doccomment">/// generated for the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `VulnerabilityReport`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vulnerability_report</span> {
+    <span class="doccomment">/// A vulnerability affecting the VM instance.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Vulnerability</span> {
+        <span class="doccomment">/// Contains metadata as per the upstream feed of the operating system and</span>
+        <span class="doccomment">/// NVD.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">vulnerability::Details</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM.</span>
+        <span class="doccomment">/// This field displays the inventory items affected by this vulnerability.</span>
+        <span class="doccomment">/// If the vulnerability report was not updated after the VM inventory</span>
+        <span class="doccomment">/// update, these values might not display in VM inventory. For some distros,</span>
+        <span class="doccomment">/// this field may be empty.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">installed_inventory_item_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM.</span>
+        <span class="doccomment">/// If the vulnerability report was not updated after the VM inventory</span>
+        <span class="doccomment">/// update, these values might not display in VM inventory. If there is no</span>
+        <span class="doccomment">/// available fix, the field is empty. The `inventory_item` value specifies</span>
+        <span class="doccomment">/// the latest `SoftwarePackage` available to the VM that fixes the</span>
+        <span class="doccomment">/// vulnerability.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">available_inventory_item_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The timestamp for when the vulnerability was first detected.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The timestamp for when the vulnerability was last modified.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Vulnerability`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">vulnerability</span> {
+        <span class="doccomment">/// Contains metadata information for the vulnerability. This information is</span>
+        <span class="doccomment">/// collected from the upstream feed of the operating system.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Details</span> {
+            <span class="doccomment">/// The CVE of the vulnerability. CVE cannot be</span>
+            <span class="doccomment">/// empty and the combination of &lt;cve, classification&gt; should be unique</span>
+            <span class="doccomment">/// across vulnerabilities for a VM.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">cve</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// The CVSS V2 score of this vulnerability. CVSS V2 score is on a scale of</span>
+            <span class="doccomment">/// 0 - 10 where 0 indicates low severity and 10 indicates high severity.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">cvss_v2_score</span>: <span class="ident">f32</span>,
+            <span class="doccomment">/// The full description of the CVSSv3 for this vulnerability from NVD.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">cvss_v3</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::CvsSv3</span><span class="op">&gt;</span>,
+            <span class="doccomment">/// Assigned severity/impact ranking from the distro.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// The note or description describing the vulnerability from the distro.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// Corresponds to the references attached to the `VulnerabilityDetails`.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">references</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">details::Reference</span><span class="op">&gt;</span>,
+        }
+        <span class="doccomment">/// Nested message and enum types in `Details`.</span>
+        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">details</span> {
+            <span class="doccomment">/// A reference for this vulnerability.</span>
+            <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+            <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Reference</span> {
+                <span class="doccomment">/// The url of the reference.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A request message for getting the vulnerability report for the specified VM.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetVulnerabilityReportRequest</span> {
+    <span class="doccomment">/// Required. API resource name for vulnerability resource.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/instances/{instance}/vulnerabilityReport`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For `{project}`, either `project-number` or `project-id` can be provided.</span>
+    <span class="doccomment">/// For `{instance}`, either Compute Engine `instance-id` or `instance-name`</span>
+    <span class="doccomment">/// can be provided.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A request message for listing vulnerability reports for all VM instances in</span>
+<span class="doccomment">/// the specified location.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVulnerabilityReportsRequest</span> {
+    <span class="doccomment">/// Required. The parent resource name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format: `projects/{project}/locations/{location}/instances/{instance}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For `{project}`, either `project-number` or `project-id` can be provided.</span>
+    <span class="doccomment">/// For `{instance}`, only `-` character is supported to list vulnerability</span>
+    <span class="doccomment">/// reports across VMs.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of results to return.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A pagination token returned from a previous call to</span>
+    <span class="doccomment">/// `ListVulnerabilityReports` that indicates where this listing</span>
+    <span class="doccomment">/// should continue from.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by a</span>
+    <span class="doccomment">/// `vulnerabilityReport` API resource to be included in the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A response message for listing vulnerability reports for all VM instances in</span>
+<span class="doccomment">/// the specified location.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVulnerabilityReportsResponse</span> {
+    <span class="doccomment">/// List of vulnerabilityReport objects.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vulnerability_reports</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">VulnerabilityReport</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The pagination token to retrieve the next page of vulnerabilityReports</span>
+    <span class="doccomment">/// object.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Common Vulnerability Scoring System version 3.</span>
+<span class="doccomment">/// For details, see &lt;https://www.first.org/cvss/specification-document&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CvsSv3</span> {
+    <span class="doccomment">/// The base score is a function of the base metric scores.</span>
+    <span class="doccomment">/// &lt;https://www.first.org/cvss/specification-document#Base-Metrics&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">base_score</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// The Exploitability sub-score equation is derived from the Base</span>
+    <span class="doccomment">/// Exploitability metrics.</span>
+    <span class="doccomment">/// &lt;https://www.first.org/cvss/specification-document#2-1-Exploitability-Metrics&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exploitability_score</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// The Impact sub-score equation is derived from the Base Impact metrics.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">impact_score</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// This metric reflects the context by which vulnerability exploitation is</span>
+    <span class="doccomment">/// possible.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::AttackVector&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attack_vector</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// This metric describes the conditions beyond the attacker&#39;s control that</span>
+    <span class="doccomment">/// must exist in order to exploit the vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::AttackComplexity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attack_complexity</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// This metric describes the level of privileges an attacker must possess</span>
+    <span class="doccomment">/// before successfully exploiting the vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::PrivilegesRequired&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">privileges_required</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// This metric captures the requirement for a human user, other than the</span>
+    <span class="doccomment">/// attacker, to participate in the successful compromise of the vulnerable</span>
+    <span class="doccomment">/// component.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::UserInteraction&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_interaction</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The Scope metric captures whether a vulnerability in one vulnerable</span>
+    <span class="doccomment">/// component impacts resources in components beyond its security scope.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Scope&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">scope</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// This metric measures the impact to the confidentiality of the information</span>
+    <span class="doccomment">/// resources managed by a software component due to a successfully exploited</span>
+    <span class="doccomment">/// vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidentiality_impact</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// This metric measures the impact to integrity of a successfully exploited</span>
+    <span class="doccomment">/// vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">integrity_impact</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// This metric measures the impact to the availability of the impacted</span>
+    <span class="doccomment">/// component resulting from a successfully exploited vulnerability.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cvs_sv3::Impact&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">availability_impact</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CVSSv3`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cvs_sv3</span> {
+    <span class="doccomment">/// This metric reflects the context by which vulnerability exploitation is</span>
+    <span class="doccomment">/// possible.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackVector</span> {
+        <span class="doccomment">/// Invalid value.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The vulnerable component is bound to the network stack and the set of</span>
+        <span class="doccomment">/// possible attackers extends beyond the other options listed below, up to</span>
+        <span class="doccomment">/// and including the entire Internet.</span>
+        <span class="ident">Network</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The vulnerable component is bound to the network stack, but the attack is</span>
+        <span class="doccomment">/// limited at the protocol level to a logically adjacent topology.</span>
+        <span class="ident">Adjacent</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The vulnerable component is not bound to the network stack and the</span>
+        <span class="doccomment">/// attacker&#39;s path is via read/write/execute capabilities.</span>
+        <span class="ident">Local</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The attack requires the attacker to physically touch or manipulate the</span>
+        <span class="doccomment">/// vulnerable component.</span>
+        <span class="ident">Physical</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+    <span class="doccomment">/// This metric describes the conditions beyond the attacker&#39;s control that</span>
+    <span class="doccomment">/// must exist in order to exploit the vulnerability.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AttackComplexity</span> {
+        <span class="doccomment">/// Invalid value.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Specialized access conditions or extenuating circumstances do not exist.</span>
+        <span class="doccomment">/// An attacker can expect repeatable success when attacking the vulnerable</span>
+        <span class="doccomment">/// component.</span>
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A successful attack depends on conditions beyond the attacker&#39;s control.</span>
+        <span class="doccomment">/// That is, a successful attack cannot be accomplished at will, but requires</span>
+        <span class="doccomment">/// the attacker to invest in some measurable amount of effort in preparation</span>
+        <span class="doccomment">/// or execution against the vulnerable component before a successful attack</span>
+        <span class="doccomment">/// can be expected.</span>
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// This metric describes the level of privileges an attacker must possess</span>
+    <span class="doccomment">/// before successfully exploiting the vulnerability.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PrivilegesRequired</span> {
+        <span class="doccomment">/// Invalid value.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The attacker is unauthorized prior to attack, and therefore does not</span>
+        <span class="doccomment">/// require any access to settings or files of the vulnerable system to</span>
+        <span class="doccomment">/// carry out an attack.</span>
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The attacker requires privileges that provide basic user capabilities</span>
+        <span class="doccomment">/// that could normally affect only settings and files owned by a user.</span>
+        <span class="doccomment">/// Alternatively, an attacker with Low privileges has the ability to access</span>
+        <span class="doccomment">/// only non-sensitive resources.</span>
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The attacker requires privileges that provide significant (e.g.,</span>
+        <span class="doccomment">/// administrative) control over the vulnerable component allowing access to</span>
+        <span class="doccomment">/// component-wide settings and files.</span>
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+    <span class="doccomment">/// This metric captures the requirement for a human user, other than the</span>
+    <span class="doccomment">/// attacker, to participate in the successful compromise of the vulnerable</span>
+    <span class="doccomment">/// component.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserInteraction</span> {
+        <span class="doccomment">/// Invalid value.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The vulnerable system can be exploited without interaction from any user.</span>
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Successful exploitation of this vulnerability requires a user to take</span>
+        <span class="doccomment">/// some action before the vulnerability can be exploited.</span>
+        <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// The Scope metric captures whether a vulnerability in one vulnerable</span>
+    <span class="doccomment">/// component impacts resources in components beyond its security scope.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Scope</span> {
+        <span class="doccomment">/// Invalid value.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// An exploited vulnerability can only affect resources managed by the same</span>
+        <span class="doccomment">/// security authority.</span>
+        <span class="ident">Unchanged</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// An exploited vulnerability can affect resources beyond the security scope</span>
+        <span class="doccomment">/// managed by the security authority of the vulnerable component.</span>
+        <span class="ident">Changed</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// The Impact metrics capture the effects of a successfully exploited</span>
+    <span class="doccomment">/// vulnerability on the component that suffers the worst outcome that is most</span>
+    <span class="doccomment">/// directly and predictably associated with the attack.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Impact</span> {
+        <span class="doccomment">/// Invalid value.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// High impact.</span>
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Low impact.</span>
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// No impact.</span>
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
+    }
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_config_zonal_service_client</span> {

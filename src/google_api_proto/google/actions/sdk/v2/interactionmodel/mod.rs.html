@@ -397,25 +397,35 @@
         <span class="ident">StaticPromptName</span>(<span class="ident">::prost::alloc::string::String</span>),
     }
 }
-<span class="doccomment">/// Defines a global intent handler. Global intent events are scoped to the</span>
-<span class="doccomment">/// entire Actions project and may be overridden by intent handlers in a scene.</span>
-<span class="doccomment">/// Intent names must be unique within an Actions project.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Global intents can be matched anytime during a session, allowing users to</span>
-<span class="doccomment">/// access common flows like  &quot;get help&quot; or &quot;go back home.&quot; They can also be</span>
-<span class="doccomment">/// used to deep link users into specific flows when they invoke an Action.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note, the intent name is specified in the name of the file.</span>
+<span class="doccomment">/// Registers events that trigger as the result of a true condition.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalIntentEvent</span> {
-    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
-    <span class="doccomment">/// current scene is destroyed on the transition.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConditionalEvent</span> {
+    <span class="doccomment">/// Required. Filter condition for this event to trigger. If condition is evaluated to</span>
+    <span class="doccomment">/// true then the associated `handler` will be triggered.</span>
+    <span class="doccomment">/// The following variable references are supported:</span>
+    <span class="doccomment">///   `$session` - To reference data in session storage.</span>
+    <span class="doccomment">///   `$user` - To reference data in user storage.</span>
+    <span class="doccomment">/// The following boolean operators are supported (with examples):</span>
+    <span class="doccomment">///   `&amp;&amp;` - `session.params.counter &gt; 0 &amp;&amp; session.params.counter &lt; 100`</span>
+    <span class="doccomment">///   `||` - `session.params.foo == &quot;John&quot; || session.params.counter == &quot;Adam&quot;`</span>
+    <span class="doccomment">///   `!`  - `!(session.params.counter == 5)`</span>
+    <span class="doccomment">/// The following comparisons are supported:</span>
+    <span class="doccomment">///   `==`, `!=`, `&lt;`, `&gt;`, `&lt;=`, `&gt;=`</span>
+    <span class="doccomment">/// The following list and string operators are supported (with examples):</span>
+    <span class="doccomment">///   `in`        - &quot;Watermelon&quot; in `session.params.fruitList`</span>
+    <span class="doccomment">///   `size`      - `size(session.params.fruitList) &gt; 2`</span>
+    <span class="doccomment">///   `substring` - `session.params.fullName.contains(&quot;John&quot;)`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">condition</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to when the associated</span>
+    <span class="doccomment">/// condition is evaluated to true. The state of the current scene is destroyed</span>
+    <span class="doccomment">/// on the transition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
-    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate Prompts</span>
-    <span class="doccomment">/// in response to events.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="doccomment">/// Optional. Event handler which is triggered when the associated condition is evaluated</span>
+    <span class="doccomment">/// to `true`. Should execute before transitioning to the destination scene.</span>
+    <span class="doccomment">/// Useful to generate Prompts in response to events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Intents map open-ended user input to structured objects. Spoken</span>
@@ -495,53 +505,6 @@
             <span class="ident">EntitySetReferences</span>(<span class="ident">EntitySetReferences</span>),
         }
     }
-}
-<span class="doccomment">/// Registers events that trigger as the result of a true condition.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConditionalEvent</span> {
-    <span class="doccomment">/// Required. Filter condition for this event to trigger. If condition is evaluated to</span>
-    <span class="doccomment">/// true then the associated `handler` will be triggered.</span>
-    <span class="doccomment">/// The following variable references are supported:</span>
-    <span class="doccomment">///   `$session` - To reference data in session storage.</span>
-    <span class="doccomment">///   `$user` - To reference data in user storage.</span>
-    <span class="doccomment">/// The following boolean operators are supported (with examples):</span>
-    <span class="doccomment">///   `&amp;&amp;` - `session.params.counter &gt; 0 &amp;&amp; session.params.counter &lt; 100`</span>
-    <span class="doccomment">///   `||` - `session.params.foo == &quot;John&quot; || session.params.counter == &quot;Adam&quot;`</span>
-    <span class="doccomment">///   `!`  - `!(session.params.counter == 5)`</span>
-    <span class="doccomment">/// The following comparisons are supported:</span>
-    <span class="doccomment">///   `==`, `!=`, `&lt;`, `&gt;`, `&lt;=`, `&gt;=`</span>
-    <span class="doccomment">/// The following list and string operators are supported (with examples):</span>
-    <span class="doccomment">///   `in`        - &quot;Watermelon&quot; in `session.params.fruitList`</span>
-    <span class="doccomment">///   `size`      - `size(session.params.fruitList) &gt; 2`</span>
-    <span class="doccomment">///   `substring` - `session.params.fullName.contains(&quot;John&quot;)`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">condition</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to when the associated</span>
-    <span class="doccomment">/// condition is evaluated to true. The state of the current scene is destroyed</span>
-    <span class="doccomment">/// on the transition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Event handler which is triggered when the associated condition is evaluated</span>
-    <span class="doccomment">/// to `true`. Should execute before transitioning to the destination scene.</span>
-    <span class="doccomment">/// Useful to generate Prompts in response to events.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Registers Events which trigger as the result of an intent match.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentEvent</span> {
-    <span class="doccomment">/// Required. Intent triggering the event.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">intent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
-    <span class="doccomment">/// current scene is destroyed on the transition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
-    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate prompts</span>
-    <span class="doccomment">/// in response to events.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Configuration for a slot. Slots are single units of data that can be filled</span>
 <span class="doccomment">/// through natural language (ie. intent parameters), session parameters, and</span>
@@ -655,6 +618,43 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">constant</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
     }
+}
+<span class="doccomment">/// Registers Events which trigger as the result of an intent match.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentEvent</span> {
+    <span class="doccomment">/// Required. Intent triggering the event.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">intent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
+    <span class="doccomment">/// current scene is destroyed on the transition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
+    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate prompts</span>
+    <span class="doccomment">/// in response to events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Defines a global intent handler. Global intent events are scoped to the</span>
+<span class="doccomment">/// entire Actions project and may be overridden by intent handlers in a scene.</span>
+<span class="doccomment">/// Intent names must be unique within an Actions project.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Global intents can be matched anytime during a session, allowing users to</span>
+<span class="doccomment">/// access common flows like  &quot;get help&quot; or &quot;go back home.&quot; They can also be</span>
+<span class="doccomment">/// used to deep link users into specific flows when they invoke an Action.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note, the intent name is specified in the name of the file.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalIntentEvent</span> {
+    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
+    <span class="doccomment">/// current scene is destroyed on the transition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
+    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate Prompts</span>
+    <span class="doccomment">/// in response to events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Scene is the basic unit of control flow when designing a conversation. They</span>
 <span class="doccomment">/// can be chained together with other scenes, generate prompts for the end user,</span>

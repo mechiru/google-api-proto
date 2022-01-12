@@ -4334,7 +4334,117 @@
 <span id="4334">4334</span>
 <span id="4335">4335</span>
 <span id="4336">4336</span>
-</pre><pre class="rust"><code><span class="doccomment">/// An intended audience of the \[Product][google.cloud.retail.v2beta.Product\] for</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Metadata related to the progress of the Purge operation.</span>
+<span class="doccomment">/// This will be returned by the google.longrunning.Operation.metadata field.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeMetadata</span> {}
+<span class="doccomment">/// Request message for PurgeUserEvents method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeUserEventsRequest</span> {
+    <span class="doccomment">/// Required. The resource name of the catalog under which the events are</span>
+    <span class="doccomment">/// created. The format is</span>
+    <span class="doccomment">/// `projects/${projectId}/locations/global/catalogs/${catalogId}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The filter string to specify the events to be deleted with a</span>
+    <span class="doccomment">/// length limit of 5,000 characters. Empty string filter is not allowed. The</span>
+    <span class="doccomment">/// eligible fields for filtering are:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `eventType`: Double quoted</span>
+    <span class="doccomment">/// \[UserEvent.event_type][google.cloud.retail.v2beta.UserEvent.event_type\]</span>
+    <span class="doccomment">/// string.</span>
+    <span class="doccomment">/// * `eventTime`: in ISO 8601 &quot;zulu&quot; format.</span>
+    <span class="doccomment">/// * `visitorId`: Double quoted string. Specifying this will delete all</span>
+    <span class="doccomment">///   events associated with a visitor.</span>
+    <span class="doccomment">/// * `userId`: Double quoted string. Specifying this will delete all events</span>
+    <span class="doccomment">///   associated with a user.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Deleting all events in a time range:</span>
+    <span class="doccomment">///   `eventTime &gt; &quot;2012-04-23T18:25:43.511Z&quot;</span>
+    <span class="doccomment">///   eventTime &lt; &quot;2012-04-23T18:30:43.511Z&quot;`</span>
+    <span class="doccomment">/// * Deleting specific eventType in time range:</span>
+    <span class="doccomment">///   `eventTime &gt; &quot;2012-04-23T18:25:43.511Z&quot; eventType = &quot;detail-page-view&quot;`</span>
+    <span class="doccomment">/// * Deleting all events for a specific visitor:</span>
+    <span class="doccomment">///   `visitorId = &quot;visitor1024&quot;`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The filtering fields are assumed to have an implicit AND.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Actually perform the purge.</span>
+    <span class="doccomment">/// If `force` is set to false, the method will return the expected purge count</span>
+    <span class="doccomment">/// without deleting any user events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">force</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Response of the PurgeUserEventsRequest. If the long running operation is</span>
+<span class="doccomment">/// successfully done, then this message is returned by the</span>
+<span class="doccomment">/// google.longrunning.Operations.response field.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeUserEventsResponse</span> {
+    <span class="doccomment">/// The total count of events purged as a result of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">purged_events_count</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Configuration of destination for Export related errors.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportErrorsConfig</span> {
+    <span class="doccomment">/// Required. Errors destination.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;export_errors_config::Destination&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_errors_config::Destination</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExportErrorsConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_errors_config</span> {
+    <span class="doccomment">/// Required. Errors destination.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Destination</span> {
+        <span class="doccomment">/// Google Cloud Storage path for import errors. This must be an empty,</span>
+        <span class="doccomment">/// existing Cloud Storage bucket. Export errors will be written to a file in</span>
+        <span class="doccomment">/// this bucket, one per line, as a JSON-encoded</span>
+        <span class="doccomment">/// `google.rpc.Status` message.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">GcsPrefix</span>(<span class="ident">::prost::alloc::string::String</span>),
+    }
+}
+<span class="doccomment">/// Metadata related to the progress of the Export operation. This will be</span>
+<span class="doccomment">/// returned by the google.longrunning.Operation.metadata field.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportMetadata</span> {
+    <span class="doccomment">/// Operation create time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Operation last update time. If the operation is done, this is also the</span>
+    <span class="doccomment">/// finish time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Response of the ExportProductsRequest. If the long running</span>
+<span class="doccomment">/// operation is done, then this message is returned by the</span>
+<span class="doccomment">/// google.longrunning.Operations.response field if the operation was successful.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportProductsResponse</span> {
+    <span class="doccomment">/// A sample of errors encountered while processing the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Echoes the destination for the complete errors in the request if set.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">errors_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExportErrorsConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Response of the ExportUserEventsRequest. If the long running</span>
+<span class="doccomment">/// operation was successful, then this message is returned by the</span>
+<span class="doccomment">/// google.longrunning.Operations.response field if the operation was successful.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportUserEventsResponse</span> {
+    <span class="doccomment">/// A sample of errors encountered while processing the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Echoes the destination for the complete errors if this field was set in</span>
+    <span class="doccomment">/// the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">errors_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExportErrorsConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// An intended audience of the \[Product][google.cloud.retail.v2beta.Product\] for</span>
 <span class="doccomment">/// whom it&#39;s sold.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Audience</span> {
@@ -5988,116 +6098,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Configuration of destination for Export related errors.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportErrorsConfig</span> {
-    <span class="doccomment">/// Required. Errors destination.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;export_errors_config::Destination&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_errors_config::Destination</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ExportErrorsConfig`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_errors_config</span> {
-    <span class="doccomment">/// Required. Errors destination.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Destination</span> {
-        <span class="doccomment">/// Google Cloud Storage path for import errors. This must be an empty,</span>
-        <span class="doccomment">/// existing Cloud Storage bucket. Export errors will be written to a file in</span>
-        <span class="doccomment">/// this bucket, one per line, as a JSON-encoded</span>
-        <span class="doccomment">/// `google.rpc.Status` message.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">GcsPrefix</span>(<span class="ident">::prost::alloc::string::String</span>),
-    }
-}
-<span class="doccomment">/// Metadata related to the progress of the Export operation. This will be</span>
-<span class="doccomment">/// returned by the google.longrunning.Operation.metadata field.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportMetadata</span> {
-    <span class="doccomment">/// Operation create time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Operation last update time. If the operation is done, this is also the</span>
-    <span class="doccomment">/// finish time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Response of the ExportProductsRequest. If the long running</span>
-<span class="doccomment">/// operation is done, then this message is returned by the</span>
-<span class="doccomment">/// google.longrunning.Operations.response field if the operation was successful.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportProductsResponse</span> {
-    <span class="doccomment">/// A sample of errors encountered while processing the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Echoes the destination for the complete errors in the request if set.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">errors_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExportErrorsConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Response of the ExportUserEventsRequest. If the long running</span>
-<span class="doccomment">/// operation was successful, then this message is returned by the</span>
-<span class="doccomment">/// google.longrunning.Operations.response field if the operation was successful.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportUserEventsResponse</span> {
-    <span class="doccomment">/// A sample of errors encountered while processing the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Echoes the destination for the complete errors if this field was set in</span>
-    <span class="doccomment">/// the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">errors_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExportErrorsConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Metadata related to the progress of the Purge operation.</span>
-<span class="doccomment">/// This will be returned by the google.longrunning.Operation.metadata field.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeMetadata</span> {}
-<span class="doccomment">/// Request message for PurgeUserEvents method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeUserEventsRequest</span> {
-    <span class="doccomment">/// Required. The resource name of the catalog under which the events are</span>
-    <span class="doccomment">/// created. The format is</span>
-    <span class="doccomment">/// `projects/${projectId}/locations/global/catalogs/${catalogId}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The filter string to specify the events to be deleted with a</span>
-    <span class="doccomment">/// length limit of 5,000 characters. Empty string filter is not allowed. The</span>
-    <span class="doccomment">/// eligible fields for filtering are:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `eventType`: Double quoted</span>
-    <span class="doccomment">/// \[UserEvent.event_type][google.cloud.retail.v2beta.UserEvent.event_type\]</span>
-    <span class="doccomment">/// string.</span>
-    <span class="doccomment">/// * `eventTime`: in ISO 8601 &quot;zulu&quot; format.</span>
-    <span class="doccomment">/// * `visitorId`: Double quoted string. Specifying this will delete all</span>
-    <span class="doccomment">///   events associated with a visitor.</span>
-    <span class="doccomment">/// * `userId`: Double quoted string. Specifying this will delete all events</span>
-    <span class="doccomment">///   associated with a user.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * Deleting all events in a time range:</span>
-    <span class="doccomment">///   `eventTime &gt; &quot;2012-04-23T18:25:43.511Z&quot;</span>
-    <span class="doccomment">///   eventTime &lt; &quot;2012-04-23T18:30:43.511Z&quot;`</span>
-    <span class="doccomment">/// * Deleting specific eventType in time range:</span>
-    <span class="doccomment">///   `eventTime &gt; &quot;2012-04-23T18:25:43.511Z&quot; eventType = &quot;detail-page-view&quot;`</span>
-    <span class="doccomment">/// * Deleting all events for a specific visitor:</span>
-    <span class="doccomment">///   `visitorId = &quot;visitor1024&quot;`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The filtering fields are assumed to have an implicit AND.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Actually perform the purge.</span>
-    <span class="doccomment">/// If `force` is set to false, the method will return the expected purge count</span>
-    <span class="doccomment">/// without deleting any user events.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">force</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Response of the PurgeUserEventsRequest. If the long running operation is</span>
-<span class="doccomment">/// successfully done, then this message is returned by the</span>
-<span class="doccomment">/// google.longrunning.Operations.response field.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeUserEventsResponse</span> {
-    <span class="doccomment">/// The total count of events purged as a result of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">purged_events_count</span>: <span class="ident">i64</span>,
-}
 <span class="doccomment">/// Request message for WriteUserEvent method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteUserEventRequest</span> {
@@ -6346,232 +6346,6 @@
         }
     }
 }
-<span class="doccomment">/// Request message for Predict method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictRequest</span> {
-    <span class="doccomment">/// Required. Full resource name of the format:</span>
-    <span class="doccomment">/// {name=projects/*/locations/global/catalogs/default_catalog/placements/*}</span>
-    <span class="doccomment">/// The ID of the Recommendations AI placement. Before you can request</span>
-    <span class="doccomment">/// predictions from your model, you must create at least one placement for it.</span>
-    <span class="doccomment">/// For more information, see [Managing</span>
-    <span class="doccomment">/// placements](&lt;https://cloud.google.com/retail/recommendations-ai/docs/manage-placements&gt;).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The full list of available placements can be seen at</span>
-    <span class="doccomment">/// &lt;https://console.cloud.google.com/recommendation/catalogs/default_catalog/placements&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">placement</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Context about the user, what they are looking at and what action</span>
-    <span class="doccomment">/// they took to trigger the predict request. Note that this user event detail</span>
-    <span class="doccomment">/// won&#39;t be ingested to userEvent logs. Thus, a separate userEvent write</span>
-    <span class="doccomment">/// request is required for event logging.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">UserEvent</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Maximum number of results to return per page. Set this property</span>
-    <span class="doccomment">/// to the number of prediction results needed. If zero, the service will</span>
-    <span class="doccomment">/// choose a reasonable default. The maximum allowed value is 100. Values</span>
-    <span class="doccomment">/// above 100 will be coerced to 100.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The previous PredictResponse.next_page_token.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Filter for restricting prediction results with a length limit of 5,000</span>
-    <span class="doccomment">/// characters. Accepts values for tags and the `filterOutOfStockItems` flag.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * Tag expressions. Restricts predictions to products that match all of the</span>
-    <span class="doccomment">///    specified tags. Boolean operators `OR` and `NOT` are supported if the</span>
-    <span class="doccomment">///    expression is enclosed in parentheses, and must be separated from the</span>
-    <span class="doccomment">///    tag values by a space. `-&quot;tagA&quot;` is also supported and is equivalent to</span>
-    <span class="doccomment">///    `NOT &quot;tagA&quot;`. Tag values must be double quoted UTF-8 encoded strings</span>
-    <span class="doccomment">///    with a size limit of 1,000 characters.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///    Note: &quot;Recently viewed&quot; models don&#39;t support tag filtering at the</span>
-    <span class="doccomment">///    moment.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * filterOutOfStockItems. Restricts predictions to products that do not</span>
-    <span class="doccomment">///  have a</span>
-    <span class="doccomment">///    stockState value of OUT_OF_STOCK.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * tag=(&quot;Red&quot; OR &quot;Blue&quot;) tag=&quot;New-Arrival&quot; tag=(NOT &quot;promotional&quot;)</span>
-    <span class="doccomment">///  * filterOutOfStockItems  tag=(-&quot;promotional&quot;)</span>
-    <span class="doccomment">///  * filterOutOfStockItems</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If your filter blocks all prediction results, nothing will be returned. If</span>
-    <span class="doccomment">/// you want generic (unfiltered) popular products to be returned instead, set</span>
-    <span class="doccomment">/// `strictFiltering` to false in `PredictRequest.params`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Use validate only mode for this prediction query. If set to true, a</span>
-    <span class="doccomment">/// dummy model will be used that returns arbitrary products.</span>
-    <span class="doccomment">/// Note that the validate only mode should only be used for testing the API,</span>
-    <span class="doccomment">/// or if the model is not ready.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">validate_only</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Additional domain specific parameters for the predictions.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Allowed values:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `returnProduct`: Boolean. If set to true, the associated product</span>
-    <span class="doccomment">///    object will be returned in the `results.metadata` field in the</span>
-    <span class="doccomment">///    prediction response.</span>
-    <span class="doccomment">/// * `returnScore`: Boolean. If set to true, the prediction &#39;score&#39;</span>
-    <span class="doccomment">///    corresponding to each returned product will be set in the</span>
-    <span class="doccomment">///    `results.metadata` field in the prediction response. The given</span>
-    <span class="doccomment">///    &#39;score&#39; indicates the probability of an product being clicked/purchased</span>
-    <span class="doccomment">///    given the user&#39;s context and history.</span>
-    <span class="doccomment">/// * `strictFiltering`: Boolean. True by default. If set to false, the service</span>
-    <span class="doccomment">///    will return generic (unfiltered) popular products instead of empty if</span>
-    <span class="doccomment">///    your filter blocks all prediction results.</span>
-    <span class="doccomment">/// * `priceRerankLevel`: String. Default empty. If set to be non-empty, then</span>
-    <span class="doccomment">///    it needs to be one of {&#39;no-price-reranking&#39;, &#39;low-price-reranking&#39;,</span>
-    <span class="doccomment">///    &#39;medium-price-reranking&#39;, &#39;high-price-reranking&#39;}. This gives</span>
-    <span class="doccomment">///    request-level control and adjusts prediction results based on product</span>
-    <span class="doccomment">///    price.</span>
-    <span class="doccomment">/// * `diversityLevel`: String. Default empty. If set to be non-empty, then</span>
-    <span class="doccomment">///    it needs to be one of {&#39;no-diversity&#39;, &#39;low-diversity&#39;,</span>
-    <span class="doccomment">///    &#39;medium-diversity&#39;, &#39;high-diversity&#39;, &#39;auto-diversity&#39;}. This gives</span>
-    <span class="doccomment">///    request-level control and adjusts prediction results based on product</span>
-    <span class="doccomment">///    category.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">params</span>:
-        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The labels applied to a resource must meet the following requirements:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * Each resource can have multiple labels, up to a maximum of 64.</span>
-    <span class="doccomment">/// * Each label must be a key-value pair.</span>
-    <span class="doccomment">/// * Keys have a minimum length of 1 character and a maximum length of 63</span>
-    <span class="doccomment">///   characters, and cannot be empty. Values can be empty, and have a maximum</span>
-    <span class="doccomment">///   length of 63 characters.</span>
-    <span class="doccomment">/// * Keys and values can contain only lowercase letters, numeric characters,</span>
-    <span class="doccomment">///   underscores, and dashes. All characters must use UTF-8 encoding, and</span>
-    <span class="doccomment">///   international characters are allowed.</span>
-    <span class="doccomment">/// * The key portion of a label must be unique. However, you can use the same</span>
-    <span class="doccomment">///   key with multiple resources.</span>
-    <span class="doccomment">/// * Keys must start with a lowercase letter or international character.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Google Cloud</span>
-    <span class="doccomment">/// Document](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements&gt;)</span>
-    <span class="doccomment">/// for more details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Response message for predict method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictResponse</span> {
-    <span class="doccomment">/// A list of recommended products. The order represents the ranking (from the</span>
-    <span class="doccomment">/// most relevant product to the least).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">predict_response::PredictionResult</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A unique attribution token. This should be included in the</span>
-    <span class="doccomment">/// \[UserEvent][google.cloud.retail.v2beta.UserEvent\] logs resulting from this</span>
-    <span class="doccomment">/// recommendation, which enables accurate attribution of recommendation model</span>
-    <span class="doccomment">/// performance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attribution_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// IDs of products in the request that were missing from the inventory.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">missing_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// True if the validateOnly property was set in the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">validate_only</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PredictResponse`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">predict_response</span> {
-    <span class="doccomment">/// PredictionResult represents the recommendation prediction results.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionResult</span> {
-        <span class="doccomment">/// ID of the recommended product</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Additional product metadata / annotations.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Possible values:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// * `product`: JSON representation of the product. Will be set if</span>
-        <span class="doccomment">///   `returnProduct` is set to true in `PredictRequest.params`.</span>
-        <span class="doccomment">/// * `score`: Prediction score in double value. Will be set if</span>
-        <span class="doccomment">///   `returnScore` is set to true in `PredictRequest.params`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-            <span class="ident">::prost::alloc::string::String</span>,
-            <span class="ident">::prost_types::Value</span>,
-        <span class="op">&gt;</span>,
-    }
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prediction_service_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for making recommendation prediction.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">PredictionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Makes a recommendation prediction.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">predict</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2beta.PredictionService/Predict&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
 <span class="doccomment">/// Auto-complete parameters.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompleteQueryRequest</span> {
@@ -6802,6 +6576,77 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
+}
+<span class="doccomment">/// Configures what level the product should be uploaded with regards to</span>
+<span class="doccomment">/// how users will be send events and how predictions will be made.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProductLevelConfig</span> {
+    <span class="doccomment">/// The type of \[Product][google.cloud.retail.v2beta.Product\]s allowed to be</span>
+    <span class="doccomment">/// ingested into the catalog. Acceptable values are:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `primary` (default): You can ingest</span>
+    <span class="doccomment">/// \[Product][google.cloud.retail.v2beta.Product\]s of all types. When</span>
+    <span class="doccomment">///   ingesting a \[Product][google.cloud.retail.v2beta.Product\], its type will</span>
+    <span class="doccomment">///   default to</span>
+    <span class="doccomment">///   \[Product.Type.PRIMARY][google.cloud.retail.v2beta.Product.Type.PRIMARY\]</span>
+    <span class="doccomment">///   if unset.</span>
+    <span class="doccomment">/// * `variant`: You can only ingest</span>
+    <span class="doccomment">/// \[Product.Type.VARIANT][google.cloud.retail.v2beta.Product.Type.VARIANT\]</span>
+    <span class="doccomment">/// \[Product][google.cloud.retail.v2beta.Product\]s.</span>
+    <span class="doccomment">///   This means</span>
+    <span class="doccomment">///   \[Product.primary_product_id][google.cloud.retail.v2beta.Product.primary_product_id\]</span>
+    <span class="doccomment">///   cannot be empty.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this field is set to an invalid value other than these, an</span>
+    <span class="doccomment">/// INVALID_ARGUMENT error is returned.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this field is `variant` and</span>
+    <span class="doccomment">/// \[merchant_center_product_id_field][google.cloud.retail.v2beta.ProductLevelConfig.merchant_center_product_id_field\]</span>
+    <span class="doccomment">/// is `itemGroupId`, an INVALID_ARGUMENT error is returned.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Using product</span>
+    <span class="doccomment">/// levels](&lt;https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels&gt;)</span>
+    <span class="doccomment">/// for more details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ingestion_product_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Which field of [Merchant Center</span>
+    <span class="doccomment">/// Product](/bigquery-transfer/docs/merchant-center-products-schema) should be</span>
+    <span class="doccomment">/// imported as \[Product.id][google.cloud.retail.v2beta.Product.id\]. Acceptable</span>
+    <span class="doccomment">/// values are:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `offerId` (default): Import `offerId` as the product ID.</span>
+    <span class="doccomment">/// * `itemGroupId`: Import `itemGroupId` as the product ID. Notice that Retail</span>
+    <span class="doccomment">///   API will choose one item from the ones with the same `itemGroupId`, and</span>
+    <span class="doccomment">///   use it to represent the item group.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this field is set to an invalid value other than these, an</span>
+    <span class="doccomment">/// INVALID_ARGUMENT error is returned.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this field is `itemGroupId` and</span>
+    <span class="doccomment">/// \[ingestion_product_type][google.cloud.retail.v2beta.ProductLevelConfig.ingestion_product_type\]</span>
+    <span class="doccomment">/// is `variant`, an INVALID_ARGUMENT error is returned.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Using product</span>
+    <span class="doccomment">/// levels](&lt;https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels&gt;)</span>
+    <span class="doccomment">/// for more details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">merchant_center_product_id_field</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The catalog configuration.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Catalog</span> {
+    <span class="doccomment">/// Required. Immutable. The fully qualified resource name of the catalog.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Immutable. The catalog display name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field must be a UTF-8 encoded string with a length limit of 128</span>
+    <span class="doccomment">/// characters. Otherwise, an INVALID_ARGUMENT error is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The product level configuration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">product_level_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ProductLevelConfig</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Request message for \[CreateProduct][\] method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -7508,6 +7353,512 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.cloud.retail.v2beta.ProductService/RemoveFulfillmentPlaces&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+    }
+}
+<span class="doccomment">/// Request message for Predict method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictRequest</span> {
+    <span class="doccomment">/// Required. Full resource name of the format:</span>
+    <span class="doccomment">/// {name=projects/*/locations/global/catalogs/default_catalog/placements/*}</span>
+    <span class="doccomment">/// The ID of the Recommendations AI placement. Before you can request</span>
+    <span class="doccomment">/// predictions from your model, you must create at least one placement for it.</span>
+    <span class="doccomment">/// For more information, see [Managing</span>
+    <span class="doccomment">/// placements](&lt;https://cloud.google.com/retail/recommendations-ai/docs/manage-placements&gt;).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The full list of available placements can be seen at</span>
+    <span class="doccomment">/// &lt;https://console.cloud.google.com/recommendation/catalogs/default_catalog/placements&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">placement</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Context about the user, what they are looking at and what action</span>
+    <span class="doccomment">/// they took to trigger the predict request. Note that this user event detail</span>
+    <span class="doccomment">/// won&#39;t be ingested to userEvent logs. Thus, a separate userEvent write</span>
+    <span class="doccomment">/// request is required for event logging.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">UserEvent</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Maximum number of results to return per page. Set this property</span>
+    <span class="doccomment">/// to the number of prediction results needed. If zero, the service will</span>
+    <span class="doccomment">/// choose a reasonable default. The maximum allowed value is 100. Values</span>
+    <span class="doccomment">/// above 100 will be coerced to 100.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The previous PredictResponse.next_page_token.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Filter for restricting prediction results with a length limit of 5,000</span>
+    <span class="doccomment">/// characters. Accepts values for tags and the `filterOutOfStockItems` flag.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * Tag expressions. Restricts predictions to products that match all of the</span>
+    <span class="doccomment">///    specified tags. Boolean operators `OR` and `NOT` are supported if the</span>
+    <span class="doccomment">///    expression is enclosed in parentheses, and must be separated from the</span>
+    <span class="doccomment">///    tag values by a space. `-&quot;tagA&quot;` is also supported and is equivalent to</span>
+    <span class="doccomment">///    `NOT &quot;tagA&quot;`. Tag values must be double quoted UTF-8 encoded strings</span>
+    <span class="doccomment">///    with a size limit of 1,000 characters.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///    Note: &quot;Recently viewed&quot; models don&#39;t support tag filtering at the</span>
+    <span class="doccomment">///    moment.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * filterOutOfStockItems. Restricts predictions to products that do not</span>
+    <span class="doccomment">///  have a</span>
+    <span class="doccomment">///    stockState value of OUT_OF_STOCK.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * tag=(&quot;Red&quot; OR &quot;Blue&quot;) tag=&quot;New-Arrival&quot; tag=(NOT &quot;promotional&quot;)</span>
+    <span class="doccomment">///  * filterOutOfStockItems  tag=(-&quot;promotional&quot;)</span>
+    <span class="doccomment">///  * filterOutOfStockItems</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If your filter blocks all prediction results, nothing will be returned. If</span>
+    <span class="doccomment">/// you want generic (unfiltered) popular products to be returned instead, set</span>
+    <span class="doccomment">/// `strictFiltering` to false in `PredictRequest.params`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Use validate only mode for this prediction query. If set to true, a</span>
+    <span class="doccomment">/// dummy model will be used that returns arbitrary products.</span>
+    <span class="doccomment">/// Note that the validate only mode should only be used for testing the API,</span>
+    <span class="doccomment">/// or if the model is not ready.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">validate_only</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Additional domain specific parameters for the predictions.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Allowed values:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `returnProduct`: Boolean. If set to true, the associated product</span>
+    <span class="doccomment">///    object will be returned in the `results.metadata` field in the</span>
+    <span class="doccomment">///    prediction response.</span>
+    <span class="doccomment">/// * `returnScore`: Boolean. If set to true, the prediction &#39;score&#39;</span>
+    <span class="doccomment">///    corresponding to each returned product will be set in the</span>
+    <span class="doccomment">///    `results.metadata` field in the prediction response. The given</span>
+    <span class="doccomment">///    &#39;score&#39; indicates the probability of an product being clicked/purchased</span>
+    <span class="doccomment">///    given the user&#39;s context and history.</span>
+    <span class="doccomment">/// * `strictFiltering`: Boolean. True by default. If set to false, the service</span>
+    <span class="doccomment">///    will return generic (unfiltered) popular products instead of empty if</span>
+    <span class="doccomment">///    your filter blocks all prediction results.</span>
+    <span class="doccomment">/// * `priceRerankLevel`: String. Default empty. If set to be non-empty, then</span>
+    <span class="doccomment">///    it needs to be one of {&#39;no-price-reranking&#39;, &#39;low-price-reranking&#39;,</span>
+    <span class="doccomment">///    &#39;medium-price-reranking&#39;, &#39;high-price-reranking&#39;}. This gives</span>
+    <span class="doccomment">///    request-level control and adjusts prediction results based on product</span>
+    <span class="doccomment">///    price.</span>
+    <span class="doccomment">/// * `diversityLevel`: String. Default empty. If set to be non-empty, then</span>
+    <span class="doccomment">///    it needs to be one of {&#39;no-diversity&#39;, &#39;low-diversity&#39;,</span>
+    <span class="doccomment">///    &#39;medium-diversity&#39;, &#39;high-diversity&#39;, &#39;auto-diversity&#39;}. This gives</span>
+    <span class="doccomment">///    request-level control and adjusts prediction results based on product</span>
+    <span class="doccomment">///    category.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">params</span>:
+        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The labels applied to a resource must meet the following requirements:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Each resource can have multiple labels, up to a maximum of 64.</span>
+    <span class="doccomment">/// * Each label must be a key-value pair.</span>
+    <span class="doccomment">/// * Keys have a minimum length of 1 character and a maximum length of 63</span>
+    <span class="doccomment">///   characters, and cannot be empty. Values can be empty, and have a maximum</span>
+    <span class="doccomment">///   length of 63 characters.</span>
+    <span class="doccomment">/// * Keys and values can contain only lowercase letters, numeric characters,</span>
+    <span class="doccomment">///   underscores, and dashes. All characters must use UTF-8 encoding, and</span>
+    <span class="doccomment">///   international characters are allowed.</span>
+    <span class="doccomment">/// * The key portion of a label must be unique. However, you can use the same</span>
+    <span class="doccomment">///   key with multiple resources.</span>
+    <span class="doccomment">/// * Keys must start with a lowercase letter or international character.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Google Cloud</span>
+    <span class="doccomment">/// Document](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements&gt;)</span>
+    <span class="doccomment">/// for more details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Response message for predict method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictResponse</span> {
+    <span class="doccomment">/// A list of recommended products. The order represents the ranking (from the</span>
+    <span class="doccomment">/// most relevant product to the least).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">predict_response::PredictionResult</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A unique attribution token. This should be included in the</span>
+    <span class="doccomment">/// \[UserEvent][google.cloud.retail.v2beta.UserEvent\] logs resulting from this</span>
+    <span class="doccomment">/// recommendation, which enables accurate attribution of recommendation model</span>
+    <span class="doccomment">/// performance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attribution_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// IDs of products in the request that were missing from the inventory.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">missing_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// True if the validateOnly property was set in the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">validate_only</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PredictResponse`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">predict_response</span> {
+    <span class="doccomment">/// PredictionResult represents the recommendation prediction results.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionResult</span> {
+        <span class="doccomment">/// ID of the recommended product</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Additional product metadata / annotations.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Possible values:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// * `product`: JSON representation of the product. Will be set if</span>
+        <span class="doccomment">///   `returnProduct` is set to true in `PredictRequest.params`.</span>
+        <span class="doccomment">/// * `score`: Prediction score in double value. Will be set if</span>
+        <span class="doccomment">///   `returnScore` is set to true in `PredictRequest.params`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+            <span class="ident">::prost::alloc::string::String</span>,
+            <span class="ident">::prost_types::Value</span>,
+        <span class="op">&gt;</span>,
+    }
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prediction_service_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for making recommendation prediction.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">PredictionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Makes a recommendation prediction.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">predict</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2beta.PredictionService/Predict&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+    }
+}
+<span class="doccomment">/// Request for</span>
+<span class="doccomment">/// \[CatalogService.ListCatalogs][google.cloud.retail.v2beta.CatalogService.ListCatalogs\]</span>
+<span class="doccomment">/// method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListCatalogsRequest</span> {
+    <span class="doccomment">/// Required. The account resource name with an associated location.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the caller does not have permission to list</span>
+    <span class="doccomment">/// \[Catalog][google.cloud.retail.v2beta.Catalog\]s under this location,</span>
+    <span class="doccomment">/// regardless of whether or not this location exists, a PERMISSION_DENIED</span>
+    <span class="doccomment">/// error is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Maximum number of \[Catalog][google.cloud.retail.v2beta.Catalog\]s to return.</span>
+    <span class="doccomment">/// If unspecified, defaults to 50. The maximum allowed value is 1000. Values</span>
+    <span class="doccomment">/// above 1000 will be coerced to 1000.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this field is negative, an INVALID_ARGUMENT is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A page token</span>
+    <span class="doccomment">/// \[ListCatalogsResponse.next_page_token][google.cloud.retail.v2beta.ListCatalogsResponse.next_page_token\],</span>
+    <span class="doccomment">/// received from a previous</span>
+    <span class="doccomment">/// \[CatalogService.ListCatalogs][google.cloud.retail.v2beta.CatalogService.ListCatalogs\]</span>
+    <span class="doccomment">/// call. Provide this to retrieve the subsequent page.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When paginating, all other parameters provided to</span>
+    <span class="doccomment">/// \[CatalogService.ListCatalogs][google.cloud.retail.v2beta.CatalogService.ListCatalogs\]</span>
+    <span class="doccomment">/// must match the call that provided the page token. Otherwise, an</span>
+    <span class="doccomment">/// INVALID_ARGUMENT error is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Response for</span>
+<span class="doccomment">/// \[CatalogService.ListCatalogs][google.cloud.retail.v2beta.CatalogService.ListCatalogs\]</span>
+<span class="doccomment">/// method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListCatalogsResponse</span> {
+    <span class="doccomment">/// All the customer&#39;s \[Catalog][google.cloud.retail.v2beta.Catalog\]s.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">catalogs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Catalog</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A token that can be sent as</span>
+    <span class="doccomment">/// \[ListCatalogsRequest.page_token][google.cloud.retail.v2beta.ListCatalogsRequest.page_token\]</span>
+    <span class="doccomment">/// to retrieve the next page. If this field is omitted, there are no</span>
+    <span class="doccomment">/// subsequent pages.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request for</span>
+<span class="doccomment">/// \[CatalogService.UpdateCatalog][google.cloud.retail.v2beta.CatalogService.UpdateCatalog\]</span>
+<span class="doccomment">/// method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateCatalogRequest</span> {
+    <span class="doccomment">/// Required. The \[Catalog][google.cloud.retail.v2beta.Catalog\] to update.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the caller does not have permission to update the</span>
+    <span class="doccomment">/// \[Catalog][google.cloud.retail.v2beta.Catalog\], regardless of whether or not</span>
+    <span class="doccomment">/// it exists, a PERMISSION_DENIED error is returned.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the \[Catalog][google.cloud.retail.v2beta.Catalog\] to update does not</span>
+    <span class="doccomment">/// exist, a NOT_FOUND error is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">catalog</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Catalog</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Indicates which fields in the provided</span>
+    <span class="doccomment">/// \[Catalog][google.cloud.retail.v2beta.Catalog\] to update.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If an unsupported or unknown field is provided, an INVALID_ARGUMENT error</span>
+    <span class="doccomment">/// is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request message to set a specified branch as new default_branch.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SetDefaultBranchRequest</span> {
+    <span class="doccomment">/// Full resource name of the catalog, such as</span>
+    <span class="doccomment">/// `projects/*/locations/global/catalogs/default_catalog`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">catalog</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The final component of the resource name of a branch.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field must be one of &quot;0&quot;, &quot;1&quot; or &quot;2&quot;. Otherwise, an INVALID_ARGUMENT</span>
+    <span class="doccomment">/// error is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">branch_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Some note on this request, this can be retrieved by</span>
+    <span class="doccomment">/// \[CatalogService.GetDefaultBranch][google.cloud.retail.v2beta.CatalogService.GetDefaultBranch\]</span>
+    <span class="doccomment">/// before next valid default branch set occurs.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field must be a UTF-8 encoded string with a length limit of 1,000</span>
+    <span class="doccomment">/// characters. Otherwise, an INVALID_ARGUMENT error is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">note</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request message to show which branch is currently the default branch.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetDefaultBranchRequest</span> {
+    <span class="doccomment">/// The parent catalog resource name, such as</span>
+    <span class="doccomment">/// `projects/*/locations/global/catalogs/default_catalog`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">catalog</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Response message of</span>
+<span class="doccomment">/// \[CatalogService.GetDefaultBranch][google.cloud.retail.v2beta.CatalogService.GetDefaultBranch\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetDefaultBranchResponse</span> {
+    <span class="doccomment">/// Full resource name of the branch id currently set as default branch.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">branch</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The time when this branch is set to default.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">set_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// This corresponds to</span>
+    <span class="doccomment">/// \[SetDefaultBranchRequest.note][google.cloud.retail.v2beta.SetDefaultBranchRequest.note\]</span>
+    <span class="doccomment">/// field, when this branch was set as default.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">note</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">catalog_service_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for managing catalog configuration.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CatalogServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">CatalogServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">CatalogServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">CatalogServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists all the [Catalog][google.cloud.retail.v2beta.Catalog]s associated&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; with the project.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_catalogs</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCatalogsRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCatalogsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2beta.CatalogService/ListCatalogs&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Updates the [Catalog][google.cloud.retail.v2beta.Catalog]s.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_catalog</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateCatalogRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Catalog</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2beta.CatalogService/UpdateCatalog&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Set a specified branch id as default branch. API methods such as&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [SearchService.Search][google.cloud.retail.v2beta.SearchService.Search],&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [ProductService.GetProduct][google.cloud.retail.v2beta.ProductService.GetProduct],&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [ProductService.ListProducts][google.cloud.retail.v2beta.ProductService.ListProducts]&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; will treat requests using \&quot;default_branch\&quot; to the actual branch id set as&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; default.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; For example, if `projects/*/locations/*/catalogs/*/branches/1` is set as&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; default, setting&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [SearchRequest.branch][google.cloud.retail.v2beta.SearchRequest.branch] to&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; `projects/*/locations/*/catalogs/*/branches/default_branch` is equivalent&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; to setting&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [SearchRequest.branch][google.cloud.retail.v2beta.SearchRequest.branch] to&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; `projects/*/locations/*/catalogs/*/branches/1`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Using multiple branches can be useful when developers would like&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; to have a staging branch to test and verify for future usage. When it&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; becomes ready, developers switch on the staging branch using this API while&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; keeping using `projects/*/locations/*/catalogs/*/branches/default_branch`&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; as [SearchRequest.branch][google.cloud.retail.v2beta.SearchRequest.branch]&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; to route the traffic to this staging branch.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; CAUTION: If you have live predict/search traffic, switching the default&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; branch could potentially cause outages if the ID space of the new branch is&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; very different from the old one.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; More specifically:&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * PredictionService will only return product IDs from branch {newBranch}.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * SearchService will only return product IDs from branch {newBranch}&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   (if branch is not explicitly set).&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * UserEventService will only join events with products from branch&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   {newBranch}.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">set_default_branch</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::SetDefaultBranchRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2beta.CatalogService/SetDefaultBranch&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Get which branch is currently default branch set by&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [CatalogService.SetDefaultBranch][google.cloud.retail.v2beta.CatalogService.SetDefaultBranch]&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; method under a specified parent catalog.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_default_branch</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetDefaultBranchRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetDefaultBranchResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2beta.CatalogService/GetDefaultBranch&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
@@ -8314,357 +8665,6 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.cloud.retail.v2beta.SearchService/Search&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
-<span class="doccomment">/// Configures what level the product should be uploaded with regards to</span>
-<span class="doccomment">/// how users will be send events and how predictions will be made.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProductLevelConfig</span> {
-    <span class="doccomment">/// The type of \[Product][google.cloud.retail.v2beta.Product\]s allowed to be</span>
-    <span class="doccomment">/// ingested into the catalog. Acceptable values are:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `primary` (default): You can ingest</span>
-    <span class="doccomment">/// \[Product][google.cloud.retail.v2beta.Product\]s of all types. When</span>
-    <span class="doccomment">///   ingesting a \[Product][google.cloud.retail.v2beta.Product\], its type will</span>
-    <span class="doccomment">///   default to</span>
-    <span class="doccomment">///   \[Product.Type.PRIMARY][google.cloud.retail.v2beta.Product.Type.PRIMARY\]</span>
-    <span class="doccomment">///   if unset.</span>
-    <span class="doccomment">/// * `variant`: You can only ingest</span>
-    <span class="doccomment">/// \[Product.Type.VARIANT][google.cloud.retail.v2beta.Product.Type.VARIANT\]</span>
-    <span class="doccomment">/// \[Product][google.cloud.retail.v2beta.Product\]s.</span>
-    <span class="doccomment">///   This means</span>
-    <span class="doccomment">///   \[Product.primary_product_id][google.cloud.retail.v2beta.Product.primary_product_id\]</span>
-    <span class="doccomment">///   cannot be empty.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If this field is set to an invalid value other than these, an</span>
-    <span class="doccomment">/// INVALID_ARGUMENT error is returned.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If this field is `variant` and</span>
-    <span class="doccomment">/// \[merchant_center_product_id_field][google.cloud.retail.v2beta.ProductLevelConfig.merchant_center_product_id_field\]</span>
-    <span class="doccomment">/// is `itemGroupId`, an INVALID_ARGUMENT error is returned.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Using product</span>
-    <span class="doccomment">/// levels](&lt;https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels&gt;)</span>
-    <span class="doccomment">/// for more details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ingestion_product_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Which field of [Merchant Center</span>
-    <span class="doccomment">/// Product](/bigquery-transfer/docs/merchant-center-products-schema) should be</span>
-    <span class="doccomment">/// imported as \[Product.id][google.cloud.retail.v2beta.Product.id\]. Acceptable</span>
-    <span class="doccomment">/// values are:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `offerId` (default): Import `offerId` as the product ID.</span>
-    <span class="doccomment">/// * `itemGroupId`: Import `itemGroupId` as the product ID. Notice that Retail</span>
-    <span class="doccomment">///   API will choose one item from the ones with the same `itemGroupId`, and</span>
-    <span class="doccomment">///   use it to represent the item group.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If this field is set to an invalid value other than these, an</span>
-    <span class="doccomment">/// INVALID_ARGUMENT error is returned.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If this field is `itemGroupId` and</span>
-    <span class="doccomment">/// \[ingestion_product_type][google.cloud.retail.v2beta.ProductLevelConfig.ingestion_product_type\]</span>
-    <span class="doccomment">/// is `variant`, an INVALID_ARGUMENT error is returned.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Using product</span>
-    <span class="doccomment">/// levels](&lt;https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels&gt;)</span>
-    <span class="doccomment">/// for more details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">merchant_center_product_id_field</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The catalog configuration.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Catalog</span> {
-    <span class="doccomment">/// Required. Immutable. The fully qualified resource name of the catalog.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Immutable. The catalog display name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field must be a UTF-8 encoded string with a length limit of 128</span>
-    <span class="doccomment">/// characters. Otherwise, an INVALID_ARGUMENT error is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The product level configuration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">product_level_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ProductLevelConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request for</span>
-<span class="doccomment">/// \[CatalogService.ListCatalogs][google.cloud.retail.v2beta.CatalogService.ListCatalogs\]</span>
-<span class="doccomment">/// method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListCatalogsRequest</span> {
-    <span class="doccomment">/// Required. The account resource name with an associated location.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the caller does not have permission to list</span>
-    <span class="doccomment">/// \[Catalog][google.cloud.retail.v2beta.Catalog\]s under this location,</span>
-    <span class="doccomment">/// regardless of whether or not this location exists, a PERMISSION_DENIED</span>
-    <span class="doccomment">/// error is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Maximum number of \[Catalog][google.cloud.retail.v2beta.Catalog\]s to return.</span>
-    <span class="doccomment">/// If unspecified, defaults to 50. The maximum allowed value is 1000. Values</span>
-    <span class="doccomment">/// above 1000 will be coerced to 1000.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If this field is negative, an INVALID_ARGUMENT is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A page token</span>
-    <span class="doccomment">/// \[ListCatalogsResponse.next_page_token][google.cloud.retail.v2beta.ListCatalogsResponse.next_page_token\],</span>
-    <span class="doccomment">/// received from a previous</span>
-    <span class="doccomment">/// \[CatalogService.ListCatalogs][google.cloud.retail.v2beta.CatalogService.ListCatalogs\]</span>
-    <span class="doccomment">/// call. Provide this to retrieve the subsequent page.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// When paginating, all other parameters provided to</span>
-    <span class="doccomment">/// \[CatalogService.ListCatalogs][google.cloud.retail.v2beta.CatalogService.ListCatalogs\]</span>
-    <span class="doccomment">/// must match the call that provided the page token. Otherwise, an</span>
-    <span class="doccomment">/// INVALID_ARGUMENT error is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Response for</span>
-<span class="doccomment">/// \[CatalogService.ListCatalogs][google.cloud.retail.v2beta.CatalogService.ListCatalogs\]</span>
-<span class="doccomment">/// method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListCatalogsResponse</span> {
-    <span class="doccomment">/// All the customer&#39;s \[Catalog][google.cloud.retail.v2beta.Catalog\]s.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">catalogs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Catalog</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A token that can be sent as</span>
-    <span class="doccomment">/// \[ListCatalogsRequest.page_token][google.cloud.retail.v2beta.ListCatalogsRequest.page_token\]</span>
-    <span class="doccomment">/// to retrieve the next page. If this field is omitted, there are no</span>
-    <span class="doccomment">/// subsequent pages.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request for</span>
-<span class="doccomment">/// \[CatalogService.UpdateCatalog][google.cloud.retail.v2beta.CatalogService.UpdateCatalog\]</span>
-<span class="doccomment">/// method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateCatalogRequest</span> {
-    <span class="doccomment">/// Required. The \[Catalog][google.cloud.retail.v2beta.Catalog\] to update.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the caller does not have permission to update the</span>
-    <span class="doccomment">/// \[Catalog][google.cloud.retail.v2beta.Catalog\], regardless of whether or not</span>
-    <span class="doccomment">/// it exists, a PERMISSION_DENIED error is returned.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the \[Catalog][google.cloud.retail.v2beta.Catalog\] to update does not</span>
-    <span class="doccomment">/// exist, a NOT_FOUND error is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">catalog</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Catalog</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Indicates which fields in the provided</span>
-    <span class="doccomment">/// \[Catalog][google.cloud.retail.v2beta.Catalog\] to update.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If an unsupported or unknown field is provided, an INVALID_ARGUMENT error</span>
-    <span class="doccomment">/// is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request message to set a specified branch as new default_branch.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SetDefaultBranchRequest</span> {
-    <span class="doccomment">/// Full resource name of the catalog, such as</span>
-    <span class="doccomment">/// `projects/*/locations/global/catalogs/default_catalog`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">catalog</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The final component of the resource name of a branch.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field must be one of &quot;0&quot;, &quot;1&quot; or &quot;2&quot;. Otherwise, an INVALID_ARGUMENT</span>
-    <span class="doccomment">/// error is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">branch_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Some note on this request, this can be retrieved by</span>
-    <span class="doccomment">/// \[CatalogService.GetDefaultBranch][google.cloud.retail.v2beta.CatalogService.GetDefaultBranch\]</span>
-    <span class="doccomment">/// before next valid default branch set occurs.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field must be a UTF-8 encoded string with a length limit of 1,000</span>
-    <span class="doccomment">/// characters. Otherwise, an INVALID_ARGUMENT error is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">note</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request message to show which branch is currently the default branch.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetDefaultBranchRequest</span> {
-    <span class="doccomment">/// The parent catalog resource name, such as</span>
-    <span class="doccomment">/// `projects/*/locations/global/catalogs/default_catalog`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">catalog</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Response message of</span>
-<span class="doccomment">/// \[CatalogService.GetDefaultBranch][google.cloud.retail.v2beta.CatalogService.GetDefaultBranch\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetDefaultBranchResponse</span> {
-    <span class="doccomment">/// Full resource name of the branch id currently set as default branch.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">branch</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The time when this branch is set to default.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">set_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// This corresponds to</span>
-    <span class="doccomment">/// \[SetDefaultBranchRequest.note][google.cloud.retail.v2beta.SetDefaultBranchRequest.note\]</span>
-    <span class="doccomment">/// field, when this branch was set as default.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">note</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">catalog_service_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for managing catalog configuration.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CatalogServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">CatalogServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">CatalogServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">CatalogServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists all the [Catalog][google.cloud.retail.v2beta.Catalog]s associated&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; with the project.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_catalogs</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCatalogsRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCatalogsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2beta.CatalogService/ListCatalogs&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Updates the [Catalog][google.cloud.retail.v2beta.Catalog]s.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_catalog</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateCatalogRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Catalog</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2beta.CatalogService/UpdateCatalog&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Set a specified branch id as default branch. API methods such as&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [SearchService.Search][google.cloud.retail.v2beta.SearchService.Search],&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [ProductService.GetProduct][google.cloud.retail.v2beta.ProductService.GetProduct],&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [ProductService.ListProducts][google.cloud.retail.v2beta.ProductService.ListProducts]&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; will treat requests using \&quot;default_branch\&quot; to the actual branch id set as&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; default.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; For example, if `projects/*/locations/*/catalogs/*/branches/1` is set as&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; default, setting&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [SearchRequest.branch][google.cloud.retail.v2beta.SearchRequest.branch] to&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; `projects/*/locations/*/catalogs/*/branches/default_branch` is equivalent&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; to setting&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [SearchRequest.branch][google.cloud.retail.v2beta.SearchRequest.branch] to&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; `projects/*/locations/*/catalogs/*/branches/1`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Using multiple branches can be useful when developers would like&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; to have a staging branch to test and verify for future usage. When it&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; becomes ready, developers switch on the staging branch using this API while&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; keeping using `projects/*/locations/*/catalogs/*/branches/default_branch`&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; as [SearchRequest.branch][google.cloud.retail.v2beta.SearchRequest.branch]&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; to route the traffic to this staging branch.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; CAUTION: If you have live predict/search traffic, switching the default&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; branch could potentially cause outages if the ID space of the new branch is&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; very different from the old one.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; More specifically:&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * PredictionService will only return product IDs from branch {newBranch}.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * SearchService will only return product IDs from branch {newBranch}&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   (if branch is not explicitly set).&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * UserEventService will only join events with products from branch&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   {newBranch}.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">set_default_branch</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::SetDefaultBranchRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2beta.CatalogService/SetDefaultBranch&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Get which branch is currently default branch set by&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [CatalogService.SetDefaultBranch][google.cloud.retail.v2beta.CatalogService.SetDefaultBranch]&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; method under a specified parent catalog.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_default_branch</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetDefaultBranchRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetDefaultBranchResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2beta.CatalogService/GetDefaultBranch&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }

@@ -1251,7 +1251,16 @@
 <span id="1251">1251</span>
 <span id="1252">1252</span>
 <span id="1253">1253</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Describes how to combine multiple time series to provide a different view of</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A chart that displays alert policy data.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AlertChart</span> {
+    <span class="doccomment">/// Required. The resource name of the alert policy. The format is:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Describes how to combine multiple time series to provide a different view of</span>
 <span class="doccomment">/// the data.  Aggregation of time series is done in two steps. First, each time</span>
 <span class="doccomment">/// series in the set is _aligned_ to the same time interval boundaries, then the</span>
 <span class="doccomment">/// set of time series is optionally _reduced_ in number.</span>
@@ -1653,15 +1662,6 @@
         <span class="doccomment">/// Compute the outlier score of each stream.</span>
         <span class="ident">ClusterOutlier</span> <span class="op">=</span> <span class="number">1</span>,
     }
-}
-<span class="doccomment">/// A chart that displays alert policy data.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AlertChart</span> {
-    <span class="doccomment">/// Required. The resource name of the alert policy. The format is:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// TimeSeriesQuery collects the set of supported methods for querying time</span>
 <span class="doccomment">/// series data from the Stackdriver metrics API.</span>

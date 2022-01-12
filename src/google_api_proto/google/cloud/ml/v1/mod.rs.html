@@ -1703,277 +1703,6 @@
         }
     }
 }
-<span class="doccomment">/// Request for predictions to be issued against a trained model.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The body of the request is a single JSON object with a single top-level</span>
-<span class="doccomment">/// field:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// &lt;dl&gt;</span>
-<span class="doccomment">///   &lt;dt&gt;instances&lt;/dt&gt;</span>
-<span class="doccomment">///   &lt;dd&gt;A JSON array containing values representing the instances to use for</span>
-<span class="doccomment">///       prediction.&lt;/dd&gt;</span>
-<span class="doccomment">/// &lt;/dl&gt;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The structure of each element of the instances list is determined by your</span>
-<span class="doccomment">/// model&#39;s input definition. Instances can include named inputs or can contain</span>
-<span class="doccomment">/// only unlabeled values.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Not all data includes named inputs. Some instances will be simple</span>
-<span class="doccomment">/// JSON values (boolean, number, or string). However, instances are often lists</span>
-<span class="doccomment">/// of simple values, or complex nested lists. Here are some examples of request</span>
-<span class="doccomment">/// bodies:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// CSV data with each row encoded as a string value:</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {&quot;instances&quot;: [&quot;1.0,true,\\&quot;x\\&quot;&quot;, &quot;-2.0,false,\\&quot;y\\&quot;&quot;]}</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// Plain text:</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {&quot;instances&quot;: [&quot;the quick brown fox&quot;, &quot;la bruja le dio&quot;]}</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// Sentences encoded as lists of words (vectors of strings):</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///   &quot;instances&quot;: [</span>
-<span class="doccomment">///     \[&quot;the&quot;,&quot;quick&quot;,&quot;brown&quot;\],</span>
-<span class="doccomment">///     \[&quot;la&quot;,&quot;bruja&quot;,&quot;le&quot;\],</span>
-<span class="doccomment">///     ...</span>
-<span class="doccomment">///   ]</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// Floating point scalar values:</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {&quot;instances&quot;: [0.0, 1.1, 2.2]}</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// Vectors of integers:</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///   &quot;instances&quot;: [</span>
-<span class="doccomment">///     [0, 1, 2],</span>
-<span class="doccomment">///     [3, 4, 5],</span>
-<span class="doccomment">///     ...</span>
-<span class="doccomment">///   ]</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// Tensors (in this case, two-dimensional tensors):</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///   &quot;instances&quot;: [</span>
-<span class="doccomment">///     [</span>
-<span class="doccomment">///       [0, 1, 2],</span>
-<span class="doccomment">///       [3, 4, 5]</span>
-<span class="doccomment">///     ],</span>
-<span class="doccomment">///     ...</span>
-<span class="doccomment">///   ]</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// Images can be represented different ways. In this encoding scheme the first</span>
-<span class="doccomment">/// two dimensions represent the rows and columns of the image, and the third</span>
-<span class="doccomment">/// contains lists (vectors) of the R, G, and B values for each pixel.</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///   &quot;instances&quot;: [</span>
-<span class="doccomment">///     [</span>
-<span class="doccomment">///       [</span>
-<span class="doccomment">///         [138, 30, 66],</span>
-<span class="doccomment">///         [130, 20, 56],</span>
-<span class="doccomment">///         ...</span>
-<span class="doccomment">///       ],</span>
-<span class="doccomment">///       [</span>
-<span class="doccomment">///         [126, 38, 61],</span>
-<span class="doccomment">///         [122, 24, 57],</span>
-<span class="doccomment">///         ...</span>
-<span class="doccomment">///       ],</span>
-<span class="doccomment">///       ...</span>
-<span class="doccomment">///     ],</span>
-<span class="doccomment">///     ...</span>
-<span class="doccomment">///   ]</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// JSON strings must be encoded as UTF-8. To send binary data, you must</span>
-<span class="doccomment">/// base64-encode the data and mark it as binary. To mark a JSON string</span>
-<span class="doccomment">/// as binary, replace it with a JSON object with a single attribute named `b64`:</span>
-<span class="doccomment">/// &lt;pre&gt;{&quot;b64&quot;: &quot;...&quot;} &lt;/pre&gt;</span>
-<span class="doccomment">/// For example:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Two Serialized tf.Examples (fake data, for illustrative purposes only):</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {&quot;instances&quot;: [{&quot;b64&quot;: &quot;X5ad6u&quot;}, {&quot;b64&quot;: &quot;IA9j4nx&quot;}]}</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// Two JPEG image byte strings (fake data, for illustrative purposes only):</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {&quot;instances&quot;: [{&quot;b64&quot;: &quot;ASa8asdf&quot;}, {&quot;b64&quot;: &quot;JLK7ljk3&quot;}]}</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// If your data includes named references, format each instance as a JSON object</span>
-<span class="doccomment">/// with the named references as the keys:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// JSON input data to be preprocessed:</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///   &quot;instances&quot;: [</span>
-<span class="doccomment">///     {</span>
-<span class="doccomment">///       &quot;a&quot;: 1.0,</span>
-<span class="doccomment">///       &quot;b&quot;: true,</span>
-<span class="doccomment">///       &quot;c&quot;: &quot;x&quot;</span>
-<span class="doccomment">///     },</span>
-<span class="doccomment">///     {</span>
-<span class="doccomment">///       &quot;a&quot;: -2.0,</span>
-<span class="doccomment">///       &quot;b&quot;: false,</span>
-<span class="doccomment">///       &quot;c&quot;: &quot;y&quot;</span>
-<span class="doccomment">///     }</span>
-<span class="doccomment">///   ]</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// Some models have an underlying TensorFlow graph that accepts multiple input</span>
-<span class="doccomment">/// tensors. In this case, you should use the names of JSON name/value pairs to</span>
-<span class="doccomment">/// identify the input tensors, as shown in the following exmaples:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For a graph with input tensor aliases &quot;tag&quot; (string) and &quot;image&quot;</span>
-<span class="doccomment">/// (base64-encoded string):</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///   &quot;instances&quot;: [</span>
-<span class="doccomment">///     {</span>
-<span class="doccomment">///       &quot;tag&quot;: &quot;beach&quot;,</span>
-<span class="doccomment">///       &quot;image&quot;: {&quot;b64&quot;: &quot;ASa8asdf&quot;}</span>
-<span class="doccomment">///     },</span>
-<span class="doccomment">///     {</span>
-<span class="doccomment">///       &quot;tag&quot;: &quot;car&quot;,</span>
-<span class="doccomment">///       &quot;image&quot;: {&quot;b64&quot;: &quot;JLK7ljk3&quot;}</span>
-<span class="doccomment">///     }</span>
-<span class="doccomment">///   ]</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// For a graph with input tensor aliases &quot;tag&quot; (string) and &quot;image&quot;</span>
-<span class="doccomment">/// (3-dimensional array of 8-bit ints):</span>
-<span class="doccomment">/// &lt;pre&gt;</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///   &quot;instances&quot;: [</span>
-<span class="doccomment">///     {</span>
-<span class="doccomment">///       &quot;tag&quot;: &quot;beach&quot;,</span>
-<span class="doccomment">///       &quot;image&quot;: [</span>
-<span class="doccomment">///         [</span>
-<span class="doccomment">///           [138, 30, 66],</span>
-<span class="doccomment">///           [130, 20, 56],</span>
-<span class="doccomment">///           ...</span>
-<span class="doccomment">///         ],</span>
-<span class="doccomment">///         [</span>
-<span class="doccomment">///           [126, 38, 61],</span>
-<span class="doccomment">///           [122, 24, 57],</span>
-<span class="doccomment">///           ...</span>
-<span class="doccomment">///         ],</span>
-<span class="doccomment">///         ...</span>
-<span class="doccomment">///       ]</span>
-<span class="doccomment">///     },</span>
-<span class="doccomment">///     {</span>
-<span class="doccomment">///       &quot;tag&quot;: &quot;car&quot;,</span>
-<span class="doccomment">///       &quot;image&quot;: [</span>
-<span class="doccomment">///         [</span>
-<span class="doccomment">///           [255, 0, 102],</span>
-<span class="doccomment">///           [255, 0, 97],</span>
-<span class="doccomment">///           ...</span>
-<span class="doccomment">///         ],</span>
-<span class="doccomment">///         [</span>
-<span class="doccomment">///           [254, 1, 101],</span>
-<span class="doccomment">///           [254, 2, 93],</span>
-<span class="doccomment">///           ...</span>
-<span class="doccomment">///         ],</span>
-<span class="doccomment">///         ...</span>
-<span class="doccomment">///       ]</span>
-<span class="doccomment">///     },</span>
-<span class="doccomment">///     ...</span>
-<span class="doccomment">///   ]</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// &lt;/pre&gt;</span>
-<span class="doccomment">/// If the call is successful, the response body will contain one prediction</span>
-<span class="doccomment">/// entry per instance in the request body. If prediction fails for any</span>
-<span class="doccomment">/// instance, the response body will contain no predictions and will contian</span>
-<span class="doccomment">/// a single error entry instead.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictRequest</span> {
-    <span class="doccomment">/// Required. The resource name of a model or a version.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Authorization: requires `Viewer` role on the parent project.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Required. The prediction request body.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">http_body</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::HttpBody</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">online_prediction_service_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The Prediction API, which serves predictions for models managed by&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; ModelService.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OnlinePredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">OnlinePredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">OnlinePredictionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">OnlinePredictionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Performs prediction on the data in the request.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; **** REMOVE FROM GENERATED DOCUMENTATION&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">predict</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::HttpBody</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
-        {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.ml.v1.OnlinePredictionService/Predict&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
 <span class="doccomment">/// Represents a machine learning solution.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A model can have multiple versions, each of which is a deployed, trained</span>
@@ -2530,6 +2259,277 @@
         <span class="ident">DeleteVersion</span> <span class="op">=</span> <span class="number">2</span>,
         <span class="doccomment">/// An operation to delete an existing model.</span>
         <span class="ident">DeleteModel</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Request for predictions to be issued against a trained model.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The body of the request is a single JSON object with a single top-level</span>
+<span class="doccomment">/// field:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// &lt;dl&gt;</span>
+<span class="doccomment">///   &lt;dt&gt;instances&lt;/dt&gt;</span>
+<span class="doccomment">///   &lt;dd&gt;A JSON array containing values representing the instances to use for</span>
+<span class="doccomment">///       prediction.&lt;/dd&gt;</span>
+<span class="doccomment">/// &lt;/dl&gt;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The structure of each element of the instances list is determined by your</span>
+<span class="doccomment">/// model&#39;s input definition. Instances can include named inputs or can contain</span>
+<span class="doccomment">/// only unlabeled values.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Not all data includes named inputs. Some instances will be simple</span>
+<span class="doccomment">/// JSON values (boolean, number, or string). However, instances are often lists</span>
+<span class="doccomment">/// of simple values, or complex nested lists. Here are some examples of request</span>
+<span class="doccomment">/// bodies:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// CSV data with each row encoded as a string value:</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {&quot;instances&quot;: [&quot;1.0,true,\\&quot;x\\&quot;&quot;, &quot;-2.0,false,\\&quot;y\\&quot;&quot;]}</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// Plain text:</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {&quot;instances&quot;: [&quot;the quick brown fox&quot;, &quot;la bruja le dio&quot;]}</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// Sentences encoded as lists of words (vectors of strings):</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///   &quot;instances&quot;: [</span>
+<span class="doccomment">///     \[&quot;the&quot;,&quot;quick&quot;,&quot;brown&quot;\],</span>
+<span class="doccomment">///     \[&quot;la&quot;,&quot;bruja&quot;,&quot;le&quot;\],</span>
+<span class="doccomment">///     ...</span>
+<span class="doccomment">///   ]</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// Floating point scalar values:</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {&quot;instances&quot;: [0.0, 1.1, 2.2]}</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// Vectors of integers:</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///   &quot;instances&quot;: [</span>
+<span class="doccomment">///     [0, 1, 2],</span>
+<span class="doccomment">///     [3, 4, 5],</span>
+<span class="doccomment">///     ...</span>
+<span class="doccomment">///   ]</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// Tensors (in this case, two-dimensional tensors):</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///   &quot;instances&quot;: [</span>
+<span class="doccomment">///     [</span>
+<span class="doccomment">///       [0, 1, 2],</span>
+<span class="doccomment">///       [3, 4, 5]</span>
+<span class="doccomment">///     ],</span>
+<span class="doccomment">///     ...</span>
+<span class="doccomment">///   ]</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// Images can be represented different ways. In this encoding scheme the first</span>
+<span class="doccomment">/// two dimensions represent the rows and columns of the image, and the third</span>
+<span class="doccomment">/// contains lists (vectors) of the R, G, and B values for each pixel.</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///   &quot;instances&quot;: [</span>
+<span class="doccomment">///     [</span>
+<span class="doccomment">///       [</span>
+<span class="doccomment">///         [138, 30, 66],</span>
+<span class="doccomment">///         [130, 20, 56],</span>
+<span class="doccomment">///         ...</span>
+<span class="doccomment">///       ],</span>
+<span class="doccomment">///       [</span>
+<span class="doccomment">///         [126, 38, 61],</span>
+<span class="doccomment">///         [122, 24, 57],</span>
+<span class="doccomment">///         ...</span>
+<span class="doccomment">///       ],</span>
+<span class="doccomment">///       ...</span>
+<span class="doccomment">///     ],</span>
+<span class="doccomment">///     ...</span>
+<span class="doccomment">///   ]</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// JSON strings must be encoded as UTF-8. To send binary data, you must</span>
+<span class="doccomment">/// base64-encode the data and mark it as binary. To mark a JSON string</span>
+<span class="doccomment">/// as binary, replace it with a JSON object with a single attribute named `b64`:</span>
+<span class="doccomment">/// &lt;pre&gt;{&quot;b64&quot;: &quot;...&quot;} &lt;/pre&gt;</span>
+<span class="doccomment">/// For example:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Two Serialized tf.Examples (fake data, for illustrative purposes only):</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {&quot;instances&quot;: [{&quot;b64&quot;: &quot;X5ad6u&quot;}, {&quot;b64&quot;: &quot;IA9j4nx&quot;}]}</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// Two JPEG image byte strings (fake data, for illustrative purposes only):</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {&quot;instances&quot;: [{&quot;b64&quot;: &quot;ASa8asdf&quot;}, {&quot;b64&quot;: &quot;JLK7ljk3&quot;}]}</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// If your data includes named references, format each instance as a JSON object</span>
+<span class="doccomment">/// with the named references as the keys:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// JSON input data to be preprocessed:</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///   &quot;instances&quot;: [</span>
+<span class="doccomment">///     {</span>
+<span class="doccomment">///       &quot;a&quot;: 1.0,</span>
+<span class="doccomment">///       &quot;b&quot;: true,</span>
+<span class="doccomment">///       &quot;c&quot;: &quot;x&quot;</span>
+<span class="doccomment">///     },</span>
+<span class="doccomment">///     {</span>
+<span class="doccomment">///       &quot;a&quot;: -2.0,</span>
+<span class="doccomment">///       &quot;b&quot;: false,</span>
+<span class="doccomment">///       &quot;c&quot;: &quot;y&quot;</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">///   ]</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// Some models have an underlying TensorFlow graph that accepts multiple input</span>
+<span class="doccomment">/// tensors. In this case, you should use the names of JSON name/value pairs to</span>
+<span class="doccomment">/// identify the input tensors, as shown in the following exmaples:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For a graph with input tensor aliases &quot;tag&quot; (string) and &quot;image&quot;</span>
+<span class="doccomment">/// (base64-encoded string):</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///   &quot;instances&quot;: [</span>
+<span class="doccomment">///     {</span>
+<span class="doccomment">///       &quot;tag&quot;: &quot;beach&quot;,</span>
+<span class="doccomment">///       &quot;image&quot;: {&quot;b64&quot;: &quot;ASa8asdf&quot;}</span>
+<span class="doccomment">///     },</span>
+<span class="doccomment">///     {</span>
+<span class="doccomment">///       &quot;tag&quot;: &quot;car&quot;,</span>
+<span class="doccomment">///       &quot;image&quot;: {&quot;b64&quot;: &quot;JLK7ljk3&quot;}</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">///   ]</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// For a graph with input tensor aliases &quot;tag&quot; (string) and &quot;image&quot;</span>
+<span class="doccomment">/// (3-dimensional array of 8-bit ints):</span>
+<span class="doccomment">/// &lt;pre&gt;</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///   &quot;instances&quot;: [</span>
+<span class="doccomment">///     {</span>
+<span class="doccomment">///       &quot;tag&quot;: &quot;beach&quot;,</span>
+<span class="doccomment">///       &quot;image&quot;: [</span>
+<span class="doccomment">///         [</span>
+<span class="doccomment">///           [138, 30, 66],</span>
+<span class="doccomment">///           [130, 20, 56],</span>
+<span class="doccomment">///           ...</span>
+<span class="doccomment">///         ],</span>
+<span class="doccomment">///         [</span>
+<span class="doccomment">///           [126, 38, 61],</span>
+<span class="doccomment">///           [122, 24, 57],</span>
+<span class="doccomment">///           ...</span>
+<span class="doccomment">///         ],</span>
+<span class="doccomment">///         ...</span>
+<span class="doccomment">///       ]</span>
+<span class="doccomment">///     },</span>
+<span class="doccomment">///     {</span>
+<span class="doccomment">///       &quot;tag&quot;: &quot;car&quot;,</span>
+<span class="doccomment">///       &quot;image&quot;: [</span>
+<span class="doccomment">///         [</span>
+<span class="doccomment">///           [255, 0, 102],</span>
+<span class="doccomment">///           [255, 0, 97],</span>
+<span class="doccomment">///           ...</span>
+<span class="doccomment">///         ],</span>
+<span class="doccomment">///         [</span>
+<span class="doccomment">///           [254, 1, 101],</span>
+<span class="doccomment">///           [254, 2, 93],</span>
+<span class="doccomment">///           ...</span>
+<span class="doccomment">///         ],</span>
+<span class="doccomment">///         ...</span>
+<span class="doccomment">///       ]</span>
+<span class="doccomment">///     },</span>
+<span class="doccomment">///     ...</span>
+<span class="doccomment">///   ]</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
+<span class="doccomment">/// If the call is successful, the response body will contain one prediction</span>
+<span class="doccomment">/// entry per instance in the request body. If prediction fails for any</span>
+<span class="doccomment">/// instance, the response body will contain no predictions and will contian</span>
+<span class="doccomment">/// a single error entry instead.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictRequest</span> {
+    <span class="doccomment">/// Required. The resource name of a model or a version.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Authorization: requires `Viewer` role on the parent project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Required. The prediction request body.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">http_body</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::HttpBody</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">online_prediction_service_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The Prediction API, which serves predictions for models managed by&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; ModelService.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OnlinePredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">OnlinePredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">OnlinePredictionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">OnlinePredictionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Performs prediction on the data in the request.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; **** REMOVE FROM GENERATED DOCUMENTATION&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">predict</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::HttpBody</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+        {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.ml.v1.OnlinePredictionService/Predict&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
     }
 }
 <span class="doccomment">/// Represents input parameters for a training job.</span>

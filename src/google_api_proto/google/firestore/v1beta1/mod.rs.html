@@ -1928,88 +1928,7 @@
 <span id="1928">1928</span>
 <span id="1929">1929</span>
 <span id="1930">1930</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A set of field paths on a document.</span>
-<span class="doccomment">/// Used to restrict a get or update operation on a document to a subset of its</span>
-<span class="doccomment">/// fields.</span>
-<span class="doccomment">/// This is different from standard field masks, as this is always scoped to a</span>
-<span class="doccomment">/// \[Document][google.firestore.v1beta1.Document\], and takes in account the dynamic nature of \[Value][google.firestore.v1beta1.Value\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentMask</span> {
-    <span class="doccomment">/// The list of field paths in the mask. See \[Document.fields][google.firestore.v1beta1.Document.fields\] for a field</span>
-    <span class="doccomment">/// path syntax reference.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">field_paths</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A precondition on a document, used for conditional operations.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Precondition</span> {
-    <span class="doccomment">/// The type of precondition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;precondition::ConditionType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">condition_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">precondition::ConditionType</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Precondition`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">precondition</span> {
-    <span class="doccomment">/// The type of precondition.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConditionType</span> {
-        <span class="doccomment">/// When set to `true`, the target document must exist.</span>
-        <span class="doccomment">/// When set to `false`, the target document must not exist.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">Exists</span>(<span class="ident">bool</span>),
-        <span class="doccomment">/// When set, the target document must exist and have been last updated at</span>
-        <span class="doccomment">/// that time.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">UpdateTime</span>(<span class="ident">::prost_types::Timestamp</span>),
-    }
-}
-<span class="doccomment">/// Options for creating a new transaction.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TransactionOptions</span> {
-    <span class="doccomment">/// The mode of the transaction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;transaction_options::Mode&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">transaction_options::Mode</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `TransactionOptions`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">transaction_options</span> {
-    <span class="doccomment">/// Options for a transaction that can be used to read and write documents.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadWrite</span> {
-        <span class="doccomment">/// An optional transaction to retry.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">retry_transaction</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    }
-    <span class="doccomment">/// Options for a transaction that can only be used to read documents.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadOnly</span> {
-        <span class="doccomment">/// The consistency mode for this transaction. If not set, defaults to strong</span>
-        <span class="doccomment">/// consistency.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;read_only::ConsistencySelector&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">consistency_selector</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">read_only::ConsistencySelector</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `ReadOnly`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">read_only</span> {
-        <span class="doccomment">/// The consistency mode for this transaction. If not set, defaults to strong</span>
-        <span class="doccomment">/// consistency.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConsistencySelector</span> {
-            <span class="doccomment">/// Reads documents at the given time.</span>
-            <span class="doccomment">/// This may not be older than 60 seconds.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">ReadTime</span>(<span class="ident">::prost_types::Timestamp</span>),
-        }
-    }
-    <span class="doccomment">/// The mode of the transaction.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
-        <span class="doccomment">/// The transaction can only be used for read operations.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">ReadOnly</span>(<span class="ident">ReadOnly</span>),
-        <span class="doccomment">/// The transaction can be used for both read and write operations.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">ReadWrite</span>(<span class="ident">ReadWrite</span>),
-    }
-}
-<span class="doccomment">/// A Firestore document.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A Firestore document.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Must not exceed 1 MiB - 4 bytes.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2438,6 +2357,87 @@
     <span class="doccomment">/// to the sort order defined by the query.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">before</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// A set of field paths on a document.</span>
+<span class="doccomment">/// Used to restrict a get or update operation on a document to a subset of its</span>
+<span class="doccomment">/// fields.</span>
+<span class="doccomment">/// This is different from standard field masks, as this is always scoped to a</span>
+<span class="doccomment">/// \[Document][google.firestore.v1beta1.Document\], and takes in account the dynamic nature of \[Value][google.firestore.v1beta1.Value\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentMask</span> {
+    <span class="doccomment">/// The list of field paths in the mask. See \[Document.fields][google.firestore.v1beta1.Document.fields\] for a field</span>
+    <span class="doccomment">/// path syntax reference.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">field_paths</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A precondition on a document, used for conditional operations.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Precondition</span> {
+    <span class="doccomment">/// The type of precondition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;precondition::ConditionType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">condition_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">precondition::ConditionType</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Precondition`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">precondition</span> {
+    <span class="doccomment">/// The type of precondition.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConditionType</span> {
+        <span class="doccomment">/// When set to `true`, the target document must exist.</span>
+        <span class="doccomment">/// When set to `false`, the target document must not exist.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Exists</span>(<span class="ident">bool</span>),
+        <span class="doccomment">/// When set, the target document must exist and have been last updated at</span>
+        <span class="doccomment">/// that time.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">UpdateTime</span>(<span class="ident">::prost_types::Timestamp</span>),
+    }
+}
+<span class="doccomment">/// Options for creating a new transaction.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TransactionOptions</span> {
+    <span class="doccomment">/// The mode of the transaction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;transaction_options::Mode&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">transaction_options::Mode</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `TransactionOptions`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">transaction_options</span> {
+    <span class="doccomment">/// Options for a transaction that can be used to read and write documents.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadWrite</span> {
+        <span class="doccomment">/// An optional transaction to retry.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">retry_transaction</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    }
+    <span class="doccomment">/// Options for a transaction that can only be used to read documents.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadOnly</span> {
+        <span class="doccomment">/// The consistency mode for this transaction. If not set, defaults to strong</span>
+        <span class="doccomment">/// consistency.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;read_only::ConsistencySelector&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">consistency_selector</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">read_only::ConsistencySelector</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `ReadOnly`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">read_only</span> {
+        <span class="doccomment">/// The consistency mode for this transaction. If not set, defaults to strong</span>
+        <span class="doccomment">/// consistency.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConsistencySelector</span> {
+            <span class="doccomment">/// Reads documents at the given time.</span>
+            <span class="doccomment">/// This may not be older than 60 seconds.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">ReadTime</span>(<span class="ident">::prost_types::Timestamp</span>),
+        }
+    }
+    <span class="doccomment">/// The mode of the transaction.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
+        <span class="doccomment">/// The transaction can only be used for read operations.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">ReadOnly</span>(<span class="ident">ReadOnly</span>),
+        <span class="doccomment">/// The transaction can be used for both read and write operations.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">ReadWrite</span>(<span class="ident">ReadWrite</span>),
+    }
 }
 <span class="doccomment">/// A write on a document.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
