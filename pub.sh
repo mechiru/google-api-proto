@@ -25,21 +25,24 @@ fi
 if [ $(git diff HEAD --name-only xtask/proto | wc -l) -gt 0 ]; then
   git add xtask/proto
   git commit -m "xtask: update submodule googleapis/googleapis"
+
+  echo "Sync with the origin repository"
+  git push origin master
 fi
 
 if [ $(git diff HEAD --name-only google-api-proto | wc -l) -gt 0 ]; then
   git add google-api-proto
   git commit -m "google-api-proto: regenerate code"
+
+  echo "Sync with the origin repository"
+  git push origin master
+
+  echo "Publish to crates.io"
+  cargo release \
+        --execute \
+        --no-confirm \
+        --package google-api-proto \
+        --token "$CARGO_REGISTRY_TOKEN" \
+        --verbose \
+        alpha
 fi
-
-echo "Sync with the origin repository"
-git push origin master
-
-echo "Publish to crates.io"
-cargo release \
-      --execute \
-      --no-confirm \
-      --package google-api-proto \
-      --token "$CARGO_REGISTRY_TOKEN" \
-      --verbose \
-      alpha
