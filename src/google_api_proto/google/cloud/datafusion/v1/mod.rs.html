@@ -593,6 +593,42 @@
 <span id="593">593</span>
 <span id="594">594</span>
 <span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Network configuration for a Data Fusion instance. These configurations</span>
 <span class="doccomment">/// are used for peering with the customer network. Configurations are optional</span>
 <span class="doccomment">/// when a public Data Fusion instance is to be created. However, providing</span>
@@ -626,6 +662,23 @@
     <span class="doccomment">/// Represents a list of available feature names for a given version.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">available_features</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Type represents the release availability of the version</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;version::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Version`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">version</span> {
+    <span class="doccomment">/// Each type represents the release availability of a CDF version</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+        <span class="doccomment">/// Version does not have availability yet</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Version is under development and not considered stable</span>
+        <span class="ident">Preview</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Version is available for public use</span>
+        <span class="ident">GeneralAvailability</span> <span class="op">=</span> <span class="number">2</span>,
+    }
 }
 <span class="doccomment">/// Identifies Data Fusion accelerators for an instance.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -747,8 +800,7 @@
     <span class="doccomment">/// Current version of the Data Fusion. Only specifiable in Update.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Deprecated. Use tenant_project_id instead to extract the</span>
-    <span class="doccomment">/// tenant project ID.</span>
+    <span class="doccomment">/// Output only. Deprecated. Use tenant_project_id instead to extract the tenant project ID.</span>
     <span class="attribute">#[<span class="ident">deprecated</span>]</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_account</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -762,8 +814,7 @@
     <span class="doccomment">/// Output only. Endpoint on which the REST APIs is accessible.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">api_endpoint</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Cloud Storage bucket generated by Data Fusion in the customer</span>
-    <span class="doccomment">/// project.</span>
+    <span class="doccomment">/// Output only. Cloud Storage bucket generated by Data Fusion in the customer project.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">gcs_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// List of accelerators enabled for this CDF instance.</span>
@@ -789,6 +840,14 @@
     <span class="doccomment">/// Encryption Keys (CMEK) feature.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">crypto_key_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CryptoKeyConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. If the instance state is DISABLED, the reason for disabling the instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;instance::DisabledReason&quot;</span>,
+        <span class="ident">repeated</span>,
+        <span class="ident">packed</span> <span class="op">=</span> <span class="string">&quot;false&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;29&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">disabled_reason</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Instance`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">instance</span> {
@@ -839,12 +898,23 @@
         <span class="ident">AutoUpdating</span> <span class="op">=</span> <span class="number">8</span>,
         <span class="doccomment">/// Instance is being auto-upgraded</span>
         <span class="ident">AutoUpgrading</span> <span class="op">=</span> <span class="number">9</span>,
+        <span class="doccomment">/// Instance is disabled</span>
+        <span class="ident">Disabled</span> <span class="op">=</span> <span class="number">10</span>,
+    }
+    <span class="doccomment">/// The reason for disabling the instance if the state is DISABLED.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DisabledReason</span> {
+        <span class="doccomment">/// This is an unknown reason for disabling.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The KMS key used by the instance is either revoked or denied access to</span>
+        <span class="ident">KmsKeyIssue</span> <span class="op">=</span> <span class="number">1</span>,
     }
 }
 <span class="doccomment">/// Request message for listing Data Fusion instances.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInstancesRequest</span> {
-    <span class="doccomment">/// The project and location for which to retrieve instance information</span>
+    <span class="doccomment">/// Required. The project and location for which to retrieve instance information</span>
     <span class="doccomment">/// in the format projects/{project}/locations/{location}. If the location is</span>
     <span class="doccomment">/// specified as &#39;-&#39; (wildcard), then all regions available to the project</span>
     <span class="doccomment">/// are queried, and the results are aggregated.</span>
@@ -881,8 +951,8 @@
 <span class="doccomment">/// Request message for the list available versions request.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListAvailableVersionsRequest</span> {
-    <span class="doccomment">/// Required. The project and location for which to retrieve instance</span>
-    <span class="doccomment">/// information in the format projects/{project}/locations/{location}.</span>
+    <span class="doccomment">/// Required. The project and location for which to retrieve instance information</span>
+    <span class="doccomment">/// in the format projects/{project}/locations/{location}.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The maximum number of items to return.</span>
@@ -912,7 +982,7 @@
 <span class="doccomment">/// Request message for getting details about a Data Fusion instance.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetInstanceRequest</span> {
-    <span class="doccomment">/// The instance resource name in the format</span>
+    <span class="doccomment">/// Required. The instance resource name in the format</span>
     <span class="doccomment">/// projects/{project}/locations/{location}/instances/{instance}.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -920,11 +990,11 @@
 <span class="doccomment">/// Request message for creating a Data Fusion instance.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateInstanceRequest</span> {
-    <span class="doccomment">/// The instance&#39;s project and location in the format</span>
+    <span class="doccomment">/// Required. The instance&#39;s project and location in the format</span>
     <span class="doccomment">/// projects/{project}/locations/{location}.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The name of the instance to create.</span>
+    <span class="doccomment">/// Required. The name of the instance to create.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">instance_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// An instance resource.</span>
@@ -934,14 +1004,17 @@
 <span class="doccomment">/// Request message for deleting a Data Fusion instance.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteInstanceRequest</span> {
-    <span class="doccomment">/// The instance resource name in the format</span>
+    <span class="doccomment">/// Required. The instance resource name in the format</span>
     <span class="doccomment">/// projects/{project}/locations/{location}/instances/{instance}</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// Request message for updating a Data Fusion instance.</span>
+<span class="doccomment">/// Data Fusion allows updating the labels, options, and stack driver settings.</span>
+<span class="doccomment">/// This is also used for CDF version upgrade.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateInstanceRequest</span> {
-    <span class="doccomment">/// The instance resource that replaces the resource on the server. Currently,</span>
+    <span class="doccomment">/// Required. The instance resource that replaces the resource on the server. Currently,</span>
     <span class="doccomment">/// Data Fusion only allows replacing labels, options, and stack driver</span>
     <span class="doccomment">/// settings. All other fields will be ignored.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
@@ -958,7 +1031,7 @@
 <span class="doccomment">/// Request message for restarting a Data Fusion instance.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RestartInstanceRequest</span> {
-    <span class="doccomment">/// Name of the Data Fusion instance which need to be restarted in the form of</span>
+    <span class="doccomment">/// Required. Name of the Data Fusion instance which need to be restarted in the form of</span>
     <span class="doccomment">/// projects/{project}/locations/{location}/instances/{instance}</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -983,9 +1056,8 @@
     <span class="kw">pub</span> <span class="ident">status_detail</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Identifies whether the user has requested cancellation</span>
     <span class="doccomment">/// of the operation. Operations that have successfully been cancelled</span>
-    <span class="doccomment">/// have \[Operation.error][\] value with a</span>
-    <span class="doccomment">/// \[google.rpc.Status.code][google.rpc.Status.code\] of 1, corresponding to</span>
-    <span class="doccomment">/// `Code.CANCELLED`.</span>
+    <span class="doccomment">/// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,</span>
+    <span class="doccomment">/// corresponding to `Code.CANCELLED`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">requested_cancellation</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// API version used to start the operation.</span>
