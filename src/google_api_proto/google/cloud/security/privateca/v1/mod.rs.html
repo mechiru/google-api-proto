@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto&#x2F;src&#x2F;google&#x2F;cloud&#x2F;security&#x2F;privateca&#x2F;v1&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../../../../../storage.js"></script><script src="../../../../../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../../../../google_api_proto/index.html'><div class='logo-container rust-logo'><img src='../../../../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto&#x2F;src&#x2F;google&#x2F;cloud&#x2F;security&#x2F;privateca&#x2F;v1&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../../../../../storage.js"></script><script src="../../../../../../../crates.js"></script><script defer src="../../../../../../../main.js"></script><script defer src="../../../../../../../source-script.js"></script><script defer src="../../../../../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../../../../google_api_proto/index.html'><div class='logo-container rust-logo'><img src='../../../../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -4505,7 +4506,7 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Create a new [Certificate][google.cloud.security.privateca.v1.Certificate] in a given Project, Location from a particular&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [CaPool][google.cloud.security.privateca.v1.CaPool].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_certificate</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateCertificateRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Certificate</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4522,7 +4523,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns a [Certificate][google.cloud.security.privateca.v1.Certificate].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_certificate</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetCertificateRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Certificate</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4539,7 +4540,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists [Certificates][google.cloud.security.privateca.v1.Certificate].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_certificates</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCertificatesRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCertificatesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4556,7 +4557,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Revoke a [Certificate][google.cloud.security.privateca.v1.Certificate].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">revoke_certificate</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::RevokeCertificateRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Certificate</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4574,7 +4575,7 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Update a [Certificate][google.cloud.security.privateca.v1.Certificate]. Currently, the only field you can update is the&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [labels][google.cloud.security.privateca.v1.Certificate.labels] field.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_certificate</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateCertificateRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Certificate</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4596,7 +4597,7 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [FetchCertificateAuthorityCsr][google.cloud.security.privateca.v1.CertificateAuthorityService.FetchCertificateAuthorityCsr], this method can complete the activation&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; process.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">activate_certificate_authority</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ActivateCertificateAuthorityRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4614,7 +4615,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Create a new [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority] in a given Project and Location.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_certificate_authority</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateCertificateAuthorityRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4632,7 +4633,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Disable a [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">disable_certificate_authority</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DisableCertificateAuthorityRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4650,7 +4651,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Enable a [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">enable_certificate_authority</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EnableCertificateAuthorityRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4674,7 +4675,7 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; could be another [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority] resource, or could be an on-prem&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; certificate authority. See also [ActivateCertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthorityService.ActivateCertificateAuthority].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">fetch_certificate_authority_csr</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::FetchCertificateAuthorityCsrRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::FetchCertificateAuthorityCsrResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
         {
@@ -4690,7 +4691,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns a [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_certificate_authority</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetCertificateAuthorityRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CertificateAuthority</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4705,7 +4706,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists [CertificateAuthorities][google.cloud.security.privateca.v1.CertificateAuthority].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_certificate_authorities</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCertificateAuthoritiesRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCertificateAuthoritiesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
         {
@@ -4721,7 +4722,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Undelete a [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority] that has been deleted.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">undelete_certificate_authority</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UndeleteCertificateAuthorityRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4739,7 +4740,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Delete a [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_certificate_authority</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteCertificateAuthorityRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4757,7 +4758,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Update a [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_certificate_authority</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateCertificateAuthorityRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4775,7 +4776,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Create a [CaPool][google.cloud.security.privateca.v1.CaPool].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_ca_pool</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateCaPoolRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4795,7 +4796,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Update a [CaPool][google.cloud.security.privateca.v1.CaPool].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_ca_pool</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateCaPoolRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4815,7 +4816,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns a [CaPool][google.cloud.security.privateca.v1.CaPool].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_ca_pool</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetCaPoolRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CaPool</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4832,7 +4833,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists [CaPools][google.cloud.security.privateca.v1.CaPool].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_ca_pools</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCaPoolsRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCaPoolsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4849,7 +4850,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Delete a [CaPool][google.cloud.security.privateca.v1.CaPool].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_ca_pool</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteCaPoolRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4871,7 +4872,7 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; include CA certificate chains for all ACTIVE [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority]&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; resources in the [CaPool][google.cloud.security.privateca.v1.CaPool].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">fetch_ca_certs</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::FetchCaCertsRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::FetchCaCertsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4888,7 +4889,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns a [CertificateRevocationList][google.cloud.security.privateca.v1.CertificateRevocationList].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_certificate_revocation_list</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetCertificateRevocationListRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CertificateRevocationList</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4903,7 +4904,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists [CertificateRevocationLists][google.cloud.security.privateca.v1.CertificateRevocationList].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_certificate_revocation_lists</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCertificateRevocationListsRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCertificateRevocationListsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
         {
@@ -4919,7 +4920,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Update a [CertificateRevocationList][google.cloud.security.privateca.v1.CertificateRevocationList].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_certificate_revocation_list</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateCertificateRevocationListRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4937,7 +4938,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Create a new [CertificateTemplate][google.cloud.security.privateca.v1.CertificateTemplate] in a given Project and Location.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_certificate_template</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateCertificateTemplateRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4955,7 +4956,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; DeleteCertificateTemplate deletes a [CertificateTemplate][google.cloud.security.privateca.v1.CertificateTemplate].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_certificate_template</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteCertificateTemplateRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -4973,7 +4974,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns a [CertificateTemplate][google.cloud.security.privateca.v1.CertificateTemplate].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_certificate_template</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetCertificateTemplateRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CertificateTemplate</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -4988,7 +4989,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists [CertificateTemplates][google.cloud.security.privateca.v1.CertificateTemplate].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_certificate_templates</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCertificateTemplatesRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListCertificateTemplatesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
         {
@@ -5004,7 +5005,7 @@
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Update a [CertificateTemplate][google.cloud.security.privateca.v1.CertificateTemplate].&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_certificate_template</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateCertificateTemplateRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
@@ -5024,5 +5025,4 @@
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../../search-index.js" data-search-js="../../../../../../../search.js"></div>
-    <script src="../../../../../../../main.js"></script><script src="../../../../../../../source-script.js"></script><script src="../../../../../../../source-files.js"></script>
 </body></html>
