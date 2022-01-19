@@ -381,5 +381,8 @@ pub mod google;
 ))]
 pub mod grafeas;
 
-#[cfg(any(feature = "maps-fleetengine-v1",))]
+#[cfg(any(
+    feature = "maps-fleetengine-delivery-v1",
+    feature = "maps-fleetengine-v1",
+))]
 pub mod maps;
