@@ -2485,6 +2485,7 @@
 <span id="2484">2484</span>
 <span id="2485">2485</span>
 <span id="2486">2486</span>
+<span id="2487">2487</span>
 </pre><pre class="rust"><code><span class="doccomment">/// The conversation resource.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Conversation</span> {
@@ -4308,18 +4309,19 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Represents the options for views of a conversation.</span>
+<span class="doccomment">/// Represents the options for viewing a conversation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConversationView</span> {
-    <span class="doccomment">/// Not specified. Defaults to FULL on GetConversationRequest and BASIC for</span>
-    <span class="doccomment">/// ListConversationsRequest.</span>
+    <span class="doccomment">/// The conversation view is not specified.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Defaults to `FULL` in `GetConversationRequest`.</span>
+    <span class="doccomment">/// * Defaults to `BASIC` in `ListConversationsRequest`.</span>
     <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Transcript field is not populated in the response for Insights</span>
-    <span class="doccomment">/// conversation.</span>
-    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// All fields are populated for Insights conversation.</span>
+    <span class="doccomment">/// Populates all fields in the conversation.</span>
     <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Populates all fields in the conversation except the transcript.</span>
+    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">contact_center_insights_client</span> {
