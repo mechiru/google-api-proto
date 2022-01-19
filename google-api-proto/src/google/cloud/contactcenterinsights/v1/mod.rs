@@ -1821,18 +1821,19 @@ pub struct DeleteViewRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-/// Represents the options for views of a conversation.
+/// Represents the options for viewing a conversation.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum ConversationView {
-    /// Not specified. Defaults to FULL on GetConversationRequest and BASIC for
-    /// ListConversationsRequest.
+    /// The conversation view is not specified.
+    ///
+    /// * Defaults to `FULL` in `GetConversationRequest`.
+    /// * Defaults to `BASIC` in `ListConversationsRequest`.
     Unspecified = 0,
-    /// Transcript field is not populated in the response for Insights
-    /// conversation.
-    Basic = 1,
-    /// All fields are populated for Insights conversation.
+    /// Populates all fields in the conversation.
     Full = 2,
+    /// Populates all fields in the conversation except the transcript.
+    Basic = 1,
 }
 #[doc = r" Generated client implementations."]
 pub mod contact_center_insights_client {
