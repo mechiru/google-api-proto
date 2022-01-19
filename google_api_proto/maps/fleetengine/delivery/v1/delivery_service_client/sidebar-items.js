@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["DeliveryServiceClient","Last Mile Delivery service."]]});
