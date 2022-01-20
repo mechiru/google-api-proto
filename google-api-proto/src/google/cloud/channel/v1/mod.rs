@@ -17,7 +17,7 @@ pub mod edu_data {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum InstituteType {
-        /// Default value.  This state doesn't show unless an error occurs.
+        /// Not used.
         Unspecified = 0,
         /// Elementary/Secondary Schools & Districts
         K12 = 1,
@@ -28,7 +28,7 @@ pub mod edu_data {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum InstituteSize {
-        /// Default value. This state doesn't show unless an error occurs.
+        /// Not used.
         Unspecified = 0,
         /// 1 - 100
         Size1100 = 1,
@@ -84,7 +84,7 @@ pub mod cloud_identity_info {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum CustomerType {
-        /// Default value. This state doesn't show unless an error occurs.
+        /// Not used.
         Unspecified = 0,
         /// Domain-owning customer which needs domain verification to use services.
         Domain = 1,
@@ -553,7 +553,7 @@ pub mod entitlement {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum ProvisioningState {
-        /// Default value. This state doesn't show unless an error occurs.
+        /// Not used.
         Unspecified = 0,
         /// The entitlement is currently active.
         Active = 1,
@@ -564,7 +564,7 @@ pub mod entitlement {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum SuspensionReason {
-        /// Default value. This state doesn't show unless an error occurs.
+        /// Not used.
         Unspecified = 0,
         /// Entitlement was manually suspended by the Reseller.
         ResellerInitiated = 1,
@@ -696,7 +696,7 @@ pub mod transfer_eligibility {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Reason {
-        /// Reason is not available.
+        /// Not used.
         Unspecified = 0,
         /// Reseller needs to accept TOS before transferring the SKU.
         PendingTosAcceptance = 1,
@@ -754,7 +754,7 @@ pub enum ChannelPartnerLinkView {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum ChannelPartnerLinkState {
-    /// The state is not specified.
+    /// Not used.
     Unspecified = 0,
     /// An invitation has been sent to the reseller to create a channel partner
     /// link.
@@ -3177,7 +3177,7 @@ pub mod customer_event {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Type {
-        /// Default value. This state doesn't show unless an error occurs.
+        /// Not used.
         Unspecified = 0,
         /// Primary domain for customer was changed.
         PrimaryDomainChanged = 1,
@@ -3202,7 +3202,7 @@ pub mod entitlement_event {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Type {
-        /// Default value. This state doesn't show unless an error occurs.
+        /// Not used.
         Unspecified = 0,
         /// A new entitlement was created.
         Created = 1,
@@ -3269,7 +3269,7 @@ pub mod operation_metadata {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum OperationType {
-        /// Default value. This state doesn't show unless an error occurs.
+        /// Not used.
         Unspecified = 0,
         /// Long Running Operation was triggered by CreateEntitlement.
         CreateEntitlement = 1,
