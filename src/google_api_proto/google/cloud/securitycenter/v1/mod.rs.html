@@ -2655,123 +2655,69 @@
 <span id="2654">2654</span>
 <span id="2655">2655</span>
 <span id="2656">2656</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Security Command Center finding source. A finding source</span>
-<span class="doccomment">/// is an entity or a mechanism that can produce a finding. A source is like a</span>
-<span class="doccomment">/// container of findings that come from the same scanner, logger, monitor, and</span>
-<span class="doccomment">/// other tools.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Cloud Security Command Center (Cloud SCC) notification configs.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A notification config is a Cloud SCC resource that contains the configuration</span>
+<span class="doccomment">/// to send notifications for create/update events of findings, assets and etc.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
-    <span class="doccomment">/// The relative resource name of this source. See:</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NotificationConfig</span> {
+    <span class="doccomment">/// The relative resource name of this notification config. See:</span>
     <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
     <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/notificationConfigs/notify_public_bucket&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The source&#39;s display name.</span>
-    <span class="doccomment">/// A source&#39;s display name must be unique amongst its siblings, for example,</span>
-    <span class="doccomment">/// two sources with the same parent can&#39;t share the same display name.</span>
-    <span class="doccomment">/// The display name must have a length between 1 and 64 characters</span>
-    <span class="doccomment">/// (inclusive).</span>
+    <span class="doccomment">/// The description of the notification config (max of 1024 characters).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The description of the source (max of 1024 characters).</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;Web Security Scanner is a web security scanner for common</span>
-    <span class="doccomment">/// vulnerabilities in App Engine applications. It can automatically</span>
-    <span class="doccomment">/// scan and detect four common vulnerabilities, including cross-site-scripting</span>
-    <span class="doccomment">/// (XSS), Flash injection, mixed content (HTTP in HTTPS), and</span>
-    <span class="doccomment">/// outdated or insecure libraries.&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The canonical name of the finding. It&#39;s either</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;,</span>
-    <span class="doccomment">/// &quot;folders/{folder_id}/sources/{source_id}&quot; or</span>
-    <span class="doccomment">/// &quot;projects/{project_number}/sources/{source_id}&quot;,</span>
-    <span class="doccomment">/// depending on the closest CRM ancestor of the resource associated with the</span>
-    <span class="doccomment">/// finding.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A mute config is a Cloud SCC resource that contains the configuration</span>
-<span class="doccomment">/// to mute create/update events of findings.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MuteConfig</span> {
-    <span class="doccomment">/// This field will be ignored if provided on config creation. Format</span>
-    <span class="doccomment">/// &quot;organizations/{organization}/muteConfigs/{mute_config}&quot;</span>
-    <span class="doccomment">/// &quot;folders/{folder}/muteConfigs/{mute_config}&quot;</span>
-    <span class="doccomment">/// &quot;projects/{project}/muteConfigs/{mute_config}&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The human readable name to be displayed for the mute config.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A description of the mute config.</span>
+    <span class="doccomment">/// The Pub/Sub topic to send notifications to. Its format is</span>
+    <span class="doccomment">/// &quot;projects/\[project_id]/topics/[topic\]&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. An expression that defines the filter to apply across create/update events</span>
-    <span class="doccomment">/// of findings. While creating a filter string, be mindful of the</span>
-    <span class="doccomment">/// scope in which the mute configuration is being created. E.g., If a filter</span>
-    <span class="doccomment">/// contains project = X but is created under the project = Y scope, it might</span>
-    <span class="doccomment">/// not match any findings.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The following field and operator combinations are supported:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * severity: `=`, `:`</span>
-    <span class="doccomment">/// * category: `=`, `:`</span>
-    <span class="doccomment">/// * resource.name: `=`, `:`</span>
-    <span class="doccomment">/// * resource.project_name: `=`, `:`</span>
-    <span class="doccomment">/// * resource.project_display_name: `=`, `:`</span>
-    <span class="doccomment">/// * resource.folders.resource_folder: `=`, `:`</span>
-    <span class="doccomment">/// * resource.parent_name: `=`, `:`</span>
-    <span class="doccomment">/// * resource.parent_display_name: `=`, `:`</span>
-    <span class="doccomment">/// * resource.type: `=`, `:`</span>
-    <span class="doccomment">/// * finding_class: `=`, `:`</span>
-    <span class="doccomment">/// * indicator.ip_addresses: `=`, `:`</span>
-    <span class="doccomment">/// * indicator.domains: `=`, `:`</span>
+    <span class="kw">pub</span> <span class="ident">pubsub_topic</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The service account that needs &quot;pubsub.topics.publish&quot;</span>
+    <span class="doccomment">/// permission to publish to the Pub/Sub topic.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The time at which the mute config was created.</span>
-    <span class="doccomment">/// This field is set by the server and will be ignored if provided on config</span>
-    <span class="doccomment">/// creation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The most recent time at which the mute config was updated.</span>
-    <span class="doccomment">/// This field is set by the server and will be ignored if provided on config</span>
-    <span class="doccomment">/// creation or update.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Email address of the user who last edited the mute config.</span>
-    <span class="doccomment">/// This field is set by the server and will be ignored if provided on config</span>
-    <span class="doccomment">/// creation or update.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">most_recent_editor</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="kw">pub</span> <span class="ident">service_account</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The config for triggering notifications.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;notification_config::NotifyConfig&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">notify_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">notification_config::NotifyConfig</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Response of asset discovery run</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RunAssetDiscoveryResponse</span> {
-    <span class="doccomment">/// The state of an asset discovery run.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;run_asset_discovery_response::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The duration between asset discovery run start and end</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `RunAssetDiscoveryResponse`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">run_asset_discovery_response</span> {
-    <span class="doccomment">/// The state of an asset discovery run.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// Asset discovery run state was unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Asset discovery run completed successfully.</span>
-        <span class="ident">Completed</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Asset discovery run was cancelled with tasks still pending, as another</span>
-        <span class="doccomment">/// run for the same organization was started with a higher priority.</span>
-        <span class="ident">Superseded</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Asset discovery run was killed and terminated.</span>
-        <span class="ident">Terminated</span> <span class="op">=</span> <span class="number">3</span>,
+<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">notification_config</span> {
+    <span class="doccomment">/// The config for streaming-based notifications, which send each event as soon</span>
+    <span class="doccomment">/// as it is detected.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StreamingConfig</span> {
+        <span class="doccomment">/// Expression that defines the filter to apply across create/update events</span>
+        <span class="doccomment">/// of assets or findings as specified by the event type. The expression is a</span>
+        <span class="doccomment">/// list of zero or more restrictions combined via logical operators `AND`</span>
+        <span class="doccomment">/// and `OR`. Parentheses are supported, and `OR` has higher precedence than</span>
+        <span class="doccomment">/// `AND`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Restrictions have the form `&lt;field&gt; &lt;operator&gt; &lt;value&gt;` and may have a</span>
+        <span class="doccomment">/// `-` character in front of them to indicate negation. The fields map to</span>
+        <span class="doccomment">/// those defined in the corresponding resource.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// The supported operators are:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// * `=` for all value types.</span>
+        <span class="doccomment">/// * `&gt;`, `&lt;`, `&gt;=`, `&lt;=` for integer values.</span>
+        <span class="doccomment">/// * `:`, meaning substring matching, for strings.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// The supported value types are:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// * string literals in quotes.</span>
+        <span class="doccomment">/// * integer literals without quotes.</span>
+        <span class="doccomment">/// * boolean literals `true` and `false` without quotes.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// The config for triggering notifications.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">NotifyConfig</span> {
+        <span class="doccomment">/// The config for triggering streaming-based notifications.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">StreamingConfig</span>(<span class="ident">StreamingConfig</span>),
     }
 }
 <span class="doccomment">/// Message that contains the resource name and display name of a folder</span>
@@ -2822,147 +2768,6 @@
     <span class="doccomment">/// &quot;projects/{project_number}/sources/{source_id}/findings/{finding_id}/securityMarks&quot;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Security Command Center representation of a Google Cloud</span>
-<span class="doccomment">/// resource.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The Asset is a Security Command Center resource that captures information</span>
-<span class="doccomment">/// about a single Google Cloud resource. All modifications to an Asset are only</span>
-<span class="doccomment">/// within the context of Security Command Center and don&#39;t affect the referenced</span>
-<span class="doccomment">/// Google Cloud resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Asset</span> {
-    <span class="doccomment">/// The relative resource name of this asset. See:</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/assets/{asset_id}&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Security Command Center managed properties. These properties are managed by</span>
-    <span class="doccomment">/// Security Command Center and cannot be modified by the user.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">security_center_properties</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">asset::SecurityCenterProperties</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Resource managed properties. These properties are managed and defined by</span>
-    <span class="doccomment">/// the Google Cloud resource and cannot be modified by the user.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_properties</span>:
-        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// User specified security marks. These marks are entirely managed by the user</span>
-    <span class="doccomment">/// and come from the SecurityMarks resource that belongs to the asset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">security_marks</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">SecurityMarks</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time at which the asset was created in Security Command Center.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time at which the asset was last updated or added in Cloud SCC.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Cloud IAM Policy information associated with the Google Cloud resource</span>
-    <span class="doccomment">/// described by the Security Command Center asset. This information is managed</span>
-    <span class="doccomment">/// and defined by the Google Cloud resource and cannot be modified by the</span>
-    <span class="doccomment">/// user.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">iam_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">asset::IamPolicy</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The canonical name of the resource. It&#39;s either</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/assets/{asset_id}&quot;,</span>
-    <span class="doccomment">/// &quot;folders/{folder_id}/assets/{asset_id}&quot; or</span>
-    <span class="doccomment">/// &quot;projects/{project_number}/assets/{asset_id}&quot;, depending on the closest CRM</span>
-    <span class="doccomment">/// ancestor of the resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Asset`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">asset</span> {
-    <span class="doccomment">/// Security Command Center managed properties. These properties are managed by</span>
-    <span class="doccomment">/// Security Command Center and cannot be modified by the user.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SecurityCenterProperties</span> {
-        <span class="doccomment">/// The full resource name of the Google Cloud resource this asset</span>
-        <span class="doccomment">/// represents. This field is immutable after create time. See:</span>
-        <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">resource_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The type of the Google Cloud resource. Examples include: APPLICATION,</span>
-        <span class="doccomment">/// PROJECT, and ORGANIZATION. This is a case insensitive field defined by</span>
-        <span class="doccomment">/// Security Command Center and/or the producer of the resource and is</span>
-        <span class="doccomment">/// immutable after create time.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">resource_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The full resource name of the immediate parent of the resource. See:</span>
-        <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">resource_parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The full resource name of the project the resource belongs to. See:</span>
-        <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">resource_project</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Owners of the Google Cloud resource.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">resource_owners</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The user defined display name for this resource.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">resource_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The user defined display name for the parent of this resource.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">resource_parent_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The user defined display name for the project of this resource.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">resource_project_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Contains a Folder message for each folder in the assets ancestry.</span>
-        <span class="doccomment">/// The first folder is the deepest nested folder, and the last folder is the</span>
-        <span class="doccomment">/// folder directly under the Organization.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">folders</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Folder</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Cloud IAM Policy information associated with the Google Cloud resource</span>
-    <span class="doccomment">/// described by the Security Command Center asset. This information is managed</span>
-    <span class="doccomment">/// and defined by the Google Cloud resource and cannot be modified by the</span>
-    <span class="doccomment">/// user.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IamPolicy</span> {
-        <span class="doccomment">/// The JSON representation of the Policy associated with the asset.</span>
-        <span class="doccomment">/// See &lt;https://cloud.google.com/iam/reference/rest/v1/Policy&gt; for format</span>
-        <span class="doccomment">/// details.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">policy_blob</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
-<span class="doccomment">/// Representation of third party SIEM/SOAR fields within SCC.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExternalSystem</span> {
-    <span class="doccomment">/// External System Name e.g. jira, demisto, etc.</span>
-    <span class="doccomment">///  e.g.: `organizations/1234/sources/5678/findings/123456/externalSystems/jira`</span>
-    <span class="doccomment">/// `folders/1234/sources/5678/findings/123456/externalSystems/jira`</span>
-    <span class="doccomment">/// `projects/1234/sources/5678/findings/123456/externalSystems/jira`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// References primary/secondary etc assignees in the external system.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">assignees</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Identifier that&#39;s used to track the given finding in the external system.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">external_uid</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Most recent status of the corresponding finding&#39;s ticket/tracker in the</span>
-    <span class="doccomment">/// external system.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The most recent time when the corresponding finding&#39;s ticket/tracker was</span>
-    <span class="doccomment">/// updated in the external system.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">external_system_update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents what&#39;s commonly known as an Indicator of compromise (IoC) in</span>
-<span class="doccomment">/// computer forensics. This is an artifact observed on a network or in an</span>
-<span class="doccomment">/// operating system that, with high confidence, indicates a computer intrusion.</span>
-<span class="doccomment">/// Reference: &lt;https://en.wikipedia.org/wiki/Indicator_of_compromise&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Indicator</span> {
-    <span class="doccomment">/// List of ip addresses associated to the Finding.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ip_addresses</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of domains associated to the Finding.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">domains</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Refers to common vulnerability fields e.g. cve, cvss, cwe etc.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -3148,6 +2953,174 @@
         <span class="doccomment">/// No impact.</span>
         <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
     }
+}
+<span class="doccomment">/// Represents what&#39;s commonly known as an Indicator of compromise (IoC) in</span>
+<span class="doccomment">/// computer forensics. This is an artifact observed on a network or in an</span>
+<span class="doccomment">/// operating system that, with high confidence, indicates a computer intrusion.</span>
+<span class="doccomment">/// Reference: &lt;https://en.wikipedia.org/wiki/Indicator_of_compromise&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Indicator</span> {
+    <span class="doccomment">/// List of ip addresses associated to the Finding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ip_addresses</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of domains associated to the Finding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">domains</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Response of asset discovery run</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RunAssetDiscoveryResponse</span> {
+    <span class="doccomment">/// The state of an asset discovery run.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;run_asset_discovery_response::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The duration between asset discovery run start and end</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `RunAssetDiscoveryResponse`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">run_asset_discovery_response</span> {
+    <span class="doccomment">/// The state of an asset discovery run.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// Asset discovery run state was unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Asset discovery run completed successfully.</span>
+        <span class="ident">Completed</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Asset discovery run was cancelled with tasks still pending, as another</span>
+        <span class="doccomment">/// run for the same organization was started with a higher priority.</span>
+        <span class="ident">Superseded</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Asset discovery run was killed and terminated.</span>
+        <span class="ident">Terminated</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Security Command Center representation of a Google Cloud</span>
+<span class="doccomment">/// resource.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The Asset is a Security Command Center resource that captures information</span>
+<span class="doccomment">/// about a single Google Cloud resource. All modifications to an Asset are only</span>
+<span class="doccomment">/// within the context of Security Command Center and don&#39;t affect the referenced</span>
+<span class="doccomment">/// Google Cloud resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Asset</span> {
+    <span class="doccomment">/// The relative resource name of this asset. See:</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/assets/{asset_id}&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Security Command Center managed properties. These properties are managed by</span>
+    <span class="doccomment">/// Security Command Center and cannot be modified by the user.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">security_center_properties</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">asset::SecurityCenterProperties</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Resource managed properties. These properties are managed and defined by</span>
+    <span class="doccomment">/// the Google Cloud resource and cannot be modified by the user.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_properties</span>:
+        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// User specified security marks. These marks are entirely managed by the user</span>
+    <span class="doccomment">/// and come from the SecurityMarks resource that belongs to the asset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">security_marks</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">SecurityMarks</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time at which the asset was created in Security Command Center.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time at which the asset was last updated or added in Cloud SCC.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Cloud IAM Policy information associated with the Google Cloud resource</span>
+    <span class="doccomment">/// described by the Security Command Center asset. This information is managed</span>
+    <span class="doccomment">/// and defined by the Google Cloud resource and cannot be modified by the</span>
+    <span class="doccomment">/// user.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">iam_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">asset::IamPolicy</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The canonical name of the resource. It&#39;s either</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/assets/{asset_id}&quot;,</span>
+    <span class="doccomment">/// &quot;folders/{folder_id}/assets/{asset_id}&quot; or</span>
+    <span class="doccomment">/// &quot;projects/{project_number}/assets/{asset_id}&quot;, depending on the closest CRM</span>
+    <span class="doccomment">/// ancestor of the resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Asset`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">asset</span> {
+    <span class="doccomment">/// Security Command Center managed properties. These properties are managed by</span>
+    <span class="doccomment">/// Security Command Center and cannot be modified by the user.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SecurityCenterProperties</span> {
+        <span class="doccomment">/// The full resource name of the Google Cloud resource this asset</span>
+        <span class="doccomment">/// represents. This field is immutable after create time. See:</span>
+        <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">resource_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The type of the Google Cloud resource. Examples include: APPLICATION,</span>
+        <span class="doccomment">/// PROJECT, and ORGANIZATION. This is a case insensitive field defined by</span>
+        <span class="doccomment">/// Security Command Center and/or the producer of the resource and is</span>
+        <span class="doccomment">/// immutable after create time.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">resource_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The full resource name of the immediate parent of the resource. See:</span>
+        <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">resource_parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The full resource name of the project the resource belongs to. See:</span>
+        <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">resource_project</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Owners of the Google Cloud resource.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">resource_owners</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The user defined display name for this resource.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">resource_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The user defined display name for the parent of this resource.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">resource_parent_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The user defined display name for the project of this resource.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">resource_project_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Contains a Folder message for each folder in the assets ancestry.</span>
+        <span class="doccomment">/// The first folder is the deepest nested folder, and the last folder is the</span>
+        <span class="doccomment">/// folder directly under the Organization.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">folders</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Folder</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Cloud IAM Policy information associated with the Google Cloud resource</span>
+    <span class="doccomment">/// described by the Security Command Center asset. This information is managed</span>
+    <span class="doccomment">/// and defined by the Google Cloud resource and cannot be modified by the</span>
+    <span class="doccomment">/// user.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IamPolicy</span> {
+        <span class="doccomment">/// The JSON representation of the Policy associated with the asset.</span>
+        <span class="doccomment">/// See &lt;https://cloud.google.com/iam/reference/rest/v1/Policy&gt; for format</span>
+        <span class="doccomment">/// details.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">policy_blob</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
+<span class="doccomment">/// Representation of third party SIEM/SOAR fields within SCC.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExternalSystem</span> {
+    <span class="doccomment">/// External System Name e.g. jira, demisto, etc.</span>
+    <span class="doccomment">///  e.g.: `organizations/1234/sources/5678/findings/123456/externalSystems/jira`</span>
+    <span class="doccomment">/// `folders/1234/sources/5678/findings/123456/externalSystems/jira`</span>
+    <span class="doccomment">/// `projects/1234/sources/5678/findings/123456/externalSystems/jira`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// References primary/secondary etc assignees in the external system.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">assignees</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Identifier that&#39;s used to track the given finding in the external system.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">external_uid</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Most recent status of the corresponding finding&#39;s ticket/tracker in the</span>
+    <span class="doccomment">/// external system.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The most recent time when the corresponding finding&#39;s ticket/tracker was</span>
+    <span class="doccomment">/// updated in the external system.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">external_system_update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Security Command Center finding.</span>
 <span class="doccomment">///</span>
@@ -3361,70 +3334,60 @@
         <span class="ident">Observation</span> <span class="op">=</span> <span class="number">4</span>,
     }
 }
-<span class="doccomment">/// Cloud Security Command Center (Cloud SCC) notification configs.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// A notification config is a Cloud SCC resource that contains the configuration</span>
-<span class="doccomment">/// to send notifications for create/update events of findings, assets and etc.</span>
+<span class="doccomment">/// A mute config is a Cloud SCC resource that contains the configuration</span>
+<span class="doccomment">/// to mute create/update events of findings.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NotificationConfig</span> {
-    <span class="doccomment">/// The relative resource name of this notification config. See:</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/notificationConfigs/notify_public_bucket&quot;.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MuteConfig</span> {
+    <span class="doccomment">/// This field will be ignored if provided on config creation. Format</span>
+    <span class="doccomment">/// &quot;organizations/{organization}/muteConfigs/{mute_config}&quot;</span>
+    <span class="doccomment">/// &quot;folders/{folder}/muteConfigs/{mute_config}&quot;</span>
+    <span class="doccomment">/// &quot;projects/{project}/muteConfigs/{mute_config}&quot;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The description of the notification config (max of 1024 characters).</span>
+    <span class="doccomment">/// The human readable name to be displayed for the mute config.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The Pub/Sub topic to send notifications to. Its format is</span>
-    <span class="doccomment">/// &quot;projects/\[project_id]/topics/[topic\]&quot;.</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A description of the mute config.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">pubsub_topic</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The service account that needs &quot;pubsub.topics.publish&quot;</span>
-    <span class="doccomment">/// permission to publish to the Pub/Sub topic.</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. An expression that defines the filter to apply across create/update events</span>
+    <span class="doccomment">/// of findings. While creating a filter string, be mindful of the</span>
+    <span class="doccomment">/// scope in which the mute configuration is being created. E.g., If a filter</span>
+    <span class="doccomment">/// contains project = X but is created under the project = Y scope, it might</span>
+    <span class="doccomment">/// not match any findings.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The following field and operator combinations are supported:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * severity: `=`, `:`</span>
+    <span class="doccomment">/// * category: `=`, `:`</span>
+    <span class="doccomment">/// * resource.name: `=`, `:`</span>
+    <span class="doccomment">/// * resource.project_name: `=`, `:`</span>
+    <span class="doccomment">/// * resource.project_display_name: `=`, `:`</span>
+    <span class="doccomment">/// * resource.folders.resource_folder: `=`, `:`</span>
+    <span class="doccomment">/// * resource.parent_name: `=`, `:`</span>
+    <span class="doccomment">/// * resource.parent_display_name: `=`, `:`</span>
+    <span class="doccomment">/// * resource.type: `=`, `:`</span>
+    <span class="doccomment">/// * finding_class: `=`, `:`</span>
+    <span class="doccomment">/// * indicator.ip_addresses: `=`, `:`</span>
+    <span class="doccomment">/// * indicator.domains: `=`, `:`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service_account</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The config for triggering notifications.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;notification_config::NotifyConfig&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">notify_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">notification_config::NotifyConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">notification_config</span> {
-    <span class="doccomment">/// The config for streaming-based notifications, which send each event as soon</span>
-    <span class="doccomment">/// as it is detected.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StreamingConfig</span> {
-        <span class="doccomment">/// Expression that defines the filter to apply across create/update events</span>
-        <span class="doccomment">/// of assets or findings as specified by the event type. The expression is a</span>
-        <span class="doccomment">/// list of zero or more restrictions combined via logical operators `AND`</span>
-        <span class="doccomment">/// and `OR`. Parentheses are supported, and `OR` has higher precedence than</span>
-        <span class="doccomment">/// `AND`.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Restrictions have the form `&lt;field&gt; &lt;operator&gt; &lt;value&gt;` and may have a</span>
-        <span class="doccomment">/// `-` character in front of them to indicate negation. The fields map to</span>
-        <span class="doccomment">/// those defined in the corresponding resource.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// The supported operators are:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// * `=` for all value types.</span>
-        <span class="doccomment">/// * `&gt;`, `&lt;`, `&gt;=`, `&lt;=` for integer values.</span>
-        <span class="doccomment">/// * `:`, meaning substring matching, for strings.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// The supported value types are:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// * string literals in quotes.</span>
-        <span class="doccomment">/// * integer literals without quotes.</span>
-        <span class="doccomment">/// * boolean literals `true` and `false` without quotes.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// The config for triggering notifications.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">NotifyConfig</span> {
-        <span class="doccomment">/// The config for triggering streaming-based notifications.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">StreamingConfig</span>(<span class="ident">StreamingConfig</span>),
-    }
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The time at which the mute config was created.</span>
+    <span class="doccomment">/// This field is set by the server and will be ignored if provided on config</span>
+    <span class="doccomment">/// creation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The most recent time at which the mute config was updated.</span>
+    <span class="doccomment">/// This field is set by the server and will be ignored if provided on config</span>
+    <span class="doccomment">/// creation or update.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Email address of the user who last edited the mute config.</span>
+    <span class="doccomment">/// This field is set by the server and will be ignored if provided on config</span>
+    <span class="doccomment">/// creation or update.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">most_recent_editor</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// User specified settings that are attached to the Security Command</span>
 <span class="doccomment">/// Center organization.</span>
@@ -3488,6 +3451,43 @@
             <span class="ident">Exclude</span> <span class="op">=</span> <span class="number">2</span>,
         }
     }
+}
+<span class="doccomment">/// Security Command Center finding source. A finding source</span>
+<span class="doccomment">/// is an entity or a mechanism that can produce a finding. A source is like a</span>
+<span class="doccomment">/// container of findings that come from the same scanner, logger, monitor, and</span>
+<span class="doccomment">/// other tools.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
+    <span class="doccomment">/// The relative resource name of this source. See:</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The source&#39;s display name.</span>
+    <span class="doccomment">/// A source&#39;s display name must be unique amongst its siblings, for example,</span>
+    <span class="doccomment">/// two sources with the same parent can&#39;t share the same display name.</span>
+    <span class="doccomment">/// The display name must have a length between 1 and 64 characters</span>
+    <span class="doccomment">/// (inclusive).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The description of the source (max of 1024 characters).</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;Web Security Scanner is a web security scanner for common</span>
+    <span class="doccomment">/// vulnerabilities in App Engine applications. It can automatically</span>
+    <span class="doccomment">/// scan and detect four common vulnerabilities, including cross-site-scripting</span>
+    <span class="doccomment">/// (XSS), Flash injection, mixed content (HTTP in HTTPS), and</span>
+    <span class="doccomment">/// outdated or insecure libraries.&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The canonical name of the finding. It&#39;s either</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;,</span>
+    <span class="doccomment">/// &quot;folders/{folder_id}/sources/{source_id}&quot; or</span>
+    <span class="doccomment">/// &quot;projects/{project_number}/sources/{source_id}&quot;,</span>
+    <span class="doccomment">/// depending on the closest CRM ancestor of the resource associated with the</span>
+    <span class="doccomment">/// finding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Request message for bulk findings update.</span>
 <span class="doccomment">///</span>

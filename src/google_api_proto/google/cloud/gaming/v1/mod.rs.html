@@ -2073,6 +2073,138 @@
         <span class="kw">pub</span> <span class="ident">fleet_autoscaler_spec</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
 }
+<span class="doccomment">/// Request message for GameServerConfigsService.ListGameServerConfigs.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListGameServerConfigsRequest</span> {
+    <span class="doccomment">/// Required. The parent resource name, in the following form:</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/configs/*`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The maximum number of items to return.  If unspecified, server</span>
+    <span class="doccomment">/// will pick an appropriate default. Server may return fewer items than</span>
+    <span class="doccomment">/// requested. A caller should only rely on response&#39;s</span>
+    <span class="doccomment">/// \[next_page_token][google.cloud.gaming.v1.ListGameServerConfigsResponse.next_page_token\] to</span>
+    <span class="doccomment">/// determine if there are more GameServerConfigs left to be queried.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. The next_page_token value returned from a previous list request, if any.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The filter to apply to list results.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Specifies the ordering of results following syntax at</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/design_patterns#sorting_order.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">order_by</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Response message for GameServerConfigsService.ListGameServerConfigs.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListGameServerConfigsResponse</span> {
+    <span class="doccomment">/// The list of game server configs.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">game_server_configs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">GameServerConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no more</span>
+    <span class="doccomment">/// results in the list.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// List of locations that could not be reached.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">unreachable</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request message for GameServerConfigsService.GetGameServerConfig.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetGameServerConfigRequest</span> {
+    <span class="doccomment">/// Required. The name of the game server config to retrieve, in the following form:</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/configs/{config}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request message for GameServerConfigsService.CreateGameServerConfig.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateGameServerConfigRequest</span> {
+    <span class="doccomment">/// Required. The parent resource name, in the following form:</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The ID of the game server config resource to be created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">config_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The game server config resource to be created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">game_server_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GameServerConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request message for GameServerConfigsService.DeleteGameServerConfig.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteGameServerConfigRequest</span> {
+    <span class="doccomment">/// Required. The name of the game server config to delete, in the following form:</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/configs/{config}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Autoscaling config for an Agones fleet.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScalingConfig</span> {
+    <span class="doccomment">/// Required. The name of the Scaling Config</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Agones fleet autoscaler spec. Example spec:</span>
+    <span class="doccomment">/// &lt;https://agones.dev/site/docs/reference/fleetautoscaler/&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fleet_autoscaler_spec</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Labels used to identify the game server clusters to which this Agones</span>
+    <span class="doccomment">/// scaling config applies. A game server cluster is subject to this Agones</span>
+    <span class="doccomment">/// scaling config if its labels match any of the selector entries.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">selectors</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LabelSelector</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The schedules to which this Scaling Config applies.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">schedules</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Schedule</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Fleet configs for Agones.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FleetConfig</span> {
+    <span class="doccomment">/// Agones fleet spec. Example spec:</span>
+    <span class="doccomment">/// `&lt;https://agones.dev/site/docs/reference/fleet/`.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fleet_spec</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the FleetConfig.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A game server config resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GameServerConfig</span> {
+    <span class="doccomment">/// The resource name of the game server config, in the following form:</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/configs/{config}`.</span>
+    <span class="doccomment">/// For example,</span>
+    <span class="doccomment">/// `projects/my-project/locations/global/gameServerDeployments/my-game/configs/my-config`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The creation time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The last-modified time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The labels associated with this game server config. Each label is a</span>
+    <span class="doccomment">/// key-value pair.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// FleetConfig contains a list of Agones fleet specs. Only one FleetConfig</span>
+    <span class="doccomment">/// is allowed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fleet_configs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">FleetConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The autoscaling settings.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">scaling_configs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ScalingConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The description of the game server config.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Request message for GameServerDeploymentsService.ListGameServerDeployments.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListGameServerDeploymentsRequest</span> {
@@ -2886,148 +3018,17 @@
     <span class="doccomment">/// Include everything.</span>
     <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
 }
-<span class="doccomment">/// Request message for GameServerConfigsService.ListGameServerConfigs.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListGameServerConfigsRequest</span> {
-    <span class="doccomment">/// Required. The parent resource name, in the following form:</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/configs/*`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The maximum number of items to return.  If unspecified, server</span>
-    <span class="doccomment">/// will pick an appropriate default. Server may return fewer items than</span>
-    <span class="doccomment">/// requested. A caller should only rely on response&#39;s</span>
-    <span class="doccomment">/// \[next_page_token][google.cloud.gaming.v1.ListGameServerConfigsResponse.next_page_token\] to</span>
-    <span class="doccomment">/// determine if there are more GameServerConfigs left to be queried.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. The next_page_token value returned from a previous list request, if any.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The filter to apply to list results.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Specifies the ordering of results following syntax at</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/design_patterns#sorting_order.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">order_by</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Response message for GameServerConfigsService.ListGameServerConfigs.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListGameServerConfigsResponse</span> {
-    <span class="doccomment">/// The list of game server configs.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">game_server_configs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">GameServerConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no more</span>
-    <span class="doccomment">/// results in the list.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// List of locations that could not be reached.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">unreachable</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request message for GameServerConfigsService.GetGameServerConfig.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetGameServerConfigRequest</span> {
-    <span class="doccomment">/// Required. The name of the game server config to retrieve, in the following form:</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/configs/{config}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request message for GameServerConfigsService.CreateGameServerConfig.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateGameServerConfigRequest</span> {
-    <span class="doccomment">/// Required. The parent resource name, in the following form:</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The ID of the game server config resource to be created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">config_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The game server config resource to be created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">game_server_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GameServerConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request message for GameServerConfigsService.DeleteGameServerConfig.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteGameServerConfigRequest</span> {
-    <span class="doccomment">/// Required. The name of the game server config to delete, in the following form:</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/configs/{config}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Autoscaling config for an Agones fleet.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScalingConfig</span> {
-    <span class="doccomment">/// Required. The name of the Scaling Config</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Agones fleet autoscaler spec. Example spec:</span>
-    <span class="doccomment">/// &lt;https://agones.dev/site/docs/reference/fleetautoscaler/&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fleet_autoscaler_spec</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Labels used to identify the game server clusters to which this Agones</span>
-    <span class="doccomment">/// scaling config applies. A game server cluster is subject to this Agones</span>
-    <span class="doccomment">/// scaling config if its labels match any of the selector entries.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">selectors</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LabelSelector</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The schedules to which this Scaling Config applies.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">schedules</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Schedule</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Fleet configs for Agones.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FleetConfig</span> {
-    <span class="doccomment">/// Agones fleet spec. Example spec:</span>
-    <span class="doccomment">/// `&lt;https://agones.dev/site/docs/reference/fleet/`.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fleet_spec</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The name of the FleetConfig.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A game server config resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GameServerConfig</span> {
-    <span class="doccomment">/// The resource name of the game server config, in the following form:</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/gameServerDeployments/{deployment}/configs/{config}`.</span>
-    <span class="doccomment">/// For example,</span>
-    <span class="doccomment">/// `projects/my-project/locations/global/gameServerDeployments/my-game/configs/my-config`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The creation time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The last-modified time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The labels associated with this game server config. Each label is a</span>
-    <span class="doccomment">/// key-value pair.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// FleetConfig contains a list of Agones fleet specs. Only one FleetConfig</span>
-    <span class="doccomment">/// is allowed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fleet_configs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">FleetConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The autoscaling settings.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">scaling_configs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ScalingConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The description of the game server config.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">game_server_configs_service_client</span> {
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">game_server_clusters_service_client</span> {
     <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
     <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The game server config configures the game servers in an Agones fleet.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The game server cluster maps to Kubernetes clusters running Agones and is&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; used to manage fleets within clusters.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GameServerConfigsServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GameServerClustersServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">GameServerConfigsServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">GameServerClustersServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
         <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
@@ -3041,7 +3042,7 @@
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
             <span class="ident">inner</span>: <span class="ident">T</span>,
             <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">GameServerConfigsServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        ) -&gt; <span class="ident">GameServerClustersServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
         <span class="kw">where</span>
             <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
             <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
@@ -3053,7 +3054,7 @@
             <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
                 <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
         {
-            <span class="ident">GameServerConfigsServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+            <span class="ident">GameServerClustersServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
@@ -3068,12 +3069,11 @@
             <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
             <span class="self">self</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists game server configs in a given project, location, and game server&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; deployment.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_game_server_configs</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists game server clusters in a given project and location.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_game_server_clusters</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListGameServerConfigsRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListGameServerConfigsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListGameServerClustersRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListGameServerClustersResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="ident">tonic::Status::new</span>(
                     <span class="ident">tonic::Code::Unknown</span>,
@@ -3082,15 +3082,15 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerConfigsService/ListGameServerConfigs&quot;</span>,
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/ListGameServerClusters&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Gets details of a single game server config.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_game_server_config</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Gets details of a single game server cluster.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_game_server_cluster</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetGameServerConfigRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GameServerConfig</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetGameServerClusterRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GameServerCluster</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="ident">tonic::Status::new</span>(
                     <span class="ident">tonic::Code::Unknown</span>,
@@ -3099,16 +3099,14 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerConfigsService/GetGameServerConfig&quot;</span>,
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/GetGameServerCluster&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a new game server config in a given project, location, and game&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; server deployment. Game server configs are immutable, and are not applied&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; until referenced in the game server deployment rollout resource.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_game_server_config</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a new game server cluster in a given project and location.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_game_server_cluster</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateGameServerConfigRequest</span><span class="op">&gt;</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateGameServerClusterRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
             <span class="ident">tonic::Status</span>,
@@ -3121,15 +3119,33 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerConfigsService/CreateGameServerConfig&quot;</span>,
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/CreateGameServerCluster&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes a single game server config. The deletion will fail if the game&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; server config is referenced in a game server deployment rollout.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_game_server_config</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Previews creation of a new game server cluster in a given project and&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; location.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">preview_create_game_server_cluster</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteGameServerConfigRequest</span><span class="op">&gt;</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewCreateGameServerClusterRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewCreateGameServerClusterResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+        {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/PreviewCreateGameServerCluster&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes a single game server cluster.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_game_server_cluster</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteGameServerClusterRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
             <span class="ident">tonic::Status</span>,
@@ -3142,7 +3158,63 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerConfigsService/DeleteGameServerConfig&quot;</span>,
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/DeleteGameServerCluster&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Previews deletion of a single game server cluster.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">preview_delete_game_server_cluster</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewDeleteGameServerClusterRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewDeleteGameServerClusterResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+        {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/PreviewDeleteGameServerCluster&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Patches a single game server cluster.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_game_server_cluster</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateGameServerClusterRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/UpdateGameServerCluster&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Previews updating a GameServerCluster.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">preview_update_game_server_cluster</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewUpdateGameServerClusterRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewUpdateGameServerClusterResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+        {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/PreviewUpdateGameServerCluster&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
@@ -3454,16 +3526,15 @@
     }
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">game_server_clusters_service_client</span> {
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">game_server_configs_service_client</span> {
     <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
     <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The game server cluster maps to Kubernetes clusters running Agones and is&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; used to manage fleets within clusters.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The game server config configures the game servers in an Agones fleet.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GameServerClustersServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GameServerConfigsServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">GameServerClustersServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">GameServerConfigsServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
         <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
@@ -3477,7 +3548,7 @@
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
             <span class="ident">inner</span>: <span class="ident">T</span>,
             <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">GameServerClustersServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        ) -&gt; <span class="ident">GameServerConfigsServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
         <span class="kw">where</span>
             <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
             <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
@@ -3489,7 +3560,7 @@
             <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
                 <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
         {
-            <span class="ident">GameServerClustersServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+            <span class="ident">GameServerConfigsServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
@@ -3504,11 +3575,12 @@
             <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
             <span class="self">self</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists game server clusters in a given project and location.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_game_server_clusters</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists game server configs in a given project, location, and game server&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; deployment.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_game_server_configs</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListGameServerClustersRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListGameServerClustersResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListGameServerConfigsRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListGameServerConfigsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="ident">tonic::Status::new</span>(
                     <span class="ident">tonic::Code::Unknown</span>,
@@ -3517,15 +3589,15 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/ListGameServerClusters&quot;</span>,
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerConfigsService/ListGameServerConfigs&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Gets details of a single game server cluster.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_game_server_cluster</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Gets details of a single game server config.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_game_server_config</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetGameServerClusterRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GameServerCluster</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetGameServerConfigRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GameServerConfig</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="ident">tonic::Status::new</span>(
                     <span class="ident">tonic::Code::Unknown</span>,
@@ -3534,14 +3606,16 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/GetGameServerCluster&quot;</span>,
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerConfigsService/GetGameServerConfig&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a new game server cluster in a given project and location.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_game_server_cluster</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a new game server config in a given project, location, and game&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; server deployment. Game server configs are immutable, and are not applied&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; until referenced in the game server deployment rollout resource.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_game_server_config</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateGameServerClusterRequest</span><span class="op">&gt;</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateGameServerConfigRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
             <span class="ident">tonic::Status</span>,
@@ -3554,33 +3628,15 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/CreateGameServerCluster&quot;</span>,
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerConfigsService/CreateGameServerConfig&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Previews creation of a new game server cluster in a given project and&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; location.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">preview_create_game_server_cluster</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes a single game server config. The deletion will fail if the game&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; server config is referenced in a game server deployment rollout.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_game_server_config</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewCreateGameServerClusterRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewCreateGameServerClusterResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
-        {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/PreviewCreateGameServerCluster&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes a single game server cluster.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_game_server_cluster</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteGameServerClusterRequest</span><span class="op">&gt;</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteGameServerConfigRequest</span><span class="op">&gt;</span>,
         ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
             <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
             <span class="ident">tonic::Status</span>,
@@ -3593,63 +3649,7 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/DeleteGameServerCluster&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Previews deletion of a single game server cluster.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">preview_delete_game_server_cluster</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewDeleteGameServerClusterRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewDeleteGameServerClusterResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
-        {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/PreviewDeleteGameServerCluster&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Patches a single game server cluster.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_game_server_cluster</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateGameServerClusterRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/UpdateGameServerCluster&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Previews updating a GameServerCluster.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">preview_update_game_server_cluster</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewUpdateGameServerClusterRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PreviewUpdateGameServerClusterResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
-        {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.gaming.v1.GameServerClustersService/PreviewUpdateGameServerCluster&quot;</span>,
+                <span class="string">&quot;/google.cloud.gaming.v1.GameServerConfigsService/DeleteGameServerConfig&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }

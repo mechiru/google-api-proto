@@ -1501,7 +1501,43 @@
 <span id="1500">1500</span>
 <span id="1501">1501</span>
 <span id="1502">1502</span>
-</pre><pre class="rust"><code><span class="doccomment">/// The type of a variable, e.g., a function argument.</span>
+</pre><pre class="rust"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableReference</span> {
+    <span class="doccomment">/// Required. The ID of the project containing this table.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The ID of the dataset containing this table.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The ID of the table. The ID must contain only</span>
+    <span class="doccomment">/// letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum</span>
+    <span class="doccomment">/// length is 1,024 characters.  Certain operations allow</span>
+    <span class="doccomment">/// suffixing of the table ID with a partition decorator, such as</span>
+    <span class="doccomment">/// `sample_table$20190123`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">table_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The alternative field that will be used when ESF is not able to translate</span>
+    <span class="doccomment">/// the received data to the project_id field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project_id_alternative</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The alternative field that will be used when ESF is not able to translate</span>
+    <span class="doccomment">/// the received data to the project_id field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset_id_alternative</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The alternative field that will be used when ESF is not able to translate</span>
+    <span class="doccomment">/// the received data to the project_id field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">table_id_alternative</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EncryptionConfiguration</span> {
+    <span class="doccomment">/// Optional. Describes the Cloud KMS encryption key that will be used to</span>
+    <span class="doccomment">/// protect destination BigQuery table. The BigQuery Service Account associated</span>
+    <span class="doccomment">/// with your project requires access to this encryption key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kms_key_name</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The type of a variable, e.g., a function argument.</span>
 <span class="doccomment">/// Examples:</span>
 <span class="doccomment">/// INT64: {type_kind=&quot;INT64&quot;}</span>
 <span class="doccomment">/// ARRAY&lt;STRING&gt;: {type_kind=&quot;ARRAY&quot;, array_element_type=&quot;STRING&quot;}</span>
@@ -1596,14 +1632,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">columns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">StandardSqlField</span><span class="op">&gt;</span>,
 }
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EncryptionConfiguration</span> {
-    <span class="doccomment">/// Optional. Describes the Cloud KMS encryption key that will be used to</span>
-    <span class="doccomment">/// protect destination BigQuery table. The BigQuery Service Account associated</span>
-    <span class="doccomment">/// with your project requires access to this encryption key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kms_key_name</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
 <span class="doccomment">/// Id path of a model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModelReference</span> {
@@ -1618,34 +1646,6 @@
     <span class="doccomment">/// length is 1,024 characters.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">model_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableReference</span> {
-    <span class="doccomment">/// Required. The ID of the project containing this table.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The ID of the dataset containing this table.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The ID of the table. The ID must contain only</span>
-    <span class="doccomment">/// letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum</span>
-    <span class="doccomment">/// length is 1,024 characters.  Certain operations allow</span>
-    <span class="doccomment">/// suffixing of the table ID with a partition decorator, such as</span>
-    <span class="doccomment">/// `sample_table$20190123`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">table_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The alternative field that will be used when ESF is not able to translate</span>
-    <span class="doccomment">/// the received data to the project_id field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project_id_alternative</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The alternative field that will be used when ESF is not able to translate</span>
-    <span class="doccomment">/// the received data to the project_id field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset_id_alternative</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The alternative field that will be used when ESF is not able to translate</span>
-    <span class="doccomment">/// the received data to the project_id field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">table_id_alternative</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Model</span> {

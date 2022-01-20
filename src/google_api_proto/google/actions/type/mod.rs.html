@@ -96,48 +96,7 @@
 <span id="95">95</span>
 <span id="96">96</span>
 <span id="97">97</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Represents a date and time range. This can represent:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// * A range between points in time with time zone or offset, e.g. the duration</span>
-<span class="doccomment">///   of a flight which starts in the &quot;America/New_York&quot; time zone and ends in</span>
-<span class="doccomment">///   the &quot;Australia/Sydney&quot; time zone</span>
-<span class="doccomment">/// * A range between points in time without time zone/offset info, e.g. an</span>
-<span class="doccomment">///   appointment in local time</span>
-<span class="doccomment">/// * A range starting at a specific date and time, e.g. the range of time which</span>
-<span class="doccomment">///   can be measured in milliseconds since the Unix epoch (period starting with</span>
-<span class="doccomment">///   1970-01-01T00:00:00Z)</span>
-<span class="doccomment">/// * A range ending at a specific date and time, e.g. range of time before</span>
-<span class="doccomment">///   a deadline</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// When considering whether a DateTime falls within a DateTimeRange, the start</span>
-<span class="doccomment">/// of the range is inclusive and the end is exclusive.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// While \[google.type.DateTime][google.type.DateTime\] allows zero years, DateTimeRange does not.</span>
-<span class="doccomment">/// Year must always be non-zero.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// When both start and end are set, either both or neither must have a</span>
-<span class="doccomment">/// time_offset. When set, time_offset can be specified by either utc_offset or</span>
-<span class="doccomment">/// time_zone and must match for start and end, that is if start has utc_offset</span>
-<span class="doccomment">/// set then end must also have utc_offset set. The values of utc_offset or</span>
-<span class="doccomment">/// time_zone need not be the same for start and end.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// When both start and end are set, start must be chronologically less than or</span>
-<span class="doccomment">/// equal to end. When start and end are equal, the range is empty.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The semantics of start and end are the same as those of</span>
-<span class="doccomment">/// \[google.type.DateTime][google.type.DateTime\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DateTimeRange</span> {
-    <span class="doccomment">/// DateTime at which the date range begins. If unset, the range has no</span>
-    <span class="doccomment">/// beginning bound.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::DateTime</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// DateTime at which the date range ends. If unset, the range has no ending</span>
-    <span class="doccomment">/// bound.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::DateTime</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents a range based on whole or partial calendar dates, e.g. the</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Represents a range based on whole or partial calendar dates, e.g. the</span>
 <span class="doccomment">/// duration of a hotel reservation or the Common Era. This can represent:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// * A range between full dates, e.g. the duration of a hotel reservation</span>
@@ -192,6 +151,47 @@
     <span class="doccomment">/// bound.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Date</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Represents a date and time range. This can represent:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * A range between points in time with time zone or offset, e.g. the duration</span>
+<span class="doccomment">///   of a flight which starts in the &quot;America/New_York&quot; time zone and ends in</span>
+<span class="doccomment">///   the &quot;Australia/Sydney&quot; time zone</span>
+<span class="doccomment">/// * A range between points in time without time zone/offset info, e.g. an</span>
+<span class="doccomment">///   appointment in local time</span>
+<span class="doccomment">/// * A range starting at a specific date and time, e.g. the range of time which</span>
+<span class="doccomment">///   can be measured in milliseconds since the Unix epoch (period starting with</span>
+<span class="doccomment">///   1970-01-01T00:00:00Z)</span>
+<span class="doccomment">/// * A range ending at a specific date and time, e.g. range of time before</span>
+<span class="doccomment">///   a deadline</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// When considering whether a DateTime falls within a DateTimeRange, the start</span>
+<span class="doccomment">/// of the range is inclusive and the end is exclusive.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// While \[google.type.DateTime][google.type.DateTime\] allows zero years, DateTimeRange does not.</span>
+<span class="doccomment">/// Year must always be non-zero.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// When both start and end are set, either both or neither must have a</span>
+<span class="doccomment">/// time_offset. When set, time_offset can be specified by either utc_offset or</span>
+<span class="doccomment">/// time_zone and must match for start and end, that is if start has utc_offset</span>
+<span class="doccomment">/// set then end must also have utc_offset set. The values of utc_offset or</span>
+<span class="doccomment">/// time_zone need not be the same for start and end.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// When both start and end are set, start must be chronologically less than or</span>
+<span class="doccomment">/// equal to end. When start and end are equal, the range is empty.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The semantics of start and end are the same as those of</span>
+<span class="doccomment">/// \[google.type.DateTime][google.type.DateTime\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DateTimeRange</span> {
+    <span class="doccomment">/// DateTime at which the date range begins. If unset, the range has no</span>
+    <span class="doccomment">/// beginning bound.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::DateTime</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// DateTime at which the date range ends. If unset, the range has no ending</span>
+    <span class="doccomment">/// bound.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::DateTime</span><span class="op">&gt;</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../search-index.js" data-search-js="../../../../../search.js"></div>

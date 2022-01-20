@@ -1249,348 +1249,7 @@
 <span id="1248">1248</span>
 <span id="1249">1249</span>
 <span id="1250">1250</span>
-</pre><pre class="rust"><code><span class="doccomment">/// The request message used for the Echo, Collect and Chat methods.</span>
-<span class="doccomment">/// If content or opt are set in this message then the request will succeed.</span>
-<span class="doccomment">/// If status is set in this message then the status will be returned as an</span>
-<span class="doccomment">/// error.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EchoRequest</span> {
-    <span class="doccomment">/// The severity to be echoed by the server.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The response contents.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;echo_request::Response&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">echo_request::Response</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `EchoRequest`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">echo_request</span> {
-    <span class="doccomment">/// The response contents.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Response</span> {
-        <span class="doccomment">/// The content to be echoed by the server.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">Content</span>(<span class="ident">::prost::alloc::string::String</span>),
-        <span class="doccomment">/// The error to be thrown by the server.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Error</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span>),
-    }
-}
-<span class="doccomment">/// The response message for the Echo methods.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EchoResponse</span> {
-    <span class="doccomment">/// The content specified in the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The severity specified in the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// The request message for the Expand method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExpandRequest</span> {
-    <span class="doccomment">/// The content that will be split into words and returned on the stream.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The error that is thrown after all words are sent on the stream.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The request for the PagedExpand method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PagedExpandRequest</span> {
-    <span class="doccomment">/// Required. The string to expand.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The amount of words to returned in each page.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The position of the page to be returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The response for the PagedExpand method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PagedExpandResponse</span> {
-    <span class="doccomment">/// The words that were expanded.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">responses</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">EchoResponse</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The next page token.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The request for Wait method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WaitRequest</span> {
-    <span class="doccomment">/// The ending time or duration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;wait_request::End&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">wait_request::End</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;wait_request::Response&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">wait_request::Response</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `WaitRequest`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">wait_request</span> {
-    <span class="doccomment">/// The ending time or duration.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">End</span> {
-        <span class="doccomment">/// The time that this operation will complete.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">EndTime</span>(<span class="ident">::prost_types::Timestamp</span>),
-        <span class="doccomment">/// The duration of this operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">Ttl</span>(<span class="ident">::prost_types::Duration</span>),
-    }
-    <span class="doccomment">/// The response.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Response</span> {
-        <span class="doccomment">/// The error that will be returned by the server. If this code is specified</span>
-        <span class="doccomment">/// to be the OK rpc code, an empty response will be returned.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Error</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span>),
-        <span class="doccomment">/// The response to be returned on operation completion.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">Success</span>(<span class="ident"><span class="kw">super</span>::WaitResponse</span>),
-    }
-}
-<span class="doccomment">/// The result of the Wait operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WaitResponse</span> {
-    <span class="doccomment">/// This content of the result.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The request for Block method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BlockRequest</span> {
-    <span class="doccomment">/// The amount of time to block before returning a response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response_delay</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;block_request::Response&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">block_request::Response</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `BlockRequest`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">block_request</span> {
-    <span class="doccomment">/// The response.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Response</span> {
-        <span class="doccomment">/// The error that will be returned by the server. If this code is specified</span>
-        <span class="doccomment">/// to be the OK rpc code, an empty response will be returned.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Error</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span>),
-        <span class="doccomment">/// The response to be returned that will signify successful method call.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">Success</span>(<span class="ident"><span class="kw">super</span>::BlockResponse</span>),
-    }
-}
-<span class="doccomment">/// The response for Block method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BlockResponse</span> {
-    <span class="doccomment">/// This content can contain anything, the server will not depend on a value</span>
-    <span class="doccomment">/// here.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A severity enum used to test enum capabilities in GAPIC surfaces.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Severity</span> {
-    <span class="doccomment">/// The severity is unnecessary.</span>
-    <span class="ident">Unnecessary</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// The severity is necessary.</span>
-    <span class="ident">Necessary</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Urgent.</span>
-    <span class="ident">Urgent</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Critical.</span>
-    <span class="ident">Critical</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">echo_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This service is used showcase the four main types of rpcs - unary, server&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; side streaming, client side streaming, and bidirectional streaming. This&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; service also exposes methods that explicitly implement server delay, and&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; paginated calls. Set the &#39;showcase-trailer&#39; metadata key on any method&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; to have the values echoed in the response trailers.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EchoClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">EchoClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">inner</span>: <span class="ident">T</span>, <span class="ident">interceptor</span>: <span class="ident">F</span>) -&gt; <span class="ident">EchoClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">EchoClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method simply echoes the request. This method showcases unary RPCs.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">echo</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
-                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Echo&quot;</span>);
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method splits the given content into words and will pass each word&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; back through the stream. This method showcases server-side streaming RPCs.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">expand</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ExpandRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident">tonic::codec::Streaming</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoResponse</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
-        {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
-                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Expand&quot;</span>);
-            <span class="self">self</span>.<span class="ident">inner</span>
-                .<span class="ident">server_streaming</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>)
-                .<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method will collect the words given to it. When the stream is closed&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; by the client, this method will return the a concatenation of the strings&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; passed to it. This method showcases client-side streaming RPCs.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">collect</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoStreamingRequest</span><span class="op">&lt;</span><span class="ident">Message</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::EchoRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
-                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Collect&quot;</span>);
-            <span class="self">self</span>.<span class="ident">inner</span>
-                .<span class="ident">client_streaming</span>(<span class="ident">request</span>.<span class="ident">into_streaming_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>)
-                .<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method, upon receiving a request on the stream, will pass the same&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; content back on the stream. This method showcases bidirectional&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; streaming RPCs.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">chat</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoStreamingRequest</span><span class="op">&lt;</span><span class="ident">Message</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::EchoRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident">tonic::codec::Streaming</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoResponse</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
-        {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
-                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Chat&quot;</span>);
-            <span class="self">self</span>.<span class="ident">inner</span>
-                .<span class="ident">streaming</span>(<span class="ident">request</span>.<span class="ident">into_streaming_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>)
-                .<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This is similar to the Expand method but instead of returning a stream of&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; expanded words, this method returns a paged list of expanded words.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">paged_expand</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PagedExpandRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PagedExpandResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.example.showcase.v1.Echo/PagedExpand&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method will wait for the requested amount of time and then return.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method showcases how a client handles a request timeout.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">wait</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::WaitRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
-                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Wait&quot;</span>);
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method will block (wait) for the requested amount of time&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; and then return the response or error.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method showcases how a client handles delays or retries.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">block</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::BlockRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::BlockResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
-                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Block&quot;</span>);
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Sequence</span> {
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -2495,6 +2154,347 @@
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.example.showcase.v1.Compliance/RepeatDataPathTrailingResource&quot;</span>,
             );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+    }
+}
+<span class="doccomment">/// The request message used for the Echo, Collect and Chat methods.</span>
+<span class="doccomment">/// If content or opt are set in this message then the request will succeed.</span>
+<span class="doccomment">/// If status is set in this message then the status will be returned as an</span>
+<span class="doccomment">/// error.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EchoRequest</span> {
+    <span class="doccomment">/// The severity to be echoed by the server.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The response contents.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;echo_request::Response&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">echo_request::Response</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `EchoRequest`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">echo_request</span> {
+    <span class="doccomment">/// The response contents.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Response</span> {
+        <span class="doccomment">/// The content to be echoed by the server.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Content</span>(<span class="ident">::prost::alloc::string::String</span>),
+        <span class="doccomment">/// The error to be thrown by the server.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Error</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span>),
+    }
+}
+<span class="doccomment">/// The response message for the Echo methods.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EchoResponse</span> {
+    <span class="doccomment">/// The content specified in the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The severity specified in the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// The request message for the Expand method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExpandRequest</span> {
+    <span class="doccomment">/// The content that will be split into words and returned on the stream.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The error that is thrown after all words are sent on the stream.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The request for the PagedExpand method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PagedExpandRequest</span> {
+    <span class="doccomment">/// Required. The string to expand.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The amount of words to returned in each page.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The position of the page to be returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The response for the PagedExpand method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PagedExpandResponse</span> {
+    <span class="doccomment">/// The words that were expanded.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">responses</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">EchoResponse</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The next page token.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The request for Wait method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WaitRequest</span> {
+    <span class="doccomment">/// The ending time or duration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;wait_request::End&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">wait_request::End</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;wait_request::Response&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">wait_request::Response</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `WaitRequest`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">wait_request</span> {
+    <span class="doccomment">/// The ending time or duration.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">End</span> {
+        <span class="doccomment">/// The time that this operation will complete.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">EndTime</span>(<span class="ident">::prost_types::Timestamp</span>),
+        <span class="doccomment">/// The duration of this operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Ttl</span>(<span class="ident">::prost_types::Duration</span>),
+    }
+    <span class="doccomment">/// The response.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Response</span> {
+        <span class="doccomment">/// The error that will be returned by the server. If this code is specified</span>
+        <span class="doccomment">/// to be the OK rpc code, an empty response will be returned.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Error</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span>),
+        <span class="doccomment">/// The response to be returned on operation completion.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">Success</span>(<span class="ident"><span class="kw">super</span>::WaitResponse</span>),
+    }
+}
+<span class="doccomment">/// The result of the Wait operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WaitResponse</span> {
+    <span class="doccomment">/// This content of the result.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The request for Block method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BlockRequest</span> {
+    <span class="doccomment">/// The amount of time to block before returning a response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response_delay</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;block_request::Response&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">block_request::Response</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `BlockRequest`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">block_request</span> {
+    <span class="doccomment">/// The response.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Response</span> {
+        <span class="doccomment">/// The error that will be returned by the server. If this code is specified</span>
+        <span class="doccomment">/// to be the OK rpc code, an empty response will be returned.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Error</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span>),
+        <span class="doccomment">/// The response to be returned that will signify successful method call.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">Success</span>(<span class="ident"><span class="kw">super</span>::BlockResponse</span>),
+    }
+}
+<span class="doccomment">/// The response for Block method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BlockResponse</span> {
+    <span class="doccomment">/// This content can contain anything, the server will not depend on a value</span>
+    <span class="doccomment">/// here.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A severity enum used to test enum capabilities in GAPIC surfaces.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Severity</span> {
+    <span class="doccomment">/// The severity is unnecessary.</span>
+    <span class="ident">Unnecessary</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// The severity is necessary.</span>
+    <span class="ident">Necessary</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Urgent.</span>
+    <span class="ident">Urgent</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Critical.</span>
+    <span class="ident">Critical</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">echo_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This service is used showcase the four main types of rpcs - unary, server&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; side streaming, client side streaming, and bidirectional streaming. This&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; service also exposes methods that explicitly implement server delay, and&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; paginated calls. Set the &#39;showcase-trailer&#39; metadata key on any method&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; to have the values echoed in the response trailers.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EchoClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">EchoClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">inner</span>: <span class="ident">T</span>, <span class="ident">interceptor</span>: <span class="ident">F</span>) -&gt; <span class="ident">EchoClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">EchoClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method simply echoes the request. This method showcases unary RPCs.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">echo</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
+                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Echo&quot;</span>);
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method splits the given content into words and will pass each word&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; back through the stream. This method showcases server-side streaming RPCs.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">expand</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ExpandRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident">tonic::codec::Streaming</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoResponse</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+        {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
+                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Expand&quot;</span>);
+            <span class="self">self</span>.<span class="ident">inner</span>
+                .<span class="ident">server_streaming</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>)
+                .<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method will collect the words given to it. When the stream is closed&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; by the client, this method will return the a concatenation of the strings&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; passed to it. This method showcases client-side streaming RPCs.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">collect</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoStreamingRequest</span><span class="op">&lt;</span><span class="ident">Message</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::EchoRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
+                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Collect&quot;</span>);
+            <span class="self">self</span>.<span class="ident">inner</span>
+                .<span class="ident">client_streaming</span>(<span class="ident">request</span>.<span class="ident">into_streaming_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>)
+                .<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method, upon receiving a request on the stream, will pass the same&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; content back on the stream. This method showcases bidirectional&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; streaming RPCs.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">chat</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoStreamingRequest</span><span class="op">&lt;</span><span class="ident">Message</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::EchoRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident">tonic::codec::Streaming</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EchoResponse</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+        {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
+                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Chat&quot;</span>);
+            <span class="self">self</span>.<span class="ident">inner</span>
+                .<span class="ident">streaming</span>(<span class="ident">request</span>.<span class="ident">into_streaming_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>)
+                .<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This is similar to the Expand method but instead of returning a stream of&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; expanded words, this method returns a paged list of expanded words.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">paged_expand</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PagedExpandRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PagedExpandResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.example.showcase.v1.Echo/PagedExpand&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method will wait for the requested amount of time and then return.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method showcases how a client handles a request timeout.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">wait</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::WaitRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
+                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Wait&quot;</span>);
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method will block (wait) for the requested amount of time&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; and then return the response or error.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method showcases how a client handles delays or retries.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">block</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::BlockRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::BlockResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
+                <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.example.showcase.v1.Echo/Block&quot;</span>);
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }

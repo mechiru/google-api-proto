@@ -277,81 +277,7 @@
 <span id="276">276</span>
 <span id="277">277</span>
 <span id="278">278</span>
-</pre><pre class="rust"><code><span class="doccomment">/// DockerImage represents a docker artifact.</span>
-<span class="doccomment">/// The following fields are returned as untyped metadata in the Version</span>
-<span class="doccomment">/// resource, using camelcase keys (i.e. metadata.imageSizeBytes):</span>
-<span class="doccomment">/// * imageSizeBytes</span>
-<span class="doccomment">/// * mediaType</span>
-<span class="doccomment">/// * buildTime</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DockerImage</span> {
-    <span class="doccomment">/// Required. registry_location, project_id, repository_name and image id forms a unique</span>
-    <span class="doccomment">/// image</span>
-    <span class="doccomment">/// name:`projects/&lt;project_id&gt;/locations/&lt;location&gt;/repository/&lt;repository_name&gt;/dockerImages/&lt;docker_image&gt;`.</span>
-    <span class="doccomment">/// For example,</span>
-    <span class="doccomment">/// &quot;projects/test-project/locations/us-west4/repositories/test-repo/dockerImages/</span>
-    <span class="doccomment">/// nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf&quot;,</span>
-    <span class="doccomment">/// where &quot;us-west4&quot; is the registry_location, &quot;test-project&quot; is the</span>
-    <span class="doccomment">/// project_id, &quot;test-repo&quot; is the repository_name and</span>
-    <span class="doccomment">/// &quot;nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf&quot;</span>
-    <span class="doccomment">/// is the image&#39;s digest.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. URL to access the image.</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// us-west4-docker.pkg.dev/test-project/test-repo/nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Tags attached to this image.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">tags</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Calculated size of the image.</span>
-    <span class="doccomment">/// This field is returned as the &#39;metadata.imageSizeBytes&#39; field in the</span>
-    <span class="doccomment">/// Version resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">image_size_bytes</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Time the image was uploaded.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">upload_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Media type of this image, e.g.</span>
-    <span class="doccomment">/// &quot;application/vnd.docker.distribution.manifest.v2+json&quot;.</span>
-    <span class="doccomment">/// This field is returned as the &#39;metadata.mediaType&#39; field in the</span>
-    <span class="doccomment">/// Version resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">media_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The time this image was built.</span>
-    <span class="doccomment">/// This field is returned as the &#39;metadata.buildTime&#39; field in the</span>
-    <span class="doccomment">/// Version resource.</span>
-    <span class="doccomment">/// The build time is returned to the client as an RFC 3339 string, which can</span>
-    <span class="doccomment">/// be easily used with the JavaScript Date constructor.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">build_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The request to list docker images.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListDockerImagesRequest</span> {
-    <span class="doccomment">/// Required. The name of the parent resource whose docker images will be listed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of artifacts to return.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The next_page_token value returned from a previous list request, if any.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The response from listing docker images.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListDockerImagesResponse</span> {
-    <span class="doccomment">/// The docker images returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">docker_images</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DockerImage</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The token to retrieve the next page of artifacts, or empty if there are no</span>
-    <span class="doccomment">/// more artifacts to return.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A Repository for storing artifacts with a specific format.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A Repository for storing artifacts with a specific format.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Repository</span> {
     <span class="doccomment">/// The name of the repository, for example:</span>
@@ -439,6 +365,80 @@
     <span class="doccomment">/// Required. The name of the repository to retrieve.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// DockerImage represents a docker artifact.</span>
+<span class="doccomment">/// The following fields are returned as untyped metadata in the Version</span>
+<span class="doccomment">/// resource, using camelcase keys (i.e. metadata.imageSizeBytes):</span>
+<span class="doccomment">/// * imageSizeBytes</span>
+<span class="doccomment">/// * mediaType</span>
+<span class="doccomment">/// * buildTime</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DockerImage</span> {
+    <span class="doccomment">/// Required. registry_location, project_id, repository_name and image id forms a unique</span>
+    <span class="doccomment">/// image</span>
+    <span class="doccomment">/// name:`projects/&lt;project_id&gt;/locations/&lt;location&gt;/repository/&lt;repository_name&gt;/dockerImages/&lt;docker_image&gt;`.</span>
+    <span class="doccomment">/// For example,</span>
+    <span class="doccomment">/// &quot;projects/test-project/locations/us-west4/repositories/test-repo/dockerImages/</span>
+    <span class="doccomment">/// nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf&quot;,</span>
+    <span class="doccomment">/// where &quot;us-west4&quot; is the registry_location, &quot;test-project&quot; is the</span>
+    <span class="doccomment">/// project_id, &quot;test-repo&quot; is the repository_name and</span>
+    <span class="doccomment">/// &quot;nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf&quot;</span>
+    <span class="doccomment">/// is the image&#39;s digest.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. URL to access the image.</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// us-west4-docker.pkg.dev/test-project/test-repo/nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Tags attached to this image.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">tags</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Calculated size of the image.</span>
+    <span class="doccomment">/// This field is returned as the &#39;metadata.imageSizeBytes&#39; field in the</span>
+    <span class="doccomment">/// Version resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">image_size_bytes</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Time the image was uploaded.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">upload_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Media type of this image, e.g.</span>
+    <span class="doccomment">/// &quot;application/vnd.docker.distribution.manifest.v2+json&quot;.</span>
+    <span class="doccomment">/// This field is returned as the &#39;metadata.mediaType&#39; field in the</span>
+    <span class="doccomment">/// Version resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">media_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The time this image was built.</span>
+    <span class="doccomment">/// This field is returned as the &#39;metadata.buildTime&#39; field in the</span>
+    <span class="doccomment">/// Version resource.</span>
+    <span class="doccomment">/// The build time is returned to the client as an RFC 3339 string, which can</span>
+    <span class="doccomment">/// be easily used with the JavaScript Date constructor.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">build_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The request to list docker images.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListDockerImagesRequest</span> {
+    <span class="doccomment">/// Required. The name of the parent resource whose docker images will be listed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of artifacts to return.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The next_page_token value returned from a previous list request, if any.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The response from listing docker images.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListDockerImagesResponse</span> {
+    <span class="doccomment">/// The docker images returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">docker_images</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DockerImage</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The token to retrieve the next page of artifacts, or empty if there are no</span>
+    <span class="doccomment">/// more artifacts to return.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">artifact_registry_client</span> {

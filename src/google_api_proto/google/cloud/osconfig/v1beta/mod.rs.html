@@ -1972,7 +1972,806 @@
 <span id="1971">1971</span>
 <span id="1972">1972</span>
 <span id="1973">1973</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A request message to initiate patching across Google Compute Engine</span>
+</pre><pre class="rust"><code><span class="doccomment">/// An OS Config resource representing a guest configuration policy. These</span>
+<span class="doccomment">/// policies represent the desired state for VM instance guest environments</span>
+<span class="doccomment">/// including packages to install or remove, package repository configurations,</span>
+<span class="doccomment">/// and software to install.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GuestPolicy</span> {
+    <span class="doccomment">/// Required. Unique name of the resource in this project using one of the following</span>
+    <span class="doccomment">/// forms:</span>
+    <span class="doccomment">/// `projects/{project_number}/guestPolicies/{guest_policy_id}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Description of the guest policy. Length of the description is limited</span>
+    <span class="doccomment">/// to 1024 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Time this guest policy was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Last time this guest policy was updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Specifies the VM instances that are assigned to this policy. This allows</span>
+    <span class="doccomment">/// you to target sets or groups of VM instances by different parameters such</span>
+    <span class="doccomment">/// as labels, names, OS, or zones.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If left empty, all VM instances underneath this policy are targeted.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// At the same level in the resource hierarchy (that is within a project), the</span>
+    <span class="doccomment">/// service prevents the creation of multiple policies that conflict with</span>
+    <span class="doccomment">/// each other. For more information, see how the service [handles assignment</span>
+    <span class="doccomment">/// conflicts](/compute/docs/os-config-management/create-guest-policy#handle-conflicts).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">assignment</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Assignment</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The software packages to be managed by this policy.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Package</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A list of package repositories to configure on the VM instance. This is</span>
+    <span class="doccomment">/// done before any other configs are applied so they can use these repos.</span>
+    <span class="doccomment">/// Package repositories are only configured if the corresponding package</span>
+    <span class="doccomment">/// manager(s) are available.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">package_repositories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PackageRepository</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A list of Recipes to install on the VM instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">recipes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">SoftwareRecipe</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The etag for this guest policy.</span>
+    <span class="doccomment">/// If this is provided on update, it must match the server&#39;s etag.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// An assignment represents the group or groups of VM instances that the policy</span>
+<span class="doccomment">/// applies to.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If an assignment is empty, it applies to all VM instances. Otherwise, the</span>
+<span class="doccomment">/// targeted VM instances must meet all the criteria specified. So if both</span>
+<span class="doccomment">/// labels and zones are specified, the policy applies to VM instances with those</span>
+<span class="doccomment">/// labels and in those zones.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Assignment</span> {
+    <span class="doccomment">/// Targets instances matching at least one of these label sets. This allows</span>
+    <span class="doccomment">/// an assignment to target disparate groups, for example &quot;env=prod or</span>
+    <span class="doccomment">/// env=staging&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">group_labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">assignment::GroupLabel</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Targets instances in any of these zones. Leave empty to target instances</span>
+    <span class="doccomment">/// in any zone.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Zonal targeting is uncommon and is supported to facilitate the management</span>
+    <span class="doccomment">/// of changes by zone.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">zones</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Targets any of the instances specified. Instances are specified by their</span>
+    <span class="doccomment">/// URI in the form `zones/\[ZONE]/instances/[INSTANCE_NAME\]`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Instance targeting is uncommon and is supported to facilitate the</span>
+    <span class="doccomment">/// management of changes by the instance or to target specific VM instances</span>
+    <span class="doccomment">/// for development and testing.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only supported for project-level policies and must reference instances</span>
+    <span class="doccomment">/// within this project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instances</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Targets VM instances whose name starts with one of these prefixes.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Like labels, this is another way to group VM instances when targeting</span>
+    <span class="doccomment">/// configs, for example prefix=&quot;prod-&quot;.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only supported for project-level policies.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance_name_prefixes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Targets VM instances matching at least one of the following OS types.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// VM instances must match all supplied criteria for a given OsType to be</span>
+    <span class="doccomment">/// included.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_types</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">assignment::OsType</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Assignment`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">assignment</span> {
+    <span class="doccomment">/// Represents a group of VM intances that can be identified as having all</span>
+    <span class="doccomment">/// these labels, for example &quot;env=prod and app=web&quot;.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GroupLabel</span> {
+        <span class="doccomment">/// Google Compute Engine instance labels that must be present for an</span>
+        <span class="doccomment">/// instance to be included in this assignment group.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+            <span class="ident">::prost::alloc::string::String</span>,
+            <span class="ident">::prost::alloc::string::String</span>,
+        <span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Defines the criteria for selecting VM Instances by OS type.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsType</span> {
+        <span class="doccomment">/// Targets VM instances with OS Inventory enabled and having the following</span>
+        <span class="doccomment">/// OS short name, for example &quot;debian&quot; or &quot;windows&quot;.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">os_short_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Targets VM instances with OS Inventory enabled and having the following</span>
+        <span class="doccomment">/// following OS version.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">os_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Targets VM instances with OS Inventory enabled and having the following</span>
+        <span class="doccomment">/// OS architecture.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">os_architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
+<span class="doccomment">/// Package is a reference to the software package to be installed or removed.</span>
+<span class="doccomment">/// The agent on the VM instance uses the system package manager to apply the</span>
+<span class="doccomment">/// config.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// These are the commands that the agent uses to install or remove</span>
+<span class="doccomment">/// packages.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Apt</span>
+<span class="doccomment">/// install: `apt-get update &amp;&amp; apt-get -y install package1 package2 package3`</span>
+<span class="doccomment">/// remove: `apt-get -y remove package1 package2 package3`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Yum</span>
+<span class="doccomment">/// install: `yum -y install package1 package2 package3`</span>
+<span class="doccomment">/// remove: `yum -y remove package1 package2 package3`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Zypper</span>
+<span class="doccomment">/// install: `zypper install package1 package2 package3`</span>
+<span class="doccomment">/// remove: `zypper rm package1 package2`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Googet</span>
+<span class="doccomment">/// install: `googet -noconfirm install package1 package2 package3`</span>
+<span class="doccomment">/// remove: `googet -noconfirm remove package1 package2 package3`</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Package</span> {
+    <span class="doccomment">/// Required. The name of the package. A package is uniquely identified for conflict</span>
+    <span class="doccomment">/// validation by checking the package name and the manager(s) that the</span>
+    <span class="doccomment">/// package targets.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The desired_state the agent should maintain for this package. The</span>
+    <span class="doccomment">/// default is to ensure the package is installed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DesiredState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">desired_state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Type of package manager that can be used to install this package.</span>
+    <span class="doccomment">/// If a system does not have the package manager, the package is not</span>
+    <span class="doccomment">/// installed or removed no error message is returned. By default,</span>
+    <span class="doccomment">/// or if you specify `ANY`,</span>
+    <span class="doccomment">/// the agent attempts to install and remove this package using the default</span>
+    <span class="doccomment">/// package manager. This is useful when creating a policy that applies to</span>
+    <span class="doccomment">/// different types of systems.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The default behavior is ANY.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;package::Manager&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">manager</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Package`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">package</span> {
+    <span class="doccomment">/// Types of package managers that may be used to manage this package.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Manager</span> {
+        <span class="doccomment">/// The default behavior is ANY.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Apply this package config using the default system package manager.</span>
+        <span class="ident">Any</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Apply this package config only if Apt is available on the system.</span>
+        <span class="ident">Apt</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Apply this package config only if Yum is available on the system.</span>
+        <span class="ident">Yum</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Apply this package config only if Zypper is available on the system.</span>
+        <span class="ident">Zypper</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// Apply this package config only if GooGet is available on the system.</span>
+        <span class="ident">Goo</span> <span class="op">=</span> <span class="number">5</span>,
+    }
+}
+<span class="doccomment">/// Represents a single Apt package repository. This repository is added to</span>
+<span class="doccomment">/// a repo file that is stored at</span>
+<span class="doccomment">/// `/etc/apt/sources.list.d/google_osconfig.list`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AptRepository</span> {
+    <span class="doccomment">/// Type of archive files in this repository. The default behavior is DEB.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;apt_repository::ArchiveType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">archive_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Required. URI for this repository.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Distribution of this repository.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">distribution</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. List of components for this repository. Must contain at least one item.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">components</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// URI of the key file for this repository. The agent maintains</span>
+    <span class="doccomment">/// a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg` containing</span>
+    <span class="doccomment">/// all the keys in any applied guest policy.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gpg_key</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AptRepository`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">apt_repository</span> {
+    <span class="doccomment">/// Type of archive.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ArchiveType</span> {
+        <span class="doccomment">/// Unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// DEB indicates that the archive contains binary files.</span>
+        <span class="ident">Deb</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// DEB_SRC indicates that the archive contains source files.</span>
+        <span class="ident">DebSrc</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Represents a single Yum package repository. This repository is added to a</span>
+<span class="doccomment">/// repo file that is stored at `/etc/yum.repos.d/google_osconfig.repo`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">YumRepository</span> {
+    <span class="doccomment">/// Required. A one word, unique name for this repository. This is</span>
+    <span class="doccomment">/// the `repo id` in the Yum config file and also the `display_name` if</span>
+    <span class="doccomment">/// `display_name` is omitted. This id is also used as the unique identifier</span>
+    <span class="doccomment">/// when checking for guest policy conflicts.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The display name of the repository.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The location of the repository directory.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">base_url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// URIs of GPG keys.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gpg_keys</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Represents a single Zypper package repository. This repository is added to a</span>
+<span class="doccomment">/// repo file that is stored at `/etc/zypp/repos.d/google_osconfig.repo`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZypperRepository</span> {
+    <span class="doccomment">/// Required. A one word, unique name for this repository. This is</span>
+    <span class="doccomment">/// the `repo id` in the zypper config file and also the `display_name` if</span>
+    <span class="doccomment">/// `display_name` is omitted. This id is also used as the unique identifier</span>
+    <span class="doccomment">/// when checking for guest policy conflicts.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The display name of the repository.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The location of the repository directory.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">base_url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// URIs of GPG keys.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gpg_keys</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Represents a Goo package repository. These is added to a repo file</span>
+<span class="doccomment">/// that is stored at C:/ProgramData/GooGet/repos/google_osconfig.repo.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GooRepository</span> {
+    <span class="doccomment">/// Required. The name of the repository.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The url of the repository.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A package repository.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageRepository</span> {
+    <span class="doccomment">/// A specific type of repository.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;package_repository::Repository&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">repository</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">package_repository::Repository</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PackageRepository`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">package_repository</span> {
+    <span class="doccomment">/// A specific type of repository.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Repository</span> {
+        <span class="doccomment">/// An Apt Repository.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Apt</span>(<span class="ident"><span class="kw">super</span>::AptRepository</span>),
+        <span class="doccomment">/// A Yum Repository.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Yum</span>(<span class="ident"><span class="kw">super</span>::YumRepository</span>),
+        <span class="doccomment">/// A Zypper Repository.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">Zypper</span>(<span class="ident"><span class="kw">super</span>::ZypperRepository</span>),
+        <span class="doccomment">/// A Goo Repository.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Goo</span>(<span class="ident"><span class="kw">super</span>::GooRepository</span>),
+    }
+}
+<span class="doccomment">/// A software recipe is a set of instructions for installing and configuring a</span>
+<span class="doccomment">/// piece of software. It consists of a set of artifacts that are</span>
+<span class="doccomment">/// downloaded, and a set of steps that install, configure, and/or update the</span>
+<span class="doccomment">/// software.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Recipes support installing and updating software from artifacts in the</span>
+<span class="doccomment">/// following formats:</span>
+<span class="doccomment">/// Zip archive, Tar archive, Windows MSI, Debian package, and RPM package.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Additionally, recipes support executing a script (either defined in a file or</span>
+<span class="doccomment">/// directly in this api) in bash, sh, cmd, and powershell.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Updating a software recipe</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If a recipe is assigned to an instance and there is a recipe with the same</span>
+<span class="doccomment">/// name but a lower version already installed and the assigned state</span>
+<span class="doccomment">/// of the recipe is `INSTALLED_KEEP_UPDATED`, then the recipe is updated to</span>
+<span class="doccomment">/// the new version.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Script Working Directories</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Each script or execution step is run in its own temporary directory which</span>
+<span class="doccomment">/// is deleted after completing the step.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SoftwareRecipe</span> {
+    <span class="doccomment">/// Required. Unique identifier for the recipe. Only one recipe with a given name is</span>
+    <span class="doccomment">/// installed on an instance.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Names are also used to identify resources which helps to determine whether</span>
+    <span class="doccomment">/// guest policies have conflicts. This means that requests to create multiple</span>
+    <span class="doccomment">/// recipes with the same name and version are rejected since they</span>
+    <span class="doccomment">/// could potentially have conflicting assignments.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The version of this software recipe. Version can be up to 4 period</span>
+    <span class="doccomment">/// separated numbers (e.g. 12.34.56.78).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Resources available to be used in the steps in the recipe.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">artifacts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">software_recipe::Artifact</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Actions to be taken for installing this recipe. On failure it stops</span>
+    <span class="doccomment">/// executing steps and does not attempt another installation. Any steps taken</span>
+    <span class="doccomment">/// (including partially completed steps) are not rolled back.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">install_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">software_recipe::Step</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Actions to be taken for updating this recipe. On failure it stops</span>
+    <span class="doccomment">/// executing steps and  does not attempt another update for this recipe. Any</span>
+    <span class="doccomment">/// steps taken (including partially completed steps) are not rolled back.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">software_recipe::Step</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Default is INSTALLED. The desired state the agent should maintain for this</span>
+    <span class="doccomment">/// recipe.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// INSTALLED: The software recipe is installed on the instance but</span>
+    <span class="doccomment">///            won&#39;t be updated to new versions.</span>
+    <span class="doccomment">/// INSTALLED_KEEP_UPDATED: The software recipe is installed on the</span>
+    <span class="doccomment">///                         instance. The recipe is updated to a higher</span>
+    <span class="doccomment">///                         version, if a higher version of the recipe is</span>
+    <span class="doccomment">///                         assigned to this instance.</span>
+    <span class="doccomment">/// REMOVE: Remove is unsupported for software recipes and attempts to</span>
+    <span class="doccomment">///         create or update a recipe to the REMOVE state is rejected.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DesiredState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">desired_state</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `SoftwareRecipe`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">software_recipe</span> {
+    <span class="doccomment">/// Specifies a resource to be used in the recipe.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Artifact</span> {
+        <span class="doccomment">/// Required. Id of the artifact, which the installation and update steps of this</span>
+        <span class="doccomment">/// recipe can reference. Artifacts in a recipe cannot have the same id.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Defaults to false. When false, recipes are subject to validations</span>
+        <span class="doccomment">/// based on the artifact type:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Remote: A checksum must be specified, and only protocols with</span>
+        <span class="doccomment">/// transport-layer security are permitted.</span>
+        <span class="doccomment">/// GCS:    An object generation number must be specified.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">allow_insecure</span>: <span class="ident">bool</span>,
+        <span class="doccomment">/// A specific type of artifact.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;artifact::Artifact&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">artifact</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">artifact::Artifact</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Artifact`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">artifact</span> {
+        <span class="doccomment">/// Specifies an artifact available via some URI.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Remote</span> {
+            <span class="doccomment">/// URI from which to fetch the object. It should contain both the protocol</span>
+            <span class="doccomment">/// and path following the format {protocol}://{location}.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// Must be provided if `allow_insecure` is `false`.</span>
+            <span class="doccomment">/// SHA256 checksum in hex format, to compare to the checksum of the</span>
+            <span class="doccomment">/// artifact. If the checksum is not empty and it doesn&#39;t match the</span>
+            <span class="doccomment">/// artifact then the recipe installation fails before running any of the</span>
+            <span class="doccomment">/// steps.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">checksum</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+        <span class="doccomment">/// Specifies an artifact available as a Google Cloud Storage object.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Gcs</span> {
+            <span class="doccomment">/// Bucket of the Google Cloud Storage object.</span>
+            <span class="doccomment">/// Given an example URL:</span>
+            <span class="doccomment">/// `&lt;https://storage.googleapis.com/my-bucket/foo/bar#1234567`&gt;</span>
+            <span class="doccomment">/// this value would be `my-bucket`.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// Name of the Google Cloud Storage object.</span>
+            <span class="doccomment">/// As specified \[here\]</span>
+            <span class="doccomment">/// (&lt;https://cloud.google.com/storage/docs/naming#objectnames&gt;)</span>
+            <span class="doccomment">/// Given an example URL:</span>
+            <span class="doccomment">/// `&lt;https://storage.googleapis.com/my-bucket/foo/bar#1234567`&gt;</span>
+            <span class="doccomment">/// this value would be `foo/bar`.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">object</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// Must be provided if allow_insecure is false.</span>
+            <span class="doccomment">/// Generation number of the Google Cloud Storage object.</span>
+            <span class="doccomment">/// `&lt;https://storage.googleapis.com/my-bucket/foo/bar#1234567`&gt;</span>
+            <span class="doccomment">/// this value would be `1234567`.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">generation</span>: <span class="ident">i64</span>,
+        }
+        <span class="doccomment">/// A specific type of artifact.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Artifact</span> {
+            <span class="doccomment">/// A generic remote artifact.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">Remote</span>(<span class="ident">Remote</span>),
+            <span class="doccomment">/// A Google Cloud Storage artifact.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="ident">Gcs</span>(<span class="ident">Gcs</span>),
+        }
+    }
+    <span class="doccomment">/// An action that can be taken as part of installing or updating a recipe.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Step</span> {
+        <span class="doccomment">/// A specific type of step.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;step::Step&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">step</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">step::Step</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Step`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">step</span> {
+        <span class="doccomment">/// Copies the artifact to the specified path on the instance.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CopyFile</span> {
+            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// Required. The absolute path on the instance to put the file.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// Whether to allow this step to overwrite existing files. If this is</span>
+            <span class="doccomment">/// false and the file already exists the file is not overwritten</span>
+            <span class="doccomment">/// and the step is considered a success. Defaults to false.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">overwrite</span>: <span class="ident">bool</span>,
+            <span class="doccomment">/// Consists of three octal digits which represent, in</span>
+            <span class="doccomment">/// order, the permissions of the owner, group, and other users for the</span>
+            <span class="doccomment">/// file (similarly to the numeric mode used in the linux chmod utility).</span>
+            <span class="doccomment">/// Each digit represents a three bit number with the 4 bit</span>
+            <span class="doccomment">/// corresponding to the read permissions, the 2 bit corresponds to the</span>
+            <span class="doccomment">/// write bit, and the one bit corresponds to the execute permission.</span>
+            <span class="doccomment">/// Default behavior is 755.</span>
+            <span class="doccomment">///</span>
+            <span class="doccomment">/// Below are some examples of permissions and their associated values:</span>
+            <span class="doccomment">/// read, write, and execute: 7</span>
+            <span class="doccomment">/// read and execute: 5</span>
+            <span class="doccomment">/// read and write: 6</span>
+            <span class="doccomment">/// read only: 4</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">permissions</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+        <span class="doccomment">/// Extracts an archive of the type specified in the specified directory.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExtractArchive</span> {
+            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// Directory to extract archive to.</span>
+            <span class="doccomment">/// Defaults to `/` on Linux or `C:\` on Windows.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// Required. The type of the archive to extract.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;extract_archive::ArchiveType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+        }
+        <span class="doccomment">/// Nested message and enum types in `ExtractArchive`.</span>
+        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">extract_archive</span> {
+            <span class="doccomment">/// Specifying the type of archive.</span>
+            <span class="attribute">#[<span class="ident">derive</span>(
+                <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+            )]</span>
+            <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+            <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ArchiveType</span> {
+                <span class="doccomment">/// Indicates that the archive type isn&#39;t specified.</span>
+                <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+                <span class="doccomment">/// Indicates that the archive is a tar archive with no encryption.</span>
+                <span class="ident">Tar</span> <span class="op">=</span> <span class="number">1</span>,
+                <span class="doccomment">/// Indicates that the archive is a tar archive with gzip encryption.</span>
+                <span class="ident">TarGzip</span> <span class="op">=</span> <span class="number">2</span>,
+                <span class="doccomment">/// Indicates that the archive is a tar archive with bzip encryption.</span>
+                <span class="ident">TarBzip</span> <span class="op">=</span> <span class="number">3</span>,
+                <span class="doccomment">/// Indicates that the archive is a tar archive with lzma encryption.</span>
+                <span class="ident">TarLzma</span> <span class="op">=</span> <span class="number">4</span>,
+                <span class="doccomment">/// Indicates that the archive is a tar archive with xz encryption.</span>
+                <span class="ident">TarXz</span> <span class="op">=</span> <span class="number">5</span>,
+                <span class="doccomment">/// Indicates that the archive is a zip archive.</span>
+                <span class="ident">Zip</span> <span class="op">=</span> <span class="number">11</span>,
+            }
+        }
+        <span class="doccomment">/// Installs an MSI file.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstallMsi</span> {
+            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// The flags to use when installing the MSI</span>
+            <span class="doccomment">/// defaults to \[&quot;/i&quot;\] (i.e. the install flag).</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">flags</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+            <span class="doccomment">/// Return codes that indicate that the software installed or updated</span>
+            <span class="doccomment">/// successfully. Behaviour defaults to \[0\]</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">allowed_exit_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+        }
+        <span class="doccomment">/// Installs a deb via dpkg.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstallDpkg</span> {
+            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+        <span class="doccomment">/// Installs an rpm file via the rpm utility.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstallRpm</span> {
+            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+        <span class="doccomment">/// Executes an artifact or local file.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecFile</span> {
+            <span class="doccomment">/// Arguments to be passed to the provided executable.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">args</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+            <span class="doccomment">/// Defaults to \[0\]. A list of possible return values that the program</span>
+            <span class="doccomment">/// can return to indicate a success.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">allowed_exit_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+            <span class="doccomment">/// Location of the file to execute.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;exec_file::LocationType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">location_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">exec_file::LocationType</span><span class="op">&gt;</span>,
+        }
+        <span class="doccomment">/// Nested message and enum types in `ExecFile`.</span>
+        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exec_file</span> {
+            <span class="doccomment">/// Location of the file to execute.</span>
+            <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+            <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LocationType</span> {
+                <span class="doccomment">/// The id of the relevant artifact in the recipe.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+                <span class="ident">ArtifactId</span>(<span class="ident">::prost::alloc::string::String</span>),
+                <span class="doccomment">/// The absolute path of the file on the local filesystem.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+                <span class="ident">LocalPath</span>(<span class="ident">::prost::alloc::string::String</span>),
+            }
+        }
+        <span class="doccomment">/// Runs a script through an interpreter.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RunScript</span> {
+            <span class="doccomment">/// Required. The shell script to be executed.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">script</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// Return codes that indicate that the software installed or updated</span>
+            <span class="doccomment">/// successfully. Behaviour defaults to \[0\]</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">allowed_exit_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+            <span class="doccomment">/// The script interpreter to use to run the script. If no interpreter is</span>
+            <span class="doccomment">/// specified the script is executed directly, which likely</span>
+            <span class="doccomment">/// only succeed for scripts with</span>
+            <span class="doccomment">/// [shebang lines](&lt;https://en.wikipedia.org/wiki/Shebang_\(Unix\&gt;)).</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;run_script::Interpreter&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">interpreter</span>: <span class="ident">i32</span>,
+        }
+        <span class="doccomment">/// Nested message and enum types in `RunScript`.</span>
+        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">run_script</span> {
+            <span class="doccomment">/// The interpreter used to execute a script.</span>
+            <span class="attribute">#[<span class="ident">derive</span>(
+                <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+            )]</span>
+            <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+            <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Interpreter</span> {
+                <span class="doccomment">/// Default value for ScriptType.</span>
+                <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+                <span class="doccomment">/// Indicates that the script is run with `/bin/sh` on Linux and `cmd`</span>
+                <span class="doccomment">/// on windows.</span>
+                <span class="ident">Shell</span> <span class="op">=</span> <span class="number">1</span>,
+                <span class="doccomment">/// Indicates that the script is run with powershell.</span>
+                <span class="ident">Powershell</span> <span class="op">=</span> <span class="number">3</span>,
+            }
+        }
+        <span class="doccomment">/// A specific type of step.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Step</span> {
+            <span class="doccomment">/// Copies a file onto the instance.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="ident">FileCopy</span>(<span class="ident">CopyFile</span>),
+            <span class="doccomment">/// Extracts an archive into the specified directory.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">ArchiveExtraction</span>(<span class="ident">ExtractArchive</span>),
+            <span class="doccomment">/// Installs an MSI file.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="ident">MsiInstallation</span>(<span class="ident">InstallMsi</span>),
+            <span class="doccomment">/// Installs a deb file via dpkg.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+            <span class="ident">DpkgInstallation</span>(<span class="ident">InstallDpkg</span>),
+            <span class="doccomment">/// Installs an rpm file via the rpm utility.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+            <span class="ident">RpmInstallation</span>(<span class="ident">InstallRpm</span>),
+            <span class="doccomment">/// Executes an artifact or local file.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+            <span class="ident">FileExec</span>(<span class="ident">ExecFile</span>),
+            <span class="doccomment">/// Runs commands in a shell.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+            <span class="ident">ScriptRun</span>(<span class="ident">RunScript</span>),
+        }
+    }
+}
+<span class="doccomment">/// A request message for creating a guest policy.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateGuestPolicyRequest</span> {
+    <span class="doccomment">/// Required. The resource name of the parent using one of the following forms:</span>
+    <span class="doccomment">/// `projects/{project_number}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The logical name of the guest policy in the project</span>
+    <span class="doccomment">/// with the following restrictions:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Must contain only lowercase letters, numbers, and hyphens.</span>
+    <span class="doccomment">/// * Must start with a letter.</span>
+    <span class="doccomment">/// * Must be between 1-63 characters.</span>
+    <span class="doccomment">/// * Must end with a number or a letter.</span>
+    <span class="doccomment">/// * Must be unique within the project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">guest_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The GuestPolicy to create.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">guest_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GuestPolicy</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A request message for retrieving a guest policy.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetGuestPolicyRequest</span> {
+    <span class="doccomment">/// Required. The resource name of the guest policy using one of the following forms:</span>
+    <span class="doccomment">/// `projects/{project_number}/guestPolicies/{guest_policy_id}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A request message for listing guest policies.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListGuestPoliciesRequest</span> {
+    <span class="doccomment">/// Required. The resource name of the parent using one of the following forms:</span>
+    <span class="doccomment">/// `projects/{project_number}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of guest policies to return.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A pagination token returned from a previous call to `ListGuestPolicies`</span>
+    <span class="doccomment">/// that indicates where this listing should continue from.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A response message for listing guest policies.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListGuestPoliciesResponse</span> {
+    <span class="doccomment">/// The list of GuestPolicies.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">guest_policies</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">GuestPolicy</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A pagination token that can be used to get the next page</span>
+    <span class="doccomment">/// of guest policies.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A request message for updating a guest policy.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateGuestPolicyRequest</span> {
+    <span class="doccomment">/// Required. The updated GuestPolicy.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">guest_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GuestPolicy</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Field mask that controls which fields of the guest policy should be</span>
+    <span class="doccomment">/// updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A request message for deleting a guest policy.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteGuestPolicyRequest</span> {
+    <span class="doccomment">/// Required. The resource name of the guest policy  using one of the following forms:</span>
+    <span class="doccomment">/// `projects/{project_number}/guestPolicies/{guest_policy_id}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A request message for getting the effective guest policy assigned to the</span>
+<span class="doccomment">/// instance.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LookupEffectiveGuestPolicyRequest</span> {
+    <span class="doccomment">/// Required. The VM instance whose policies are being looked up.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Short name of the OS running on the instance. The OS Config agent only</span>
+    <span class="doccomment">/// provides this field for targeting if OS Inventory is enabled for that</span>
+    <span class="doccomment">/// instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_short_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Version of the OS running on the instance. The OS Config agent only</span>
+    <span class="doccomment">/// provides this field for targeting if OS Inventory is enabled for that</span>
+    <span class="doccomment">/// VM instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Architecture of OS running on the instance. The OS Config agent only</span>
+    <span class="doccomment">/// provides this field for targeting if OS Inventory is enabled for that</span>
+    <span class="doccomment">/// instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The effective guest policy that applies to a VM instance.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EffectiveGuestPolicy</span> {
+    <span class="doccomment">/// List of package configurations assigned to the VM instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">effective_guest_policy::SourcedPackage</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of package repository configurations assigned to the VM instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">package_repositories</span>:
+        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">effective_guest_policy::SourcedPackageRepository</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of recipes assigned to the VM instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">software_recipes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">effective_guest_policy::SourcedSoftwareRecipe</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `EffectiveGuestPolicy`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">effective_guest_policy</span> {
+    <span class="doccomment">/// A guest policy package including its source.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourcedPackage</span> {
+        <span class="doccomment">/// Name of the guest policy providing this config.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// A software package to configure on the VM instance.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">package</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Package</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// A guest policy package repository including its source.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourcedPackageRepository</span> {
+        <span class="doccomment">/// Name of the guest policy providing this config.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// A software package repository to configure on the VM instance.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">package_repository</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PackageRepository</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// A guest policy recipe including its source.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourcedSoftwareRecipe</span> {
+        <span class="doccomment">/// Name of the guest policy providing this config.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// A software recipe to configure on the VM instance.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">software_recipe</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::SoftwareRecipe</span><span class="op">&gt;</span>,
+    }
+}
+<span class="doccomment">/// The desired state that the OS Config agent maintains on the VM instance.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DesiredState</span> {
+    <span class="doccomment">/// The default is to ensure the package is installed.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// The agent ensures that the package is installed.</span>
+    <span class="ident">Installed</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// The agent ensures that the package is installed and</span>
+    <span class="doccomment">/// periodically checks for and install any updates.</span>
+    <span class="ident">Updated</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// The agent ensures that the package is not installed and uninstall it</span>
+    <span class="doccomment">/// if detected.</span>
+    <span class="ident">Removed</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="doccomment">/// A request message to initiate patching across Google Compute Engine</span>
 <span class="doccomment">/// instances.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutePatchJobRequest</span> {
@@ -2831,805 +3630,6 @@
     <span class="doccomment">/// `projects/*/patchDeployments/*`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// An OS Config resource representing a guest configuration policy. These</span>
-<span class="doccomment">/// policies represent the desired state for VM instance guest environments</span>
-<span class="doccomment">/// including packages to install or remove, package repository configurations,</span>
-<span class="doccomment">/// and software to install.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GuestPolicy</span> {
-    <span class="doccomment">/// Required. Unique name of the resource in this project using one of the following</span>
-    <span class="doccomment">/// forms:</span>
-    <span class="doccomment">/// `projects/{project_number}/guestPolicies/{guest_policy_id}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Description of the guest policy. Length of the description is limited</span>
-    <span class="doccomment">/// to 1024 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Time this guest policy was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Last time this guest policy was updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Specifies the VM instances that are assigned to this policy. This allows</span>
-    <span class="doccomment">/// you to target sets or groups of VM instances by different parameters such</span>
-    <span class="doccomment">/// as labels, names, OS, or zones.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If left empty, all VM instances underneath this policy are targeted.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// At the same level in the resource hierarchy (that is within a project), the</span>
-    <span class="doccomment">/// service prevents the creation of multiple policies that conflict with</span>
-    <span class="doccomment">/// each other. For more information, see how the service [handles assignment</span>
-    <span class="doccomment">/// conflicts](/compute/docs/os-config-management/create-guest-policy#handle-conflicts).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">assignment</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Assignment</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The software packages to be managed by this policy.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Package</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A list of package repositories to configure on the VM instance. This is</span>
-    <span class="doccomment">/// done before any other configs are applied so they can use these repos.</span>
-    <span class="doccomment">/// Package repositories are only configured if the corresponding package</span>
-    <span class="doccomment">/// manager(s) are available.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">package_repositories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PackageRepository</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A list of Recipes to install on the VM instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">recipes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">SoftwareRecipe</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The etag for this guest policy.</span>
-    <span class="doccomment">/// If this is provided on update, it must match the server&#39;s etag.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// An assignment represents the group or groups of VM instances that the policy</span>
-<span class="doccomment">/// applies to.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If an assignment is empty, it applies to all VM instances. Otherwise, the</span>
-<span class="doccomment">/// targeted VM instances must meet all the criteria specified. So if both</span>
-<span class="doccomment">/// labels and zones are specified, the policy applies to VM instances with those</span>
-<span class="doccomment">/// labels and in those zones.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Assignment</span> {
-    <span class="doccomment">/// Targets instances matching at least one of these label sets. This allows</span>
-    <span class="doccomment">/// an assignment to target disparate groups, for example &quot;env=prod or</span>
-    <span class="doccomment">/// env=staging&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">group_labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">assignment::GroupLabel</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Targets instances in any of these zones. Leave empty to target instances</span>
-    <span class="doccomment">/// in any zone.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Zonal targeting is uncommon and is supported to facilitate the management</span>
-    <span class="doccomment">/// of changes by zone.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">zones</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Targets any of the instances specified. Instances are specified by their</span>
-    <span class="doccomment">/// URI in the form `zones/\[ZONE]/instances/[INSTANCE_NAME\]`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Instance targeting is uncommon and is supported to facilitate the</span>
-    <span class="doccomment">/// management of changes by the instance or to target specific VM instances</span>
-    <span class="doccomment">/// for development and testing.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Only supported for project-level policies and must reference instances</span>
-    <span class="doccomment">/// within this project.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instances</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Targets VM instances whose name starts with one of these prefixes.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Like labels, this is another way to group VM instances when targeting</span>
-    <span class="doccomment">/// configs, for example prefix=&quot;prod-&quot;.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Only supported for project-level policies.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance_name_prefixes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Targets VM instances matching at least one of the following OS types.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// VM instances must match all supplied criteria for a given OsType to be</span>
-    <span class="doccomment">/// included.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_types</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">assignment::OsType</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Assignment`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">assignment</span> {
-    <span class="doccomment">/// Represents a group of VM intances that can be identified as having all</span>
-    <span class="doccomment">/// these labels, for example &quot;env=prod and app=web&quot;.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GroupLabel</span> {
-        <span class="doccomment">/// Google Compute Engine instance labels that must be present for an</span>
-        <span class="doccomment">/// instance to be included in this assignment group.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-            <span class="ident">::prost::alloc::string::String</span>,
-            <span class="ident">::prost::alloc::string::String</span>,
-        <span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Defines the criteria for selecting VM Instances by OS type.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsType</span> {
-        <span class="doccomment">/// Targets VM instances with OS Inventory enabled and having the following</span>
-        <span class="doccomment">/// OS short name, for example &quot;debian&quot; or &quot;windows&quot;.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">os_short_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Targets VM instances with OS Inventory enabled and having the following</span>
-        <span class="doccomment">/// following OS version.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">os_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Targets VM instances with OS Inventory enabled and having the following</span>
-        <span class="doccomment">/// OS architecture.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">os_architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
-<span class="doccomment">/// Package is a reference to the software package to be installed or removed.</span>
-<span class="doccomment">/// The agent on the VM instance uses the system package manager to apply the</span>
-<span class="doccomment">/// config.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// These are the commands that the agent uses to install or remove</span>
-<span class="doccomment">/// packages.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Apt</span>
-<span class="doccomment">/// install: `apt-get update &amp;&amp; apt-get -y install package1 package2 package3`</span>
-<span class="doccomment">/// remove: `apt-get -y remove package1 package2 package3`</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Yum</span>
-<span class="doccomment">/// install: `yum -y install package1 package2 package3`</span>
-<span class="doccomment">/// remove: `yum -y remove package1 package2 package3`</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Zypper</span>
-<span class="doccomment">/// install: `zypper install package1 package2 package3`</span>
-<span class="doccomment">/// remove: `zypper rm package1 package2`</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Googet</span>
-<span class="doccomment">/// install: `googet -noconfirm install package1 package2 package3`</span>
-<span class="doccomment">/// remove: `googet -noconfirm remove package1 package2 package3`</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Package</span> {
-    <span class="doccomment">/// Required. The name of the package. A package is uniquely identified for conflict</span>
-    <span class="doccomment">/// validation by checking the package name and the manager(s) that the</span>
-    <span class="doccomment">/// package targets.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The desired_state the agent should maintain for this package. The</span>
-    <span class="doccomment">/// default is to ensure the package is installed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DesiredState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">desired_state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Type of package manager that can be used to install this package.</span>
-    <span class="doccomment">/// If a system does not have the package manager, the package is not</span>
-    <span class="doccomment">/// installed or removed no error message is returned. By default,</span>
-    <span class="doccomment">/// or if you specify `ANY`,</span>
-    <span class="doccomment">/// the agent attempts to install and remove this package using the default</span>
-    <span class="doccomment">/// package manager. This is useful when creating a policy that applies to</span>
-    <span class="doccomment">/// different types of systems.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The default behavior is ANY.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;package::Manager&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">manager</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Package`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">package</span> {
-    <span class="doccomment">/// Types of package managers that may be used to manage this package.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Manager</span> {
-        <span class="doccomment">/// The default behavior is ANY.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Apply this package config using the default system package manager.</span>
-        <span class="ident">Any</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Apply this package config only if Apt is available on the system.</span>
-        <span class="ident">Apt</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Apply this package config only if Yum is available on the system.</span>
-        <span class="ident">Yum</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Apply this package config only if Zypper is available on the system.</span>
-        <span class="ident">Zypper</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// Apply this package config only if GooGet is available on the system.</span>
-        <span class="ident">Goo</span> <span class="op">=</span> <span class="number">5</span>,
-    }
-}
-<span class="doccomment">/// Represents a single Apt package repository. This repository is added to</span>
-<span class="doccomment">/// a repo file that is stored at</span>
-<span class="doccomment">/// `/etc/apt/sources.list.d/google_osconfig.list`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AptRepository</span> {
-    <span class="doccomment">/// Type of archive files in this repository. The default behavior is DEB.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;apt_repository::ArchiveType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">archive_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Required. URI for this repository.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Distribution of this repository.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">distribution</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. List of components for this repository. Must contain at least one item.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">components</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// URI of the key file for this repository. The agent maintains</span>
-    <span class="doccomment">/// a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg` containing</span>
-    <span class="doccomment">/// all the keys in any applied guest policy.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gpg_key</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AptRepository`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">apt_repository</span> {
-    <span class="doccomment">/// Type of archive.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ArchiveType</span> {
-        <span class="doccomment">/// Unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// DEB indicates that the archive contains binary files.</span>
-        <span class="ident">Deb</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// DEB_SRC indicates that the archive contains source files.</span>
-        <span class="ident">DebSrc</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Represents a single Yum package repository. This repository is added to a</span>
-<span class="doccomment">/// repo file that is stored at `/etc/yum.repos.d/google_osconfig.repo`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">YumRepository</span> {
-    <span class="doccomment">/// Required. A one word, unique name for this repository. This is</span>
-    <span class="doccomment">/// the `repo id` in the Yum config file and also the `display_name` if</span>
-    <span class="doccomment">/// `display_name` is omitted. This id is also used as the unique identifier</span>
-    <span class="doccomment">/// when checking for guest policy conflicts.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The display name of the repository.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The location of the repository directory.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">base_url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// URIs of GPG keys.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gpg_keys</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents a single Zypper package repository. This repository is added to a</span>
-<span class="doccomment">/// repo file that is stored at `/etc/zypp/repos.d/google_osconfig.repo`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZypperRepository</span> {
-    <span class="doccomment">/// Required. A one word, unique name for this repository. This is</span>
-    <span class="doccomment">/// the `repo id` in the zypper config file and also the `display_name` if</span>
-    <span class="doccomment">/// `display_name` is omitted. This id is also used as the unique identifier</span>
-    <span class="doccomment">/// when checking for guest policy conflicts.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The display name of the repository.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The location of the repository directory.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">base_url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// URIs of GPG keys.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gpg_keys</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents a Goo package repository. These is added to a repo file</span>
-<span class="doccomment">/// that is stored at C:/ProgramData/GooGet/repos/google_osconfig.repo.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GooRepository</span> {
-    <span class="doccomment">/// Required. The name of the repository.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The url of the repository.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A package repository.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageRepository</span> {
-    <span class="doccomment">/// A specific type of repository.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;package_repository::Repository&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">repository</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">package_repository::Repository</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PackageRepository`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">package_repository</span> {
-    <span class="doccomment">/// A specific type of repository.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Repository</span> {
-        <span class="doccomment">/// An Apt Repository.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">Apt</span>(<span class="ident"><span class="kw">super</span>::AptRepository</span>),
-        <span class="doccomment">/// A Yum Repository.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Yum</span>(<span class="ident"><span class="kw">super</span>::YumRepository</span>),
-        <span class="doccomment">/// A Zypper Repository.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">Zypper</span>(<span class="ident"><span class="kw">super</span>::ZypperRepository</span>),
-        <span class="doccomment">/// A Goo Repository.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">Goo</span>(<span class="ident"><span class="kw">super</span>::GooRepository</span>),
-    }
-}
-<span class="doccomment">/// A software recipe is a set of instructions for installing and configuring a</span>
-<span class="doccomment">/// piece of software. It consists of a set of artifacts that are</span>
-<span class="doccomment">/// downloaded, and a set of steps that install, configure, and/or update the</span>
-<span class="doccomment">/// software.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Recipes support installing and updating software from artifacts in the</span>
-<span class="doccomment">/// following formats:</span>
-<span class="doccomment">/// Zip archive, Tar archive, Windows MSI, Debian package, and RPM package.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Additionally, recipes support executing a script (either defined in a file or</span>
-<span class="doccomment">/// directly in this api) in bash, sh, cmd, and powershell.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Updating a software recipe</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If a recipe is assigned to an instance and there is a recipe with the same</span>
-<span class="doccomment">/// name but a lower version already installed and the assigned state</span>
-<span class="doccomment">/// of the recipe is `INSTALLED_KEEP_UPDATED`, then the recipe is updated to</span>
-<span class="doccomment">/// the new version.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Script Working Directories</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Each script or execution step is run in its own temporary directory which</span>
-<span class="doccomment">/// is deleted after completing the step.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SoftwareRecipe</span> {
-    <span class="doccomment">/// Required. Unique identifier for the recipe. Only one recipe with a given name is</span>
-    <span class="doccomment">/// installed on an instance.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Names are also used to identify resources which helps to determine whether</span>
-    <span class="doccomment">/// guest policies have conflicts. This means that requests to create multiple</span>
-    <span class="doccomment">/// recipes with the same name and version are rejected since they</span>
-    <span class="doccomment">/// could potentially have conflicting assignments.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The version of this software recipe. Version can be up to 4 period</span>
-    <span class="doccomment">/// separated numbers (e.g. 12.34.56.78).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Resources available to be used in the steps in the recipe.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">artifacts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">software_recipe::Artifact</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Actions to be taken for installing this recipe. On failure it stops</span>
-    <span class="doccomment">/// executing steps and does not attempt another installation. Any steps taken</span>
-    <span class="doccomment">/// (including partially completed steps) are not rolled back.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">install_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">software_recipe::Step</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Actions to be taken for updating this recipe. On failure it stops</span>
-    <span class="doccomment">/// executing steps and  does not attempt another update for this recipe. Any</span>
-    <span class="doccomment">/// steps taken (including partially completed steps) are not rolled back.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">software_recipe::Step</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Default is INSTALLED. The desired state the agent should maintain for this</span>
-    <span class="doccomment">/// recipe.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// INSTALLED: The software recipe is installed on the instance but</span>
-    <span class="doccomment">///            won&#39;t be updated to new versions.</span>
-    <span class="doccomment">/// INSTALLED_KEEP_UPDATED: The software recipe is installed on the</span>
-    <span class="doccomment">///                         instance. The recipe is updated to a higher</span>
-    <span class="doccomment">///                         version, if a higher version of the recipe is</span>
-    <span class="doccomment">///                         assigned to this instance.</span>
-    <span class="doccomment">/// REMOVE: Remove is unsupported for software recipes and attempts to</span>
-    <span class="doccomment">///         create or update a recipe to the REMOVE state is rejected.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DesiredState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">desired_state</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `SoftwareRecipe`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">software_recipe</span> {
-    <span class="doccomment">/// Specifies a resource to be used in the recipe.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Artifact</span> {
-        <span class="doccomment">/// Required. Id of the artifact, which the installation and update steps of this</span>
-        <span class="doccomment">/// recipe can reference. Artifacts in a recipe cannot have the same id.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Defaults to false. When false, recipes are subject to validations</span>
-        <span class="doccomment">/// based on the artifact type:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Remote: A checksum must be specified, and only protocols with</span>
-        <span class="doccomment">/// transport-layer security are permitted.</span>
-        <span class="doccomment">/// GCS:    An object generation number must be specified.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">allow_insecure</span>: <span class="ident">bool</span>,
-        <span class="doccomment">/// A specific type of artifact.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;artifact::Artifact&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">artifact</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">artifact::Artifact</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Artifact`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">artifact</span> {
-        <span class="doccomment">/// Specifies an artifact available via some URI.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Remote</span> {
-            <span class="doccomment">/// URI from which to fetch the object. It should contain both the protocol</span>
-            <span class="doccomment">/// and path following the format {protocol}://{location}.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// Must be provided if `allow_insecure` is `false`.</span>
-            <span class="doccomment">/// SHA256 checksum in hex format, to compare to the checksum of the</span>
-            <span class="doccomment">/// artifact. If the checksum is not empty and it doesn&#39;t match the</span>
-            <span class="doccomment">/// artifact then the recipe installation fails before running any of the</span>
-            <span class="doccomment">/// steps.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">checksum</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-        <span class="doccomment">/// Specifies an artifact available as a Google Cloud Storage object.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Gcs</span> {
-            <span class="doccomment">/// Bucket of the Google Cloud Storage object.</span>
-            <span class="doccomment">/// Given an example URL:</span>
-            <span class="doccomment">/// `&lt;https://storage.googleapis.com/my-bucket/foo/bar#1234567`&gt;</span>
-            <span class="doccomment">/// this value would be `my-bucket`.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// Name of the Google Cloud Storage object.</span>
-            <span class="doccomment">/// As specified \[here\]</span>
-            <span class="doccomment">/// (&lt;https://cloud.google.com/storage/docs/naming#objectnames&gt;)</span>
-            <span class="doccomment">/// Given an example URL:</span>
-            <span class="doccomment">/// `&lt;https://storage.googleapis.com/my-bucket/foo/bar#1234567`&gt;</span>
-            <span class="doccomment">/// this value would be `foo/bar`.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">object</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// Must be provided if allow_insecure is false.</span>
-            <span class="doccomment">/// Generation number of the Google Cloud Storage object.</span>
-            <span class="doccomment">/// `&lt;https://storage.googleapis.com/my-bucket/foo/bar#1234567`&gt;</span>
-            <span class="doccomment">/// this value would be `1234567`.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">generation</span>: <span class="ident">i64</span>,
-        }
-        <span class="doccomment">/// A specific type of artifact.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Artifact</span> {
-            <span class="doccomment">/// A generic remote artifact.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">Remote</span>(<span class="ident">Remote</span>),
-            <span class="doccomment">/// A Google Cloud Storage artifact.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="ident">Gcs</span>(<span class="ident">Gcs</span>),
-        }
-    }
-    <span class="doccomment">/// An action that can be taken as part of installing or updating a recipe.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Step</span> {
-        <span class="doccomment">/// A specific type of step.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;step::Step&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">step</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">step::Step</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Step`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">step</span> {
-        <span class="doccomment">/// Copies the artifact to the specified path on the instance.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CopyFile</span> {
-            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// Required. The absolute path on the instance to put the file.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// Whether to allow this step to overwrite existing files. If this is</span>
-            <span class="doccomment">/// false and the file already exists the file is not overwritten</span>
-            <span class="doccomment">/// and the step is considered a success. Defaults to false.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">overwrite</span>: <span class="ident">bool</span>,
-            <span class="doccomment">/// Consists of three octal digits which represent, in</span>
-            <span class="doccomment">/// order, the permissions of the owner, group, and other users for the</span>
-            <span class="doccomment">/// file (similarly to the numeric mode used in the linux chmod utility).</span>
-            <span class="doccomment">/// Each digit represents a three bit number with the 4 bit</span>
-            <span class="doccomment">/// corresponding to the read permissions, the 2 bit corresponds to the</span>
-            <span class="doccomment">/// write bit, and the one bit corresponds to the execute permission.</span>
-            <span class="doccomment">/// Default behavior is 755.</span>
-            <span class="doccomment">///</span>
-            <span class="doccomment">/// Below are some examples of permissions and their associated values:</span>
-            <span class="doccomment">/// read, write, and execute: 7</span>
-            <span class="doccomment">/// read and execute: 5</span>
-            <span class="doccomment">/// read and write: 6</span>
-            <span class="doccomment">/// read only: 4</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">permissions</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-        <span class="doccomment">/// Extracts an archive of the type specified in the specified directory.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExtractArchive</span> {
-            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// Directory to extract archive to.</span>
-            <span class="doccomment">/// Defaults to `/` on Linux or `C:\` on Windows.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// Required. The type of the archive to extract.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;extract_archive::ArchiveType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-        }
-        <span class="doccomment">/// Nested message and enum types in `ExtractArchive`.</span>
-        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">extract_archive</span> {
-            <span class="doccomment">/// Specifying the type of archive.</span>
-            <span class="attribute">#[<span class="ident">derive</span>(
-                <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-            )]</span>
-            <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-            <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ArchiveType</span> {
-                <span class="doccomment">/// Indicates that the archive type isn&#39;t specified.</span>
-                <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-                <span class="doccomment">/// Indicates that the archive is a tar archive with no encryption.</span>
-                <span class="ident">Tar</span> <span class="op">=</span> <span class="number">1</span>,
-                <span class="doccomment">/// Indicates that the archive is a tar archive with gzip encryption.</span>
-                <span class="ident">TarGzip</span> <span class="op">=</span> <span class="number">2</span>,
-                <span class="doccomment">/// Indicates that the archive is a tar archive with bzip encryption.</span>
-                <span class="ident">TarBzip</span> <span class="op">=</span> <span class="number">3</span>,
-                <span class="doccomment">/// Indicates that the archive is a tar archive with lzma encryption.</span>
-                <span class="ident">TarLzma</span> <span class="op">=</span> <span class="number">4</span>,
-                <span class="doccomment">/// Indicates that the archive is a tar archive with xz encryption.</span>
-                <span class="ident">TarXz</span> <span class="op">=</span> <span class="number">5</span>,
-                <span class="doccomment">/// Indicates that the archive is a zip archive.</span>
-                <span class="ident">Zip</span> <span class="op">=</span> <span class="number">11</span>,
-            }
-        }
-        <span class="doccomment">/// Installs an MSI file.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstallMsi</span> {
-            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The flags to use when installing the MSI</span>
-            <span class="doccomment">/// defaults to \[&quot;/i&quot;\] (i.e. the install flag).</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">flags</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// Return codes that indicate that the software installed or updated</span>
-            <span class="doccomment">/// successfully. Behaviour defaults to \[0\]</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">allowed_exit_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-        }
-        <span class="doccomment">/// Installs a deb via dpkg.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstallDpkg</span> {
-            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-        <span class="doccomment">/// Installs an rpm file via the rpm utility.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstallRpm</span> {
-            <span class="doccomment">/// Required. The id of the relevant artifact in the recipe.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">artifact_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-        <span class="doccomment">/// Executes an artifact or local file.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecFile</span> {
-            <span class="doccomment">/// Arguments to be passed to the provided executable.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">args</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// Defaults to \[0\]. A list of possible return values that the program</span>
-            <span class="doccomment">/// can return to indicate a success.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">allowed_exit_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// Location of the file to execute.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;exec_file::LocationType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">location_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">exec_file::LocationType</span><span class="op">&gt;</span>,
-        }
-        <span class="doccomment">/// Nested message and enum types in `ExecFile`.</span>
-        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exec_file</span> {
-            <span class="doccomment">/// Location of the file to execute.</span>
-            <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-            <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LocationType</span> {
-                <span class="doccomment">/// The id of the relevant artifact in the recipe.</span>
-                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-                <span class="ident">ArtifactId</span>(<span class="ident">::prost::alloc::string::String</span>),
-                <span class="doccomment">/// The absolute path of the file on the local filesystem.</span>
-                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-                <span class="ident">LocalPath</span>(<span class="ident">::prost::alloc::string::String</span>),
-            }
-        }
-        <span class="doccomment">/// Runs a script through an interpreter.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RunScript</span> {
-            <span class="doccomment">/// Required. The shell script to be executed.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">script</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// Return codes that indicate that the software installed or updated</span>
-            <span class="doccomment">/// successfully. Behaviour defaults to \[0\]</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">allowed_exit_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// The script interpreter to use to run the script. If no interpreter is</span>
-            <span class="doccomment">/// specified the script is executed directly, which likely</span>
-            <span class="doccomment">/// only succeed for scripts with</span>
-            <span class="doccomment">/// [shebang lines](&lt;https://en.wikipedia.org/wiki/Shebang_\(Unix\&gt;)).</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;run_script::Interpreter&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">interpreter</span>: <span class="ident">i32</span>,
-        }
-        <span class="doccomment">/// Nested message and enum types in `RunScript`.</span>
-        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">run_script</span> {
-            <span class="doccomment">/// The interpreter used to execute a script.</span>
-            <span class="attribute">#[<span class="ident">derive</span>(
-                <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-            )]</span>
-            <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-            <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Interpreter</span> {
-                <span class="doccomment">/// Default value for ScriptType.</span>
-                <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-                <span class="doccomment">/// Indicates that the script is run with `/bin/sh` on Linux and `cmd`</span>
-                <span class="doccomment">/// on windows.</span>
-                <span class="ident">Shell</span> <span class="op">=</span> <span class="number">1</span>,
-                <span class="doccomment">/// Indicates that the script is run with powershell.</span>
-                <span class="ident">Powershell</span> <span class="op">=</span> <span class="number">3</span>,
-            }
-        }
-        <span class="doccomment">/// A specific type of step.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Step</span> {
-            <span class="doccomment">/// Copies a file onto the instance.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="ident">FileCopy</span>(<span class="ident">CopyFile</span>),
-            <span class="doccomment">/// Extracts an archive into the specified directory.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">ArchiveExtraction</span>(<span class="ident">ExtractArchive</span>),
-            <span class="doccomment">/// Installs an MSI file.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="ident">MsiInstallation</span>(<span class="ident">InstallMsi</span>),
-            <span class="doccomment">/// Installs a deb file via dpkg.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-            <span class="ident">DpkgInstallation</span>(<span class="ident">InstallDpkg</span>),
-            <span class="doccomment">/// Installs an rpm file via the rpm utility.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-            <span class="ident">RpmInstallation</span>(<span class="ident">InstallRpm</span>),
-            <span class="doccomment">/// Executes an artifact or local file.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-            <span class="ident">FileExec</span>(<span class="ident">ExecFile</span>),
-            <span class="doccomment">/// Runs commands in a shell.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-            <span class="ident">ScriptRun</span>(<span class="ident">RunScript</span>),
-        }
-    }
-}
-<span class="doccomment">/// A request message for creating a guest policy.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateGuestPolicyRequest</span> {
-    <span class="doccomment">/// Required. The resource name of the parent using one of the following forms:</span>
-    <span class="doccomment">/// `projects/{project_number}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The logical name of the guest policy in the project</span>
-    <span class="doccomment">/// with the following restrictions:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * Must contain only lowercase letters, numbers, and hyphens.</span>
-    <span class="doccomment">/// * Must start with a letter.</span>
-    <span class="doccomment">/// * Must be between 1-63 characters.</span>
-    <span class="doccomment">/// * Must end with a number or a letter.</span>
-    <span class="doccomment">/// * Must be unique within the project.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">guest_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The GuestPolicy to create.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">guest_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GuestPolicy</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A request message for retrieving a guest policy.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetGuestPolicyRequest</span> {
-    <span class="doccomment">/// Required. The resource name of the guest policy using one of the following forms:</span>
-    <span class="doccomment">/// `projects/{project_number}/guestPolicies/{guest_policy_id}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A request message for listing guest policies.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListGuestPoliciesRequest</span> {
-    <span class="doccomment">/// Required. The resource name of the parent using one of the following forms:</span>
-    <span class="doccomment">/// `projects/{project_number}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of guest policies to return.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A pagination token returned from a previous call to `ListGuestPolicies`</span>
-    <span class="doccomment">/// that indicates where this listing should continue from.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A response message for listing guest policies.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListGuestPoliciesResponse</span> {
-    <span class="doccomment">/// The list of GuestPolicies.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">guest_policies</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">GuestPolicy</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A pagination token that can be used to get the next page</span>
-    <span class="doccomment">/// of guest policies.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A request message for updating a guest policy.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateGuestPolicyRequest</span> {
-    <span class="doccomment">/// Required. The updated GuestPolicy.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">guest_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GuestPolicy</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Field mask that controls which fields of the guest policy should be</span>
-    <span class="doccomment">/// updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A request message for deleting a guest policy.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteGuestPolicyRequest</span> {
-    <span class="doccomment">/// Required. The resource name of the guest policy  using one of the following forms:</span>
-    <span class="doccomment">/// `projects/{project_number}/guestPolicies/{guest_policy_id}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A request message for getting the effective guest policy assigned to the</span>
-<span class="doccomment">/// instance.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LookupEffectiveGuestPolicyRequest</span> {
-    <span class="doccomment">/// Required. The VM instance whose policies are being looked up.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Short name of the OS running on the instance. The OS Config agent only</span>
-    <span class="doccomment">/// provides this field for targeting if OS Inventory is enabled for that</span>
-    <span class="doccomment">/// instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_short_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Version of the OS running on the instance. The OS Config agent only</span>
-    <span class="doccomment">/// provides this field for targeting if OS Inventory is enabled for that</span>
-    <span class="doccomment">/// VM instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Architecture of OS running on the instance. The OS Config agent only</span>
-    <span class="doccomment">/// provides this field for targeting if OS Inventory is enabled for that</span>
-    <span class="doccomment">/// instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The effective guest policy that applies to a VM instance.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EffectiveGuestPolicy</span> {
-    <span class="doccomment">/// List of package configurations assigned to the VM instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">effective_guest_policy::SourcedPackage</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of package repository configurations assigned to the VM instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">package_repositories</span>:
-        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">effective_guest_policy::SourcedPackageRepository</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of recipes assigned to the VM instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">software_recipes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">effective_guest_policy::SourcedSoftwareRecipe</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `EffectiveGuestPolicy`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">effective_guest_policy</span> {
-    <span class="doccomment">/// A guest policy package including its source.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourcedPackage</span> {
-        <span class="doccomment">/// Name of the guest policy providing this config.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// A software package to configure on the VM instance.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">package</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Package</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// A guest policy package repository including its source.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourcedPackageRepository</span> {
-        <span class="doccomment">/// Name of the guest policy providing this config.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// A software package repository to configure on the VM instance.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">package_repository</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PackageRepository</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// A guest policy recipe including its source.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourcedSoftwareRecipe</span> {
-        <span class="doccomment">/// Name of the guest policy providing this config.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// A software recipe to configure on the VM instance.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">software_recipe</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::SoftwareRecipe</span><span class="op">&gt;</span>,
-    }
-}
-<span class="doccomment">/// The desired state that the OS Config agent maintains on the VM instance.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DesiredState</span> {
-    <span class="doccomment">/// The default is to ensure the package is installed.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// The agent ensures that the package is installed.</span>
-    <span class="ident">Installed</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// The agent ensures that the package is installed and</span>
-    <span class="doccomment">/// periodically checks for and install any updates.</span>
-    <span class="ident">Updated</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// The agent ensures that the package is not installed and uninstall it</span>
-    <span class="doccomment">/// if detected.</span>
-    <span class="ident">Removed</span> <span class="op">=</span> <span class="number">3</span>,
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_config_service_client</span> {

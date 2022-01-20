@@ -596,7 +596,223 @@
 <span id="595">595</span>
 <span id="596">596</span>
 <span id="597">597</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Source information collected at parse time.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Represents a CEL value.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This is similar to `google.protobuf.Value`, but can represent CEL&#39;s full</span>
+<span class="doccomment">/// range of values.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Value</span> {
+    <span class="doccomment">/// Required. The valid kinds of values.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;value::Kind&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">value::Kind</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Value`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">value</span> {
+    <span class="doccomment">/// Required. The valid kinds of values.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
+        <span class="doccomment">/// Null value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;::prost_types::NullValue&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">NullValue</span>(<span class="ident">i32</span>),
+        <span class="doccomment">/// Boolean value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">BoolValue</span>(<span class="ident">bool</span>),
+        <span class="doccomment">/// Signed integer value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">Int64Value</span>(<span class="ident">i64</span>),
+        <span class="doccomment">/// Unsigned integer value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">uint64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Uint64Value</span>(<span class="ident">u64</span>),
+        <span class="doccomment">/// Floating point value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">DoubleValue</span>(<span class="ident">f64</span>),
+        <span class="doccomment">/// UTF-8 string value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">StringValue</span>(<span class="ident">::prost::alloc::string::String</span>),
+        <span class="doccomment">/// Byte string value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="ident">BytesValue</span>(<span class="ident">::prost::bytes::Bytes</span>),
+        <span class="doccomment">/// An enum value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="ident">EnumValue</span>(<span class="ident"><span class="kw">super</span>::EnumValue</span>),
+        <span class="doccomment">/// The proto message backing an object value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="ident">ObjectValue</span>(<span class="ident">::prost_types::Any</span>),
+        <span class="doccomment">/// Map value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="ident">MapValue</span>(<span class="ident"><span class="kw">super</span>::MapValue</span>),
+        <span class="doccomment">/// List value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+        <span class="ident">ListValue</span>(<span class="ident"><span class="kw">super</span>::ListValue</span>),
+        <span class="doccomment">/// A Type value represented by the fully qualified name of the type.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+        <span class="ident">TypeValue</span>(<span class="ident">::prost::alloc::string::String</span>),
+    }
+}
+<span class="doccomment">/// An enum value.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EnumValue</span> {
+    <span class="doccomment">/// The fully qualified name of the enum type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The value of the enum.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// A list.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Wrapped in a message so &#39;not set&#39; and empty can be differentiated, which is</span>
+<span class="doccomment">/// required for use in a &#39;oneof&#39;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListValue</span> {
+    <span class="doccomment">/// The ordered values in the list.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A map.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Wrapped in a message so &#39;not set&#39; and empty can be differentiated, which is</span>
+<span class="doccomment">/// required for use in a &#39;oneof&#39;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MapValue</span> {
+    <span class="doccomment">/// The set of map entries.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// CEL has fewer restrictions on keys, so a protobuf map represenation</span>
+    <span class="doccomment">/// cannot be used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">map_value::Entry</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `MapValue`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">map_value</span> {
+    <span class="doccomment">/// An entry in the map.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entry</span> {
+        <span class="doccomment">/// The key.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Must be unique with in the map.</span>
+        <span class="doccomment">/// Currently only boolean, int, uint, and string values can be keys.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Value</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Value</span><span class="op">&gt;</span>,
+    }
+}
+<span class="doccomment">/// The state of an evaluation.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Can represent an initial, partial, or completed state of evaluation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EvalState</span> {
+    <span class="doccomment">/// The unique values referenced in this message.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ExprValue</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// An ordered list of results.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Tracks the flow of evaluation through the expression.</span>
+    <span class="doccomment">/// May be sparse.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">eval_state::Result</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `EvalState`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">eval_state</span> {
+    <span class="doccomment">/// A single evaluation result.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="prelude-ty">Result</span> {
+        <span class="doccomment">/// The expression this result is for.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">expr</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::IdRef</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The index in `values` of the resulting value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">i32</span>,
+    }
+}
+<span class="doccomment">/// The value of an evaluated expression.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExprValue</span> {
+    <span class="doccomment">/// An expression can resolve to a value, error or unknown.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;expr_value::Kind&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">expr_value::Kind</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExprValue`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">expr_value</span> {
+    <span class="doccomment">/// An expression can resolve to a value, error or unknown.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
+        <span class="doccomment">/// A concrete value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Value</span>(<span class="ident"><span class="kw">super</span>::Value</span>),
+        <span class="doccomment">/// The set of errors in the critical path of evalution.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Only errors in the critical path are included. For example,</span>
+        <span class="doccomment">/// `(&lt;error1&gt; || true) &amp;&amp; &lt;error2&gt;` will only result in `&lt;error2&gt;`,</span>
+        <span class="doccomment">/// while `&lt;error1&gt; || &lt;error2&gt;` will result in both `&lt;error1&gt;` and</span>
+        <span class="doccomment">/// `&lt;error2&gt;`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Errors cause by the presence of other errors are not included in the</span>
+        <span class="doccomment">/// set. For example `&lt;error1&gt;.foo`, `foo(&lt;error1&gt;)`, and `&lt;error1&gt; + 1` will</span>
+        <span class="doccomment">/// only result in `&lt;error1&gt;`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Multiple errors *might* be included when evaluation could result</span>
+        <span class="doccomment">/// in different errors. For example `&lt;error1&gt; + &lt;error2&gt;` and</span>
+        <span class="doccomment">/// `foo(&lt;error1&gt;, &lt;error2&gt;)` may result in `&lt;error1&gt;`, `&lt;error2&gt;` or both.</span>
+        <span class="doccomment">/// The exact subset of errors included for this case is unspecified and</span>
+        <span class="doccomment">/// depends on the implementation details of the evaluator.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Error</span>(<span class="ident"><span class="kw">super</span>::ErrorSet</span>),
+        <span class="doccomment">/// The set of unknowns in the critical path of evaluation.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Unknown behaves identically to Error with regards to propagation.</span>
+        <span class="doccomment">/// Specifically, only unknowns in the critical path are included, unknowns</span>
+        <span class="doccomment">/// caused by the presence of other unknowns are not included, and multiple</span>
+        <span class="doccomment">/// unknowns *might* be included included when evaluation could result in</span>
+        <span class="doccomment">/// different unknowns. For example:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///     (&lt;unknown\[1\]&gt; || true) &amp;&amp; &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[2\]&gt;</span>
+        <span class="doccomment">///     &lt;unknown\[1\]&gt; || &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[1,2\]&gt;</span>
+        <span class="doccomment">///     &lt;unknown\[1\]&gt;.foo -&gt; &lt;unknown\[1\]&gt;</span>
+        <span class="doccomment">///     foo(&lt;unknown\[1\]&gt;) -&gt; &lt;unknown\[1\]&gt;</span>
+        <span class="doccomment">///     &lt;unknown\[1\]&gt; + &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[1\]&gt; or &lt;unknown[2[&gt;</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Unknown takes precidence over Error in cases where a `Value` can short</span>
+        <span class="doccomment">/// circuit the result:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///     &lt;error&gt; || &lt;unknown&gt; -&gt; &lt;unknown&gt;</span>
+        <span class="doccomment">///     &lt;error&gt; &amp;&amp; &lt;unknown&gt; -&gt; &lt;unknown&gt;</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Errors take precidence in all other cases:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///     &lt;unknown&gt; + &lt;error&gt; -&gt; &lt;error&gt;</span>
+        <span class="doccomment">///     foo(&lt;unknown&gt;, &lt;error&gt;) -&gt; &lt;error&gt;</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">Unknown</span>(<span class="ident"><span class="kw">super</span>::UnknownSet</span>),
+    }
+}
+<span class="doccomment">/// A set of errors.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The errors included depend on the context. See `ExprValue.error`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ErrorSet</span> {
+    <span class="doccomment">/// The errors in the set.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">errors</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A set of expressions for which the value is unknown.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The unknowns included depend on the context. See `ExprValue.unknown`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnknownSet</span> {
+    <span class="doccomment">/// The ids of the expressions with unknown values.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exprs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">IdRef</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A reference to an expression id.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IdRef</span> {
+    <span class="doccomment">/// The expression id.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Source information collected at parse time.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourceInfo</span> {
     <span class="doccomment">/// The location name. All position information attached to an expression is</span>
@@ -976,222 +1192,6 @@
     <span class="doccomment">/// If the first argument of the function is the receiver.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">receiver_function</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Represents a CEL value.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This is similar to `google.protobuf.Value`, but can represent CEL&#39;s full</span>
-<span class="doccomment">/// range of values.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Value</span> {
-    <span class="doccomment">/// Required. The valid kinds of values.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;value::Kind&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">value::Kind</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Value`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">value</span> {
-    <span class="doccomment">/// Required. The valid kinds of values.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
-        <span class="doccomment">/// Null value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;::prost_types::NullValue&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">NullValue</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// Boolean value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">BoolValue</span>(<span class="ident">bool</span>),
-        <span class="doccomment">/// Signed integer value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">Int64Value</span>(<span class="ident">i64</span>),
-        <span class="doccomment">/// Unsigned integer value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">uint64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">Uint64Value</span>(<span class="ident">u64</span>),
-        <span class="doccomment">/// Floating point value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">DoubleValue</span>(<span class="ident">f64</span>),
-        <span class="doccomment">/// UTF-8 string value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">StringValue</span>(<span class="ident">::prost::alloc::string::String</span>),
-        <span class="doccomment">/// Byte string value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="ident">BytesValue</span>(<span class="ident">::prost::bytes::Bytes</span>),
-        <span class="doccomment">/// An enum value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="ident">EnumValue</span>(<span class="ident"><span class="kw">super</span>::EnumValue</span>),
-        <span class="doccomment">/// The proto message backing an object value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="ident">ObjectValue</span>(<span class="ident">::prost_types::Any</span>),
-        <span class="doccomment">/// Map value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-        <span class="ident">MapValue</span>(<span class="ident"><span class="kw">super</span>::MapValue</span>),
-        <span class="doccomment">/// List value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-        <span class="ident">ListValue</span>(<span class="ident"><span class="kw">super</span>::ListValue</span>),
-        <span class="doccomment">/// A Type value represented by the fully qualified name of the type.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-        <span class="ident">TypeValue</span>(<span class="ident">::prost::alloc::string::String</span>),
-    }
-}
-<span class="doccomment">/// An enum value.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EnumValue</span> {
-    <span class="doccomment">/// The fully qualified name of the enum type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The value of the enum.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A list.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Wrapped in a message so &#39;not set&#39; and empty can be differentiated, which is</span>
-<span class="doccomment">/// required for use in a &#39;oneof&#39;.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListValue</span> {
-    <span class="doccomment">/// The ordered values in the list.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A map.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Wrapped in a message so &#39;not set&#39; and empty can be differentiated, which is</span>
-<span class="doccomment">/// required for use in a &#39;oneof&#39;.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MapValue</span> {
-    <span class="doccomment">/// The set of map entries.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// CEL has fewer restrictions on keys, so a protobuf map represenation</span>
-    <span class="doccomment">/// cannot be used.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">map_value::Entry</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `MapValue`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">map_value</span> {
-    <span class="doccomment">/// An entry in the map.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entry</span> {
-        <span class="doccomment">/// The key.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Must be unique with in the map.</span>
-        <span class="doccomment">/// Currently only boolean, int, uint, and string values can be keys.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Value</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Value</span><span class="op">&gt;</span>,
-    }
-}
-<span class="doccomment">/// The state of an evaluation.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Can represent an initial, partial, or completed state of evaluation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EvalState</span> {
-    <span class="doccomment">/// The unique values referenced in this message.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ExprValue</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// An ordered list of results.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Tracks the flow of evaluation through the expression.</span>
-    <span class="doccomment">/// May be sparse.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">eval_state::Result</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `EvalState`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">eval_state</span> {
-    <span class="doccomment">/// A single evaluation result.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="prelude-ty">Result</span> {
-        <span class="doccomment">/// The expression this result is for.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">expr</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::IdRef</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The index in `values` of the resulting value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">i32</span>,
-    }
-}
-<span class="doccomment">/// The value of an evaluated expression.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExprValue</span> {
-    <span class="doccomment">/// An expression can resolve to a value, error or unknown.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;expr_value::Kind&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">expr_value::Kind</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ExprValue`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">expr_value</span> {
-    <span class="doccomment">/// An expression can resolve to a value, error or unknown.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
-        <span class="doccomment">/// A concrete value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">Value</span>(<span class="ident"><span class="kw">super</span>::Value</span>),
-        <span class="doccomment">/// The set of errors in the critical path of evalution.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Only errors in the critical path are included. For example,</span>
-        <span class="doccomment">/// `(&lt;error1&gt; || true) &amp;&amp; &lt;error2&gt;` will only result in `&lt;error2&gt;`,</span>
-        <span class="doccomment">/// while `&lt;error1&gt; || &lt;error2&gt;` will result in both `&lt;error1&gt;` and</span>
-        <span class="doccomment">/// `&lt;error2&gt;`.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Errors cause by the presence of other errors are not included in the</span>
-        <span class="doccomment">/// set. For example `&lt;error1&gt;.foo`, `foo(&lt;error1&gt;)`, and `&lt;error1&gt; + 1` will</span>
-        <span class="doccomment">/// only result in `&lt;error1&gt;`.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Multiple errors *might* be included when evaluation could result</span>
-        <span class="doccomment">/// in different errors. For example `&lt;error1&gt; + &lt;error2&gt;` and</span>
-        <span class="doccomment">/// `foo(&lt;error1&gt;, &lt;error2&gt;)` may result in `&lt;error1&gt;`, `&lt;error2&gt;` or both.</span>
-        <span class="doccomment">/// The exact subset of errors included for this case is unspecified and</span>
-        <span class="doccomment">/// depends on the implementation details of the evaluator.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Error</span>(<span class="ident"><span class="kw">super</span>::ErrorSet</span>),
-        <span class="doccomment">/// The set of unknowns in the critical path of evaluation.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Unknown behaves identically to Error with regards to propagation.</span>
-        <span class="doccomment">/// Specifically, only unknowns in the critical path are included, unknowns</span>
-        <span class="doccomment">/// caused by the presence of other unknowns are not included, and multiple</span>
-        <span class="doccomment">/// unknowns *might* be included included when evaluation could result in</span>
-        <span class="doccomment">/// different unknowns. For example:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///     (&lt;unknown\[1\]&gt; || true) &amp;&amp; &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[2\]&gt;</span>
-        <span class="doccomment">///     &lt;unknown\[1\]&gt; || &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[1,2\]&gt;</span>
-        <span class="doccomment">///     &lt;unknown\[1\]&gt;.foo -&gt; &lt;unknown\[1\]&gt;</span>
-        <span class="doccomment">///     foo(&lt;unknown\[1\]&gt;) -&gt; &lt;unknown\[1\]&gt;</span>
-        <span class="doccomment">///     &lt;unknown\[1\]&gt; + &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[1\]&gt; or &lt;unknown[2[&gt;</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Unknown takes precidence over Error in cases where a `Value` can short</span>
-        <span class="doccomment">/// circuit the result:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///     &lt;error&gt; || &lt;unknown&gt; -&gt; &lt;unknown&gt;</span>
-        <span class="doccomment">///     &lt;error&gt; &amp;&amp; &lt;unknown&gt; -&gt; &lt;unknown&gt;</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Errors take precidence in all other cases:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///     &lt;unknown&gt; + &lt;error&gt; -&gt; &lt;error&gt;</span>
-        <span class="doccomment">///     foo(&lt;unknown&gt;, &lt;error&gt;) -&gt; &lt;error&gt;</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">Unknown</span>(<span class="ident"><span class="kw">super</span>::UnknownSet</span>),
-    }
-}
-<span class="doccomment">/// A set of errors.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The errors included depend on the context. See `ExprValue.error`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ErrorSet</span> {
-    <span class="doccomment">/// The errors in the set.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">errors</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A set of expressions for which the value is unknown.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The unknowns included depend on the context. See `ExprValue.unknown`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnknownSet</span> {
-    <span class="doccomment">/// The ids of the expressions with unknown values.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exprs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">IdRef</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A reference to an expression id.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IdRef</span> {
-    <span class="doccomment">/// The expression id.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i32</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../search-index.js" data-search-js="../../../../../../search.js"></div>

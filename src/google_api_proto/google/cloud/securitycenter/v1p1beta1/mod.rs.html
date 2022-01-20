@@ -1956,41 +1956,95 @@
 <span id="1955">1955</span>
 <span id="1956">1956</span>
 <span id="1957">1957</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Security Command Center finding source. A finding source</span>
-<span class="doccomment">/// is an entity or a mechanism that can produce a finding. A source is like a</span>
-<span class="doccomment">/// container of findings that come from the same scanner, logger, monitor, etc.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Security Command Center notification configs.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A notification config is a Security Command Center resource that contains the</span>
+<span class="doccomment">/// configuration to send notifications for create/update events of findings,</span>
+<span class="doccomment">/// assets and etc.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
-    <span class="doccomment">/// The relative resource name of this source. See:</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NotificationConfig</span> {
+    <span class="doccomment">/// The relative resource name of this notification config. See:</span>
     <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
     <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/notificationConfigs/notify_public_bucket&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The source&#39;s display name.</span>
-    <span class="doccomment">/// A source&#39;s display name must be unique amongst its siblings, for example,</span>
-    <span class="doccomment">/// two sources with the same parent can&#39;t share the same display name.</span>
-    <span class="doccomment">/// The display name must have a length between 1 and 64 characters</span>
-    <span class="doccomment">/// (inclusive).</span>
+    <span class="doccomment">/// The description of the notification config (max of 1024 characters).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The description of the source (max of 1024 characters).</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;Web Security Scanner is a web security scanner for common</span>
-    <span class="doccomment">/// vulnerabilities in App Engine applications. It can automatically</span>
-    <span class="doccomment">/// scan and detect four common vulnerabilities, including cross-site-scripting</span>
-    <span class="doccomment">/// (XSS), Flash injection, mixed content (HTTP in HTTPS), and</span>
-    <span class="doccomment">/// outdated/insecure libraries.&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The canonical name of the finding. It&#39;s either</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;,</span>
-    <span class="doccomment">/// &quot;folders/{folder_id}/sources/{source_id}&quot; or</span>
-    <span class="doccomment">/// &quot;projects/{project_number}/sources/{source_id}&quot;,</span>
-    <span class="doccomment">/// depending on the closest CRM ancestor of the resource associated with the</span>
-    <span class="doccomment">/// finding.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type of events the config is for, e.g. FINDING.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;notification_config::EventType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The Pub/Sub topic to send notifications to. Its format is</span>
+    <span class="doccomment">/// &quot;projects/\[project_id]/topics/[topic\]&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">pubsub_topic</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The service account that needs &quot;pubsub.topics.publish&quot;</span>
+    <span class="doccomment">/// permission to publish to the Pub/Sub topic.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service_account</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The config for triggering notifications.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;notification_config::NotifyConfig&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">notify_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">notification_config::NotifyConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">notification_config</span> {
+    <span class="doccomment">/// The config for streaming-based notifications, which send each event as soon</span>
+    <span class="doccomment">/// as it is detected.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StreamingConfig</span> {
+        <span class="doccomment">/// Expression that defines the filter to apply across create/update events</span>
+        <span class="doccomment">/// of assets or findings as specified by the event type. The expression is a</span>
+        <span class="doccomment">/// list of zero or more restrictions combined via logical operators `AND`</span>
+        <span class="doccomment">/// and `OR`. Parentheses are supported, and `OR` has higher precedence than</span>
+        <span class="doccomment">/// `AND`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Restrictions have the form `&lt;field&gt; &lt;operator&gt; &lt;value&gt;` and may have a</span>
+        <span class="doccomment">/// `-` character in front of them to indicate negation. The fields map to</span>
+        <span class="doccomment">/// those defined in the corresponding resource.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// The supported operators are:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// * `=` for all value types.</span>
+        <span class="doccomment">/// * `&gt;`, `&lt;`, `&gt;=`, `&lt;=` for integer values.</span>
+        <span class="doccomment">/// * `:`, meaning substring matching, for strings.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// The supported value types are:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// * string literals in quotes.</span>
+        <span class="doccomment">/// * integer literals without quotes.</span>
+        <span class="doccomment">/// * boolean literals `true` and `false` without quotes.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// The type of events.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
+        <span class="doccomment">/// Unspecified event type.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Events for findings.</span>
+        <span class="ident">Finding</span> <span class="op">=</span> <span class="number">1</span>,
+    }
+    <span class="doccomment">/// The config for triggering notifications.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">NotifyConfig</span> {
+        <span class="doccomment">/// The config for triggering streaming-based notifications.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">StreamingConfig</span>(<span class="ident">StreamingConfig</span>),
+    }
+}
+<span class="doccomment">/// Message that contains the resource name and display name of a folder</span>
+<span class="doccomment">/// resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Folder</span> {
+    <span class="doccomment">/// Full resource name of this folder. See:</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_folder</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The user defined display name for this folder.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_folder_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// User specified security marks that are attached to the parent Security</span>
 <span class="doccomment">/// Command Center resource. Security marks are scoped within a Security Command</span>
@@ -2137,18 +2191,6 @@
         <span class="doccomment">/// Low severity.</span>
         <span class="ident">Low</span> <span class="op">=</span> <span class="number">4</span>,
     }
-}
-<span class="doccomment">/// Message that contains the resource name and display name of a folder</span>
-<span class="doccomment">/// resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Folder</span> {
-    <span class="doccomment">/// Full resource name of this folder. See:</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_folder</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The user defined display name for this folder.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_folder_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Information related to the Google Cloud resource.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2330,84 +2372,6 @@
         <span class="kw">pub</span> <span class="ident">policy_blob</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
 }
-<span class="doccomment">/// Security Command Center notification configs.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// A notification config is a Security Command Center resource that contains the</span>
-<span class="doccomment">/// configuration to send notifications for create/update events of findings,</span>
-<span class="doccomment">/// assets and etc.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NotificationConfig</span> {
-    <span class="doccomment">/// The relative resource name of this notification config. See:</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/notificationConfigs/notify_public_bucket&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The description of the notification config (max of 1024 characters).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type of events the config is for, e.g. FINDING.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;notification_config::EventType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The Pub/Sub topic to send notifications to. Its format is</span>
-    <span class="doccomment">/// &quot;projects/\[project_id]/topics/[topic\]&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">pubsub_topic</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The service account that needs &quot;pubsub.topics.publish&quot;</span>
-    <span class="doccomment">/// permission to publish to the Pub/Sub topic.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service_account</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The config for triggering notifications.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;notification_config::NotifyConfig&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">notify_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">notification_config::NotifyConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">notification_config</span> {
-    <span class="doccomment">/// The config for streaming-based notifications, which send each event as soon</span>
-    <span class="doccomment">/// as it is detected.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StreamingConfig</span> {
-        <span class="doccomment">/// Expression that defines the filter to apply across create/update events</span>
-        <span class="doccomment">/// of assets or findings as specified by the event type. The expression is a</span>
-        <span class="doccomment">/// list of zero or more restrictions combined via logical operators `AND`</span>
-        <span class="doccomment">/// and `OR`. Parentheses are supported, and `OR` has higher precedence than</span>
-        <span class="doccomment">/// `AND`.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Restrictions have the form `&lt;field&gt; &lt;operator&gt; &lt;value&gt;` and may have a</span>
-        <span class="doccomment">/// `-` character in front of them to indicate negation. The fields map to</span>
-        <span class="doccomment">/// those defined in the corresponding resource.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// The supported operators are:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// * `=` for all value types.</span>
-        <span class="doccomment">/// * `&gt;`, `&lt;`, `&gt;=`, `&lt;=` for integer values.</span>
-        <span class="doccomment">/// * `:`, meaning substring matching, for strings.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// The supported value types are:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// * string literals in quotes.</span>
-        <span class="doccomment">/// * integer literals without quotes.</span>
-        <span class="doccomment">/// * boolean literals `true` and `false` without quotes.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// The type of events.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
-        <span class="doccomment">/// Unspecified event type.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Events for findings.</span>
-        <span class="ident">Finding</span> <span class="op">=</span> <span class="number">1</span>,
-    }
-    <span class="doccomment">/// The config for triggering notifications.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">NotifyConfig</span> {
-        <span class="doccomment">/// The config for triggering streaming-based notifications.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">StreamingConfig</span>(<span class="ident">StreamingConfig</span>),
-    }
-}
 <span class="doccomment">/// User specified settings that are attached to the Security Command</span>
 <span class="doccomment">/// Center organization.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2470,6 +2434,42 @@
             <span class="ident">Exclude</span> <span class="op">=</span> <span class="number">2</span>,
         }
     }
+}
+<span class="doccomment">/// Security Command Center finding source. A finding source</span>
+<span class="doccomment">/// is an entity or a mechanism that can produce a finding. A source is like a</span>
+<span class="doccomment">/// container of findings that come from the same scanner, logger, monitor, etc.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
+    <span class="doccomment">/// The relative resource name of this source. See:</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The source&#39;s display name.</span>
+    <span class="doccomment">/// A source&#39;s display name must be unique amongst its siblings, for example,</span>
+    <span class="doccomment">/// two sources with the same parent can&#39;t share the same display name.</span>
+    <span class="doccomment">/// The display name must have a length between 1 and 64 characters</span>
+    <span class="doccomment">/// (inclusive).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The description of the source (max of 1024 characters).</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;Web Security Scanner is a web security scanner for common</span>
+    <span class="doccomment">/// vulnerabilities in App Engine applications. It can automatically</span>
+    <span class="doccomment">/// scan and detect four common vulnerabilities, including cross-site-scripting</span>
+    <span class="doccomment">/// (XSS), Flash injection, mixed content (HTTP in HTTPS), and</span>
+    <span class="doccomment">/// outdated/insecure libraries.&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The canonical name of the finding. It&#39;s either</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;,</span>
+    <span class="doccomment">/// &quot;folders/{folder_id}/sources/{source_id}&quot; or</span>
+    <span class="doccomment">/// &quot;projects/{project_number}/sources/{source_id}&quot;,</span>
+    <span class="doccomment">/// depending on the closest CRM ancestor of the resource associated with the</span>
+    <span class="doccomment">/// finding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Request message for creating a finding.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

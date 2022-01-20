@@ -574,7 +574,55 @@
 <span id="573">573</span>
 <span id="574">574</span>
 <span id="575">575</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Namespaces, list of namespaces</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Restore as stored in Platform log. It&#39;s used to log the update details of a</span>
+<span class="doccomment">/// updateRestore request, so only mutable and non-output_only fields are</span>
+<span class="doccomment">/// included here..</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LoggedRestore</span> {
+    <span class="doccomment">/// Full name of the Backup resource this Restore resource used to restore</span>
+    <span class="doccomment">/// from. Format: projects/*/locations/*/backupPlans/*/backups/*.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">backup</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// GCP Labels.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// User specified descriptive string for this Restore.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The current state of the Restore.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;logged_restore::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Human-readable description of why the Restore is in its current state.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state_reason</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `LoggedRestore`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">logged_restore</span> {
+    <span class="doccomment">/// Possible values for state of the Restore.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// The Restore resource is in the process of being created.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The Restore resource has been created and the associated RestoreJob</span>
+        <span class="doccomment">/// Kubernetes resource has been injected into target cluster.</span>
+        <span class="ident">Creating</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the restore</span>
+        <span class="doccomment">/// operation.</span>
+        <span class="ident">InProgress</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The restore operation has completed successfully. Restored workloads may</span>
+        <span class="doccomment">/// not yet be operational.</span>
+        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The restore operation has failed.</span>
+        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// This Restore resource is in the process of being deleted.</span>
+        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">5</span>,
+    }
+}
+<span class="doccomment">/// Namespaces, list of namespaces</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Namespaces</span> {
     <span class="doccomment">/// namespaces</span>
@@ -986,54 +1034,6 @@
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
             <span class="ident">SelectedApplications</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::NamespacedNames</span>),
         }
-    }
-}
-<span class="doccomment">/// Restore as stored in Platform log. It&#39;s used to log the update details of a</span>
-<span class="doccomment">/// updateRestore request, so only mutable and non-output_only fields are</span>
-<span class="doccomment">/// included here..</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LoggedRestore</span> {
-    <span class="doccomment">/// Full name of the Backup resource this Restore resource used to restore</span>
-    <span class="doccomment">/// from. Format: projects/*/locations/*/backupPlans/*/backups/*.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">backup</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// GCP Labels.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// User specified descriptive string for this Restore.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The current state of the Restore.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;logged_restore::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Human-readable description of why the Restore is in its current state.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state_reason</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `LoggedRestore`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">logged_restore</span> {
-    <span class="doccomment">/// Possible values for state of the Restore.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// The Restore resource is in the process of being created.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The Restore resource has been created and the associated RestoreJob</span>
-        <span class="doccomment">/// Kubernetes resource has been injected into target cluster.</span>
-        <span class="ident">Creating</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the restore</span>
-        <span class="doccomment">/// operation.</span>
-        <span class="ident">InProgress</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The restore operation has completed successfully. Restored workloads may</span>
-        <span class="doccomment">/// not yet be operational.</span>
-        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The restore operation has failed.</span>
-        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// This Restore resource is in the process of being deleted.</span>
-        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">5</span>,
     }
 }
 <span class="doccomment">/// use case 1</span>

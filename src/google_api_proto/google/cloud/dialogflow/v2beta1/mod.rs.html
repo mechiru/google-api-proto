@@ -17444,284 +17444,29 @@
         }
     }
 }
-<span class="doccomment">/// A knowledge base represents a collection of knowledge documents that you</span>
-<span class="doccomment">/// provide to Dialogflow. Your knowledge documents contain information that may</span>
-<span class="doccomment">/// be useful during conversations with end-users. Some Dialogflow features use</span>
-<span class="doccomment">/// knowledge bases when looking for a response to an end-user input.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For more information, see the [knowledge base</span>
-<span class="doccomment">/// guide](&lt;https://cloud.google.com/dialogflow/docs/how/knowledge-bases&gt;).</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note: The `projects.agent.knowledgeBases` resource is deprecated;</span>
-<span class="doccomment">/// only use `projects.knowledgeBases`.</span>
+<span class="doccomment">/// Output only. Represents a notification sent to Pub/Sub subscribers for</span>
+<span class="doccomment">/// agent assistant events in a specific conversation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KnowledgeBase</span> {
-    <span class="doccomment">/// The knowledge base resource name.</span>
-    <span class="doccomment">/// The name must be empty when creating a knowledge base.</span>
-    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location</span>
-    <span class="doccomment">/// ID&gt;/knowledgeBases/&lt;Knowledge Base ID&gt;`.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HumanAgentAssistantEvent</span> {
+    <span class="doccomment">/// The conversation this notification refers to.</span>
+    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/conversations/&lt;Conversation ID&gt;`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The display name of the knowledge base. The name must be 1024</span>
-    <span class="doccomment">/// bytes or less; otherwise, the creation request fails.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Language which represents the KnowledgeBase. When the KnowledgeBase is</span>
-    <span class="doccomment">/// created/updated, this is populated for all non en-us languages. If not</span>
-    <span class="doccomment">/// populated, the default language en-us applies.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request message for \[KnowledgeBases.ListKnowledgeBases][google.cloud.dialogflow.v2beta1.KnowledgeBases.ListKnowledgeBases\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListKnowledgeBasesRequest</span> {
-    <span class="doccomment">/// Required. The project to list of knowledge bases for.</span>
-    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of items to return in a single page. By</span>
-    <span class="doccomment">/// default 10 and at most 100.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The next_page_token value returned from a previous list request.</span>
+    <span class="kw">pub</span> <span class="ident">conversation</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The participant that the suggestion is compiled for. And This field is used</span>
+    <span class="doccomment">/// to call \[Participants.ListSuggestions][google.cloud.dialogflow.v2beta1.Participants.ListSuggestions\] API. Format:</span>
+    <span class="doccomment">/// `projects/&lt;Project ID&gt;/conversations/&lt;Conversation</span>
+    <span class="doccomment">/// ID&gt;/participants/&lt;Participant ID&gt;`.</span>
+    <span class="doccomment">/// It will not be set in legacy workflow.</span>
+    <span class="doccomment">/// \[HumanAgentAssistantConfig.name][google.cloud.dialogflow.v2beta1.HumanAgentAssistantConfig.name\] for more</span>
+    <span class="doccomment">/// information.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The filter expression used to filter knowledge bases returned by the list</span>
-    <span class="doccomment">/// method. The expression has the following syntax:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///   &lt;field&gt; &lt;operator&gt; &lt;value&gt; [AND &lt;field&gt; &lt;operator&gt; &lt;value&gt;] ...</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The following fields and operators are supported:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * display_name with has(:) operator</span>
-    <span class="doccomment">/// * language_code with equals(=) operator</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * &#39;language_code=en-us&#39; matches knowledge bases with en-us language code.</span>
-    <span class="doccomment">/// * &#39;display_name:articles&#39; matches knowledge bases whose display name</span>
-    <span class="doccomment">///   contains &quot;articles&quot;.</span>
-    <span class="doccomment">/// * &#39;display_name:&quot;Best Articles&quot;&#39; matches knowledge bases whose display</span>
-    <span class="doccomment">///   name contains &quot;Best Articles&quot;.</span>
-    <span class="doccomment">/// * &#39;language_code=en-gb AND display_name=articles&#39; matches all knowledge</span>
-    <span class="doccomment">///   bases whose display name contains &quot;articles&quot; and whose language code is</span>
-    <span class="doccomment">///   &quot;en-gb&quot;.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note: An empty filter string (i.e. &quot;&quot;) is a no-op and will result in no</span>
-    <span class="doccomment">/// filtering.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For more information about filtering, see</span>
-    <span class="doccomment">/// [API Filtering](&lt;https://aip.dev/160&gt;).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Response message for \[KnowledgeBases.ListKnowledgeBases][google.cloud.dialogflow.v2beta1.KnowledgeBases.ListKnowledgeBases\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListKnowledgeBasesResponse</span> {
-    <span class="doccomment">/// The list of knowledge bases.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">knowledge_bases</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">KnowledgeBase</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no</span>
-    <span class="doccomment">/// more results in the list.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request message for \[KnowledgeBases.GetKnowledgeBase][google.cloud.dialogflow.v2beta1.KnowledgeBases.GetKnowledgeBase\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetKnowledgeBaseRequest</span> {
-    <span class="doccomment">/// Required. The name of the knowledge base to retrieve.</span>
-    <span class="doccomment">/// Format `projects/&lt;Project ID&gt;/locations/&lt;Location</span>
-    <span class="doccomment">/// ID&gt;/knowledgeBases/&lt;Knowledge Base ID&gt;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request message for \[KnowledgeBases.CreateKnowledgeBase][google.cloud.dialogflow.v2beta1.KnowledgeBases.CreateKnowledgeBase\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateKnowledgeBaseRequest</span> {
-    <span class="doccomment">/// Required. The project to create a knowledge base for.</span>
-    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The knowledge base to create.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">knowledge_base</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">KnowledgeBase</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request message for \[KnowledgeBases.DeleteKnowledgeBase][google.cloud.dialogflow.v2beta1.KnowledgeBases.DeleteKnowledgeBase\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteKnowledgeBaseRequest</span> {
-    <span class="doccomment">/// Required. The name of the knowledge base to delete.</span>
-    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location</span>
-    <span class="doccomment">/// ID&gt;/knowledgeBases/&lt;Knowledge Base ID&gt;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Force deletes the knowledge base. When set to true, any documents</span>
-    <span class="doccomment">/// in the knowledge base are also deleted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">force</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Request message for \[KnowledgeBases.UpdateKnowledgeBase][google.cloud.dialogflow.v2beta1.KnowledgeBases.UpdateKnowledgeBase\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateKnowledgeBaseRequest</span> {
-    <span class="doccomment">/// Required. The knowledge base to update.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">knowledge_base</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">KnowledgeBase</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Not specified means `update all`.</span>
-    <span class="doccomment">/// Currently, only `display_name` can be updated, an InvalidArgument will be</span>
-    <span class="doccomment">/// returned for attempting to update other fields.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">knowledge_bases_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for managing [KnowledgeBases][google.cloud.dialogflow.v2beta1.KnowledgeBase].&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KnowledgeBasesClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">KnowledgeBasesClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">KnowledgeBasesClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">KnowledgeBasesClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns the list of all knowledge bases of the specified agent.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_knowledge_bases</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListKnowledgeBasesRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListKnowledgeBasesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/ListKnowledgeBases&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Retrieves the specified knowledge base.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_knowledge_base</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetKnowledgeBaseRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::KnowledgeBase</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/GetKnowledgeBase&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a knowledge base.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_knowledge_base</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateKnowledgeBaseRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::KnowledgeBase</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/CreateKnowledgeBase&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes the specified knowledge base.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_knowledge_base</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteKnowledgeBaseRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/DeleteKnowledgeBase&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Updates the specified knowledge base.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_knowledge_base</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateKnowledgeBaseRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::KnowledgeBase</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/UpdateKnowledgeBase&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
+    <span class="kw">pub</span> <span class="ident">participant</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The suggestion results payload that this notification refers to. It will</span>
+    <span class="doccomment">/// only be set when</span>
+    <span class="doccomment">/// \[HumanAgentAssistantConfig.SuggestionConfig.group_suggestion_responses][google.cloud.dialogflow.v2beta1.HumanAgentAssistantConfig.SuggestionConfig.group_suggestion_responses\]</span>
+    <span class="doccomment">/// sets to true.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">suggestion_results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">SuggestionResult</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Answer records are records to manage answer history and feedbacks for</span>
 <span class="doccomment">/// Dialogflow.</span>
@@ -18092,30 +17837,6 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
-}
-<span class="doccomment">/// Output only. Represents a notification sent to Pub/Sub subscribers for</span>
-<span class="doccomment">/// agent assistant events in a specific conversation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HumanAgentAssistantEvent</span> {
-    <span class="doccomment">/// The conversation this notification refers to.</span>
-    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/conversations/&lt;Conversation ID&gt;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">conversation</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The participant that the suggestion is compiled for. And This field is used</span>
-    <span class="doccomment">/// to call \[Participants.ListSuggestions][google.cloud.dialogflow.v2beta1.Participants.ListSuggestions\] API. Format:</span>
-    <span class="doccomment">/// `projects/&lt;Project ID&gt;/conversations/&lt;Conversation</span>
-    <span class="doccomment">/// ID&gt;/participants/&lt;Participant ID&gt;`.</span>
-    <span class="doccomment">/// It will not be set in legacy workflow.</span>
-    <span class="doccomment">/// \[HumanAgentAssistantConfig.name][google.cloud.dialogflow.v2beta1.HumanAgentAssistantConfig.name\] for more</span>
-    <span class="doccomment">/// information.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">participant</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The suggestion results payload that this notification refers to. It will</span>
-    <span class="doccomment">/// only be set when</span>
-    <span class="doccomment">/// \[HumanAgentAssistantConfig.SuggestionConfig.group_suggestion_responses][google.cloud.dialogflow.v2beta1.HumanAgentAssistantConfig.SuggestionConfig.group_suggestion_responses\]</span>
-    <span class="doccomment">/// sets to true.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">suggestion_results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">SuggestionResult</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// The request message for a webhook call.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -18531,6 +18252,343 @@
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
+    }
+}
+<span class="doccomment">/// A knowledge base represents a collection of knowledge documents that you</span>
+<span class="doccomment">/// provide to Dialogflow. Your knowledge documents contain information that may</span>
+<span class="doccomment">/// be useful during conversations with end-users. Some Dialogflow features use</span>
+<span class="doccomment">/// knowledge bases when looking for a response to an end-user input.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For more information, see the [knowledge base</span>
+<span class="doccomment">/// guide](&lt;https://cloud.google.com/dialogflow/docs/how/knowledge-bases&gt;).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note: The `projects.agent.knowledgeBases` resource is deprecated;</span>
+<span class="doccomment">/// only use `projects.knowledgeBases`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KnowledgeBase</span> {
+    <span class="doccomment">/// The knowledge base resource name.</span>
+    <span class="doccomment">/// The name must be empty when creating a knowledge base.</span>
+    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location</span>
+    <span class="doccomment">/// ID&gt;/knowledgeBases/&lt;Knowledge Base ID&gt;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The display name of the knowledge base. The name must be 1024</span>
+    <span class="doccomment">/// bytes or less; otherwise, the creation request fails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Language which represents the KnowledgeBase. When the KnowledgeBase is</span>
+    <span class="doccomment">/// created/updated, this is populated for all non en-us languages. If not</span>
+    <span class="doccomment">/// populated, the default language en-us applies.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request message for \[KnowledgeBases.ListKnowledgeBases][google.cloud.dialogflow.v2beta1.KnowledgeBases.ListKnowledgeBases\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListKnowledgeBasesRequest</span> {
+    <span class="doccomment">/// Required. The project to list of knowledge bases for.</span>
+    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of items to return in a single page. By</span>
+    <span class="doccomment">/// default 10 and at most 100.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The next_page_token value returned from a previous list request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The filter expression used to filter knowledge bases returned by the list</span>
+    <span class="doccomment">/// method. The expression has the following syntax:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   &lt;field&gt; &lt;operator&gt; &lt;value&gt; [AND &lt;field&gt; &lt;operator&gt; &lt;value&gt;] ...</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The following fields and operators are supported:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * display_name with has(:) operator</span>
+    <span class="doccomment">/// * language_code with equals(=) operator</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * &#39;language_code=en-us&#39; matches knowledge bases with en-us language code.</span>
+    <span class="doccomment">/// * &#39;display_name:articles&#39; matches knowledge bases whose display name</span>
+    <span class="doccomment">///   contains &quot;articles&quot;.</span>
+    <span class="doccomment">/// * &#39;display_name:&quot;Best Articles&quot;&#39; matches knowledge bases whose display</span>
+    <span class="doccomment">///   name contains &quot;Best Articles&quot;.</span>
+    <span class="doccomment">/// * &#39;language_code=en-gb AND display_name=articles&#39; matches all knowledge</span>
+    <span class="doccomment">///   bases whose display name contains &quot;articles&quot; and whose language code is</span>
+    <span class="doccomment">///   &quot;en-gb&quot;.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note: An empty filter string (i.e. &quot;&quot;) is a no-op and will result in no</span>
+    <span class="doccomment">/// filtering.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For more information about filtering, see</span>
+    <span class="doccomment">/// [API Filtering](&lt;https://aip.dev/160&gt;).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Response message for \[KnowledgeBases.ListKnowledgeBases][google.cloud.dialogflow.v2beta1.KnowledgeBases.ListKnowledgeBases\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListKnowledgeBasesResponse</span> {
+    <span class="doccomment">/// The list of knowledge bases.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">knowledge_bases</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">KnowledgeBase</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no</span>
+    <span class="doccomment">/// more results in the list.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request message for \[KnowledgeBases.GetKnowledgeBase][google.cloud.dialogflow.v2beta1.KnowledgeBases.GetKnowledgeBase\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetKnowledgeBaseRequest</span> {
+    <span class="doccomment">/// Required. The name of the knowledge base to retrieve.</span>
+    <span class="doccomment">/// Format `projects/&lt;Project ID&gt;/locations/&lt;Location</span>
+    <span class="doccomment">/// ID&gt;/knowledgeBases/&lt;Knowledge Base ID&gt;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request message for \[KnowledgeBases.CreateKnowledgeBase][google.cloud.dialogflow.v2beta1.KnowledgeBases.CreateKnowledgeBase\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateKnowledgeBaseRequest</span> {
+    <span class="doccomment">/// Required. The project to create a knowledge base for.</span>
+    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The knowledge base to create.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">knowledge_base</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">KnowledgeBase</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request message for \[KnowledgeBases.DeleteKnowledgeBase][google.cloud.dialogflow.v2beta1.KnowledgeBases.DeleteKnowledgeBase\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteKnowledgeBaseRequest</span> {
+    <span class="doccomment">/// Required. The name of the knowledge base to delete.</span>
+    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location</span>
+    <span class="doccomment">/// ID&gt;/knowledgeBases/&lt;Knowledge Base ID&gt;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Force deletes the knowledge base. When set to true, any documents</span>
+    <span class="doccomment">/// in the knowledge base are also deleted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">force</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Request message for \[KnowledgeBases.UpdateKnowledgeBase][google.cloud.dialogflow.v2beta1.KnowledgeBases.UpdateKnowledgeBase\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateKnowledgeBaseRequest</span> {
+    <span class="doccomment">/// Required. The knowledge base to update.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">knowledge_base</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">KnowledgeBase</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Not specified means `update all`.</span>
+    <span class="doccomment">/// Currently, only `display_name` can be updated, an InvalidArgument will be</span>
+    <span class="doccomment">/// returned for attempting to update other fields.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">knowledge_bases_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for managing [KnowledgeBases][google.cloud.dialogflow.v2beta1.KnowledgeBase].&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KnowledgeBasesClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">KnowledgeBasesClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">KnowledgeBasesClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">KnowledgeBasesClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns the list of all knowledge bases of the specified agent.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_knowledge_bases</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListKnowledgeBasesRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListKnowledgeBasesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/ListKnowledgeBases&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Retrieves the specified knowledge base.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_knowledge_base</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetKnowledgeBaseRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::KnowledgeBase</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/GetKnowledgeBase&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a knowledge base.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_knowledge_base</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateKnowledgeBaseRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::KnowledgeBase</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/CreateKnowledgeBase&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes the specified knowledge base.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_knowledge_base</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteKnowledgeBaseRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/DeleteKnowledgeBase&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Updates the specified knowledge base.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: The `projects.agent.knowledgeBases` resource is deprecated;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only use `projects.knowledgeBases`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_knowledge_base</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateKnowledgeBaseRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::KnowledgeBase</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dialogflow.v2beta1.KnowledgeBases/UpdateKnowledgeBase&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+    }
+}
+<span class="doccomment">/// Represents a notification sent to Pub/Sub subscribers for conversation</span>
+<span class="doccomment">/// lifecycle events.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConversationEvent</span> {
+    <span class="doccomment">/// Required. The unique identifier of the conversation this notification</span>
+    <span class="doccomment">/// refers to.</span>
+    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/conversations/&lt;Conversation ID&gt;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">conversation</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The type of the event that this notification refers to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;conversation_event::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. More detailed information about an error. Only set for type</span>
+    <span class="doccomment">/// UNRECOVERABLE_ERROR_IN_PHONE_CALL.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error_status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Payload of conversation event.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;conversation_event::Payload&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">conversation_event::Payload</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ConversationEvent`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">conversation_event</span> {
+    <span class="doccomment">/// Enumeration of the types of events available.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+        <span class="doccomment">/// Type not set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// A new conversation has been opened. This is fired when a telephone call</span>
+        <span class="doccomment">/// is answered, or a conversation is created via the API.</span>
+        <span class="ident">ConversationStarted</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// An existing conversation has closed. This is fired when a telephone call</span>
+        <span class="doccomment">/// is terminated, or a conversation is closed via the API.</span>
+        <span class="ident">ConversationFinished</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// An existing conversation has received a new message, either from API or</span>
+        <span class="doccomment">/// telephony. It is configured in</span>
+        <span class="doccomment">/// \[ConversationProfile.new_message_event_notification_config][google.cloud.dialogflow.v2beta1.ConversationProfile.new_message_event_notification_config\]</span>
+        <span class="ident">NewMessage</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// Unrecoverable error during a telephone call.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// In general non-recoverable errors only occur if something was</span>
+        <span class="doccomment">/// misconfigured in the ConversationProfile corresponding to the call. After</span>
+        <span class="doccomment">/// a non-recoverable error, Dialogflow may stop responding.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// We don&#39;t fire this event:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// * in an API call because we can directly return the error, or,</span>
+        <span class="doccomment">/// * when we can recover from an error.</span>
+        <span class="ident">UnrecoverableError</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+    <span class="doccomment">/// Payload of conversation event.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Payload</span> {
+        <span class="doccomment">/// Payload of NEW_MESSAGE event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">NewMessagePayload</span>(<span class="ident"><span class="kw">super</span>::Message</span>),
     }
 }
 <span class="doccomment">/// Represents a conversation.</span>
@@ -18953,64 +19011,6 @@
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-    }
-}
-<span class="doccomment">/// Represents a notification sent to Pub/Sub subscribers for conversation</span>
-<span class="doccomment">/// lifecycle events.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConversationEvent</span> {
-    <span class="doccomment">/// Required. The unique identifier of the conversation this notification</span>
-    <span class="doccomment">/// refers to.</span>
-    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/conversations/&lt;Conversation ID&gt;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">conversation</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The type of the event that this notification refers to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;conversation_event::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. More detailed information about an error. Only set for type</span>
-    <span class="doccomment">/// UNRECOVERABLE_ERROR_IN_PHONE_CALL.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Payload of conversation event.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;conversation_event::Payload&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">conversation_event::Payload</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ConversationEvent`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">conversation_event</span> {
-    <span class="doccomment">/// Enumeration of the types of events available.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
-        <span class="doccomment">/// Type not set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A new conversation has been opened. This is fired when a telephone call</span>
-        <span class="doccomment">/// is answered, or a conversation is created via the API.</span>
-        <span class="ident">ConversationStarted</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// An existing conversation has closed. This is fired when a telephone call</span>
-        <span class="doccomment">/// is terminated, or a conversation is closed via the API.</span>
-        <span class="ident">ConversationFinished</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// An existing conversation has received a new message, either from API or</span>
-        <span class="doccomment">/// telephony. It is configured in</span>
-        <span class="doccomment">/// \[ConversationProfile.new_message_event_notification_config][google.cloud.dialogflow.v2beta1.ConversationProfile.new_message_event_notification_config\]</span>
-        <span class="ident">NewMessage</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// Unrecoverable error during a telephone call.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// In general non-recoverable errors only occur if something was</span>
-        <span class="doccomment">/// misconfigured in the ConversationProfile corresponding to the call. After</span>
-        <span class="doccomment">/// a non-recoverable error, Dialogflow may stop responding.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// We don&#39;t fire this event:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// * in an API call because we can directly return the error, or,</span>
-        <span class="doccomment">/// * when we can recover from an error.</span>
-        <span class="ident">UnrecoverableError</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-    <span class="doccomment">/// Payload of conversation event.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Payload</span> {
-        <span class="doccomment">/// Payload of NEW_MESSAGE event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">NewMessagePayload</span>(<span class="ident"><span class="kw">super</span>::Message</span>),
     }
 }
 </code></pre></div>

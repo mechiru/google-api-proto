@@ -2362,168 +2362,6 @@
     <span class="doccomment">/// HTTP DELETE</span>
     <span class="ident">Delete</span> <span class="op">=</span> <span class="number">5</span>,
 }
-<span class="doccomment">/// A unit of scheduled work.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Task</span> {
-    <span class="doccomment">/// Optionally caller-specified in \[CreateTask][google.cloud.tasks.v2beta2.CloudTasks.CreateTask\].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The task name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The task name must have the following format:</span>
-    <span class="doccomment">/// `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `PROJECT_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]),</span>
-    <span class="doccomment">///    hyphens (-), colons (:), or periods (.).</span>
-    <span class="doccomment">///    For more information, see</span>
-    <span class="doccomment">///    [Identifying</span>
-    <span class="doccomment">///    projects](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects&gt;)</span>
-    <span class="doccomment">/// * `LOCATION_ID` is the canonical ID for the task&#39;s location.</span>
-    <span class="doccomment">///    The list of available locations can be obtained by calling</span>
-    <span class="doccomment">///    \[ListLocations][google.cloud.location.Locations.ListLocations\].</span>
-    <span class="doccomment">///    For more information, see &lt;https://cloud.google.com/about/locations/.&gt;</span>
-    <span class="doccomment">/// * `QUEUE_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]), or</span>
-    <span class="doccomment">///   hyphens (-). The maximum length is 100 characters.</span>
-    <span class="doccomment">/// * `TASK_ID` can contain only letters (\[A-Za-z\]), numbers (\[0-9\]),</span>
-    <span class="doccomment">///   hyphens (-), or underscores (_). The maximum length is 500 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The time when the task is scheduled to be attempted.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For App Engine queues, this is when the task will be attempted or retried.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For pull queues, this is the time when the task is available to</span>
-    <span class="doccomment">/// be leased; if a task is currently leased, this is the time when</span>
-    <span class="doccomment">/// the current lease expires, that is, the time that the task was</span>
-    <span class="doccomment">/// leased plus the \[lease_duration][google.cloud.tasks.v2beta2.LeaseTasksRequest.lease_duration\].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `schedule_time` will be truncated to the nearest microsecond.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">schedule_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The time that the task was created.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `create_time` will be truncated to the nearest second.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The task status.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">TaskStatus</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The view specifies which subset of the \[Task][google.cloud.tasks.v2beta2.Task\] has</span>
-    <span class="doccomment">/// been returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;task::View&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Required.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The task&#39;s payload is used by the task&#39;s target to process the task.</span>
-    <span class="doccomment">/// A payload is valid only if it is compatible with the queue&#39;s target.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;task::PayloadType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">payload_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">task::PayloadType</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Task`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">task</span> {
-    <span class="doccomment">/// The view specifies a subset of \[Task][google.cloud.tasks.v2beta2.Task\] data.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// When a task is returned in a response, not all</span>
-    <span class="doccomment">/// information is retrieved by default because some data, such as</span>
-    <span class="doccomment">/// payloads, might be desirable to return only when needed because</span>
-    <span class="doccomment">/// of its large size or because of the sensitivity of data that it</span>
-    <span class="doccomment">/// contains.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">View</span> {
-        <span class="doccomment">/// Unspecified. Defaults to BASIC.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The basic view omits fields which can be large or can contain</span>
-        <span class="doccomment">/// sensitive data.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This view does not include the</span>
-        <span class="doccomment">/// ([payload in AppEngineHttpRequest]\[google.cloud.tasks.v2beta2.AppEngineHttpRequest\] and</span>
-        <span class="doccomment">/// [payload in PullMessage]\[google.cloud.tasks.v2beta2.PullMessage.payload\]). These payloads are</span>
-        <span class="doccomment">/// desirable to return only when needed, because they can be large</span>
-        <span class="doccomment">/// and because of the sensitivity of the data that you choose to</span>
-        <span class="doccomment">/// store in it.</span>
-        <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// All information is returned.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Authorization for \[FULL][google.cloud.tasks.v2beta2.Task.View.FULL\] requires</span>
-        <span class="doccomment">/// `cloudtasks.tasks.fullView` [Google IAM](&lt;https://cloud.google.com/iam/&gt;)</span>
-        <span class="doccomment">/// permission on the \[Queue][google.cloud.tasks.v2beta2.Queue\] resource.</span>
-        <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// Required.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The task&#39;s payload is used by the task&#39;s target to process the task.</span>
-    <span class="doccomment">/// A payload is valid only if it is compatible with the queue&#39;s target.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PayloadType</span> {
-        <span class="doccomment">/// App Engine HTTP request that is sent to the task&#39;s target. Can</span>
-        <span class="doccomment">/// be set only if</span>
-        <span class="doccomment">/// \[app_engine_http_target][google.cloud.tasks.v2beta2.Queue.app_engine_http_target\] is set</span>
-        <span class="doccomment">/// on the queue.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// An App Engine task is a task that has \[AppEngineHttpRequest][google.cloud.tasks.v2beta2.AppEngineHttpRequest\] set.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">AppEngineHttpRequest</span>(<span class="ident"><span class="kw">super</span>::AppEngineHttpRequest</span>),
-        <span class="doccomment">/// \[LeaseTasks][google.cloud.tasks.v2beta2.CloudTasks.LeaseTasks\] to process the task. Can be</span>
-        <span class="doccomment">/// set only if \[pull_target][google.cloud.tasks.v2beta2.Queue.pull_target\] is set on the queue.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// A pull task is a task that has \[PullMessage][google.cloud.tasks.v2beta2.PullMessage\] set.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">PullMessage</span>(<span class="ident"><span class="kw">super</span>::PullMessage</span>),
-    }
-}
-<span class="doccomment">/// Status of the task.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TaskStatus</span> {
-    <span class="doccomment">/// Output only. The number of attempts dispatched.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This count includes attempts which have been dispatched but haven&#39;t</span>
-    <span class="doccomment">/// received a response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attempt_dispatch_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. The number of attempts which have received a response.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attempt_response_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. The status of the task&#39;s first attempt.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Only \[dispatch_time][google.cloud.tasks.v2beta2.AttemptStatus.dispatch_time\] will be set.</span>
-    <span class="doccomment">/// The other \[AttemptStatus][google.cloud.tasks.v2beta2.AttemptStatus\] information is not retained by Cloud Tasks.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">first_attempt_status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AttemptStatus</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The status of the task&#39;s last attempt.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_attempt_status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AttemptStatus</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The status of a task attempt.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AttemptStatus</span> {
-    <span class="doccomment">/// Output only. The time that this attempt was scheduled.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `schedule_time` will be truncated to the nearest microsecond.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">schedule_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The time that this attempt was dispatched.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `dispatch_time` will be truncated to the nearest microsecond.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dispatch_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The time that this attempt response was received.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `response_time` will be truncated to the nearest microsecond.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The response from the target for this attempt.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the task has not been attempted or the task is currently running</span>
-    <span class="doccomment">/// then the response status is unset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response_status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-}
 <span class="doccomment">/// A queue is a container of related tasks. Queues are configured to manage</span>
 <span class="doccomment">/// how those tasks are dispatched. Configurable properties include rate limits,</span>
 <span class="doccomment">/// retry options, target types, and others.</span>
@@ -2949,6 +2787,168 @@
     <span class="doccomment">/// tasks in the queue are targeting.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">effective_execution_rate</span>: <span class="ident">f64</span>,
+}
+<span class="doccomment">/// A unit of scheduled work.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Task</span> {
+    <span class="doccomment">/// Optionally caller-specified in \[CreateTask][google.cloud.tasks.v2beta2.CloudTasks.CreateTask\].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The task name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The task name must have the following format:</span>
+    <span class="doccomment">/// `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `PROJECT_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]),</span>
+    <span class="doccomment">///    hyphens (-), colons (:), or periods (.).</span>
+    <span class="doccomment">///    For more information, see</span>
+    <span class="doccomment">///    [Identifying</span>
+    <span class="doccomment">///    projects](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects&gt;)</span>
+    <span class="doccomment">/// * `LOCATION_ID` is the canonical ID for the task&#39;s location.</span>
+    <span class="doccomment">///    The list of available locations can be obtained by calling</span>
+    <span class="doccomment">///    \[ListLocations][google.cloud.location.Locations.ListLocations\].</span>
+    <span class="doccomment">///    For more information, see &lt;https://cloud.google.com/about/locations/.&gt;</span>
+    <span class="doccomment">/// * `QUEUE_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]), or</span>
+    <span class="doccomment">///   hyphens (-). The maximum length is 100 characters.</span>
+    <span class="doccomment">/// * `TASK_ID` can contain only letters (\[A-Za-z\]), numbers (\[0-9\]),</span>
+    <span class="doccomment">///   hyphens (-), or underscores (_). The maximum length is 500 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The time when the task is scheduled to be attempted.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For App Engine queues, this is when the task will be attempted or retried.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For pull queues, this is the time when the task is available to</span>
+    <span class="doccomment">/// be leased; if a task is currently leased, this is the time when</span>
+    <span class="doccomment">/// the current lease expires, that is, the time that the task was</span>
+    <span class="doccomment">/// leased plus the \[lease_duration][google.cloud.tasks.v2beta2.LeaseTasksRequest.lease_duration\].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `schedule_time` will be truncated to the nearest microsecond.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">schedule_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The time that the task was created.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `create_time` will be truncated to the nearest second.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The task status.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">TaskStatus</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The view specifies which subset of the \[Task][google.cloud.tasks.v2beta2.Task\] has</span>
+    <span class="doccomment">/// been returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;task::View&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Required.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The task&#39;s payload is used by the task&#39;s target to process the task.</span>
+    <span class="doccomment">/// A payload is valid only if it is compatible with the queue&#39;s target.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;task::PayloadType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">payload_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">task::PayloadType</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Task`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">task</span> {
+    <span class="doccomment">/// The view specifies a subset of \[Task][google.cloud.tasks.v2beta2.Task\] data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When a task is returned in a response, not all</span>
+    <span class="doccomment">/// information is retrieved by default because some data, such as</span>
+    <span class="doccomment">/// payloads, might be desirable to return only when needed because</span>
+    <span class="doccomment">/// of its large size or because of the sensitivity of data that it</span>
+    <span class="doccomment">/// contains.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">View</span> {
+        <span class="doccomment">/// Unspecified. Defaults to BASIC.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The basic view omits fields which can be large or can contain</span>
+        <span class="doccomment">/// sensitive data.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This view does not include the</span>
+        <span class="doccomment">/// ([payload in AppEngineHttpRequest]\[google.cloud.tasks.v2beta2.AppEngineHttpRequest\] and</span>
+        <span class="doccomment">/// [payload in PullMessage]\[google.cloud.tasks.v2beta2.PullMessage.payload\]). These payloads are</span>
+        <span class="doccomment">/// desirable to return only when needed, because they can be large</span>
+        <span class="doccomment">/// and because of the sensitivity of the data that you choose to</span>
+        <span class="doccomment">/// store in it.</span>
+        <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// All information is returned.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Authorization for \[FULL][google.cloud.tasks.v2beta2.Task.View.FULL\] requires</span>
+        <span class="doccomment">/// `cloudtasks.tasks.fullView` [Google IAM](&lt;https://cloud.google.com/iam/&gt;)</span>
+        <span class="doccomment">/// permission on the \[Queue][google.cloud.tasks.v2beta2.Queue\] resource.</span>
+        <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// Required.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The task&#39;s payload is used by the task&#39;s target to process the task.</span>
+    <span class="doccomment">/// A payload is valid only if it is compatible with the queue&#39;s target.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PayloadType</span> {
+        <span class="doccomment">/// App Engine HTTP request that is sent to the task&#39;s target. Can</span>
+        <span class="doccomment">/// be set only if</span>
+        <span class="doccomment">/// \[app_engine_http_target][google.cloud.tasks.v2beta2.Queue.app_engine_http_target\] is set</span>
+        <span class="doccomment">/// on the queue.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// An App Engine task is a task that has \[AppEngineHttpRequest][google.cloud.tasks.v2beta2.AppEngineHttpRequest\] set.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">AppEngineHttpRequest</span>(<span class="ident"><span class="kw">super</span>::AppEngineHttpRequest</span>),
+        <span class="doccomment">/// \[LeaseTasks][google.cloud.tasks.v2beta2.CloudTasks.LeaseTasks\] to process the task. Can be</span>
+        <span class="doccomment">/// set only if \[pull_target][google.cloud.tasks.v2beta2.Queue.pull_target\] is set on the queue.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// A pull task is a task that has \[PullMessage][google.cloud.tasks.v2beta2.PullMessage\] set.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">PullMessage</span>(<span class="ident"><span class="kw">super</span>::PullMessage</span>),
+    }
+}
+<span class="doccomment">/// Status of the task.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TaskStatus</span> {
+    <span class="doccomment">/// Output only. The number of attempts dispatched.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This count includes attempts which have been dispatched but haven&#39;t</span>
+    <span class="doccomment">/// received a response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attempt_dispatch_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. The number of attempts which have received a response.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attempt_response_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. The status of the task&#39;s first attempt.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only \[dispatch_time][google.cloud.tasks.v2beta2.AttemptStatus.dispatch_time\] will be set.</span>
+    <span class="doccomment">/// The other \[AttemptStatus][google.cloud.tasks.v2beta2.AttemptStatus\] information is not retained by Cloud Tasks.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">first_attempt_status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AttemptStatus</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The status of the task&#39;s last attempt.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_attempt_status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AttemptStatus</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The status of a task attempt.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AttemptStatus</span> {
+    <span class="doccomment">/// Output only. The time that this attempt was scheduled.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `schedule_time` will be truncated to the nearest microsecond.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">schedule_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The time that this attempt was dispatched.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `dispatch_time` will be truncated to the nearest microsecond.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dispatch_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The time that this attempt response was received.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `response_time` will be truncated to the nearest microsecond.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The response from the target for this attempt.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the task has not been attempted or the task is currently running</span>
+    <span class="doccomment">/// then the response status is unset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response_status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Request message for \[ListQueues][google.cloud.tasks.v2beta2.CloudTasks.ListQueues\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

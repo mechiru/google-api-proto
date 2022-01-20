@@ -545,40 +545,25 @@
 <span id="544">544</span>
 <span id="545">545</span>
 <span id="546">546</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Arrow schema.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Table reference that includes just the 3 strings needed to identify a table.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowSchema</span> {
-    <span class="doccomment">/// IPC serialized Arrow schema.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">serialized_schema</span>: <span class="ident">::prost::bytes::Bytes</span>,
-}
-<span class="doccomment">/// Arrow RecordBatch.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowRecordBatch</span> {
-    <span class="doccomment">/// IPC serialized Arrow RecordBatch.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">serialized_record_batch</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// The count of rows in the returning block.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// Avro schema.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AvroSchema</span> {
-    <span class="doccomment">/// Json serialized schema, as described at</span>
-    <span class="doccomment">/// &lt;https://avro.apache.org/docs/1.8.1/spec.html&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableReference</span> {
+    <span class="doccomment">/// The assigned project ID of the project.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">schema</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The ID of the dataset in the above project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The ID of the table in the above dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">table_id</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Avro rows.</span>
+<span class="doccomment">/// All fields in this message optional.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AvroRows</span> {
-    <span class="doccomment">/// Binary serialized rows in a block.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">serialized_binary_rows</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// The count of rows in the returning block.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableModifiers</span> {
+    <span class="doccomment">/// The snapshot time of the table. If not set, interpreted as now.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">snapshot_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Options dictating how we read a table.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -600,25 +585,40 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">row_restriction</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Table reference that includes just the 3 strings needed to identify a table.</span>
+<span class="doccomment">/// Avro schema.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableReference</span> {
-    <span class="doccomment">/// The assigned project ID of the project.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AvroSchema</span> {
+    <span class="doccomment">/// Json serialized schema, as described at</span>
+    <span class="doccomment">/// &lt;https://avro.apache.org/docs/1.8.1/spec.html&gt;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The ID of the dataset in the above project.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The ID of the table in the above dataset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">table_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="kw">pub</span> <span class="ident">schema</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// All fields in this message optional.</span>
+<span class="doccomment">/// Avro rows.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableModifiers</span> {
-    <span class="doccomment">/// The snapshot time of the table. If not set, interpreted as now.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">snapshot_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AvroRows</span> {
+    <span class="doccomment">/// Binary serialized rows in a block.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">serialized_binary_rows</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// The count of rows in the returning block.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Arrow schema.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowSchema</span> {
+    <span class="doccomment">/// IPC serialized Arrow schema.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">serialized_schema</span>: <span class="ident">::prost::bytes::Bytes</span>,
+}
+<span class="doccomment">/// Arrow RecordBatch.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowRecordBatch</span> {
+    <span class="doccomment">/// IPC serialized Arrow RecordBatch.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">serialized_record_batch</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// The count of rows in the returning block.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
 }
 <span class="doccomment">/// Information about a single data stream within a read session.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

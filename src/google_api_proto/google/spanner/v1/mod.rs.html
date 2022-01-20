@@ -2225,7 +2225,272 @@
 <span id="2224">2224</span>
 <span id="2225">2225</span>
 <span id="2226">2226</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Node information for nodes appearing in a \[QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes\].</span>
+</pre><pre class="rust"><code><span class="doccomment">/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommitResponse</span> {
+    <span class="doccomment">/// The Cloud Spanner timestamp at which the transaction committed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">commit_timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The statistics about this Commit. Not returned by default.</span>
+    <span class="doccomment">/// For more information, see</span>
+    <span class="doccomment">/// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">commit_stats</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">commit_response::CommitStats</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CommitResponse`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">commit_response</span> {
+    <span class="doccomment">/// Additional statistics about a commit.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommitStats</span> {
+        <span class="doccomment">/// The total number of mutations for the transaction. Knowing the</span>
+        <span class="doccomment">/// `mutation_count` value can help you maximize the number of mutations</span>
+        <span class="doccomment">/// in a transaction and minimize the number of API round trips. You can</span>
+        <span class="doccomment">/// also monitor this value to prevent transactions from exceeding the system</span>
+        <span class="doccomment">/// \[limit\](&lt;http://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).</span>
+        <span class="doccomment">/// If the number of mutations exceeds the limit, the server returns</span>
+        <span class="doccomment">/// \[INVALID_ARGUMENT\](&lt;http://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">mutation_count</span>: <span class="ident">i64</span>,
+    }
+}
+<span class="doccomment">/// KeyRange represents a range of rows in a table or index.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A range has a start key and an end key. These keys can be open or</span>
+<span class="doccomment">/// closed, indicating if the range includes rows with that key.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Keys are represented by lists, where the ith value in the list</span>
+<span class="doccomment">/// corresponds to the ith component of the table or index primary key.</span>
+<span class="doccomment">/// Individual values are encoded as described</span>
+<span class="doccomment">/// \[here][google.spanner.v1.TypeCode\].</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For example, consider the following table definition:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     CREATE TABLE UserEvents (</span>
+<span class="doccomment">///       UserName STRING(MAX),</span>
+<span class="doccomment">///       EventDate STRING(10)</span>
+<span class="doccomment">///     ) PRIMARY KEY(UserName, EventDate);</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The following keys name rows in this table:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     [&quot;Bob&quot;, &quot;2014-09-23&quot;]</span>
+<span class="doccomment">///     [&quot;Alfred&quot;, &quot;2015-06-12&quot;]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Since the `UserEvents` table&#39;s `PRIMARY KEY` clause names two</span>
+<span class="doccomment">/// columns, each `UserEvents` key has two elements; the first is the</span>
+<span class="doccomment">/// `UserName`, and the second is the `EventDate`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Key ranges with multiple components are interpreted</span>
+<span class="doccomment">/// lexicographically by component using the table or index key&#39;s declared</span>
+<span class="doccomment">/// sort order. For example, the following range returns all events for</span>
+<span class="doccomment">/// user `&quot;Bob&quot;` that occurred in the year 2015:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     &quot;start_closed&quot;: [&quot;Bob&quot;, &quot;2015-01-01&quot;]</span>
+<span class="doccomment">///     &quot;end_closed&quot;: [&quot;Bob&quot;, &quot;2015-12-31&quot;]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Start and end keys can omit trailing key components. This affects the</span>
+<span class="doccomment">/// inclusion and exclusion of rows that exactly match the provided key</span>
+<span class="doccomment">/// components: if the key is closed, then rows that exactly match the</span>
+<span class="doccomment">/// provided components are included; if the key is open, then rows</span>
+<span class="doccomment">/// that exactly match are not included.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For example, the following range includes all events for `&quot;Bob&quot;` that</span>
+<span class="doccomment">/// occurred during and after the year 2000:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     &quot;start_closed&quot;: [&quot;Bob&quot;, &quot;2000-01-01&quot;]</span>
+<span class="doccomment">///     &quot;end_closed&quot;: \[&quot;Bob&quot;\]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The next example retrieves all events for `&quot;Bob&quot;`:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;Bob&quot;\]</span>
+<span class="doccomment">///     &quot;end_closed&quot;: \[&quot;Bob&quot;\]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// To retrieve events before the year 2000:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;Bob&quot;\]</span>
+<span class="doccomment">///     &quot;end_open&quot;: [&quot;Bob&quot;, &quot;2000-01-01&quot;]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The following range includes all rows in the table:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     &quot;start_closed&quot;: []</span>
+<span class="doccomment">///     &quot;end_closed&quot;: []</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This range returns all users whose `UserName` begins with any</span>
+<span class="doccomment">/// character from A to C:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;A&quot;\]</span>
+<span class="doccomment">///     &quot;end_open&quot;: \[&quot;D&quot;\]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This range returns all users whose `UserName` begins with B:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;B&quot;\]</span>
+<span class="doccomment">///     &quot;end_open&quot;: \[&quot;C&quot;\]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Key ranges honor column sort order. For example, suppose a table is</span>
+<span class="doccomment">/// defined as follows:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     CREATE TABLE DescendingSortedTable {</span>
+<span class="doccomment">///       Key INT64,</span>
+<span class="doccomment">///       ...</span>
+<span class="doccomment">///     ) PRIMARY KEY(Key DESC);</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The following range retrieves all rows with key values between 1</span>
+<span class="doccomment">/// and 100 inclusive:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;100&quot;\]</span>
+<span class="doccomment">///     &quot;end_closed&quot;: \[&quot;1&quot;\]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note that 100 is passed as the start, and 1 is passed as the end,</span>
+<span class="doccomment">/// because `Key` is a descending column in the schema.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeyRange</span> {
+    <span class="doccomment">/// The start key must be provided. It can be either closed or open.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;key_range::StartKeyType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_key_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">key_range::StartKeyType</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The end key must be provided. It can be either closed or open.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;key_range::EndKeyType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_key_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">key_range::EndKeyType</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `KeyRange`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">key_range</span> {
+    <span class="doccomment">/// The start key must be provided. It can be either closed or open.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StartKeyType</span> {
+        <span class="doccomment">/// If the start is closed, then the range includes all rows whose</span>
+        <span class="doccomment">/// first `len(start_closed)` key columns exactly match `start_closed`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">StartClosed</span>(<span class="ident">::prost_types::ListValue</span>),
+        <span class="doccomment">/// If the start is open, then the range excludes rows whose first</span>
+        <span class="doccomment">/// `len(start_open)` key columns exactly match `start_open`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">StartOpen</span>(<span class="ident">::prost_types::ListValue</span>),
+    }
+    <span class="doccomment">/// The end key must be provided. It can be either closed or open.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EndKeyType</span> {
+        <span class="doccomment">/// If the end is closed, then the range includes all rows whose</span>
+        <span class="doccomment">/// first `len(end_closed)` key columns exactly match `end_closed`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">EndClosed</span>(<span class="ident">::prost_types::ListValue</span>),
+        <span class="doccomment">/// If the end is open, then the range excludes rows whose first</span>
+        <span class="doccomment">/// `len(end_open)` key columns exactly match `end_open`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">EndOpen</span>(<span class="ident">::prost_types::ListValue</span>),
+    }
+}
+<span class="doccomment">/// `KeySet` defines a collection of Cloud Spanner keys and/or key ranges. All</span>
+<span class="doccomment">/// the keys are expected to be in the same table or index. The keys need</span>
+<span class="doccomment">/// not be sorted in any particular way.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If the same key is specified multiple times in the set (for example</span>
+<span class="doccomment">/// if two ranges, two keys, or a key and a range overlap), Cloud Spanner</span>
+<span class="doccomment">/// behaves as if the key were only specified once.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeySet</span> {
+    <span class="doccomment">/// A list of specific keys. Entries in `keys` should have exactly as</span>
+    <span class="doccomment">/// many elements as there are columns in the primary or index key</span>
+    <span class="doccomment">/// with which this `KeySet` is used.  Individual key values are</span>
+    <span class="doccomment">/// encoded as described \[here][google.spanner.v1.TypeCode\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">keys</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::ListValue</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A list of key ranges. See \[KeyRange][google.spanner.v1.KeyRange\] for more information about</span>
+    <span class="doccomment">/// key range specifications.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ranges</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">KeyRange</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// For convenience `all` can be set to `true` to indicate that this</span>
+    <span class="doccomment">/// `KeySet` matches all keys in the table or index. Note that any keys</span>
+    <span class="doccomment">/// specified in `keys` or `ranges` are only yielded once.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">all</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// A modification to one or more Cloud Spanner rows.  Mutations can be</span>
+<span class="doccomment">/// applied to a Cloud Spanner database by sending them in a</span>
+<span class="doccomment">/// \[Commit][google.spanner.v1.Spanner.Commit\] call.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Mutation</span> {
+    <span class="doccomment">/// Required. The operation to perform.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;mutation::Operation&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">mutation::Operation</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Mutation`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mutation</span> {
+    <span class="doccomment">/// Arguments to \[insert][google.spanner.v1.Mutation.insert\], \[update][google.spanner.v1.Mutation.update\], \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], and</span>
+    <span class="doccomment">/// \[replace][google.spanner.v1.Mutation.replace\] operations.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Write</span> {
+        <span class="doccomment">/// Required. The table whose rows will be written.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">table</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The names of the columns in \[table][google.spanner.v1.Mutation.Write.table\] to be written.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// The list of columns must contain enough columns to allow</span>
+        <span class="doccomment">/// Cloud Spanner to derive values for all primary key columns in the</span>
+        <span class="doccomment">/// row(s) to be modified.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">columns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The values to be written. `values` can contain more than one</span>
+        <span class="doccomment">/// list of values. If it does, then multiple rows are written, one</span>
+        <span class="doccomment">/// for each entry in `values`. Each list in `values` must have</span>
+        <span class="doccomment">/// exactly as many entries as there are entries in \[columns][google.spanner.v1.Mutation.Write.columns\]</span>
+        <span class="doccomment">/// above. Sending multiple lists is equivalent to sending multiple</span>
+        <span class="doccomment">/// `Mutation`s, each containing one `values` entry and repeating</span>
+        <span class="doccomment">/// \[table][google.spanner.v1.Mutation.Write.table\] and \[columns][google.spanner.v1.Mutation.Write.columns\]. Individual values in each list are</span>
+        <span class="doccomment">/// encoded as described \[here][google.spanner.v1.TypeCode\].</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::ListValue</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Arguments to \[delete][google.spanner.v1.Mutation.delete\] operations.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Delete</span> {
+        <span class="doccomment">/// Required. The table whose rows will be deleted.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">table</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Required. The primary keys of the rows within \[table][google.spanner.v1.Mutation.Delete.table\] to delete.  The</span>
+        <span class="doccomment">/// primary keys must be specified in the order in which they appear in the</span>
+        <span class="doccomment">/// `PRIMARY KEY()` clause of the table&#39;s equivalent DDL statement (the DDL</span>
+        <span class="doccomment">/// statement used to create the table).</span>
+        <span class="doccomment">/// Delete is idempotent. The transaction will succeed even if some or all</span>
+        <span class="doccomment">/// rows do not exist.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">key_set</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::KeySet</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Required. The operation to perform.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Operation</span> {
+        <span class="doccomment">/// Insert new rows in a table. If any of the rows already exist,</span>
+        <span class="doccomment">/// the write or transaction fails with error `ALREADY_EXISTS`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Insert</span>(<span class="ident">Write</span>),
+        <span class="doccomment">/// Update existing rows in a table. If any of the rows does not</span>
+        <span class="doccomment">/// already exist, the transaction fails with error `NOT_FOUND`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Update</span>(<span class="ident">Write</span>),
+        <span class="doccomment">/// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, then</span>
+        <span class="doccomment">/// its column values are overwritten with the ones provided. Any</span>
+        <span class="doccomment">/// column values not explicitly written are preserved.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// When using \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], just as when using \[insert][google.spanner.v1.Mutation.insert\], all `NOT</span>
+        <span class="doccomment">/// NULL` columns in the table must be given a value. This holds true</span>
+        <span class="doccomment">/// even when the row already exists and will therefore actually be updated.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">InsertOrUpdate</span>(<span class="ident">Write</span>),
+        <span class="doccomment">/// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, it is</span>
+        <span class="doccomment">/// deleted, and the column values provided are inserted</span>
+        <span class="doccomment">/// instead. Unlike \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], this means any values not</span>
+        <span class="doccomment">/// explicitly written become `NULL`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// In an interleaved table, if you create the child table with the</span>
+        <span class="doccomment">/// `ON DELETE CASCADE` annotation, then replacing a parent row</span>
+        <span class="doccomment">/// also deletes the child rows. Otherwise, you must delete the</span>
+        <span class="doccomment">/// child rows before you replace the parent row.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Replace</span>(<span class="ident">Write</span>),
+        <span class="doccomment">/// Delete rows from a table. Succeeds whether or not the named</span>
+        <span class="doccomment">/// rows were present.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">Delete</span>(<span class="ident">Delete</span>),
+    }
+}
+<span class="doccomment">/// Node information for nodes appearing in a \[QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PlanNode</span> {
     <span class="doccomment">/// The `PlanNode`&#39;s index in [node list]\[google.spanner.v1.QueryPlan.plan_nodes\].</span>
@@ -3072,271 +3337,6 @@
         <span class="doccomment">/// returns a lower bound of the rows modified.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
         <span class="ident">RowCountLowerBound</span>(<span class="ident">i64</span>),
-    }
-}
-<span class="doccomment">/// KeyRange represents a range of rows in a table or index.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// A range has a start key and an end key. These keys can be open or</span>
-<span class="doccomment">/// closed, indicating if the range includes rows with that key.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Keys are represented by lists, where the ith value in the list</span>
-<span class="doccomment">/// corresponds to the ith component of the table or index primary key.</span>
-<span class="doccomment">/// Individual values are encoded as described</span>
-<span class="doccomment">/// \[here][google.spanner.v1.TypeCode\].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For example, consider the following table definition:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     CREATE TABLE UserEvents (</span>
-<span class="doccomment">///       UserName STRING(MAX),</span>
-<span class="doccomment">///       EventDate STRING(10)</span>
-<span class="doccomment">///     ) PRIMARY KEY(UserName, EventDate);</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The following keys name rows in this table:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     [&quot;Bob&quot;, &quot;2014-09-23&quot;]</span>
-<span class="doccomment">///     [&quot;Alfred&quot;, &quot;2015-06-12&quot;]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Since the `UserEvents` table&#39;s `PRIMARY KEY` clause names two</span>
-<span class="doccomment">/// columns, each `UserEvents` key has two elements; the first is the</span>
-<span class="doccomment">/// `UserName`, and the second is the `EventDate`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Key ranges with multiple components are interpreted</span>
-<span class="doccomment">/// lexicographically by component using the table or index key&#39;s declared</span>
-<span class="doccomment">/// sort order. For example, the following range returns all events for</span>
-<span class="doccomment">/// user `&quot;Bob&quot;` that occurred in the year 2015:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     &quot;start_closed&quot;: [&quot;Bob&quot;, &quot;2015-01-01&quot;]</span>
-<span class="doccomment">///     &quot;end_closed&quot;: [&quot;Bob&quot;, &quot;2015-12-31&quot;]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Start and end keys can omit trailing key components. This affects the</span>
-<span class="doccomment">/// inclusion and exclusion of rows that exactly match the provided key</span>
-<span class="doccomment">/// components: if the key is closed, then rows that exactly match the</span>
-<span class="doccomment">/// provided components are included; if the key is open, then rows</span>
-<span class="doccomment">/// that exactly match are not included.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For example, the following range includes all events for `&quot;Bob&quot;` that</span>
-<span class="doccomment">/// occurred during and after the year 2000:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     &quot;start_closed&quot;: [&quot;Bob&quot;, &quot;2000-01-01&quot;]</span>
-<span class="doccomment">///     &quot;end_closed&quot;: \[&quot;Bob&quot;\]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The next example retrieves all events for `&quot;Bob&quot;`:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;Bob&quot;\]</span>
-<span class="doccomment">///     &quot;end_closed&quot;: \[&quot;Bob&quot;\]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// To retrieve events before the year 2000:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;Bob&quot;\]</span>
-<span class="doccomment">///     &quot;end_open&quot;: [&quot;Bob&quot;, &quot;2000-01-01&quot;]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The following range includes all rows in the table:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     &quot;start_closed&quot;: []</span>
-<span class="doccomment">///     &quot;end_closed&quot;: []</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This range returns all users whose `UserName` begins with any</span>
-<span class="doccomment">/// character from A to C:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;A&quot;\]</span>
-<span class="doccomment">///     &quot;end_open&quot;: \[&quot;D&quot;\]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This range returns all users whose `UserName` begins with B:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;B&quot;\]</span>
-<span class="doccomment">///     &quot;end_open&quot;: \[&quot;C&quot;\]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Key ranges honor column sort order. For example, suppose a table is</span>
-<span class="doccomment">/// defined as follows:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     CREATE TABLE DescendingSortedTable {</span>
-<span class="doccomment">///       Key INT64,</span>
-<span class="doccomment">///       ...</span>
-<span class="doccomment">///     ) PRIMARY KEY(Key DESC);</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The following range retrieves all rows with key values between 1</span>
-<span class="doccomment">/// and 100 inclusive:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     &quot;start_closed&quot;: \[&quot;100&quot;\]</span>
-<span class="doccomment">///     &quot;end_closed&quot;: \[&quot;1&quot;\]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note that 100 is passed as the start, and 1 is passed as the end,</span>
-<span class="doccomment">/// because `Key` is a descending column in the schema.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeyRange</span> {
-    <span class="doccomment">/// The start key must be provided. It can be either closed or open.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;key_range::StartKeyType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_key_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">key_range::StartKeyType</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The end key must be provided. It can be either closed or open.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;key_range::EndKeyType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_key_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">key_range::EndKeyType</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `KeyRange`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">key_range</span> {
-    <span class="doccomment">/// The start key must be provided. It can be either closed or open.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StartKeyType</span> {
-        <span class="doccomment">/// If the start is closed, then the range includes all rows whose</span>
-        <span class="doccomment">/// first `len(start_closed)` key columns exactly match `start_closed`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">StartClosed</span>(<span class="ident">::prost_types::ListValue</span>),
-        <span class="doccomment">/// If the start is open, then the range excludes rows whose first</span>
-        <span class="doccomment">/// `len(start_open)` key columns exactly match `start_open`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">StartOpen</span>(<span class="ident">::prost_types::ListValue</span>),
-    }
-    <span class="doccomment">/// The end key must be provided. It can be either closed or open.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EndKeyType</span> {
-        <span class="doccomment">/// If the end is closed, then the range includes all rows whose</span>
-        <span class="doccomment">/// first `len(end_closed)` key columns exactly match `end_closed`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">EndClosed</span>(<span class="ident">::prost_types::ListValue</span>),
-        <span class="doccomment">/// If the end is open, then the range excludes rows whose first</span>
-        <span class="doccomment">/// `len(end_open)` key columns exactly match `end_open`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">EndOpen</span>(<span class="ident">::prost_types::ListValue</span>),
-    }
-}
-<span class="doccomment">/// `KeySet` defines a collection of Cloud Spanner keys and/or key ranges. All</span>
-<span class="doccomment">/// the keys are expected to be in the same table or index. The keys need</span>
-<span class="doccomment">/// not be sorted in any particular way.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If the same key is specified multiple times in the set (for example</span>
-<span class="doccomment">/// if two ranges, two keys, or a key and a range overlap), Cloud Spanner</span>
-<span class="doccomment">/// behaves as if the key were only specified once.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeySet</span> {
-    <span class="doccomment">/// A list of specific keys. Entries in `keys` should have exactly as</span>
-    <span class="doccomment">/// many elements as there are columns in the primary or index key</span>
-    <span class="doccomment">/// with which this `KeySet` is used.  Individual key values are</span>
-    <span class="doccomment">/// encoded as described \[here][google.spanner.v1.TypeCode\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">keys</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::ListValue</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A list of key ranges. See \[KeyRange][google.spanner.v1.KeyRange\] for more information about</span>
-    <span class="doccomment">/// key range specifications.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ranges</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">KeyRange</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// For convenience `all` can be set to `true` to indicate that this</span>
-    <span class="doccomment">/// `KeySet` matches all keys in the table or index. Note that any keys</span>
-    <span class="doccomment">/// specified in `keys` or `ranges` are only yielded once.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">all</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommitResponse</span> {
-    <span class="doccomment">/// The Cloud Spanner timestamp at which the transaction committed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">commit_timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The statistics about this Commit. Not returned by default.</span>
-    <span class="doccomment">/// For more information, see</span>
-    <span class="doccomment">/// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">commit_stats</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">commit_response::CommitStats</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CommitResponse`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">commit_response</span> {
-    <span class="doccomment">/// Additional statistics about a commit.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommitStats</span> {
-        <span class="doccomment">/// The total number of mutations for the transaction. Knowing the</span>
-        <span class="doccomment">/// `mutation_count` value can help you maximize the number of mutations</span>
-        <span class="doccomment">/// in a transaction and minimize the number of API round trips. You can</span>
-        <span class="doccomment">/// also monitor this value to prevent transactions from exceeding the system</span>
-        <span class="doccomment">/// \[limit\](&lt;http://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).</span>
-        <span class="doccomment">/// If the number of mutations exceeds the limit, the server returns</span>
-        <span class="doccomment">/// \[INVALID_ARGUMENT\](&lt;http://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">mutation_count</span>: <span class="ident">i64</span>,
-    }
-}
-<span class="doccomment">/// A modification to one or more Cloud Spanner rows.  Mutations can be</span>
-<span class="doccomment">/// applied to a Cloud Spanner database by sending them in a</span>
-<span class="doccomment">/// \[Commit][google.spanner.v1.Spanner.Commit\] call.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Mutation</span> {
-    <span class="doccomment">/// Required. The operation to perform.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;mutation::Operation&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">mutation::Operation</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Mutation`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mutation</span> {
-    <span class="doccomment">/// Arguments to \[insert][google.spanner.v1.Mutation.insert\], \[update][google.spanner.v1.Mutation.update\], \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], and</span>
-    <span class="doccomment">/// \[replace][google.spanner.v1.Mutation.replace\] operations.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Write</span> {
-        <span class="doccomment">/// Required. The table whose rows will be written.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">table</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The names of the columns in \[table][google.spanner.v1.Mutation.Write.table\] to be written.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// The list of columns must contain enough columns to allow</span>
-        <span class="doccomment">/// Cloud Spanner to derive values for all primary key columns in the</span>
-        <span class="doccomment">/// row(s) to be modified.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">columns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The values to be written. `values` can contain more than one</span>
-        <span class="doccomment">/// list of values. If it does, then multiple rows are written, one</span>
-        <span class="doccomment">/// for each entry in `values`. Each list in `values` must have</span>
-        <span class="doccomment">/// exactly as many entries as there are entries in \[columns][google.spanner.v1.Mutation.Write.columns\]</span>
-        <span class="doccomment">/// above. Sending multiple lists is equivalent to sending multiple</span>
-        <span class="doccomment">/// `Mutation`s, each containing one `values` entry and repeating</span>
-        <span class="doccomment">/// \[table][google.spanner.v1.Mutation.Write.table\] and \[columns][google.spanner.v1.Mutation.Write.columns\]. Individual values in each list are</span>
-        <span class="doccomment">/// encoded as described \[here][google.spanner.v1.TypeCode\].</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::ListValue</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Arguments to \[delete][google.spanner.v1.Mutation.delete\] operations.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Delete</span> {
-        <span class="doccomment">/// Required. The table whose rows will be deleted.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">table</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Required. The primary keys of the rows within \[table][google.spanner.v1.Mutation.Delete.table\] to delete.  The</span>
-        <span class="doccomment">/// primary keys must be specified in the order in which they appear in the</span>
-        <span class="doccomment">/// `PRIMARY KEY()` clause of the table&#39;s equivalent DDL statement (the DDL</span>
-        <span class="doccomment">/// statement used to create the table).</span>
-        <span class="doccomment">/// Delete is idempotent. The transaction will succeed even if some or all</span>
-        <span class="doccomment">/// rows do not exist.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">key_set</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::KeySet</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Required. The operation to perform.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Operation</span> {
-        <span class="doccomment">/// Insert new rows in a table. If any of the rows already exist,</span>
-        <span class="doccomment">/// the write or transaction fails with error `ALREADY_EXISTS`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">Insert</span>(<span class="ident">Write</span>),
-        <span class="doccomment">/// Update existing rows in a table. If any of the rows does not</span>
-        <span class="doccomment">/// already exist, the transaction fails with error `NOT_FOUND`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Update</span>(<span class="ident">Write</span>),
-        <span class="doccomment">/// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, then</span>
-        <span class="doccomment">/// its column values are overwritten with the ones provided. Any</span>
-        <span class="doccomment">/// column values not explicitly written are preserved.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// When using \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], just as when using \[insert][google.spanner.v1.Mutation.insert\], all `NOT</span>
-        <span class="doccomment">/// NULL` columns in the table must be given a value. This holds true</span>
-        <span class="doccomment">/// even when the row already exists and will therefore actually be updated.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">InsertOrUpdate</span>(<span class="ident">Write</span>),
-        <span class="doccomment">/// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, it is</span>
-        <span class="doccomment">/// deleted, and the column values provided are inserted</span>
-        <span class="doccomment">/// instead. Unlike \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], this means any values not</span>
-        <span class="doccomment">/// explicitly written become `NULL`.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// In an interleaved table, if you create the child table with the</span>
-        <span class="doccomment">/// `ON DELETE CASCADE` annotation, then replacing a parent row</span>
-        <span class="doccomment">/// also deletes the child rows. Otherwise, you must delete the</span>
-        <span class="doccomment">/// child rows before you replace the parent row.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">Replace</span>(<span class="ident">Write</span>),
-        <span class="doccomment">/// Delete rows from a table. Succeeds whether or not the named</span>
-        <span class="doccomment">/// rows were present.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">Delete</span>(<span class="ident">Delete</span>),
     }
 }
 <span class="doccomment">/// The request for \[CreateSession][google.spanner.v1.Spanner.CreateSession\].</span>

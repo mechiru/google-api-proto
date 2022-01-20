@@ -3050,7 +3050,29 @@
 <span id="3049">3049</span>
 <span id="3050">3050</span>
 <span id="3051">3051</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Definition of a software environment that is used to start a notebook</span>
+</pre><pre class="rust"><code><span class="doccomment">/// The definition of an Event for a managed / semi-managed notebook instance.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> {
+    <span class="doccomment">/// Event report time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">report_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Event type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;event::EventType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Event`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">event</span> {
+    <span class="doccomment">/// The definition of the even types.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
+        <span class="doccomment">/// Event is not specified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The instance / runtime is idle</span>
+        <span class="ident">Idle</span> <span class="op">=</span> <span class="number">1</span>,
+    }
+}
+<span class="doccomment">/// Definition of a software environment that is used to start a notebook</span>
 <span class="doccomment">/// instance.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Environment</span> {
@@ -3660,6 +3682,355 @@
         <span class="ident">Gvnic</span> <span class="op">=</span> <span class="number">2</span>,
     }
 }
+<span class="doccomment">/// Request for listing Managed Notebook Runtimes.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListRuntimesRequest</span> {
+    <span class="doccomment">/// Required. Format:</span>
+    <span class="doccomment">/// `parent=projects/{project_id}/locations/{location}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Maximum return size of the list call.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A previous returned page token that can be used to continue listing</span>
+    <span class="doccomment">/// from the last result.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Response for listing Managed Notebook Runtimes.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListRuntimesResponse</span> {
+    <span class="doccomment">/// A list of returned Runtimes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">runtimes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Page token that can be used to continue listing from the last result in the</span>
+    <span class="doccomment">/// next list call.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Locations that could not be reached. For example,</span>
+    <span class="doccomment">/// [&#39;us-west1&#39;, &#39;us-central1&#39;].</span>
+    <span class="doccomment">/// A ListRuntimesResponse will only contain either runtimes or unreachables,</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">unreachable</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request for getting a Managed Notebook Runtime.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetRuntimeRequest</span> {
+    <span class="doccomment">/// Required. Format:</span>
+    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request for creating a Managed Notebook Runtime.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateRuntimeRequest</span> {
+    <span class="doccomment">/// Required. Format:</span>
+    <span class="doccomment">/// `parent=projects/{project_id}/locations/{location}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. User-defined unique ID of this Runtime.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">runtime_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The Runtime to be created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">runtime</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request for deleting a Managed Notebook Runtime.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteRuntimeRequest</span> {
+    <span class="doccomment">/// Required. Format:</span>
+    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request for starting a Managed Notebook Runtime.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StartRuntimeRequest</span> {
+    <span class="doccomment">/// Required. Format:</span>
+    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request for stopping a Managed Notebook Runtime.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StopRuntimeRequest</span> {
+    <span class="doccomment">/// Required. Format:</span>
+    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request for switching a Managed Notebook Runtime.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SwitchRuntimeRequest</span> {
+    <span class="doccomment">/// Required. Format:</span>
+    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// machine type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">machine_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// accelerator config.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">accelerator_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RuntimeAcceleratorConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request for reseting a Managed Notebook Runtime.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResetRuntimeRequest</span> {
+    <span class="doccomment">/// Required. Format:</span>
+    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request for reporting a Managed Notebook Event.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReportRuntimeEventRequest</span> {
+    <span class="doccomment">/// Required. Format:</span>
+    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The VM hardware token for authenticating the VM.</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/compute/docs/instances/verifying-instance-identity&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vm_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The Event to be reported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">managed_notebook_service_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; API v1 service for Managed Notebooks.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ManagedNotebookServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ManagedNotebookServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">ManagedNotebookServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">ManagedNotebookServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists Runtimes in a given project and location.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_runtimes</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListRuntimesRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListRuntimesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/ListRuntimes&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Gets details of a single Runtime. The location must be a regional endpoint&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; rather than zonal.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_runtime</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetRuntimeRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Runtime</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/GetRuntime&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a new Runtime in a given project and location.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_runtime</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateRuntimeRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/CreateRuntime&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes a single Runtime.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_runtime</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteRuntimeRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/DeleteRuntime&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Starts a Managed Notebook Runtime.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Perform \&quot;Start\&quot; on GPU instances; \&quot;Resume\&quot; on CPU instances&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; See:&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/compute/docs/instances/stop-start-instance&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/compute/docs/instances/suspend-resume-instance&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start_runtime</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::StartRuntimeRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/StartRuntime&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Stops a Managed Notebook Runtime.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Perform \&quot;Stop\&quot; on GPU instances; \&quot;Suspend\&quot; on CPU instances&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; See:&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/compute/docs/instances/stop-start-instance&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/compute/docs/instances/suspend-resume-instance&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">stop_runtime</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::StopRuntimeRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/StopRuntime&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Switch a Managed Notebook Runtime.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">switch_runtime</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::SwitchRuntimeRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/SwitchRuntime&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Resets a Managed Notebook Runtime.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">reset_runtime</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ResetRuntimeRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/ResetRuntime&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Report and process a runtime event.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">report_runtime_event</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ReportRuntimeEventRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/ReportRuntimeEvent&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+    }
+}
 <span class="doccomment">/// The description a notebook execution workload.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutionTemplate</span> {
@@ -3945,91 +4316,6 @@
         <span class="doccomment">/// The Execution is being created.</span>
         <span class="ident">Initializing</span> <span class="op">=</span> <span class="number">10</span>,
     }
-}
-<span class="doccomment">/// The definition of a schedule.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Schedule</span> {
-    <span class="doccomment">/// Output only. The name of this schedule. Format:</span>
-    <span class="doccomment">/// `projects/{project_id}/locations/{location}/schedules/{schedule_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Display name used for UI purposes.</span>
-    <span class="doccomment">/// Name can only contain alphanumeric characters, hyphens &#39;-&#39;,</span>
-    <span class="doccomment">/// and underscores &#39;_&#39;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A brief description of this environment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;schedule::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Cron-tab formatted schedule by which the job will execute</span>
-    <span class="doccomment">/// Format: minute, hour, day of month, month, day of week</span>
-    <span class="doccomment">/// e.g. 0 0 * * WED = every Wednesday</span>
-    <span class="doccomment">/// More examples: &lt;https://crontab.guru/examples.html&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cron_schedule</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Timezone on which the cron_schedule.</span>
-    <span class="doccomment">/// The value of this field must be a time zone name from the tz database.</span>
-    <span class="doccomment">/// TZ Database: &lt;https://en.wikipedia.org/wiki/List_of_tz_database_time_zones&gt;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that some time zones include a provision for daylight savings time.</span>
-    <span class="doccomment">/// The rules for daylight saving time are determined by the chosen tz.</span>
-    <span class="doccomment">/// For UTC use the string &quot;utc&quot;. If a time zone is not specified,</span>
-    <span class="doccomment">/// the default will be in UTC (also known as GMT).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">time_zone</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Time the schedule was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Time the schedule was last updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Notebook Execution Template corresponding to this schedule.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">execution_template</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecutionTemplate</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The most recent execution names triggered from this schedule and their</span>
-    <span class="doccomment">/// corresponding states.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">recent_executions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Execution</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Schedule`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">schedule</span> {
-    <span class="doccomment">/// State of the job.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// Unspecified state.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The job is executing normally.</span>
-        <span class="ident">Enabled</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The job is paused by the user. It will not execute. A user can</span>
-        <span class="doccomment">/// intentionally pause the job using</span>
-        <span class="doccomment">/// \[PauseJobRequest][\].</span>
-        <span class="ident">Paused</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The job is disabled by the system due to error. The user</span>
-        <span class="doccomment">/// cannot directly set a job to be disabled.</span>
-        <span class="ident">Disabled</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The job state resulting from a failed \[CloudScheduler.UpdateJob][\]</span>
-        <span class="doccomment">/// operation. To recover a job from this state, retry</span>
-        <span class="doccomment">/// \[CloudScheduler.UpdateJob][\] until a successful response is received.</span>
-        <span class="ident">UpdateFailed</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// The schedule resource is being created.</span>
-        <span class="ident">Initializing</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// The schedule resource is being deleted.</span>
-        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">6</span>,
-    }
-}
-<span class="doccomment">/// Notebook instance configurations that can be updated.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceConfig</span> {
-    <span class="doccomment">/// Cron expression in UTC timezone, used to schedule instance auto upgrade.</span>
-    <span class="doccomment">/// Please follow the [cron format](&lt;https://en.wikipedia.org/wiki/Cron&gt;).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">notebook_upgrade_schedule</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Verifies core internal services are running.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">enable_health_monitoring</span>: <span class="ident">bool</span>,
 }
 <span class="doccomment">/// Reservation Affinity for consuming Zonal reservation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -4525,6 +4811,91 @@
         <span class="doccomment">/// Use a container image to start the notebook instance.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
         <span class="ident">ContainerImage</span>(<span class="ident"><span class="kw">super</span>::ContainerImage</span>),
+    }
+}
+<span class="doccomment">/// Notebook instance configurations that can be updated.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceConfig</span> {
+    <span class="doccomment">/// Cron expression in UTC timezone, used to schedule instance auto upgrade.</span>
+    <span class="doccomment">/// Please follow the [cron format](&lt;https://en.wikipedia.org/wiki/Cron&gt;).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">notebook_upgrade_schedule</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Verifies core internal services are running.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">enable_health_monitoring</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// The definition of a schedule.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Schedule</span> {
+    <span class="doccomment">/// Output only. The name of this schedule. Format:</span>
+    <span class="doccomment">/// `projects/{project_id}/locations/{location}/schedules/{schedule_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Display name used for UI purposes.</span>
+    <span class="doccomment">/// Name can only contain alphanumeric characters, hyphens &#39;-&#39;,</span>
+    <span class="doccomment">/// and underscores &#39;_&#39;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A brief description of this environment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;schedule::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Cron-tab formatted schedule by which the job will execute</span>
+    <span class="doccomment">/// Format: minute, hour, day of month, month, day of week</span>
+    <span class="doccomment">/// e.g. 0 0 * * WED = every Wednesday</span>
+    <span class="doccomment">/// More examples: &lt;https://crontab.guru/examples.html&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cron_schedule</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Timezone on which the cron_schedule.</span>
+    <span class="doccomment">/// The value of this field must be a time zone name from the tz database.</span>
+    <span class="doccomment">/// TZ Database: &lt;https://en.wikipedia.org/wiki/List_of_tz_database_time_zones&gt;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note that some time zones include a provision for daylight savings time.</span>
+    <span class="doccomment">/// The rules for daylight saving time are determined by the chosen tz.</span>
+    <span class="doccomment">/// For UTC use the string &quot;utc&quot;. If a time zone is not specified,</span>
+    <span class="doccomment">/// the default will be in UTC (also known as GMT).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">time_zone</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Time the schedule was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Time the schedule was last updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Notebook Execution Template corresponding to this schedule.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">execution_template</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecutionTemplate</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The most recent execution names triggered from this schedule and their</span>
+    <span class="doccomment">/// corresponding states.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">recent_executions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Execution</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Schedule`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">schedule</span> {
+    <span class="doccomment">/// State of the job.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// Unspecified state.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The job is executing normally.</span>
+        <span class="ident">Enabled</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The job is paused by the user. It will not execute. A user can</span>
+        <span class="doccomment">/// intentionally pause the job using</span>
+        <span class="doccomment">/// \[PauseJobRequest][\].</span>
+        <span class="ident">Paused</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The job is disabled by the system due to error. The user</span>
+        <span class="doccomment">/// cannot directly set a job to be disabled.</span>
+        <span class="ident">Disabled</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The job state resulting from a failed \[CloudScheduler.UpdateJob][\]</span>
+        <span class="doccomment">/// operation. To recover a job from this state, retry</span>
+        <span class="doccomment">/// \[CloudScheduler.UpdateJob][\] until a successful response is received.</span>
+        <span class="ident">UpdateFailed</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// The schedule resource is being created.</span>
+        <span class="ident">Initializing</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// The schedule resource is being deleted.</span>
+        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">6</span>,
     }
 }
 <span class="doccomment">/// Represents the metadata of the long-running operation.</span>
@@ -5725,377 +6096,6 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.cloud.notebooks.v1.NotebookService/CreateExecution&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
-<span class="doccomment">/// The definition of an Event for a managed / semi-managed notebook instance.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> {
-    <span class="doccomment">/// Event report time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">report_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Event type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;event::EventType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Event`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">event</span> {
-    <span class="doccomment">/// The definition of the even types.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
-        <span class="doccomment">/// Event is not specified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The instance / runtime is idle</span>
-        <span class="ident">Idle</span> <span class="op">=</span> <span class="number">1</span>,
-    }
-}
-<span class="doccomment">/// Request for listing Managed Notebook Runtimes.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListRuntimesRequest</span> {
-    <span class="doccomment">/// Required. Format:</span>
-    <span class="doccomment">/// `parent=projects/{project_id}/locations/{location}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Maximum return size of the list call.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A previous returned page token that can be used to continue listing</span>
-    <span class="doccomment">/// from the last result.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Response for listing Managed Notebook Runtimes.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListRuntimesResponse</span> {
-    <span class="doccomment">/// A list of returned Runtimes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">runtimes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Page token that can be used to continue listing from the last result in the</span>
-    <span class="doccomment">/// next list call.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Locations that could not be reached. For example,</span>
-    <span class="doccomment">/// [&#39;us-west1&#39;, &#39;us-central1&#39;].</span>
-    <span class="doccomment">/// A ListRuntimesResponse will only contain either runtimes or unreachables,</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">unreachable</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request for getting a Managed Notebook Runtime.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetRuntimeRequest</span> {
-    <span class="doccomment">/// Required. Format:</span>
-    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request for creating a Managed Notebook Runtime.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateRuntimeRequest</span> {
-    <span class="doccomment">/// Required. Format:</span>
-    <span class="doccomment">/// `parent=projects/{project_id}/locations/{location}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. User-defined unique ID of this Runtime.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">runtime_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The Runtime to be created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">runtime</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request for deleting a Managed Notebook Runtime.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteRuntimeRequest</span> {
-    <span class="doccomment">/// Required. Format:</span>
-    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request for starting a Managed Notebook Runtime.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StartRuntimeRequest</span> {
-    <span class="doccomment">/// Required. Format:</span>
-    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request for stopping a Managed Notebook Runtime.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StopRuntimeRequest</span> {
-    <span class="doccomment">/// Required. Format:</span>
-    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request for switching a Managed Notebook Runtime.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SwitchRuntimeRequest</span> {
-    <span class="doccomment">/// Required. Format:</span>
-    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// machine type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">machine_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// accelerator config.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">accelerator_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RuntimeAcceleratorConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request for reseting a Managed Notebook Runtime.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResetRuntimeRequest</span> {
-    <span class="doccomment">/// Required. Format:</span>
-    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request for reporting a Managed Notebook Event.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReportRuntimeEventRequest</span> {
-    <span class="doccomment">/// Required. Format:</span>
-    <span class="doccomment">/// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The VM hardware token for authenticating the VM.</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/compute/docs/instances/verifying-instance-identity&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vm_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The Event to be reported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">managed_notebook_service_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; API v1 service for Managed Notebooks.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ManagedNotebookServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ManagedNotebookServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">ManagedNotebookServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">ManagedNotebookServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists Runtimes in a given project and location.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_runtimes</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListRuntimesRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListRuntimesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/ListRuntimes&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Gets details of a single Runtime. The location must be a regional endpoint&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; rather than zonal.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_runtime</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetRuntimeRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Runtime</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/GetRuntime&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a new Runtime in a given project and location.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_runtime</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateRuntimeRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/CreateRuntime&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes a single Runtime.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_runtime</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteRuntimeRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/DeleteRuntime&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Starts a Managed Notebook Runtime.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Perform \&quot;Start\&quot; on GPU instances; \&quot;Resume\&quot; on CPU instances&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; See:&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/compute/docs/instances/stop-start-instance&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/compute/docs/instances/suspend-resume-instance&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start_runtime</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::StartRuntimeRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/StartRuntime&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Stops a Managed Notebook Runtime.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Perform \&quot;Stop\&quot; on GPU instances; \&quot;Suspend\&quot; on CPU instances&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; See:&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/compute/docs/instances/stop-start-instance&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/compute/docs/instances/suspend-resume-instance&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">stop_runtime</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::StopRuntimeRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/StopRuntime&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Switch a Managed Notebook Runtime.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">switch_runtime</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::SwitchRuntimeRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/SwitchRuntime&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Resets a Managed Notebook Runtime.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">reset_runtime</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ResetRuntimeRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/ResetRuntime&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Report and process a runtime event.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">report_runtime_event</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ReportRuntimeEventRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.notebooks.v1.ManagedNotebookService/ReportRuntimeEvent&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }

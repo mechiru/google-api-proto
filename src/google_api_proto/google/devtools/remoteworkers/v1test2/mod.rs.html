@@ -786,7 +786,280 @@
 <span id="785">785</span>
 <span id="786">786</span>
 <span id="787">787</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Describes a worker, which is a list of one or more devices and the</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Describes a shell-style task to execute, suitable for providing as the Bots</span>
+<span class="doccomment">/// interface&#39;s `Lease.payload` field.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandTask</span> {
+    <span class="doccomment">/// The inputs to the task.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">command_task::Inputs</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The expected outputs from the task.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">expected_outputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">command_task::Outputs</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The timeouts of this task.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">timeouts</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">command_task::Timeouts</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CommandTask`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">command_task</span> {
+    <span class="doccomment">/// Describes the inputs to a shell-style task.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Inputs</span> {
+        <span class="doccomment">/// The command itself to run (e.g., argv).</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This field should be passed directly to the underlying operating system,</span>
+        <span class="doccomment">/// and so it must be sensible to that operating system. For example, on</span>
+        <span class="doccomment">/// Windows, the first argument might be &quot;C:\Windows\System32\ping.exe&quot; -</span>
+        <span class="doccomment">/// that is, using drive letters and backslashes. A command for a *nix</span>
+        <span class="doccomment">/// system, on the other hand, would use forward slashes.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// All other fields in the RWAPI must consistently use forward slashes,</span>
+        <span class="doccomment">/// since those fields may be interpretted by both the service and the bot.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">arguments</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The input filesystem to be set up prior to the task beginning. The</span>
+        <span class="doccomment">/// contents should be a repeated set of FileMetadata messages though other</span>
+        <span class="doccomment">/// formats are allowed if better for the implementation (eg, a LUCI-style</span>
+        <span class="doccomment">/// .isolated file).</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This field is repeated since implementations might want to cache the</span>
+        <span class="doccomment">/// metadata, in which case it may be useful to break up portions of the</span>
+        <span class="doccomment">/// filesystem that change frequently (eg, specific input files) from those</span>
+        <span class="doccomment">/// that don&#39;t (eg, standard header files).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Digest</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Inline contents for blobs expected to be needed by the bot to execute the</span>
+        <span class="doccomment">/// task. For example, contents of entries in `files` or blobs that are</span>
+        <span class="doccomment">/// indirectly referenced by an entry there.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// The bot should check against this list before downloading required task</span>
+        <span class="doccomment">/// inputs to reduce the number of communications between itself and the</span>
+        <span class="doccomment">/// remote CAS server.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">inline_blobs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Blob</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// All environment variables required by the task.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">environment_variables</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">inputs::EnvironmentVariable</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Directory from which a command is executed. It is a relative directory</span>
+        <span class="doccomment">/// with respect to the bot&#39;s working directory (i.e., &quot;./&quot;). If it is</span>
+        <span class="doccomment">/// non-empty, then it must exist under &quot;./&quot;. Otherwise, &quot;./&quot; will be used.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">working_directory</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Inputs`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">inputs</span> {
+        <span class="doccomment">/// An environment variable required by this task.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EnvironmentVariable</span> {
+            <span class="doccomment">/// The envvar name.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// The envvar value.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+    }
+    <span class="doccomment">/// Describes the expected outputs of the command.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Outputs</span> {
+        <span class="doccomment">/// A list of expected files, relative to the execution root. All paths</span>
+        <span class="doccomment">/// MUST be delimited by forward slashes.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// A list of expected directories, relative to the execution root. All paths</span>
+        <span class="doccomment">/// MUST be delimited by forward slashes.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">directories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The destination to which any stdout should be sent. The method by which</span>
+        <span class="doccomment">/// the bot should send the stream contents to that destination is not</span>
+        <span class="doccomment">/// defined in this API. As examples, the destination could be a file</span>
+        <span class="doccomment">/// referenced in the `files` field in this message, or it could be a URI</span>
+        <span class="doccomment">/// that must be written via the ByteStream API.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">stdout_destination</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The destination to which any stderr should be sent. The method by which</span>
+        <span class="doccomment">/// the bot should send the stream contents to that destination is not</span>
+        <span class="doccomment">/// defined in this API. As examples, the destination could be a file</span>
+        <span class="doccomment">/// referenced in the `files` field in this message, or it could be a URI</span>
+        <span class="doccomment">/// that must be written via the ByteStream API.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">stderr_destination</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Describes the timeouts associated with this task.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Timeouts</span> {
+        <span class="doccomment">/// This specifies the maximum time that the task can run, excluding the</span>
+        <span class="doccomment">/// time required to download inputs or upload outputs. That is, the worker</span>
+        <span class="doccomment">/// will terminate the task if it runs longer than this.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">execution</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// This specifies the maximum amount of time the task can be idle - that is,</span>
+        <span class="doccomment">/// go without generating some output in either stdout or stderr. If the</span>
+        <span class="doccomment">/// process is silent for more than the specified time, the worker will</span>
+        <span class="doccomment">/// terminate the task.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">idle</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// If the execution or IO timeouts are exceeded, the worker will try to</span>
+        <span class="doccomment">/// gracefully terminate the task and return any existing logs. However,</span>
+        <span class="doccomment">/// tasks may be hard-frozen in which case this process will fail. This</span>
+        <span class="doccomment">/// timeout specifies how long to wait for a terminated task to shut down</span>
+        <span class="doccomment">/// gracefully (e.g. via SIGTERM) before we bring down the hammer (e.g.</span>
+        <span class="doccomment">/// SIGKILL on *nix, CTRL_BREAK_EVENT on Windows).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">shutdown</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    }
+}
+<span class="doccomment">/// DEPRECATED - use CommandResult instead.</span>
+<span class="doccomment">/// Describes the actual outputs from the task.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandOutputs</span> {
+    <span class="doccomment">/// exit_code is only fully reliable if the status&#39; code is OK. If the task</span>
+    <span class="doccomment">/// exceeded its deadline or was cancelled, the process may still produce an</span>
+    <span class="doccomment">/// exit code as it is cancelled, and this will be populated, but a successful</span>
+    <span class="doccomment">/// (zero) is unlikely to be correct unless the status code is OK.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exit_code</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The output files. The blob referenced by the digest should contain</span>
+    <span class="doccomment">/// one of the following (implementation-dependent):</span>
+    <span class="doccomment">///    * A marshalled DirectoryMetadata of the returned filesystem</span>
+    <span class="doccomment">///    * A LUCI-style .isolated file</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">outputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// DEPRECATED - use CommandResult instead.</span>
+<span class="doccomment">/// Can be used as part of CompleteRequest.metadata, or are part of a more</span>
+<span class="doccomment">/// sophisticated message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandOverhead</span> {
+    <span class="doccomment">/// The elapsed time between calling Accept and Complete. The server will also</span>
+    <span class="doccomment">/// have its own idea of what this should be, but this excludes the overhead of</span>
+    <span class="doccomment">/// the RPCs and the bot response time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The amount of time *not* spent executing the command (ie</span>
+    <span class="doccomment">/// uploading/downloading files).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">overhead</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// All information about the execution of a command, suitable for providing as</span>
+<span class="doccomment">/// the Bots interface&#39;s `Lease.result` field.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandResult</span> {
+    <span class="doccomment">/// An overall status for the command. For example, if the command timed out,</span>
+    <span class="doccomment">/// this might have a code of DEADLINE_EXCEEDED; if it was killed by the OS for</span>
+    <span class="doccomment">/// memory exhaustion, it might have a code of RESOURCE_EXHAUSTED.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The exit code of the process. An exit code of &quot;0&quot; should only be trusted if</span>
+    <span class="doccomment">/// `status` has a code of OK (otherwise it may simply be unset).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exit_code</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The output files. The blob referenced by the digest should contain</span>
+    <span class="doccomment">/// one of the following (implementation-dependent):</span>
+    <span class="doccomment">///    * A marshalled DirectoryMetadata of the returned filesystem</span>
+    <span class="doccomment">///    * A LUCI-style .isolated file</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">outputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The elapsed time between calling Accept and Complete. The server will also</span>
+    <span class="doccomment">/// have its own idea of what this should be, but this excludes the overhead of</span>
+    <span class="doccomment">/// the RPCs and the bot response time.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The amount of time *not* spent executing the command (ie</span>
+    <span class="doccomment">/// uploading/downloading files).</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">overhead</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Implementation-dependent metadata about the task. Both servers and bots</span>
+    <span class="doccomment">/// may define messages which can be encoded here; bots are free to provide</span>
+    <span class="doccomment">/// metadata in multiple formats, and servers are free to choose one or more</span>
+    <span class="doccomment">/// of the values to process and ignore others. In particular, it is *not*</span>
+    <span class="doccomment">/// considered an error for the bot to provide the server with a field that it</span>
+    <span class="doccomment">/// doesn&#39;t know about.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::Any</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The metadata for a file. Similar to the equivalent message in the Remote</span>
+<span class="doccomment">/// Execution API.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileMetadata</span> {
+    <span class="doccomment">/// The path of this file. If this message is part of the</span>
+    <span class="doccomment">/// CommandOutputs.outputs fields, the path is relative to the execution root</span>
+    <span class="doccomment">/// and must correspond to an entry in CommandTask.outputs.files. If this</span>
+    <span class="doccomment">/// message is part of a Directory message, then the path is relative to the</span>
+    <span class="doccomment">/// root of that directory. All paths MUST be delimited by forward slashes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A pointer to the contents of the file. The method by which a client</span>
+    <span class="doccomment">/// retrieves the contents from a CAS system is not defined here.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">digest</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If the file is small enough, its contents may also or alternatively be</span>
+    <span class="doccomment">/// listed here.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">contents</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// Properties of the file</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">is_executable</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// The metadata for a directory. Similar to the equivalent message in the Remote</span>
+<span class="doccomment">/// Execution API.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DirectoryMetadata</span> {
+    <span class="doccomment">/// The path of the directory, as in</span>
+    <span class="doccomment">/// \[FileMetadata.path][google.devtools.remoteworkers.v1test2.FileMetadata.path\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A pointer to the contents of the directory, in the form of a marshalled</span>
+    <span class="doccomment">/// Directory message.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">digest</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The CommandTask and CommandResult messages assume the existence of a service</span>
+<span class="doccomment">/// that can serve blobs of content, identified by a hash and size known as a</span>
+<span class="doccomment">/// &quot;digest.&quot; The method by which these blobs may be retrieved is not specified</span>
+<span class="doccomment">/// here, but a model implementation is in the Remote Execution API&#39;s</span>
+<span class="doccomment">/// &quot;ContentAddressibleStorage&quot; interface.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// In the context of the RWAPI, a Digest will virtually always refer to the</span>
+<span class="doccomment">/// contents of a file or a directory. The latter is represented by the</span>
+<span class="doccomment">/// byte-encoded Directory message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Digest</span> {
+    <span class="doccomment">/// A string-encoded hash (eg &quot;1a2b3c&quot;, not the byte array [0x1a, 0x2b, 0x3c])</span>
+    <span class="doccomment">/// using an implementation-defined hash algorithm (eg SHA-256).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The size of the contents. While this is not strictly required as part of an</span>
+    <span class="doccomment">/// identifier (after all, any given hash will have exactly one canonical</span>
+    <span class="doccomment">/// size), it&#39;s useful in almost all cases when one might want to send or</span>
+    <span class="doccomment">/// retrieve blobs of content and is included here for this reason.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">size_bytes</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Describes a blob of binary content with its digest.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Blob</span> {
+    <span class="doccomment">/// The digest of the blob. This should be verified by the receiver.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">digest</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The contents of the blob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">contents</span>: <span class="ident">::prost::bytes::Bytes</span>,
+}
+<span class="doccomment">/// The contents of a directory. Similar to the equivalent message in the Remote</span>
+<span class="doccomment">/// Execution API.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Directory</span> {
+    <span class="doccomment">/// The files in this directory</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">FileMetadata</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Any subdirectories</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">directories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DirectoryMetadata</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Describes a worker, which is a list of one or more devices and the</span>
 <span class="doccomment">/// connections between them. A device could be a computer, a phone, or even an</span>
 <span class="doccomment">/// accelerator like a GPU; it&#39;s up to the farm administrator to decide how to</span>
 <span class="doccomment">/// model their farm. For example, if a farm only has one type of GPU, the GPU</span>
@@ -1299,279 +1572,6 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
-}
-<span class="doccomment">/// Describes a shell-style task to execute, suitable for providing as the Bots</span>
-<span class="doccomment">/// interface&#39;s `Lease.payload` field.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandTask</span> {
-    <span class="doccomment">/// The inputs to the task.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">command_task::Inputs</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The expected outputs from the task.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">expected_outputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">command_task::Outputs</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The timeouts of this task.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">timeouts</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">command_task::Timeouts</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CommandTask`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">command_task</span> {
-    <span class="doccomment">/// Describes the inputs to a shell-style task.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Inputs</span> {
-        <span class="doccomment">/// The command itself to run (e.g., argv).</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This field should be passed directly to the underlying operating system,</span>
-        <span class="doccomment">/// and so it must be sensible to that operating system. For example, on</span>
-        <span class="doccomment">/// Windows, the first argument might be &quot;C:\Windows\System32\ping.exe&quot; -</span>
-        <span class="doccomment">/// that is, using drive letters and backslashes. A command for a *nix</span>
-        <span class="doccomment">/// system, on the other hand, would use forward slashes.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// All other fields in the RWAPI must consistently use forward slashes,</span>
-        <span class="doccomment">/// since those fields may be interpretted by both the service and the bot.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">arguments</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The input filesystem to be set up prior to the task beginning. The</span>
-        <span class="doccomment">/// contents should be a repeated set of FileMetadata messages though other</span>
-        <span class="doccomment">/// formats are allowed if better for the implementation (eg, a LUCI-style</span>
-        <span class="doccomment">/// .isolated file).</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This field is repeated since implementations might want to cache the</span>
-        <span class="doccomment">/// metadata, in which case it may be useful to break up portions of the</span>
-        <span class="doccomment">/// filesystem that change frequently (eg, specific input files) from those</span>
-        <span class="doccomment">/// that don&#39;t (eg, standard header files).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Digest</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Inline contents for blobs expected to be needed by the bot to execute the</span>
-        <span class="doccomment">/// task. For example, contents of entries in `files` or blobs that are</span>
-        <span class="doccomment">/// indirectly referenced by an entry there.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// The bot should check against this list before downloading required task</span>
-        <span class="doccomment">/// inputs to reduce the number of communications between itself and the</span>
-        <span class="doccomment">/// remote CAS server.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">inline_blobs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Blob</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// All environment variables required by the task.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">environment_variables</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">inputs::EnvironmentVariable</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Directory from which a command is executed. It is a relative directory</span>
-        <span class="doccomment">/// with respect to the bot&#39;s working directory (i.e., &quot;./&quot;). If it is</span>
-        <span class="doccomment">/// non-empty, then it must exist under &quot;./&quot;. Otherwise, &quot;./&quot; will be used.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">working_directory</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Inputs`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">inputs</span> {
-        <span class="doccomment">/// An environment variable required by this task.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EnvironmentVariable</span> {
-            <span class="doccomment">/// The envvar name.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The envvar value.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-    }
-    <span class="doccomment">/// Describes the expected outputs of the command.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Outputs</span> {
-        <span class="doccomment">/// A list of expected files, relative to the execution root. All paths</span>
-        <span class="doccomment">/// MUST be delimited by forward slashes.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// A list of expected directories, relative to the execution root. All paths</span>
-        <span class="doccomment">/// MUST be delimited by forward slashes.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">directories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The destination to which any stdout should be sent. The method by which</span>
-        <span class="doccomment">/// the bot should send the stream contents to that destination is not</span>
-        <span class="doccomment">/// defined in this API. As examples, the destination could be a file</span>
-        <span class="doccomment">/// referenced in the `files` field in this message, or it could be a URI</span>
-        <span class="doccomment">/// that must be written via the ByteStream API.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">stdout_destination</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The destination to which any stderr should be sent. The method by which</span>
-        <span class="doccomment">/// the bot should send the stream contents to that destination is not</span>
-        <span class="doccomment">/// defined in this API. As examples, the destination could be a file</span>
-        <span class="doccomment">/// referenced in the `files` field in this message, or it could be a URI</span>
-        <span class="doccomment">/// that must be written via the ByteStream API.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">stderr_destination</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Describes the timeouts associated with this task.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Timeouts</span> {
-        <span class="doccomment">/// This specifies the maximum time that the task can run, excluding the</span>
-        <span class="doccomment">/// time required to download inputs or upload outputs. That is, the worker</span>
-        <span class="doccomment">/// will terminate the task if it runs longer than this.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">execution</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// This specifies the maximum amount of time the task can be idle - that is,</span>
-        <span class="doccomment">/// go without generating some output in either stdout or stderr. If the</span>
-        <span class="doccomment">/// process is silent for more than the specified time, the worker will</span>
-        <span class="doccomment">/// terminate the task.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">idle</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// If the execution or IO timeouts are exceeded, the worker will try to</span>
-        <span class="doccomment">/// gracefully terminate the task and return any existing logs. However,</span>
-        <span class="doccomment">/// tasks may be hard-frozen in which case this process will fail. This</span>
-        <span class="doccomment">/// timeout specifies how long to wait for a terminated task to shut down</span>
-        <span class="doccomment">/// gracefully (e.g. via SIGTERM) before we bring down the hammer (e.g.</span>
-        <span class="doccomment">/// SIGKILL on *nix, CTRL_BREAK_EVENT on Windows).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">shutdown</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    }
-}
-<span class="doccomment">/// DEPRECATED - use CommandResult instead.</span>
-<span class="doccomment">/// Describes the actual outputs from the task.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandOutputs</span> {
-    <span class="doccomment">/// exit_code is only fully reliable if the status&#39; code is OK. If the task</span>
-    <span class="doccomment">/// exceeded its deadline or was cancelled, the process may still produce an</span>
-    <span class="doccomment">/// exit code as it is cancelled, and this will be populated, but a successful</span>
-    <span class="doccomment">/// (zero) is unlikely to be correct unless the status code is OK.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exit_code</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The output files. The blob referenced by the digest should contain</span>
-    <span class="doccomment">/// one of the following (implementation-dependent):</span>
-    <span class="doccomment">///    * A marshalled DirectoryMetadata of the returned filesystem</span>
-    <span class="doccomment">///    * A LUCI-style .isolated file</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">outputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// DEPRECATED - use CommandResult instead.</span>
-<span class="doccomment">/// Can be used as part of CompleteRequest.metadata, or are part of a more</span>
-<span class="doccomment">/// sophisticated message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandOverhead</span> {
-    <span class="doccomment">/// The elapsed time between calling Accept and Complete. The server will also</span>
-    <span class="doccomment">/// have its own idea of what this should be, but this excludes the overhead of</span>
-    <span class="doccomment">/// the RPCs and the bot response time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The amount of time *not* spent executing the command (ie</span>
-    <span class="doccomment">/// uploading/downloading files).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">overhead</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// All information about the execution of a command, suitable for providing as</span>
-<span class="doccomment">/// the Bots interface&#39;s `Lease.result` field.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandResult</span> {
-    <span class="doccomment">/// An overall status for the command. For example, if the command timed out,</span>
-    <span class="doccomment">/// this might have a code of DEADLINE_EXCEEDED; if it was killed by the OS for</span>
-    <span class="doccomment">/// memory exhaustion, it might have a code of RESOURCE_EXHAUSTED.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The exit code of the process. An exit code of &quot;0&quot; should only be trusted if</span>
-    <span class="doccomment">/// `status` has a code of OK (otherwise it may simply be unset).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exit_code</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The output files. The blob referenced by the digest should contain</span>
-    <span class="doccomment">/// one of the following (implementation-dependent):</span>
-    <span class="doccomment">///    * A marshalled DirectoryMetadata of the returned filesystem</span>
-    <span class="doccomment">///    * A LUCI-style .isolated file</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">outputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The elapsed time between calling Accept and Complete. The server will also</span>
-    <span class="doccomment">/// have its own idea of what this should be, but this excludes the overhead of</span>
-    <span class="doccomment">/// the RPCs and the bot response time.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The amount of time *not* spent executing the command (ie</span>
-    <span class="doccomment">/// uploading/downloading files).</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">overhead</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Implementation-dependent metadata about the task. Both servers and bots</span>
-    <span class="doccomment">/// may define messages which can be encoded here; bots are free to provide</span>
-    <span class="doccomment">/// metadata in multiple formats, and servers are free to choose one or more</span>
-    <span class="doccomment">/// of the values to process and ignore others. In particular, it is *not*</span>
-    <span class="doccomment">/// considered an error for the bot to provide the server with a field that it</span>
-    <span class="doccomment">/// doesn&#39;t know about.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::Any</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The metadata for a file. Similar to the equivalent message in the Remote</span>
-<span class="doccomment">/// Execution API.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileMetadata</span> {
-    <span class="doccomment">/// The path of this file. If this message is part of the</span>
-    <span class="doccomment">/// CommandOutputs.outputs fields, the path is relative to the execution root</span>
-    <span class="doccomment">/// and must correspond to an entry in CommandTask.outputs.files. If this</span>
-    <span class="doccomment">/// message is part of a Directory message, then the path is relative to the</span>
-    <span class="doccomment">/// root of that directory. All paths MUST be delimited by forward slashes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A pointer to the contents of the file. The method by which a client</span>
-    <span class="doccomment">/// retrieves the contents from a CAS system is not defined here.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">digest</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If the file is small enough, its contents may also or alternatively be</span>
-    <span class="doccomment">/// listed here.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">contents</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// Properties of the file</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">is_executable</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// The metadata for a directory. Similar to the equivalent message in the Remote</span>
-<span class="doccomment">/// Execution API.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DirectoryMetadata</span> {
-    <span class="doccomment">/// The path of the directory, as in</span>
-    <span class="doccomment">/// \[FileMetadata.path][google.devtools.remoteworkers.v1test2.FileMetadata.path\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A pointer to the contents of the directory, in the form of a marshalled</span>
-    <span class="doccomment">/// Directory message.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">digest</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The CommandTask and CommandResult messages assume the existence of a service</span>
-<span class="doccomment">/// that can serve blobs of content, identified by a hash and size known as a</span>
-<span class="doccomment">/// &quot;digest.&quot; The method by which these blobs may be retrieved is not specified</span>
-<span class="doccomment">/// here, but a model implementation is in the Remote Execution API&#39;s</span>
-<span class="doccomment">/// &quot;ContentAddressibleStorage&quot; interface.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// In the context of the RWAPI, a Digest will virtually always refer to the</span>
-<span class="doccomment">/// contents of a file or a directory. The latter is represented by the</span>
-<span class="doccomment">/// byte-encoded Directory message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Digest</span> {
-    <span class="doccomment">/// A string-encoded hash (eg &quot;1a2b3c&quot;, not the byte array [0x1a, 0x2b, 0x3c])</span>
-    <span class="doccomment">/// using an implementation-defined hash algorithm (eg SHA-256).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The size of the contents. While this is not strictly required as part of an</span>
-    <span class="doccomment">/// identifier (after all, any given hash will have exactly one canonical</span>
-    <span class="doccomment">/// size), it&#39;s useful in almost all cases when one might want to send or</span>
-    <span class="doccomment">/// retrieve blobs of content and is included here for this reason.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">size_bytes</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// Describes a blob of binary content with its digest.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Blob</span> {
-    <span class="doccomment">/// The digest of the blob. This should be verified by the receiver.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">digest</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Digest</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The contents of the blob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">contents</span>: <span class="ident">::prost::bytes::Bytes</span>,
-}
-<span class="doccomment">/// The contents of a directory. Similar to the equivalent message in the Remote</span>
-<span class="doccomment">/// Execution API.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Directory</span> {
-    <span class="doccomment">/// The files in this directory</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">FileMetadata</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Any subdirectories</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">directories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DirectoryMetadata</span><span class="op">&gt;</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../search-index.js" data-search-js="../../../../../../search.js"></div>

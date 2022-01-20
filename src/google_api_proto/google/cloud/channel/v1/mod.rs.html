@@ -3432,6 +3432,145 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">family_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// Entity representing a link between distributors and their indirect</span>
+<span class="doccomment">/// resellers in an n-tier resale channel.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChannelPartnerLink</span> {
+    <span class="doccomment">/// Output only. Resource name for the channel partner link, in the format</span>
+    <span class="doccomment">/// accounts/{account_id}/channelPartnerLinks/{id}.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Cloud Identity ID of the linked reseller.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">reseller_cloud_identity_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. State of the channel partner link.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ChannelPartnerLinkState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">link_state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. URI of the web page where partner accepts the link invitation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">invite_link_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Public identifier that a customer must use to generate a transfer token</span>
+    <span class="doccomment">/// to move to this distributor-reseller combination.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">public_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Cloud Identity info of the channel partner (IR).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">channel_partner_cloud_identity_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CloudIdentityInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The level of granularity the \[ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink\] will display.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChannelPartnerLinkView</span> {
+    <span class="doccomment">/// The default / unset value.</span>
+    <span class="doccomment">/// The API will default to the BASIC view.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Includes all fields except the</span>
+    <span class="doccomment">/// \[ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info\].</span>
+    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Includes all fields.</span>
+    <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// ChannelPartnerLinkState represents state of a channel partner link.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChannelPartnerLinkState</span> {
+    <span class="doccomment">/// Not used.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// An invitation has been sent to the reseller to create a channel partner</span>
+    <span class="doccomment">/// link.</span>
+    <span class="ident">Invited</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Status when the reseller is active.</span>
+    <span class="ident">Active</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Status when the reseller has been revoked by the distributor.</span>
+    <span class="ident">Revoked</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Status when the reseller is suspended by Google or distributor.</span>
+    <span class="ident">Suspended</span> <span class="op">=</span> <span class="number">4</span>,
+}
+<span class="doccomment">/// Entity representing a customer of a reseller or distributor.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Customer</span> {
+    <span class="doccomment">/// Output only. Resource name of the customer.</span>
+    <span class="doccomment">/// Format: accounts/{account_id}/customers/{customer_id}</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Name of the organization that the customer entity represents.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">org_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The organization address for the customer. To enforce US laws and</span>
+    <span class="doccomment">/// embargoes, we require a region and zip code. You must provide valid</span>
+    <span class="doccomment">/// addresses for every customer. To set the customer&#39;s language, use the</span>
+    <span class="doccomment">/// Customer-level language code.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">org_postal_address</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::PostalAddress</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Primary contact info.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">primary_contact_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ContactInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Secondary contact email. You need to provide an alternate email to create</span>
+    <span class="doccomment">/// different domains if a primary contact email already exists. Users will</span>
+    <span class="doccomment">/// receive a notification with credentials when you create an admin.google.com</span>
+    <span class="doccomment">/// account. Secondary emails are also recovery email addresses. Alternate</span>
+    <span class="doccomment">/// emails are optional when you create Team customers.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">alternate_email</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The customer&#39;s primary domain. Must match the primary contact</span>
+    <span class="doccomment">/// email&#39;s domain.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">domain</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Time when the customer was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Time when the customer was updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The customer&#39;s Cloud Identity ID if the customer has a Cloud</span>
+    <span class="doccomment">/// Identity resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cloud_identity_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;. For more</span>
+    <span class="doccomment">/// information, see</span>
+    <span class="doccomment">/// &lt;https://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Cloud Identity information for the customer.</span>
+    <span class="doccomment">/// Populated only if a Cloud Identity account exists for this customer.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cloud_identity_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CloudIdentityInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Cloud Identity ID of the customer&#39;s channel partner.</span>
+    <span class="doccomment">/// Populated only if a channel partner exists for this customer.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">channel_partner_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Contact information for a customer account.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ContactInfo</span> {
+    <span class="doccomment">/// The customer account contact&#39;s first name. Optional for Team customers.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">first_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The customer account contact&#39;s last name. Optional for Team customers.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The customer account contact&#39;s display name, formatted as a</span>
+    <span class="doccomment">/// combination of the customer&#39;s first and last name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The customer account&#39;s contact email. Required for entitlements that create</span>
+    <span class="doccomment">/// admin.google.com accounts, and serves as the customer&#39;s username for those</span>
+    <span class="doccomment">/// accounts. Use this email to invite Team customers.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">email</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The customer account contact&#39;s job title.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The customer account&#39;s contact phone number.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">phone</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// A Product is the entity a customer uses when placing an order. For example,</span>
 <span class="doccomment">/// Google Workspace, Google Voice, etc.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -4003,145 +4142,6 @@
         <span class="doccomment">/// SKU subscription is suspended</span>
         <span class="ident">SkuSuspended</span> <span class="op">=</span> <span class="number">3</span>,
     }
-}
-<span class="doccomment">/// Entity representing a link between distributors and their indirect</span>
-<span class="doccomment">/// resellers in an n-tier resale channel.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChannelPartnerLink</span> {
-    <span class="doccomment">/// Output only. Resource name for the channel partner link, in the format</span>
-    <span class="doccomment">/// accounts/{account_id}/channelPartnerLinks/{id}.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Cloud Identity ID of the linked reseller.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">reseller_cloud_identity_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. State of the channel partner link.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ChannelPartnerLinkState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">link_state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. URI of the web page where partner accepts the link invitation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">invite_link_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Public identifier that a customer must use to generate a transfer token</span>
-    <span class="doccomment">/// to move to this distributor-reseller combination.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">public_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Cloud Identity info of the channel partner (IR).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">channel_partner_cloud_identity_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CloudIdentityInfo</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The level of granularity the \[ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink\] will display.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChannelPartnerLinkView</span> {
-    <span class="doccomment">/// The default / unset value.</span>
-    <span class="doccomment">/// The API will default to the BASIC view.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Includes all fields except the</span>
-    <span class="doccomment">/// \[ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info\].</span>
-    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Includes all fields.</span>
-    <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// ChannelPartnerLinkState represents state of a channel partner link.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChannelPartnerLinkState</span> {
-    <span class="doccomment">/// Not used.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// An invitation has been sent to the reseller to create a channel partner</span>
-    <span class="doccomment">/// link.</span>
-    <span class="ident">Invited</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Status when the reseller is active.</span>
-    <span class="ident">Active</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Status when the reseller has been revoked by the distributor.</span>
-    <span class="ident">Revoked</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Status when the reseller is suspended by Google or distributor.</span>
-    <span class="ident">Suspended</span> <span class="op">=</span> <span class="number">4</span>,
-}
-<span class="doccomment">/// Entity representing a customer of a reseller or distributor.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Customer</span> {
-    <span class="doccomment">/// Output only. Resource name of the customer.</span>
-    <span class="doccomment">/// Format: accounts/{account_id}/customers/{customer_id}</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Name of the organization that the customer entity represents.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">org_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The organization address for the customer. To enforce US laws and</span>
-    <span class="doccomment">/// embargoes, we require a region and zip code. You must provide valid</span>
-    <span class="doccomment">/// addresses for every customer. To set the customer&#39;s language, use the</span>
-    <span class="doccomment">/// Customer-level language code.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">org_postal_address</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::PostalAddress</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Primary contact info.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">primary_contact_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ContactInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Secondary contact email. You need to provide an alternate email to create</span>
-    <span class="doccomment">/// different domains if a primary contact email already exists. Users will</span>
-    <span class="doccomment">/// receive a notification with credentials when you create an admin.google.com</span>
-    <span class="doccomment">/// account. Secondary emails are also recovery email addresses. Alternate</span>
-    <span class="doccomment">/// emails are optional when you create Team customers.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">alternate_email</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The customer&#39;s primary domain. Must match the primary contact</span>
-    <span class="doccomment">/// email&#39;s domain.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">domain</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Time when the customer was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Time when the customer was updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The customer&#39;s Cloud Identity ID if the customer has a Cloud</span>
-    <span class="doccomment">/// Identity resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cloud_identity_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;. For more</span>
-    <span class="doccomment">/// information, see</span>
-    <span class="doccomment">/// &lt;https://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Cloud Identity information for the customer.</span>
-    <span class="doccomment">/// Populated only if a Cloud Identity account exists for this customer.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cloud_identity_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CloudIdentityInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Cloud Identity ID of the customer&#39;s channel partner.</span>
-    <span class="doccomment">/// Populated only if a channel partner exists for this customer.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">channel_partner_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Contact information for a customer account.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ContactInfo</span> {
-    <span class="doccomment">/// The customer account contact&#39;s first name. Optional for Team customers.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">first_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The customer account contact&#39;s last name. Optional for Team customers.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The customer account contact&#39;s display name, formatted as a</span>
-    <span class="doccomment">/// combination of the customer&#39;s first and last name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The customer account&#39;s contact email. Required for entitlements that create</span>
-    <span class="doccomment">/// admin.google.com accounts, and serves as the customer&#39;s username for those</span>
-    <span class="doccomment">/// accounts. Use this email to invite Team customers.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">email</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The customer account contact&#39;s job title.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The customer account&#39;s contact phone number.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">phone</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Request message for \[CloudChannelService.CheckCloudIdentityAccountsExist][google.cloud.channel.v1.CloudChannelService.CheckCloudIdentityAccountsExist\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -6458,6 +6458,45 @@
         }
     }
 }
+<span class="doccomment">/// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
+    <span class="doccomment">/// The RPC that initiated this Long Running Operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;operation_metadata::OperationType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">operation_type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `OperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">operation_metadata</span> {
+    <span class="doccomment">/// RPCs that return a Long Running Operation.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OperationType</span> {
+        <span class="doccomment">/// Not used.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by CreateEntitlement.</span>
+        <span class="ident">CreateEntitlement</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ChangeRenewalSettings.</span>
+        <span class="ident">ChangeRenewalSettings</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by StartPaidService.</span>
+        <span class="ident">StartPaidService</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ActivateEntitlement.</span>
+        <span class="ident">ActivateEntitlement</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by SuspendEntitlement.</span>
+        <span class="ident">SuspendEntitlement</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by CancelEntitlement.</span>
+        <span class="ident">CancelEntitlement</span> <span class="op">=</span> <span class="number">9</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by TransferEntitlements.</span>
+        <span class="ident">TransferEntitlements</span> <span class="op">=</span> <span class="number">10</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by TransferEntitlementsToGoogle.</span>
+        <span class="ident">TransferEntitlementsToGoogle</span> <span class="op">=</span> <span class="number">11</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ChangeOffer.</span>
+        <span class="ident">ChangeOffer</span> <span class="op">=</span> <span class="number">14</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ChangeParameters.</span>
+        <span class="ident">ChangeParameters</span> <span class="op">=</span> <span class="number">15</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ProvisionCloudIdentity.</span>
+        <span class="ident">ProvisionCloudIdentity</span> <span class="op">=</span> <span class="number">16</span>,
+    }
+}
 <span class="doccomment">/// Represents Pub/Sub message content describing customer update.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomerEvent</span> {
@@ -6552,45 +6591,6 @@
         <span class="doccomment">/// Entitlement event send as part of Pub/Sub event to partners.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">EntitlementEvent</span>(<span class="ident"><span class="kw">super</span>::EntitlementEvent</span>),
-    }
-}
-<span class="doccomment">/// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
-    <span class="doccomment">/// The RPC that initiated this Long Running Operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;operation_metadata::OperationType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">operation_type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `OperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">operation_metadata</span> {
-    <span class="doccomment">/// RPCs that return a Long Running Operation.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OperationType</span> {
-        <span class="doccomment">/// Not used.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by CreateEntitlement.</span>
-        <span class="ident">CreateEntitlement</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ChangeRenewalSettings.</span>
-        <span class="ident">ChangeRenewalSettings</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by StartPaidService.</span>
-        <span class="ident">StartPaidService</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ActivateEntitlement.</span>
-        <span class="ident">ActivateEntitlement</span> <span class="op">=</span> <span class="number">7</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by SuspendEntitlement.</span>
-        <span class="ident">SuspendEntitlement</span> <span class="op">=</span> <span class="number">8</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by CancelEntitlement.</span>
-        <span class="ident">CancelEntitlement</span> <span class="op">=</span> <span class="number">9</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by TransferEntitlements.</span>
-        <span class="ident">TransferEntitlements</span> <span class="op">=</span> <span class="number">10</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by TransferEntitlementsToGoogle.</span>
-        <span class="ident">TransferEntitlementsToGoogle</span> <span class="op">=</span> <span class="number">11</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ChangeOffer.</span>
-        <span class="ident">ChangeOffer</span> <span class="op">=</span> <span class="number">14</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ChangeParameters.</span>
-        <span class="ident">ChangeParameters</span> <span class="op">=</span> <span class="number">15</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ProvisionCloudIdentity.</span>
-        <span class="ident">ProvisionCloudIdentity</span> <span class="op">=</span> <span class="number">16</span>,
     }
 }
 </code></pre></div>

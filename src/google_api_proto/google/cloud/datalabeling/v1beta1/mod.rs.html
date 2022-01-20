@@ -3566,209 +3566,6 @@
     <span class="doccomment">/// General classification. Allowed for continuous evaluation.</span>
     <span class="ident">GeneralClassificationAnnotation</span> <span class="op">=</span> <span class="number">14</span>,
 }
-<span class="doccomment">/// Describes an evaluation between a machine learning model&#39;s predictions and</span>
-<span class="doccomment">/// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Evaluation</span> {
-    <span class="doccomment">/// Output only. Resource name of an evaluation. The name has the following</span>
-    <span class="doccomment">/// format:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// &quot;projects/&lt;var&gt;{project_id}&lt;/var&gt;/datasets/&lt;var&gt;{dataset_id}&lt;/var&gt;/evaluations/&lt;var&gt;{evaluation_id&lt;/var&gt;}&#39;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Options used in the evaluation job that created this</span>
-    <span class="doccomment">/// evaluation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EvaluationConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp for when the evaluation job that created this</span>
-    <span class="doccomment">/// evaluation ran.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">evaluation_job_run_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp for when this evaluation was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Metrics comparing predictions to ground truth labels.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">evaluation_metrics</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EvaluationMetrics</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Type of task that the model version being evaluated performs,</span>
-    <span class="doccomment">/// as defined in the</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// \[evaluationJobConfig.inputConfig.annotationType][google.cloud.datalabeling.v1beta1.EvaluationJobConfig.input_config\]</span>
-    <span class="doccomment">/// field of the evaluation job that created this evaluation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;AnnotationType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">annotation_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. The number of items in the ground truth dataset that were used</span>
-    <span class="doccomment">/// for this evaluation. Only populated when the evaulation is for certain</span>
-    <span class="doccomment">/// AnnotationTypes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">evaluated_item_count</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// Configuration details used for calculating evaluation metrics and creating an</span>
-<span class="doccomment">/// \[Evaluation][google.cloud.datalabeling.v1beta1.Evaluation\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EvaluationConfig</span> {
-    <span class="doccomment">/// Vertical specific options for general metrics.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;evaluation_config::VerticalOption&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vertical_option</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">evaluation_config::VerticalOption</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `EvaluationConfig`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">evaluation_config</span> {
-    <span class="doccomment">/// Vertical specific options for general metrics.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VerticalOption</span> {
-        <span class="doccomment">/// Only specify this field if the related model performs image object</span>
-        <span class="doccomment">/// detection (`IMAGE_BOUNDING_BOX_ANNOTATION`). Describes how to evaluate</span>
-        <span class="doccomment">/// bounding boxes.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">BoundingBoxEvaluationOptions</span>(<span class="ident"><span class="kw">super</span>::BoundingBoxEvaluationOptions</span>),
-    }
-}
-<span class="doccomment">/// Options regarding evaluation between bounding boxes.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BoundingBoxEvaluationOptions</span> {
-    <span class="doccomment">/// Minimum</span>
-    <span class="doccomment">/// [intersection-over-union</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)</span>
-    <span class="doccomment">/// required for 2 bounding boxes to be considered a match. This must be a</span>
-    <span class="doccomment">/// number between 0 and 1.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">iou_threshold</span>: <span class="ident">f32</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EvaluationMetrics</span> {
-    <span class="doccomment">/// Common metrics covering most general cases.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;evaluation_metrics::Metrics&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metrics</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">evaluation_metrics::Metrics</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `EvaluationMetrics`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">evaluation_metrics</span> {
-    <span class="doccomment">/// Common metrics covering most general cases.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Metrics</span> {
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">ClassificationMetrics</span>(<span class="ident"><span class="kw">super</span>::ClassificationMetrics</span>),
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">ObjectDetectionMetrics</span>(<span class="ident"><span class="kw">super</span>::ObjectDetectionMetrics</span>),
-    }
-}
-<span class="doccomment">/// Metrics calculated for a classification model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClassificationMetrics</span> {
-    <span class="doccomment">/// Precision-recall curve based on ground truth labels, predicted labels, and</span>
-    <span class="doccomment">/// scores for the predicted labels.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">pr_curve</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PrCurve</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Confusion matrix of predicted labels vs. ground truth labels.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confusion_matrix</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ConfusionMatrix</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Metrics calculated for an image object detection (bounding box) model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ObjectDetectionMetrics</span> {
-    <span class="doccomment">/// Precision-recall curve.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">pr_curve</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PrCurve</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PrCurve</span> {
-    <span class="doccomment">/// The annotation spec of the label for which the precision-recall curve</span>
-    <span class="doccomment">/// calculated. If this field is empty, that means the precision-recall curve</span>
-    <span class="doccomment">/// is an aggregate curve for all labels.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">annotation_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AnnotationSpec</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Area under the precision-recall curve. Not to be confused with area under</span>
-    <span class="doccomment">/// a receiver operating characteristic (ROC) curve.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">area_under_curve</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// Entries that make up the precision-recall graph. Each entry is a &quot;point&quot; on</span>
-    <span class="doccomment">/// the graph drawn for a different `confidence_threshold`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confidence_metrics_entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">pr_curve::ConfidenceMetricsEntry</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Mean average prcision of this curve.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mean_average_precision</span>: <span class="ident">f32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PrCurve`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pr_curve</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfidenceMetricsEntry</span> {
-        <span class="doccomment">/// Threshold used for this entry.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// For classification tasks, this is a classification threshold: a</span>
-        <span class="doccomment">/// predicted label is categorized as positive or negative (in the context of</span>
-        <span class="doccomment">/// this point on the PR curve) based on whether the label&#39;s score meets this</span>
-        <span class="doccomment">/// threshold.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// For image object detection (bounding box) tasks, this is the</span>
-        <span class="doccomment">/// [intersection-over-union</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)</span>
-        <span class="doccomment">/// threshold for the context of this point on the PR curve.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">confidence_threshold</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// Recall value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">recall</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// Precision value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">precision</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// Harmonic mean of recall and precision.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">f1_score</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// Recall value for entries with label that has highest score.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">recall_at1</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// Precision value for entries with label that has highest score.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">precision_at1</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// The harmonic mean of \[recall_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at1\] and \[precision_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at1\].</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">f1_score_at1</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// Recall value for entries with label that has highest 5 scores.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">recall_at5</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// Precision value for entries with label that has highest 5 scores.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">precision_at5</span>: <span class="ident">f32</span>,
-        <span class="doccomment">/// The harmonic mean of \[recall_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at5\] and \[precision_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at5\].</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">f1_score_at5</span>: <span class="ident">f32</span>,
-    }
-}
-<span class="doccomment">/// Confusion matrix of the model running the classification. Only applicable</span>
-<span class="doccomment">/// when the metrics entry aggregates multiple labels. Not applicable when the</span>
-<span class="doccomment">/// entry is for a single label.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfusionMatrix</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">row</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">confusion_matrix::Row</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ConfusionMatrix`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">confusion_matrix</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfusionMatrixEntry</span> {
-        <span class="doccomment">/// The annotation spec of a predicted label.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">annotation_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AnnotationSpec</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Number of items predicted to have this label. (The ground truth label for</span>
-        <span class="doccomment">/// these items is the `Row.annotationSpec` of this entry&#39;s parent.)</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">item_count</span>: <span class="ident">i32</span>,
-    }
-    <span class="doccomment">/// A row in the confusion matrix. Each entry in this row has the same</span>
-    <span class="doccomment">/// ground truth label.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Row</span> {
-        <span class="doccomment">/// The annotation spec of the ground truth label for this row.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">annotation_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AnnotationSpec</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// A list of the confusion matrix entries. One entry for each possible</span>
-        <span class="doccomment">/// predicted label.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ConfusionMatrixEntry</span><span class="op">&gt;</span>,
-    }
-}
 <span class="doccomment">/// Container of information about an image.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImagePayload</span> {
@@ -4369,235 +4166,208 @@
     <span class="doccomment">/// Allowed for continuous evaluation.</span>
     <span class="ident">GeneralData</span> <span class="op">=</span> <span class="number">6</span>,
 }
-<span class="doccomment">/// Response used for ImportData longrunning operation.</span>
+<span class="doccomment">/// Describes an evaluation between a machine learning model&#39;s predictions and</span>
+<span class="doccomment">/// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportDataOperationResponse</span> {
-    <span class="doccomment">/// Ouptut only. The name of imported dataset.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Evaluation</span> {
+    <span class="doccomment">/// Output only. Resource name of an evaluation. The name has the following</span>
+    <span class="doccomment">/// format:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// &quot;projects/&lt;var&gt;{project_id}&lt;/var&gt;/datasets/&lt;var&gt;{dataset_id}&lt;/var&gt;/evaluations/&lt;var&gt;{evaluation_id&lt;/var&gt;}&#39;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Total number of examples requested to import</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">total_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Number of examples imported successfully.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">import_count</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Response used for ExportDataset longrunning operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDataOperationResponse</span> {
-    <span class="doccomment">/// Ouptut only. The name of dataset.</span>
-    <span class="doccomment">/// &quot;projects/*/datasets/*&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Total number of examples requested to export</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">total_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Number of examples exported successfully.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">export_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Statistic infos of labels in the exported dataset.</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Options used in the evaluation job that created this</span>
+    <span class="doccomment">/// evaluation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EvaluationConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp for when the evaluation job that created this</span>
+    <span class="doccomment">/// evaluation ran.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">evaluation_job_run_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp for when this evaluation was created.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">label_stats</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LabelStats</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. output_config in the ExportData request.</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Metrics comparing predictions to ground truth labels.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">output_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">OutputConfig</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">evaluation_metrics</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EvaluationMetrics</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Type of task that the model version being evaluated performs,</span>
+    <span class="doccomment">/// as defined in the</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// \[evaluationJobConfig.inputConfig.annotationType][google.cloud.datalabeling.v1beta1.EvaluationJobConfig.input_config\]</span>
+    <span class="doccomment">/// field of the evaluation job that created this evaluation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;AnnotationType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">annotation_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. The number of items in the ground truth dataset that were used</span>
+    <span class="doccomment">/// for this evaluation. Only populated when the evaulation is for certain</span>
+    <span class="doccomment">/// AnnotationTypes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">evaluated_item_count</span>: <span class="ident">i64</span>,
 }
-<span class="doccomment">/// Metadata of an ImportData operation.</span>
+<span class="doccomment">/// Configuration details used for calculating evaluation metrics and creating an</span>
+<span class="doccomment">/// \[Evaluation][google.cloud.datalabeling.v1beta1.Evaluation\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportDataOperationMetadata</span> {
-    <span class="doccomment">/// Output only. The name of imported dataset.</span>
-    <span class="doccomment">/// &quot;projects/*/datasets/*&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Partial failures encountered.</span>
-    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
-    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp when import dataset request was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EvaluationConfig</span> {
+    <span class="doccomment">/// Vertical specific options for general metrics.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;evaluation_config::VerticalOption&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vertical_option</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">evaluation_config::VerticalOption</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Metadata of an ExportData operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDataOperationMetadata</span> {
-    <span class="doccomment">/// Output only. The name of dataset to be exported.</span>
-    <span class="doccomment">/// &quot;projects/*/datasets/*&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Partial failures encountered.</span>
-    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
-    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp when export dataset request was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Metadata of a labeling operation, such as LabelImage or LabelVideo.</span>
-<span class="doccomment">/// Next tag: 20</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelOperationMetadata</span> {
-    <span class="doccomment">/// Output only. Progress of label operation. Range: [0, 100].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">progress_percent</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Partial failures encountered.</span>
-    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
-    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp when labeling request was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Ouptut only. Details of specific label operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;label_operation_metadata::Details&quot;</span>,
-        <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4, 11, 14, 12, 15, 5, 6, 7, 8, 9, 13&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">label_operation_metadata::Details</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `LabelOperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">label_operation_metadata</span> {
-    <span class="doccomment">/// Ouptut only. Details of specific label operation.</span>
+<span class="doccomment">/// Nested message and enum types in `EvaluationConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">evaluation_config</span> {
+    <span class="doccomment">/// Vertical specific options for general metrics.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
-        <span class="doccomment">/// Details of label image classification operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">ImageClassificationDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageClassificationOperationMetadata</span>),
-        <span class="doccomment">/// Details of label image bounding box operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">ImageBoundingBoxDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageBoundingBoxOperationMetadata</span>),
-        <span class="doccomment">/// Details of label image bounding poly operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-        <span class="ident">ImageBoundingPolyDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageBoundingPolyOperationMetadata</span>),
-        <span class="doccomment">/// Details of label image oriented bounding box operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-        <span class="ident">ImageOrientedBoundingBoxDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageOrientedBoundingBoxOperationMetadata</span>),
-        <span class="doccomment">/// Details of label image polyline operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-        <span class="ident">ImagePolylineDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImagePolylineOperationMetadata</span>),
-        <span class="doccomment">/// Details of label image segmentation operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-        <span class="ident">ImageSegmentationDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageSegmentationOperationMetadata</span>),
-        <span class="doccomment">/// Details of label video classification operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">VideoClassificationDetails</span>(<span class="ident"><span class="kw">super</span>::LabelVideoClassificationOperationMetadata</span>),
-        <span class="doccomment">/// Details of label video object detection operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">VideoObjectDetectionDetails</span>(<span class="ident"><span class="kw">super</span>::LabelVideoObjectDetectionOperationMetadata</span>),
-        <span class="doccomment">/// Details of label video object tracking operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="ident">VideoObjectTrackingDetails</span>(<span class="ident"><span class="kw">super</span>::LabelVideoObjectTrackingOperationMetadata</span>),
-        <span class="doccomment">/// Details of label video event operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="ident">VideoEventDetails</span>(<span class="ident"><span class="kw">super</span>::LabelVideoEventOperationMetadata</span>),
-        <span class="doccomment">/// Details of label text classification operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="ident">TextClassificationDetails</span>(<span class="ident"><span class="kw">super</span>::LabelTextClassificationOperationMetadata</span>),
-        <span class="doccomment">/// Details of label text entity extraction operation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-        <span class="ident">TextEntityExtractionDetails</span>(<span class="ident"><span class="kw">super</span>::LabelTextEntityExtractionOperationMetadata</span>),
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VerticalOption</span> {
+        <span class="doccomment">/// Only specify this field if the related model performs image object</span>
+        <span class="doccomment">/// detection (`IMAGE_BOUNDING_BOX_ANNOTATION`). Describes how to evaluate</span>
+        <span class="doccomment">/// bounding boxes.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">BoundingBoxEvaluationOptions</span>(<span class="ident"><span class="kw">super</span>::BoundingBoxEvaluationOptions</span>),
     }
 }
-<span class="doccomment">/// Metadata of a LabelImageClassification operation.</span>
+<span class="doccomment">/// Options regarding evaluation between bounding boxes.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageClassificationOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BoundingBoxEvaluationOptions</span> {
+    <span class="doccomment">/// Minimum</span>
+    <span class="doccomment">/// [intersection-over-union</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)</span>
+    <span class="doccomment">/// required for 2 bounding boxes to be considered a match. This must be a</span>
+    <span class="doccomment">/// number between 0 and 1.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">iou_threshold</span>: <span class="ident">f32</span>,
 }
-<span class="doccomment">/// Details of a LabelImageBoundingBox operation metadata.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageBoundingBoxOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EvaluationMetrics</span> {
+    <span class="doccomment">/// Common metrics covering most general cases.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;evaluation_metrics::Metrics&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metrics</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">evaluation_metrics::Metrics</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Details of a LabelImageOrientedBoundingBox operation metadata.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageOrientedBoundingBoxOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+<span class="doccomment">/// Nested message and enum types in `EvaluationMetrics`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">evaluation_metrics</span> {
+    <span class="doccomment">/// Common metrics covering most general cases.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Metrics</span> {
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">ClassificationMetrics</span>(<span class="ident"><span class="kw">super</span>::ClassificationMetrics</span>),
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">ObjectDetectionMetrics</span>(<span class="ident"><span class="kw">super</span>::ObjectDetectionMetrics</span>),
+    }
 }
-<span class="doccomment">/// Details of LabelImageBoundingPoly operation metadata.</span>
+<span class="doccomment">/// Metrics calculated for a classification model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageBoundingPolyOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClassificationMetrics</span> {
+    <span class="doccomment">/// Precision-recall curve based on ground truth labels, predicted labels, and</span>
+    <span class="doccomment">/// scores for the predicted labels.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">pr_curve</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PrCurve</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Confusion matrix of predicted labels vs. ground truth labels.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confusion_matrix</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ConfusionMatrix</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Details of LabelImagePolyline operation metadata.</span>
+<span class="doccomment">/// Metrics calculated for an image object detection (bounding box) model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImagePolylineOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ObjectDetectionMetrics</span> {
+    <span class="doccomment">/// Precision-recall curve.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">pr_curve</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PrCurve</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Details of a LabelImageSegmentation operation metadata.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageSegmentationOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PrCurve</span> {
+    <span class="doccomment">/// The annotation spec of the label for which the precision-recall curve</span>
+    <span class="doccomment">/// calculated. If this field is empty, that means the precision-recall curve</span>
+    <span class="doccomment">/// is an aggregate curve for all labels.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">annotation_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AnnotationSpec</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Area under the precision-recall curve. Not to be confused with area under</span>
+    <span class="doccomment">/// a receiver operating characteristic (ROC) curve.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">area_under_curve</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// Entries that make up the precision-recall graph. Each entry is a &quot;point&quot; on</span>
+    <span class="doccomment">/// the graph drawn for a different `confidence_threshold`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidence_metrics_entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">pr_curve::ConfidenceMetricsEntry</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Mean average prcision of this curve.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mean_average_precision</span>: <span class="ident">f32</span>,
 }
-<span class="doccomment">/// Details of a LabelVideoClassification operation metadata.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelVideoClassificationOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+<span class="doccomment">/// Nested message and enum types in `PrCurve`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pr_curve</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfidenceMetricsEntry</span> {
+        <span class="doccomment">/// Threshold used for this entry.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// For classification tasks, this is a classification threshold: a</span>
+        <span class="doccomment">/// predicted label is categorized as positive or negative (in the context of</span>
+        <span class="doccomment">/// this point on the PR curve) based on whether the label&#39;s score meets this</span>
+        <span class="doccomment">/// threshold.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// For image object detection (bounding box) tasks, this is the</span>
+        <span class="doccomment">/// [intersection-over-union</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)</span>
+        <span class="doccomment">/// threshold for the context of this point on the PR curve.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">confidence_threshold</span>: <span class="ident">f32</span>,
+        <span class="doccomment">/// Recall value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">recall</span>: <span class="ident">f32</span>,
+        <span class="doccomment">/// Precision value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">precision</span>: <span class="ident">f32</span>,
+        <span class="doccomment">/// Harmonic mean of recall and precision.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">f1_score</span>: <span class="ident">f32</span>,
+        <span class="doccomment">/// Recall value for entries with label that has highest score.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">recall_at1</span>: <span class="ident">f32</span>,
+        <span class="doccomment">/// Precision value for entries with label that has highest score.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">precision_at1</span>: <span class="ident">f32</span>,
+        <span class="doccomment">/// The harmonic mean of \[recall_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at1\] and \[precision_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at1\].</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">f1_score_at1</span>: <span class="ident">f32</span>,
+        <span class="doccomment">/// Recall value for entries with label that has highest 5 scores.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">recall_at5</span>: <span class="ident">f32</span>,
+        <span class="doccomment">/// Precision value for entries with label that has highest 5 scores.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">precision_at5</span>: <span class="ident">f32</span>,
+        <span class="doccomment">/// The harmonic mean of \[recall_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at5\] and \[precision_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at5\].</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">f1_score_at5</span>: <span class="ident">f32</span>,
+    }
 }
-<span class="doccomment">/// Details of a LabelVideoObjectDetection operation metadata.</span>
+<span class="doccomment">/// Confusion matrix of the model running the classification. Only applicable</span>
+<span class="doccomment">/// when the metrics entry aggregates multiple labels. Not applicable when the</span>
+<span class="doccomment">/// entry is for a single label.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelVideoObjectDetectionOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfusionMatrix</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">row</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">confusion_matrix::Row</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Details of a LabelVideoObjectTracking operation metadata.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelVideoObjectTrackingOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Details of a LabelVideoEvent operation metadata.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelVideoEventOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Details of a LabelTextClassification operation metadata.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelTextClassificationOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Details of a LabelTextEntityExtraction operation metadata.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelTextEntityExtractionOperationMetadata</span> {
-    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Metadata of a CreateInstruction operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateInstructionMetadata</span> {
-    <span class="doccomment">/// The name of the created Instruction.</span>
-    <span class="doccomment">/// projects/{project_id}/instructions/{instruction_id}</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instruction</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Partial failures encountered.</span>
-    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
-    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Timestamp when create instruction request was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+<span class="doccomment">/// Nested message and enum types in `ConfusionMatrix`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">confusion_matrix</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfusionMatrixEntry</span> {
+        <span class="doccomment">/// The annotation spec of a predicted label.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">annotation_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AnnotationSpec</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Number of items predicted to have this label. (The ground truth label for</span>
+        <span class="doccomment">/// these items is the `Row.annotationSpec` of this entry&#39;s parent.)</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">item_count</span>: <span class="ident">i32</span>,
+    }
+    <span class="doccomment">/// A row in the confusion matrix. Each entry in this row has the same</span>
+    <span class="doccomment">/// ground truth label.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Row</span> {
+        <span class="doccomment">/// The annotation spec of the ground truth label for this row.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">annotation_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AnnotationSpec</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// A list of the confusion matrix entries. One entry for each possible</span>
+        <span class="doccomment">/// predicted label.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ConfusionMatrixEntry</span><span class="op">&gt;</span>,
+    }
 }
 <span class="doccomment">/// Defines an evaluation job that runs periodically to generate</span>
 <span class="doccomment">/// \[Evaluations][google.cloud.datalabeling.v1beta1.Evaluation\]. [Creating an evaluation</span>
@@ -6336,6 +6106,236 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
+}
+<span class="doccomment">/// Response used for ImportData longrunning operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportDataOperationResponse</span> {
+    <span class="doccomment">/// Ouptut only. The name of imported dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Total number of examples requested to import</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">total_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Number of examples imported successfully.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">import_count</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Response used for ExportDataset longrunning operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDataOperationResponse</span> {
+    <span class="doccomment">/// Ouptut only. The name of dataset.</span>
+    <span class="doccomment">/// &quot;projects/*/datasets/*&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Total number of examples requested to export</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">total_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Number of examples exported successfully.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">export_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Statistic infos of labels in the exported dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">label_stats</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LabelStats</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. output_config in the ExportData request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">output_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">OutputConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Metadata of an ImportData operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportDataOperationMetadata</span> {
+    <span class="doccomment">/// Output only. The name of imported dataset.</span>
+    <span class="doccomment">/// &quot;projects/*/datasets/*&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Partial failures encountered.</span>
+    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
+    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp when import dataset request was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Metadata of an ExportData operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDataOperationMetadata</span> {
+    <span class="doccomment">/// Output only. The name of dataset to be exported.</span>
+    <span class="doccomment">/// &quot;projects/*/datasets/*&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Partial failures encountered.</span>
+    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
+    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp when export dataset request was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Metadata of a labeling operation, such as LabelImage or LabelVideo.</span>
+<span class="doccomment">/// Next tag: 20</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelOperationMetadata</span> {
+    <span class="doccomment">/// Output only. Progress of label operation. Range: [0, 100].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">progress_percent</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Partial failures encountered.</span>
+    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
+    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp when labeling request was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Ouptut only. Details of specific label operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;label_operation_metadata::Details&quot;</span>,
+        <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4, 11, 14, 12, 15, 5, 6, 7, 8, 9, 13&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">label_operation_metadata::Details</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `LabelOperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">label_operation_metadata</span> {
+    <span class="doccomment">/// Ouptut only. Details of specific label operation.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
+        <span class="doccomment">/// Details of label image classification operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">ImageClassificationDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageClassificationOperationMetadata</span>),
+        <span class="doccomment">/// Details of label image bounding box operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">ImageBoundingBoxDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageBoundingBoxOperationMetadata</span>),
+        <span class="doccomment">/// Details of label image bounding poly operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="ident">ImageBoundingPolyDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageBoundingPolyOperationMetadata</span>),
+        <span class="doccomment">/// Details of label image oriented bounding box operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+        <span class="ident">ImageOrientedBoundingBoxDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageOrientedBoundingBoxOperationMetadata</span>),
+        <span class="doccomment">/// Details of label image polyline operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+        <span class="ident">ImagePolylineDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImagePolylineOperationMetadata</span>),
+        <span class="doccomment">/// Details of label image segmentation operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+        <span class="ident">ImageSegmentationDetails</span>(<span class="ident"><span class="kw">super</span>::LabelImageSegmentationOperationMetadata</span>),
+        <span class="doccomment">/// Details of label video classification operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">VideoClassificationDetails</span>(<span class="ident"><span class="kw">super</span>::LabelVideoClassificationOperationMetadata</span>),
+        <span class="doccomment">/// Details of label video object detection operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">VideoObjectDetectionDetails</span>(<span class="ident"><span class="kw">super</span>::LabelVideoObjectDetectionOperationMetadata</span>),
+        <span class="doccomment">/// Details of label video object tracking operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="ident">VideoObjectTrackingDetails</span>(<span class="ident"><span class="kw">super</span>::LabelVideoObjectTrackingOperationMetadata</span>),
+        <span class="doccomment">/// Details of label video event operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="ident">VideoEventDetails</span>(<span class="ident"><span class="kw">super</span>::LabelVideoEventOperationMetadata</span>),
+        <span class="doccomment">/// Details of label text classification operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="ident">TextClassificationDetails</span>(<span class="ident"><span class="kw">super</span>::LabelTextClassificationOperationMetadata</span>),
+        <span class="doccomment">/// Details of label text entity extraction operation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+        <span class="ident">TextEntityExtractionDetails</span>(<span class="ident"><span class="kw">super</span>::LabelTextEntityExtractionOperationMetadata</span>),
+    }
+}
+<span class="doccomment">/// Metadata of a LabelImageClassification operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageClassificationOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of a LabelImageBoundingBox operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageBoundingBoxOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of a LabelImageOrientedBoundingBox operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageOrientedBoundingBoxOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of LabelImageBoundingPoly operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageBoundingPolyOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of LabelImagePolyline operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImagePolylineOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of a LabelImageSegmentation operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelImageSegmentationOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of a LabelVideoClassification operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelVideoClassificationOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of a LabelVideoObjectDetection operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelVideoObjectDetectionOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of a LabelVideoObjectTracking operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelVideoObjectTrackingOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of a LabelVideoEvent operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelVideoEventOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of a LabelTextClassification operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelTextClassificationOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of a LabelTextEntityExtraction operation metadata.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelTextEntityExtractionOperationMetadata</span> {
+    <span class="doccomment">/// Basic human annotation config used in labeling request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">basic_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HumanAnnotationConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Metadata of a CreateInstruction operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateInstructionMetadata</span> {
+    <span class="doccomment">/// The name of the created Instruction.</span>
+    <span class="doccomment">/// projects/{project_id}/instructions/{instruction_id}</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instruction</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Partial failures encountered.</span>
+    <span class="doccomment">/// E.g. single files that couldn&#39;t be read.</span>
+    <span class="doccomment">/// Status details field will contain standard GCP error details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Timestamp when create instruction request was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../search-index.js" data-search-js="../../../../../../search.js"></div>

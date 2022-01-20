@@ -565,7 +565,25 @@
 <span id="564">564</span>
 <span id="565">565</span>
 <span id="566">566</span>
-</pre><pre class="rust"><code><span class="doccomment">/// The type of the parameter.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Options for how to validate json schemas.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">JsonValidationOption</span> {
+    <span class="doccomment">/// As per the default behavior, no validation will be run. Will not override</span>
+    <span class="doccomment">/// any option set in a Task.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Do not run any validation against JSON schemas.</span>
+    <span class="ident">Skip</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Validate all potential input JSON parameters against schemas specified in</span>
+    <span class="doccomment">/// IntegrationParameter.</span>
+    <span class="ident">PreExecution</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Validate all potential output JSON parameters against schemas specified in</span>
+    <span class="doccomment">/// IntegrationParameter.</span>
+    <span class="ident">PostExecution</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Perform both PRE_EXECUTION and POST_EXECUTION validations.</span>
+    <span class="ident">PrePostExecution</span> <span class="op">=</span> <span class="number">4</span>,
+}
+<span class="doccomment">/// The type of the parameter.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValueType</span> {
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;value_type::Value&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 8, 9&quot;</span>)]</span>
@@ -645,24 +663,6 @@
     <span class="doccomment">/// or any proto message.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ValueType</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Options for how to validate json schemas.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">JsonValidationOption</span> {
-    <span class="doccomment">/// As per the default behavior, no validation will be run. Will not override</span>
-    <span class="doccomment">/// any option set in a Task.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Do not run any validation against JSON schemas.</span>
-    <span class="ident">Skip</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Validate all potential input JSON parameters against schemas specified in</span>
-    <span class="doccomment">/// IntegrationParameter.</span>
-    <span class="ident">PreExecution</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Validate all potential output JSON parameters against schemas specified in</span>
-    <span class="doccomment">/// IntegrationParameter.</span>
-    <span class="ident">PostExecution</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Perform both PRE_EXECUTION and POST_EXECUTION validations.</span>
-    <span class="ident">PrePostExecution</span> <span class="op">=</span> <span class="number">4</span>,
 }
 <span class="doccomment">/// Enum Product.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>

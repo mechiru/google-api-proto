@@ -351,28 +351,6 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-actions-sdk-v2-interactionmodel-type&quot;</span>,))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">r#type</span>;
 
-<span class="doccomment">/// Entity sets describe the pre-defined set of entities that the values of</span>
-<span class="doccomment">/// built-in intent parameters can come from. Entity sets can be referenced from</span>
-<span class="doccomment">/// entity_set in built-in intent parameters.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitySet</span> {
-    <span class="doccomment">/// Required. The list of entities this entity set supports.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">entities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">entity_set::Entity</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `EntitySet`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entity_set</span> {
-    <span class="doccomment">/// An entity a built-in intent parameter value can come from.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entity</span> {
-        <span class="doccomment">/// Required. The ID of the entity.</span>
-        <span class="doccomment">/// For a list of built-in-intent parameters and their supported entities,</span>
-        <span class="doccomment">/// see</span>
-        <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/build/built-in-intents&gt;</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
 <span class="doccomment">/// Defines a handler to be executed after an event. Examples of events are</span>
 <span class="doccomment">/// intent and condition based events in a scene.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -397,6 +375,22 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
         <span class="ident">StaticPromptName</span>(<span class="ident">::prost::alloc::string::String</span>),
     }
+}
+<span class="doccomment">/// Registers Events which trigger as the result of an intent match.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentEvent</span> {
+    <span class="doccomment">/// Required. Intent triggering the event.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">intent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
+    <span class="doccomment">/// current scene is destroyed on the transition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
+    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate prompts</span>
+    <span class="doccomment">/// in response to events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Registers events that trigger as the result of a true condition.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -428,84 +422,6 @@
     <span class="doccomment">/// Useful to generate Prompts in response to events.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Intents map open-ended user input to structured objects. Spoken</span>
-<span class="doccomment">/// phrases are matched to intents with Google&#39;s Natural Language Understanding</span>
-<span class="doccomment">/// (NLU). Intent matches can trigger events in your conversation design to</span>
-<span class="doccomment">/// progress the user&#39;s conversation.</span>
-<span class="doccomment">/// The intent name is specified in the name of the file.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Intent</span> {
-    <span class="doccomment">/// The list of parameters within the training phrases. All parameters must be</span>
-    <span class="doccomment">/// defined here to be used in the training phrase.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parameters</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">intent::IntentParameter</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Training phrases allow Google’s NLU to automatically match intents with</span>
-    <span class="doccomment">/// user input. The more unique phrases that are provided, the better chance</span>
-    <span class="doccomment">/// this intent will be matched.</span>
-    <span class="doccomment">/// The following is the format of training phrase part which are annotated.</span>
-    <span class="doccomment">/// Note that `auto` field is optional and the default behavior when `auto` is</span>
-    <span class="doccomment">/// not specified is equivalent to `auto=false`.</span>
-    <span class="doccomment">/// `($&lt;paramName&gt; &#39;&lt;sample text&gt;&#39; auto=&lt;true or false&gt;)`</span>
-    <span class="doccomment">/// `auto = true` means the part was auto annotated by NLU.</span>
-    <span class="doccomment">/// `auto = false` means the part was annotated by the user. This is the</span>
-    <span class="doccomment">///     default when auto is not specified.</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;Book a flight from ($source &#39;San Francisco&#39; auto=false) to ($dest</span>
-    <span class="doccomment">/// &#39;Vancouver&#39;)&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">training_phrases</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Intent`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">intent</span> {
-    <span class="doccomment">/// Definition of a parameter which can be used inside training phrases.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentParameter</span> {
-        <span class="doccomment">/// Required. Unique name of the intent parameter. Can be used in conditions and</span>
-        <span class="doccomment">/// responses to reference intent parameters extracted by NLU with</span>
-        <span class="doccomment">/// $intent.params.\[name\].resolved</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The type of the intent parameter.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;intent_parameter::ParameterType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">parameter_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">intent_parameter::ParameterType</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `IntentParameter`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">intent_parameter</span> {
-        <span class="doccomment">/// Entity set references for an intent parameter.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitySetReferences</span> {
-            <span class="doccomment">/// Required. Entity set references for an intent parameter.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">entity_set_references</span>:
-                <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">entity_set_references::EntitySetReference</span><span class="op">&gt;</span>,
-        }
-        <span class="doccomment">/// Nested message and enum types in `EntitySetReferences`.</span>
-        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entity_set_references</span> {
-            <span class="doccomment">/// A reference to the set of allowed entities for this intent parameter.</span>
-            <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-            <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitySetReference</span> {
-                <span class="doccomment">/// Required. Identifies the specific collection of entities to be considered for a</span>
-                <span class="doccomment">/// given parameter. The corresponding entity set definition should be</span>
-                <span class="doccomment">/// present in the custom/entitySets/ directory.</span>
-                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-                <span class="kw">pub</span> <span class="ident">entity_set</span>: <span class="ident">::prost::alloc::string::String</span>,
-            }
-        }
-        <span class="doccomment">/// The type of the intent parameter.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ParameterType</span> {
-            <span class="doccomment">/// Optional. Declares the data type of this parameter.</span>
-            <span class="doccomment">/// This should not be set for built-in intents.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">Type</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::ClassReference</span>),
-            <span class="doccomment">/// Optional. References to the sets of allowed entities for this intent parameter.</span>
-            <span class="doccomment">/// Only valid for parameters of a built-in intent. These</span>
-            <span class="doccomment">/// references point to entity sets in the &#39;custom/entitySets&#39; directory.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="ident">EntitySetReferences</span>(<span class="ident">EntitySetReferences</span>),
-        }
-    }
 }
 <span class="doccomment">/// Configuration for a slot. Slots are single units of data that can be filled</span>
 <span class="doccomment">/// through natural language (ie. intent parameters), session parameters, and</span>
@@ -620,43 +536,6 @@
         <span class="kw">pub</span> <span class="ident">constant</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
     }
 }
-<span class="doccomment">/// Registers Events which trigger as the result of an intent match.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentEvent</span> {
-    <span class="doccomment">/// Required. Intent triggering the event.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">intent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
-    <span class="doccomment">/// current scene is destroyed on the transition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
-    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate prompts</span>
-    <span class="doccomment">/// in response to events.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Defines a global intent handler. Global intent events are scoped to the</span>
-<span class="doccomment">/// entire Actions project and may be overridden by intent handlers in a scene.</span>
-<span class="doccomment">/// Intent names must be unique within an Actions project.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Global intents can be matched anytime during a session, allowing users to</span>
-<span class="doccomment">/// access common flows like  &quot;get help&quot; or &quot;go back home.&quot; They can also be</span>
-<span class="doccomment">/// used to deep link users into specific flows when they invoke an Action.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note, the intent name is specified in the name of the file.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalIntentEvent</span> {
-    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
-    <span class="doccomment">/// current scene is destroyed on the transition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
-    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate Prompts</span>
-    <span class="doccomment">/// in response to events.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
-}
 <span class="doccomment">/// Scene is the basic unit of control flow when designing a conversation. They</span>
 <span class="doccomment">/// can be chained together with other scenes, generate prompts for the end user,</span>
 <span class="doccomment">/// and define slots.</span>
@@ -690,6 +569,127 @@
     <span class="doccomment">/// invalidated, the scene invalidated or other changes to scene state.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">on_slot_updated</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Entity sets describe the pre-defined set of entities that the values of</span>
+<span class="doccomment">/// built-in intent parameters can come from. Entity sets can be referenced from</span>
+<span class="doccomment">/// entity_set in built-in intent parameters.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitySet</span> {
+    <span class="doccomment">/// Required. The list of entities this entity set supports.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">entities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">entity_set::Entity</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `EntitySet`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entity_set</span> {
+    <span class="doccomment">/// An entity a built-in intent parameter value can come from.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entity</span> {
+        <span class="doccomment">/// Required. The ID of the entity.</span>
+        <span class="doccomment">/// For a list of built-in-intent parameters and their supported entities,</span>
+        <span class="doccomment">/// see</span>
+        <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/build/built-in-intents&gt;</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
+<span class="doccomment">/// Intents map open-ended user input to structured objects. Spoken</span>
+<span class="doccomment">/// phrases are matched to intents with Google&#39;s Natural Language Understanding</span>
+<span class="doccomment">/// (NLU). Intent matches can trigger events in your conversation design to</span>
+<span class="doccomment">/// progress the user&#39;s conversation.</span>
+<span class="doccomment">/// The intent name is specified in the name of the file.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Intent</span> {
+    <span class="doccomment">/// The list of parameters within the training phrases. All parameters must be</span>
+    <span class="doccomment">/// defined here to be used in the training phrase.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parameters</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">intent::IntentParameter</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Training phrases allow Google’s NLU to automatically match intents with</span>
+    <span class="doccomment">/// user input. The more unique phrases that are provided, the better chance</span>
+    <span class="doccomment">/// this intent will be matched.</span>
+    <span class="doccomment">/// The following is the format of training phrase part which are annotated.</span>
+    <span class="doccomment">/// Note that `auto` field is optional and the default behavior when `auto` is</span>
+    <span class="doccomment">/// not specified is equivalent to `auto=false`.</span>
+    <span class="doccomment">/// `($&lt;paramName&gt; &#39;&lt;sample text&gt;&#39; auto=&lt;true or false&gt;)`</span>
+    <span class="doccomment">/// `auto = true` means the part was auto annotated by NLU.</span>
+    <span class="doccomment">/// `auto = false` means the part was annotated by the user. This is the</span>
+    <span class="doccomment">///     default when auto is not specified.</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;Book a flight from ($source &#39;San Francisco&#39; auto=false) to ($dest</span>
+    <span class="doccomment">/// &#39;Vancouver&#39;)&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">training_phrases</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Intent`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">intent</span> {
+    <span class="doccomment">/// Definition of a parameter which can be used inside training phrases.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentParameter</span> {
+        <span class="doccomment">/// Required. Unique name of the intent parameter. Can be used in conditions and</span>
+        <span class="doccomment">/// responses to reference intent parameters extracted by NLU with</span>
+        <span class="doccomment">/// $intent.params.\[name\].resolved</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The type of the intent parameter.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;intent_parameter::ParameterType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">parameter_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">intent_parameter::ParameterType</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `IntentParameter`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">intent_parameter</span> {
+        <span class="doccomment">/// Entity set references for an intent parameter.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitySetReferences</span> {
+            <span class="doccomment">/// Required. Entity set references for an intent parameter.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">entity_set_references</span>:
+                <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">entity_set_references::EntitySetReference</span><span class="op">&gt;</span>,
+        }
+        <span class="doccomment">/// Nested message and enum types in `EntitySetReferences`.</span>
+        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entity_set_references</span> {
+            <span class="doccomment">/// A reference to the set of allowed entities for this intent parameter.</span>
+            <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+            <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitySetReference</span> {
+                <span class="doccomment">/// Required. Identifies the specific collection of entities to be considered for a</span>
+                <span class="doccomment">/// given parameter. The corresponding entity set definition should be</span>
+                <span class="doccomment">/// present in the custom/entitySets/ directory.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">entity_set</span>: <span class="ident">::prost::alloc::string::String</span>,
+            }
+        }
+        <span class="doccomment">/// The type of the intent parameter.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ParameterType</span> {
+            <span class="doccomment">/// Optional. Declares the data type of this parameter.</span>
+            <span class="doccomment">/// This should not be set for built-in intents.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">Type</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::ClassReference</span>),
+            <span class="doccomment">/// Optional. References to the sets of allowed entities for this intent parameter.</span>
+            <span class="doccomment">/// Only valid for parameters of a built-in intent. These</span>
+            <span class="doccomment">/// references point to entity sets in the &#39;custom/entitySets&#39; directory.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="ident">EntitySetReferences</span>(<span class="ident">EntitySetReferences</span>),
+        }
+    }
+}
+<span class="doccomment">/// Defines a global intent handler. Global intent events are scoped to the</span>
+<span class="doccomment">/// entire Actions project and may be overridden by intent handlers in a scene.</span>
+<span class="doccomment">/// Intent names must be unique within an Actions project.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Global intents can be matched anytime during a session, allowing users to</span>
+<span class="doccomment">/// access common flows like  &quot;get help&quot; or &quot;go back home.&quot; They can also be</span>
+<span class="doccomment">/// used to deep link users into specific flows when they invoke an Action.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note, the intent name is specified in the name of the file.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalIntentEvent</span> {
+    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
+    <span class="doccomment">/// current scene is destroyed on the transition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
+    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate Prompts</span>
+    <span class="doccomment">/// in response to events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../../search-index.js" data-search-js="../../../../../../../search.js"></div>

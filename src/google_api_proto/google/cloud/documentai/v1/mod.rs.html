@@ -2050,42 +2050,6 @@
         <span class="ident">Content</span>(<span class="ident">::prost::bytes::Bytes</span>),
     }
 }
-<span class="doccomment">/// The common metadata for long running operations.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommonOperationMetadata</span> {
-    <span class="doccomment">/// The state of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;common_operation_metadata::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A message providing more details about the current state of processing.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state_message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The creation time of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The last update time of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CommonOperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">common_operation_metadata</span> {
-    <span class="doccomment">/// State of the longrunning operation.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// Unspecified state.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Operation is still running.</span>
-        <span class="ident">Running</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Operation is being cancelled.</span>
-        <span class="ident">Cancelling</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Operation succeeded.</span>
-        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Operation failed.</span>
-        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// Operation is cancelled.</span>
-        <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">5</span>,
-    }
-}
 <span class="doccomment">/// Payload message of raw document content (bytes).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RawDocument</span> {
@@ -2164,6 +2128,42 @@
         <span class="doccomment">/// Output config to write the results to Cloud Storage.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="ident">GcsOutputConfig</span>(<span class="ident">GcsOutputConfig</span>),
+    }
+}
+<span class="doccomment">/// The common metadata for long running operations.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommonOperationMetadata</span> {
+    <span class="doccomment">/// The state of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;common_operation_metadata::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A message providing more details about the current state of processing.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state_message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The creation time of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The last update time of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CommonOperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">common_operation_metadata</span> {
+    <span class="doccomment">/// State of the longrunning operation.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// Unspecified state.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Operation is still running.</span>
+        <span class="ident">Running</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Operation is being cancelled.</span>
+        <span class="ident">Cancelling</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Operation succeeded.</span>
+        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Operation failed.</span>
+        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// Operation is cancelled.</span>
+        <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">5</span>,
     }
 }
 <span class="doccomment">/// Request message for the process document method.</span>

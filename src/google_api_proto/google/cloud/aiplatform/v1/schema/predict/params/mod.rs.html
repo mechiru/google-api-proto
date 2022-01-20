@@ -103,7 +103,37 @@
 <span id="102">102</span>
 <span id="103">103</span>
 <span id="104">104</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Prediction model parameters for Image Classification.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Prediction model parameters for Video Object Tracking.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoObjectTrackingPredictionParams</span> {
+    <span class="doccomment">/// The Model only returns predictions with at least this confidence score.</span>
+    <span class="doccomment">/// Default value is 0.0</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidence_threshold</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// The model only returns up to that many top, by confidence score,</span>
+    <span class="doccomment">/// predictions per frame of the video. If this number is very high, the</span>
+    <span class="doccomment">/// Model may return fewer predictions per frame. Default value is 50.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">max_predictions</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Only bounding boxes with shortest edge at least that long as a relative</span>
+    <span class="doccomment">/// value of video frame size are returned. Default value is 0.0.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">min_bounding_box_size</span>: <span class="ident">f32</span>,
+}
+<span class="doccomment">/// Prediction model parameters for Video Action Recognition.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoActionRecognitionPredictionParams</span> {
+    <span class="doccomment">/// The Model only returns predictions with at least this confidence score.</span>
+    <span class="doccomment">/// Default value is 0.0</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidence_threshold</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// The model only returns up to that many top, by confidence score,</span>
+    <span class="doccomment">/// predictions per frame of the video. If this number is very high, the</span>
+    <span class="doccomment">/// Model may return fewer predictions per frame. Default value is 50.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">max_predictions</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Prediction model parameters for Image Classification.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageClassificationPredictionParams</span> {
     <span class="doccomment">/// The Model only returns predictions with at least this confidence score.</span>
@@ -128,6 +158,16 @@
     <span class="doccomment">/// limited by metadata&#39;s predictionsLimit. Default value is 10.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">max_predictions</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Prediction model parameters for Image Segmentation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageSegmentationPredictionParams</span> {
+    <span class="doccomment">/// When the model predicts category of pixels of the image, it will only</span>
+    <span class="doccomment">/// provide predictions for pixels that it is at least this much confident</span>
+    <span class="doccomment">/// about. All other pixels will be classified as background. Default value is</span>
+    <span class="doccomment">/// 0.5.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidence_threshold</span>: <span class="ident">f32</span>,
 }
 <span class="doccomment">/// Prediction model parameters for Video Classification.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -166,46 +206,6 @@
     <span class="doccomment">/// provided to describe that quality. Default value is false</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">one_sec_interval_classification</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Prediction model parameters for Video Object Tracking.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoObjectTrackingPredictionParams</span> {
-    <span class="doccomment">/// The Model only returns predictions with at least this confidence score.</span>
-    <span class="doccomment">/// Default value is 0.0</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confidence_threshold</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// The model only returns up to that many top, by confidence score,</span>
-    <span class="doccomment">/// predictions per frame of the video. If this number is very high, the</span>
-    <span class="doccomment">/// Model may return fewer predictions per frame. Default value is 50.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">max_predictions</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Only bounding boxes with shortest edge at least that long as a relative</span>
-    <span class="doccomment">/// value of video frame size are returned. Default value is 0.0.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">min_bounding_box_size</span>: <span class="ident">f32</span>,
-}
-<span class="doccomment">/// Prediction model parameters for Image Segmentation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageSegmentationPredictionParams</span> {
-    <span class="doccomment">/// When the model predicts category of pixels of the image, it will only</span>
-    <span class="doccomment">/// provide predictions for pixels that it is at least this much confident</span>
-    <span class="doccomment">/// about. All other pixels will be classified as background. Default value is</span>
-    <span class="doccomment">/// 0.5.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confidence_threshold</span>: <span class="ident">f32</span>,
-}
-<span class="doccomment">/// Prediction model parameters for Video Action Recognition.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoActionRecognitionPredictionParams</span> {
-    <span class="doccomment">/// The Model only returns predictions with at least this confidence score.</span>
-    <span class="doccomment">/// Default value is 0.0</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confidence_threshold</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// The model only returns up to that many top, by confidence score,</span>
-    <span class="doccomment">/// predictions per frame of the video. If this number is very high, the</span>
-    <span class="doccomment">/// Model may return fewer predictions per frame. Default value is 50.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">max_predictions</span>: <span class="ident">i32</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../../../../search-index.js" data-search-js="../../../../../../../../../search.js"></div>

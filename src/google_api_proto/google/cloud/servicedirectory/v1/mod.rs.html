@@ -1033,6 +1033,118 @@
     <span class="kw">pub</span> <span class="ident">endpoints</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Endpoint</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// The request message for</span>
+<span class="doccomment">/// \[LookupService.ResolveService][google.cloud.servicedirectory.v1.LookupService.ResolveService\].</span>
+<span class="doccomment">/// Looks up a service by its name, returns the service and its endpoints.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResolveServiceRequest</span> {
+    <span class="doccomment">/// Required. The name of the service to resolve.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The maximum number of endpoints to return. Defaults to 25.</span>
+    <span class="doccomment">/// Maximum is 100. If a value less than one is specified, the Default is used.</span>
+    <span class="doccomment">/// If a value greater than the Maximum is specified, the Maximum is used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">max_endpoints</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. The filter applied to the endpoints of the resolved service.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// General filter string syntax:</span>
+    <span class="doccomment">/// &lt;field&gt; &lt;operator&gt; &lt;value&gt; (&lt;logical connector&gt;)</span>
+    <span class="doccomment">/// &lt;field&gt; can be &quot;name&quot; or &quot;metadata.&lt;key&gt;&quot; for map field.</span>
+    <span class="doccomment">/// &lt;operator&gt; can be &quot;&lt;, &gt;, &lt;=, &gt;=, !=, =, :&quot;. Of which &quot;:&quot; means HAS and is</span>
+    <span class="doccomment">/// roughly the same as &quot;=&quot;.</span>
+    <span class="doccomment">/// &lt;value&gt; must be the same data type as the field.</span>
+    <span class="doccomment">/// &lt;logical connector&gt; can be &quot;AND, OR, NOT&quot;.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples of valid filters:</span>
+    <span class="doccomment">/// * &quot;metadata.owner&quot; returns Endpoints that have a label with the</span>
+    <span class="doccomment">///   key &quot;owner&quot;, this is the same as &quot;metadata:owner&quot;</span>
+    <span class="doccomment">/// * &quot;metadata.protocol=gRPC&quot; returns Endpoints that have key/value</span>
+    <span class="doccomment">///   &quot;protocol=gRPC&quot;</span>
+    <span class="doccomment">/// * &quot;metadata.owner!=sd AND metadata.foo=bar&quot; returns</span>
+    <span class="doccomment">///   Endpoints that have &quot;owner&quot; field in metadata with a value that is not</span>
+    <span class="doccomment">///   &quot;sd&quot; AND have the key/value foo=bar.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">endpoint_filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The response message for</span>
+<span class="doccomment">/// \[LookupService.ResolveService][google.cloud.servicedirectory.v1.LookupService.ResolveService\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResolveServiceResponse</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Service</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lookup_service_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service Directory API for looking up service data at runtime.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LookupServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">LookupServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">LookupServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">LookupServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns a [service][google.cloud.servicedirectory.v1.Service] and its&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; associated endpoints.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Resolving a service is not considered an active developer method.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">resolve_service</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ResolveServiceRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ResolveServiceResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.servicedirectory.v1.LookupService/ResolveService&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+    }
+}
+<span class="doccomment">/// The request message for</span>
 <span class="doccomment">/// \[RegistrationService.CreateNamespace][google.cloud.servicedirectory.v1.RegistrationService.CreateNamespace\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateNamespaceRequest</span> {
@@ -1732,118 +1844,6 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.cloud.servicedirectory.v1.RegistrationService/TestIamPermissions&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
-<span class="doccomment">/// The request message for</span>
-<span class="doccomment">/// \[LookupService.ResolveService][google.cloud.servicedirectory.v1.LookupService.ResolveService\].</span>
-<span class="doccomment">/// Looks up a service by its name, returns the service and its endpoints.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResolveServiceRequest</span> {
-    <span class="doccomment">/// Required. The name of the service to resolve.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The maximum number of endpoints to return. Defaults to 25.</span>
-    <span class="doccomment">/// Maximum is 100. If a value less than one is specified, the Default is used.</span>
-    <span class="doccomment">/// If a value greater than the Maximum is specified, the Maximum is used.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">max_endpoints</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. The filter applied to the endpoints of the resolved service.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// General filter string syntax:</span>
-    <span class="doccomment">/// &lt;field&gt; &lt;operator&gt; &lt;value&gt; (&lt;logical connector&gt;)</span>
-    <span class="doccomment">/// &lt;field&gt; can be &quot;name&quot; or &quot;metadata.&lt;key&gt;&quot; for map field.</span>
-    <span class="doccomment">/// &lt;operator&gt; can be &quot;&lt;, &gt;, &lt;=, &gt;=, !=, =, :&quot;. Of which &quot;:&quot; means HAS and is</span>
-    <span class="doccomment">/// roughly the same as &quot;=&quot;.</span>
-    <span class="doccomment">/// &lt;value&gt; must be the same data type as the field.</span>
-    <span class="doccomment">/// &lt;logical connector&gt; can be &quot;AND, OR, NOT&quot;.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples of valid filters:</span>
-    <span class="doccomment">/// * &quot;metadata.owner&quot; returns Endpoints that have a label with the</span>
-    <span class="doccomment">///   key &quot;owner&quot;, this is the same as &quot;metadata:owner&quot;</span>
-    <span class="doccomment">/// * &quot;metadata.protocol=gRPC&quot; returns Endpoints that have key/value</span>
-    <span class="doccomment">///   &quot;protocol=gRPC&quot;</span>
-    <span class="doccomment">/// * &quot;metadata.owner!=sd AND metadata.foo=bar&quot; returns</span>
-    <span class="doccomment">///   Endpoints that have &quot;owner&quot; field in metadata with a value that is not</span>
-    <span class="doccomment">///   &quot;sd&quot; AND have the key/value foo=bar.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">endpoint_filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The response message for</span>
-<span class="doccomment">/// \[LookupService.ResolveService][google.cloud.servicedirectory.v1.LookupService.ResolveService\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResolveServiceResponse</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Service</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lookup_service_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service Directory API for looking up service data at runtime.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LookupServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">LookupServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">LookupServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">LookupServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns a [service][google.cloud.servicedirectory.v1.Service] and its&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; associated endpoints.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Resolving a service is not considered an active developer method.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">resolve_service</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ResolveServiceRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ResolveServiceResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.servicedirectory.v1.LookupService/ResolveService&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
