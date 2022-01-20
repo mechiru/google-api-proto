@@ -396,209 +396,6 @@ pub enum AnnotationType {
     /// General classification. Allowed for continuous evaluation.
     GeneralClassificationAnnotation = 14,
 }
-/// Describes an evaluation between a machine learning model's predictions and
-/// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Evaluation {
-    /// Output only. Resource name of an evaluation. The name has the following
-    /// format:
-    ///
-    /// "projects/<var>{project_id}</var>/datasets/<var>{dataset_id}</var>/evaluations/<var>{evaluation_id</var>}'
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Options used in the evaluation job that created this
-    /// evaluation.
-    #[prost(message, optional, tag = "2")]
-    pub config: ::core::option::Option<EvaluationConfig>,
-    /// Output only. Timestamp for when the evaluation job that created this
-    /// evaluation ran.
-    #[prost(message, optional, tag = "3")]
-    pub evaluation_job_run_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp for when this evaluation was created.
-    #[prost(message, optional, tag = "4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Metrics comparing predictions to ground truth labels.
-    #[prost(message, optional, tag = "5")]
-    pub evaluation_metrics: ::core::option::Option<EvaluationMetrics>,
-    /// Output only. Type of task that the model version being evaluated performs,
-    /// as defined in the
-    ///
-    /// \[evaluationJobConfig.inputConfig.annotationType][google.cloud.datalabeling.v1beta1.EvaluationJobConfig.input_config\]
-    /// field of the evaluation job that created this evaluation.
-    #[prost(enumeration = "AnnotationType", tag = "6")]
-    pub annotation_type: i32,
-    /// Output only. The number of items in the ground truth dataset that were used
-    /// for this evaluation. Only populated when the evaulation is for certain
-    /// AnnotationTypes.
-    #[prost(int64, tag = "7")]
-    pub evaluated_item_count: i64,
-}
-/// Configuration details used for calculating evaluation metrics and creating an
-/// \[Evaluation][google.cloud.datalabeling.v1beta1.Evaluation\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EvaluationConfig {
-    /// Vertical specific options for general metrics.
-    #[prost(oneof = "evaluation_config::VerticalOption", tags = "1")]
-    pub vertical_option: ::core::option::Option<evaluation_config::VerticalOption>,
-}
-/// Nested message and enum types in `EvaluationConfig`.
-pub mod evaluation_config {
-    /// Vertical specific options for general metrics.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum VerticalOption {
-        /// Only specify this field if the related model performs image object
-        /// detection (`IMAGE_BOUNDING_BOX_ANNOTATION`). Describes how to evaluate
-        /// bounding boxes.
-        #[prost(message, tag = "1")]
-        BoundingBoxEvaluationOptions(super::BoundingBoxEvaluationOptions),
-    }
-}
-/// Options regarding evaluation between bounding boxes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BoundingBoxEvaluationOptions {
-    /// Minimum
-    /// [intersection-over-union
-    ///
-    /// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)
-    /// required for 2 bounding boxes to be considered a match. This must be a
-    /// number between 0 and 1.
-    #[prost(float, tag = "1")]
-    pub iou_threshold: f32,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EvaluationMetrics {
-    /// Common metrics covering most general cases.
-    #[prost(oneof = "evaluation_metrics::Metrics", tags = "1, 2")]
-    pub metrics: ::core::option::Option<evaluation_metrics::Metrics>,
-}
-/// Nested message and enum types in `EvaluationMetrics`.
-pub mod evaluation_metrics {
-    /// Common metrics covering most general cases.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Metrics {
-        #[prost(message, tag = "1")]
-        ClassificationMetrics(super::ClassificationMetrics),
-        #[prost(message, tag = "2")]
-        ObjectDetectionMetrics(super::ObjectDetectionMetrics),
-    }
-}
-/// Metrics calculated for a classification model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClassificationMetrics {
-    /// Precision-recall curve based on ground truth labels, predicted labels, and
-    /// scores for the predicted labels.
-    #[prost(message, optional, tag = "1")]
-    pub pr_curve: ::core::option::Option<PrCurve>,
-    /// Confusion matrix of predicted labels vs. ground truth labels.
-    #[prost(message, optional, tag = "2")]
-    pub confusion_matrix: ::core::option::Option<ConfusionMatrix>,
-}
-/// Metrics calculated for an image object detection (bounding box) model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ObjectDetectionMetrics {
-    /// Precision-recall curve.
-    #[prost(message, optional, tag = "1")]
-    pub pr_curve: ::core::option::Option<PrCurve>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PrCurve {
-    /// The annotation spec of the label for which the precision-recall curve
-    /// calculated. If this field is empty, that means the precision-recall curve
-    /// is an aggregate curve for all labels.
-    #[prost(message, optional, tag = "1")]
-    pub annotation_spec: ::core::option::Option<AnnotationSpec>,
-    /// Area under the precision-recall curve. Not to be confused with area under
-    /// a receiver operating characteristic (ROC) curve.
-    #[prost(float, tag = "2")]
-    pub area_under_curve: f32,
-    /// Entries that make up the precision-recall graph. Each entry is a "point" on
-    /// the graph drawn for a different `confidence_threshold`.
-    #[prost(message, repeated, tag = "3")]
-    pub confidence_metrics_entries: ::prost::alloc::vec::Vec<pr_curve::ConfidenceMetricsEntry>,
-    /// Mean average prcision of this curve.
-    #[prost(float, tag = "4")]
-    pub mean_average_precision: f32,
-}
-/// Nested message and enum types in `PrCurve`.
-pub mod pr_curve {
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfidenceMetricsEntry {
-        /// Threshold used for this entry.
-        ///
-        /// For classification tasks, this is a classification threshold: a
-        /// predicted label is categorized as positive or negative (in the context of
-        /// this point on the PR curve) based on whether the label's score meets this
-        /// threshold.
-        ///
-        /// For image object detection (bounding box) tasks, this is the
-        /// [intersection-over-union
-        ///
-        /// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)
-        /// threshold for the context of this point on the PR curve.
-        #[prost(float, tag = "1")]
-        pub confidence_threshold: f32,
-        /// Recall value.
-        #[prost(float, tag = "2")]
-        pub recall: f32,
-        /// Precision value.
-        #[prost(float, tag = "3")]
-        pub precision: f32,
-        /// Harmonic mean of recall and precision.
-        #[prost(float, tag = "4")]
-        pub f1_score: f32,
-        /// Recall value for entries with label that has highest score.
-        #[prost(float, tag = "5")]
-        pub recall_at1: f32,
-        /// Precision value for entries with label that has highest score.
-        #[prost(float, tag = "6")]
-        pub precision_at1: f32,
-        /// The harmonic mean of \[recall_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at1\] and \[precision_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at1\].
-        #[prost(float, tag = "7")]
-        pub f1_score_at1: f32,
-        /// Recall value for entries with label that has highest 5 scores.
-        #[prost(float, tag = "8")]
-        pub recall_at5: f32,
-        /// Precision value for entries with label that has highest 5 scores.
-        #[prost(float, tag = "9")]
-        pub precision_at5: f32,
-        /// The harmonic mean of \[recall_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at5\] and \[precision_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at5\].
-        #[prost(float, tag = "10")]
-        pub f1_score_at5: f32,
-    }
-}
-/// Confusion matrix of the model running the classification. Only applicable
-/// when the metrics entry aggregates multiple labels. Not applicable when the
-/// entry is for a single label.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfusionMatrix {
-    #[prost(message, repeated, tag = "1")]
-    pub row: ::prost::alloc::vec::Vec<confusion_matrix::Row>,
-}
-/// Nested message and enum types in `ConfusionMatrix`.
-pub mod confusion_matrix {
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfusionMatrixEntry {
-        /// The annotation spec of a predicted label.
-        #[prost(message, optional, tag = "1")]
-        pub annotation_spec: ::core::option::Option<super::AnnotationSpec>,
-        /// Number of items predicted to have this label. (The ground truth label for
-        /// these items is the `Row.annotationSpec` of this entry's parent.)
-        #[prost(int32, tag = "2")]
-        pub item_count: i32,
-    }
-    /// A row in the confusion matrix. Each entry in this row has the same
-    /// ground truth label.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Row {
-        /// The annotation spec of the ground truth label for this row.
-        #[prost(message, optional, tag = "1")]
-        pub annotation_spec: ::core::option::Option<super::AnnotationSpec>,
-        /// A list of the confusion matrix entries. One entry for each possible
-        /// predicted label.
-        #[prost(message, repeated, tag = "2")]
-        pub entries: ::prost::alloc::vec::Vec<ConfusionMatrixEntry>,
-    }
-}
 /// Container of information about an image.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ImagePayload {
@@ -1199,235 +996,208 @@ pub enum DataType {
     /// Allowed for continuous evaluation.
     GeneralData = 6,
 }
-/// Response used for ImportData longrunning operation.
+/// Describes an evaluation between a machine learning model's predictions and
+/// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportDataOperationResponse {
-    /// Ouptut only. The name of imported dataset.
+pub struct Evaluation {
+    /// Output only. Resource name of an evaluation. The name has the following
+    /// format:
+    ///
+    /// "projects/<var>{project_id}</var>/datasets/<var>{dataset_id}</var>/evaluations/<var>{evaluation_id</var>}'
     #[prost(string, tag = "1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. Total number of examples requested to import
-    #[prost(int32, tag = "2")]
-    pub total_count: i32,
-    /// Output only. Number of examples imported successfully.
-    #[prost(int32, tag = "3")]
-    pub import_count: i32,
-}
-/// Response used for ExportDataset longrunning operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportDataOperationResponse {
-    /// Ouptut only. The name of dataset.
-    /// "projects/*/datasets/*"
-    #[prost(string, tag = "1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. Total number of examples requested to export
-    #[prost(int32, tag = "2")]
-    pub total_count: i32,
-    /// Output only. Number of examples exported successfully.
-    #[prost(int32, tag = "3")]
-    pub export_count: i32,
-    /// Output only. Statistic infos of labels in the exported dataset.
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Options used in the evaluation job that created this
+    /// evaluation.
+    #[prost(message, optional, tag = "2")]
+    pub config: ::core::option::Option<EvaluationConfig>,
+    /// Output only. Timestamp for when the evaluation job that created this
+    /// evaluation ran.
+    #[prost(message, optional, tag = "3")]
+    pub evaluation_job_run_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp for when this evaluation was created.
     #[prost(message, optional, tag = "4")]
-    pub label_stats: ::core::option::Option<LabelStats>,
-    /// Output only. output_config in the ExportData request.
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Metrics comparing predictions to ground truth labels.
     #[prost(message, optional, tag = "5")]
-    pub output_config: ::core::option::Option<OutputConfig>,
+    pub evaluation_metrics: ::core::option::Option<EvaluationMetrics>,
+    /// Output only. Type of task that the model version being evaluated performs,
+    /// as defined in the
+    ///
+    /// \[evaluationJobConfig.inputConfig.annotationType][google.cloud.datalabeling.v1beta1.EvaluationJobConfig.input_config\]
+    /// field of the evaluation job that created this evaluation.
+    #[prost(enumeration = "AnnotationType", tag = "6")]
+    pub annotation_type: i32,
+    /// Output only. The number of items in the ground truth dataset that were used
+    /// for this evaluation. Only populated when the evaulation is for certain
+    /// AnnotationTypes.
+    #[prost(int64, tag = "7")]
+    pub evaluated_item_count: i64,
 }
-/// Metadata of an ImportData operation.
+/// Configuration details used for calculating evaluation metrics and creating an
+/// \[Evaluation][google.cloud.datalabeling.v1beta1.Evaluation\].
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportDataOperationMetadata {
-    /// Output only. The name of imported dataset.
-    /// "projects/*/datasets/*"
-    #[prost(string, tag = "1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag = "2")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Output only. Timestamp when import dataset request was created.
-    #[prost(message, optional, tag = "3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+pub struct EvaluationConfig {
+    /// Vertical specific options for general metrics.
+    #[prost(oneof = "evaluation_config::VerticalOption", tags = "1")]
+    pub vertical_option: ::core::option::Option<evaluation_config::VerticalOption>,
 }
-/// Metadata of an ExportData operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportDataOperationMetadata {
-    /// Output only. The name of dataset to be exported.
-    /// "projects/*/datasets/*"
-    #[prost(string, tag = "1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag = "2")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Output only. Timestamp when export dataset request was created.
-    #[prost(message, optional, tag = "3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Metadata of a labeling operation, such as LabelImage or LabelVideo.
-/// Next tag: 20
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelOperationMetadata {
-    /// Output only. Progress of label operation. Range: [0, 100].
-    #[prost(int32, tag = "1")]
-    pub progress_percent: i32,
-    /// Output only. Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag = "2")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Output only. Timestamp when labeling request was created.
-    #[prost(message, optional, tag = "16")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Ouptut only. Details of specific label operation.
-    #[prost(
-        oneof = "label_operation_metadata::Details",
-        tags = "3, 4, 11, 14, 12, 15, 5, 6, 7, 8, 9, 13"
-    )]
-    pub details: ::core::option::Option<label_operation_metadata::Details>,
-}
-/// Nested message and enum types in `LabelOperationMetadata`.
-pub mod label_operation_metadata {
-    /// Ouptut only. Details of specific label operation.
+/// Nested message and enum types in `EvaluationConfig`.
+pub mod evaluation_config {
+    /// Vertical specific options for general metrics.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Details {
-        /// Details of label image classification operation.
-        #[prost(message, tag = "3")]
-        ImageClassificationDetails(super::LabelImageClassificationOperationMetadata),
-        /// Details of label image bounding box operation.
-        #[prost(message, tag = "4")]
-        ImageBoundingBoxDetails(super::LabelImageBoundingBoxOperationMetadata),
-        /// Details of label image bounding poly operation.
-        #[prost(message, tag = "11")]
-        ImageBoundingPolyDetails(super::LabelImageBoundingPolyOperationMetadata),
-        /// Details of label image oriented bounding box operation.
-        #[prost(message, tag = "14")]
-        ImageOrientedBoundingBoxDetails(super::LabelImageOrientedBoundingBoxOperationMetadata),
-        /// Details of label image polyline operation.
-        #[prost(message, tag = "12")]
-        ImagePolylineDetails(super::LabelImagePolylineOperationMetadata),
-        /// Details of label image segmentation operation.
-        #[prost(message, tag = "15")]
-        ImageSegmentationDetails(super::LabelImageSegmentationOperationMetadata),
-        /// Details of label video classification operation.
-        #[prost(message, tag = "5")]
-        VideoClassificationDetails(super::LabelVideoClassificationOperationMetadata),
-        /// Details of label video object detection operation.
-        #[prost(message, tag = "6")]
-        VideoObjectDetectionDetails(super::LabelVideoObjectDetectionOperationMetadata),
-        /// Details of label video object tracking operation.
-        #[prost(message, tag = "7")]
-        VideoObjectTrackingDetails(super::LabelVideoObjectTrackingOperationMetadata),
-        /// Details of label video event operation.
-        #[prost(message, tag = "8")]
-        VideoEventDetails(super::LabelVideoEventOperationMetadata),
-        /// Details of label text classification operation.
-        #[prost(message, tag = "9")]
-        TextClassificationDetails(super::LabelTextClassificationOperationMetadata),
-        /// Details of label text entity extraction operation.
-        #[prost(message, tag = "13")]
-        TextEntityExtractionDetails(super::LabelTextEntityExtractionOperationMetadata),
+    pub enum VerticalOption {
+        /// Only specify this field if the related model performs image object
+        /// detection (`IMAGE_BOUNDING_BOX_ANNOTATION`). Describes how to evaluate
+        /// bounding boxes.
+        #[prost(message, tag = "1")]
+        BoundingBoxEvaluationOptions(super::BoundingBoxEvaluationOptions),
     }
 }
-/// Metadata of a LabelImageClassification operation.
+/// Options regarding evaluation between bounding boxes.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageClassificationOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+pub struct BoundingBoxEvaluationOptions {
+    /// Minimum
+    /// [intersection-over-union
+    ///
+    /// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)
+    /// required for 2 bounding boxes to be considered a match. This must be a
+    /// number between 0 and 1.
+    #[prost(float, tag = "1")]
+    pub iou_threshold: f32,
 }
-/// Details of a LabelImageBoundingBox operation metadata.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageBoundingBoxOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+pub struct EvaluationMetrics {
+    /// Common metrics covering most general cases.
+    #[prost(oneof = "evaluation_metrics::Metrics", tags = "1, 2")]
+    pub metrics: ::core::option::Option<evaluation_metrics::Metrics>,
 }
-/// Details of a LabelImageOrientedBoundingBox operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageOrientedBoundingBoxOperationMetadata {
-    /// Basic human annotation config.
-    #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+/// Nested message and enum types in `EvaluationMetrics`.
+pub mod evaluation_metrics {
+    /// Common metrics covering most general cases.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Metrics {
+        #[prost(message, tag = "1")]
+        ClassificationMetrics(super::ClassificationMetrics),
+        #[prost(message, tag = "2")]
+        ObjectDetectionMetrics(super::ObjectDetectionMetrics),
+    }
 }
-/// Details of LabelImageBoundingPoly operation metadata.
+/// Metrics calculated for a classification model.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageBoundingPolyOperationMetadata {
-    /// Basic human annotation config used in labeling request.
+pub struct ClassificationMetrics {
+    /// Precision-recall curve based on ground truth labels, predicted labels, and
+    /// scores for the predicted labels.
     #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+    pub pr_curve: ::core::option::Option<PrCurve>,
+    /// Confusion matrix of predicted labels vs. ground truth labels.
+    #[prost(message, optional, tag = "2")]
+    pub confusion_matrix: ::core::option::Option<ConfusionMatrix>,
 }
-/// Details of LabelImagePolyline operation metadata.
+/// Metrics calculated for an image object detection (bounding box) model.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImagePolylineOperationMetadata {
-    /// Basic human annotation config used in labeling request.
+pub struct ObjectDetectionMetrics {
+    /// Precision-recall curve.
     #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+    pub pr_curve: ::core::option::Option<PrCurve>,
 }
-/// Details of a LabelImageSegmentation operation metadata.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageSegmentationOperationMetadata {
-    /// Basic human annotation config.
+pub struct PrCurve {
+    /// The annotation spec of the label for which the precision-recall curve
+    /// calculated. If this field is empty, that means the precision-recall curve
+    /// is an aggregate curve for all labels.
     #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+    pub annotation_spec: ::core::option::Option<AnnotationSpec>,
+    /// Area under the precision-recall curve. Not to be confused with area under
+    /// a receiver operating characteristic (ROC) curve.
+    #[prost(float, tag = "2")]
+    pub area_under_curve: f32,
+    /// Entries that make up the precision-recall graph. Each entry is a "point" on
+    /// the graph drawn for a different `confidence_threshold`.
+    #[prost(message, repeated, tag = "3")]
+    pub confidence_metrics_entries: ::prost::alloc::vec::Vec<pr_curve::ConfidenceMetricsEntry>,
+    /// Mean average prcision of this curve.
+    #[prost(float, tag = "4")]
+    pub mean_average_precision: f32,
 }
-/// Details of a LabelVideoClassification operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelVideoClassificationOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+/// Nested message and enum types in `PrCurve`.
+pub mod pr_curve {
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfidenceMetricsEntry {
+        /// Threshold used for this entry.
+        ///
+        /// For classification tasks, this is a classification threshold: a
+        /// predicted label is categorized as positive or negative (in the context of
+        /// this point on the PR curve) based on whether the label's score meets this
+        /// threshold.
+        ///
+        /// For image object detection (bounding box) tasks, this is the
+        /// [intersection-over-union
+        ///
+        /// (IOU)](/vision/automl/object-detection/docs/evaluate#intersection-over-union)
+        /// threshold for the context of this point on the PR curve.
+        #[prost(float, tag = "1")]
+        pub confidence_threshold: f32,
+        /// Recall value.
+        #[prost(float, tag = "2")]
+        pub recall: f32,
+        /// Precision value.
+        #[prost(float, tag = "3")]
+        pub precision: f32,
+        /// Harmonic mean of recall and precision.
+        #[prost(float, tag = "4")]
+        pub f1_score: f32,
+        /// Recall value for entries with label that has highest score.
+        #[prost(float, tag = "5")]
+        pub recall_at1: f32,
+        /// Precision value for entries with label that has highest score.
+        #[prost(float, tag = "6")]
+        pub precision_at1: f32,
+        /// The harmonic mean of \[recall_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at1\] and \[precision_at1][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at1\].
+        #[prost(float, tag = "7")]
+        pub f1_score_at1: f32,
+        /// Recall value for entries with label that has highest 5 scores.
+        #[prost(float, tag = "8")]
+        pub recall_at5: f32,
+        /// Precision value for entries with label that has highest 5 scores.
+        #[prost(float, tag = "9")]
+        pub precision_at5: f32,
+        /// The harmonic mean of \[recall_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.recall_at5\] and \[precision_at5][google.cloud.datalabeling.v1beta1.PrCurve.ConfidenceMetricsEntry.precision_at5\].
+        #[prost(float, tag = "10")]
+        pub f1_score_at5: f32,
+    }
 }
-/// Details of a LabelVideoObjectDetection operation metadata.
+/// Confusion matrix of the model running the classification. Only applicable
+/// when the metrics entry aggregates multiple labels. Not applicable when the
+/// entry is for a single label.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelVideoObjectDetectionOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+pub struct ConfusionMatrix {
+    #[prost(message, repeated, tag = "1")]
+    pub row: ::prost::alloc::vec::Vec<confusion_matrix::Row>,
 }
-/// Details of a LabelVideoObjectTracking operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelVideoObjectTrackingOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelVideoEvent operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelVideoEventOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelTextClassification operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelTextClassificationOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelTextEntityExtraction operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelTextEntityExtractionOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag = "1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Metadata of a CreateInstruction operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateInstructionMetadata {
-    /// The name of the created Instruction.
-    /// projects/{project_id}/instructions/{instruction_id}
-    #[prost(string, tag = "1")]
-    pub instruction: ::prost::alloc::string::String,
-    /// Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag = "2")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Timestamp when create instruction request was created.
-    #[prost(message, optional, tag = "3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+/// Nested message and enum types in `ConfusionMatrix`.
+pub mod confusion_matrix {
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfusionMatrixEntry {
+        /// The annotation spec of a predicted label.
+        #[prost(message, optional, tag = "1")]
+        pub annotation_spec: ::core::option::Option<super::AnnotationSpec>,
+        /// Number of items predicted to have this label. (The ground truth label for
+        /// these items is the `Row.annotationSpec` of this entry's parent.)
+        #[prost(int32, tag = "2")]
+        pub item_count: i32,
+    }
+    /// A row in the confusion matrix. Each entry in this row has the same
+    /// ground truth label.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Row {
+        /// The annotation spec of the ground truth label for this row.
+        #[prost(message, optional, tag = "1")]
+        pub annotation_spec: ::core::option::Option<super::AnnotationSpec>,
+        /// A list of the confusion matrix entries. One entry for each possible
+        /// predicted label.
+        #[prost(message, repeated, tag = "2")]
+        pub entries: ::prost::alloc::vec::Vec<ConfusionMatrixEntry>,
+    }
 }
 /// Defines an evaluation job that runs periodically to generate
 /// \[Evaluations][google.cloud.datalabeling.v1beta1.Evaluation\]. [Creating an evaluation
@@ -3166,4 +2936,234 @@ pub mod data_labeling_service_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// Response used for ImportData longrunning operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportDataOperationResponse {
+    /// Ouptut only. The name of imported dataset.
+    #[prost(string, tag = "1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. Total number of examples requested to import
+    #[prost(int32, tag = "2")]
+    pub total_count: i32,
+    /// Output only. Number of examples imported successfully.
+    #[prost(int32, tag = "3")]
+    pub import_count: i32,
+}
+/// Response used for ExportDataset longrunning operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportDataOperationResponse {
+    /// Ouptut only. The name of dataset.
+    /// "projects/*/datasets/*"
+    #[prost(string, tag = "1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. Total number of examples requested to export
+    #[prost(int32, tag = "2")]
+    pub total_count: i32,
+    /// Output only. Number of examples exported successfully.
+    #[prost(int32, tag = "3")]
+    pub export_count: i32,
+    /// Output only. Statistic infos of labels in the exported dataset.
+    #[prost(message, optional, tag = "4")]
+    pub label_stats: ::core::option::Option<LabelStats>,
+    /// Output only. output_config in the ExportData request.
+    #[prost(message, optional, tag = "5")]
+    pub output_config: ::core::option::Option<OutputConfig>,
+}
+/// Metadata of an ImportData operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportDataOperationMetadata {
+    /// Output only. The name of imported dataset.
+    /// "projects/*/datasets/*"
+    #[prost(string, tag = "1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag = "2")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Output only. Timestamp when import dataset request was created.
+    #[prost(message, optional, tag = "3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Metadata of an ExportData operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportDataOperationMetadata {
+    /// Output only. The name of dataset to be exported.
+    /// "projects/*/datasets/*"
+    #[prost(string, tag = "1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag = "2")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Output only. Timestamp when export dataset request was created.
+    #[prost(message, optional, tag = "3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Metadata of a labeling operation, such as LabelImage or LabelVideo.
+/// Next tag: 20
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelOperationMetadata {
+    /// Output only. Progress of label operation. Range: [0, 100].
+    #[prost(int32, tag = "1")]
+    pub progress_percent: i32,
+    /// Output only. Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag = "2")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Output only. Timestamp when labeling request was created.
+    #[prost(message, optional, tag = "16")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Ouptut only. Details of specific label operation.
+    #[prost(
+        oneof = "label_operation_metadata::Details",
+        tags = "3, 4, 11, 14, 12, 15, 5, 6, 7, 8, 9, 13"
+    )]
+    pub details: ::core::option::Option<label_operation_metadata::Details>,
+}
+/// Nested message and enum types in `LabelOperationMetadata`.
+pub mod label_operation_metadata {
+    /// Ouptut only. Details of specific label operation.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Details {
+        /// Details of label image classification operation.
+        #[prost(message, tag = "3")]
+        ImageClassificationDetails(super::LabelImageClassificationOperationMetadata),
+        /// Details of label image bounding box operation.
+        #[prost(message, tag = "4")]
+        ImageBoundingBoxDetails(super::LabelImageBoundingBoxOperationMetadata),
+        /// Details of label image bounding poly operation.
+        #[prost(message, tag = "11")]
+        ImageBoundingPolyDetails(super::LabelImageBoundingPolyOperationMetadata),
+        /// Details of label image oriented bounding box operation.
+        #[prost(message, tag = "14")]
+        ImageOrientedBoundingBoxDetails(super::LabelImageOrientedBoundingBoxOperationMetadata),
+        /// Details of label image polyline operation.
+        #[prost(message, tag = "12")]
+        ImagePolylineDetails(super::LabelImagePolylineOperationMetadata),
+        /// Details of label image segmentation operation.
+        #[prost(message, tag = "15")]
+        ImageSegmentationDetails(super::LabelImageSegmentationOperationMetadata),
+        /// Details of label video classification operation.
+        #[prost(message, tag = "5")]
+        VideoClassificationDetails(super::LabelVideoClassificationOperationMetadata),
+        /// Details of label video object detection operation.
+        #[prost(message, tag = "6")]
+        VideoObjectDetectionDetails(super::LabelVideoObjectDetectionOperationMetadata),
+        /// Details of label video object tracking operation.
+        #[prost(message, tag = "7")]
+        VideoObjectTrackingDetails(super::LabelVideoObjectTrackingOperationMetadata),
+        /// Details of label video event operation.
+        #[prost(message, tag = "8")]
+        VideoEventDetails(super::LabelVideoEventOperationMetadata),
+        /// Details of label text classification operation.
+        #[prost(message, tag = "9")]
+        TextClassificationDetails(super::LabelTextClassificationOperationMetadata),
+        /// Details of label text entity extraction operation.
+        #[prost(message, tag = "13")]
+        TextEntityExtractionDetails(super::LabelTextEntityExtractionOperationMetadata),
+    }
+}
+/// Metadata of a LabelImageClassification operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageClassificationOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelImageBoundingBox operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageBoundingBoxOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelImageOrientedBoundingBox operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageOrientedBoundingBoxOperationMetadata {
+    /// Basic human annotation config.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of LabelImageBoundingPoly operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageBoundingPolyOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of LabelImagePolyline operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImagePolylineOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelImageSegmentation operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageSegmentationOperationMetadata {
+    /// Basic human annotation config.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelVideoClassification operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelVideoClassificationOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelVideoObjectDetection operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelVideoObjectDetectionOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelVideoObjectTracking operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelVideoObjectTrackingOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelVideoEvent operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelVideoEventOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelTextClassification operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelTextClassificationOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelTextEntityExtraction operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelTextEntityExtractionOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag = "1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Metadata of a CreateInstruction operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateInstructionMetadata {
+    /// The name of the created Instruction.
+    /// projects/{project_id}/instructions/{instruction_id}
+    #[prost(string, tag = "1")]
+    pub instruction: ::prost::alloc::string::String,
+    /// Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag = "2")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Timestamp when create instruction request was created.
+    #[prost(message, optional, tag = "3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
 }

@@ -378,6 +378,283 @@ pub enum InventoryView {
     /// Returns all fields.
     Full = 2,
 }
+/// Get a report of the OS policy assignment for a VM instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetOsPolicyAssignmentReportRequest {
+    /// Required. API resource name for OS policy assignment report.
+    ///
+    /// Format:
+    /// `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance_id}`, either Compute Engine `instance-id` or `instance-name`
+    /// can be provided.
+    /// For `{assignment_id}`, the OSPolicyAssignment id must be provided.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// List the OS policy assignment reports for VM instances.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentReportsRequest {
+    /// Required. The parent resource name.
+    ///
+    /// Format:
+    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance}`, either `instance-name`, `instance-id`, or `-` can be
+    /// provided. If '-' is provided, the response will include
+    /// OSPolicyAssignmentReports for all instances in the project/location.
+    /// For `{assignment}`, either `assignment-id` or `-` can be provided. If '-'
+    /// is provided, the response will include OSPolicyAssignmentReports for all
+    /// OSPolicyAssignments in the project/location.
+    /// Either {instance} or {assignment} must be `-`.
+    ///
+    /// For example:
+    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports`
+    ///  returns all reports for the instance
+    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports`
+    ///  returns all the reports for the given assignment across all instances.
+    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports`
+    ///  returns all the reports for all assignments across all instances.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of results to return.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// If provided, this field specifies the criteria that must be met by the
+    /// `OSPolicyAssignmentReport` API resource that is included in the response.
+    #[prost(string, tag = "3")]
+    pub filter: ::prost::alloc::string::String,
+    /// A pagination token returned from a previous call to the
+    /// `ListOSPolicyAssignmentReports` method that indicates where this listing
+    /// should continue from.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// A response message for listing OS Policy assignment reports including the
+/// page of results and page token.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentReportsResponse {
+    /// List of OS policy assignment reports.
+    #[prost(message, repeated, tag = "1")]
+    pub os_policy_assignment_reports: ::prost::alloc::vec::Vec<OsPolicyAssignmentReport>,
+    /// The pagination token to retrieve the next page of OS policy assignment
+    /// report objects.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A report of the OS policy assignment status for a given instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyAssignmentReport {
+    /// The `OSPolicyAssignmentReport` API resource name.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The Compute Engine VM instance name.
+    #[prost(string, tag = "2")]
+    pub instance: ::prost::alloc::string::String,
+    /// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
+    /// belongs to.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
+    #[prost(string, tag = "3")]
+    pub os_policy_assignment: ::prost::alloc::string::String,
+    /// Compliance data for each `OSPolicy` that is applied to the VM.
+    #[prost(message, repeated, tag = "4")]
+    pub os_policy_compliances:
+        ::prost::alloc::vec::Vec<os_policy_assignment_report::OsPolicyCompliance>,
+    /// Timestamp for when the report was last generated.
+    #[prost(message, optional, tag = "5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Unique identifier of the last attempted run to apply the OS policies
+    /// associated with this assignment on the VM.
+    ///
+    /// This ID is logged by the OS Config agent while applying the OS
+    /// policies associated with this assignment on the VM.
+    /// NOTE: If the service is unable to successfully connect to the agent for
+    /// this run, then this id will not be available in the agent logs.
+    #[prost(string, tag = "6")]
+    pub last_run_id: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `OSPolicyAssignmentReport`.
+pub mod os_policy_assignment_report {
+    /// Compliance data for an OS policy
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct OsPolicyCompliance {
+        /// The OS policy id
+        #[prost(string, tag = "1")]
+        pub os_policy_id: ::prost::alloc::string::String,
+        /// The compliance state of the OS policy.
+        #[prost(enumeration = "os_policy_compliance::ComplianceState", tag = "2")]
+        pub compliance_state: i32,
+        /// The reason for the OS policy to be in an unknown compliance state.
+        /// This field is always populated when `compliance_state` is `UNKNOWN`.
+        ///
+        /// If populated, the field can contain one of the following values:
+        ///
+        /// * `vm-not-running`: The VM was not running.
+        /// * `os-policies-not-supported-by-agent`: The version of the OS Config
+        /// agent running on the VM does not support running OS policies.
+        /// * `no-agent-detected`: The OS Config agent is not detected for the VM.
+        /// * `resource-execution-errors`: The OS Config agent encountered errors
+        /// while executing one or more resources in the policy. See
+        /// `os_policy_resource_compliances` for details.
+        /// * `task-timeout`: The task sent to the agent to apply the policy timed
+        /// out.
+        /// * `unexpected-agent-state`: The OS Config agent did not report the final
+        /// status of the task that attempted to apply the policy. Instead, the agent
+        /// unexpectedly started working on a different task. This mostly happens
+        /// when the agent or VM unexpectedly restarts while applying OS policies.
+        /// * `internal-service-errors`: Internal service errors were encountered
+        /// while attempting to apply the policy.
+        #[prost(string, tag = "3")]
+        pub compliance_state_reason: ::prost::alloc::string::String,
+        /// Compliance data for each resource within the policy that is applied to
+        /// the VM.
+        #[prost(message, repeated, tag = "4")]
+        pub os_policy_resource_compliances:
+            ::prost::alloc::vec::Vec<os_policy_compliance::OsPolicyResourceCompliance>,
+    }
+    /// Nested message and enum types in `OSPolicyCompliance`.
+    pub mod os_policy_compliance {
+        /// Compliance data for an OS policy resource.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct OsPolicyResourceCompliance {
+            /// The ID of the OS policy resource.
+            #[prost(string, tag = "1")]
+            pub os_policy_resource_id: ::prost::alloc::string::String,
+            /// Ordered list of configuration completed by the agent for the OS policy
+            /// resource.
+            #[prost(message, repeated, tag = "2")]
+            pub config_steps:
+                ::prost::alloc::vec::Vec<os_policy_resource_compliance::OsPolicyResourceConfigStep>,
+            /// The compliance state of the resource.
+            #[prost(
+                enumeration = "os_policy_resource_compliance::ComplianceState",
+                tag = "3"
+            )]
+            pub compliance_state: i32,
+            /// A reason for the resource to be in the given compliance state.
+            /// This field is always populated when `compliance_state` is `UNKNOWN`.
+            ///
+            /// The following values are supported when `compliance_state == UNKNOWN`
+            ///
+            /// * `execution-errors`: Errors were encountered by the agent while
+            /// executing the resource and the compliance state couldn't be
+            /// determined.
+            /// * `execution-skipped-by-agent`: Resource execution was skipped by the
+            /// agent because errors were encountered while executing prior resources
+            /// in the OS policy.
+            /// * `os-policy-execution-attempt-failed`: The execution of the OS policy
+            /// containing this resource failed and the compliance state couldn't be
+            /// determined.
+            #[prost(string, tag = "4")]
+            pub compliance_state_reason: ::prost::alloc::string::String,
+            /// Resource specific output.
+            #[prost(oneof = "os_policy_resource_compliance::Output", tags = "5")]
+            pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
+        }
+        /// Nested message and enum types in `OSPolicyResourceCompliance`.
+        pub mod os_policy_resource_compliance {
+            /// Step performed by the OS Config agent for configuring an
+            /// `OSPolicy` resource to its desired state.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct OsPolicyResourceConfigStep {
+                /// Configuration step type.
+                #[prost(enumeration = "os_policy_resource_config_step::Type", tag = "1")]
+                pub r#type: i32,
+                /// An error message recorded during the execution of this step.
+                /// Only populated if errors were encountered during this step execution.
+                #[prost(string, tag = "2")]
+                pub error_message: ::prost::alloc::string::String,
+            }
+            /// Nested message and enum types in `OSPolicyResourceConfigStep`.
+            pub mod os_policy_resource_config_step {
+                /// Supported configuration step types
+                #[derive(
+                    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+                )]
+                #[repr(i32)]
+                pub enum Type {
+                    /// Default value. This value is unused.
+                    Unspecified = 0,
+                    /// Checks for resource conflicts such as schema errors.
+                    Validation = 1,
+                    /// Checks the current status of the desired state for a resource.
+                    DesiredStateCheck = 2,
+                    /// Enforces the desired state for a resource that is not in desired
+                    /// state.
+                    DesiredStateEnforcement = 3,
+                    /// Re-checks the status of the desired state. This check is done
+                    /// for a resource after the enforcement of all OS policies.
+                    ///
+                    /// This step is used to determine the final desired state status for
+                    /// the resource. It accounts for any resources that might have drifted
+                    /// from their desired state due to side effects from executing other
+                    /// resources.
+                    DesiredStateCheckPostEnforcement = 4,
+                }
+            }
+            /// ExecResource specific output.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct ExecResourceOutput {
+                /// Output from enforcement phase output file (if run).
+                /// Output size is limited to 100K bytes.
+                #[prost(bytes = "bytes", tag = "2")]
+                pub enforcement_output: ::prost::bytes::Bytes,
+            }
+            /// Possible compliance states for a resource.
+            #[derive(
+                Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+            )]
+            #[repr(i32)]
+            pub enum ComplianceState {
+                /// The resource is in an unknown compliance state.
+                ///
+                /// To get more details about why the policy is in this state, review
+                /// the output of the `compliance_state_reason` field.
+                Unknown = 0,
+                /// Resource is compliant.
+                Compliant = 1,
+                /// Resource is non-compliant.
+                NonCompliant = 2,
+            }
+            /// Resource specific output.
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            pub enum Output {
+                /// ExecResource specific output.
+                #[prost(message, tag = "5")]
+                ExecResourceOutput(ExecResourceOutput),
+            }
+        }
+        /// Possible compliance states for an os policy.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum ComplianceState {
+            /// The policy is in an unknown compliance state.
+            ///
+            /// Refer to the field `compliance_state_reason` to learn the exact reason
+            /// for the policy to be in this compliance state.
+            Unknown = 0,
+            /// Policy is compliant.
+            ///
+            /// The policy is compliant if all the underlying resources are also
+            /// compliant.
+            Compliant = 1,
+            /// Policy is non-compliant.
+            ///
+            /// The policy is non-compliant if one or more underlying resources are
+            /// non-compliant.
+            NonCompliant = 2,
+        }
+    }
+}
 /// An OS policy defines the desired state configuration for a VM.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OsPolicy {
@@ -1337,6 +1614,649 @@ pub struct DeleteOsPolicyAssignmentRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
+/// This API resource represents the vulnerability report for a specified
+/// Compute Engine virtual machine (VM) instance at a given point in time.
+///
+/// For more information, see [Vulnerability
+/// reports](<https://cloud.google.com/compute/docs/instances/os-inventory-management#vulnerability-reports>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VulnerabilityReport {
+    /// Output only. The `vulnerabilityReport` API resource name.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/vulnerabilityReport`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. List of vulnerabilities affecting the VM.
+    #[prost(message, repeated, tag = "2")]
+    pub vulnerabilities: ::prost::alloc::vec::Vec<vulnerability_report::Vulnerability>,
+    /// Output only. The timestamp for when the last vulnerability report was generated for the
+    /// VM.
+    #[prost(message, optional, tag = "3")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `VulnerabilityReport`.
+pub mod vulnerability_report {
+    /// A vulnerability affecting the VM instance.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Vulnerability {
+        /// Contains metadata as per the upstream feed of the operating system and
+        /// NVD.
+        #[prost(message, optional, tag = "1")]
+        pub details: ::core::option::Option<vulnerability::Details>,
+        /// Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM.
+        /// This field displays the inventory items affected by this vulnerability.
+        /// If the vulnerability report was not updated after the VM inventory
+        /// update, these values might not display in VM inventory. For some distros,
+        /// this field may be empty.
+        #[deprecated]
+        #[prost(string, repeated, tag = "2")]
+        pub installed_inventory_item_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM.
+        /// If the vulnerability report was not updated after the VM inventory
+        /// update, these values might not display in VM inventory. If there is no
+        /// available fix, the field is empty. The `inventory_item` value specifies
+        /// the latest `SoftwarePackage` available to the VM that fixes the
+        /// vulnerability.
+        #[deprecated]
+        #[prost(string, repeated, tag = "3")]
+        pub available_inventory_item_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// The timestamp for when the vulnerability was first detected.
+        #[prost(message, optional, tag = "4")]
+        pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// The timestamp for when the vulnerability was last modified.
+        #[prost(message, optional, tag = "5")]
+        pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// List of items affected by the vulnerability.
+        #[prost(message, repeated, tag = "6")]
+        pub items: ::prost::alloc::vec::Vec<vulnerability::Item>,
+    }
+    /// Nested message and enum types in `Vulnerability`.
+    pub mod vulnerability {
+        /// Contains metadata information for the vulnerability. This information is
+        /// collected from the upstream feed of the operating system.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Details {
+            /// The CVE of the vulnerability. CVE cannot be
+            /// empty and the combination of <cve, classification> should be unique
+            /// across vulnerabilities for a VM.
+            #[prost(string, tag = "1")]
+            pub cve: ::prost::alloc::string::String,
+            /// The CVSS V2 score of this vulnerability. CVSS V2 score is on a scale of
+            /// 0 - 10 where 0 indicates low severity and 10 indicates high severity.
+            #[prost(float, tag = "2")]
+            pub cvss_v2_score: f32,
+            /// The full description of the CVSSv3 for this vulnerability from NVD.
+            #[prost(message, optional, tag = "3")]
+            pub cvss_v3: ::core::option::Option<super::super::CvsSv3>,
+            /// Assigned severity/impact ranking from the distro.
+            #[prost(string, tag = "4")]
+            pub severity: ::prost::alloc::string::String,
+            /// The note or description describing the vulnerability from the distro.
+            #[prost(string, tag = "5")]
+            pub description: ::prost::alloc::string::String,
+            /// Corresponds to the references attached to the `VulnerabilityDetails`.
+            #[prost(message, repeated, tag = "6")]
+            pub references: ::prost::alloc::vec::Vec<details::Reference>,
+        }
+        /// Nested message and enum types in `Details`.
+        pub mod details {
+            /// A reference for this vulnerability.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct Reference {
+                /// The url of the reference.
+                #[prost(string, tag = "1")]
+                pub url: ::prost::alloc::string::String,
+                /// The source of the reference e.g. NVD.
+                #[prost(string, tag = "2")]
+                pub source: ::prost::alloc::string::String,
+            }
+        }
+        /// OS inventory item that is affected by a vulnerability or fixed as a
+        /// result of a vulnerability.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Item {
+            /// Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM.
+            /// This field displays the inventory items affected by this vulnerability.
+            /// If the vulnerability report was not updated after the VM inventory
+            /// update, these values might not display in VM inventory. For some
+            /// operating systems, this field might be empty.
+            #[prost(string, tag = "1")]
+            pub installed_inventory_item_id: ::prost::alloc::string::String,
+            /// Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM.
+            /// If the vulnerability report was not updated after the VM inventory
+            /// update, these values might not display in VM inventory. If there is no
+            /// available fix, the field is empty. The `inventory_item` value specifies
+            /// the latest `SoftwarePackage` available to the VM that fixes the
+            /// vulnerability.
+            #[prost(string, tag = "2")]
+            pub available_inventory_item_id: ::prost::alloc::string::String,
+            /// The recommended [CPE URI](<https://cpe.mitre.org/specification/>) update
+            /// that contains a fix for this vulnerability.
+            #[prost(string, tag = "3")]
+            pub fixed_cpe_uri: ::prost::alloc::string::String,
+            /// The upstream OS patch, packages or KB that fixes the vulnerability.
+            #[prost(string, tag = "4")]
+            pub upstream_fix: ::prost::alloc::string::String,
+        }
+    }
+}
+/// A request message for getting the vulnerability report for the specified VM.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetVulnerabilityReportRequest {
+    /// Required. API resource name for vulnerability resource.
+    ///
+    /// Format:
+    /// `projects/{project}/locations/{location}/instances/{instance}/vulnerabilityReport`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance}`, either Compute Engine `instance-id` or `instance-name`
+    /// can be provided.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request message for listing vulnerability reports for all VM instances in
+/// the specified location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVulnerabilityReportsRequest {
+    /// Required. The parent resource name.
+    ///
+    /// Format: `projects/{project}/locations/{location}/instances/-`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of results to return.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A pagination token returned from a previous call to
+    /// `ListVulnerabilityReports` that indicates where this listing
+    /// should continue from.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// If provided, this field specifies the criteria that must be met by a
+    /// `vulnerabilityReport` API resource to be included in the response.
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// A response message for listing vulnerability reports for all VM instances in
+/// the specified location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVulnerabilityReportsResponse {
+    /// List of vulnerabilityReport objects.
+    #[prost(message, repeated, tag = "1")]
+    pub vulnerability_reports: ::prost::alloc::vec::Vec<VulnerabilityReport>,
+    /// The pagination token to retrieve the next page of vulnerabilityReports
+    /// object.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Common Vulnerability Scoring System version 3.
+/// For details, see <https://www.first.org/cvss/specification-document>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CvsSv3 {
+    /// The base score is a function of the base metric scores.
+    /// <https://www.first.org/cvss/specification-document#Base-Metrics>
+    #[prost(float, tag = "1")]
+    pub base_score: f32,
+    /// The Exploitability sub-score equation is derived from the Base
+    /// Exploitability metrics.
+    /// <https://www.first.org/cvss/specification-document#2-1-Exploitability-Metrics>
+    #[prost(float, tag = "2")]
+    pub exploitability_score: f32,
+    /// The Impact sub-score equation is derived from the Base Impact metrics.
+    #[prost(float, tag = "3")]
+    pub impact_score: f32,
+    /// This metric reflects the context by which vulnerability exploitation is
+    /// possible.
+    #[prost(enumeration = "cvs_sv3::AttackVector", tag = "5")]
+    pub attack_vector: i32,
+    /// This metric describes the conditions beyond the attacker's control that
+    /// must exist in order to exploit the vulnerability.
+    #[prost(enumeration = "cvs_sv3::AttackComplexity", tag = "6")]
+    pub attack_complexity: i32,
+    /// This metric describes the level of privileges an attacker must possess
+    /// before successfully exploiting the vulnerability.
+    #[prost(enumeration = "cvs_sv3::PrivilegesRequired", tag = "7")]
+    pub privileges_required: i32,
+    /// This metric captures the requirement for a human user, other than the
+    /// attacker, to participate in the successful compromise of the vulnerable
+    /// component.
+    #[prost(enumeration = "cvs_sv3::UserInteraction", tag = "8")]
+    pub user_interaction: i32,
+    /// The Scope metric captures whether a vulnerability in one vulnerable
+    /// component impacts resources in components beyond its security scope.
+    #[prost(enumeration = "cvs_sv3::Scope", tag = "9")]
+    pub scope: i32,
+    /// This metric measures the impact to the confidentiality of the information
+    /// resources managed by a software component due to a successfully exploited
+    /// vulnerability.
+    #[prost(enumeration = "cvs_sv3::Impact", tag = "10")]
+    pub confidentiality_impact: i32,
+    /// This metric measures the impact to integrity of a successfully exploited
+    /// vulnerability.
+    #[prost(enumeration = "cvs_sv3::Impact", tag = "11")]
+    pub integrity_impact: i32,
+    /// This metric measures the impact to the availability of the impacted
+    /// component resulting from a successfully exploited vulnerability.
+    #[prost(enumeration = "cvs_sv3::Impact", tag = "12")]
+    pub availability_impact: i32,
+}
+/// Nested message and enum types in `CVSSv3`.
+pub mod cvs_sv3 {
+    /// This metric reflects the context by which vulnerability exploitation is
+    /// possible.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackVector {
+        /// Invalid value.
+        Unspecified = 0,
+        /// The vulnerable component is bound to the network stack and the set of
+        /// possible attackers extends beyond the other options listed below, up to
+        /// and including the entire Internet.
+        Network = 1,
+        /// The vulnerable component is bound to the network stack, but the attack is
+        /// limited at the protocol level to a logically adjacent topology.
+        Adjacent = 2,
+        /// The vulnerable component is not bound to the network stack and the
+        /// attacker's path is via read/write/execute capabilities.
+        Local = 3,
+        /// The attack requires the attacker to physically touch or manipulate the
+        /// vulnerable component.
+        Physical = 4,
+    }
+    /// This metric describes the conditions beyond the attacker's control that
+    /// must exist in order to exploit the vulnerability.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackComplexity {
+        /// Invalid value.
+        Unspecified = 0,
+        /// Specialized access conditions or extenuating circumstances do not exist.
+        /// An attacker can expect repeatable success when attacking the vulnerable
+        /// component.
+        Low = 1,
+        /// A successful attack depends on conditions beyond the attacker's control.
+        /// That is, a successful attack cannot be accomplished at will, but requires
+        /// the attacker to invest in some measurable amount of effort in preparation
+        /// or execution against the vulnerable component before a successful attack
+        /// can be expected.
+        High = 2,
+    }
+    /// This metric describes the level of privileges an attacker must possess
+    /// before successfully exploiting the vulnerability.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PrivilegesRequired {
+        /// Invalid value.
+        Unspecified = 0,
+        /// The attacker is unauthorized prior to attack, and therefore does not
+        /// require any access to settings or files of the vulnerable system to
+        /// carry out an attack.
+        None = 1,
+        /// The attacker requires privileges that provide basic user capabilities
+        /// that could normally affect only settings and files owned by a user.
+        /// Alternatively, an attacker with Low privileges has the ability to access
+        /// only non-sensitive resources.
+        Low = 2,
+        /// The attacker requires privileges that provide significant (e.g.,
+        /// administrative) control over the vulnerable component allowing access to
+        /// component-wide settings and files.
+        High = 3,
+    }
+    /// This metric captures the requirement for a human user, other than the
+    /// attacker, to participate in the successful compromise of the vulnerable
+    /// component.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum UserInteraction {
+        /// Invalid value.
+        Unspecified = 0,
+        /// The vulnerable system can be exploited without interaction from any user.
+        None = 1,
+        /// Successful exploitation of this vulnerability requires a user to take
+        /// some action before the vulnerability can be exploited.
+        Required = 2,
+    }
+    /// The Scope metric captures whether a vulnerability in one vulnerable
+    /// component impacts resources in components beyond its security scope.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Scope {
+        /// Invalid value.
+        Unspecified = 0,
+        /// An exploited vulnerability can only affect resources managed by the same
+        /// security authority.
+        Unchanged = 1,
+        /// An exploited vulnerability can affect resources beyond the security scope
+        /// managed by the security authority of the vulnerable component.
+        Changed = 2,
+    }
+    /// The Impact metrics capture the effects of a successfully exploited
+    /// vulnerability on the component that suffers the worst outcome that is most
+    /// directly and predictably associated with the attack.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Impact {
+        /// Invalid value.
+        Unspecified = 0,
+        /// High impact.
+        High = 1,
+        /// Low impact.
+        Low = 2,
+        /// No impact.
+        None = 3,
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod os_config_zonal_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Zonal OS Config API"]
+    #[doc = ""]
+    #[doc = " The OS Config service is the server-side component that allows users to"]
+    #[doc = " manage package installations and patch jobs for Compute Engine VM instances."]
+    #[derive(Debug, Clone)]
+    pub struct OsConfigZonalServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> OsConfigZonalServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> OsConfigZonalServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            OsConfigZonalServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Create an OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method also creates the first revision of the OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method returns a long running operation (LRO) that contains the"]
+        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
+        #[doc = ""]
+        #[doc = " For more information, see [Method:"]
+        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
+        pub async fn create_os_policy_assignment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateOsPolicyAssignmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/CreateOSPolicyAssignment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Update an existing OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method creates a new revision of the OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method returns a long running operation (LRO) that contains the"]
+        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
+        #[doc = ""]
+        #[doc = " For more information, see [Method:"]
+        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
+        pub async fn update_os_policy_assignment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateOsPolicyAssignmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/UpdateOSPolicyAssignment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieve an existing OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method always returns the latest revision. In order to retrieve a"]
+        #[doc = " previous revision of the assignment, also provide the revision ID in the"]
+        #[doc = " `name` parameter."]
+        pub async fn get_os_policy_assignment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetOsPolicyAssignmentRequest>,
+        ) -> Result<tonic::Response<super::OsPolicyAssignment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/GetOSPolicyAssignment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List the OS policy assignments under the parent resource."]
+        #[doc = ""]
+        #[doc = " For each OS policy assignment, the latest revision is returned."]
+        pub async fn list_os_policy_assignments(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentsRequest>,
+        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignments",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List the OS policy assignment revisions for a given OS policy assignment."]
+        pub async fn list_os_policy_assignment_revisions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentRevisionsRequest>,
+        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentRevisionsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignmentRevisions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete the OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method creates a new revision of the OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method returns a long running operation (LRO) that contains the"]
+        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
+        #[doc = ""]
+        #[doc = " If the LRO completes and is not cancelled, all revisions associated with"]
+        #[doc = " the OS policy assignment are deleted."]
+        #[doc = ""]
+        #[doc = " For more information, see [Method:"]
+        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
+        pub async fn delete_os_policy_assignment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteOsPolicyAssignmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/DeleteOSPolicyAssignment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get the OS policy asssignment report for the specified Compute Engine VM"]
+        #[doc = " instance."]
+        pub async fn get_os_policy_assignment_report(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetOsPolicyAssignmentReportRequest>,
+        ) -> Result<tonic::Response<super::OsPolicyAssignmentReport>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/GetOSPolicyAssignmentReport",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List OS policy asssignment reports for all Compute Engine VM instances in"]
+        #[doc = " the specified zone."]
+        pub async fn list_os_policy_assignment_reports(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentReportsRequest>,
+        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentReportsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignmentReports",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get inventory data for the specified VM instance. If the VM has no"]
+        #[doc = " associated inventory, the message `NOT_FOUND` is returned."]
+        pub async fn get_inventory(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetInventoryRequest>,
+        ) -> Result<tonic::Response<super::Inventory>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/GetInventory",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List inventory data for all VM instances in the specified zone."]
+        pub async fn list_inventories(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListInventoriesRequest>,
+        ) -> Result<tonic::Response<super::ListInventoriesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListInventories",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets the vulnerability report for the specified VM instance. Only VMs with"]
+        #[doc = " inventory data have vulnerability reports associated with them."]
+        pub async fn get_vulnerability_report(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetVulnerabilityReportRequest>,
+        ) -> Result<tonic::Response<super::VulnerabilityReport>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/GetVulnerabilityReport",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List vulnerability reports for all VM instances in the specified zone."]
+        pub async fn list_vulnerability_reports(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListVulnerabilityReportsRequest>,
+        ) -> Result<tonic::Response<super::ListVulnerabilityReportsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListVulnerabilityReports",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// A request message to initiate patching across Compute Engine
 /// instances.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2266,283 +3186,6 @@ pub struct DeletePatchDeploymentRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-/// Get a report of the OS policy assignment for a VM instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetOsPolicyAssignmentReportRequest {
-    /// Required. API resource name for OS policy assignment report.
-    ///
-    /// Format:
-    /// `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance_id}`, either Compute Engine `instance-id` or `instance-name`
-    /// can be provided.
-    /// For `{assignment_id}`, the OSPolicyAssignment id must be provided.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// List the OS policy assignment reports for VM instances.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentReportsRequest {
-    /// Required. The parent resource name.
-    ///
-    /// Format:
-    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance}`, either `instance-name`, `instance-id`, or `-` can be
-    /// provided. If '-' is provided, the response will include
-    /// OSPolicyAssignmentReports for all instances in the project/location.
-    /// For `{assignment}`, either `assignment-id` or `-` can be provided. If '-'
-    /// is provided, the response will include OSPolicyAssignmentReports for all
-    /// OSPolicyAssignments in the project/location.
-    /// Either {instance} or {assignment} must be `-`.
-    ///
-    /// For example:
-    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports`
-    ///  returns all reports for the instance
-    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports`
-    ///  returns all the reports for the given assignment across all instances.
-    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports`
-    ///  returns all the reports for all assignments across all instances.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of results to return.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// If provided, this field specifies the criteria that must be met by the
-    /// `OSPolicyAssignmentReport` API resource that is included in the response.
-    #[prost(string, tag = "3")]
-    pub filter: ::prost::alloc::string::String,
-    /// A pagination token returned from a previous call to the
-    /// `ListOSPolicyAssignmentReports` method that indicates where this listing
-    /// should continue from.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// A response message for listing OS Policy assignment reports including the
-/// page of results and page token.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentReportsResponse {
-    /// List of OS policy assignment reports.
-    #[prost(message, repeated, tag = "1")]
-    pub os_policy_assignment_reports: ::prost::alloc::vec::Vec<OsPolicyAssignmentReport>,
-    /// The pagination token to retrieve the next page of OS policy assignment
-    /// report objects.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A report of the OS policy assignment status for a given instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyAssignmentReport {
-    /// The `OSPolicyAssignmentReport` API resource name.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The Compute Engine VM instance name.
-    #[prost(string, tag = "2")]
-    pub instance: ::prost::alloc::string::String,
-    /// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
-    /// belongs to.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
-    #[prost(string, tag = "3")]
-    pub os_policy_assignment: ::prost::alloc::string::String,
-    /// Compliance data for each `OSPolicy` that is applied to the VM.
-    #[prost(message, repeated, tag = "4")]
-    pub os_policy_compliances:
-        ::prost::alloc::vec::Vec<os_policy_assignment_report::OsPolicyCompliance>,
-    /// Timestamp for when the report was last generated.
-    #[prost(message, optional, tag = "5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Unique identifier of the last attempted run to apply the OS policies
-    /// associated with this assignment on the VM.
-    ///
-    /// This ID is logged by the OS Config agent while applying the OS
-    /// policies associated with this assignment on the VM.
-    /// NOTE: If the service is unable to successfully connect to the agent for
-    /// this run, then this id will not be available in the agent logs.
-    #[prost(string, tag = "6")]
-    pub last_run_id: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `OSPolicyAssignmentReport`.
-pub mod os_policy_assignment_report {
-    /// Compliance data for an OS policy
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct OsPolicyCompliance {
-        /// The OS policy id
-        #[prost(string, tag = "1")]
-        pub os_policy_id: ::prost::alloc::string::String,
-        /// The compliance state of the OS policy.
-        #[prost(enumeration = "os_policy_compliance::ComplianceState", tag = "2")]
-        pub compliance_state: i32,
-        /// The reason for the OS policy to be in an unknown compliance state.
-        /// This field is always populated when `compliance_state` is `UNKNOWN`.
-        ///
-        /// If populated, the field can contain one of the following values:
-        ///
-        /// * `vm-not-running`: The VM was not running.
-        /// * `os-policies-not-supported-by-agent`: The version of the OS Config
-        /// agent running on the VM does not support running OS policies.
-        /// * `no-agent-detected`: The OS Config agent is not detected for the VM.
-        /// * `resource-execution-errors`: The OS Config agent encountered errors
-        /// while executing one or more resources in the policy. See
-        /// `os_policy_resource_compliances` for details.
-        /// * `task-timeout`: The task sent to the agent to apply the policy timed
-        /// out.
-        /// * `unexpected-agent-state`: The OS Config agent did not report the final
-        /// status of the task that attempted to apply the policy. Instead, the agent
-        /// unexpectedly started working on a different task. This mostly happens
-        /// when the agent or VM unexpectedly restarts while applying OS policies.
-        /// * `internal-service-errors`: Internal service errors were encountered
-        /// while attempting to apply the policy.
-        #[prost(string, tag = "3")]
-        pub compliance_state_reason: ::prost::alloc::string::String,
-        /// Compliance data for each resource within the policy that is applied to
-        /// the VM.
-        #[prost(message, repeated, tag = "4")]
-        pub os_policy_resource_compliances:
-            ::prost::alloc::vec::Vec<os_policy_compliance::OsPolicyResourceCompliance>,
-    }
-    /// Nested message and enum types in `OSPolicyCompliance`.
-    pub mod os_policy_compliance {
-        /// Compliance data for an OS policy resource.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct OsPolicyResourceCompliance {
-            /// The ID of the OS policy resource.
-            #[prost(string, tag = "1")]
-            pub os_policy_resource_id: ::prost::alloc::string::String,
-            /// Ordered list of configuration completed by the agent for the OS policy
-            /// resource.
-            #[prost(message, repeated, tag = "2")]
-            pub config_steps:
-                ::prost::alloc::vec::Vec<os_policy_resource_compliance::OsPolicyResourceConfigStep>,
-            /// The compliance state of the resource.
-            #[prost(
-                enumeration = "os_policy_resource_compliance::ComplianceState",
-                tag = "3"
-            )]
-            pub compliance_state: i32,
-            /// A reason for the resource to be in the given compliance state.
-            /// This field is always populated when `compliance_state` is `UNKNOWN`.
-            ///
-            /// The following values are supported when `compliance_state == UNKNOWN`
-            ///
-            /// * `execution-errors`: Errors were encountered by the agent while
-            /// executing the resource and the compliance state couldn't be
-            /// determined.
-            /// * `execution-skipped-by-agent`: Resource execution was skipped by the
-            /// agent because errors were encountered while executing prior resources
-            /// in the OS policy.
-            /// * `os-policy-execution-attempt-failed`: The execution of the OS policy
-            /// containing this resource failed and the compliance state couldn't be
-            /// determined.
-            #[prost(string, tag = "4")]
-            pub compliance_state_reason: ::prost::alloc::string::String,
-            /// Resource specific output.
-            #[prost(oneof = "os_policy_resource_compliance::Output", tags = "5")]
-            pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
-        }
-        /// Nested message and enum types in `OSPolicyResourceCompliance`.
-        pub mod os_policy_resource_compliance {
-            /// Step performed by the OS Config agent for configuring an
-            /// `OSPolicy` resource to its desired state.
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            pub struct OsPolicyResourceConfigStep {
-                /// Configuration step type.
-                #[prost(enumeration = "os_policy_resource_config_step::Type", tag = "1")]
-                pub r#type: i32,
-                /// An error message recorded during the execution of this step.
-                /// Only populated if errors were encountered during this step execution.
-                #[prost(string, tag = "2")]
-                pub error_message: ::prost::alloc::string::String,
-            }
-            /// Nested message and enum types in `OSPolicyResourceConfigStep`.
-            pub mod os_policy_resource_config_step {
-                /// Supported configuration step types
-                #[derive(
-                    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-                )]
-                #[repr(i32)]
-                pub enum Type {
-                    /// Default value. This value is unused.
-                    Unspecified = 0,
-                    /// Checks for resource conflicts such as schema errors.
-                    Validation = 1,
-                    /// Checks the current status of the desired state for a resource.
-                    DesiredStateCheck = 2,
-                    /// Enforces the desired state for a resource that is not in desired
-                    /// state.
-                    DesiredStateEnforcement = 3,
-                    /// Re-checks the status of the desired state. This check is done
-                    /// for a resource after the enforcement of all OS policies.
-                    ///
-                    /// This step is used to determine the final desired state status for
-                    /// the resource. It accounts for any resources that might have drifted
-                    /// from their desired state due to side effects from executing other
-                    /// resources.
-                    DesiredStateCheckPostEnforcement = 4,
-                }
-            }
-            /// ExecResource specific output.
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            pub struct ExecResourceOutput {
-                /// Output from enforcement phase output file (if run).
-                /// Output size is limited to 100K bytes.
-                #[prost(bytes = "bytes", tag = "2")]
-                pub enforcement_output: ::prost::bytes::Bytes,
-            }
-            /// Possible compliance states for a resource.
-            #[derive(
-                Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-            )]
-            #[repr(i32)]
-            pub enum ComplianceState {
-                /// The resource is in an unknown compliance state.
-                ///
-                /// To get more details about why the policy is in this state, review
-                /// the output of the `compliance_state_reason` field.
-                Unknown = 0,
-                /// Resource is compliant.
-                Compliant = 1,
-                /// Resource is non-compliant.
-                NonCompliant = 2,
-            }
-            /// Resource specific output.
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
-            pub enum Output {
-                /// ExecResource specific output.
-                #[prost(message, tag = "5")]
-                ExecResourceOutput(ExecResourceOutput),
-            }
-        }
-        /// Possible compliance states for an os policy.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum ComplianceState {
-            /// The policy is in an unknown compliance state.
-            ///
-            /// Refer to the field `compliance_state_reason` to learn the exact reason
-            /// for the policy to be in this compliance state.
-            Unknown = 0,
-            /// Policy is compliant.
-            ///
-            /// The policy is compliant if all the underlying resources are also
-            /// compliant.
-            Compliant = 1,
-            /// Policy is non-compliant.
-            ///
-            /// The policy is non-compliant if one or more underlying resources are
-            /// non-compliant.
-            NonCompliant = 2,
-        }
-    }
-}
 #[doc = r" Generated client implementations."]
 pub mod os_config_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
@@ -2749,649 +3392,6 @@ pub mod os_config_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.osconfig.v1.OsConfigService/DeletePatchDeployment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// This API resource represents the vulnerability report for a specified
-/// Compute Engine virtual machine (VM) instance at a given point in time.
-///
-/// For more information, see [Vulnerability
-/// reports](<https://cloud.google.com/compute/docs/instances/os-inventory-management#vulnerability-reports>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VulnerabilityReport {
-    /// Output only. The `vulnerabilityReport` API resource name.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/vulnerabilityReport`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. List of vulnerabilities affecting the VM.
-    #[prost(message, repeated, tag = "2")]
-    pub vulnerabilities: ::prost::alloc::vec::Vec<vulnerability_report::Vulnerability>,
-    /// Output only. The timestamp for when the last vulnerability report was generated for the
-    /// VM.
-    #[prost(message, optional, tag = "3")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `VulnerabilityReport`.
-pub mod vulnerability_report {
-    /// A vulnerability affecting the VM instance.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Vulnerability {
-        /// Contains metadata as per the upstream feed of the operating system and
-        /// NVD.
-        #[prost(message, optional, tag = "1")]
-        pub details: ::core::option::Option<vulnerability::Details>,
-        /// Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM.
-        /// This field displays the inventory items affected by this vulnerability.
-        /// If the vulnerability report was not updated after the VM inventory
-        /// update, these values might not display in VM inventory. For some distros,
-        /// this field may be empty.
-        #[deprecated]
-        #[prost(string, repeated, tag = "2")]
-        pub installed_inventory_item_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM.
-        /// If the vulnerability report was not updated after the VM inventory
-        /// update, these values might not display in VM inventory. If there is no
-        /// available fix, the field is empty. The `inventory_item` value specifies
-        /// the latest `SoftwarePackage` available to the VM that fixes the
-        /// vulnerability.
-        #[deprecated]
-        #[prost(string, repeated, tag = "3")]
-        pub available_inventory_item_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// The timestamp for when the vulnerability was first detected.
-        #[prost(message, optional, tag = "4")]
-        pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// The timestamp for when the vulnerability was last modified.
-        #[prost(message, optional, tag = "5")]
-        pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// List of items affected by the vulnerability.
-        #[prost(message, repeated, tag = "6")]
-        pub items: ::prost::alloc::vec::Vec<vulnerability::Item>,
-    }
-    /// Nested message and enum types in `Vulnerability`.
-    pub mod vulnerability {
-        /// Contains metadata information for the vulnerability. This information is
-        /// collected from the upstream feed of the operating system.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Details {
-            /// The CVE of the vulnerability. CVE cannot be
-            /// empty and the combination of <cve, classification> should be unique
-            /// across vulnerabilities for a VM.
-            #[prost(string, tag = "1")]
-            pub cve: ::prost::alloc::string::String,
-            /// The CVSS V2 score of this vulnerability. CVSS V2 score is on a scale of
-            /// 0 - 10 where 0 indicates low severity and 10 indicates high severity.
-            #[prost(float, tag = "2")]
-            pub cvss_v2_score: f32,
-            /// The full description of the CVSSv3 for this vulnerability from NVD.
-            #[prost(message, optional, tag = "3")]
-            pub cvss_v3: ::core::option::Option<super::super::CvsSv3>,
-            /// Assigned severity/impact ranking from the distro.
-            #[prost(string, tag = "4")]
-            pub severity: ::prost::alloc::string::String,
-            /// The note or description describing the vulnerability from the distro.
-            #[prost(string, tag = "5")]
-            pub description: ::prost::alloc::string::String,
-            /// Corresponds to the references attached to the `VulnerabilityDetails`.
-            #[prost(message, repeated, tag = "6")]
-            pub references: ::prost::alloc::vec::Vec<details::Reference>,
-        }
-        /// Nested message and enum types in `Details`.
-        pub mod details {
-            /// A reference for this vulnerability.
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            pub struct Reference {
-                /// The url of the reference.
-                #[prost(string, tag = "1")]
-                pub url: ::prost::alloc::string::String,
-                /// The source of the reference e.g. NVD.
-                #[prost(string, tag = "2")]
-                pub source: ::prost::alloc::string::String,
-            }
-        }
-        /// OS inventory item that is affected by a vulnerability or fixed as a
-        /// result of a vulnerability.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Item {
-            /// Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM.
-            /// This field displays the inventory items affected by this vulnerability.
-            /// If the vulnerability report was not updated after the VM inventory
-            /// update, these values might not display in VM inventory. For some
-            /// operating systems, this field might be empty.
-            #[prost(string, tag = "1")]
-            pub installed_inventory_item_id: ::prost::alloc::string::String,
-            /// Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM.
-            /// If the vulnerability report was not updated after the VM inventory
-            /// update, these values might not display in VM inventory. If there is no
-            /// available fix, the field is empty. The `inventory_item` value specifies
-            /// the latest `SoftwarePackage` available to the VM that fixes the
-            /// vulnerability.
-            #[prost(string, tag = "2")]
-            pub available_inventory_item_id: ::prost::alloc::string::String,
-            /// The recommended [CPE URI](<https://cpe.mitre.org/specification/>) update
-            /// that contains a fix for this vulnerability.
-            #[prost(string, tag = "3")]
-            pub fixed_cpe_uri: ::prost::alloc::string::String,
-            /// The upstream OS patch, packages or KB that fixes the vulnerability.
-            #[prost(string, tag = "4")]
-            pub upstream_fix: ::prost::alloc::string::String,
-        }
-    }
-}
-/// A request message for getting the vulnerability report for the specified VM.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetVulnerabilityReportRequest {
-    /// Required. API resource name for vulnerability resource.
-    ///
-    /// Format:
-    /// `projects/{project}/locations/{location}/instances/{instance}/vulnerabilityReport`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance}`, either Compute Engine `instance-id` or `instance-name`
-    /// can be provided.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request message for listing vulnerability reports for all VM instances in
-/// the specified location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVulnerabilityReportsRequest {
-    /// Required. The parent resource name.
-    ///
-    /// Format: `projects/{project}/locations/{location}/instances/-`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of results to return.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A pagination token returned from a previous call to
-    /// `ListVulnerabilityReports` that indicates where this listing
-    /// should continue from.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// If provided, this field specifies the criteria that must be met by a
-    /// `vulnerabilityReport` API resource to be included in the response.
-    #[prost(string, tag = "4")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// A response message for listing vulnerability reports for all VM instances in
-/// the specified location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVulnerabilityReportsResponse {
-    /// List of vulnerabilityReport objects.
-    #[prost(message, repeated, tag = "1")]
-    pub vulnerability_reports: ::prost::alloc::vec::Vec<VulnerabilityReport>,
-    /// The pagination token to retrieve the next page of vulnerabilityReports
-    /// object.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Common Vulnerability Scoring System version 3.
-/// For details, see <https://www.first.org/cvss/specification-document>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CvsSv3 {
-    /// The base score is a function of the base metric scores.
-    /// <https://www.first.org/cvss/specification-document#Base-Metrics>
-    #[prost(float, tag = "1")]
-    pub base_score: f32,
-    /// The Exploitability sub-score equation is derived from the Base
-    /// Exploitability metrics.
-    /// <https://www.first.org/cvss/specification-document#2-1-Exploitability-Metrics>
-    #[prost(float, tag = "2")]
-    pub exploitability_score: f32,
-    /// The Impact sub-score equation is derived from the Base Impact metrics.
-    #[prost(float, tag = "3")]
-    pub impact_score: f32,
-    /// This metric reflects the context by which vulnerability exploitation is
-    /// possible.
-    #[prost(enumeration = "cvs_sv3::AttackVector", tag = "5")]
-    pub attack_vector: i32,
-    /// This metric describes the conditions beyond the attacker's control that
-    /// must exist in order to exploit the vulnerability.
-    #[prost(enumeration = "cvs_sv3::AttackComplexity", tag = "6")]
-    pub attack_complexity: i32,
-    /// This metric describes the level of privileges an attacker must possess
-    /// before successfully exploiting the vulnerability.
-    #[prost(enumeration = "cvs_sv3::PrivilegesRequired", tag = "7")]
-    pub privileges_required: i32,
-    /// This metric captures the requirement for a human user, other than the
-    /// attacker, to participate in the successful compromise of the vulnerable
-    /// component.
-    #[prost(enumeration = "cvs_sv3::UserInteraction", tag = "8")]
-    pub user_interaction: i32,
-    /// The Scope metric captures whether a vulnerability in one vulnerable
-    /// component impacts resources in components beyond its security scope.
-    #[prost(enumeration = "cvs_sv3::Scope", tag = "9")]
-    pub scope: i32,
-    /// This metric measures the impact to the confidentiality of the information
-    /// resources managed by a software component due to a successfully exploited
-    /// vulnerability.
-    #[prost(enumeration = "cvs_sv3::Impact", tag = "10")]
-    pub confidentiality_impact: i32,
-    /// This metric measures the impact to integrity of a successfully exploited
-    /// vulnerability.
-    #[prost(enumeration = "cvs_sv3::Impact", tag = "11")]
-    pub integrity_impact: i32,
-    /// This metric measures the impact to the availability of the impacted
-    /// component resulting from a successfully exploited vulnerability.
-    #[prost(enumeration = "cvs_sv3::Impact", tag = "12")]
-    pub availability_impact: i32,
-}
-/// Nested message and enum types in `CVSSv3`.
-pub mod cvs_sv3 {
-    /// This metric reflects the context by which vulnerability exploitation is
-    /// possible.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackVector {
-        /// Invalid value.
-        Unspecified = 0,
-        /// The vulnerable component is bound to the network stack and the set of
-        /// possible attackers extends beyond the other options listed below, up to
-        /// and including the entire Internet.
-        Network = 1,
-        /// The vulnerable component is bound to the network stack, but the attack is
-        /// limited at the protocol level to a logically adjacent topology.
-        Adjacent = 2,
-        /// The vulnerable component is not bound to the network stack and the
-        /// attacker's path is via read/write/execute capabilities.
-        Local = 3,
-        /// The attack requires the attacker to physically touch or manipulate the
-        /// vulnerable component.
-        Physical = 4,
-    }
-    /// This metric describes the conditions beyond the attacker's control that
-    /// must exist in order to exploit the vulnerability.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackComplexity {
-        /// Invalid value.
-        Unspecified = 0,
-        /// Specialized access conditions or extenuating circumstances do not exist.
-        /// An attacker can expect repeatable success when attacking the vulnerable
-        /// component.
-        Low = 1,
-        /// A successful attack depends on conditions beyond the attacker's control.
-        /// That is, a successful attack cannot be accomplished at will, but requires
-        /// the attacker to invest in some measurable amount of effort in preparation
-        /// or execution against the vulnerable component before a successful attack
-        /// can be expected.
-        High = 2,
-    }
-    /// This metric describes the level of privileges an attacker must possess
-    /// before successfully exploiting the vulnerability.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PrivilegesRequired {
-        /// Invalid value.
-        Unspecified = 0,
-        /// The attacker is unauthorized prior to attack, and therefore does not
-        /// require any access to settings or files of the vulnerable system to
-        /// carry out an attack.
-        None = 1,
-        /// The attacker requires privileges that provide basic user capabilities
-        /// that could normally affect only settings and files owned by a user.
-        /// Alternatively, an attacker with Low privileges has the ability to access
-        /// only non-sensitive resources.
-        Low = 2,
-        /// The attacker requires privileges that provide significant (e.g.,
-        /// administrative) control over the vulnerable component allowing access to
-        /// component-wide settings and files.
-        High = 3,
-    }
-    /// This metric captures the requirement for a human user, other than the
-    /// attacker, to participate in the successful compromise of the vulnerable
-    /// component.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum UserInteraction {
-        /// Invalid value.
-        Unspecified = 0,
-        /// The vulnerable system can be exploited without interaction from any user.
-        None = 1,
-        /// Successful exploitation of this vulnerability requires a user to take
-        /// some action before the vulnerability can be exploited.
-        Required = 2,
-    }
-    /// The Scope metric captures whether a vulnerability in one vulnerable
-    /// component impacts resources in components beyond its security scope.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Scope {
-        /// Invalid value.
-        Unspecified = 0,
-        /// An exploited vulnerability can only affect resources managed by the same
-        /// security authority.
-        Unchanged = 1,
-        /// An exploited vulnerability can affect resources beyond the security scope
-        /// managed by the security authority of the vulnerable component.
-        Changed = 2,
-    }
-    /// The Impact metrics capture the effects of a successfully exploited
-    /// vulnerability on the component that suffers the worst outcome that is most
-    /// directly and predictably associated with the attack.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Impact {
-        /// Invalid value.
-        Unspecified = 0,
-        /// High impact.
-        High = 1,
-        /// Low impact.
-        Low = 2,
-        /// No impact.
-        None = 3,
-    }
-}
-#[doc = r" Generated client implementations."]
-pub mod os_config_zonal_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Zonal OS Config API"]
-    #[doc = ""]
-    #[doc = " The OS Config service is the server-side component that allows users to"]
-    #[doc = " manage package installations and patch jobs for Compute Engine VM instances."]
-    #[derive(Debug, Clone)]
-    pub struct OsConfigZonalServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> OsConfigZonalServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> OsConfigZonalServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            OsConfigZonalServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Create an OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method also creates the first revision of the OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method returns a long running operation (LRO) that contains the"]
-        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
-        #[doc = ""]
-        #[doc = " For more information, see [Method:"]
-        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
-        pub async fn create_os_policy_assignment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateOsPolicyAssignmentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/CreateOSPolicyAssignment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Update an existing OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method creates a new revision of the OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method returns a long running operation (LRO) that contains the"]
-        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
-        #[doc = ""]
-        #[doc = " For more information, see [Method:"]
-        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
-        pub async fn update_os_policy_assignment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateOsPolicyAssignmentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/UpdateOSPolicyAssignment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieve an existing OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method always returns the latest revision. In order to retrieve a"]
-        #[doc = " previous revision of the assignment, also provide the revision ID in the"]
-        #[doc = " `name` parameter."]
-        pub async fn get_os_policy_assignment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetOsPolicyAssignmentRequest>,
-        ) -> Result<tonic::Response<super::OsPolicyAssignment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/GetOSPolicyAssignment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List the OS policy assignments under the parent resource."]
-        #[doc = ""]
-        #[doc = " For each OS policy assignment, the latest revision is returned."]
-        pub async fn list_os_policy_assignments(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentsRequest>,
-        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignments",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List the OS policy assignment revisions for a given OS policy assignment."]
-        pub async fn list_os_policy_assignment_revisions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentRevisionsRequest>,
-        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentRevisionsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignmentRevisions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Delete the OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method creates a new revision of the OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method returns a long running operation (LRO) that contains the"]
-        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
-        #[doc = ""]
-        #[doc = " If the LRO completes and is not cancelled, all revisions associated with"]
-        #[doc = " the OS policy assignment are deleted."]
-        #[doc = ""]
-        #[doc = " For more information, see [Method:"]
-        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
-        pub async fn delete_os_policy_assignment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteOsPolicyAssignmentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/DeleteOSPolicyAssignment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get the OS policy asssignment report for the specified Compute Engine VM"]
-        #[doc = " instance."]
-        pub async fn get_os_policy_assignment_report(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetOsPolicyAssignmentReportRequest>,
-        ) -> Result<tonic::Response<super::OsPolicyAssignmentReport>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/GetOSPolicyAssignmentReport",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List OS policy asssignment reports for all Compute Engine VM instances in"]
-        #[doc = " the specified zone."]
-        pub async fn list_os_policy_assignment_reports(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentReportsRequest>,
-        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentReportsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignmentReports",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get inventory data for the specified VM instance. If the VM has no"]
-        #[doc = " associated inventory, the message `NOT_FOUND` is returned."]
-        pub async fn get_inventory(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetInventoryRequest>,
-        ) -> Result<tonic::Response<super::Inventory>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/GetInventory",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List inventory data for all VM instances in the specified zone."]
-        pub async fn list_inventories(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListInventoriesRequest>,
-        ) -> Result<tonic::Response<super::ListInventoriesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListInventories",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets the vulnerability report for the specified VM instance. Only VMs with"]
-        #[doc = " inventory data have vulnerability reports associated with them."]
-        pub async fn get_vulnerability_report(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetVulnerabilityReportRequest>,
-        ) -> Result<tonic::Response<super::VulnerabilityReport>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/GetVulnerabilityReport",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List vulnerability reports for all VM instances in the specified zone."]
-        pub async fn list_vulnerability_reports(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListVulnerabilityReportsRequest>,
-        ) -> Result<tonic::Response<super::ListVulnerabilityReportsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListVulnerabilityReports",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

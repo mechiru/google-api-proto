@@ -417,101 +417,6 @@ pub struct DriveReference {
     #[prost(string, tag = "2")]
     pub title: ::prost::alloc::string::String,
 }
-/// The request message for querying Drive activity.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryDriveActivityRequest {
-    /// Details on how to consolidate related actions that make up the activity. If
-    /// not set, then related actions are not consolidated.
-    #[prost(message, optional, tag = "5")]
-    pub consolidation_strategy: ::core::option::Option<ConsolidationStrategy>,
-    /// The miminum number of activities desired in the response; the server will
-    /// attempt to return at least this quanitity. The server may also return fewer
-    /// activities if it has a partial response ready before the request times out.
-    /// If not set, a default value is used.
-    #[prost(int32, tag = "6")]
-    pub page_size: i32,
-    /// The token identifying which page of results to return. Set this to the
-    /// next_page_token value returned from a previous query to obtain the
-    /// following page of results. If not set, the first page of results will be
-    /// returned.
-    #[prost(string, tag = "7")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The filtering for items returned from this query request. The format of the
-    /// filter string is a sequence of expressions, joined by an optional "AND",
-    /// where each expression is of the form "field operator value".
-    ///
-    /// Supported fields:
-    ///
-    ///   - `time`: Uses numerical operators on date values either in
-    ///     terms of milliseconds since Jan 1, 1970 or in RFC 3339 format.
-    ///     Examples:
-    ///       - `time > 1452409200000 AND time <= 1492812924310`
-    ///       - `time >= "2016-01-10T01:02:03-05:00"`
-    ///
-    ///   - `detail.action_detail_case`: Uses the "has" operator (:) and
-    ///     either a singular value or a list of allowed action types enclosed in
-    ///     parentheses.
-    ///     Examples:
-    ///       - `detail.action_detail_case: RENAME`
-    ///       - `detail.action_detail_case:(CREATE EDIT)`
-    ///       - `-detail.action_detail_case:MOVE`
-    #[prost(string, tag = "8")]
-    pub filter: ::prost::alloc::string::String,
-    /// The primary criteria in the query. The default is
-    /// ancestor_name = `items/root` if no key is specified.
-    #[prost(oneof = "query_drive_activity_request::Key", tags = "1, 2")]
-    pub key: ::core::option::Option<query_drive_activity_request::Key>,
-}
-/// Nested message and enum types in `QueryDriveActivityRequest`.
-pub mod query_drive_activity_request {
-    /// The primary criteria in the query. The default is
-    /// ancestor_name = `items/root` if no key is specified.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Key {
-        /// Return activities for this Drive item. The format is
-        /// `items/ITEM_ID`.
-        #[prost(string, tag = "1")]
-        ItemName(::prost::alloc::string::String),
-        /// Return activities for this Drive folder and all children and descendants.
-        /// The format is `items/ITEM_ID`.
-        #[prost(string, tag = "2")]
-        AncestorName(::prost::alloc::string::String),
-    }
-}
-/// How the individual activities are consolidated. A set of activities may be
-/// consolidated into one combined activity if they are related in some way, such
-/// as one actor performing the same action on multiple targets, or multiple
-/// actors performing the same action on a single target. The strategy defines
-/// the rules for which activities are related.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConsolidationStrategy {
-    /// How the individual activities are consolidated.
-    #[prost(oneof = "consolidation_strategy::Strategy", tags = "1, 2")]
-    pub strategy: ::core::option::Option<consolidation_strategy::Strategy>,
-}
-/// Nested message and enum types in `ConsolidationStrategy`.
-pub mod consolidation_strategy {
-    /// A strategy which does no consolidation of individual activities.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct NoConsolidation {}
-    /// A strategy which consolidates activities using the grouping rules from the
-    /// legacy V1 Activity API. Similar actions occurring within a window of time
-    /// can be grouped across multiple targets (such as moving a set of files at
-    /// once) or multiple actors (such as several users editing the same item).
-    /// Grouping rules for this strategy are specific to each type of action.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Legacy {}
-    /// How the individual activities are consolidated.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Strategy {
-        /// The individual activities are not consolidated.
-        #[prost(message, tag = "1")]
-        None(NoConsolidation),
-        /// The individual activities are consolidated using the legacy strategy.
-        #[prost(message, tag = "2")]
-        Legacy(Legacy),
-    }
-}
 /// Information about the action.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Action {
@@ -994,6 +899,101 @@ pub mod settings_change {
             /// The use of this feature is fully restricted.
             FullyRestricted = 2,
         }
+    }
+}
+/// The request message for querying Drive activity.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryDriveActivityRequest {
+    /// Details on how to consolidate related actions that make up the activity. If
+    /// not set, then related actions are not consolidated.
+    #[prost(message, optional, tag = "5")]
+    pub consolidation_strategy: ::core::option::Option<ConsolidationStrategy>,
+    /// The miminum number of activities desired in the response; the server will
+    /// attempt to return at least this quanitity. The server may also return fewer
+    /// activities if it has a partial response ready before the request times out.
+    /// If not set, a default value is used.
+    #[prost(int32, tag = "6")]
+    pub page_size: i32,
+    /// The token identifying which page of results to return. Set this to the
+    /// next_page_token value returned from a previous query to obtain the
+    /// following page of results. If not set, the first page of results will be
+    /// returned.
+    #[prost(string, tag = "7")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The filtering for items returned from this query request. The format of the
+    /// filter string is a sequence of expressions, joined by an optional "AND",
+    /// where each expression is of the form "field operator value".
+    ///
+    /// Supported fields:
+    ///
+    ///   - `time`: Uses numerical operators on date values either in
+    ///     terms of milliseconds since Jan 1, 1970 or in RFC 3339 format.
+    ///     Examples:
+    ///       - `time > 1452409200000 AND time <= 1492812924310`
+    ///       - `time >= "2016-01-10T01:02:03-05:00"`
+    ///
+    ///   - `detail.action_detail_case`: Uses the "has" operator (:) and
+    ///     either a singular value or a list of allowed action types enclosed in
+    ///     parentheses.
+    ///     Examples:
+    ///       - `detail.action_detail_case: RENAME`
+    ///       - `detail.action_detail_case:(CREATE EDIT)`
+    ///       - `-detail.action_detail_case:MOVE`
+    #[prost(string, tag = "8")]
+    pub filter: ::prost::alloc::string::String,
+    /// The primary criteria in the query. The default is
+    /// ancestor_name = `items/root` if no key is specified.
+    #[prost(oneof = "query_drive_activity_request::Key", tags = "1, 2")]
+    pub key: ::core::option::Option<query_drive_activity_request::Key>,
+}
+/// Nested message and enum types in `QueryDriveActivityRequest`.
+pub mod query_drive_activity_request {
+    /// The primary criteria in the query. The default is
+    /// ancestor_name = `items/root` if no key is specified.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Key {
+        /// Return activities for this Drive item. The format is
+        /// `items/ITEM_ID`.
+        #[prost(string, tag = "1")]
+        ItemName(::prost::alloc::string::String),
+        /// Return activities for this Drive folder and all children and descendants.
+        /// The format is `items/ITEM_ID`.
+        #[prost(string, tag = "2")]
+        AncestorName(::prost::alloc::string::String),
+    }
+}
+/// How the individual activities are consolidated. A set of activities may be
+/// consolidated into one combined activity if they are related in some way, such
+/// as one actor performing the same action on multiple targets, or multiple
+/// actors performing the same action on a single target. The strategy defines
+/// the rules for which activities are related.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConsolidationStrategy {
+    /// How the individual activities are consolidated.
+    #[prost(oneof = "consolidation_strategy::Strategy", tags = "1, 2")]
+    pub strategy: ::core::option::Option<consolidation_strategy::Strategy>,
+}
+/// Nested message and enum types in `ConsolidationStrategy`.
+pub mod consolidation_strategy {
+    /// A strategy which does no consolidation of individual activities.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct NoConsolidation {}
+    /// A strategy which consolidates activities using the grouping rules from the
+    /// legacy V1 Activity API. Similar actions occurring within a window of time
+    /// can be grouped across multiple targets (such as moving a set of files at
+    /// once) or multiple actors (such as several users editing the same item).
+    /// Grouping rules for this strategy are specific to each type of action.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Legacy {}
+    /// How the individual activities are consolidated.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Strategy {
+        /// The individual activities are not consolidated.
+        #[prost(message, tag = "1")]
+        None(NoConsolidation),
+        /// The individual activities are consolidated using the legacy strategy.
+        #[prost(message, tag = "2")]
+        Legacy(Legacy),
     }
 }
 /// Response message for querying Drive activity.
