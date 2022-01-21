@@ -1070,6 +1070,7 @@
 <span id="1069">1069</span>
 <span id="1070">1070</span>
 <span id="1071">1071</span>
+<span id="1072">1072</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Specifies the complete (requested) contents of a single row of a table.</span>
 <span class="doccomment">/// Rows which exceed 256MiB in size cannot be read in full.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1303,7 +1304,7 @@
 <span class="doccomment">/// RowFilter.Chain and RowFilter.Interleave documentation.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The total serialized size of a RowFilter message must not</span>
-<span class="doccomment">/// exceed 4096 bytes, and RowFilters may not be nested within each other</span>
+<span class="doccomment">/// exceed 20480 bytes, and RowFilters may not be nested within each other</span>
 <span class="doccomment">/// (in Chains or Interleaves) to a depth of more than 20.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RowFilter</span> {
@@ -1673,14 +1674,15 @@
     <span class="doccomment">/// &quot;default&quot; application profile will be used.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">app_profile_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The row keys and/or ranges to read. If not specified, reads from all rows.</span>
+    <span class="doccomment">/// The row keys and/or ranges to read sequentially. If not specified, reads</span>
+    <span class="doccomment">/// from all rows.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">rows</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RowSet</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The filter to apply to the contents of the specified row(s). If unset,</span>
     <span class="doccomment">/// reads the entirety of each row.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RowFilter</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The read will terminate after committing to N rows&#39; worth of results. The</span>
+    <span class="doccomment">/// The read will stop after committing to N rows&#39; worth of results. The</span>
     <span class="doccomment">/// default (zero) is to return all results.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">rows_limit</span>: <span class="ident">i64</span>,

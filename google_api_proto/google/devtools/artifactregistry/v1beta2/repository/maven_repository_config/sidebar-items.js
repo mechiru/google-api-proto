@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["VersionPolicy","VersionPolicy is the version policy for the repository."]]});
