@@ -337,6 +337,15 @@ pub enum OutputAudioEncoding {
     /// 8-bit samples that compand 14-bit audio samples using G.711 PCMU/mu-law.
     Mulaw = 5,
 }
+/// Google Cloud Storage location for the inputs.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsSources {
+    /// Required. Google Cloud Storage URIs for the inputs. A URI is of the form:
+    ///   gs://bucket/object-prefix-or-name
+    /// Whether a prefix or name is used depends on the use case.
+    #[prost(string, repeated, tag = "2")]
+    pub uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// Google Cloud Storage location for the output.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GcsDestination {
@@ -3589,7 +3598,7 @@ pub mod participant {
 /// Represents a message posted into a conversation.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
-    /// The unique identifier of the message.
+    /// Optional. The unique identifier of the message.
     /// Format: `projects/<Project ID>/locations/<Location
     /// ID>/conversations/<Conversation ID>/messages/<Message ID>`.
     #[prost(string, tag = "1")]
@@ -3608,12 +3617,18 @@ pub struct Message {
     /// Output only. The role of the participant.
     #[prost(enumeration = "participant::Role", tag = "5")]
     pub participant_role: i32,
-    /// Output only. The time when the message was created.
+    /// Output only. The time when the message was created in Contact Center AI.
     #[prost(message, optional, tag = "6")]
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. The time when the message was sent.
+    #[prost(message, optional, tag = "9")]
+    pub send_time: ::core::option::Option<::prost_types::Timestamp>,
     /// Output only. The annotation for the message.
     #[prost(message, optional, tag = "7")]
     pub message_annotation: ::core::option::Option<MessageAnnotation>,
+    /// Output only. The sentiment analysis result for the message.
+    #[prost(message, optional, tag = "8")]
+    pub sentiment_analysis: ::core::option::Option<SentimentAnalysisResult>,
 }
 /// The request message for \[Participants.CreateParticipant][google.cloud.dialogflow.v2.Participants.CreateParticipant\].
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3776,14 +3791,14 @@ pub struct SuggestArticlesRequest {
     /// ID>/conversations/<Conversation ID>/participants/<Participant ID>`.
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
-    /// The name of the latest conversation message to compile suggestion
+    /// Optional. The name of the latest conversation message to compile suggestion
     /// for. If empty, it will be the latest message of the conversation.
     ///
     /// Format: `projects/<Project ID>/locations/<Location
     /// ID>/conversations/<Conversation ID>/messages/<Message ID>`.
     #[prost(string, tag = "2")]
     pub latest_message: ::prost::alloc::string::String,
-    /// Max number of messages prior to and including
+    /// Optional. Max number of messages prior to and including
     /// \[latest_message][google.cloud.dialogflow.v2.SuggestArticlesRequest.latest_message\] to use as context
     /// when compiling the suggestion. By default 20 and at most 50.
     #[prost(int32, tag = "3")]
@@ -3821,14 +3836,14 @@ pub struct SuggestFaqAnswersRequest {
     /// ID>/conversations/<Conversation ID>/participants/<Participant ID>`.
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
-    /// The name of the latest conversation message to compile suggestion
+    /// Optional. The name of the latest conversation message to compile suggestion
     /// for. If empty, it will be the latest message of the conversation.
     ///
     /// Format: `projects/<Project ID>/locations/<Location
     /// ID>/conversations/<Conversation ID>/messages/<Message ID>`.
     #[prost(string, tag = "2")]
     pub latest_message: ::prost::alloc::string::String,
-    /// Max number of messages prior to and including
+    /// Optional. Max number of messages prior to and including
     /// \[latest_message\] to use as context when compiling the
     /// suggestion. By default 20 and at most 50.
     #[prost(int32, tag = "3")]
@@ -3854,6 +3869,55 @@ pub struct SuggestFaqAnswersResponse {
     /// \[latest_message][google.cloud.dialogflow.v2.SuggestFaqAnswersResponse.latest_message\] to compile the
     /// suggestion. It may be smaller than the
     /// \[SuggestFaqAnswersRequest.context_size][google.cloud.dialogflow.v2.SuggestFaqAnswersRequest.context_size\] field in the request if there
+    /// aren't that many messages in the conversation.
+    #[prost(int32, tag = "3")]
+    pub context_size: i32,
+}
+/// The request message for \[Participants.SuggestSmartReplies][google.cloud.dialogflow.v2.Participants.SuggestSmartReplies\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SuggestSmartRepliesRequest {
+    /// Required. The name of the participant to fetch suggestion for.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/conversations/<Conversation ID>/participants/<Participant ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The current natural language text segment to compile suggestion
+    /// for. This provides a way for user to get follow up smart reply suggestion
+    /// after a smart reply selection, without sending a text message.
+    #[prost(message, optional, tag = "4")]
+    pub current_text_input: ::core::option::Option<TextInput>,
+    /// The name of the latest conversation message to compile suggestion
+    /// for. If empty, it will be the latest message of the conversation.
+    ///
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/conversations/<Conversation ID>/messages/<Message ID>`.
+    #[prost(string, tag = "2")]
+    pub latest_message: ::prost::alloc::string::String,
+    /// Max number of messages prior to and including
+    /// \[latest_message\] to use as context when compiling the
+    /// suggestion. By default 20 and at most 50.
+    #[prost(int32, tag = "3")]
+    pub context_size: i32,
+}
+/// The response message for \[Participants.SuggestSmartReplies][google.cloud.dialogflow.v2.Participants.SuggestSmartReplies\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SuggestSmartRepliesResponse {
+    /// Output only. Multiple reply options provided by smart reply service. The
+    /// order is based on the rank of the model prediction.
+    /// The maximum number of the returned replies is set in SmartReplyConfig.
+    #[prost(message, repeated, tag = "1")]
+    pub smart_reply_answers: ::prost::alloc::vec::Vec<SmartReplyAnswer>,
+    /// The name of the latest conversation message used to compile
+    /// suggestion for.
+    ///
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/conversations/<Conversation ID>/messages/<Message ID>`.
+    #[prost(string, tag = "2")]
+    pub latest_message: ::prost::alloc::string::String,
+    /// Number of messages prior to and including
+    /// \[latest_message][google.cloud.dialogflow.v2.SuggestSmartRepliesResponse.latest_message\] to compile the
+    /// suggestion. It may be smaller than the
+    /// \[SuggestSmartRepliesRequest.context_size][google.cloud.dialogflow.v2.SuggestSmartRepliesRequest.context_size\] field in the request if there
     /// aren't that many messages in the conversation.
     #[prost(int32, tag = "3")]
     pub context_size: i32,
@@ -3967,13 +4031,31 @@ pub struct FaqAnswer {
     #[prost(string, tag = "6")]
     pub answer_record: ::prost::alloc::string::String,
 }
+/// Represents a smart reply answer.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SmartReplyAnswer {
+    /// The content of the reply.
+    #[prost(string, tag = "1")]
+    pub reply: ::prost::alloc::string::String,
+    /// Smart reply confidence.
+    /// The system's confidence score that this reply is a good match for
+    /// this conversation, as a value from 0.0 (completely uncertain) to 1.0
+    /// (completely certain).
+    #[prost(float, tag = "2")]
+    pub confidence: f32,
+    /// The name of answer record, in the format of
+    /// "projects/<Project ID>/locations/<Location ID>/answerRecords/<Answer Record
+    /// ID>"
+    #[prost(string, tag = "3")]
+    pub answer_record: ::prost::alloc::string::String,
+}
 /// One response of different type of suggestion response which is used in
 /// the response of \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\] and
 /// \[Participants.AnalyzeContent][google.cloud.dialogflow.v2.Participants.AnalyzeContent\], as well as \[HumanAgentAssistantEvent][google.cloud.dialogflow.v2.HumanAgentAssistantEvent\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SuggestionResult {
     /// Different type of suggestion response.
-    #[prost(oneof = "suggestion_result::SuggestionResponse", tags = "1, 2, 3")]
+    #[prost(oneof = "suggestion_result::SuggestionResponse", tags = "1, 2, 3, 4")]
     pub suggestion_response: ::core::option::Option<suggestion_result::SuggestionResponse>,
 }
 /// Nested message and enum types in `SuggestionResult`.
@@ -3990,6 +4072,9 @@ pub mod suggestion_result {
         /// SuggestFaqAnswersResponse if request is for FAQ_ANSWER.
         #[prost(message, tag = "3")]
         SuggestFaqAnswersResponse(super::SuggestFaqAnswersResponse),
+        /// SuggestSmartRepliesResponse if request is for SMART_REPLY.
+        #[prost(message, tag = "4")]
+        SuggestSmartRepliesResponse(super::SuggestSmartRepliesResponse),
     }
 }
 /// Represents a part of a message possibly annotated with an entity. The part
@@ -4232,6 +4317,24 @@ pub mod participants_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = " Gets smart replies for a participant based on specific historical"]
+        #[doc = " messages."]
+        pub async fn suggest_smart_replies(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SuggestSmartRepliesRequest>,
+        ) -> Result<tonic::Response<super::SuggestSmartRepliesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Participants/SuggestSmartReplies",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
     }
 }
 /// Defines the services to connect to incoming Dialogflow conversations.
@@ -4444,6 +4547,9 @@ pub mod human_agent_assistant_config {
         /// Configs of custom conversation model.
         #[prost(message, optional, tag = "7")]
         pub conversation_model_config: ::core::option::Option<ConversationModelConfig>,
+        /// Configs for processing conversation.
+        #[prost(message, optional, tag = "8")]
+        pub conversation_process_config: ::core::option::Option<ConversationProcessConfig>,
     }
     /// Detail human agent assistant config.
     #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4580,6 +4686,14 @@ pub mod human_agent_assistant_config {
         /// ID>/conversationModels/<Model ID>`.
         #[prost(string, tag = "1")]
         pub model: ::prost::alloc::string::String,
+    }
+    /// Config to process conversation.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConversationProcessConfig {
+        /// Number of recent non-small-talk sentences to use as context for article
+        /// and FAQ suggestion
+        #[prost(int32, tag = "2")]
+        pub recent_sentences_count: i32,
     }
     /// Configuration for analyses to run on each conversation message.
     #[derive(Clone, PartialEq, ::prost::Message)]
@@ -7388,6 +7502,85 @@ pub struct CreateDocumentRequest {
     #[prost(message, optional, tag = "2")]
     pub document: ::core::option::Option<Document>,
 }
+/// Request message for \[Documents.ImportDocuments][google.cloud.dialogflow.v2.Documents.ImportDocuments\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportDocumentsRequest {
+    /// Required. The knowledge base to import documents into.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/knowledgeBases/<Knowledge Base ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Document template used for importing all the documents.
+    #[prost(message, optional, tag = "3")]
+    pub document_template: ::core::option::Option<ImportDocumentTemplate>,
+    /// Whether to import custom metadata from Google Cloud Storage.
+    /// Only valid when the document source is Google Cloud Storage URI.
+    #[prost(bool, tag = "4")]
+    pub import_gcs_custom_metadata: bool,
+    /// Required. The source to use for importing documents.
+    ///
+    /// If the source captures multiple objects, then multiple documents will be
+    /// created, one corresponding to each object, and all of these documents will
+    /// be created using the same document template.
+    ///
+    /// Dialogflow supports up to 350 documents in each request. If you try to
+    /// import more, Dialogflow will return an error.
+    #[prost(oneof = "import_documents_request::Source", tags = "2")]
+    pub source: ::core::option::Option<import_documents_request::Source>,
+}
+/// Nested message and enum types in `ImportDocumentsRequest`.
+pub mod import_documents_request {
+    /// Required. The source to use for importing documents.
+    ///
+    /// If the source captures multiple objects, then multiple documents will be
+    /// created, one corresponding to each object, and all of these documents will
+    /// be created using the same document template.
+    ///
+    /// Dialogflow supports up to 350 documents in each request. If you try to
+    /// import more, Dialogflow will return an error.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// The Google Cloud Storage location for the documents.
+        /// The path can include a wildcard.
+        ///
+        /// These URIs may have the forms
+        /// `gs://<bucket-name>/<object-name>`.
+        /// `gs://<bucket-name>/<object-path>/*.<extension>`.
+        #[prost(message, tag = "2")]
+        GcsSource(super::GcsSources),
+    }
+}
+/// The template used for importing documents.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportDocumentTemplate {
+    /// Required. The MIME type of the document.
+    #[prost(string, tag = "1")]
+    pub mime_type: ::prost::alloc::string::String,
+    /// Required. The knowledge type of document content.
+    #[prost(
+        enumeration = "document::KnowledgeType",
+        repeated,
+        packed = "false",
+        tag = "2"
+    )]
+    pub knowledge_types: ::prost::alloc::vec::Vec<i32>,
+    /// Metadata for the document. The metadata supports arbitrary
+    /// key-value pairs. Suggested use cases include storing a document's title,
+    /// an external URL distinct from the document's content_uri, etc.
+    /// The max size of a `key` or a `value` of the metadata is 1024 bytes.
+    #[prost(btree_map = "string, string", tag = "3")]
+    pub metadata: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+}
+/// Response message for \[Documents.ImportDocuments][google.cloud.dialogflow.v2.Documents.ImportDocuments\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportDocumentsResponse {
+    /// Includes details about skipped documents or any other warnings.
+    #[prost(message, repeated, tag = "1")]
+    pub warnings: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+}
 /// Request message for \[Documents.DeleteDocument][google.cloud.dialogflow.v2.Documents.DeleteDocument\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteDocumentRequest {
@@ -7483,6 +7676,9 @@ pub struct KnowledgeOperationMetadata {
     /// Output only. The current state of this operation.
     #[prost(enumeration = "knowledge_operation_metadata::State", tag = "1")]
     pub state: i32,
+    /// The name of the knowledge base interacted with during the operation.
+    #[prost(string, tag = "3")]
+    pub knowledge_base: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `KnowledgeOperationMetadata`.
 pub mod knowledge_operation_metadata {
@@ -7608,6 +7804,35 @@ pub mod documents_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dialogflow.v2.Documents/CreateDocument",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates documents by importing data from external sources."]
+        #[doc = " Dialogflow supports up to 350 documents in each request. If you try to"]
+        #[doc = " import more, Dialogflow will return an error."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: [KnowledgeOperationMetadata][google.cloud.dialogflow.v2.KnowledgeOperationMetadata]"]
+        #[doc = " - `response`: [ImportDocumentsResponse][google.cloud.dialogflow.v2.ImportDocumentsResponse]"]
+        pub async fn import_documents(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ImportDocumentsRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.v2.Documents/ImportDocuments",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
