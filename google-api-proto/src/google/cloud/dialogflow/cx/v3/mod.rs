@@ -147,7 +147,7 @@ pub struct SecuritySettings {
 /// Nested message and enum types in `SecuritySettings`.
 pub mod security_settings {
     /// Settings for exporting conversations to
-    /// \[Insights\](<https://cloud.google.com/dialogflow/priv/docs/insights>).
+    /// \[Insights\](<https://cloud.google.com/contact-center/insights/docs>).
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct InsightsExportSettings {
         /// If enabled, we will automatically exports
@@ -4922,8 +4922,9 @@ pub struct Match {
     /// filled for \[`INTENT`][google.cloud.dialogflow.cx.v3.Match.MatchType\] match type.
     #[prost(message, optional, tag = "1")]
     pub intent: ::core::option::Option<Intent>,
-    /// The event that matched the query. Only filled for
-    /// \[`EVENT`][google.cloud.dialogflow.cx.v3.Match.MatchType\] match type.
+    /// The event that matched the query. Filled for
+    /// \[`EVENT`][google.cloud.dialogflow.cx.v3.Match.MatchType\], \[`NO_MATCH`][google.cloud.dialogflow.cx.v3.Match.MatchType\] and
+    /// \[`NO_INPUT`][google.cloud.dialogflow.cx.v3.Match.MatchType\] match types.
     #[prost(string, tag = "6")]
     pub event: ::prost::alloc::string::String,
     /// The collection of parameters extracted from the query.
@@ -7826,7 +7827,7 @@ pub mod environment {
         #[prost(string, repeated, tag = "1")]
         pub test_cases: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
         /// Whether to run test cases in \[TestCasesConfig.test_cases][google.cloud.dialogflow.cx.v3.Environment.TestCasesConfig.test_cases\] periodically.
-        /// Default false. If set to ture, run once a day.
+        /// Default false. If set to true, run once a day.
         #[prost(bool, tag = "2")]
         pub enable_continuous_run: bool,
         /// Whether to run test cases in \[TestCasesConfig.test_cases][google.cloud.dialogflow.cx.v3.Environment.TestCasesConfig.test_cases\] before

@@ -231,7 +231,7 @@ pub mod value_range {
 /// RowFilter.Chain and RowFilter.Interleave documentation.
 ///
 /// The total serialized size of a RowFilter message must not
-/// exceed 4096 bytes, and RowFilters may not be nested within each other
+/// exceed 20480 bytes, and RowFilters may not be nested within each other
 /// (in Chains or Interleaves) to a depth of more than 20.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RowFilter {
@@ -601,14 +601,15 @@ pub struct ReadRowsRequest {
     /// "default" application profile will be used.
     #[prost(string, tag = "5")]
     pub app_profile_id: ::prost::alloc::string::String,
-    /// The row keys and/or ranges to read. If not specified, reads from all rows.
+    /// The row keys and/or ranges to read sequentially. If not specified, reads
+    /// from all rows.
     #[prost(message, optional, tag = "2")]
     pub rows: ::core::option::Option<RowSet>,
     /// The filter to apply to the contents of the specified row(s). If unset,
     /// reads the entirety of each row.
     #[prost(message, optional, tag = "3")]
     pub filter: ::core::option::Option<RowFilter>,
-    /// The read will terminate after committing to N rows' worth of results. The
+    /// The read will stop after committing to N rows' worth of results. The
     /// default (zero) is to return all results.
     #[prost(int64, tag = "4")]
     pub rows_limit: i64,
