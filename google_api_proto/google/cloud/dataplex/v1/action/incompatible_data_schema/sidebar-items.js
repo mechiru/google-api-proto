@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SchemaChange","Whether the action relates to a schema that is incompatible or modified."]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["tasks",""],["v2alpha",""]]});
+initSidebarItems({"mod":[["v2alpha",""]]});

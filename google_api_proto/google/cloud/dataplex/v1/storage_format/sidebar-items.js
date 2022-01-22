@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CompressionFormat","The specific compressed file format of the data."],["Format","The specific file format of the data."],["Options","Additional format-specific options."]],"struct":[["CsvOptions","Describes CSV and similar semi-structured data formats."],["JsonOptions","Describes JSON data format."]]});

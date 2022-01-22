@@ -1540,6 +1540,64 @@
 <span id="1539">1539</span>
 <span id="1540">1540</span>
 <span id="1541">1541</span>
+<span id="1542">1542</span>
+<span id="1543">1543</span>
+<span id="1544">1544</span>
+<span id="1545">1545</span>
+<span id="1546">1546</span>
+<span id="1547">1547</span>
+<span id="1548">1548</span>
+<span id="1549">1549</span>
+<span id="1550">1550</span>
+<span id="1551">1551</span>
+<span id="1552">1552</span>
+<span id="1553">1553</span>
+<span id="1554">1554</span>
+<span id="1555">1555</span>
+<span id="1556">1556</span>
+<span id="1557">1557</span>
+<span id="1558">1558</span>
+<span id="1559">1559</span>
+<span id="1560">1560</span>
+<span id="1561">1561</span>
+<span id="1562">1562</span>
+<span id="1563">1563</span>
+<span id="1564">1564</span>
+<span id="1565">1565</span>
+<span id="1566">1566</span>
+<span id="1567">1567</span>
+<span id="1568">1568</span>
+<span id="1569">1569</span>
+<span id="1570">1570</span>
+<span id="1571">1571</span>
+<span id="1572">1572</span>
+<span id="1573">1573</span>
+<span id="1574">1574</span>
+<span id="1575">1575</span>
+<span id="1576">1576</span>
+<span id="1577">1577</span>
+<span id="1578">1578</span>
+<span id="1579">1579</span>
+<span id="1580">1580</span>
+<span id="1581">1581</span>
+<span id="1582">1582</span>
+<span id="1583">1583</span>
+<span id="1584">1584</span>
+<span id="1585">1585</span>
+<span id="1586">1586</span>
+<span id="1587">1587</span>
+<span id="1588">1588</span>
+<span id="1589">1589</span>
+<span id="1590">1590</span>
+<span id="1591">1591</span>
+<span id="1592">1592</span>
+<span id="1593">1593</span>
+<span id="1594">1594</span>
+<span id="1595">1595</span>
+<span id="1596">1596</span>
+<span id="1597">1597</span>
+<span id="1598">1598</span>
+<span id="1599">1599</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Encoding of an input element such as an audio, video, or text track.</span>
 <span class="doccomment">/// Elementary streams must be packaged before mapping and sharing between</span>
 <span class="doccomment">/// different output formats.</span>
@@ -1579,11 +1637,15 @@
     <span class="doccomment">/// Supported container formats:</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// - `fmp4` - the corresponding file extension is `.m4s`</span>
-    <span class="doccomment">/// - `ts`</span>
+    <span class="doccomment">/// - `ts` - the corresponding file extension is `.ts`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">container</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// List of `ElementaryStream` \[key][google.cloud.video.livestream.v1.ElementaryStream.key\]s multiplexed in this</span>
     <span class="doccomment">/// stream.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - For `fmp4` container, must contain either one video or one audio stream.</span>
+    <span class="doccomment">/// - For `ts` container, must contain exactly one audio stream and up to one</span>
+    <span class="doccomment">/// video stream.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">elementary_streams</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Segment settings for `fmp4` and `ts`.</span>
@@ -1603,6 +1665,10 @@
     <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Required. List of `MuxStream` \[key][google.cloud.video.livestream.v1.MuxStream.key\]s that should appear in this</span>
     <span class="doccomment">/// manifest.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - For HLS, either `fmp4` or `ts` mux streams can be specified but not</span>
+    <span class="doccomment">/// mixed.</span>
+    <span class="doccomment">/// - For DASH, only `fmp4` mux streams can be specified.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mux_streams</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Maximum number of segments that this manifest holds. Once the manifest</span>
@@ -1745,7 +1811,7 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">height_pixels</span>: <span class="ident">i32</span>,
         <span class="doccomment">/// Required. The target video frame rate in frames per second (FPS). Must be less</span>
-        <span class="doccomment">/// than or equal to 120. Will default to the input frame rate if larger</span>
+        <span class="doccomment">/// than or equal to 60. Will default to the input frame rate if larger</span>
         <span class="doccomment">/// than the input frame rate. The API will generate an output FPS that is</span>
         <span class="doccomment">/// divisible by the input FPS, and smaller or equal to the target FPS. See</span>
         <span class="doccomment">/// [Calculating frame</span>
@@ -1753,8 +1819,10 @@
         <span class="doccomment">/// more information.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">frame_rate</span>: <span class="ident">f64</span>,
-        <span class="doccomment">/// Required. The video bitrate in bits per second. Must be between 10,000 and</span>
-        <span class="doccomment">/// 80,000,000.</span>
+        <span class="doccomment">/// Required. The video bitrate in bits per second. Minimum value is 10,000.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// - For SD resolution (&lt; 720p), must be &lt;= 3,000,000 (3 Mbps).</span>
+        <span class="doccomment">/// - For HD resolution (&lt;= 1080p), must be &lt;= 15,000,000 (15 Mbps).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">bitrate_bps</span>: <span class="ident">i32</span>,
         <span class="doccomment">/// Specifies whether an open Group of Pictures (GOP) structure should be</span>
@@ -1964,8 +2032,10 @@
     <span class="doccomment">/// Source type.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;input::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Tier defines the maximum input specification (for example, resolution)</span>
-    <span class="doccomment">/// that will be accepted by the video pipeline. The default is `HD`.</span>
+    <span class="doccomment">/// Tier defines the maximum input specification that is accepted by the</span>
+    <span class="doccomment">/// video pipeline. The billing is charged based on the tier specified here.</span>
+    <span class="doccomment">/// See \[Pricing\](&lt;https://cloud.google.com/livestream/pricing&gt;) for more detail.</span>
+    <span class="doccomment">/// The default is `HD`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;input::Tier&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">tier</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Output only. URI to push the input stream to.</span>
@@ -2016,11 +2086,11 @@
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Tier</span> {
         <span class="doccomment">/// Tier is not specified.</span>
         <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Resolution less than 1280x720.</span>
+        <span class="doccomment">/// Resolution &lt; 1280x720. Bitrate &lt;= 6 Mbps. FPS &lt;= 60.</span>
         <span class="ident">Sd</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Resolution from 1280x720 to 1920x1080.</span>
+        <span class="doccomment">/// Resolution &lt;= 1920x1080. Bitrate &lt;= 25 Mbps. FPS &lt;= 60.</span>
         <span class="ident">Hd</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Resolution more than 1920x1080 to 4096x2160.</span>
+        <span class="doccomment">/// Resolution &lt;= 4096x2160. Not supported yet.</span>
         <span class="ident">Uhd</span> <span class="op">=</span> <span class="number">3</span>,
     }
 }
@@ -2080,6 +2150,9 @@
     <span class="doccomment">/// \[STREAMING_ERROR][google.cloud.video.livestream.v1.Channel.StreamingState.STREAMING_ERROR\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;18&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">streaming_error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Configuration of platform logs for this channel.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;19&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">log_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogConfig</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Channel`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">channel</span> {
@@ -2115,6 +2188,43 @@
         <span class="ident">Starting</span> <span class="op">=</span> <span class="number">7</span>,
         <span class="doccomment">/// Channel is stopping.</span>
         <span class="ident">Stopping</span> <span class="op">=</span> <span class="number">8</span>,
+    }
+}
+<span class="doccomment">/// Configuration of platform logs.</span>
+<span class="doccomment">/// See [Using and managing platform</span>
+<span class="doccomment">/// logs](&lt;https://cloud.google.com/logging/docs/api/platform-logs#managing-logs&gt;)</span>
+<span class="doccomment">/// for more information about how to view platform logs through Cloud Logging.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogConfig</span> {
+    <span class="doccomment">/// The severity level of platform logging for this resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;log_config::LogSeverity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">log_severity</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `LogConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">log_config</span> {
+    <span class="doccomment">/// The severity level of platform logging for this channel. Logs with a</span>
+    <span class="doccomment">/// severity level higher than or equal to the chosen severity level will be</span>
+    <span class="doccomment">/// logged and can be viewed through Cloud Logging.</span>
+    <span class="doccomment">/// The severity level of a log is ranked as followed from low to high: DEBUG &lt;</span>
+    <span class="doccomment">/// INFO &lt; NOTICE &lt; WARNING &lt; ERROR &lt; CRITICAL &lt; ALERT &lt; EMERGENCY.</span>
+    <span class="doccomment">/// See</span>
+    <span class="doccomment">/// \[LogSeverity\](&lt;https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#logseverity&gt;)</span>
+    <span class="doccomment">/// for more information.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LogSeverity</span> {
+        <span class="doccomment">/// Log severity is not specified. This is the same as log severity is OFF.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Log is turned off.</span>
+        <span class="ident">Off</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Log with severity higher than or equal to DEBUG are logged.</span>
+        <span class="ident">Debug</span> <span class="op">=</span> <span class="number">100</span>,
+        <span class="doccomment">/// Logs with severity higher than or equal to INFO are logged.</span>
+        <span class="ident">Info</span> <span class="op">=</span> <span class="number">200</span>,
+        <span class="doccomment">/// Logs with severity higher than or equal to WARNING are logged.</span>
+        <span class="ident">Warning</span> <span class="op">=</span> <span class="number">400</span>,
+        <span class="doccomment">/// Logs with severity higher than or equal to ERROR are logged.</span>
+        <span class="ident">Error</span> <span class="op">=</span> <span class="number">500</span>,
     }
 }
 <span class="doccomment">/// Properties of the input stream.</span>
@@ -2380,6 +2490,12 @@
     <span class="doccomment">/// not supported `(00000000-0000-0000-0000-000000000000)`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// If the `force` field is set to the default value of `false`, you must</span>
+    <span class="doccomment">/// delete all of a channel&#39;s events before you can delete the channel itself.</span>
+    <span class="doccomment">/// If the field is set to `true`, requests to delete a channel also delete</span>
+    <span class="doccomment">/// associated channel events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">force</span>: <span class="ident">bool</span>,
 }
 <span class="doccomment">/// Request message for &quot;LivestreamService.UpdateChannel&quot;.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

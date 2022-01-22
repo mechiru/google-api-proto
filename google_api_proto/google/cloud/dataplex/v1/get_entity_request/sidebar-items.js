@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["EntityView","Entity views for get entity partial result."]]});

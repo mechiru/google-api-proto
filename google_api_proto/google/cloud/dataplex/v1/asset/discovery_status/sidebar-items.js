@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["State","Current state of discovery."]],"struct":[["Stats","The aggregated data statistics for the asset reported by discovery."]]});

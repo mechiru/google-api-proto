@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Service","The service used to execute the job."],["State","The completion status of the job."],["Type","The type of the job."]]});

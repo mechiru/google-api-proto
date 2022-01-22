@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Details","Additional details about the event."],["EntityType","The type of the entity."],["EventType","The type of the event."]],"struct":[["ActionDetails","Details about the action."],["ConfigDetails","Details about configuration events."],["EntityDetails","Details about the entity."],["PartitionDetails","Details about the partition."]]});

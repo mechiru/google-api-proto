@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Compatibility","Provides compatibility information for a specific metadata store."]]});

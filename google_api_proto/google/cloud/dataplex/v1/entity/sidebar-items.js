@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Type","The type of entity."]],"mod":[["compatibility_status","Nested message and enum types in `CompatibilityStatus`."]],"struct":[["CompatibilityStatus","Provides compatibility information for various metadata stores."]]});

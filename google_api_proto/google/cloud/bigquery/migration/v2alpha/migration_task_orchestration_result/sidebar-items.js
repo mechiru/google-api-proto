@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Details","Details specific to the task type."]]});

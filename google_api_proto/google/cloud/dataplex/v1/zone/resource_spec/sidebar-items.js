@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["LocationType","Location type of the resources attached to a zone."]]});

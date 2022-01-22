@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Trigger","Trigger only applies for `RECURRING` tasks."],["Type","Determines how often and when the job will run."]]});
