@@ -37,11 +37,15 @@ pub struct MuxStream {
     /// Supported container formats:
     ///
     /// - `fmp4` - the corresponding file extension is `.m4s`
-    /// - `ts`
+    /// - `ts` - the corresponding file extension is `.ts`
     #[prost(string, tag = "3")]
     pub container: ::prost::alloc::string::String,
     /// List of `ElementaryStream` \[key][google.cloud.video.livestream.v1.ElementaryStream.key\]s multiplexed in this
     /// stream.
+    ///
+    /// - For `fmp4` container, must contain either one video or one audio stream.
+    /// - For `ts` container, must contain exactly one audio stream and up to one
+    /// video stream.
     #[prost(string, repeated, tag = "4")]
     pub elementary_streams: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Segment settings for `fmp4` and `ts`.
@@ -61,6 +65,10 @@ pub struct Manifest {
     pub r#type: i32,
     /// Required. List of `MuxStream` \[key][google.cloud.video.livestream.v1.MuxStream.key\]s that should appear in this
     /// manifest.
+    ///
+    /// - For HLS, either `fmp4` or `ts` mux streams can be specified but not
+    /// mixed.
+    /// - For DASH, only `fmp4` mux streams can be specified.
     #[prost(string, repeated, tag = "3")]
     pub mux_streams: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Maximum number of segments that this manifest holds. Once the manifest
@@ -203,7 +211,7 @@ pub mod video_stream {
         #[prost(int32, tag = "2")]
         pub height_pixels: i32,
         /// Required. The target video frame rate in frames per second (FPS). Must be less
-        /// than or equal to 120. Will default to the input frame rate if larger
+        /// than or equal to 60. Will default to the input frame rate if larger
         /// than the input frame rate. The API will generate an output FPS that is
         /// divisible by the input FPS, and smaller or equal to the target FPS. See
         /// [Calculating frame
@@ -211,8 +219,10 @@ pub mod video_stream {
         /// more information.
         #[prost(double, tag = "3")]
         pub frame_rate: f64,
-        /// Required. The video bitrate in bits per second. Must be between 10,000 and
-        /// 80,000,000.
+        /// Required. The video bitrate in bits per second. Minimum value is 10,000.
+        ///
+        /// - For SD resolution (< 720p), must be <= 3,000,000 (3 Mbps).
+        /// - For HD resolution (<= 1080p), must be <= 15,000,000 (15 Mbps).
         #[prost(int32, tag = "4")]
         pub bitrate_bps: i32,
         /// Specifies whether an open Group of Pictures (GOP) structure should be
@@ -422,8 +432,10 @@ pub struct Input {
     /// Source type.
     #[prost(enumeration = "input::Type", tag = "5")]
     pub r#type: i32,
-    /// Tier defines the maximum input specification (for example, resolution)
-    /// that will be accepted by the video pipeline. The default is `HD`.
+    /// Tier defines the maximum input specification that is accepted by the
+    /// video pipeline. The billing is charged based on the tier specified here.
+    /// See \[Pricing\](<https://cloud.google.com/livestream/pricing>) for more detail.
+    /// The default is `HD`.
     #[prost(enumeration = "input::Tier", tag = "14")]
     pub tier: i32,
     /// Output only. URI to push the input stream to.
@@ -474,11 +486,11 @@ pub mod input {
     pub enum Tier {
         /// Tier is not specified.
         Unspecified = 0,
-        /// Resolution less than 1280x720.
+        /// Resolution < 1280x720. Bitrate <= 6 Mbps. FPS <= 60.
         Sd = 1,
-        /// Resolution from 1280x720 to 1920x1080.
+        /// Resolution <= 1920x1080. Bitrate <= 25 Mbps. FPS <= 60.
         Hd = 2,
-        /// Resolution more than 1920x1080 to 4096x2160.
+        /// Resolution <= 4096x2160. Not supported yet.
         Uhd = 3,
     }
 }
@@ -538,6 +550,9 @@ pub struct Channel {
     /// \[STREAMING_ERROR][google.cloud.video.livestream.v1.Channel.StreamingState.STREAMING_ERROR\].
     #[prost(message, optional, tag = "18")]
     pub streaming_error: ::core::option::Option<super::super::super::super::rpc::Status>,
+    /// Configuration of platform logs for this channel.
+    #[prost(message, optional, tag = "19")]
+    pub log_config: ::core::option::Option<LogConfig>,
 }
 /// Nested message and enum types in `Channel`.
 pub mod channel {
@@ -573,6 +588,43 @@ pub mod channel {
         Starting = 7,
         /// Channel is stopping.
         Stopping = 8,
+    }
+}
+/// Configuration of platform logs.
+/// See [Using and managing platform
+/// logs](<https://cloud.google.com/logging/docs/api/platform-logs#managing-logs>)
+/// for more information about how to view platform logs through Cloud Logging.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LogConfig {
+    /// The severity level of platform logging for this resource.
+    #[prost(enumeration = "log_config::LogSeverity", tag = "1")]
+    pub log_severity: i32,
+}
+/// Nested message and enum types in `LogConfig`.
+pub mod log_config {
+    /// The severity level of platform logging for this channel. Logs with a
+    /// severity level higher than or equal to the chosen severity level will be
+    /// logged and can be viewed through Cloud Logging.
+    /// The severity level of a log is ranked as followed from low to high: DEBUG <
+    /// INFO < NOTICE < WARNING < ERROR < CRITICAL < ALERT < EMERGENCY.
+    /// See
+    /// \[LogSeverity\](<https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#logseverity>)
+    /// for more information.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum LogSeverity {
+        /// Log severity is not specified. This is the same as log severity is OFF.
+        Unspecified = 0,
+        /// Log is turned off.
+        Off = 1,
+        /// Log with severity higher than or equal to DEBUG are logged.
+        Debug = 100,
+        /// Logs with severity higher than or equal to INFO are logged.
+        Info = 200,
+        /// Logs with severity higher than or equal to WARNING are logged.
+        Warning = 400,
+        /// Logs with severity higher than or equal to ERROR are logged.
+        Error = 500,
     }
 }
 /// Properties of the input stream.
@@ -838,6 +890,12 @@ pub struct DeleteChannelRequest {
     /// not supported `(00000000-0000-0000-0000-000000000000)`.
     #[prost(string, tag = "2")]
     pub request_id: ::prost::alloc::string::String,
+    /// If the `force` field is set to the default value of `false`, you must
+    /// delete all of a channel's events before you can delete the channel itself.
+    /// If the field is set to `true`, requests to delete a channel also delete
+    /// associated channel events.
+    #[prost(bool, tag = "3")]
+    pub force: bool,
 }
 /// Request message for "LivestreamService.UpdateChannel".
 #[derive(Clone, PartialEq, ::prost::Message)]

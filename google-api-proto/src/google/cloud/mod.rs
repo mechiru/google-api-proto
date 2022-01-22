@@ -56,8 +56,6 @@ pub mod baremetalsolution;
     feature = "google-cloud-bigquery-connection-v1beta1",
     feature = "google-cloud-bigquery-datatransfer-v1",
     feature = "google-cloud-bigquery-logging-v1",
-    feature = "google-cloud-bigquery-migration-tasks-assessment-v2alpha",
-    feature = "google-cloud-bigquery-migration-tasks-translation-v2alpha",
     feature = "google-cloud-bigquery-migration-v2alpha",
     feature = "google-cloud-bigquery-reservation-v1",
     feature = "google-cloud-bigquery-reservation-v1beta1",
@@ -116,6 +114,9 @@ pub mod datafusion;
 
 #[cfg(any(feature = "google-cloud-datalabeling-v1beta1",))]
 pub mod datalabeling;
+
+#[cfg(any(feature = "google-cloud-dataplex-v1",))]
+pub mod dataplex;
 
 #[cfg(any(
     feature = "google-cloud-dataproc-logging",
