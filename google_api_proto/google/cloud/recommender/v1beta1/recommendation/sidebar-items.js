@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["InsightReference","Reference to an associated insight."]]});
+initSidebarItems({"enum":[["Priority","Recommendation priority levels."]],"struct":[["InsightReference","Reference to an associated insight."]]});

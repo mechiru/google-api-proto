@@ -4388,6 +4388,42 @@
 <span id="4387">4387</span>
 <span id="4388">4388</span>
 <span id="4389">4389</span>
+<span id="4390">4390</span>
+<span id="4391">4391</span>
+<span id="4392">4392</span>
+<span id="4393">4393</span>
+<span id="4394">4394</span>
+<span id="4395">4395</span>
+<span id="4396">4396</span>
+<span id="4397">4397</span>
+<span id="4398">4398</span>
+<span id="4399">4399</span>
+<span id="4400">4400</span>
+<span id="4401">4401</span>
+<span id="4402">4402</span>
+<span id="4403">4403</span>
+<span id="4404">4404</span>
+<span id="4405">4405</span>
+<span id="4406">4406</span>
+<span id="4407">4407</span>
+<span id="4408">4408</span>
+<span id="4409">4409</span>
+<span id="4410">4410</span>
+<span id="4411">4411</span>
+<span id="4412">4412</span>
+<span id="4413">4413</span>
+<span id="4414">4414</span>
+<span id="4415">4415</span>
+<span id="4416">4416</span>
+<span id="4417">4417</span>
+<span id="4418">4418</span>
+<span id="4419">4419</span>
+<span id="4420">4420</span>
+<span id="4421">4421</span>
+<span id="4422">4422</span>
+<span id="4423">4423</span>
+<span id="4424">4424</span>
+<span id="4425">4425</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Parameters that can be configured on Linux nodes.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LinuxNodeConfig</span> {
@@ -7531,6 +7567,42 @@
     <span class="doccomment">/// Whether Services with ExternalIPs field are allowed or not.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">enabled</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// GetOpenIDConfigRequest gets the OIDC discovery document for the</span>
+<span class="doccomment">/// cluster. See the OpenID Connect Discovery 1.0 specification for details.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetOpenIdConfigRequest</span> {
+    <span class="doccomment">/// The cluster (project, location, cluster name) to get the discovery document</span>
+    <span class="doccomment">/// for. Specified in the format `projects/*/locations/*/clusters/*`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// GetOpenIDConfigResponse is an OIDC discovery document for the cluster.</span>
+<span class="doccomment">/// See the OpenID Connect Discovery 1.0 specification for details.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetOpenIdConfigResponse</span> {
+    <span class="doccomment">/// OIDC Issuer.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">issuer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// JSON Web Key uri.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">jwks_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Supported response types.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response_types_supported</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Supported subject types.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">subject_types_supported</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// supported ID Token signing Algorithms.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id_token_signing_alg_values_supported</span>:
+        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Supported claims.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">claims_supported</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Supported grant types.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">grant_types</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// GetJSONWebKeysRequest gets the public component of the keys used by the</span>
 <span class="doccomment">/// cluster to sign token requests. This will be the jwks_uri for the discover</span>
