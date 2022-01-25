@@ -233,9 +233,28 @@ pub struct NodeConfig {
     /// If unspecified, ephemeral storage is backed by the boot disk.
     #[prost(message, optional, tag = "24")]
     pub ephemeral_storage_config: ::core::option::Option<EphemeralStorageConfig>,
+    /// GCFS (Google Container File System) configs.
+    #[prost(message, optional, tag = "25")]
+    pub gcfs_config: ::core::option::Option<GcfsConfig>,
+    /// Advanced features for the Compute Engine VM.
+    #[prost(message, optional, tag = "26")]
+    pub advanced_machine_features: ::core::option::Option<AdvancedMachineFeatures>,
     /// Enable or disable gvnic on the node pool.
     #[prost(message, optional, tag = "29")]
     pub gvnic: ::core::option::Option<VirtualNic>,
+    /// Spot flag for enabling Spot VM, which is a rebrand of
+    /// the existing preemptible flag.
+    #[prost(bool, tag = "32")]
+    pub spot: bool,
+}
+/// Specifies options for controlling advanced machine features.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AdvancedMachineFeatures {
+    /// The number of threads per physical core. To disable simultaneous
+    /// multithreading (SMT) set this to 1. If unset, the maximum number of threads
+    /// supported per core by the underlying processor is assumed.
+    #[prost(int64, optional, tag = "1")]
+    pub threads_per_core: ::core::option::Option<i64>,
 }
 /// Parameters for node pool-level network config.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -333,6 +352,13 @@ pub struct EphemeralStorageConfig {
     /// If zero, it means to disable using local SSDs as ephemeral storage.
     #[prost(int32, tag = "1")]
     pub local_ssd_count: i32,
+}
+/// GcfsConfig contains configurations of Google Container File System.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcfsConfig {
+    /// Whether to use GCFS.
+    #[prost(bool, tag = "1")]
+    pub enabled: bool,
 }
 /// \[ReservationAffinity\](<https://cloud.google.com/compute/docs/instances/reserving-zonal-resources>)
 /// is the configuration of desired reservation which instances could take
@@ -509,6 +535,7 @@ pub struct AddonsConfig {
     pub network_policy_config: ::core::option::Option<NetworkPolicyConfig>,
     /// Configuration for Istio, an open platform to connect, manage, and secure
     /// microservices.
+    #[deprecated]
     #[prost(message, optional, tag = "5")]
     pub istio_config: ::core::option::Option<IstioConfig>,
     /// Configuration for the Cloud Run addon. The `IstioConfig` addon must be
@@ -532,6 +559,12 @@ pub struct AddonsConfig {
     #[deprecated]
     #[prost(message, optional, tag = "12")]
     pub kalm_config: ::core::option::Option<KalmConfig>,
+    /// Configuration for the GCP Filestore CSI driver.
+    #[prost(message, optional, tag = "14")]
+    pub gcp_filestore_csi_driver_config: ::core::option::Option<GcpFilestoreCsiDriverConfig>,
+    /// Configuration for the Backup for GKE agent addon.
+    #[prost(message, optional, tag = "16")]
+    pub gke_backup_agent_config: ::core::option::Option<GkeBackupAgentConfig>,
 }
 /// Configuration options for the HTTP (L7) load balancing controller addon,
 /// which makes it easy to set up HTTP load balancers for services in a cluster.
@@ -585,6 +618,13 @@ pub struct KalmConfig {
     #[prost(bool, tag = "1")]
     pub enabled: bool,
 }
+/// Configuration for the Backup for GKE Agent.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GkeBackupAgentConfig {
+    /// Whether the Backup for GKE agent is enabled for this cluster.
+    #[prost(bool, tag = "1")]
+    pub enabled: bool,
+}
 /// Configuration options for the Config Connector add-on.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConfigConnectorConfig {
@@ -596,6 +636,13 @@ pub struct ConfigConnectorConfig {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GcePersistentDiskCsiDriverConfig {
     /// Whether the Compute Engine PD CSI driver is enabled for this cluster.
+    #[prost(bool, tag = "1")]
+    pub enabled: bool,
+}
+/// Configuration for the GCP Filestore CSI driver.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcpFilestoreCsiDriverConfig {
+    /// Whether the GCP Filestore CSI driver is enabled for this cluster.
     #[prost(bool, tag = "1")]
     pub enabled: bool,
 }
@@ -640,9 +687,11 @@ pub struct PrivateClusterConfig {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct IstioConfig {
     /// Whether Istio is enabled for this cluster.
+    #[deprecated]
     #[prost(bool, tag = "1")]
     pub disabled: bool,
     /// The specified Istio auth mode, either none, or mutual TLS.
+    #[deprecated]
     #[prost(enumeration = "istio_config::IstioAuthMode", tag = "2")]
     pub auth: i32,
 }
@@ -1140,6 +1189,10 @@ pub struct Cluster {
     /// pods.
     #[prost(message, optional, tag = "52")]
     pub workload_certificates: ::core::option::Option<WorkloadCertificates>,
+    /// Configuration for issuance of mTLS keys and certificates to Kubernetes
+    /// pods.
+    #[prost(message, optional, tag = "67")]
+    pub mesh_certificates: ::core::option::Option<MeshCertificates>,
     /// Telemetry integration for the cluster.
     #[prost(message, optional, tag = "46")]
     pub cluster_telemetry: ::core::option::Option<ClusterTelemetry>,
@@ -1315,7 +1368,11 @@ pub struct NodePoolDefaults {
 }
 /// Subset of NodeConfig message that has defaults.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NodeConfigDefaults {}
+pub struct NodeConfigDefaults {
+    /// GCFS (Google Container File System, a.k.a Riptide) options.
+    #[prost(message, optional, tag = "1")]
+    pub gcfs_config: ::core::option::Option<GcfsConfig>,
+}
 /// ClusterUpdate describes an update to the cluster. Exactly one update can
 /// be applied to a cluster with each request, so at most one field can be
 /// provided.
@@ -1451,6 +1508,9 @@ pub struct ClusterUpdate {
     /// - "-": picks the default Kubernetes version
     #[prost(string, tag = "100")]
     pub desired_master_version: ::prost::alloc::string::String,
+    /// The desired GCFS config for the cluster.
+    #[prost(message, optional, tag = "109")]
+    pub desired_gcfs_config: ::core::option::Option<GcfsConfig>,
     /// Configuration of etcd encryption.
     #[prost(message, optional, tag = "46")]
     pub desired_database_encryption: ::core::option::Option<DatabaseEncryption>,
@@ -1461,6 +1521,10 @@ pub struct ClusterUpdate {
     /// pods.
     #[prost(message, optional, tag = "61")]
     pub desired_workload_certificates: ::core::option::Option<WorkloadCertificates>,
+    /// Configuration for issuance of mTLS keys and certificates to Kubernetes
+    /// pods.
+    #[prost(message, optional, tag = "67")]
+    pub desired_mesh_certificates: ::core::option::Option<MeshCertificates>,
     /// Configuration for Shielded Nodes.
     #[prost(message, optional, tag = "48")]
     pub desired_shielded_nodes: ::core::option::Option<ShieldedNodes>,
@@ -1823,6 +1887,9 @@ pub struct UpdateNodePoolRequest {
     /// Node kubelet configs.
     #[prost(message, optional, tag = "20")]
     pub kubelet_config: ::core::option::Option<NodeKubeletConfig>,
+    /// GCFS config.
+    #[prost(message, optional, tag = "22")]
+    pub gcfs_config: ::core::option::Option<GcfsConfig>,
     /// Enable or disable gvnic on the node pool.
     #[prost(message, optional, tag = "29")]
     pub gvnic: ::core::option::Option<VirtualNic>,
@@ -1961,8 +2028,8 @@ pub struct SetAddonsConfigRequest {
     #[deprecated]
     #[prost(string, tag = "3")]
     pub cluster_id: ::prost::alloc::string::String,
-    /// Required. The desired configurations for the various addons available to
-    /// run in the cluster.
+    /// Required. The desired configurations for the various addons available to run in the
+    /// cluster.
     #[prost(message, optional, tag = "4")]
     pub addons_config: ::core::option::Option<AddonsConfig>,
     /// The name (project, location, cluster) of the cluster to set addons.
@@ -2563,6 +2630,9 @@ pub struct NodePool {
     /// Upgrade settings control disruption and speed of the upgrade.
     #[prost(message, optional, tag = "107")]
     pub upgrade_settings: ::core::option::Option<node_pool::UpgradeSettings>,
+    /// Specifies the node placement policy.
+    #[prost(message, optional, tag = "108")]
+    pub placement_policy: ::core::option::Option<node_pool::PlacementPolicy>,
 }
 /// Nested message and enum types in `NodePool`.
 pub mod node_pool {
@@ -2577,6 +2647,29 @@ pub mod node_pool {
         /// Ready.
         #[prost(int32, tag = "2")]
         pub max_unavailable: i32,
+    }
+    /// PlacementPolicy defines the placement policy used by the node pool.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PlacementPolicy {
+        /// The type of placement.
+        #[prost(enumeration = "placement_policy::Type", tag = "1")]
+        pub r#type: i32,
+    }
+    /// Nested message and enum types in `PlacementPolicy`.
+    pub mod placement_policy {
+        /// Type defines the type of placement policy.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum Type {
+            /// TYPE_UNSPECIFIED specifies no requirements on nodes
+            /// placement.
+            Unspecified = 0,
+            /// COMPACT specifies node placement in the same availability domain to
+            /// ensure low communication latency.
+            Compact = 1,
+        }
     }
     /// The current status of the node pool instance.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2686,6 +2779,45 @@ pub struct TimeWindow {
     /// start time.
     #[prost(message, optional, tag = "2")]
     pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    #[prost(oneof = "time_window::Options", tags = "3")]
+    pub options: ::core::option::Option<time_window::Options>,
+}
+/// Nested message and enum types in `TimeWindow`.
+pub mod time_window {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Options {
+        /// MaintenanceExclusionOptions provides maintenance exclusion related
+        /// options.
+        #[prost(message, tag = "3")]
+        MaintenanceExclusionOptions(super::MaintenanceExclusionOptions),
+    }
+}
+/// Represents the Maintenance exclusion option.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MaintenanceExclusionOptions {
+    /// Scope specifies the upgrade scope which upgrades are blocked by the
+    /// exclusion.
+    #[prost(enumeration = "maintenance_exclusion_options::Scope", tag = "1")]
+    pub scope: i32,
+}
+/// Nested message and enum types in `MaintenanceExclusionOptions`.
+pub mod maintenance_exclusion_options {
+    /// Scope of exclusion.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Scope {
+        /// NO_UPGRADES excludes all upgrades, including patch upgrades and minor
+        /// upgrades across control planes and nodes. This is the default exclusion
+        /// behavior.
+        NoUpgrades = 0,
+        /// NO_MINOR_UPGRADES excludes all minor upgrades for the cluster, only
+        /// patches are allowed.
+        NoMinorUpgrades = 1,
+        /// NO_MINOR_OR_NODE_UPGRADES excludes all minor upgrades for the cluster,
+        /// and also exclude all node pool upgrades. Only control
+        /// plane patches are allowed.
+        NoMinorOrNodeUpgrades = 2,
+    }
 }
 /// Represents an arbitrary window of time that recurs.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2985,12 +3117,12 @@ pub struct NodePoolAutoscaling {
     /// Is autoscaling enabled for this node pool.
     #[prost(bool, tag = "1")]
     pub enabled: bool,
-    /// Minimum number of nodes in the NodePool. Must be >= 1 and <=
-    /// max_node_count.
+    /// Minimum number of nodes for one location in the NodePool. Must be >= 1 and
+    /// <= max_node_count.
     #[prost(int32, tag = "2")]
     pub min_node_count: i32,
-    /// Maximum number of nodes in the NodePool. Must be >= min_node_count. There
-    /// has to be enough quota to scale up the cluster.
+    /// Maximum number of nodes for one location in the NodePool. Must be >=
+    /// min_node_count. There has to be enough quota to scale up the cluster.
     #[prost(int32, tag = "3")]
     pub max_node_count: i32,
     /// Can this node pool be deleted automatically.
@@ -3140,6 +3272,14 @@ pub struct AcceleratorConfig {
     /// guide](<https://docs.nvidia.com/datacenter/tesla/mig-user-guide/#partitioning>).
     #[prost(string, tag = "3")]
     pub gpu_partition_size: ::prost::alloc::string::String,
+}
+/// ManagedPrometheusConfig defines the configuration for
+/// Google Cloud Managed Service for Prometheus.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ManagedPrometheusConfig {
+    /// Enable Managed Collection.
+    #[prost(bool, tag = "1")]
+    pub enabled: bool,
 }
 /// WorkloadMetadataConfig defines the metadata configuration to expose to
 /// workloads on the node pool.
@@ -3607,6 +3747,21 @@ pub struct WorkloadCertificates {
     #[prost(message, optional, tag = "1")]
     pub enable_certificates: ::core::option::Option<bool>,
 }
+/// Configuration for issuance of mTLS keys and certificates to Kubernetes pods.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MeshCertificates {
+    /// enable_certificates controls issuance of workload mTLS certificates.
+    ///
+    /// If set, the GKE Workload Identity Certificates controller and node agent
+    /// will be deployed in the cluster, which can then be configured by creating a
+    /// WorkloadCertificateConfig Custom Resource.
+    ///
+    /// Requires Workload Identity
+    /// (\[workload_pool][google.container.v1alpha1.WorkloadIdentityConfig.workload_pool\]
+    /// must be non-empty).
+    #[prost(message, optional, tag = "1")]
+    pub enable_certificates: ::core::option::Option<bool>,
+}
 /// Configuration of etcd encryption.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DatabaseEncryption {
@@ -3681,42 +3836,6 @@ pub struct VirtualNic {
     /// Whether gVNIC features are enabled in the node pool.
     #[prost(bool, tag = "1")]
     pub enabled: bool,
-}
-/// GetOpenIDConfigRequest gets the OIDC discovery document for the
-/// cluster. See the OpenID Connect Discovery 1.0 specification for details.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetOpenIdConfigRequest {
-    /// The cluster (project, location, cluster id) to get the discovery document
-    /// for. Specified in the format `projects/*/locations/*/clusters/*`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-}
-/// GetOpenIDConfigResponse is an OIDC discovery document for the cluster.
-/// See the OpenID Connect Discovery 1.0 specification for details.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetOpenIdConfigResponse {
-    /// OIDC Issuer.
-    #[prost(string, tag = "1")]
-    pub issuer: ::prost::alloc::string::String,
-    /// JSON Web Key uri.
-    #[prost(string, tag = "2")]
-    pub jwks_uri: ::prost::alloc::string::String,
-    /// Supported response types.
-    #[prost(string, repeated, tag = "3")]
-    pub response_types_supported: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Supported subject types.
-    #[prost(string, repeated, tag = "4")]
-    pub subject_types_supported: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// supported ID Token signing Algorithms.
-    #[prost(string, repeated, tag = "5")]
-    pub id_token_signing_alg_values_supported:
-        ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Supported claims.
-    #[prost(string, repeated, tag = "6")]
-    pub claims_supported: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Supported grant types.
-    #[prost(string, repeated, tag = "7")]
-    pub grant_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// GetJSONWebKeysRequest gets the public component of the keys used by the
 /// cluster to sign token requests. This will be the jwks_uri for the discover
@@ -3846,6 +3965,35 @@ pub mod notification_config {
         /// sent by GKE. Format is `projects/{project}/topics/{topic}`.
         #[prost(string, tag = "2")]
         pub topic: ::prost::alloc::string::String,
+        /// Allows filtering to one or more specific event types. If no filter is
+        /// specified, or if a filter is specified with no event types, all event
+        /// types will be sent
+        #[prost(message, optional, tag = "3")]
+        pub filter: ::core::option::Option<Filter>,
+    }
+    /// Allows filtering to one or more specific event types. If event types are
+    /// present, those and only those event types will be transmitted to the
+    /// cluster. Other types will be skipped. If no filter is specified, or no
+    /// event types are present, all event types will be sent
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Filter {
+        /// Event types to allowlist.
+        #[prost(enumeration = "EventType", repeated, tag = "1")]
+        pub event_type: ::prost::alloc::vec::Vec<i32>,
+    }
+    /// Types of notifications currently supported. Can be used to filter what
+    /// notifications are sent.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// Not set, will be ignored.
+        Unspecified = 0,
+        /// Corresponds with UpgradeAvailableEvent.
+        UpgradeAvailableEvent = 1,
+        /// Corresponds with UpgradeEvent.
+        UpgradeEvent = 2,
+        /// Corresponds with SecurityBulletinEvent.
+        SecurityBulletinEvent = 3,
     }
 }
 /// ConfidentialNodes is configuration for the confidential nodes feature, which
@@ -3903,6 +4051,49 @@ pub struct UpgradeAvailableEvent {
     #[prost(message, optional, tag = "5")]
     pub windows_versions: ::core::option::Option<WindowsVersions>,
 }
+/// SecurityBulletinEvent is a notification sent to customers when a security
+/// bulletin has been posted that they are vulnerable to.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SecurityBulletinEvent {
+    /// The resource type (node/control plane) that has the vulnerability. Multiple
+    /// notifications (1 notification per resource type) will be sent for a
+    /// vulnerability that affects > 1 resource type.
+    #[prost(string, tag = "1")]
+    pub resource_type_affected: ::prost::alloc::string::String,
+    /// The ID of the bulletin corresponding to the vulnerability.
+    #[prost(string, tag = "2")]
+    pub bulletin_id: ::prost::alloc::string::String,
+    /// The CVEs associated with this bulletin.
+    #[prost(string, repeated, tag = "3")]
+    pub cve_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The severity of this bulletin as it relates to GKE.
+    #[prost(string, tag = "4")]
+    pub severity: ::prost::alloc::string::String,
+    /// The URI link to the bulletin on the website for more information.
+    #[prost(string, tag = "5")]
+    pub bulletin_uri: ::prost::alloc::string::String,
+    /// A brief description of the bulletin. See the bulletin pointed to by the
+    /// bulletin_uri field for an expanded description.
+    #[prost(string, tag = "6")]
+    pub brief_description: ::prost::alloc::string::String,
+    /// The GKE minor versions affected by this vulnerability.
+    #[prost(string, repeated, tag = "7")]
+    pub affected_supported_minors: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The GKE versions where this vulnerability is patched.
+    #[prost(string, repeated, tag = "8")]
+    pub patched_versions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// This represents a version selected from the patched_versions field that
+    /// the cluster receiving this notification should most likely want to upgrade
+    /// to based on its current version. Note that if this notification is being
+    /// received by a given cluster, it means that this version is currently
+    /// available as an upgrade target in that cluster's location.
+    #[prost(string, tag = "9")]
+    pub suggested_upgrade_target: ::prost::alloc::string::String,
+    /// If this field is specified, it means there are manual steps that the user
+    /// must take to make their clusters safe.
+    #[prost(bool, tag = "10")]
+    pub manual_steps_required: bool,
+}
 /// IdentityServiceConfig is configuration for Identity Service which allows
 /// customers to use external identity providers with the K8S API
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3949,6 +4140,10 @@ pub struct MonitoringConfig {
     /// Monitoring components configuration
     #[prost(message, optional, tag = "1")]
     pub component_config: ::core::option::Option<MonitoringComponentConfig>,
+    /// Enable Google Cloud Managed Service for Prometheus
+    /// in the cluster.
+    #[prost(message, optional, tag = "2")]
+    pub managed_prometheus_config: ::core::option::Option<ManagedPrometheusConfig>,
 }
 /// MonitoringComponentConfig is cluster monitoring component configuration.
 #[derive(Clone, PartialEq, ::prost::Message)]

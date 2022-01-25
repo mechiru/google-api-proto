@@ -57,6 +57,18 @@ pub mod encryption_info {
         CustomerManagedEncryption = 2,
     }
 }
+/// Indicates the dialect type of a database.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum DatabaseDialect {
+    /// Default value. This value will create a database with the
+    /// GOOGLE_STANDARD_SQL dialect.
+    Unspecified = 0,
+    /// Google standard SQL.
+    GoogleStandardSql = 1,
+    /// PostgreSQL supported SQL.
+    Postgresql = 2,
+}
 /// A backup of a Cloud Spanner database.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Backup {
@@ -119,6 +131,9 @@ pub struct Backup {
     /// Output only. The encryption information for the backup.
     #[prost(message, optional, tag = "8")]
     pub encryption_info: ::core::option::Option<EncryptionInfo>,
+    /// Output only. The database dialect information for the backup.
+    #[prost(enumeration = "DatabaseDialect", tag = "10")]
+    pub database_dialect: i32,
 }
 /// Nested message and enum types in `Backup`.
 pub mod backup {
@@ -513,6 +528,9 @@ pub struct Database {
     /// DatabaseAdmin.UpdateDatabaseDdl. If not explicitly set, this is empty.
     #[prost(string, tag = "9")]
     pub default_leader: ::prost::alloc::string::String,
+    /// Output only. The dialect of the Cloud Spanner Database.
+    #[prost(enumeration = "DatabaseDialect", tag = "10")]
+    pub database_dialect: i32,
 }
 /// Nested message and enum types in `Database`.
 pub mod database {
@@ -592,6 +610,9 @@ pub struct CreateDatabaseRequest {
     /// Google default encryption.
     #[prost(message, optional, tag = "4")]
     pub encryption_config: ::core::option::Option<EncryptionConfig>,
+    /// Optional. The dialect of the Cloud Spanner Database.
+    #[prost(enumeration = "DatabaseDialect", tag = "5")]
+    pub database_dialect: i32,
 }
 /// Metadata type for the operation returned by
 /// \[CreateDatabase][google.spanner.admin.database.v1.DatabaseAdmin.CreateDatabase\].
@@ -949,10 +970,11 @@ pub mod database_admin_client {
     use tonic::codegen::*;
     #[doc = " Cloud Spanner Database Admin API"]
     #[doc = ""]
-    #[doc = " The Cloud Spanner Database Admin API can be used to create, drop, and"]
-    #[doc = " list databases. It also enables updating the schema of pre-existing"]
-    #[doc = " databases. It can be also used to create, delete and list backups for a"]
-    #[doc = " database and to restore from an existing backup."]
+    #[doc = " The Cloud Spanner Database Admin API can be used to:"]
+    #[doc = "   * create, drop, and list databases"]
+    #[doc = "   * update the schema of pre-existing databases"]
+    #[doc = "   * create, delete and list backups for a database"]
+    #[doc = "   * restore a database from an existing backup"]
     #[derive(Debug, Clone)]
     pub struct DatabaseAdminClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -1088,6 +1110,8 @@ pub mod database_admin_client {
         #[doc = " Drops (aka deletes) a Cloud Spanner database."]
         #[doc = " Completed backups for the database will be retained according to their"]
         #[doc = " `expire_time`."]
+        #[doc = " Note: Cloud Spanner might continue to accept requests for a few seconds"]
+        #[doc = " after the database has been deleted."]
         pub async fn drop_database(
             &mut self,
             request: impl tonic::IntoRequest<super::DropDatabaseRequest>,
