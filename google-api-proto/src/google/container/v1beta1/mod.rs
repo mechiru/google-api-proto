@@ -3837,6 +3837,42 @@ pub struct VirtualNic {
     #[prost(bool, tag = "1")]
     pub enabled: bool,
 }
+/// GetOpenIDConfigRequest gets the OIDC discovery document for the
+/// cluster. See the OpenID Connect Discovery 1.0 specification for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetOpenIdConfigRequest {
+    /// The cluster (project, location, cluster name) to get the discovery document
+    /// for. Specified in the format `projects/*/locations/*/clusters/*`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+}
+/// GetOpenIDConfigResponse is an OIDC discovery document for the cluster.
+/// See the OpenID Connect Discovery 1.0 specification for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetOpenIdConfigResponse {
+    /// OIDC Issuer.
+    #[prost(string, tag = "1")]
+    pub issuer: ::prost::alloc::string::String,
+    /// JSON Web Key uri.
+    #[prost(string, tag = "2")]
+    pub jwks_uri: ::prost::alloc::string::String,
+    /// Supported response types.
+    #[prost(string, repeated, tag = "3")]
+    pub response_types_supported: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Supported subject types.
+    #[prost(string, repeated, tag = "4")]
+    pub subject_types_supported: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// supported ID Token signing Algorithms.
+    #[prost(string, repeated, tag = "5")]
+    pub id_token_signing_alg_values_supported:
+        ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Supported claims.
+    #[prost(string, repeated, tag = "6")]
+    pub claims_supported: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Supported grant types.
+    #[prost(string, repeated, tag = "7")]
+    pub grant_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// GetJSONWebKeysRequest gets the public component of the keys used by the
 /// cluster to sign token requests. This will be the jwks_uri for the discover
 /// document returned by getOpenIDConfig. See the OpenID Connect
