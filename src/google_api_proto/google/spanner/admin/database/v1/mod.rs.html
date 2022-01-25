@@ -1401,6 +1401,30 @@
 <span id="1400">1400</span>
 <span id="1401">1401</span>
 <span id="1402">1402</span>
+<span id="1403">1403</span>
+<span id="1404">1404</span>
+<span id="1405">1405</span>
+<span id="1406">1406</span>
+<span id="1407">1407</span>
+<span id="1408">1408</span>
+<span id="1409">1409</span>
+<span id="1410">1410</span>
+<span id="1411">1411</span>
+<span id="1412">1412</span>
+<span id="1413">1413</span>
+<span id="1414">1414</span>
+<span id="1415">1415</span>
+<span id="1416">1416</span>
+<span id="1417">1417</span>
+<span id="1418">1418</span>
+<span id="1419">1419</span>
+<span id="1420">1420</span>
+<span id="1421">1421</span>
+<span id="1422">1422</span>
+<span id="1423">1423</span>
+<span id="1424">1424</span>
+<span id="1425">1425</span>
+<span id="1426">1426</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Encapsulates progress related information for a Cloud Spanner long</span>
 <span class="doccomment">/// running operation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1459,6 +1483,18 @@
         <span class="doccomment">/// will be populated, and `encryption_status` may be populated.</span>
         <span class="ident">CustomerManagedEncryption</span> <span class="op">=</span> <span class="number">2</span>,
     }
+}
+<span class="doccomment">/// Indicates the dialect type of a database.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DatabaseDialect</span> {
+    <span class="doccomment">/// Default value. This value will create a database with the</span>
+    <span class="doccomment">/// GOOGLE_STANDARD_SQL dialect.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Google standard SQL.</span>
+    <span class="ident">GoogleStandardSql</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// PostgreSQL supported SQL.</span>
+    <span class="ident">Postgresql</span> <span class="op">=</span> <span class="number">2</span>,
 }
 <span class="doccomment">/// A backup of a Cloud Spanner database.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1522,6 +1558,9 @@
     <span class="doccomment">/// Output only. The encryption information for the backup.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">encryption_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EncryptionInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The database dialect information for the backup.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DatabaseDialect&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">database_dialect</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Backup`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">backup</span> {
@@ -1916,6 +1955,9 @@
     <span class="doccomment">/// DatabaseAdmin.UpdateDatabaseDdl. If not explicitly set, this is empty.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">default_leader</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The dialect of the Cloud Spanner Database.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DatabaseDialect&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">database_dialect</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Database`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">database</span> {
@@ -1995,6 +2037,9 @@
     <span class="doccomment">/// Google default encryption.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">encryption_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EncryptionConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. The dialect of the Cloud Spanner Database.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DatabaseDialect&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">database_dialect</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// Metadata type for the operation returned by</span>
 <span class="doccomment">/// \[CreateDatabase][google.spanner.admin.database.v1.DatabaseAdmin.CreateDatabase\].</span>
@@ -2352,10 +2397,11 @@
     <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Cloud Spanner Database Admin API&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The Cloud Spanner Database Admin API can be used to create, drop, and&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; list databases. It also enables updating the schema of pre-existing&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; databases. It can be also used to create, delete and list backups for a&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; database and to restore from an existing backup.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The Cloud Spanner Database Admin API can be used to:&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   * create, drop, and list databases&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   * update the schema of pre-existing databases&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   * create, delete and list backups for a database&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   * restore a database from an existing backup&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DatabaseAdminClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
@@ -2491,6 +2537,8 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Drops (aka deletes) a Cloud Spanner database.&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Completed backups for the database will be retained according to their&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; `expire_time`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: Cloud Spanner might continue to accept requests for a few seconds&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; after the database has been deleted.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">drop_database</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DropDatabaseRequest</span><span class="op">&gt;</span>,

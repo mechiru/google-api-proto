@@ -2225,6 +2225,23 @@
 <span id="2224">2224</span>
 <span id="2225">2225</span>
 <span id="2226">2226</span>
+<span id="2227">2227</span>
+<span id="2228">2228</span>
+<span id="2229">2229</span>
+<span id="2230">2230</span>
+<span id="2231">2231</span>
+<span id="2232">2232</span>
+<span id="2233">2233</span>
+<span id="2234">2234</span>
+<span id="2235">2235</span>
+<span id="2236">2236</span>
+<span id="2237">2237</span>
+<span id="2238">2238</span>
+<span id="2239">2239</span>
+<span id="2240">2240</span>
+<span id="2241">2241</span>
+<span id="2242">2242</span>
+<span id="2243">2243</span>
 </pre><pre class="rust"><code><span class="doccomment">/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommitResponse</span> {
@@ -2246,9 +2263,9 @@
         <span class="doccomment">/// `mutation_count` value can help you maximize the number of mutations</span>
         <span class="doccomment">/// in a transaction and minimize the number of API round trips. You can</span>
         <span class="doccomment">/// also monitor this value to prevent transactions from exceeding the system</span>
-        <span class="doccomment">/// \[limit\](&lt;http://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).</span>
+        <span class="doccomment">/// \[limit\](&lt;https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).</span>
         <span class="doccomment">/// If the number of mutations exceeds the limit, the server returns</span>
-        <span class="doccomment">/// \[INVALID_ARGUMENT\](&lt;http://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).</span>
+        <span class="doccomment">/// \[INVALID_ARGUMENT\](&lt;https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">mutation_count</span>: <span class="ident">i64</span>,
     }
@@ -2597,8 +2614,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">plan_nodes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PlanNode</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// # Transactions</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Transactions:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Each session can have at most one active transaction at a time (note that</span>
 <span class="doccomment">/// standalone reads and queries use a transaction internally and do count</span>
@@ -2606,8 +2622,7 @@
 <span class="doccomment">/// completed, the session can immediately be re-used for the next transaction.</span>
 <span class="doccomment">/// It is not necessary to create a new session for each transaction.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// # Transaction Modes</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Transaction Modes:</span>
 <span class="doccomment">/// Cloud Spanner supports three transaction modes:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///   1. Locking read-write. This type of transaction is the only way</span>
@@ -2639,8 +2654,7 @@
 <span class="doccomment">/// may, however, read/write data in different tables within that</span>
 <span class="doccomment">/// database.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Locking Read-Write Transactions</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Locking Read-Write Transactions:</span>
 <span class="doccomment">/// Locking transactions may be used to atomically read-modify-write</span>
 <span class="doccomment">/// data anywhere in a database. This type of transaction is externally</span>
 <span class="doccomment">/// consistent.</span>
@@ -2662,8 +2676,7 @@
 <span class="doccomment">/// \[Rollback][google.spanner.v1.Spanner.Rollback\] request to abort the</span>
 <span class="doccomment">/// transaction.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Semantics</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Semantics:</span>
 <span class="doccomment">/// Cloud Spanner can commit the transaction if all read locks it acquired</span>
 <span class="doccomment">/// are still valid at commit time, and it is able to acquire write</span>
 <span class="doccomment">/// locks for all writes. Cloud Spanner can abort the transaction for any</span>
@@ -2675,8 +2688,7 @@
 <span class="doccomment">/// use Cloud Spanner locks for any sort of mutual exclusion other than</span>
 <span class="doccomment">/// between Cloud Spanner transactions themselves.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Retrying Aborted Transactions</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Retrying Aborted Transactions:</span>
 <span class="doccomment">/// When a transaction aborts, the application can choose to retry the</span>
 <span class="doccomment">/// whole transaction again. To maximize the chances of successfully</span>
 <span class="doccomment">/// committing the retry, the client should execute the retry in the</span>
@@ -2684,27 +2696,25 @@
 <span class="doccomment">/// priority increases with each consecutive abort, meaning that each</span>
 <span class="doccomment">/// attempt has a slightly better chance of success than the previous.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Under some circumstances (e.g., many transactions attempting to</span>
+<span class="doccomment">/// Under some circumstances (for example, many transactions attempting to</span>
 <span class="doccomment">/// modify the same row(s)), a transaction can abort many times in a</span>
 <span class="doccomment">/// short period before successfully committing. Thus, it is not a good</span>
 <span class="doccomment">/// idea to cap the number of retries a transaction can attempt;</span>
-<span class="doccomment">/// instead, it is better to limit the total amount of wall time spent</span>
+<span class="doccomment">/// instead, it is better to limit the total amount of time spent</span>
 <span class="doccomment">/// retrying.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Idle Transactions</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Idle Transactions:</span>
 <span class="doccomment">/// A transaction is considered idle if it has no outstanding reads or</span>
 <span class="doccomment">/// SQL queries and has not started a read or SQL query within the last 10</span>
 <span class="doccomment">/// seconds. Idle transactions can be aborted by Cloud Spanner so that they</span>
-<span class="doccomment">/// don&#39;t hold on to locks indefinitely. In that case, the commit will</span>
-<span class="doccomment">/// fail with error `ABORTED`.</span>
+<span class="doccomment">/// don&#39;t hold on to locks indefinitely. If an idle transaction is aborted, the</span>
+<span class="doccomment">/// commit will fail with error `ABORTED`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If this behavior is undesirable, periodically executing a simple</span>
-<span class="doccomment">/// SQL query in the transaction (e.g., `SELECT 1`) prevents the</span>
+<span class="doccomment">/// SQL query in the transaction (for example, `SELECT 1`) prevents the</span>
 <span class="doccomment">/// transaction from becoming idle.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Snapshot Read-Only Transactions</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Snapshot Read-Only Transactions:</span>
 <span class="doccomment">/// Snapshot read-only transactions provides a simpler method than</span>
 <span class="doccomment">/// locking read-write transactions for doing several consistent</span>
 <span class="doccomment">/// reads. However, this type of transaction does not support writes.</span>
@@ -2741,8 +2751,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Each type of timestamp bound is discussed in detail below.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Strong</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Strong:</span>
 <span class="doccomment">/// Strong reads are guaranteed to see the effects of all transactions</span>
 <span class="doccomment">/// that have committed before the start of the read. Furthermore, all</span>
 <span class="doccomment">/// rows yielded by a single read are consistent with each other -- if</span>
@@ -2757,13 +2766,12 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// See \[TransactionOptions.ReadOnly.strong][google.spanner.v1.TransactionOptions.ReadOnly.strong\].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Exact Staleness</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Exact Staleness:</span>
 <span class="doccomment">/// These timestamp bounds execute reads at a user-specified</span>
 <span class="doccomment">/// timestamp. Reads at a timestamp are guaranteed to see a consistent</span>
 <span class="doccomment">/// prefix of the global transaction history: they observe</span>
-<span class="doccomment">/// modifications done by all transactions with a commit timestamp &lt;=</span>
-<span class="doccomment">/// the read timestamp, and observe none of the modifications done by</span>
+<span class="doccomment">/// modifications done by all transactions with a commit timestamp less than or</span>
+<span class="doccomment">/// equal to the read timestamp, and observe none of the modifications done by</span>
 <span class="doccomment">/// transactions with a larger commit timestamp. They will block until</span>
 <span class="doccomment">/// all conflicting transactions that may be assigned commit timestamps</span>
 <span class="doccomment">/// &lt;= the read timestamp have finished.</span>
@@ -2779,8 +2787,7 @@
 <span class="doccomment">/// See \[TransactionOptions.ReadOnly.read_timestamp][google.spanner.v1.TransactionOptions.ReadOnly.read_timestamp\] and</span>
 <span class="doccomment">/// \[TransactionOptions.ReadOnly.exact_staleness][google.spanner.v1.TransactionOptions.ReadOnly.exact_staleness\].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Bounded Staleness</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Bounded Staleness:</span>
 <span class="doccomment">/// Bounded staleness modes allow Cloud Spanner to pick the read timestamp,</span>
 <span class="doccomment">/// subject to a user-provided staleness bound. Cloud Spanner chooses the</span>
 <span class="doccomment">/// newest timestamp within the staleness bound that allows execution</span>
@@ -2809,8 +2816,7 @@
 <span class="doccomment">/// See \[TransactionOptions.ReadOnly.max_staleness][google.spanner.v1.TransactionOptions.ReadOnly.max_staleness\] and</span>
 <span class="doccomment">/// \[TransactionOptions.ReadOnly.min_read_timestamp][google.spanner.v1.TransactionOptions.ReadOnly.min_read_timestamp\].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Old Read Timestamps and Garbage Collection</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Old Read Timestamps and Garbage Collection:</span>
 <span class="doccomment">/// Cloud Spanner continuously garbage collects deleted and overwritten data</span>
 <span class="doccomment">/// in the background to reclaim storage space. This process is known</span>
 <span class="doccomment">/// as &quot;version GC&quot;. By default, version GC reclaims versions after they</span>
@@ -2820,8 +2826,7 @@
 <span class="doccomment">/// timestamp become too old while executing. Reads and SQL queries with</span>
 <span class="doccomment">/// too-old read timestamps fail with the error `FAILED_PRECONDITION`.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Partitioned DML Transactions</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// Partitioned DML Transactions:</span>
 <span class="doccomment">/// Partitioned DML transactions are used to execute DML statements with a</span>
 <span class="doccomment">/// different execution strategy that provides different, and often better,</span>
 <span class="doccomment">/// scalability properties for large, table-wide operations than DML in a</span>
@@ -3062,6 +3067,14 @@
     <span class="doccomment">/// provides type information for the struct&#39;s fields.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">struct_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">StructType</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The \[TypeAnnotationCode][google.spanner.v1.TypeAnnotationCode\] that disambiguates SQL type that Spanner will</span>
+    <span class="doccomment">/// use to represent values of this type during query processing. This is</span>
+    <span class="doccomment">/// necessary for some type codes because a single \[TypeCode][google.spanner.v1.TypeCode\] can be mapped</span>
+    <span class="doccomment">/// to different SQL types depending on the SQL dialect. \[type_annotation][google.spanner.v1.Type.type_annotation\]</span>
+    <span class="doccomment">/// typically is not needed to process the content of a value (it doesn&#39;t</span>
+    <span class="doccomment">/// affect serialization) and clients can ignore it on the read path.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;TypeAnnotationCode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">type_annotation</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// `StructType` defines the fields of a \[STRUCT][google.spanner.v1.TypeCode.STRUCT\] type.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -3146,14 +3159,33 @@
     <span class="doccomment">/// &lt;br&gt;`\[+-][Digits].Digits[ExponentIndicator[+-]Digits\]`</span>
     <span class="doccomment">/// &lt;br&gt;(ExponentIndicator is `&quot;e&quot;` or `&quot;E&quot;`)</span>
     <span class="ident">Numeric</span> <span class="op">=</span> <span class="number">10</span>,
-    <span class="doccomment">/// Encoded as a JSON-formatted &#39;string&#39; as described in RFC 7159. The</span>
-    <span class="doccomment">/// following rules will be applied when parsing JSON input:</span>
-    <span class="doccomment">/// - Whitespace will be stripped from the document.</span>
-    <span class="doccomment">/// - If a JSON object has duplicate keys, only the first key will be</span>
-    <span class="doccomment">///   preserved.</span>
+    <span class="doccomment">/// Encoded as a JSON-formatted `string` as described in RFC 7159. The</span>
+    <span class="doccomment">/// following rules are applied when parsing JSON input:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - Whitespace characters are not preserved.</span>
+    <span class="doccomment">/// - If a JSON object has duplicate keys, only the first key is preserved.</span>
     <span class="doccomment">/// - Members of a JSON object are not guaranteed to have their order</span>
-    <span class="doccomment">///   preserved. JSON array elements will have their order preserved.</span>
+    <span class="doccomment">///   preserved.</span>
+    <span class="doccomment">/// - JSON array elements will have their order preserved.</span>
     <span class="ident">Json</span> <span class="op">=</span> <span class="number">11</span>,
+}
+<span class="doccomment">/// `TypeAnnotationCode` is used as a part of \[Type][google.spanner.v1.Type\] to</span>
+<span class="doccomment">/// disambiguate SQL types that should be used for a given Cloud Spanner value.</span>
+<span class="doccomment">/// Disambiguation is needed because the same Cloud Spanner type can be mapped to</span>
+<span class="doccomment">/// different SQL types depending on SQL dialect. TypeAnnotationCode doesn&#39;t</span>
+<span class="doccomment">/// affect the way value is serialized.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TypeAnnotationCode</span> {
+    <span class="doccomment">/// Not specified.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// PostgreSQL compatible NUMERIC type. This annotation needs to be applied to</span>
+    <span class="doccomment">/// \[Type][google.spanner.v1.Type\] instances having \[NUMERIC][google.spanner.v1.TypeCode.NUMERIC\]</span>
+    <span class="doccomment">/// type code to specify that values of this type should be treated as</span>
+    <span class="doccomment">/// PostgreSQL NUMERIC values. Currently this annotation is always needed for</span>
+    <span class="doccomment">/// \[NUMERIC][google.spanner.v1.TypeCode.NUMERIC\] when a client interacts with PostgreSQL-enabled</span>
+    <span class="doccomment">/// Spanner databases.</span>
+    <span class="ident">PgNumeric</span> <span class="op">=</span> <span class="number">2</span>,
 }
 <span class="doccomment">/// Results from \[Read][google.spanner.v1.Spanner.Read\] or</span>
 <span class="doccomment">/// \[ExecuteSql][google.spanner.v1.Spanner.ExecuteSql\].</span>
@@ -3470,6 +3502,7 @@
     <span class="doccomment">/// Legal characters for `request_tag` values are all printable characters</span>
     <span class="doccomment">/// (ASCII 32 - 126) and the length of a request_tag is limited to 50</span>
     <span class="doccomment">/// characters. Values that exceed this limit are truncated.</span>
+    <span class="doccomment">/// Any leading underscore (_) characters will be removed from the string.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_tag</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// A tag used for statistics collection about this transaction.</span>
@@ -3477,11 +3510,12 @@
     <span class="doccomment">/// that belongs to a transaction.</span>
     <span class="doccomment">/// The value of transaction_tag should be the same for all requests belonging</span>
     <span class="doccomment">/// to the same transaction.</span>
-    <span class="doccomment">/// If this request doesn’t belong to any transaction, transaction_tag will be</span>
+    <span class="doccomment">/// If this request doesn&#39;t belong to any transaction, transaction_tag will be</span>
     <span class="doccomment">/// ignored.</span>
     <span class="doccomment">/// Legal characters for `transaction_tag` values are all printable characters</span>
     <span class="doccomment">/// (ASCII 32 - 126) and the length of a transaction_tag is limited to 50</span>
     <span class="doccomment">/// characters. Values that exceed this limit are truncated.</span>
+    <span class="doccomment">/// Any leading underscore (_) characters will be removed from the string.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">transaction_tag</span>: <span class="ident">::prost::alloc::string::String</span>,
 }

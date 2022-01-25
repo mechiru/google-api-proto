@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Type","Type defines the type of placement policy."]]});
