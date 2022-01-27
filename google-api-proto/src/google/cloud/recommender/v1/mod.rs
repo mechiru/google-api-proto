@@ -33,6 +33,9 @@ pub struct Insight {
     /// Category being targeted by the insight.
     #[prost(enumeration = "insight::Category", tag = "7")]
     pub category: i32,
+    /// Insight's severity.
+    #[prost(enumeration = "insight::Severity", tag = "15")]
+    pub severity: i32,
     /// Fingerprint of the Insight. Provides optimistic locking when updating
     /// states.
     #[prost(string, tag = "11")]
@@ -65,6 +68,21 @@ pub mod insight {
         Performance = 3,
         /// This insight is related to manageability.
         Manageability = 4,
+    }
+    /// Insight severity levels.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Severity {
+        /// Insight has unspecified severity.
+        Unspecified = 0,
+        /// Insight has low severity.
+        Low = 1,
+        /// Insight has medium severity.
+        Medium = 2,
+        /// Insight has high severity.
+        High = 3,
+        /// Insight has critical severity.
+        Critical = 4,
     }
 }
 /// Information related to insight state.
@@ -137,6 +155,9 @@ pub struct Recommendation {
     /// or negative.
     #[prost(message, repeated, tag = "6")]
     pub additional_impact: ::prost::alloc::vec::Vec<Impact>,
+    /// Recommendation's priority.
+    #[prost(enumeration = "recommendation::Priority", tag = "17")]
+    pub priority: i32,
     /// Content of the recommendation describing recommended changes to resources.
     #[prost(message, optional, tag = "7")]
     pub content: ::core::option::Option<RecommendationContent>,
@@ -150,6 +171,12 @@ pub struct Recommendation {
     /// Insights that led to this recommendation.
     #[prost(message, repeated, tag = "14")]
     pub associated_insights: ::prost::alloc::vec::Vec<recommendation::InsightReference>,
+    /// Corresponds to a mutually exclusive group ID within a recommender.
+    /// A non-empty ID indicates that the recommendation belongs to a mutually
+    /// exclusive group. This means that only one recommendation within the group
+    /// is suggested to be applied.
+    #[prost(string, tag = "18")]
+    pub xor_group_id: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `Recommendation`.
 pub mod recommendation {
@@ -161,6 +188,21 @@ pub mod recommendation {
         #[prost(string, tag = "1")]
         pub insight: ::prost::alloc::string::String,
     }
+    /// Recommendation priority levels.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Priority {
+        /// Recommendation has unspecified priority.
+        Unspecified = 0,
+        /// Recommendation has P4 priority (lowest priority).
+        P4 = 1,
+        /// Recommendation has P3 priority (second lowest priority).
+        P3 = 2,
+        /// Recommendation has P2 priority (second highest priority).
+        P2 = 3,
+        /// Recommendation has P1 priority (highest priority).
+        P1 = 4,
+    }
 }
 /// Contains what resources are changing and how they are changing.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -170,6 +212,9 @@ pub struct RecommendationContent {
     /// atomically and in an order.
     #[prost(message, repeated, tag = "2")]
     pub operation_groups: ::prost::alloc::vec::Vec<OperationGroup>,
+    /// Condensed overview information about the recommendation.
+    #[prost(message, optional, tag = "3")]
+    pub overview: ::core::option::Option<::prost_types::Struct>,
 }
 /// Group of operations that need to be performed atomically.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -190,7 +235,7 @@ pub struct OperationGroup {
 /// See <https://tools.ietf.org/html/rfc6902> for details on the original RFC.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Operation {
-    /// Type of this operation. Contains one of 'and', 'remove', 'replace', 'move',
+    /// Type of this operation. Contains one of 'add', 'remove', 'replace', 'move',
     /// 'copy', 'test' and custom operations. This field is case-insensitive and
     /// always populated.
     #[prost(string, tag = "1")]
@@ -252,7 +297,7 @@ pub struct Operation {
     pub path_filters:
         ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::Value>,
     /// Similar to path_filters, this contains set of filters to apply if `path`
-    /// field referes to array elements. This is meant to support value matching
+    /// field refers to array elements. This is meant to support value matching
     /// beyond exact match. To perform exact match, use path_filters.
     /// When both path_filters and path_value_matchers are set, an implicit AND
     /// must be performed.
@@ -304,11 +349,21 @@ pub struct CostProjection {
     /// An approximate projection on amount saved or amount incurred. Negative cost
     /// units indicate cost savings and positive cost units indicate increase.
     /// See google.type.Money documentation for positive/negative units.
+    ///
+    /// A user's permissions may affect whether the cost is computed using list
+    /// prices or custom contract prices.
     #[prost(message, optional, tag = "1")]
     pub cost: ::core::option::Option<super::super::super::r#type::Money>,
     /// Duration for which this cost applies.
     #[prost(message, optional, tag = "2")]
     pub duration: ::core::option::Option<::prost_types::Duration>,
+}
+/// Contains various ways of describing the impact on Security.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SecurityProjection {
+    /// Additional security impact details that is provided by the recommender.
+    #[prost(message, optional, tag = "2")]
+    pub details: ::core::option::Option<::prost_types::Struct>,
 }
 /// Contains the impact a recommendation can have for a given category.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -317,7 +372,7 @@ pub struct Impact {
     #[prost(enumeration = "impact::Category", tag = "1")]
     pub category: i32,
     /// Contains projections (if any) for this category.
-    #[prost(oneof = "impact::Projection", tags = "100")]
+    #[prost(oneof = "impact::Projection", tags = "100, 101")]
     pub projection: ::core::option::Option<impact::Projection>,
 }
 /// Nested message and enum types in `Impact`.
@@ -343,6 +398,9 @@ pub mod impact {
         /// Use with CategoryType.COST
         #[prost(message, tag = "100")]
         CostProjection(super::CostProjection),
+        /// Use with CategoryType.SECURITY
+        #[prost(message, tag = "101")]
+        SecurityProjection(super::SecurityProjection),
     }
 }
 /// Information for state. Contains state and metadata.
@@ -399,13 +457,20 @@ pub struct ListInsightsRequest {
     /// Required. The container resource on which to execute the request.
     /// Acceptable formats:
     ///
-    /// 1.
-    /// "projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]",
+    /// * `projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`
+    ///
+    /// * `projects/\[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`
+    ///
+    /// * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`
+    ///
+    /// * `folders/\[FOLDER_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`
+    ///
+    /// * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`
     ///
     /// LOCATION here refers to GCP Locations:
     /// <https://cloud.google.com/about/locations/>
     /// INSIGHT_TYPE_ID refers to supported insight types:
-    /// <https://cloud.google.com/recommender/docs/insights/insight-types.>)
+    /// <https://cloud.google.com/recommender/docs/insights/insight-types.>
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
     /// Optional. The maximum number of results to return from this request.  Non-positive
@@ -420,8 +485,26 @@ pub struct ListInsightsRequest {
     #[prost(string, tag = "3")]
     pub page_token: ::prost::alloc::string::String,
     /// Optional. Filter expression to restrict the insights returned. Supported
-    /// filter fields: state
-    /// Eg: `state:"DISMISSED" or state:"ACTIVE"
+    /// filter fields:
+    ///
+    /// * `stateInfo.state`
+    ///
+    /// * `insightSubtype`
+    ///
+    /// * `severity`
+    ///
+    /// Examples:
+    ///
+    /// * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED`
+    ///
+    /// * `insightSubtype = PERMISSIONS_USAGE`
+    ///
+    /// * `severity = CRITICAL OR severity = HIGH`
+    ///
+    /// * `stateInfo.state = ACTIVE AND (severity = CRITICAL OR severity = HIGH)`
+    ///
+    /// (These expressions are based on the filter language described at
+    /// <https://google.aip.dev/160>)
     #[prost(string, tag = "4")]
     pub filter: ::prost::alloc::string::String,
 }
@@ -466,8 +549,15 @@ pub struct ListRecommendationsRequest {
     /// Required. The container resource on which to execute the request.
     /// Acceptable formats:
     ///
-    /// 1.
-    /// "projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]",
+    /// * `projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`
+    ///
+    /// * `projects/\[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`
+    ///
+    /// * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`
+    ///
+    /// * `folders/\[FOLDER_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`
+    ///
+    /// * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`
     ///
     /// LOCATION here refers to GCP Locations:
     /// <https://cloud.google.com/about/locations/>
@@ -487,8 +577,26 @@ pub struct ListRecommendationsRequest {
     #[prost(string, tag = "3")]
     pub page_token: ::prost::alloc::string::String,
     /// Filter expression to restrict the recommendations returned. Supported
-    /// filter fields: state_info.state
-    /// Eg: `state_info.state:"DISMISSED" or state_info.state:"FAILED"
+    /// filter fields:
+    ///
+    /// * `state_info.state`
+    ///
+    /// * `recommenderSubtype`
+    ///
+    /// * `priority`
+    ///
+    /// Examples:
+    ///
+    /// * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED`
+    ///
+    /// * `recommenderSubtype = REMOVE_ROLE OR recommenderSubtype = REPLACE_ROLE`
+    ///
+    /// * `priority = P1 OR priority = P2`
+    ///
+    /// * `stateInfo.state = ACTIVE AND (priority = P1 OR priority = P2)`
+    ///
+    /// (These expressions are based on the filter language described at
+    /// <https://google.aip.dev/160>)
     #[prost(string, tag = "5")]
     pub filter: ::prost::alloc::string::String,
 }
@@ -620,8 +728,8 @@ pub mod recommender_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        #[doc = " Lists insights for a Cloud project. Requires the recommender.*.list IAM"]
-        #[doc = " permission for the specified insight type."]
+        #[doc = " Lists insights for the specified Cloud Resource. Requires the"]
+        #[doc = " recommender.*.list IAM permission for the specified insight type."]
         pub async fn list_insights(
             &mut self,
             request: impl tonic::IntoRequest<super::ListInsightsRequest>,
@@ -678,8 +786,8 @@ pub mod recommender_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Lists recommendations for a Cloud project. Requires the recommender.*.list"]
-        #[doc = " IAM permission for the specified recommender."]
+        #[doc = " Lists recommendations for the specified Cloud Resource. Requires the"]
+        #[doc = " recommender.*.list IAM permission for the specified recommender."]
         pub async fn list_recommendations(
             &mut self,
             request: impl tonic::IntoRequest<super::ListRecommendationsRequest>,

@@ -49,7 +49,7 @@ pub struct CreateBucketRequest {
     /// the bucket resource.
     #[prost(message, optional, tag = "2")]
     pub bucket: ::core::option::Option<Bucket>,
-    /// The ID to use for this bucket, which will become the final component of
+    /// Required. The ID to use for this bucket, which will become the final component of
     /// the bucket's resource name. For example, the value `foo` might result in
     /// a bucket with the name `projects/123456/buckets/foo`.
     #[prost(string, tag = "3")]
@@ -247,7 +247,7 @@ pub mod compose_object_request {
     /// Description of a source object for a composition request.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct SourceObject {
-        /// The source object's name. All source objects must reside in the same
+        /// Required. The source object's name. All source objects must reside in the same
         /// bucket.
         #[prost(string, tag = "1")]
         pub name: ::prost::alloc::string::String,
@@ -671,20 +671,31 @@ pub mod query_write_status_response {
 /// Request message for RewriteObject.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RewriteObjectRequest {
+    /// Immutable. The name of the destination object. Nearly any sequence of unicode
+    /// characters is valid. See
+    /// \[Guidelines\](<https://cloud.google.com/storage/docs/naming-objects>).
+    /// Example: `test.txt`
+    /// The `name` field by itself does not uniquely identify a Cloud Storage
+    /// object. A Cloud Storage object is uniquely identified by the tuple of
+    /// (bucket, object, generation).
+    #[prost(string, tag = "24")]
+    pub destination_name: ::prost::alloc::string::String,
+    /// Immutable. The name of the bucket containing The name of the destination object.
+    #[prost(string, tag = "25")]
+    pub destination_bucket: ::prost::alloc::string::String,
+    /// Metadata of customer-supplied encryption key for the destination object, if
+    /// the object is to be encrypted by such a key.
+    #[prost(message, optional, tag = "26")]
+    pub destination_customer_encryption: ::core::option::Option<CustomerEncryption>,
     /// Properties of the destination, post-rewrite object.
-    /// Includes bucket name, object name, KMS key.
+    /// The `name`, `bucket`, and `customer_encryption` fields must not be
+    /// populated (these values are specified in the `destination_name`,
+    /// `destination_bucket`, and `destination_customer_encryption` fields).
+    /// If `destination` is present it will be used to construct the destination
+    /// object's metadata; otherwise the destination object's metadata will be
+    /// copied from the source object.
     #[prost(message, optional, tag = "1")]
     pub destination: ::core::option::Option<Object>,
-    /// List of fields to be updated in the destination object from `destination`.
-    /// If the mask is not present, all fields from the source object will be
-    /// copied excepting ACL. If the mask is present but specifies no fields, no
-    /// fields will be copied.
-    /// Non-ACL metadata not included in the mask will be copied from the source
-    /// object.
-    /// If not present, all fields from the destination will be set from
-    /// `destination`.
-    #[prost(message, optional, tag = "23")]
-    pub rewrite_mask: ::core::option::Option<::prost_types::FieldMask>,
     /// Required. Name of the bucket in which to find the source object.
     #[prost(string, tag = "2")]
     pub source_bucket: ::prost::alloc::string::String,
@@ -1309,8 +1320,8 @@ pub mod bucket {
             /// An action to take on an object.
             #[derive(Clone, PartialEq, ::prost::Message)]
             pub struct Action {
-                /// Type of the action. Currently, only `Delete` and
-                /// `SetStorageClass` are supported.
+                /// Type of the action. Currently, only `Delete`, `SetStorageClass`, and
+                /// `AbortIncompleteMultipartUpload` are supported.
                 #[prost(string, tag = "1")]
                 pub r#type: ::prost::alloc::string::String,
                 /// Target storage class. Required iff the type of the action is
@@ -1538,8 +1549,8 @@ pub struct HmacKeyMetadata {
 pub struct Notification {
     /// Required. The resource name of this notification.
     /// Format:
-    /// `projects/{project}/buckets/{bucket}/notificationConfigs/{notification` The
-    /// `{project}` portion may be `_` for globally unique buckets.
+    /// `projects/{project}/buckets/{bucket}/notificationConfigs/{notification}`
+    /// The `{project}` portion may be `_` for globally unique buckets.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     /// Required. The Pub/Sub topic to which this subscription publishes. Formatted as:
@@ -1564,6 +1575,18 @@ pub struct Notification {
     /// Required. The desired content of the Payload.
     #[prost(string, tag = "6")]
     pub payload_format: ::prost::alloc::string::String,
+}
+/// Describes the customer-specified mechanism used to store an Object's data at
+/// rest.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CustomerEncryption {
+    /// The encryption algorithm.
+    #[prost(string, tag = "1")]
+    pub encryption_algorithm: ::prost::alloc::string::String,
+    /// SHA256 hash value of the encryption key.
+    /// In raw bytes format (not base64-encoded).
+    #[prost(bytes = "bytes", tag = "3")]
+    pub key_sha256_bytes: ::prost::bytes::Bytes,
 }
 /// An object.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1710,24 +1733,10 @@ pub struct Object {
     /// Metadata of customer-supplied encryption key, if the object is encrypted by
     /// such a key.
     #[prost(message, optional, tag = "25")]
-    pub customer_encryption: ::core::option::Option<object::CustomerEncryption>,
+    pub customer_encryption: ::core::option::Option<CustomerEncryption>,
     /// A user-specified timestamp set on an object.
     #[prost(message, optional, tag = "26")]
     pub custom_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `Object`.
-pub mod object {
-    /// Describes the customer-specified mechanism used to store the data at rest.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CustomerEncryption {
-        /// The encryption algorithm.
-        #[prost(string, tag = "1")]
-        pub encryption_algorithm: ::prost::alloc::string::String,
-        /// SHA256 hash value of the encryption key.
-        /// In raw bytes format (not base64-encoded).
-        #[prost(bytes = "bytes", tag = "3")]
-        pub key_sha256_bytes: ::prost::bytes::Bytes,
-    }
 }
 /// An access-control entry.
 #[derive(Clone, PartialEq, ::prost::Message)]
