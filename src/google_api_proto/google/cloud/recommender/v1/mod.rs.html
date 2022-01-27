@@ -797,6 +797,114 @@
 <span id="796">796</span>
 <span id="797">797</span>
 <span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
 </pre><pre class="rust"><code><span class="doccomment">/// An insight along with the information used to derive the insight. The insight</span>
 <span class="doccomment">/// may have associated recomendations as well.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -832,6 +940,9 @@
     <span class="doccomment">/// Category being targeted by the insight.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;insight::Category&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">category</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Insight&#39;s severity.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;insight::Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Fingerprint of the Insight. Provides optimistic locking when updating</span>
     <span class="doccomment">/// states.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
@@ -864,6 +975,21 @@
         <span class="ident">Performance</span> <span class="op">=</span> <span class="number">3</span>,
         <span class="doccomment">/// This insight is related to manageability.</span>
         <span class="ident">Manageability</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+    <span class="doccomment">/// Insight severity levels.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Severity</span> {
+        <span class="doccomment">/// Insight has unspecified severity.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Insight has low severity.</span>
+        <span class="ident">Low</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Insight has medium severity.</span>
+        <span class="ident">Medium</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Insight has high severity.</span>
+        <span class="ident">High</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Insight has critical severity.</span>
+        <span class="ident">Critical</span> <span class="op">=</span> <span class="number">4</span>,
     }
 }
 <span class="doccomment">/// Information related to insight state.</span>
@@ -936,6 +1062,9 @@
     <span class="doccomment">/// or negative.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">additional_impact</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Impact</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Recommendation&#39;s priority.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;recommendation::Priority&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">priority</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Content of the recommendation describing recommended changes to resources.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RecommendationContent</span><span class="op">&gt;</span>,
@@ -949,6 +1078,12 @@
     <span class="doccomment">/// Insights that led to this recommendation.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">associated_insights</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">recommendation::InsightReference</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Corresponds to a mutually exclusive group ID within a recommender.</span>
+    <span class="doccomment">/// A non-empty ID indicates that the recommendation belongs to a mutually</span>
+    <span class="doccomment">/// exclusive group. This means that only one recommendation within the group</span>
+    <span class="doccomment">/// is suggested to be applied.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;18&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">xor_group_id</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Recommendation`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">recommendation</span> {
@@ -960,6 +1095,21 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">insight</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
+    <span class="doccomment">/// Recommendation priority levels.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Priority</span> {
+        <span class="doccomment">/// Recommendation has unspecified priority.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Recommendation has P4 priority (lowest priority).</span>
+        <span class="ident">P4</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Recommendation has P3 priority (second lowest priority).</span>
+        <span class="ident">P3</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Recommendation has P2 priority (second highest priority).</span>
+        <span class="ident">P2</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Recommendation has P1 priority (highest priority).</span>
+        <span class="ident">P1</span> <span class="op">=</span> <span class="number">4</span>,
+    }
 }
 <span class="doccomment">/// Contains what resources are changing and how they are changing.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -969,6 +1119,9 @@
     <span class="doccomment">/// atomically and in an order.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">operation_groups</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">OperationGroup</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Condensed overview information about the recommendation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">overview</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Group of operations that need to be performed atomically.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -989,7 +1142,7 @@
 <span class="doccomment">/// See &lt;https://tools.ietf.org/html/rfc6902&gt; for details on the original RFC.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Operation</span> {
-    <span class="doccomment">/// Type of this operation. Contains one of &#39;and&#39;, &#39;remove&#39;, &#39;replace&#39;, &#39;move&#39;,</span>
+    <span class="doccomment">/// Type of this operation. Contains one of &#39;add&#39;, &#39;remove&#39;, &#39;replace&#39;, &#39;move&#39;,</span>
     <span class="doccomment">/// &#39;copy&#39;, &#39;test&#39; and custom operations. This field is case-insensitive and</span>
     <span class="doccomment">/// always populated.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
@@ -1051,7 +1204,7 @@
     <span class="kw">pub</span> <span class="ident">path_filters</span>:
         <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Similar to path_filters, this contains set of filters to apply if `path`</span>
-    <span class="doccomment">/// field referes to array elements. This is meant to support value matching</span>
+    <span class="doccomment">/// field refers to array elements. This is meant to support value matching</span>
     <span class="doccomment">/// beyond exact match. To perform exact match, use path_filters.</span>
     <span class="doccomment">/// When both path_filters and path_value_matchers are set, an implicit AND</span>
     <span class="doccomment">/// must be performed.</span>
@@ -1103,11 +1256,21 @@
     <span class="doccomment">/// An approximate projection on amount saved or amount incurred. Negative cost</span>
     <span class="doccomment">/// units indicate cost savings and positive cost units indicate increase.</span>
     <span class="doccomment">/// See google.type.Money documentation for positive/negative units.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// A user&#39;s permissions may affect whether the cost is computed using list</span>
+    <span class="doccomment">/// prices or custom contract prices.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">cost</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Money</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Duration for which this cost applies.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Contains various ways of describing the impact on Security.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SecurityProjection</span> {
+    <span class="doccomment">/// Additional security impact details that is provided by the recommender.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Contains the impact a recommendation can have for a given category.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1116,7 +1279,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;impact::Category&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">category</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Contains projections (if any) for this category.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;impact::Projection&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;100&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;impact::Projection&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;100, 101&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">projection</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">impact::Projection</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Impact`.</span>
@@ -1142,6 +1305,9 @@
         <span class="doccomment">/// Use with CategoryType.COST</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;100&quot;</span>)]</span>
         <span class="ident">CostProjection</span>(<span class="ident"><span class="kw">super</span>::CostProjection</span>),
+        <span class="doccomment">/// Use with CategoryType.SECURITY</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;101&quot;</span>)]</span>
+        <span class="ident">SecurityProjection</span>(<span class="ident"><span class="kw">super</span>::SecurityProjection</span>),
     }
 }
 <span class="doccomment">/// Information for state. Contains state and metadata.</span>
@@ -1198,13 +1364,20 @@
     <span class="doccomment">/// Required. The container resource on which to execute the request.</span>
     <span class="doccomment">/// Acceptable formats:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// 1.</span>
-    <span class="doccomment">/// &quot;projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]&quot;,</span>
+    <span class="doccomment">/// * `projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `projects/\[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `folders/\[FOLDER_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// LOCATION here refers to GCP Locations:</span>
     <span class="doccomment">/// &lt;https://cloud.google.com/about/locations/&gt;</span>
     <span class="doccomment">/// INSIGHT_TYPE_ID refers to supported insight types:</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/recommender/docs/insights/insight-types.&gt;)</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/recommender/docs/insights/insight-types.&gt;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. The maximum number of results to return from this request.  Non-positive</span>
@@ -1219,8 +1392,26 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. Filter expression to restrict the insights returned. Supported</span>
-    <span class="doccomment">/// filter fields: state</span>
-    <span class="doccomment">/// Eg: `state:&quot;DISMISSED&quot; or state:&quot;ACTIVE&quot;</span>
+    <span class="doccomment">/// filter fields:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `stateInfo.state`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `insightSubtype`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `severity`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `insightSubtype = PERMISSIONS_USAGE`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `severity = CRITICAL OR severity = HIGH`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `stateInfo.state = ACTIVE AND (severity = CRITICAL OR severity = HIGH)`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// (These expressions are based on the filter language described at</span>
+    <span class="doccomment">/// &lt;https://google.aip.dev/160&gt;)</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -1265,8 +1456,15 @@
     <span class="doccomment">/// Required. The container resource on which to execute the request.</span>
     <span class="doccomment">/// Acceptable formats:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// 1.</span>
-    <span class="doccomment">/// &quot;projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]&quot;,</span>
+    <span class="doccomment">/// * `projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `projects/\[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `folders/\[FOLDER_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// LOCATION here refers to GCP Locations:</span>
     <span class="doccomment">/// &lt;https://cloud.google.com/about/locations/&gt;</span>
@@ -1286,8 +1484,26 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Filter expression to restrict the recommendations returned. Supported</span>
-    <span class="doccomment">/// filter fields: state_info.state</span>
-    <span class="doccomment">/// Eg: `state_info.state:&quot;DISMISSED&quot; or state_info.state:&quot;FAILED&quot;</span>
+    <span class="doccomment">/// filter fields:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `state_info.state`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `recommenderSubtype`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `priority`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `recommenderSubtype = REMOVE_ROLE OR recommenderSubtype = REPLACE_ROLE`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `priority = P1 OR priority = P2`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `stateInfo.state = ACTIVE AND (priority = P1 OR priority = P2)`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// (These expressions are based on the filter language described at</span>
+    <span class="doccomment">/// &lt;https://google.aip.dev/160&gt;)</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -1419,8 +1635,8 @@
             <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
             <span class="self">self</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists insights for a Cloud project. Requires the recommender.*.list IAM&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; permission for the specified insight type.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists insights for the specified Cloud Resource. Requires the&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; recommender.*.list IAM permission for the specified insight type.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_insights</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListInsightsRequest</span><span class="op">&gt;</span>,
@@ -1477,8 +1693,8 @@
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists recommendations for a Cloud project. Requires the recommender.*.list&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; IAM permission for the specified recommender.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists recommendations for the specified Cloud Resource. Requires the&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; recommender.*.list IAM permission for the specified recommender.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_recommendations</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListRecommendationsRequest</span><span class="op">&gt;</span>,

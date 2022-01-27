@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Category","Insight category."]],"struct":[["RecommendationReference","Reference to an associated recommendation."]]});
+initSidebarItems({"enum":[["Category","Insight category."],["Severity","Insight severity levels."]],"struct":[["RecommendationReference","Reference to an associated recommendation."]]});

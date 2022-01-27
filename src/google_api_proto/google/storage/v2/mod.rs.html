@@ -2468,6 +2468,15 @@
 <span id="2467">2467</span>
 <span id="2468">2468</span>
 <span id="2469">2469</span>
+<span id="2470">2470</span>
+<span id="2471">2471</span>
+<span id="2472">2472</span>
+<span id="2473">2473</span>
+<span id="2474">2474</span>
+<span id="2475">2475</span>
+<span id="2476">2476</span>
+<span id="2477">2477</span>
+<span id="2478">2478</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Request message for DeleteBucket.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteBucketRequest</span> {
@@ -2519,7 +2528,7 @@
     <span class="doccomment">/// the bucket resource.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bucket</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Bucket</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The ID to use for this bucket, which will become the final component of</span>
+    <span class="doccomment">/// Required. The ID to use for this bucket, which will become the final component of</span>
     <span class="doccomment">/// the bucket&#39;s resource name. For example, the value `foo` might result in</span>
     <span class="doccomment">/// a bucket with the name `projects/123456/buckets/foo`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
@@ -2717,7 +2726,7 @@
     <span class="doccomment">/// Description of a source object for a composition request.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SourceObject</span> {
-        <span class="doccomment">/// The source object&#39;s name. All source objects must reside in the same</span>
+        <span class="doccomment">/// Required. The source object&#39;s name. All source objects must reside in the same</span>
         <span class="doccomment">/// bucket.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -3141,20 +3150,31 @@
 <span class="doccomment">/// Request message for RewriteObject.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RewriteObjectRequest</span> {
+    <span class="doccomment">/// Immutable. The name of the destination object. Nearly any sequence of unicode</span>
+    <span class="doccomment">/// characters is valid. See</span>
+    <span class="doccomment">/// \[Guidelines\](&lt;https://cloud.google.com/storage/docs/naming-objects&gt;).</span>
+    <span class="doccomment">/// Example: `test.txt`</span>
+    <span class="doccomment">/// The `name` field by itself does not uniquely identify a Cloud Storage</span>
+    <span class="doccomment">/// object. A Cloud Storage object is uniquely identified by the tuple of</span>
+    <span class="doccomment">/// (bucket, object, generation).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;24&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Immutable. The name of the bucket containing The name of the destination object.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Metadata of customer-supplied encryption key for the destination object, if</span>
+    <span class="doccomment">/// the object is to be encrypted by such a key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;26&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_customer_encryption</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomerEncryption</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Properties of the destination, post-rewrite object.</span>
-    <span class="doccomment">/// Includes bucket name, object name, KMS key.</span>
+    <span class="doccomment">/// The `name`, `bucket`, and `customer_encryption` fields must not be</span>
+    <span class="doccomment">/// populated (these values are specified in the `destination_name`,</span>
+    <span class="doccomment">/// `destination_bucket`, and `destination_customer_encryption` fields).</span>
+    <span class="doccomment">/// If `destination` is present it will be used to construct the destination</span>
+    <span class="doccomment">/// object&#39;s metadata; otherwise the destination object&#39;s metadata will be</span>
+    <span class="doccomment">/// copied from the source object.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Object</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of fields to be updated in the destination object from `destination`.</span>
-    <span class="doccomment">/// If the mask is not present, all fields from the source object will be</span>
-    <span class="doccomment">/// copied excepting ACL. If the mask is present but specifies no fields, no</span>
-    <span class="doccomment">/// fields will be copied.</span>
-    <span class="doccomment">/// Non-ACL metadata not included in the mask will be copied from the source</span>
-    <span class="doccomment">/// object.</span>
-    <span class="doccomment">/// If not present, all fields from the destination will be set from</span>
-    <span class="doccomment">/// `destination`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;23&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">rewrite_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Required. Name of the bucket in which to find the source object.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">source_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -3779,8 +3799,8 @@
             <span class="doccomment">/// An action to take on an object.</span>
             <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
             <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Action</span> {
-                <span class="doccomment">/// Type of the action. Currently, only `Delete` and</span>
-                <span class="doccomment">/// `SetStorageClass` are supported.</span>
+                <span class="doccomment">/// Type of the action. Currently, only `Delete`, `SetStorageClass`, and</span>
+                <span class="doccomment">/// `AbortIncompleteMultipartUpload` are supported.</span>
                 <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
                 <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
                 <span class="doccomment">/// Target storage class. Required iff the type of the action is</span>
@@ -4008,8 +4028,8 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Notification</span> {
     <span class="doccomment">/// Required. The resource name of this notification.</span>
     <span class="doccomment">/// Format:</span>
-    <span class="doccomment">/// `projects/{project}/buckets/{bucket}/notificationConfigs/{notification` The</span>
-    <span class="doccomment">/// `{project}` portion may be `_` for globally unique buckets.</span>
+    <span class="doccomment">/// `projects/{project}/buckets/{bucket}/notificationConfigs/{notification}`</span>
+    <span class="doccomment">/// The `{project}` portion may be `_` for globally unique buckets.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Required. The Pub/Sub topic to which this subscription publishes. Formatted as:</span>
@@ -4034,6 +4054,18 @@
     <span class="doccomment">/// Required. The desired content of the Payload.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">payload_format</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Describes the customer-specified mechanism used to store an Object&#39;s data at</span>
+<span class="doccomment">/// rest.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomerEncryption</span> {
+    <span class="doccomment">/// The encryption algorithm.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">encryption_algorithm</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// SHA256 hash value of the encryption key.</span>
+    <span class="doccomment">/// In raw bytes format (not base64-encoded).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">key_sha256_bytes</span>: <span class="ident">::prost::bytes::Bytes</span>,
 }
 <span class="doccomment">/// An object.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -4180,24 +4212,10 @@
     <span class="doccomment">/// Metadata of customer-supplied encryption key, if the object is encrypted by</span>
     <span class="doccomment">/// such a key.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">customer_encryption</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">object::CustomerEncryption</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">customer_encryption</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomerEncryption</span><span class="op">&gt;</span>,
     <span class="doccomment">/// A user-specified timestamp set on an object.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;26&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">custom_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Object`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">object</span> {
-    <span class="doccomment">/// Describes the customer-specified mechanism used to store the data at rest.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomerEncryption</span> {
-        <span class="doccomment">/// The encryption algorithm.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">encryption_algorithm</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// SHA256 hash value of the encryption key.</span>
-        <span class="doccomment">/// In raw bytes format (not base64-encoded).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">key_sha256_bytes</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    }
 }
 <span class="doccomment">/// An access-control entry.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
