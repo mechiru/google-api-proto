@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["PersistenceMode","Available Persistence modes."],["SnapshotPeriod","Available snapshot periods for scheduling."]]});
