@@ -179,6 +179,9 @@ pub struct Instance {
     /// instance.
     #[prost(enumeration = "instance::ReadReplicasMode", tag = "35")]
     pub read_replicas_mode: i32,
+    /// Optional. Persistence configuration parameters
+    #[prost(message, optional, tag = "37")]
+    pub persistence_config: ::core::option::Option<PersistenceConfig>,
 }
 /// Nested message and enum types in `Instance`.
 pub mod instance {
@@ -255,6 +258,60 @@ pub mod instance {
         /// If enabled, read endpoint will be provided and the instance can scale
         /// up and down the number of replicas. Not valid for basic tier.
         ReadReplicasEnabled = 2,
+    }
+}
+/// Configuration of the persistence functionality.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PersistenceConfig {
+    /// Optional. Controls whether Persistence features are enabled.
+    /// If not provided, the existing value will be used.
+    #[prost(enumeration = "persistence_config::PersistenceMode", tag = "1")]
+    pub persistence_mode: i32,
+    /// Optional. Period between RDB snapshots. Snapshots will be attempted every period
+    /// starting from the provided snapshot start time. For example, a start time
+    /// of 01/01/2033 06:45 and SIX_HOURS snapshot period will do nothing until
+    /// 01/01/2033, and then trigger snapshots every day at 06:45, 12:45, 18:45,
+    /// and 00:45 the next day, and so on.
+    /// If not provided, TWENTY_FOUR_HOURS will be used as default.
+    #[prost(enumeration = "persistence_config::SnapshotPeriod", tag = "2")]
+    pub rdb_snapshot_period: i32,
+    /// Output only. The next time that a snapshot attempt is scheduled to occur.
+    #[prost(message, optional, tag = "4")]
+    pub rdb_next_snapshot_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. Date and time that the first snapshot was/will be attempted, and to which
+    /// future snapshots will be aligned.
+    /// If not provided, the current time will be used.
+    #[prost(message, optional, tag = "5")]
+    pub rdb_snapshot_start_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `PersistenceConfig`.
+pub mod persistence_config {
+    /// Available Persistence modes.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PersistenceMode {
+        /// Not set.
+        Unspecified = 0,
+        /// Persistence is disabled for the instance,
+        /// and any existing snapshots are deleted.
+        Disabled = 1,
+        /// RDB based Persistence is enabled.
+        Rdb = 2,
+    }
+    /// Available snapshot periods for scheduling.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SnapshotPeriod {
+        /// Not set.
+        Unspecified = 0,
+        /// Snapshot every 1 hour.
+        OneHour = 3,
+        /// Snapshot every 6 hours.
+        SixHours = 4,
+        /// Snapshot every 12 hours.
+        TwelveHours = 5,
+        /// Snapshot every 24 hours.
+        TwentyFourHours = 6,
     }
 }
 /// Request for \[RescheduleMaintenance][google.cloud.redis.v1beta1.CloudRedis.RescheduleMaintenance\].
