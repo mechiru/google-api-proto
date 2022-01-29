@@ -1128,6 +1128,9 @@ pub struct ReviewDocumentOperationMetadata {
     /// The basic metadata of the long running operation.
     #[prost(message, optional, tag = "5")]
     pub common_metadata: ::core::option::Option<CommonOperationMetadata>,
+    /// The question ID.
+    #[prost(string, tag = "6")]
+    pub question_id: ::prost::alloc::string::String,
 }
 #[doc = r" Generated client implementations."]
 pub mod document_processor_service_client {
