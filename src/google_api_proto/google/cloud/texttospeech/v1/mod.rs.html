@@ -294,13 +294,13 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVoicesRequest</span> {
     <span class="doccomment">/// Optional. Recommended.</span>
-    <span class="doccomment">/// \[BCP-47\](&lt;https://www.rfc-editor.org/rfc/bcp/bcp47.txt&gt;) language tag. If</span>
-    <span class="doccomment">/// specified, the ListVoices call will only return voices that can be used to</span>
-    <span class="doccomment">/// synthesize this language_code. E.g. when specifying `&quot;en-NZ&quot;`, you will get</span>
-    <span class="doccomment">/// supported `&quot;en-\*&quot;` voices; when specifying `&quot;no&quot;`, you will get supported</span>
-    <span class="doccomment">/// `&quot;no-\*&quot;` (Norwegian) and `&quot;nb-\*&quot;` (Norwegian Bokmal) voices; specifying</span>
-    <span class="doccomment">/// `&quot;zh&quot;` will also get supported `&quot;cmn-\*&quot;` voices; specifying `&quot;zh-hk&quot;` will</span>
-    <span class="doccomment">/// also get supported `&quot;yue-\*&quot;` voices.</span>
+    <span class="doccomment">/// \[BCP-47\](&lt;https://www.rfc-editor.org/rfc/bcp/bcp47.txt&gt;) language tag.</span>
+    <span class="doccomment">/// If not specified, the API will return all supported voices.</span>
+    <span class="doccomment">/// If specified, the ListVoices call will only return voices that can be used</span>
+    <span class="doccomment">/// to synthesize this language_code. For example, if you specify `&quot;en-NZ&quot;`,</span>
+    <span class="doccomment">/// all `&quot;en-NZ&quot;` voices will be returned. If you specify `&quot;no&quot;`, both</span>
+    <span class="doccomment">/// `&quot;no-\*&quot;` (Norwegian) and `&quot;nb-\*&quot;` (Norwegian Bokmal) voices will be</span>
+    <span class="doccomment">/// returned.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
