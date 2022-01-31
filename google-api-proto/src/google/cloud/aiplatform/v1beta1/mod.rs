@@ -74,8 +74,32 @@ pub mod featurestore {
         /// The number of nodes for each cluster. The number of nodes will not
         /// scale automatically but can be scaled manually by providing different
         /// values when updating.
+        /// Only one of `fixed_node_count` and `scaling` can be set. Setting one will
+        /// reset the other.
         #[prost(int32, tag = "2")]
         pub fixed_node_count: i32,
+        /// Online serving scaling configuration.
+        /// Only one of `fixed_node_count` and `scaling` can be set. Setting one will
+        /// reset the other.
+        #[prost(message, optional, tag = "4")]
+        pub scaling: ::core::option::Option<online_serving_config::Scaling>,
+    }
+    /// Nested message and enum types in `OnlineServingConfig`.
+    pub mod online_serving_config {
+        /// Online serving scaling configuration. If min_node_count and
+        /// max_node_count are set to the same value, the cluster will be configured
+        /// with the fixed number of node (no auto-scaling).
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Scaling {
+            /// Required. The minimum number of nodes to scale down to. Must be greater than or
+            /// equal to 1.
+            #[prost(int32, tag = "1")]
+            pub min_node_count: i32,
+            /// The maximum number of nodes to scale up to. Must be greater or equal to
+            /// min_node_count.
+            #[prost(int32, tag = "2")]
+            pub max_node_count: i32,
+        }
     }
     /// Possible states a Featurestore can have.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -476,6 +500,7 @@ pub struct CustomJob {
     >,
 }
 /// Represents the spec of a CustomJob.
+/// Next Id: 14
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CustomJobSpec {
     /// Required. The spec of the worker pools including machine type and Docker image.
@@ -2223,7 +2248,7 @@ pub struct PredictSchemata {
 }
 /// Specification of a container for serving predictions. Some fields in this
 /// message correspond to fields in the [Kubernetes Container v1 core
-/// specification](<https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core>).
+/// specification](<https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core>).
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ModelContainerSpec {
     /// Required. Immutable. URI of the Docker image to be used as the custom container for serving
@@ -2279,7 +2304,7 @@ pub struct ModelContainerSpec {
     /// <code>$$(<var>VARIABLE_NAME</var>)</code>
     /// This field corresponds to the `command` field of the Kubernetes Containers
     /// [v1 core
-    /// API](<https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core>).
+    /// API](<https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core>).
     #[prost(string, repeated, tag = "2")]
     pub command: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Immutable. Specifies arguments for the command that runs when the container starts.
@@ -2317,7 +2342,7 @@ pub struct ModelContainerSpec {
     /// <code>$$(<var>VARIABLE_NAME</var>)</code>
     /// This field corresponds to the `args` field of the Kubernetes Containers
     /// [v1 core
-    /// API](<https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core>).
+    /// API](<https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core>).
     #[prost(string, repeated, tag = "3")]
     pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Immutable. List of environment variables to set in the container. After the container
@@ -2347,7 +2372,7 @@ pub struct ModelContainerSpec {
     ///
     /// This field corresponds to the `env` field of the Kubernetes Containers
     /// [v1 core
-    /// API](<https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core>).
+    /// API](<https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core>).
     #[prost(message, repeated, tag = "4")]
     pub env: ::prost::alloc::vec::Vec<EnvVar>,
     /// Immutable. List of ports to expose from the container. Vertex AI sends any
@@ -2370,7 +2395,7 @@ pub struct ModelContainerSpec {
     /// Vertex AI does not use ports other than the first one listed. This field
     /// corresponds to the `ports` field of the Kubernetes Containers
     /// [v1 core
-    /// API](<https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core>).
+    /// API](<https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core>).
     #[prost(message, repeated, tag = "5")]
     pub ports: ::prost::alloc::vec::Vec<Port>,
     /// Immutable. HTTP path on the container to send prediction requests to. Vertex AI
@@ -2951,7 +2976,6 @@ pub struct TrainingConfig {
     #[prost(int64, tag = "1")]
     pub timeout_training_milli_hours: i64,
 }
-/// LINT.IfChange
 /// A message representing a Study.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Study {
@@ -3843,8 +3867,8 @@ pub struct ModelDeploymentMonitoringObjectiveConfig {
 /// The config for scheduling monitoring job.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ModelDeploymentMonitoringScheduleConfig {
-    /// Required. The model monitoring job running interval. It will be rounded up to next
-    /// full hour.
+    /// Required. The model monitoring job scheduling interval. It will be rounded up to next
+    /// full hour. This defines how often the monitoring jobs are triggered.
     #[prost(message, optional, tag = "1")]
     pub monitor_interval: ::core::option::Option<::prost_types::Duration>,
 }
@@ -8417,6 +8441,18 @@ pub struct DeployedIndex {
     /// 1000.
     #[prost(message, optional, tag = "7")]
     pub automatic_resources: ::core::option::Option<AutomaticResources>,
+    /// Optional. A description of resources that are dedicated to the DeployedIndex, and
+    /// that need a higher degree of manual configuration.
+    /// If min_replica_count is not set, the default value is 2 (we don't provide
+    /// SLA when min_replica_count=1). If max_replica_count is not set, the
+    /// default value is min_replica_count. The max allowed replica count is
+    /// 1000.
+    ///
+    /// Available machine types:
+    /// n1-standard-16
+    /// n1-standard-32
+    #[prost(message, optional, tag = "16")]
+    pub dedicated_resources: ::core::option::Option<DedicatedResources>,
     /// Optional. If true, private endpoint's access logs are sent to StackDriver Logging.
     ///
     /// These logs are like standard server access logs, containing

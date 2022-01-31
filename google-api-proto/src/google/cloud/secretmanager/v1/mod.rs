@@ -102,6 +102,11 @@ pub struct SecretVersion {
     /// Output only. Etag of the currently stored \[SecretVersion][google.cloud.secretmanager.v1.SecretVersion\].
     #[prost(string, tag = "6")]
     pub etag: ::prost::alloc::string::String,
+    /// Output only. True if payload checksum specified in \[SecretPayload][google.cloud.secretmanager.v1.SecretPayload\] object has been
+    /// received by \[SecretManagerService][google.cloud.secretmanager.v1.SecretManagerService\] on
+    /// \[SecretManagerService.AddSecretVersion][google.cloud.secretmanager.v1.SecretManagerService.AddSecretVersion\].
+    #[prost(bool, tag = "7")]
+    pub client_specified_payload_checksum: bool,
 }
 /// Nested message and enum types in `SecretVersion`.
 pub mod secret_version {
@@ -318,6 +323,18 @@ pub struct SecretPayload {
     /// The secret data. Must be no larger than 64KiB.
     #[prost(bytes = "bytes", tag = "1")]
     pub data: ::prost::bytes::Bytes,
+    /// Optional. If specified, \[SecretManagerService][google.cloud.secretmanager.v1.SecretManagerService\] will verify the integrity of the
+    /// received \[data][google.cloud.secretmanager.v1.SecretPayload.data\] on \[SecretManagerService.AddSecretVersion][google.cloud.secretmanager.v1.SecretManagerService.AddSecretVersion\] calls using
+    /// the crc32c checksum and store it to include in future
+    /// \[SecretManagerService.AccessSecretVersion][google.cloud.secretmanager.v1.SecretManagerService.AccessSecretVersion\] responses. If a checksum is
+    /// not provided in the \[SecretManagerService.AddSecretVersion][google.cloud.secretmanager.v1.SecretManagerService.AddSecretVersion\] request, the
+    /// \[SecretManagerService][google.cloud.secretmanager.v1.SecretManagerService\] will generate and store one for you.
+    ///
+    /// The CRC32C value is encoded as a Int64 for compatibility, and can be
+    /// safely downconverted to uint32 in languages that support this type.
+    /// <https://cloud.google.com/apis/design/design_patterns#integer_types>
+    #[prost(int64, optional, tag = "2")]
+    pub data_crc32c: ::core::option::Option<i64>,
 }
 /// Request message for \[SecretManagerService.ListSecrets][google.cloud.secretmanager.v1.SecretManagerService.ListSecrets\].
 #[derive(Clone, PartialEq, ::prost::Message)]
