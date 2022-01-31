@@ -15507,6 +15507,20 @@
 <span id="15506">15506</span>
 <span id="15507">15507</span>
 <span id="15508">15508</span>
+<span id="15509">15509</span>
+<span id="15510">15510</span>
+<span id="15511">15511</span>
+<span id="15512">15512</span>
+<span id="15513">15513</span>
+<span id="15514">15514</span>
+<span id="15515">15515</span>
+<span id="15516">15516</span>
+<span id="15517">15517</span>
+<span id="15518">15518</span>
+<span id="15519">15519</span>
+<span id="15520">15520</span>
+<span id="15521">15521</span>
+<span id="15522">15522</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-aiplatform-v1-schema-predict-instance&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-aiplatform-v1-schema-predict-params&quot;</span>,
@@ -15582,6 +15596,8 @@
         <span class="doccomment">/// The number of nodes for each cluster. The number of nodes will not</span>
         <span class="doccomment">/// scale automatically but can be scaled manually by providing different</span>
         <span class="doccomment">/// values when updating.</span>
+        <span class="doccomment">/// Only one of `fixed_node_count` and `scaling` can be set. Setting one will</span>
+        <span class="doccomment">/// reset the other.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">fixed_node_count</span>: <span class="ident">i32</span>,
     }
@@ -15984,6 +16000,7 @@
     <span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Represents the spec of a CustomJob.</span>
+<span class="doccomment">/// Next Id: 14</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomJobSpec</span> {
     <span class="doccomment">/// Required. The spec of the worker pools including machine type and Docker image.</span>
@@ -17723,7 +17740,7 @@
 }
 <span class="doccomment">/// Specification of a container for serving predictions. Some fields in this</span>
 <span class="doccomment">/// message correspond to fields in the [Kubernetes Container v1 core</span>
-<span class="doccomment">/// specification](&lt;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core&gt;).</span>
+<span class="doccomment">/// specification](&lt;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core&gt;).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModelContainerSpec</span> {
     <span class="doccomment">/// Required. Immutable. URI of the Docker image to be used as the custom container for serving</span>
@@ -17779,7 +17796,7 @@
     <span class="doccomment">/// &lt;code&gt;$$(&lt;var&gt;VARIABLE_NAME&lt;/var&gt;)&lt;/code&gt;</span>
     <span class="doccomment">/// This field corresponds to the `command` field of the Kubernetes Containers</span>
     <span class="doccomment">/// [v1 core</span>
-    <span class="doccomment">/// API](&lt;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core&gt;).</span>
+    <span class="doccomment">/// API](&lt;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">command</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Immutable. Specifies arguments for the command that runs when the container starts.</span>
@@ -17817,7 +17834,7 @@
     <span class="doccomment">/// &lt;code&gt;$$(&lt;var&gt;VARIABLE_NAME&lt;/var&gt;)&lt;/code&gt;</span>
     <span class="doccomment">/// This field corresponds to the `args` field of the Kubernetes Containers</span>
     <span class="doccomment">/// [v1 core</span>
-    <span class="doccomment">/// API](&lt;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core&gt;).</span>
+    <span class="doccomment">/// API](&lt;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">args</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Immutable. List of environment variables to set in the container. After the container</span>
@@ -17847,7 +17864,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This field corresponds to the `env` field of the Kubernetes Containers</span>
     <span class="doccomment">/// [v1 core</span>
-    <span class="doccomment">/// API](&lt;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core&gt;).</span>
+    <span class="doccomment">/// API](&lt;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">env</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">EnvVar</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Immutable. List of ports to expose from the container. Vertex AI sends any</span>
@@ -17870,7 +17887,7 @@
     <span class="doccomment">/// Vertex AI does not use ports other than the first one listed. This field</span>
     <span class="doccomment">/// corresponds to the `ports` field of the Kubernetes Containers</span>
     <span class="doccomment">/// [v1 core</span>
-    <span class="doccomment">/// API](&lt;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#container-v1-core&gt;).</span>
+    <span class="doccomment">/// API](&lt;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#container-v1-core&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">ports</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Port</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Immutable. HTTP path on the container to send prediction requests to. Vertex AI</span>
@@ -18451,7 +18468,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">timeout_training_milli_hours</span>: <span class="ident">i64</span>,
 }
-<span class="doccomment">/// LINT.IfChange</span>
 <span class="doccomment">/// A message representing a Study.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Study</span> {
@@ -19301,8 +19317,8 @@
 <span class="doccomment">/// The config for scheduling monitoring job.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModelDeploymentMonitoringScheduleConfig</span> {
-    <span class="doccomment">/// Required. The model monitoring job running interval. It will be rounded up to next</span>
-    <span class="doccomment">/// full hour.</span>
+    <span class="doccomment">/// Required. The model monitoring job scheduling interval. It will be rounded up to next</span>
+    <span class="doccomment">/// full hour. This defines how often the monitoring jobs are triggered.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">monitor_interval</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
 }
@@ -23801,6 +23817,18 @@
     <span class="doccomment">/// 1000.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">automatic_resources</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutomaticResources</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. A description of resources that are dedicated to the DeployedIndex, and</span>
+    <span class="doccomment">/// that need a higher degree of manual configuration.</span>
+    <span class="doccomment">/// If min_replica_count is not set, the default value is 2 (we don&#39;t provide</span>
+    <span class="doccomment">/// SLA when min_replica_count=1). If max_replica_count is not set, the</span>
+    <span class="doccomment">/// default value is min_replica_count. The max allowed replica count is</span>
+    <span class="doccomment">/// 1000.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Available machine types:</span>
+    <span class="doccomment">/// n1-standard-16</span>
+    <span class="doccomment">/// n1-standard-32</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dedicated_resources</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DedicatedResources</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Optional. If true, private endpoint&#39;s access logs are sent to StackDriver Logging.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// These logs are like standard server access logs, containing</span>

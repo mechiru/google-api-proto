@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Scaling","Online serving scaling configuration. If min_node_count and max_node_count are set to the same value, the cluster will be configured with the fixed number of node (no auto-scaling)."]]});
