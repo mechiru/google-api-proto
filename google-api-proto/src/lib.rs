@@ -115,6 +115,7 @@ pub mod ccc;
     feature = "google-cloud-dataproc-logging",
     feature = "google-cloud-dataproc-v1",
     feature = "google-cloud-dataqna-v1alpha",
+    feature = "google-cloud-datastream-v1",
     feature = "google-cloud-datastream-v1alpha1",
     feature = "google-cloud-deploy-v1",
     feature = "google-cloud-dialogflow-cx-v3",

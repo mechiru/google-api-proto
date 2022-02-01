@@ -127,7 +127,10 @@ pub mod dataproc;
 #[cfg(any(feature = "google-cloud-dataqna-v1alpha",))]
 pub mod dataqna;
 
-#[cfg(any(feature = "google-cloud-datastream-v1alpha1",))]
+#[cfg(any(
+    feature = "google-cloud-datastream-v1",
+    feature = "google-cloud-datastream-v1alpha1",
+))]
 pub mod datastream;
 
 #[cfg(any(feature = "google-cloud-deploy-v1",))]
