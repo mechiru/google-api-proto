@@ -669,6 +669,13 @@ pub mod query_write_status_response {
     }
 }
 /// Request message for RewriteObject.
+/// If the source object is encrypted using a Customer-Supplied Encryption Key
+/// the key information must be provided in the copy_source_encryption_algorithm,
+/// copy_source_encryption_key_bytes, and copy_source_encryption_key_sha256_bytes
+/// fields. If the destination object should be encrypted the keying information
+/// should be provided in the encryption_algorithm, encryption_key_bytes, and
+/// encryption_key_sha256_bytes fields of the
+/// common_object_request_params.customer_encryption field.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RewriteObjectRequest {
     /// Immutable. The name of the destination object. Nearly any sequence of unicode
@@ -683,14 +690,17 @@ pub struct RewriteObjectRequest {
     /// Immutable. The name of the bucket containing The name of the destination object.
     #[prost(string, tag = "25")]
     pub destination_bucket: ::prost::alloc::string::String,
-    /// Metadata of customer-supplied encryption key for the destination object, if
-    /// the object is to be encrypted by such a key.
-    #[prost(message, optional, tag = "26")]
-    pub destination_customer_encryption: ::core::option::Option<CustomerEncryption>,
+    /// The name of the Cloud KMS key that will be used to encrypt the destination
+    /// object. The Cloud KMS key must be located in same location as the object.
+    /// If the parameter is not specified, the request uses the destination
+    /// bucket's default encryption key, if any, or else the Google-managed
+    /// encryption key.
+    #[prost(string, tag = "27")]
+    pub destination_kms_key: ::prost::alloc::string::String,
     /// Properties of the destination, post-rewrite object.
-    /// The `name`, `bucket`, and `customer_encryption` fields must not be
-    /// populated (these values are specified in the `destination_name`,
-    /// `destination_bucket`, and `destination_customer_encryption` fields).
+    /// The `name`, `bucket` and `kms_key` fields must not be populated (these
+    /// values are specified in the `destination_name`, `destination_bucket`, and
+    /// `destination_kms_key` fields).
     /// If `destination` is present it will be used to construct the destination
     /// object's metadata; otherwise the destination object's metadata will be
     /// copied from the source object.
@@ -761,15 +771,18 @@ pub struct RewriteObjectRequest {
     /// `rewriteToken` is invalid.
     #[prost(int64, tag = "15")]
     pub max_bytes_rewritten_per_call: i64,
-    /// The algorithm used to encrypt the source object, if any.
+    /// The algorithm used to encrypt the source object, if any. Used if the source
+    /// object was encrypted with a Customer-Supplied Encryption Key.
     #[prost(string, tag = "16")]
     pub copy_source_encryption_algorithm: ::prost::alloc::string::String,
-    /// The encryption key used to encrypt the source object, if any.
-    /// In raw bytes format (not base64-encoded).
+    /// The raw bytes (not base64-encoded) AES-256 encryption key used to encrypt
+    /// the source object, if it was encrypted with a Customer-Supplied Encryption
+    /// Key.
     #[prost(bytes = "bytes", tag = "21")]
     pub copy_source_encryption_key_bytes: ::prost::bytes::Bytes,
-    /// The SHA-256 hash of the key used to encrypt the source object, if any.
-    /// In raw bytes format (not base64-encoded).
+    /// The raw bytes (not base64-encoded) SHA256 hash of the encryption key used
+    /// to encrypt the source object, if it was encrypted with a Customer-Supplied
+    /// Encryption Key.
     #[prost(bytes = "bytes", tag = "22")]
     pub copy_source_encryption_key_sha256_bytes: ::prost::bytes::Bytes,
     /// A set of parameters common to Storage API requests concerning an object.
@@ -987,15 +1000,16 @@ pub struct UpdateHmacKeyRequest {
 /// Parameters that can be passed to any object request.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CommonObjectRequestParams {
-    /// Encryption algorithm used with Customer-Supplied Encryption Keys feature.
+    /// Encryption algorithm used with the Customer-Supplied Encryption Keys
+    /// feature.
     #[prost(string, tag = "1")]
     pub encryption_algorithm: ::prost::alloc::string::String,
-    /// Encryption key used with Customer-Supplied Encryption Keys feature.
+    /// Encryption key used with the Customer-Supplied Encryption Keys feature.
     /// In raw bytes format (not base64-encoded).
     #[prost(bytes = "bytes", tag = "4")]
     pub encryption_key_bytes: ::prost::bytes::Bytes,
-    /// SHA256 hash of encryption key used with Customer-Supplied Encryption Keys
-    /// feature.
+    /// SHA256 hash of encryption key used with the Customer-Supplied Encryption
+    /// Keys feature.
     #[prost(bytes = "bytes", tag = "5")]
     pub encryption_key_sha256_bytes: ::prost::bytes::Bytes,
 }
@@ -1244,8 +1258,8 @@ pub mod bucket {
     /// Encryption properties of a bucket.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Encryption {
-        /// A Cloud KMS key that will be used to encrypt objects inserted into this
-        /// bucket, if no encryption method is specified.
+        /// The name of the Cloud KMS key that will be used to encrypt objects
+        /// inserted into this bucket, if no encryption method is specified.
         #[prost(string, tag = "1")]
         pub default_kms_key: ::prost::alloc::string::String,
     }
@@ -1576,8 +1590,8 @@ pub struct Notification {
     #[prost(string, tag = "6")]
     pub payload_format: ::prost::alloc::string::String,
 }
-/// Describes the customer-specified mechanism used to store an Object's data at
-/// rest.
+/// Describes the Customer-Supplied Encryption Key mechanism used to store an
+/// Object's data at rest.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CustomerEncryption {
     /// The encryption algorithm.
@@ -1730,7 +1744,7 @@ pub struct Object {
     /// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].
     #[prost(message, optional, tag = "24")]
     pub owner: ::core::option::Option<Owner>,
-    /// Metadata of customer-supplied encryption key, if the object is encrypted by
+    /// Metadata of Customer-Supplied Encryption Key, if the object is encrypted by
     /// such a key.
     #[prost(message, optional, tag = "25")]
     pub customer_encryption: ::core::option::Option<CustomerEncryption>,
