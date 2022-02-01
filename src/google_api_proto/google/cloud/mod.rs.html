@@ -552,6 +552,9 @@
 <span id="551">551</span>
 <span id="552">552</span>
 <span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-accessapproval-v1&quot;</span>,))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">accessapproval</span>;
 
@@ -681,7 +684,10 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-dataqna-v1alpha&quot;</span>,))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dataqna</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-datastream-v1alpha1&quot;</span>,))]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-datastream-v1&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-datastream-v1alpha1&quot;</span>,
+))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">datastream</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-deploy-v1&quot;</span>,))]</span>

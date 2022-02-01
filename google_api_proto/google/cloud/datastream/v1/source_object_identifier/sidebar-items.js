@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SourceIdentifier","The identifier for an object in the data source."]],"struct":[["MysqlObjectIdentifier","Mysql data source object identifier."],["OracleObjectIdentifier","Oracle data source object identifier."]]});
