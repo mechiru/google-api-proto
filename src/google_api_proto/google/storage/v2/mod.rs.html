@@ -2477,6 +2477,20 @@
 <span id="2476">2476</span>
 <span id="2477">2477</span>
 <span id="2478">2478</span>
+<span id="2479">2479</span>
+<span id="2480">2480</span>
+<span id="2481">2481</span>
+<span id="2482">2482</span>
+<span id="2483">2483</span>
+<span id="2484">2484</span>
+<span id="2485">2485</span>
+<span id="2486">2486</span>
+<span id="2487">2487</span>
+<span id="2488">2488</span>
+<span id="2489">2489</span>
+<span id="2490">2490</span>
+<span id="2491">2491</span>
+<span id="2492">2492</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Request message for DeleteBucket.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteBucketRequest</span> {
@@ -3148,6 +3162,13 @@
     }
 }
 <span class="doccomment">/// Request message for RewriteObject.</span>
+<span class="doccomment">/// If the source object is encrypted using a Customer-Supplied Encryption Key</span>
+<span class="doccomment">/// the key information must be provided in the copy_source_encryption_algorithm,</span>
+<span class="doccomment">/// copy_source_encryption_key_bytes, and copy_source_encryption_key_sha256_bytes</span>
+<span class="doccomment">/// fields. If the destination object should be encrypted the keying information</span>
+<span class="doccomment">/// should be provided in the encryption_algorithm, encryption_key_bytes, and</span>
+<span class="doccomment">/// encryption_key_sha256_bytes fields of the</span>
+<span class="doccomment">/// common_object_request_params.customer_encryption field.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RewriteObjectRequest</span> {
     <span class="doccomment">/// Immutable. The name of the destination object. Nearly any sequence of unicode</span>
@@ -3162,14 +3183,17 @@
     <span class="doccomment">/// Immutable. The name of the bucket containing The name of the destination object.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">destination_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Metadata of customer-supplied encryption key for the destination object, if</span>
-    <span class="doccomment">/// the object is to be encrypted by such a key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;26&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination_customer_encryption</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomerEncryption</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The name of the Cloud KMS key that will be used to encrypt the destination</span>
+    <span class="doccomment">/// object. The Cloud KMS key must be located in same location as the object.</span>
+    <span class="doccomment">/// If the parameter is not specified, the request uses the destination</span>
+    <span class="doccomment">/// bucket&#39;s default encryption key, if any, or else the Google-managed</span>
+    <span class="doccomment">/// encryption key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;27&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_kms_key</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Properties of the destination, post-rewrite object.</span>
-    <span class="doccomment">/// The `name`, `bucket`, and `customer_encryption` fields must not be</span>
-    <span class="doccomment">/// populated (these values are specified in the `destination_name`,</span>
-    <span class="doccomment">/// `destination_bucket`, and `destination_customer_encryption` fields).</span>
+    <span class="doccomment">/// The `name`, `bucket` and `kms_key` fields must not be populated (these</span>
+    <span class="doccomment">/// values are specified in the `destination_name`, `destination_bucket`, and</span>
+    <span class="doccomment">/// `destination_kms_key` fields).</span>
     <span class="doccomment">/// If `destination` is present it will be used to construct the destination</span>
     <span class="doccomment">/// object&#39;s metadata; otherwise the destination object&#39;s metadata will be</span>
     <span class="doccomment">/// copied from the source object.</span>
@@ -3240,15 +3264,18 @@
     <span class="doccomment">/// `rewriteToken` is invalid.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">max_bytes_rewritten_per_call</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The algorithm used to encrypt the source object, if any.</span>
+    <span class="doccomment">/// The algorithm used to encrypt the source object, if any. Used if the source</span>
+    <span class="doccomment">/// object was encrypted with a Customer-Supplied Encryption Key.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">copy_source_encryption_algorithm</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The encryption key used to encrypt the source object, if any.</span>
-    <span class="doccomment">/// In raw bytes format (not base64-encoded).</span>
+    <span class="doccomment">/// The raw bytes (not base64-encoded) AES-256 encryption key used to encrypt</span>
+    <span class="doccomment">/// the source object, if it was encrypted with a Customer-Supplied Encryption</span>
+    <span class="doccomment">/// Key.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">copy_source_encryption_key_bytes</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// The SHA-256 hash of the key used to encrypt the source object, if any.</span>
-    <span class="doccomment">/// In raw bytes format (not base64-encoded).</span>
+    <span class="doccomment">/// The raw bytes (not base64-encoded) SHA256 hash of the encryption key used</span>
+    <span class="doccomment">/// to encrypt the source object, if it was encrypted with a Customer-Supplied</span>
+    <span class="doccomment">/// Encryption Key.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">copy_source_encryption_key_sha256_bytes</span>: <span class="ident">::prost::bytes::Bytes</span>,
     <span class="doccomment">/// A set of parameters common to Storage API requests concerning an object.</span>
@@ -3466,15 +3493,16 @@
 <span class="doccomment">/// Parameters that can be passed to any object request.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommonObjectRequestParams</span> {
-    <span class="doccomment">/// Encryption algorithm used with Customer-Supplied Encryption Keys feature.</span>
+    <span class="doccomment">/// Encryption algorithm used with the Customer-Supplied Encryption Keys</span>
+    <span class="doccomment">/// feature.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">encryption_algorithm</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Encryption key used with Customer-Supplied Encryption Keys feature.</span>
+    <span class="doccomment">/// Encryption key used with the Customer-Supplied Encryption Keys feature.</span>
     <span class="doccomment">/// In raw bytes format (not base64-encoded).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">encryption_key_bytes</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// SHA256 hash of encryption key used with Customer-Supplied Encryption Keys</span>
-    <span class="doccomment">/// feature.</span>
+    <span class="doccomment">/// SHA256 hash of encryption key used with the Customer-Supplied Encryption</span>
+    <span class="doccomment">/// Keys feature.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">encryption_key_sha256_bytes</span>: <span class="ident">::prost::bytes::Bytes</span>,
 }
@@ -3723,8 +3751,8 @@
     <span class="doccomment">/// Encryption properties of a bucket.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Encryption</span> {
-        <span class="doccomment">/// A Cloud KMS key that will be used to encrypt objects inserted into this</span>
-        <span class="doccomment">/// bucket, if no encryption method is specified.</span>
+        <span class="doccomment">/// The name of the Cloud KMS key that will be used to encrypt objects</span>
+        <span class="doccomment">/// inserted into this bucket, if no encryption method is specified.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">default_kms_key</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
@@ -4055,8 +4083,8 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">payload_format</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Describes the customer-specified mechanism used to store an Object&#39;s data at</span>
-<span class="doccomment">/// rest.</span>
+<span class="doccomment">/// Describes the Customer-Supplied Encryption Key mechanism used to store an</span>
+<span class="doccomment">/// Object&#39;s data at rest.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomerEncryption</span> {
     <span class="doccomment">/// The encryption algorithm.</span>
@@ -4209,7 +4237,7 @@
     <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;24&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">owner</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Owner</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Metadata of customer-supplied encryption key, if the object is encrypted by</span>
+    <span class="doccomment">/// Metadata of Customer-Supplied Encryption Key, if the object is encrypted by</span>
     <span class="doccomment">/// such a key.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">customer_encryption</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomerEncryption</span><span class="op">&gt;</span>,
