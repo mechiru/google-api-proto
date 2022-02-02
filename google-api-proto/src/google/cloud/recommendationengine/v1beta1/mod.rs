@@ -540,184 +540,6 @@ pub struct ProductDetail {
     #[prost(message, optional, tag = "8")]
     pub item_attributes: ::core::option::Option<FeatureMap>,
 }
-/// Google Cloud Storage location for input content.
-/// format.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsSource {
-    /// Required. Google Cloud Storage URIs to input files. URI can be up to
-    /// 2000 characters long. URIs can match the full object path (for example,
-    /// `gs://bucket/directory/object.json`) or a pattern matching one or more
-    /// files, such as `gs://bucket/directory/*.json`. A request can
-    /// contain at most 100 files, and each file can be up to 2 GB. See
-    /// [Importing catalog information](/recommendations-ai/docs/upload-catalog)
-    /// for the expected file format and setup instructions.
-    #[prost(string, repeated, tag = "1")]
-    pub input_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// The inline source for the input config for ImportCatalogItems method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CatalogInlineSource {
-    /// Optional. A list of catalog items to update/create. Recommended max of 10k
-    /// items.
-    #[prost(message, repeated, tag = "1")]
-    pub catalog_items: ::prost::alloc::vec::Vec<CatalogItem>,
-}
-/// The inline source for the input config for ImportUserEvents method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserEventInlineSource {
-    /// Optional. A list of user events to import. Recommended max of 10k items.
-    #[prost(message, repeated, tag = "1")]
-    pub user_events: ::prost::alloc::vec::Vec<UserEvent>,
-}
-/// Configuration of destination for Import related errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportErrorsConfig {
-    /// Required. Errors destination.
-    #[prost(oneof = "import_errors_config::Destination", tags = "1")]
-    pub destination: ::core::option::Option<import_errors_config::Destination>,
-}
-/// Nested message and enum types in `ImportErrorsConfig`.
-pub mod import_errors_config {
-    /// Required. Errors destination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Destination {
-        /// Google Cloud Storage path for import errors. This must be an empty,
-        /// existing Cloud Storage bucket. Import errors will be written to a file in
-        /// this bucket, one per line, as a JSON-encoded
-        /// `google.rpc.Status` message.
-        #[prost(string, tag = "1")]
-        GcsPrefix(::prost::alloc::string::String),
-    }
-}
-/// Request message for Import methods.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportCatalogItemsRequest {
-    /// Required. `projects/1234/locations/global/catalogs/default_catalog`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Unique identifier provided by client, within the ancestor
-    /// dataset scope. Ensures idempotency and used for request deduplication.
-    /// Server-generated if unspecified. Up to 128 characters long. This is
-    /// returned as google.longrunning.Operation.name in the response.
-    #[prost(string, tag = "2")]
-    pub request_id: ::prost::alloc::string::String,
-    /// Required. The desired input location of the data.
-    #[prost(message, optional, tag = "3")]
-    pub input_config: ::core::option::Option<InputConfig>,
-    /// Optional. The desired location of errors incurred during the Import.
-    #[prost(message, optional, tag = "4")]
-    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
-}
-/// Request message for the ImportUserEvents request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportUserEventsRequest {
-    /// Required.
-    /// `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Unique identifier provided by client, within the ancestor
-    /// dataset scope. Ensures idempotency for expensive long running operations.
-    /// Server-generated if unspecified. Up to 128 characters long. This is
-    /// returned as google.longrunning.Operation.name in the response. Note that
-    /// this field must not be set if the desired input config is
-    /// catalog_inline_source.
-    #[prost(string, tag = "2")]
-    pub request_id: ::prost::alloc::string::String,
-    /// Required. The desired input location of the data.
-    #[prost(message, optional, tag = "3")]
-    pub input_config: ::core::option::Option<InputConfig>,
-    /// Optional. The desired location of errors incurred during the Import.
-    #[prost(message, optional, tag = "4")]
-    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
-}
-/// The input config source.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InputConfig {
-    /// Required. The source of the input.
-    #[prost(oneof = "input_config::Source", tags = "1, 2, 3")]
-    pub source: ::core::option::Option<input_config::Source>,
-}
-/// Nested message and enum types in `InputConfig`.
-pub mod input_config {
-    /// Required. The source of the input.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// The Inline source for the input content for Catalog items.
-        #[prost(message, tag = "1")]
-        CatalogInlineSource(super::CatalogInlineSource),
-        /// Google Cloud Storage location for the input content.
-        #[prost(message, tag = "2")]
-        GcsSource(super::GcsSource),
-        /// The Inline source for the input content for UserEvents.
-        #[prost(message, tag = "3")]
-        UserEventInlineSource(super::UserEventInlineSource),
-    }
-}
-/// Metadata related to the progress of the Import operation. This will be
-/// returned by the google.longrunning.Operation.metadata field.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportMetadata {
-    /// Name of the operation.
-    #[prost(string, tag = "5")]
-    pub operation_name: ::prost::alloc::string::String,
-    /// Id of the request / operation. This is parroting back the requestId that
-    /// was passed in the request.
-    #[prost(string, tag = "3")]
-    pub request_id: ::prost::alloc::string::String,
-    /// Operation create time.
-    #[prost(message, optional, tag = "4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Count of entries that were processed successfully.
-    #[prost(int64, tag = "1")]
-    pub success_count: i64,
-    /// Count of entries that encountered errors while processing.
-    #[prost(int64, tag = "2")]
-    pub failure_count: i64,
-    /// Operation last update time. If the operation is done, this is also the
-    /// finish time.
-    #[prost(message, optional, tag = "6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Response of the ImportCatalogItemsRequest. If the long running
-/// operation is done, then this message is returned by the
-/// google.longrunning.Operations.response field if the operation was successful.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportCatalogItemsResponse {
-    /// A sample of errors encountered while processing the request.
-    #[prost(message, repeated, tag = "1")]
-    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Echoes the destination for the complete errors in the request if set.
-    #[prost(message, optional, tag = "2")]
-    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
-}
-/// Response of the ImportUserEventsRequest. If the long running
-/// operation was successful, then this message is returned by the
-/// google.longrunning.Operations.response field if the operation was successful.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportUserEventsResponse {
-    /// A sample of errors encountered while processing the request.
-    #[prost(message, repeated, tag = "1")]
-    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Echoes the destination for the complete errors if this field was set in
-    /// the request.
-    #[prost(message, optional, tag = "2")]
-    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
-    /// Aggregated statistics of user event import status.
-    #[prost(message, optional, tag = "3")]
-    pub import_summary: ::core::option::Option<UserEventImportSummary>,
-}
-/// A summary of import result. The UserEventImportSummary summarizes
-/// the import status for user events.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserEventImportSummary {
-    /// Count of user events imported with complete existing catalog information.
-    #[prost(int64, tag = "1")]
-    pub joined_events_count: i64,
-    /// Count of user events imported, but with catalog information not found
-    /// in the imported catalog.
-    #[prost(int64, tag = "2")]
-    pub unjoined_events_count: i64,
-}
 /// Request message for Predict method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PredictRequest {
@@ -945,159 +767,183 @@ pub mod prediction_service_client {
         }
     }
 }
-/// Registered Api Key.
+/// Google Cloud Storage location for input content.
+/// format.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PredictionApiKeyRegistration {
-    /// The API key.
-    #[prost(string, tag = "1")]
-    pub api_key: ::prost::alloc::string::String,
+pub struct GcsSource {
+    /// Required. Google Cloud Storage URIs to input files. URI can be up to
+    /// 2000 characters long. URIs can match the full object path (for example,
+    /// `gs://bucket/directory/object.json`) or a pattern matching one or more
+    /// files, such as `gs://bucket/directory/*.json`. A request can
+    /// contain at most 100 files, and each file can be up to 2 GB. See
+    /// [Importing catalog information](/recommendations-ai/docs/upload-catalog)
+    /// for the expected file format and setup instructions.
+    #[prost(string, repeated, tag = "1")]
+    pub input_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-/// Request message for the `CreatePredictionApiKeyRegistration` method.
+/// The inline source for the input config for ImportCatalogItems method.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreatePredictionApiKeyRegistrationRequest {
-    /// Required. The parent resource path.
-    /// `projects/*/locations/global/catalogs/default_catalog/eventStores/default_event_store`.
+pub struct CatalogInlineSource {
+    /// Optional. A list of catalog items to update/create. Recommended max of 10k
+    /// items.
+    #[prost(message, repeated, tag = "1")]
+    pub catalog_items: ::prost::alloc::vec::Vec<CatalogItem>,
+}
+/// The inline source for the input config for ImportUserEvents method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserEventInlineSource {
+    /// Optional. A list of user events to import. Recommended max of 10k items.
+    #[prost(message, repeated, tag = "1")]
+    pub user_events: ::prost::alloc::vec::Vec<UserEvent>,
+}
+/// Configuration of destination for Import related errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportErrorsConfig {
+    /// Required. Errors destination.
+    #[prost(oneof = "import_errors_config::Destination", tags = "1")]
+    pub destination: ::core::option::Option<import_errors_config::Destination>,
+}
+/// Nested message and enum types in `ImportErrorsConfig`.
+pub mod import_errors_config {
+    /// Required. Errors destination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Destination {
+        /// Google Cloud Storage path for import errors. This must be an empty,
+        /// existing Cloud Storage bucket. Import errors will be written to a file in
+        /// this bucket, one per line, as a JSON-encoded
+        /// `google.rpc.Status` message.
+        #[prost(string, tag = "1")]
+        GcsPrefix(::prost::alloc::string::String),
+    }
+}
+/// Request message for Import methods.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportCatalogItemsRequest {
+    /// Required. `projects/1234/locations/global/catalogs/default_catalog`
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. The prediction API key registration.
-    #[prost(message, optional, tag = "2")]
-    pub prediction_api_key_registration: ::core::option::Option<PredictionApiKeyRegistration>,
+    /// Optional. Unique identifier provided by client, within the ancestor
+    /// dataset scope. Ensures idempotency and used for request deduplication.
+    /// Server-generated if unspecified. Up to 128 characters long. This is
+    /// returned as google.longrunning.Operation.name in the response.
+    #[prost(string, tag = "2")]
+    pub request_id: ::prost::alloc::string::String,
+    /// Required. The desired input location of the data.
+    #[prost(message, optional, tag = "3")]
+    pub input_config: ::core::option::Option<InputConfig>,
+    /// Optional. The desired location of errors incurred during the Import.
+    #[prost(message, optional, tag = "4")]
+    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
 }
-/// Request message for the `ListPredictionApiKeyRegistrations`.
+/// Request message for the ImportUserEvents request.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPredictionApiKeyRegistrationsRequest {
-    /// Required. The parent placement resource name such as
+pub struct ImportUserEventsRequest {
+    /// Required.
     /// `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store`
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of results to return per page. If unset, the
-    /// service will choose a reasonable default.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. The previous `ListPredictionApiKeyRegistration.nextPageToken`.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for the `ListPredictionApiKeyRegistrations`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPredictionApiKeyRegistrationsResponse {
-    /// The list of registered API keys.
-    #[prost(message, repeated, tag = "1")]
-    pub prediction_api_key_registrations: ::prost::alloc::vec::Vec<PredictionApiKeyRegistration>,
-    /// If empty, the list is complete. If nonempty, pass the token to the next
-    /// request's `ListPredictionApiKeysRegistrationsRequest.pageToken`.
+    /// Optional. Unique identifier provided by client, within the ancestor
+    /// dataset scope. Ensures idempotency for expensive long running operations.
+    /// Server-generated if unspecified. Up to 128 characters long. This is
+    /// returned as google.longrunning.Operation.name in the response. Note that
+    /// this field must not be set if the desired input config is
+    /// catalog_inline_source.
     #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
+    pub request_id: ::prost::alloc::string::String,
+    /// Required. The desired input location of the data.
+    #[prost(message, optional, tag = "3")]
+    pub input_config: ::core::option::Option<InputConfig>,
+    /// Optional. The desired location of errors incurred during the Import.
+    #[prost(message, optional, tag = "4")]
+    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
 }
-/// Request message for `DeletePredictionApiKeyRegistration` method.
+/// The input config source.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePredictionApiKeyRegistrationRequest {
-    /// Required. The API key to unregister including full resource path.
-    /// `projects/*/locations/global/catalogs/default_catalog/eventStores/default_event_store/predictionApiKeyRegistrations/<YOUR_API_KEY>`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
+pub struct InputConfig {
+    /// Required. The source of the input.
+    #[prost(oneof = "input_config::Source", tags = "1, 2, 3")]
+    pub source: ::core::option::Option<input_config::Source>,
 }
-#[doc = r" Generated client implementations."]
-pub mod prediction_api_key_registry_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for registering API keys for use with the `predict` method. If you"]
-    #[doc = " use an API key to request predictions, you must first register the API key."]
-    #[doc = " Otherwise, your prediction request is rejected. If you use OAuth to"]
-    #[doc = " authenticate your `predict` method call, you do not need to register an API"]
-    #[doc = " key. You can register up to 20 API keys per project."]
-    #[derive(Debug, Clone)]
-    pub struct PredictionApiKeyRegistryClient<T> {
-        inner: tonic::client::Grpc<T>,
+/// Nested message and enum types in `InputConfig`.
+pub mod input_config {
+    /// Required. The source of the input.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// The Inline source for the input content for Catalog items.
+        #[prost(message, tag = "1")]
+        CatalogInlineSource(super::CatalogInlineSource),
+        /// Google Cloud Storage location for the input content.
+        #[prost(message, tag = "2")]
+        GcsSource(super::GcsSource),
+        /// The Inline source for the input content for UserEvents.
+        #[prost(message, tag = "3")]
+        UserEventInlineSource(super::UserEventInlineSource),
     }
-    impl<T> PredictionApiKeyRegistryClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> PredictionApiKeyRegistryClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            PredictionApiKeyRegistryClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Register an API key for use with predict method."]
-        pub async fn create_prediction_api_key_registration(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreatePredictionApiKeyRegistrationRequest>,
-        ) -> Result<tonic::Response<super::PredictionApiKeyRegistration>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http :: uri :: PathAndQuery :: from_static ("/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/CreatePredictionApiKeyRegistration") ;
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List the registered apiKeys for use with predict method."]
-        pub async fn list_prediction_api_key_registrations(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListPredictionApiKeyRegistrationsRequest>,
-        ) -> Result<tonic::Response<super::ListPredictionApiKeyRegistrationsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http :: uri :: PathAndQuery :: from_static ("/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/ListPredictionApiKeyRegistrations") ;
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Unregister an apiKey from using for predict method."]
-        pub async fn delete_prediction_api_key_registration(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeletePredictionApiKeyRegistrationRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http :: uri :: PathAndQuery :: from_static ("/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/DeletePredictionApiKeyRegistration") ;
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
+}
+/// Metadata related to the progress of the Import operation. This will be
+/// returned by the google.longrunning.Operation.metadata field.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportMetadata {
+    /// Name of the operation.
+    #[prost(string, tag = "5")]
+    pub operation_name: ::prost::alloc::string::String,
+    /// Id of the request / operation. This is parroting back the requestId that
+    /// was passed in the request.
+    #[prost(string, tag = "3")]
+    pub request_id: ::prost::alloc::string::String,
+    /// Operation create time.
+    #[prost(message, optional, tag = "4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Count of entries that were processed successfully.
+    #[prost(int64, tag = "1")]
+    pub success_count: i64,
+    /// Count of entries that encountered errors while processing.
+    #[prost(int64, tag = "2")]
+    pub failure_count: i64,
+    /// Operation last update time. If the operation is done, this is also the
+    /// finish time.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Response of the ImportCatalogItemsRequest. If the long running
+/// operation is done, then this message is returned by the
+/// google.longrunning.Operations.response field if the operation was successful.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportCatalogItemsResponse {
+    /// A sample of errors encountered while processing the request.
+    #[prost(message, repeated, tag = "1")]
+    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Echoes the destination for the complete errors in the request if set.
+    #[prost(message, optional, tag = "2")]
+    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
+}
+/// Response of the ImportUserEventsRequest. If the long running
+/// operation was successful, then this message is returned by the
+/// google.longrunning.Operations.response field if the operation was successful.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportUserEventsResponse {
+    /// A sample of errors encountered while processing the request.
+    #[prost(message, repeated, tag = "1")]
+    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Echoes the destination for the complete errors if this field was set in
+    /// the request.
+    #[prost(message, optional, tag = "2")]
+    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
+    /// Aggregated statistics of user event import status.
+    #[prost(message, optional, tag = "3")]
+    pub import_summary: ::core::option::Option<UserEventImportSummary>,
+}
+/// A summary of import result. The UserEventImportSummary summarizes
+/// the import status for user events.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserEventImportSummary {
+    /// Count of user events imported with complete existing catalog information.
+    #[prost(int64, tag = "1")]
+    pub joined_events_count: i64,
+    /// Count of user events imported, but with catalog information not found
+    /// in the imported catalog.
+    #[prost(int64, tag = "2")]
+    pub unjoined_events_count: i64,
 }
 /// Request message for CreateCatalogItem method.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1638,6 +1484,160 @@ pub mod user_event_service_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.recommendationengine.v1beta1.UserEventService/ImportUserEvents",
             );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Registered Api Key.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PredictionApiKeyRegistration {
+    /// The API key.
+    #[prost(string, tag = "1")]
+    pub api_key: ::prost::alloc::string::String,
+}
+/// Request message for the `CreatePredictionApiKeyRegistration` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreatePredictionApiKeyRegistrationRequest {
+    /// Required. The parent resource path.
+    /// `projects/*/locations/global/catalogs/default_catalog/eventStores/default_event_store`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The prediction API key registration.
+    #[prost(message, optional, tag = "2")]
+    pub prediction_api_key_registration: ::core::option::Option<PredictionApiKeyRegistration>,
+}
+/// Request message for the `ListPredictionApiKeyRegistrations`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPredictionApiKeyRegistrationsRequest {
+    /// Required. The parent placement resource name such as
+    /// `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of results to return per page. If unset, the
+    /// service will choose a reasonable default.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. The previous `ListPredictionApiKeyRegistration.nextPageToken`.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for the `ListPredictionApiKeyRegistrations`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPredictionApiKeyRegistrationsResponse {
+    /// The list of registered API keys.
+    #[prost(message, repeated, tag = "1")]
+    pub prediction_api_key_registrations: ::prost::alloc::vec::Vec<PredictionApiKeyRegistration>,
+    /// If empty, the list is complete. If nonempty, pass the token to the next
+    /// request's `ListPredictionApiKeysRegistrationsRequest.pageToken`.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for `DeletePredictionApiKeyRegistration` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePredictionApiKeyRegistrationRequest {
+    /// Required. The API key to unregister including full resource path.
+    /// `projects/*/locations/global/catalogs/default_catalog/eventStores/default_event_store/predictionApiKeyRegistrations/<YOUR_API_KEY>`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod prediction_api_key_registry_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for registering API keys for use with the `predict` method. If you"]
+    #[doc = " use an API key to request predictions, you must first register the API key."]
+    #[doc = " Otherwise, your prediction request is rejected. If you use OAuth to"]
+    #[doc = " authenticate your `predict` method call, you do not need to register an API"]
+    #[doc = " key. You can register up to 20 API keys per project."]
+    #[derive(Debug, Clone)]
+    pub struct PredictionApiKeyRegistryClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> PredictionApiKeyRegistryClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> PredictionApiKeyRegistryClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            PredictionApiKeyRegistryClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Register an API key for use with predict method."]
+        pub async fn create_prediction_api_key_registration(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreatePredictionApiKeyRegistrationRequest>,
+        ) -> Result<tonic::Response<super::PredictionApiKeyRegistration>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http :: uri :: PathAndQuery :: from_static ("/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/CreatePredictionApiKeyRegistration") ;
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List the registered apiKeys for use with predict method."]
+        pub async fn list_prediction_api_key_registrations(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListPredictionApiKeyRegistrationsRequest>,
+        ) -> Result<tonic::Response<super::ListPredictionApiKeyRegistrationsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http :: uri :: PathAndQuery :: from_static ("/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/ListPredictionApiKeyRegistrations") ;
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Unregister an apiKey from using for predict method."]
+        pub async fn delete_prediction_api_key_registration(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeletePredictionApiKeyRegistrationRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http :: uri :: PathAndQuery :: from_static ("/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/DeletePredictionApiKeyRegistration") ;
             self.inner.unary(request.into_request(), path, codec).await
         }
     }

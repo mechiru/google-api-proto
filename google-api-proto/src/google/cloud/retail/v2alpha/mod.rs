@@ -729,6 +729,63 @@ pub enum SolutionType {
     /// Used for Retail Search.
     Search = 2,
 }
+/// Configuration of destination for Export related errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportErrorsConfig {
+    /// Required. Errors destination.
+    #[prost(oneof = "export_errors_config::Destination", tags = "1")]
+    pub destination: ::core::option::Option<export_errors_config::Destination>,
+}
+/// Nested message and enum types in `ExportErrorsConfig`.
+pub mod export_errors_config {
+    /// Required. Errors destination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Destination {
+        /// Google Cloud Storage path for import errors. This must be an empty,
+        /// existing Cloud Storage bucket. Export errors will be written to a file in
+        /// this bucket, one per line, as a JSON-encoded
+        /// `google.rpc.Status` message.
+        #[prost(string, tag = "1")]
+        GcsPrefix(::prost::alloc::string::String),
+    }
+}
+/// Metadata related to the progress of the Export operation. This will be
+/// returned by the google.longrunning.Operation.metadata field.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportMetadata {
+    /// Operation create time.
+    #[prost(message, optional, tag = "1")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Operation last update time. If the operation is done, this is also the
+    /// finish time.
+    #[prost(message, optional, tag = "2")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Response of the ExportProductsRequest. If the long running
+/// operation is done, then this message is returned by the
+/// google.longrunning.Operations.response field if the operation was successful.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportProductsResponse {
+    /// A sample of errors encountered while processing the request.
+    #[prost(message, repeated, tag = "1")]
+    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Echoes the destination for the complete errors in the request if set.
+    #[prost(message, optional, tag = "2")]
+    pub errors_config: ::core::option::Option<ExportErrorsConfig>,
+}
+/// Response of the ExportUserEventsRequest. If the long running
+/// operation was successful, then this message is returned by the
+/// google.longrunning.Operations.response field if the operation was successful.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportUserEventsResponse {
+    /// A sample of errors encountered while processing the request.
+    #[prost(message, repeated, tag = "1")]
+    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Echoes the destination for the complete errors if this field was set in
+    /// the request.
+    #[prost(message, optional, tag = "2")]
+    pub errors_config: ::core::option::Option<ExportErrorsConfig>,
+}
 /// Product captures all metadata information of items to be recommended or
 /// searched.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1250,861 +1307,6 @@ pub mod product {
         /// \[ProductService.ListProducts][google.cloud.retail.v2alpha.ProductService.ListProducts\].
         #[prost(message, tag = "17")]
         Ttl(::prost_types::Duration),
-    }
-}
-/// Request message for
-/// \[SearchService.Search][google.cloud.retail.v2alpha.SearchService.Search\]
-/// method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchRequest {
-    /// Required. The resource name of the search engine placement, such as
-    /// `projects/*/locations/global/catalogs/default_catalog/placements/default_search`.
-    /// This field is used to identify the serving configuration name and the set
-    /// of models that will be used to make the search.
-    #[prost(string, tag = "1")]
-    pub placement: ::prost::alloc::string::String,
-    /// The branch resource name, such as
-    /// `projects/*/locations/global/catalogs/default_catalog/branches/0`.
-    ///
-    /// Use "default_branch" as the branch ID or leave this field empty, to search
-    /// products under the default branch.
-    #[prost(string, tag = "2")]
-    pub branch: ::prost::alloc::string::String,
-    /// Raw search query.
-    #[prost(string, tag = "3")]
-    pub query: ::prost::alloc::string::String,
-    /// Required. A unique identifier for tracking visitors. For example, this
-    /// could be implemented with an HTTP cookie, which should be able to uniquely
-    /// identify a visitor on a single device. This unique identifier should not
-    /// change if the visitor logs in or out of the website.
-    ///
-    /// This should be the same identifier as
-    /// \[UserEvent.visitor_id][google.cloud.retail.v2alpha.UserEvent.visitor_id\].
-    ///
-    /// The field must be a UTF-8 encoded string with a length limit of 128
-    /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
-    #[prost(string, tag = "4")]
-    pub visitor_id: ::prost::alloc::string::String,
-    /// User information.
-    #[prost(message, optional, tag = "5")]
-    pub user_info: ::core::option::Option<UserInfo>,
-    /// Maximum number of \[Product][google.cloud.retail.v2alpha.Product\]s to
-    /// return. If unspecified, defaults to a reasonable value. The maximum allowed
-    /// value is 120. Values above 120 will be coerced to 120.
-    ///
-    /// If this field is negative, an INVALID_ARGUMENT is returned.
-    #[prost(int32, tag = "7")]
-    pub page_size: i32,
-    /// A page token
-    /// \[SearchResponse.next_page_token][google.cloud.retail.v2alpha.SearchResponse.next_page_token\],
-    /// received from a previous
-    /// \[SearchService.Search][google.cloud.retail.v2alpha.SearchService.Search\]
-    /// call. Provide this to retrieve the subsequent page.
-    ///
-    /// When paginating, all other parameters provided to
-    /// \[SearchService.Search][google.cloud.retail.v2alpha.SearchService.Search\]
-    /// must match the call that provided the page token. Otherwise, an
-    /// INVALID_ARGUMENT error is returned.
-    #[prost(string, tag = "8")]
-    pub page_token: ::prost::alloc::string::String,
-    /// A 0-indexed integer that specifies the current offset (that is, starting
-    /// result location, amongst the
-    /// \[Product][google.cloud.retail.v2alpha.Product\]s deemed by the API as
-    /// relevant) in search results. This field is only considered if
-    /// \[page_token][google.cloud.retail.v2alpha.SearchRequest.page_token\] is
-    /// unset.
-    ///
-    /// If this field is negative, an INVALID_ARGUMENT is returned.
-    #[prost(int32, tag = "9")]
-    pub offset: i32,
-    /// The filter syntax consists of an expression language for constructing a
-    /// predicate from one or more fields of the products being filtered. Filter
-    /// expression is case-sensitive. See more details at this [user
-    /// guide](<https://cloud.google.com/retail/docs/filter-and-order#filter>).
-    ///
-    /// If this field is unrecognizable, an INVALID_ARGUMENT is returned.
-    #[prost(string, tag = "10")]
-    pub filter: ::prost::alloc::string::String,
-    /// The filter applied to every search request when quality improvement such as
-    /// query expansion is needed. For example, if a query does not have enough
-    /// results, an expanded query with
-    /// \[SearchRequest.canonical_filter][google.cloud.retail.v2alpha.SearchRequest.canonical_filter\]
-    /// will be returned as a supplement of the original query. This field is
-    /// strongly recommended to achieve high search quality.
-    ///
-    /// See
-    /// \[SearchRequest.filter][google.cloud.retail.v2alpha.SearchRequest.filter\]
-    /// for more details about filter syntax.
-    #[prost(string, tag = "28")]
-    pub canonical_filter: ::prost::alloc::string::String,
-    /// The order in which products are returned. Products can be ordered by
-    /// a field in an \[Product][google.cloud.retail.v2alpha.Product\] object. Leave
-    /// it unset if ordered by relevance. OrderBy expression is case-sensitive. See
-    /// more details at this [user
-    /// guide](<https://cloud.google.com/retail/docs/filter-and-order#order>).
-    ///
-    /// If this field is unrecognizable, an INVALID_ARGUMENT is returned.
-    #[prost(string, tag = "11")]
-    pub order_by: ::prost::alloc::string::String,
-    /// Facet specifications for faceted search. If empty, no facets are returned.
-    ///
-    /// A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error
-    /// is returned.
-    #[prost(message, repeated, tag = "12")]
-    pub facet_specs: ::prost::alloc::vec::Vec<search_request::FacetSpec>,
-    /// The specification for dynamically generated facets. Notice that only
-    /// textual facets can be dynamically generated.
-    ///
-    /// This feature requires additional allowlisting. Contact Retail Search
-    /// support team if you are interested in using dynamic facet feature.
-    #[prost(message, optional, tag = "21")]
-    pub dynamic_facet_spec: ::core::option::Option<search_request::DynamicFacetSpec>,
-    /// Boost specification to boost certain products. See more details at this
-    /// [user guide](<https://cloud.google.com/retail/docs/boosting>).
-    ///
-    /// Notice that if both
-    /// \[ServingConfig.boost_control_ids][google.cloud.retail.v2alpha.ServingConfig.boost_control_ids\]
-    /// and \[SearchRequest.boost_spec\] are set, the boost conditions from both
-    /// places are evaluated. If a search request matches multiple boost
-    /// conditions, the final boost score is equal to the sum of the boost scores
-    /// from all matched boost conditions.
-    #[prost(message, optional, tag = "13")]
-    pub boost_spec: ::core::option::Option<search_request::BoostSpec>,
-    /// The query expansion specification that specifies the conditions under which
-    /// query expansion will occur. See more details at this [user
-    /// guide](<https://cloud.google.com/retail/docs/result-size#query_expansion>).
-    #[prost(message, optional, tag = "14")]
-    pub query_expansion_spec: ::core::option::Option<search_request::QueryExpansionSpec>,
-    /// The relevance threshold of the search results.
-    ///
-    /// Defaults to
-    /// \[RelevanceThreshold.HIGH][google.cloud.retail.v2alpha.SearchRequest.RelevanceThreshold.HIGH\],
-    /// which means only the most relevant results are shown, and the least number
-    /// of results are returned. See more details at this [user
-    /// guide](<https://cloud.google.com/retail/docs/result-size#relevance_thresholding>).
-    #[prost(enumeration = "search_request::RelevanceThreshold", tag = "15")]
-    pub relevance_threshold: i32,
-    /// The keys to fetch and rollup the matching
-    /// \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
-    /// \[Product][google.cloud.retail.v2alpha.Product\]s attributes,
-    /// \[FulfillmentInfo][google.cloud.retail.v2alpha.FulfillmentInfo\] or
-    /// \[LocalInventory][google.cloud.retail.v2alpha.LocalInventory\]s attributes.
-    /// The attributes from all the matching
-    /// \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
-    /// \[Product][google.cloud.retail.v2alpha.Product\]s or
-    /// \[LocalInventory][google.cloud.retail.v2alpha.LocalInventory\]s are merged
-    /// and de-duplicated. Notice that rollup attributes will lead to extra query
-    /// latency. Maximum number of keys is 30.
-    ///
-    /// For \[FulfillmentInfo][google.cloud.retail.v2alpha.FulfillmentInfo\], a
-    /// fulfillment type and a fulfillment ID must be provided in the format of
-    /// "fulfillmentType.fulfillmentId". E.g., in "pickupInStore.store123",
-    /// "pickupInStore" is fulfillment type and "store123" is the store ID.
-    ///
-    /// Supported keys are:
-    ///
-    /// * colorFamilies
-    /// * price
-    /// * originalPrice
-    /// * discount
-    /// * variantId
-    /// * inventory(place_id,price)
-    /// * inventory(place_id,original_price)
-    /// * inventory(place_id,attributes.key), where key is any key in the
-    ///   \[Product.inventories.attributes][\] map.
-    /// * attributes.key, where key is any key in the
-    ///   \[Product.attributes][google.cloud.retail.v2alpha.Product.attributes\] map.
-    /// * pickupInStore.id, where id is any
-    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-    /// for
-    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
-    ///   "pickup-in-store".
-    /// * shipToStore.id, where id is any
-    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-    /// for
-    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
-    ///   "ship-to-store".
-    /// * sameDayDelivery.id, where id is any
-    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-    /// for
-    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
-    ///   "same-day-delivery".
-    /// * nextDayDelivery.id, where id is any
-    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-    /// for
-    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
-    ///   "next-day-delivery".
-    /// * customFulfillment1.id, where id is any
-    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-    /// for
-    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
-    ///   "custom-type-1".
-    /// * customFulfillment2.id, where id is any
-    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-    /// for
-    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
-    ///   "custom-type-2".
-    /// * customFulfillment3.id, where id is any
-    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-    /// for
-    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
-    ///   "custom-type-3".
-    /// * customFulfillment4.id, where id is any
-    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-    /// for
-    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
-    ///   "custom-type-4".
-    /// * customFulfillment5.id, where id is any
-    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-    /// for
-    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
-    ///   "custom-type-5".
-    ///
-    /// If this field is set to an invalid value other than these, an
-    /// INVALID_ARGUMENT error is returned.
-    #[prost(string, repeated, tag = "17")]
-    pub variant_rollup_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The categories associated with a category page. Required for category
-    /// navigation queries to achieve good search quality. The format should be
-    /// the same as
-    /// \[UserEvent.page_categories][google.cloud.retail.v2alpha.UserEvent.page_categories\];
-    ///
-    /// To represent full path of category, use '>' sign to separate different
-    /// hierarchies. If '>' is part of the category name, please replace it with
-    /// other character(s).
-    ///
-    /// Category pages include special pages such as sales or promotions. For
-    /// instance, a special sale page may have the category hierarchy:
-    /// "pageCategories" : ["Sales > 2017 Black Friday Deals"].
-    #[prost(string, repeated, tag = "23")]
-    pub page_categories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The search mode of the search request. If not specified, a single search
-    /// request triggers both product search and faceted search.
-    #[prost(enumeration = "search_request::SearchMode", tag = "31")]
-    pub search_mode: i32,
-}
-/// Nested message and enum types in `SearchRequest`.
-pub mod search_request {
-    /// A facet specification to perform faceted search.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct FacetSpec {
-        /// Required. The facet key specification.
-        #[prost(message, optional, tag = "1")]
-        pub facet_key: ::core::option::Option<facet_spec::FacetKey>,
-        /// Maximum of facet values that should be returned for this facet. If
-        /// unspecified, defaults to 20. The maximum allowed value is 300. Values
-        /// above 300 will be coerced to 300.
-        ///
-        /// If this field is negative, an INVALID_ARGUMENT is returned.
-        #[prost(int32, tag = "2")]
-        pub limit: i32,
-        /// List of keys to exclude when faceting.
-        ///
-        /// By default,
-        /// \[FacetKey.key][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.key\]
-        /// is not excluded from the filter unless it is listed in this field.
-        ///
-        /// For example, suppose there are 100 products with color facet "Red" and
-        /// 200 products with color facet "Blue". A query containing the filter
-        /// "colorFamilies:ANY("Red")" and have "colorFamilies" as
-        /// \[FacetKey.key][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.key\]
-        /// will by default return the "Red" with count 100.
-        ///
-        /// If this field contains "colorFamilies", then the query returns both the
-        /// "Red" with count 100 and "Blue" with count 200, because the
-        /// "colorFamilies" key is now excluded from the filter.
-        ///
-        /// A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error
-        /// is returned.
-        #[prost(string, repeated, tag = "3")]
-        pub excluded_filter_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Enables dynamic position for this facet. If set to true, the position of
-        /// this facet among all facets in the response is determined by Google
-        /// Retail Search. It will be ordered together with dynamic facets if dynamic
-        /// facets is enabled. If set to false, the position of this facet in the
-        /// response will be the same as in the request, and it will be ranked before
-        /// the facets with dynamic position enable and all dynamic facets.
-        ///
-        /// For example, you may always want to have rating facet returned in
-        /// the response, but it's not necessarily to always display the rating facet
-        /// at the top. In that case, you can set enable_dynamic_position to true so
-        /// that the position of rating facet in response will be determined by
-        /// Google Retail Search.
-        ///
-        /// Another example, assuming you have the following facets in the request:
-        ///
-        /// * "rating", enable_dynamic_position = true
-        ///
-        /// * "price", enable_dynamic_position = false
-        ///
-        /// * "brands", enable_dynamic_position = false
-        ///
-        /// And also you have a dynamic facets enable, which will generate a facet
-        /// 'gender'. Then the final order of the facets in the response can be
-        /// ("price", "brands", "rating", "gender") or ("price", "brands", "gender",
-        /// "rating") depends on how Google Retail Search orders "gender" and
-        /// "rating" facets. However, notice that "price" and "brands" will always be
-        /// ranked at 1st and 2nd position since their enable_dynamic_position are
-        /// false.
-        #[prost(bool, tag = "4")]
-        pub enable_dynamic_position: bool,
-    }
-    /// Nested message and enum types in `FacetSpec`.
-    pub mod facet_spec {
-        /// Specifies how a facet is computed.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct FacetKey {
-            /// Required. Supported textual and numerical facet keys in
-            /// \[Product][google.cloud.retail.v2alpha.Product\] object, over which the
-            /// facet values are computed. Facet key is case-sensitive.
-            ///
-            /// Allowed facet keys when
-            /// \[FacetKey.query][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.query\]
-            /// is not specified:
-            ///
-            /// * textual_field =
-            ///     * "brands"
-            ///     * "categories"
-            ///     * "genders"
-            ///     * "ageGroups"
-            ///     * "availability"
-            ///     * "colorFamilies"
-            ///     * "colors"
-            ///     * "sizes"
-            ///     * "materials"
-            ///     * "patterns"
-            ///     * "conditions"
-            ///     * "attributes.key"
-            ///     * "pickupInStore"
-            ///     * "shipToStore"
-            ///     * "sameDayDelivery"
-            ///     * "nextDayDelivery"
-            ///     * "customFulfillment1"
-            ///     * "customFulfillment2"
-            ///     * "customFulfillment3"
-            ///     * "customFulfillment4"
-            ///     * "customFulfillment5"
-            ///     * "inventory(place_id,attributes.key)"
-            ///
-            /// * numerical_field =
-            ///     * "price"
-            ///     * "discount"
-            ///     * "rating"
-            ///     * "ratingCount"
-            ///     * "attributes.key"
-            ///     * "inventory(place_id,price)"
-            ///     * "inventory(place_id,original_price)"
-            ///     * "inventory(place_id,attributes.key)"
-            #[prost(string, tag = "1")]
-            pub key: ::prost::alloc::string::String,
-            /// Set only if values should be bucketized into intervals. Must be set
-            /// for facets with numerical values. Must not be set for facet with text
-            /// values. Maximum number of intervals is 30.
-            #[prost(message, repeated, tag = "2")]
-            pub intervals: ::prost::alloc::vec::Vec<super::super::Interval>,
-            /// Only get facet for the given restricted values. For example, when using
-            /// "pickupInStore" as key and set restricted values to
-            /// ["store123", "store456"], only facets for "store123" and "store456" are
-            /// returned. Only supported on textual fields and fulfillments.
-            /// Maximum is 20.
-            ///
-            /// Must be set for the fulfillment facet keys:
-            ///
-            /// * pickupInStore
-            ///
-            /// * shipToStore
-            ///
-            /// * sameDayDelivery
-            ///
-            /// * nextDayDelivery
-            ///
-            /// * customFulfillment1
-            ///
-            /// * customFulfillment2
-            ///
-            /// * customFulfillment3
-            ///
-            /// * customFulfillment4
-            ///
-            /// * customFulfillment5
-            #[prost(string, repeated, tag = "3")]
-            pub restricted_values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Only get facet values that start with the given string prefix. For
-            /// example, suppose "categories" has three values "Women > Shoe",
-            /// "Women > Dress" and "Men > Shoe". If set "prefixes" to "Women", the
-            /// "categories" facet will give only "Women > Shoe" and "Women > Dress".
-            /// Only supported on textual fields. Maximum is 10.
-            #[prost(string, repeated, tag = "8")]
-            pub prefixes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Only get facet values that contains the given strings. For example,
-            /// suppose "categories" has three values "Women > Shoe",
-            /// "Women > Dress" and "Men > Shoe". If set "contains" to "Shoe", the
-            /// "categories" facet will give only "Women > Shoe" and "Men > Shoe".
-            /// Only supported on textual fields. Maximum is 10.
-            #[prost(string, repeated, tag = "9")]
-            pub contains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// The order in which \[Facet.values][\] are returned.
-            ///
-            /// Allowed values are:
-            ///
-            /// * "count desc", which means order by \[Facet.FacetValue.count][\]
-            /// descending.
-            ///
-            /// * "value desc", which means order by \[Facet.FacetValue.value][\]
-            /// descending.
-            ///   Only applies to textual facets.
-            ///
-            /// If not set, textual values are sorted in [natural
-            /// order](<https://en.wikipedia.org/wiki/Natural_sort_order>); numerical
-            /// intervals are sorted in the order given by
-            /// \[FacetSpec.FacetKey.intervals][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.intervals\];
-            /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
-            /// are sorted in the order given by
-            /// \[FacetSpec.FacetKey.restricted_values][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.restricted_values\].
-            #[prost(string, tag = "4")]
-            pub order_by: ::prost::alloc::string::String,
-            /// The query that is used to compute facet for the given facet key.
-            /// When provided, it will override the default behavior of facet
-            /// computation. The query syntax is the same as a filter expression. See
-            /// \[SearchRequest.filter][google.cloud.retail.v2alpha.SearchRequest.filter\]
-            /// for detail syntax and limitations. Notice that there is no limitation
-            /// on
-            /// \[FacetKey.key][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.key\]
-            /// when query is specified.
-            ///
-            /// In the response, \[FacetValue.value][\] will be always "1" and
-            /// \[FacetValue.count][\] will be the number of results that matches the
-            /// query.
-            ///
-            /// For example, you can set a customized facet for "shipToStore",
-            /// where
-            /// \[FacetKey.key][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.key\]
-            /// is "customizedShipToStore", and
-            /// \[FacetKey.query][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.query\]
-            /// is "availability: ANY(\"IN_STOCK\") AND shipToStore: ANY(\"123\")".
-            /// Then the facet will count the products that are both in stock and ship
-            /// to store "123".
-            #[prost(string, tag = "5")]
-            pub query: ::prost::alloc::string::String,
-        }
-    }
-    /// The specifications of dynamically generated facets.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DynamicFacetSpec {
-        /// Mode of the DynamicFacet feature.
-        /// Defaults to
-        /// \[Mode.DISABLED][google.cloud.retail.v2alpha.SearchRequest.DynamicFacetSpec.Mode.DISABLED\]
-        /// if it's unset.
-        #[prost(enumeration = "dynamic_facet_spec::Mode", tag = "1")]
-        pub mode: i32,
-    }
-    /// Nested message and enum types in `DynamicFacetSpec`.
-    pub mod dynamic_facet_spec {
-        /// Enum to control DynamicFacet mode
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum Mode {
-            /// Default value.
-            Unspecified = 0,
-            /// Disable Dynamic Facet.
-            Disabled = 1,
-            /// Automatic mode built by Google Retail Search.
-            Enabled = 2,
-        }
-    }
-    /// Boost specification to boost certain items.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct BoostSpec {
-        /// Condition boost specifications. If a product matches multiple conditions
-        /// in the specifictions, boost scores from these specifications are all
-        /// applied and combined in a non-linear way. Maximum number of
-        /// specifications is 10.
-        #[prost(message, repeated, tag = "1")]
-        pub condition_boost_specs: ::prost::alloc::vec::Vec<boost_spec::ConditionBoostSpec>,
-    }
-    /// Nested message and enum types in `BoostSpec`.
-    pub mod boost_spec {
-        /// Boost applies to products which match a condition.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct ConditionBoostSpec {
-            /// An expression which specifies a boost condition. The syntax and
-            /// supported fields are the same as a filter expression. See
-            /// \[SearchRequest.filter][google.cloud.retail.v2alpha.SearchRequest.filter\]
-            /// for detail syntax and limitations.
-            ///
-            /// Examples:
-            ///
-            /// * To boost products with product ID "product_1" or "product_2", and
-            /// color
-            ///   "Red" or "Blue":
-            ///     * (id: ANY("product_1", "product_2")) AND (colorFamilies:
-            ///     ANY("Red","Blue"))
-            #[prost(string, tag = "1")]
-            pub condition: ::prost::alloc::string::String,
-            /// Strength of the condition boost, which should be in [-1, 1]. Negative
-            /// boost means demotion. Default is 0.0.
-            ///
-            /// Setting to 1.0 gives the item a big promotion. However, it does not
-            /// necessarily mean that the boosted item will be the top result at all
-            /// times, nor that other items will be excluded. Results could still be
-            /// shown even when none of them matches the condition. And results that
-            /// are significantly more relevant to the search query can still trump
-            /// your heavily favored but irrelevant items.
-            ///
-            /// Setting to -1.0 gives the item a big demotion. However, results that
-            /// are deeply relevant might still be shown. The item will have an
-            /// upstream battle to get a fairly high ranking, but it is not blocked out
-            /// completely.
-            ///
-            /// Setting to 0.0 means no boost applied. The boosting condition is
-            /// ignored.
-            #[prost(float, tag = "2")]
-            pub boost: f32,
-        }
-    }
-    /// Specification to determine under which conditions query expansion should
-    /// occur.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct QueryExpansionSpec {
-        /// The condition under which query expansion should occur. Default to
-        /// \[Condition.DISABLED][google.cloud.retail.v2alpha.SearchRequest.QueryExpansionSpec.Condition.DISABLED\].
-        #[prost(enumeration = "query_expansion_spec::Condition", tag = "1")]
-        pub condition: i32,
-        /// Whether to pin unexpanded results. If this field is set to true,
-        /// unexpanded products are always at the top of the search results, followed
-        /// by the expanded results.
-        #[prost(bool, tag = "2")]
-        pub pin_unexpanded_results: bool,
-    }
-    /// Nested message and enum types in `QueryExpansionSpec`.
-    pub mod query_expansion_spec {
-        /// Enum describing under which condition query expansion should occur.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum Condition {
-            /// Unspecified query expansion condition. This defaults to
-            /// \[Condition.DISABLED][google.cloud.retail.v2alpha.SearchRequest.QueryExpansionSpec.Condition.DISABLED\].
-            Unspecified = 0,
-            /// Disabled query expansion. Only the exact search query is used, even if
-            /// \[SearchResponse.total_size][google.cloud.retail.v2alpha.SearchResponse.total_size\]
-            /// is zero.
-            Disabled = 1,
-            /// Automatic query expansion built by Google Retail Search.
-            Auto = 3,
-        }
-    }
-    /// The relevance threshold of the search results. The higher relevance
-    /// threshold is, the higher relevant results are shown and the less number of
-    /// results are returned.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RelevanceThreshold {
-        /// Default value. Defaults to
-        /// \[RelevanceThreshold.HIGH][google.cloud.retail.v2alpha.SearchRequest.RelevanceThreshold.HIGH\].
-        Unspecified = 0,
-        /// High relevance threshold.
-        High = 1,
-        /// Medium relevance threshold.
-        Medium = 2,
-        /// Low relevance threshold.
-        Low = 3,
-        /// Lowest relevance threshold.
-        Lowest = 4,
-    }
-    /// The search mode of each search request.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SearchMode {
-        /// Default value. In this case both product search and faceted search will
-        /// be performed. Both \[SearchResponse.SearchResult\] and
-        /// \[SearchResponse.Facet\] will be returned.
-        Unspecified = 0,
-        /// Only product search will be performed. The faceted search will be
-        /// disabled.
-        ///
-        /// Only \[SearchResponse.SearchResult\] will be returned.
-        /// \[SearchResponse.Facet\] will not be returned, even if
-        /// \[SearchRequest.facet_specs][google.cloud.retail.v2alpha.SearchRequest.facet_specs\]
-        /// or
-        /// \[SearchRequest.dynamic_facet_spec][google.cloud.retail.v2alpha.SearchRequest.dynamic_facet_spec\]
-        /// is set.
-        ProductSearchOnly = 1,
-        /// Only faceted search will be performed. The product search will be
-        /// disabled.
-        ///
-        /// When in this mode, one or both of \[SearchRequest.facet_spec][\] and
-        /// \[SearchRequest.dynamic_facet_spec][google.cloud.retail.v2alpha.SearchRequest.dynamic_facet_spec\]
-        /// should be set. Otherwise, an INVALID_ARGUMENT error is returned. Only
-        /// \[SearchResponse.Facet\] will be returned. \[SearchResponse.SearchResult\]
-        /// will not be returned.
-        FacetedSearchOnly = 2,
-    }
-}
-/// Response message for
-/// \[SearchService.Search][google.cloud.retail.v2alpha.SearchService.Search\]
-/// method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchResponse {
-    /// A list of matched items. The order represents the ranking.
-    #[prost(message, repeated, tag = "1")]
-    pub results: ::prost::alloc::vec::Vec<search_response::SearchResult>,
-    /// Results of facets requested by user.
-    #[prost(message, repeated, tag = "2")]
-    pub facets: ::prost::alloc::vec::Vec<search_response::Facet>,
-    /// The estimated total count of matched items irrespective of pagination. The
-    /// count of \[results][google.cloud.retail.v2alpha.SearchResponse.results\]
-    /// returned by pagination may be less than the
-    /// \[total_size][google.cloud.retail.v2alpha.SearchResponse.total_size\] that
-    /// matches.
-    #[prost(int32, tag = "3")]
-    pub total_size: i32,
-    /// If spell correction applies, the corrected query. Otherwise, empty.
-    #[prost(string, tag = "4")]
-    pub corrected_query: ::prost::alloc::string::String,
-    /// A unique search token. This should be included in the
-    /// \[UserEvent][google.cloud.retail.v2alpha.UserEvent\] logs resulting from this
-    /// search, which enables accurate attribution of search model performance.
-    #[prost(string, tag = "5")]
-    pub attribution_token: ::prost::alloc::string::String,
-    /// A token that can be sent as
-    /// \[SearchRequest.page_token][google.cloud.retail.v2alpha.SearchRequest.page_token\]
-    /// to retrieve the next page. If this field is omitted, there are no
-    /// subsequent pages.
-    #[prost(string, tag = "6")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Query expansion information for the returned results.
-    #[prost(message, optional, tag = "7")]
-    pub query_expansion_info: ::core::option::Option<search_response::QueryExpansionInfo>,
-    /// The URI of a customer-defined redirect page. If redirect action is
-    /// triggered, no search will be performed, and only
-    /// \[redirect_uri][google.cloud.retail.v2alpha.SearchResponse.redirect_uri\] and
-    /// \[attribution_token][google.cloud.retail.v2alpha.SearchResponse.attribution_token\]
-    /// will be set in the response.
-    #[prost(string, tag = "10")]
-    pub redirect_uri: ::prost::alloc::string::String,
-    /// The fully qualified resource name of applied
-    /// \[controls\](<https://cloud.google.com/retail/docs/serving-control-rules>).
-    #[prost(string, repeated, tag = "12")]
-    pub applied_controls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `SearchResponse`.
-pub mod search_response {
-    /// Represents the search results.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SearchResult {
-        /// \[Product.id][google.cloud.retail.v2alpha.Product.id\] of the searched
-        /// \[Product][google.cloud.retail.v2alpha.Product\].
-        #[prost(string, tag = "1")]
-        pub id: ::prost::alloc::string::String,
-        /// The product data snippet in the search response. Only
-        /// \[Product.name][google.cloud.retail.v2alpha.Product.name\] is guaranteed to
-        /// be populated.
-        ///
-        /// \[Product.variants][google.cloud.retail.v2alpha.Product.variants\] contains
-        /// the product variants that match the search query. If there are multiple
-        /// product variants matching the query, top 5 most relevant product variants
-        /// are returned and ordered by relevancy.
-        ///
-        /// If relevancy can be deternmined, use
-        /// \[matching_variant_fields][google.cloud.retail.v2alpha.SearchResponse.SearchResult.matching_variant_fields\]
-        /// to look up matched product variants fields. If relevancy cannot be
-        /// determined, e.g. when searching "shoe" all products in a shoe product can
-        /// be a match, 5 product variants are returned but order is meaningless.
-        #[prost(message, optional, tag = "2")]
-        pub product: ::core::option::Option<super::Product>,
-        /// The count of matched
-        /// \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
-        /// \[Product][google.cloud.retail.v2alpha.Product\]s.
-        #[prost(int32, tag = "3")]
-        pub matching_variant_count: i32,
-        /// If a \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
-        /// \[Product][google.cloud.retail.v2alpha.Product\] matches the search query,
-        /// this map indicates which \[Product][google.cloud.retail.v2alpha.Product\]
-        /// fields are matched. The key is the
-        /// \[Product.name][google.cloud.retail.v2alpha.Product.name\], the value is a
-        /// field mask of the matched \[Product][google.cloud.retail.v2alpha.Product\]
-        /// fields. If matched attributes cannot be determined, this map will be
-        /// empty.
-        ///
-        /// For example, a key "sku1" with field mask
-        /// "products.color_info" indicates there is a match between
-        /// "sku1" \[ColorInfo][google.cloud.retail.v2alpha.ColorInfo\] and the query.
-        #[prost(btree_map = "string, message", tag = "4")]
-        pub matching_variant_fields: ::prost::alloc::collections::BTreeMap<
-            ::prost::alloc::string::String,
-            ::prost_types::FieldMask,
-        >,
-        /// The rollup matching
-        /// \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
-        /// \[Product][google.cloud.retail.v2alpha.Product\] attributes. The key is one
-        /// of the
-        /// \[SearchRequest.variant_rollup_keys][google.cloud.retail.v2alpha.SearchRequest.variant_rollup_keys\].
-        /// The values are the merged and de-duplicated
-        /// \[Product][google.cloud.retail.v2alpha.Product\] attributes. Notice that
-        /// the rollup values are respect filter. For example, when filtering by
-        /// "colorFamilies:ANY(\"red\")" and rollup "colorFamilies", only "red" is
-        /// returned.
-        ///
-        /// For textual and numerical attributes, the rollup values is a list of
-        /// string or double values with type
-        /// \[google.protobuf.ListValue][google.protobuf.ListValue\]. For example, if
-        /// there are two variants with colors "red" and "blue", the rollup values
-        /// are
-        ///
-        ///     { key: "colorFamilies"
-        ///       value {
-        ///         list_value {
-        ///           values { string_value: "red" }
-        ///           values { string_value: "blue" }
-        ///          }
-        ///       }
-        ///     }
-        ///
-        /// For \[FulfillmentInfo][google.cloud.retail.v2alpha.FulfillmentInfo\], the
-        /// rollup values is a double value with type
-        /// \[google.protobuf.Value][google.protobuf.Value\]. For example,
-        /// `{key: "pickupInStore.store1" value { number_value: 10 }}` means a there
-        /// are 10 variants in this product are available in the store "store1".
-        #[prost(btree_map = "string, message", tag = "5")]
-        pub variant_rollup_values: ::prost::alloc::collections::BTreeMap<
-            ::prost::alloc::string::String,
-            ::prost_types::Value,
-        >,
-    }
-    /// A facet result.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Facet {
-        /// The key for this facet. E.g., "colorFamilies" or "price" or
-        /// "attributes.attr1".
-        #[prost(string, tag = "1")]
-        pub key: ::prost::alloc::string::String,
-        /// The facet values for this field.
-        #[prost(message, repeated, tag = "2")]
-        pub values: ::prost::alloc::vec::Vec<facet::FacetValue>,
-        /// Whether the facet is dynamically generated.
-        #[prost(bool, tag = "3")]
-        pub dynamic_facet: bool,
-    }
-    /// Nested message and enum types in `Facet`.
-    pub mod facet {
-        /// A facet value which contains value names and their count.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct FacetValue {
-            /// Number of items that have this facet value.
-            #[prost(int64, tag = "3")]
-            pub count: i64,
-            /// A facet value which contains values.
-            #[prost(oneof = "facet_value::FacetValue", tags = "1, 2")]
-            pub facet_value: ::core::option::Option<facet_value::FacetValue>,
-        }
-        /// Nested message and enum types in `FacetValue`.
-        pub mod facet_value {
-            /// A facet value which contains values.
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
-            pub enum FacetValue {
-                /// Text value of a facet, such as "Black" for facet "colorFamilies".
-                #[prost(string, tag = "1")]
-                Value(::prost::alloc::string::String),
-                /// Interval value for a facet, such as [10, 20) for facet "price".
-                #[prost(message, tag = "2")]
-                Interval(super::super::super::Interval),
-            }
-        }
-    }
-    /// Information describing query expansion including whether expansion has
-    /// occurred.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct QueryExpansionInfo {
-        /// Bool describing whether query expansion has occurred.
-        #[prost(bool, tag = "1")]
-        pub expanded_query: bool,
-        /// Number of pinned results. This field will only be set when expansion
-        /// happens and
-        /// \[SearchRequest.QueryExpansionSpec.pin_unexpanded_results][google.cloud.retail.v2alpha.SearchRequest.QueryExpansionSpec.pin_unexpanded_results\]
-        /// is set to true.
-        #[prost(int64, tag = "2")]
-        pub pinned_result_count: i64,
-    }
-}
-#[doc = r" Generated client implementations."]
-pub mod search_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for search."]
-    #[doc = ""]
-    #[doc = " This feature is only available for users who have Retail Search enabled."]
-    #[doc = " Please submit a form [here](https://cloud.google.com/contact) to contact"]
-    #[doc = " cloud sales if you are interested in using Retail Search."]
-    #[derive(Debug, Clone)]
-    pub struct SearchServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> SearchServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> SearchServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            SearchServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Performs a search."]
-        #[doc = ""]
-        #[doc = " This feature is only available for users who have Retail Search enabled."]
-        #[doc = " Please submit a form [here](https://cloud.google.com/contact) to contact"]
-        #[doc = " cloud sales if you are interested in using Retail Search."]
-        pub async fn search(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchRequest>,
-        ) -> Result<tonic::Response<super::SearchResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.retail.v2alpha.SearchService/Search",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
     }
 }
 /// UserEvent captures all metadata information Retail API needs to know about
@@ -2825,684 +2027,6 @@ pub struct ImportCompletionDataResponse {
     /// A sample of errors encountered while processing the request.
     #[prost(message, repeated, tag = "1")]
     pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-}
-/// Configures what level the product should be uploaded with regards to
-/// how users will be send events and how predictions will be made.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProductLevelConfig {
-    /// The type of \[Product][google.cloud.retail.v2alpha.Product\]s allowed to be
-    /// ingested into the catalog. Acceptable values are:
-    ///
-    /// * `primary` (default): You can ingest
-    /// \[Product][google.cloud.retail.v2alpha.Product\]s of all types. When
-    ///   ingesting a \[Product][google.cloud.retail.v2alpha.Product\], its type will
-    ///   default to
-    ///   \[Product.Type.PRIMARY][google.cloud.retail.v2alpha.Product.Type.PRIMARY\]
-    ///   if unset.
-    /// * `variant`: You can only ingest
-    /// \[Product.Type.VARIANT][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
-    /// \[Product][google.cloud.retail.v2alpha.Product\]s.
-    ///   This means
-    ///   \[Product.primary_product_id][google.cloud.retail.v2alpha.Product.primary_product_id\]
-    ///   cannot be empty.
-    ///
-    /// If this field is set to an invalid value other than these, an
-    /// INVALID_ARGUMENT error is returned.
-    ///
-    /// If this field is `variant` and
-    /// \[merchant_center_product_id_field][google.cloud.retail.v2alpha.ProductLevelConfig.merchant_center_product_id_field\]
-    /// is `itemGroupId`, an INVALID_ARGUMENT error is returned.
-    ///
-    /// See [Using product
-    /// levels](<https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels>)
-    /// for more details.
-    #[prost(string, tag = "1")]
-    pub ingestion_product_type: ::prost::alloc::string::String,
-    /// Which field of [Merchant Center
-    /// Product](/bigquery-transfer/docs/merchant-center-products-schema) should be
-    /// imported as \[Product.id][google.cloud.retail.v2alpha.Product.id\].
-    /// Acceptable values are:
-    ///
-    /// * `offerId` (default): Import `offerId` as the product ID.
-    /// * `itemGroupId`: Import `itemGroupId` as the product ID. Notice that Retail
-    ///   API will choose one item from the ones with the same `itemGroupId`, and
-    ///   use it to represent the item group.
-    ///
-    /// If this field is set to an invalid value other than these, an
-    /// INVALID_ARGUMENT error is returned.
-    ///
-    /// If this field is `itemGroupId` and
-    /// \[ingestion_product_type][google.cloud.retail.v2alpha.ProductLevelConfig.ingestion_product_type\]
-    /// is `variant`, an INVALID_ARGUMENT error is returned.
-    ///
-    /// See [Using product
-    /// levels](<https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels>)
-    /// for more details.
-    #[prost(string, tag = "2")]
-    pub merchant_center_product_id_field: ::prost::alloc::string::String,
-}
-/// Represents a link between a Merchant Center account and a branch.
-/// Once a link is established, products from the linked merchant center account
-/// will be streamed to the linked branch.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MerchantCenterLink {
-    /// Required. The linked [Merchant center account
-    /// id](<https://developers.google.com/shopping-content/guides/accountstatuses>).
-    /// The account must be a standalone account or a sub-account of a MCA.
-    #[prost(int64, tag = "1")]
-    pub merchant_center_account_id: i64,
-    /// The branch id (e.g. 0/1/2) within this catalog that products from
-    /// merchant_center_account_id are streamed to. When updating this field, an
-    /// empty value will use the currently configured default branch. However,
-    /// changing the default branch later on won't change the linked branch here.
-    ///
-    /// A single branch id can only have one linked merchant center account id.
-    #[prost(string, tag = "2")]
-    pub branch_id: ::prost::alloc::string::String,
-    /// String representing the destination to import for, all if left empty.
-    /// List of possible values can be found here.
-    /// \[<https://support.google.com/merchants/answer/7501026\]>
-    /// List of allowed string values:
-    /// "Shopping_ads", "Buy_on_google_listings", "Display_ads", "Local_inventory
-    /// _ads", "Free_listings", "Free_local_listings"
-    /// NOTE: The string values are case sensitive.
-    #[prost(string, repeated, tag = "3")]
-    pub destinations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Region code of offers to accept. 2-letter Uppercase ISO 3166-1 alpha-2
-    /// code. List of values can be found
-    /// \[here\](<https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry>)
-    /// under the `region` tag. If left blank no region filtering will be
-    /// performed.
-    ///
-    /// Example value: `US`.
-    #[prost(string, tag = "4")]
-    pub region_code: ::prost::alloc::string::String,
-    /// Language of the title/description and other string attributes. Use language
-    /// tags defined by [BCP 47](<https://www.rfc-editor.org/rfc/bcp/bcp47.txt>).
-    /// ISO 639-1.
-    ///
-    /// This specifies the language of offers in Merchant Center that will be
-    /// accepted.
-    /// If  empty no language filtering will be performed.
-    #[prost(string, tag = "5")]
-    pub language_code: ::prost::alloc::string::String,
-}
-/// Configures Merchant Center linking.
-/// Links contained in the config will be used to sync data from a Merchant
-/// Center account to a Cloud Retail branch.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MerchantCenterLinkingConfig {
-    /// Links between Merchant Center accounts and branches.
-    #[prost(message, repeated, tag = "1")]
-    pub links: ::prost::alloc::vec::Vec<MerchantCenterLink>,
-}
-/// The catalog configuration.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Catalog {
-    /// Required. Immutable. The fully qualified resource name of the catalog.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Immutable. The catalog display name.
-    ///
-    /// This field must be a UTF-8 encoded string with a length limit of 128
-    /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Required. The product level configuration.
-    #[prost(message, optional, tag = "4")]
-    pub product_level_config: ::core::option::Option<ProductLevelConfig>,
-    /// The Merchant Center linking configuration.
-    /// Once a link is added, the data stream from Merchant Center to Cloud Retail
-    /// will be enabled automatically. The requester must have access to the
-    /// merchant center account in order to make changes to this field.
-    #[prost(message, optional, tag = "6")]
-    pub merchant_center_linking_config: ::core::option::Option<MerchantCenterLinkingConfig>,
-}
-/// Configures metadata that is used to generate serving time results (e.g.
-/// search results or recommendation predictions).
-/// The ServingConfig is passed in the search and predict request and together
-/// with the Catalog.default_branch, generates results.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ServingConfig {
-    /// Immutable. Fully qualified name
-    /// projects/*/locations/global/catalogs/*/servingConfig/*
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The human readable serving config display name. Used in Retail
-    /// UI.
-    ///
-    /// This field must be a UTF-8 encoded string with a length limit of 128
-    /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The id of the model to use at serving time.
-    /// Currently only RecommendationModels are supported:
-    /// <https://cloud.google.com/retail/recommendations-ai/docs/create-models>
-    /// Can be changed but only to a compatible model (e.g.
-    /// others-you-may-like CTR to others-you-may-like CVR).
-    ///
-    /// Required when
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
-    #[prost(string, tag = "3")]
-    pub model_id: ::prost::alloc::string::String,
-    /// How much price ranking we want in serving results.
-    /// Price reranking causes product items with a similar
-    /// recommendation probability to be ordered by price, with the
-    /// highest-priced items first. This setting could result in a decrease in
-    /// click-through and conversion rates.
-    ///  Allowed values are:
-    ///
-    /// * 'no-price-reranking'
-    /// * 'low-price-raranking'
-    /// * 'medium-price-reranking'
-    /// * 'high-price-reranking'
-    ///
-    /// If not specified, we choose default based on model type. Default value:
-    /// 'no-price-reranking'.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
-    #[prost(string, tag = "4")]
-    pub price_reranking_level: ::prost::alloc::string::String,
-    /// Facet specifications for faceted search. If empty, no facets are returned.
-    /// The ids refer to the ids of \[Control][google.cloud.retail.v2alpha.Control\]
-    /// resources with only the Facet control set. These controls are assumed to be
-    /// in the same \[Catalog][google.cloud.retail.v2alpha.Catalog\] as the
-    /// \[ServingConfig][google.cloud.retail.v2alpha.ServingConfig\].
-    /// A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error
-    /// is returned.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(string, repeated, tag = "5")]
-    pub facet_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The specification for dynamically generated facets. Notice that only
-    /// textual facets can be dynamically generated.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(message, optional, tag = "6")]
-    pub dynamic_facet_spec: ::core::option::Option<search_request::DynamicFacetSpec>,
-    /// Condition boost specifications. If a product matches multiple conditions
-    /// in the specifications, boost scores from these specifications are all
-    /// applied and combined in a non-linear way. Maximum number of
-    /// specifications is 10.
-    ///
-    /// Notice that if both
-    /// \[ServingConfig.boost_control_ids][google.cloud.retail.v2alpha.ServingConfig.boost_control_ids\]
-    /// and \[SearchRequest.boost_spec\] are set, the boost conditions from both
-    /// places are evaluated. If a search request matches multiple boost
-    /// conditions, the final boost score is equal to the sum of the boost scores
-    /// from all matched boost conditions.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(string, repeated, tag = "7")]
-    pub boost_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Condition filter specifications. If a product matches multiple conditions
-    /// in the specifications, filters from these specifications are all
-    /// applied and combined via the AND operator. Maximum number of
-    /// specifications is 100.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(string, repeated, tag = "9")]
-    pub filter_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Condition redirect specifications. Only the first triggered redirect action
-    /// is applied, even if multiple apply. Maximum number of specifications is
-    /// 100.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(string, repeated, tag = "10")]
-    pub redirect_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Condition synonyms specifications. If multiple syonyms conditions match,
-    /// all matching synonyms control in the list will execute. Order of controls
-    /// in the list will not matter. Maximum number of specifications is
-    /// 100.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(string, repeated, tag = "18")]
-    pub twoway_synonyms_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Condition oneway synonyms specifications. If multiple oneway synonyms
-    /// conditions match, all matching oneway synonyms controls in the list will
-    /// execute. Order of controls in the list will not matter. Maximum number of
-    /// specifications is 100.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(string, repeated, tag = "12")]
-    pub oneway_synonyms_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Condition do not associate specifications. If multiple do not associate
-    /// conditions match, all matching do not associate controls in the list will
-    /// execute.
-    /// - Order does not matter.
-    /// - Maximum number of specifications is 100.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(string, repeated, tag = "13")]
-    pub do_not_associate_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Condition replacement specifications.
-    /// - Applied according to the order in the list.
-    /// - A previously replaced term can not be re-replaced.
-    /// - Maximum number of specifications is 100.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(string, repeated, tag = "14")]
-    pub replacement_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Condition ignore specifications. If multiple ignore
-    /// conditions match, all matching ignore controls in the list will
-    /// execute.
-    /// - Order does not matter.
-    /// - Maximum number of specifications is 100.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
-    #[prost(string, repeated, tag = "15")]
-    pub ignore_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// How much diversity to use in recommendation model results e.g.
-    /// 'medium-diversity' or 'high-diversity'. Currently supported values:
-    ///
-    /// * 'no-diversity'
-    /// * 'low-diversity'
-    /// * 'medium-diversity'
-    /// * 'high-diversity'
-    /// * 'auto-diversity'
-    ///
-    /// If not specified, we choose default based on recommendation model
-    /// type. Default value: 'no-diversity'.
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
-    #[prost(string, tag = "8")]
-    pub diversity_level: ::prost::alloc::string::String,
-    /// Whether to add additional category filters on the 'similar-items' model.
-    /// If not specified, we enable it by default.
-    ///  Allowed values are:
-    ///
-    /// * 'no-category-match': No additional filtering of original results from
-    ///   the model and the customer's filters.
-    /// * 'relaxed-category-match': Only keep results with categories that match
-    ///   at least one item categories in the PredictRequests's context item.
-    ///   * If customer also sends filters in the PredictRequest, then the results
-    ///   will satisfy both conditions (user given and category match).
-    ///
-    /// Can only be set if
-    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
-    /// is
-    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
-    #[prost(string, tag = "16")]
-    pub enable_category_filter_level: ::prost::alloc::string::String,
-    /// Required. Immutable. Specifies the solution types that a serving config can
-    /// be associated with. Currently we support setting only one type of solution.
-    #[prost(enumeration = "SolutionType", repeated, packed = "false", tag = "19")]
-    pub solution_types: ::prost::alloc::vec::Vec<i32>,
-}
-/// Request message for Predict method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PredictRequest {
-    /// Required. Full resource name of the format:
-    /// {name=projects/*/locations/global/catalogs/default_catalog/placements/*}
-    /// The ID of the Recommendations AI placement. Before you can request
-    /// predictions from your model, you must create at least one placement for it.
-    /// For more information, see [Managing
-    /// placements](<https://cloud.google.com/retail/recommendations-ai/docs/manage-placements>).
-    ///
-    /// The full list of available placements can be seen at
-    /// <https://console.cloud.google.com/recommendation/catalogs/default_catalog/placements>
-    #[prost(string, tag = "1")]
-    pub placement: ::prost::alloc::string::String,
-    /// Required. Context about the user, what they are looking at and what action
-    /// they took to trigger the predict request. Note that this user event detail
-    /// won't be ingested to userEvent logs. Thus, a separate userEvent write
-    /// request is required for event logging.
-    #[prost(message, optional, tag = "2")]
-    pub user_event: ::core::option::Option<UserEvent>,
-    /// Maximum number of results to return per page. Set this property
-    /// to the number of prediction results needed. If zero, the service will
-    /// choose a reasonable default. The maximum allowed value is 100. Values
-    /// above 100 will be coerced to 100.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// The previous PredictResponse.next_page_token.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Filter for restricting prediction results with a length limit of 5,000
-    /// characters. Accepts values for tags and the `filterOutOfStockItems` flag.
-    ///
-    ///  * Tag expressions. Restricts predictions to products that match all of the
-    ///    specified tags. Boolean operators `OR` and `NOT` are supported if the
-    ///    expression is enclosed in parentheses, and must be separated from the
-    ///    tag values by a space. `-"tagA"` is also supported and is equivalent to
-    ///    `NOT "tagA"`. Tag values must be double quoted UTF-8 encoded strings
-    ///    with a size limit of 1,000 characters.
-    ///
-    ///    Note: "Recently viewed" models don't support tag filtering at the
-    ///    moment.
-    ///
-    ///  * filterOutOfStockItems. Restricts predictions to products that do not
-    ///  have a
-    ///    stockState value of OUT_OF_STOCK.
-    ///
-    /// Examples:
-    ///
-    ///  * tag=("Red" OR "Blue") tag="New-Arrival" tag=(NOT "promotional")
-    ///  * filterOutOfStockItems  tag=(-"promotional")
-    ///  * filterOutOfStockItems
-    ///
-    /// If your filter blocks all prediction results, nothing will be returned. If
-    /// you want generic (unfiltered) popular products to be returned instead, set
-    /// `strictFiltering` to false in `PredictRequest.params`.
-    #[prost(string, tag = "5")]
-    pub filter: ::prost::alloc::string::String,
-    /// Use validate only mode for this prediction query. If set to true, a
-    /// dummy model will be used that returns arbitrary products.
-    /// Note that the validate only mode should only be used for testing the API,
-    /// or if the model is not ready.
-    #[prost(bool, tag = "6")]
-    pub validate_only: bool,
-    /// Additional domain specific parameters for the predictions.
-    ///
-    /// Allowed values:
-    ///
-    /// * `returnProduct`: Boolean. If set to true, the associated product
-    ///    object will be returned in the `results.metadata` field in the
-    ///    prediction response.
-    /// * `returnScore`: Boolean. If set to true, the prediction 'score'
-    ///    corresponding to each returned product will be set in the
-    ///    `results.metadata` field in the prediction response. The given
-    ///    'score' indicates the probability of an product being clicked/purchased
-    ///    given the user's context and history.
-    /// * `strictFiltering`: Boolean. True by default. If set to false, the service
-    ///    will return generic (unfiltered) popular products instead of empty if
-    ///    your filter blocks all prediction results.
-    /// * `priceRerankLevel`: String. Default empty. If set to be non-empty, then
-    ///    it needs to be one of {'no-price-reranking', 'low-price-reranking',
-    ///    'medium-price-reranking', 'high-price-reranking'}. This gives
-    ///    request-level control and adjusts prediction results based on product
-    ///    price.
-    /// * `diversityLevel`: String. Default empty. If set to be non-empty, then
-    ///    it needs to be one of {'no-diversity', 'low-diversity',
-    ///    'medium-diversity', 'high-diversity', 'auto-diversity'}. This gives
-    ///    request-level control and adjusts prediction results based on product
-    ///    category.
-    #[prost(btree_map = "string, message", tag = "7")]
-    pub params:
-        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::Value>,
-    /// The labels applied to a resource must meet the following requirements:
-    ///
-    /// * Each resource can have multiple labels, up to a maximum of 64.
-    /// * Each label must be a key-value pair.
-    /// * Keys have a minimum length of 1 character and a maximum length of 63
-    ///   characters, and cannot be empty. Values can be empty, and have a maximum
-    ///   length of 63 characters.
-    /// * Keys and values can contain only lowercase letters, numeric characters,
-    ///   underscores, and dashes. All characters must use UTF-8 encoding, and
-    ///   international characters are allowed.
-    /// * The key portion of a label must be unique. However, you can use the same
-    ///   key with multiple resources.
-    /// * Keys must start with a lowercase letter or international character.
-    ///
-    /// See [Google Cloud
-    /// Document](<https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements>)
-    /// for more details.
-    #[prost(btree_map = "string, string", tag = "8")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-}
-/// Response message for predict method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PredictResponse {
-    /// A list of recommended products. The order represents the ranking (from the
-    /// most relevant product to the least).
-    #[prost(message, repeated, tag = "1")]
-    pub results: ::prost::alloc::vec::Vec<predict_response::PredictionResult>,
-    /// A unique attribution token. This should be included in the
-    /// \[UserEvent][google.cloud.retail.v2alpha.UserEvent\] logs resulting from this
-    /// recommendation, which enables accurate attribution of recommendation model
-    /// performance.
-    #[prost(string, tag = "2")]
-    pub attribution_token: ::prost::alloc::string::String,
-    /// IDs of products in the request that were missing from the inventory.
-    #[prost(string, repeated, tag = "3")]
-    pub missing_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// True if the validateOnly property was set in the request.
-    #[prost(bool, tag = "4")]
-    pub validate_only: bool,
-}
-/// Nested message and enum types in `PredictResponse`.
-pub mod predict_response {
-    /// PredictionResult represents the recommendation prediction results.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PredictionResult {
-        /// ID of the recommended product
-        #[prost(string, tag = "1")]
-        pub id: ::prost::alloc::string::String,
-        /// Additional product metadata / annotations.
-        ///
-        /// Possible values:
-        ///
-        /// * `product`: JSON representation of the product. Will be set if
-        ///   `returnProduct` is set to true in `PredictRequest.params`.
-        /// * `score`: Prediction score in double value. Will be set if
-        ///   `returnScore` is set to true in `PredictRequest.params`.
-        #[prost(btree_map = "string, message", tag = "2")]
-        pub metadata: ::prost::alloc::collections::BTreeMap<
-            ::prost::alloc::string::String,
-            ::prost_types::Value,
-        >,
-    }
-}
-#[doc = r" Generated client implementations."]
-pub mod prediction_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for making recommendation prediction."]
-    #[derive(Debug, Clone)]
-    pub struct PredictionServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> PredictionServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> PredictionServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            PredictionServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Makes a recommendation prediction."]
-        pub async fn predict(
-            &mut self,
-            request: impl tonic::IntoRequest<super::PredictRequest>,
-        ) -> Result<tonic::Response<super::PredictResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.retail.v2alpha.PredictionService/Predict",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Configuration of destination for Export related errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportErrorsConfig {
-    /// Required. Errors destination.
-    #[prost(oneof = "export_errors_config::Destination", tags = "1")]
-    pub destination: ::core::option::Option<export_errors_config::Destination>,
-}
-/// Nested message and enum types in `ExportErrorsConfig`.
-pub mod export_errors_config {
-    /// Required. Errors destination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Destination {
-        /// Google Cloud Storage path for import errors. This must be an empty,
-        /// existing Cloud Storage bucket. Export errors will be written to a file in
-        /// this bucket, one per line, as a JSON-encoded
-        /// `google.rpc.Status` message.
-        #[prost(string, tag = "1")]
-        GcsPrefix(::prost::alloc::string::String),
-    }
-}
-/// Metadata related to the progress of the Export operation. This will be
-/// returned by the google.longrunning.Operation.metadata field.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportMetadata {
-    /// Operation create time.
-    #[prost(message, optional, tag = "1")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Operation last update time. If the operation is done, this is also the
-    /// finish time.
-    #[prost(message, optional, tag = "2")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Response of the ExportProductsRequest. If the long running
-/// operation is done, then this message is returned by the
-/// google.longrunning.Operations.response field if the operation was successful.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportProductsResponse {
-    /// A sample of errors encountered while processing the request.
-    #[prost(message, repeated, tag = "1")]
-    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Echoes the destination for the complete errors in the request if set.
-    #[prost(message, optional, tag = "2")]
-    pub errors_config: ::core::option::Option<ExportErrorsConfig>,
-}
-/// Response of the ExportUserEventsRequest. If the long running
-/// operation was successful, then this message is returned by the
-/// google.longrunning.Operations.response field if the operation was successful.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportUserEventsResponse {
-    /// A sample of errors encountered while processing the request.
-    #[prost(message, repeated, tag = "1")]
-    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Echoes the destination for the complete errors if this field was set in
-    /// the request.
-    #[prost(message, optional, tag = "2")]
-    pub errors_config: ::core::option::Option<ExportErrorsConfig>,
-}
-/// Configures dynamic serving time metadata that is used to pre and post
-/// process search/recommendation model results.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Control {
-    /// Immutable. Fully qualified name
-    /// projects/*/locations/global/catalogs/*/controls/*
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The human readable control display name. Used in Retail UI.
-    ///
-    /// This field must be a UTF-8 encoded string with a length limit of 128
-    /// characters. Otherwise, an INVALID_ARGUMENT error is thrown.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. List of serving configuration ids that that are associated
-    /// with this control. Note the association is managed via the ServingConfig,
-    /// this is an output only denormalizeed  view. Assumed to be in the same
-    /// catalog.
-    #[prost(string, repeated, tag = "5")]
-    pub associated_serving_config_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Required. Immutable. The solution types that the serving config is used
-    /// for. Currently we support setting only one type of solution at creation
-    /// time.
-    ///
-    /// Only `SOLUTION_TYPE_SEARCH` value is supported at the moment.
-    #[prost(enumeration = "SolutionType", repeated, packed = "false", tag = "6")]
-    pub solution_types: ::prost::alloc::vec::Vec<i32>,
-    /// The behavior/type of the control
-    ///
-    /// A behavior/type must be specified on creation. Type cannot be changed once
-    /// specified (e.g. A Rule control will always be a Rule control.). An
-    /// INVALID_ARGUMENT will be returned if either condition is violated.
-    #[prost(oneof = "control::Control", tags = "3, 4")]
-    pub control: ::core::option::Option<control::Control>,
-}
-/// Nested message and enum types in `Control`.
-pub mod control {
-    /// The behavior/type of the control
-    ///
-    /// A behavior/type must be specified on creation. Type cannot be changed once
-    /// specified (e.g. A Rule control will always be a Rule control.). An
-    /// INVALID_ARGUMENT will be returned if either condition is violated.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Control {
-        /// A facet specification to perform faceted search.
-        #[prost(message, tag = "3")]
-        FacetSpec(super::search_request::FacetSpec),
-        /// A rule control - a condition-action pair.
-        /// Enacts a set action when the condition is triggered.
-        /// For example: Boost "gShoe" when query full matches "Running Shoes".
-        #[prost(message, tag = "4")]
-        Rule(super::Rule),
-    }
 }
 /// Metadata related to the progress of the Purge operation.
 /// This will be returned by the google.longrunning.Operation.metadata field.
@@ -4470,6 +2994,1772 @@ pub mod product_service_client {
         }
     }
 }
+/// Request message for
+/// \[SearchService.Search][google.cloud.retail.v2alpha.SearchService.Search\]
+/// method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchRequest {
+    /// Required. The resource name of the search engine placement, such as
+    /// `projects/*/locations/global/catalogs/default_catalog/placements/default_search`.
+    /// This field is used to identify the serving configuration name and the set
+    /// of models that will be used to make the search.
+    #[prost(string, tag = "1")]
+    pub placement: ::prost::alloc::string::String,
+    /// The branch resource name, such as
+    /// `projects/*/locations/global/catalogs/default_catalog/branches/0`.
+    ///
+    /// Use "default_branch" as the branch ID or leave this field empty, to search
+    /// products under the default branch.
+    #[prost(string, tag = "2")]
+    pub branch: ::prost::alloc::string::String,
+    /// Raw search query.
+    #[prost(string, tag = "3")]
+    pub query: ::prost::alloc::string::String,
+    /// Required. A unique identifier for tracking visitors. For example, this
+    /// could be implemented with an HTTP cookie, which should be able to uniquely
+    /// identify a visitor on a single device. This unique identifier should not
+    /// change if the visitor logs in or out of the website.
+    ///
+    /// This should be the same identifier as
+    /// \[UserEvent.visitor_id][google.cloud.retail.v2alpha.UserEvent.visitor_id\].
+    ///
+    /// The field must be a UTF-8 encoded string with a length limit of 128
+    /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
+    #[prost(string, tag = "4")]
+    pub visitor_id: ::prost::alloc::string::String,
+    /// User information.
+    #[prost(message, optional, tag = "5")]
+    pub user_info: ::core::option::Option<UserInfo>,
+    /// Maximum number of \[Product][google.cloud.retail.v2alpha.Product\]s to
+    /// return. If unspecified, defaults to a reasonable value. The maximum allowed
+    /// value is 120. Values above 120 will be coerced to 120.
+    ///
+    /// If this field is negative, an INVALID_ARGUMENT is returned.
+    #[prost(int32, tag = "7")]
+    pub page_size: i32,
+    /// A page token
+    /// \[SearchResponse.next_page_token][google.cloud.retail.v2alpha.SearchResponse.next_page_token\],
+    /// received from a previous
+    /// \[SearchService.Search][google.cloud.retail.v2alpha.SearchService.Search\]
+    /// call. Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to
+    /// \[SearchService.Search][google.cloud.retail.v2alpha.SearchService.Search\]
+    /// must match the call that provided the page token. Otherwise, an
+    /// INVALID_ARGUMENT error is returned.
+    #[prost(string, tag = "8")]
+    pub page_token: ::prost::alloc::string::String,
+    /// A 0-indexed integer that specifies the current offset (that is, starting
+    /// result location, amongst the
+    /// \[Product][google.cloud.retail.v2alpha.Product\]s deemed by the API as
+    /// relevant) in search results. This field is only considered if
+    /// \[page_token][google.cloud.retail.v2alpha.SearchRequest.page_token\] is
+    /// unset.
+    ///
+    /// If this field is negative, an INVALID_ARGUMENT is returned.
+    #[prost(int32, tag = "9")]
+    pub offset: i32,
+    /// The filter syntax consists of an expression language for constructing a
+    /// predicate from one or more fields of the products being filtered. Filter
+    /// expression is case-sensitive. See more details at this [user
+    /// guide](<https://cloud.google.com/retail/docs/filter-and-order#filter>).
+    ///
+    /// If this field is unrecognizable, an INVALID_ARGUMENT is returned.
+    #[prost(string, tag = "10")]
+    pub filter: ::prost::alloc::string::String,
+    /// The filter applied to every search request when quality improvement such as
+    /// query expansion is needed. For example, if a query does not have enough
+    /// results, an expanded query with
+    /// \[SearchRequest.canonical_filter][google.cloud.retail.v2alpha.SearchRequest.canonical_filter\]
+    /// will be returned as a supplement of the original query. This field is
+    /// strongly recommended to achieve high search quality.
+    ///
+    /// See
+    /// \[SearchRequest.filter][google.cloud.retail.v2alpha.SearchRequest.filter\]
+    /// for more details about filter syntax.
+    #[prost(string, tag = "28")]
+    pub canonical_filter: ::prost::alloc::string::String,
+    /// The order in which products are returned. Products can be ordered by
+    /// a field in an \[Product][google.cloud.retail.v2alpha.Product\] object. Leave
+    /// it unset if ordered by relevance. OrderBy expression is case-sensitive. See
+    /// more details at this [user
+    /// guide](<https://cloud.google.com/retail/docs/filter-and-order#order>).
+    ///
+    /// If this field is unrecognizable, an INVALID_ARGUMENT is returned.
+    #[prost(string, tag = "11")]
+    pub order_by: ::prost::alloc::string::String,
+    /// Facet specifications for faceted search. If empty, no facets are returned.
+    ///
+    /// A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error
+    /// is returned.
+    #[prost(message, repeated, tag = "12")]
+    pub facet_specs: ::prost::alloc::vec::Vec<search_request::FacetSpec>,
+    /// The specification for dynamically generated facets. Notice that only
+    /// textual facets can be dynamically generated.
+    ///
+    /// This feature requires additional allowlisting. Contact Retail Search
+    /// support team if you are interested in using dynamic facet feature.
+    #[prost(message, optional, tag = "21")]
+    pub dynamic_facet_spec: ::core::option::Option<search_request::DynamicFacetSpec>,
+    /// Boost specification to boost certain products. See more details at this
+    /// [user guide](<https://cloud.google.com/retail/docs/boosting>).
+    ///
+    /// Notice that if both
+    /// \[ServingConfig.boost_control_ids][google.cloud.retail.v2alpha.ServingConfig.boost_control_ids\]
+    /// and \[SearchRequest.boost_spec\] are set, the boost conditions from both
+    /// places are evaluated. If a search request matches multiple boost
+    /// conditions, the final boost score is equal to the sum of the boost scores
+    /// from all matched boost conditions.
+    #[prost(message, optional, tag = "13")]
+    pub boost_spec: ::core::option::Option<search_request::BoostSpec>,
+    /// The query expansion specification that specifies the conditions under which
+    /// query expansion will occur. See more details at this [user
+    /// guide](<https://cloud.google.com/retail/docs/result-size#query_expansion>).
+    #[prost(message, optional, tag = "14")]
+    pub query_expansion_spec: ::core::option::Option<search_request::QueryExpansionSpec>,
+    /// The relevance threshold of the search results.
+    ///
+    /// Defaults to
+    /// \[RelevanceThreshold.HIGH][google.cloud.retail.v2alpha.SearchRequest.RelevanceThreshold.HIGH\],
+    /// which means only the most relevant results are shown, and the least number
+    /// of results are returned. See more details at this [user
+    /// guide](<https://cloud.google.com/retail/docs/result-size#relevance_thresholding>).
+    #[prost(enumeration = "search_request::RelevanceThreshold", tag = "15")]
+    pub relevance_threshold: i32,
+    /// The keys to fetch and rollup the matching
+    /// \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
+    /// \[Product][google.cloud.retail.v2alpha.Product\]s attributes,
+    /// \[FulfillmentInfo][google.cloud.retail.v2alpha.FulfillmentInfo\] or
+    /// \[LocalInventory][google.cloud.retail.v2alpha.LocalInventory\]s attributes.
+    /// The attributes from all the matching
+    /// \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
+    /// \[Product][google.cloud.retail.v2alpha.Product\]s or
+    /// \[LocalInventory][google.cloud.retail.v2alpha.LocalInventory\]s are merged
+    /// and de-duplicated. Notice that rollup attributes will lead to extra query
+    /// latency. Maximum number of keys is 30.
+    ///
+    /// For \[FulfillmentInfo][google.cloud.retail.v2alpha.FulfillmentInfo\], a
+    /// fulfillment type and a fulfillment ID must be provided in the format of
+    /// "fulfillmentType.fulfillmentId". E.g., in "pickupInStore.store123",
+    /// "pickupInStore" is fulfillment type and "store123" is the store ID.
+    ///
+    /// Supported keys are:
+    ///
+    /// * colorFamilies
+    /// * price
+    /// * originalPrice
+    /// * discount
+    /// * variantId
+    /// * inventory(place_id,price)
+    /// * inventory(place_id,original_price)
+    /// * inventory(place_id,attributes.key), where key is any key in the
+    ///   \[Product.inventories.attributes][\] map.
+    /// * attributes.key, where key is any key in the
+    ///   \[Product.attributes][google.cloud.retail.v2alpha.Product.attributes\] map.
+    /// * pickupInStore.id, where id is any
+    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+    /// for
+    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
+    ///   "pickup-in-store".
+    /// * shipToStore.id, where id is any
+    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+    /// for
+    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
+    ///   "ship-to-store".
+    /// * sameDayDelivery.id, where id is any
+    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+    /// for
+    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
+    ///   "same-day-delivery".
+    /// * nextDayDelivery.id, where id is any
+    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+    /// for
+    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
+    ///   "next-day-delivery".
+    /// * customFulfillment1.id, where id is any
+    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+    /// for
+    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
+    ///   "custom-type-1".
+    /// * customFulfillment2.id, where id is any
+    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+    /// for
+    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
+    ///   "custom-type-2".
+    /// * customFulfillment3.id, where id is any
+    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+    /// for
+    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
+    ///   "custom-type-3".
+    /// * customFulfillment4.id, where id is any
+    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+    /// for
+    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
+    ///   "custom-type-4".
+    /// * customFulfillment5.id, where id is any
+    /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+    /// for
+    /// \[FulfillmentInfo.type][google.cloud.retail.v2alpha.FulfillmentInfo.type\]
+    ///   "custom-type-5".
+    ///
+    /// If this field is set to an invalid value other than these, an
+    /// INVALID_ARGUMENT error is returned.
+    #[prost(string, repeated, tag = "17")]
+    pub variant_rollup_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The categories associated with a category page. Required for category
+    /// navigation queries to achieve good search quality. The format should be
+    /// the same as
+    /// \[UserEvent.page_categories][google.cloud.retail.v2alpha.UserEvent.page_categories\];
+    ///
+    /// To represent full path of category, use '>' sign to separate different
+    /// hierarchies. If '>' is part of the category name, please replace it with
+    /// other character(s).
+    ///
+    /// Category pages include special pages such as sales or promotions. For
+    /// instance, a special sale page may have the category hierarchy:
+    /// "pageCategories" : ["Sales > 2017 Black Friday Deals"].
+    #[prost(string, repeated, tag = "23")]
+    pub page_categories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The search mode of the search request. If not specified, a single search
+    /// request triggers both product search and faceted search.
+    #[prost(enumeration = "search_request::SearchMode", tag = "31")]
+    pub search_mode: i32,
+}
+/// Nested message and enum types in `SearchRequest`.
+pub mod search_request {
+    /// A facet specification to perform faceted search.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct FacetSpec {
+        /// Required. The facet key specification.
+        #[prost(message, optional, tag = "1")]
+        pub facet_key: ::core::option::Option<facet_spec::FacetKey>,
+        /// Maximum of facet values that should be returned for this facet. If
+        /// unspecified, defaults to 20. The maximum allowed value is 300. Values
+        /// above 300 will be coerced to 300.
+        ///
+        /// If this field is negative, an INVALID_ARGUMENT is returned.
+        #[prost(int32, tag = "2")]
+        pub limit: i32,
+        /// List of keys to exclude when faceting.
+        ///
+        /// By default,
+        /// \[FacetKey.key][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.key\]
+        /// is not excluded from the filter unless it is listed in this field.
+        ///
+        /// For example, suppose there are 100 products with color facet "Red" and
+        /// 200 products with color facet "Blue". A query containing the filter
+        /// "colorFamilies:ANY("Red")" and have "colorFamilies" as
+        /// \[FacetKey.key][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.key\]
+        /// will by default return the "Red" with count 100.
+        ///
+        /// If this field contains "colorFamilies", then the query returns both the
+        /// "Red" with count 100 and "Blue" with count 200, because the
+        /// "colorFamilies" key is now excluded from the filter.
+        ///
+        /// A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error
+        /// is returned.
+        #[prost(string, repeated, tag = "3")]
+        pub excluded_filter_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Enables dynamic position for this facet. If set to true, the position of
+        /// this facet among all facets in the response is determined by Google
+        /// Retail Search. It will be ordered together with dynamic facets if dynamic
+        /// facets is enabled. If set to false, the position of this facet in the
+        /// response will be the same as in the request, and it will be ranked before
+        /// the facets with dynamic position enable and all dynamic facets.
+        ///
+        /// For example, you may always want to have rating facet returned in
+        /// the response, but it's not necessarily to always display the rating facet
+        /// at the top. In that case, you can set enable_dynamic_position to true so
+        /// that the position of rating facet in response will be determined by
+        /// Google Retail Search.
+        ///
+        /// Another example, assuming you have the following facets in the request:
+        ///
+        /// * "rating", enable_dynamic_position = true
+        ///
+        /// * "price", enable_dynamic_position = false
+        ///
+        /// * "brands", enable_dynamic_position = false
+        ///
+        /// And also you have a dynamic facets enable, which will generate a facet
+        /// 'gender'. Then the final order of the facets in the response can be
+        /// ("price", "brands", "rating", "gender") or ("price", "brands", "gender",
+        /// "rating") depends on how Google Retail Search orders "gender" and
+        /// "rating" facets. However, notice that "price" and "brands" will always be
+        /// ranked at 1st and 2nd position since their enable_dynamic_position are
+        /// false.
+        #[prost(bool, tag = "4")]
+        pub enable_dynamic_position: bool,
+    }
+    /// Nested message and enum types in `FacetSpec`.
+    pub mod facet_spec {
+        /// Specifies how a facet is computed.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct FacetKey {
+            /// Required. Supported textual and numerical facet keys in
+            /// \[Product][google.cloud.retail.v2alpha.Product\] object, over which the
+            /// facet values are computed. Facet key is case-sensitive.
+            ///
+            /// Allowed facet keys when
+            /// \[FacetKey.query][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.query\]
+            /// is not specified:
+            ///
+            /// * textual_field =
+            ///     * "brands"
+            ///     * "categories"
+            ///     * "genders"
+            ///     * "ageGroups"
+            ///     * "availability"
+            ///     * "colorFamilies"
+            ///     * "colors"
+            ///     * "sizes"
+            ///     * "materials"
+            ///     * "patterns"
+            ///     * "conditions"
+            ///     * "attributes.key"
+            ///     * "pickupInStore"
+            ///     * "shipToStore"
+            ///     * "sameDayDelivery"
+            ///     * "nextDayDelivery"
+            ///     * "customFulfillment1"
+            ///     * "customFulfillment2"
+            ///     * "customFulfillment3"
+            ///     * "customFulfillment4"
+            ///     * "customFulfillment5"
+            ///     * "inventory(place_id,attributes.key)"
+            ///
+            /// * numerical_field =
+            ///     * "price"
+            ///     * "discount"
+            ///     * "rating"
+            ///     * "ratingCount"
+            ///     * "attributes.key"
+            ///     * "inventory(place_id,price)"
+            ///     * "inventory(place_id,original_price)"
+            ///     * "inventory(place_id,attributes.key)"
+            #[prost(string, tag = "1")]
+            pub key: ::prost::alloc::string::String,
+            /// Set only if values should be bucketized into intervals. Must be set
+            /// for facets with numerical values. Must not be set for facet with text
+            /// values. Maximum number of intervals is 30.
+            #[prost(message, repeated, tag = "2")]
+            pub intervals: ::prost::alloc::vec::Vec<super::super::Interval>,
+            /// Only get facet for the given restricted values. For example, when using
+            /// "pickupInStore" as key and set restricted values to
+            /// ["store123", "store456"], only facets for "store123" and "store456" are
+            /// returned. Only supported on textual fields and fulfillments.
+            /// Maximum is 20.
+            ///
+            /// Must be set for the fulfillment facet keys:
+            ///
+            /// * pickupInStore
+            ///
+            /// * shipToStore
+            ///
+            /// * sameDayDelivery
+            ///
+            /// * nextDayDelivery
+            ///
+            /// * customFulfillment1
+            ///
+            /// * customFulfillment2
+            ///
+            /// * customFulfillment3
+            ///
+            /// * customFulfillment4
+            ///
+            /// * customFulfillment5
+            #[prost(string, repeated, tag = "3")]
+            pub restricted_values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Only get facet values that start with the given string prefix. For
+            /// example, suppose "categories" has three values "Women > Shoe",
+            /// "Women > Dress" and "Men > Shoe". If set "prefixes" to "Women", the
+            /// "categories" facet will give only "Women > Shoe" and "Women > Dress".
+            /// Only supported on textual fields. Maximum is 10.
+            #[prost(string, repeated, tag = "8")]
+            pub prefixes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Only get facet values that contains the given strings. For example,
+            /// suppose "categories" has three values "Women > Shoe",
+            /// "Women > Dress" and "Men > Shoe". If set "contains" to "Shoe", the
+            /// "categories" facet will give only "Women > Shoe" and "Men > Shoe".
+            /// Only supported on textual fields. Maximum is 10.
+            #[prost(string, repeated, tag = "9")]
+            pub contains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// The order in which \[Facet.values][\] are returned.
+            ///
+            /// Allowed values are:
+            ///
+            /// * "count desc", which means order by \[Facet.FacetValue.count][\]
+            /// descending.
+            ///
+            /// * "value desc", which means order by \[Facet.FacetValue.value][\]
+            /// descending.
+            ///   Only applies to textual facets.
+            ///
+            /// If not set, textual values are sorted in [natural
+            /// order](<https://en.wikipedia.org/wiki/Natural_sort_order>); numerical
+            /// intervals are sorted in the order given by
+            /// \[FacetSpec.FacetKey.intervals][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.intervals\];
+            /// \[FulfillmentInfo.place_ids][google.cloud.retail.v2alpha.FulfillmentInfo.place_ids\]
+            /// are sorted in the order given by
+            /// \[FacetSpec.FacetKey.restricted_values][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.restricted_values\].
+            #[prost(string, tag = "4")]
+            pub order_by: ::prost::alloc::string::String,
+            /// The query that is used to compute facet for the given facet key.
+            /// When provided, it will override the default behavior of facet
+            /// computation. The query syntax is the same as a filter expression. See
+            /// \[SearchRequest.filter][google.cloud.retail.v2alpha.SearchRequest.filter\]
+            /// for detail syntax and limitations. Notice that there is no limitation
+            /// on
+            /// \[FacetKey.key][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.key\]
+            /// when query is specified.
+            ///
+            /// In the response, \[FacetValue.value][\] will be always "1" and
+            /// \[FacetValue.count][\] will be the number of results that matches the
+            /// query.
+            ///
+            /// For example, you can set a customized facet for "shipToStore",
+            /// where
+            /// \[FacetKey.key][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.key\]
+            /// is "customizedShipToStore", and
+            /// \[FacetKey.query][google.cloud.retail.v2alpha.SearchRequest.FacetSpec.FacetKey.query\]
+            /// is "availability: ANY(\"IN_STOCK\") AND shipToStore: ANY(\"123\")".
+            /// Then the facet will count the products that are both in stock and ship
+            /// to store "123".
+            #[prost(string, tag = "5")]
+            pub query: ::prost::alloc::string::String,
+        }
+    }
+    /// The specifications of dynamically generated facets.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DynamicFacetSpec {
+        /// Mode of the DynamicFacet feature.
+        /// Defaults to
+        /// \[Mode.DISABLED][google.cloud.retail.v2alpha.SearchRequest.DynamicFacetSpec.Mode.DISABLED\]
+        /// if it's unset.
+        #[prost(enumeration = "dynamic_facet_spec::Mode", tag = "1")]
+        pub mode: i32,
+    }
+    /// Nested message and enum types in `DynamicFacetSpec`.
+    pub mod dynamic_facet_spec {
+        /// Enum to control DynamicFacet mode
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum Mode {
+            /// Default value.
+            Unspecified = 0,
+            /// Disable Dynamic Facet.
+            Disabled = 1,
+            /// Automatic mode built by Google Retail Search.
+            Enabled = 2,
+        }
+    }
+    /// Boost specification to boost certain items.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct BoostSpec {
+        /// Condition boost specifications. If a product matches multiple conditions
+        /// in the specifictions, boost scores from these specifications are all
+        /// applied and combined in a non-linear way. Maximum number of
+        /// specifications is 10.
+        #[prost(message, repeated, tag = "1")]
+        pub condition_boost_specs: ::prost::alloc::vec::Vec<boost_spec::ConditionBoostSpec>,
+    }
+    /// Nested message and enum types in `BoostSpec`.
+    pub mod boost_spec {
+        /// Boost applies to products which match a condition.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct ConditionBoostSpec {
+            /// An expression which specifies a boost condition. The syntax and
+            /// supported fields are the same as a filter expression. See
+            /// \[SearchRequest.filter][google.cloud.retail.v2alpha.SearchRequest.filter\]
+            /// for detail syntax and limitations.
+            ///
+            /// Examples:
+            ///
+            /// * To boost products with product ID "product_1" or "product_2", and
+            /// color
+            ///   "Red" or "Blue":
+            ///     * (id: ANY("product_1", "product_2")) AND (colorFamilies:
+            ///     ANY("Red","Blue"))
+            #[prost(string, tag = "1")]
+            pub condition: ::prost::alloc::string::String,
+            /// Strength of the condition boost, which should be in [-1, 1]. Negative
+            /// boost means demotion. Default is 0.0.
+            ///
+            /// Setting to 1.0 gives the item a big promotion. However, it does not
+            /// necessarily mean that the boosted item will be the top result at all
+            /// times, nor that other items will be excluded. Results could still be
+            /// shown even when none of them matches the condition. And results that
+            /// are significantly more relevant to the search query can still trump
+            /// your heavily favored but irrelevant items.
+            ///
+            /// Setting to -1.0 gives the item a big demotion. However, results that
+            /// are deeply relevant might still be shown. The item will have an
+            /// upstream battle to get a fairly high ranking, but it is not blocked out
+            /// completely.
+            ///
+            /// Setting to 0.0 means no boost applied. The boosting condition is
+            /// ignored.
+            #[prost(float, tag = "2")]
+            pub boost: f32,
+        }
+    }
+    /// Specification to determine under which conditions query expansion should
+    /// occur.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct QueryExpansionSpec {
+        /// The condition under which query expansion should occur. Default to
+        /// \[Condition.DISABLED][google.cloud.retail.v2alpha.SearchRequest.QueryExpansionSpec.Condition.DISABLED\].
+        #[prost(enumeration = "query_expansion_spec::Condition", tag = "1")]
+        pub condition: i32,
+        /// Whether to pin unexpanded results. If this field is set to true,
+        /// unexpanded products are always at the top of the search results, followed
+        /// by the expanded results.
+        #[prost(bool, tag = "2")]
+        pub pin_unexpanded_results: bool,
+    }
+    /// Nested message and enum types in `QueryExpansionSpec`.
+    pub mod query_expansion_spec {
+        /// Enum describing under which condition query expansion should occur.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum Condition {
+            /// Unspecified query expansion condition. This defaults to
+            /// \[Condition.DISABLED][google.cloud.retail.v2alpha.SearchRequest.QueryExpansionSpec.Condition.DISABLED\].
+            Unspecified = 0,
+            /// Disabled query expansion. Only the exact search query is used, even if
+            /// \[SearchResponse.total_size][google.cloud.retail.v2alpha.SearchResponse.total_size\]
+            /// is zero.
+            Disabled = 1,
+            /// Automatic query expansion built by Google Retail Search.
+            Auto = 3,
+        }
+    }
+    /// The relevance threshold of the search results. The higher relevance
+    /// threshold is, the higher relevant results are shown and the less number of
+    /// results are returned.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RelevanceThreshold {
+        /// Default value. Defaults to
+        /// \[RelevanceThreshold.HIGH][google.cloud.retail.v2alpha.SearchRequest.RelevanceThreshold.HIGH\].
+        Unspecified = 0,
+        /// High relevance threshold.
+        High = 1,
+        /// Medium relevance threshold.
+        Medium = 2,
+        /// Low relevance threshold.
+        Low = 3,
+        /// Lowest relevance threshold.
+        Lowest = 4,
+    }
+    /// The search mode of each search request.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SearchMode {
+        /// Default value. In this case both product search and faceted search will
+        /// be performed. Both \[SearchResponse.SearchResult\] and
+        /// \[SearchResponse.Facet\] will be returned.
+        Unspecified = 0,
+        /// Only product search will be performed. The faceted search will be
+        /// disabled.
+        ///
+        /// Only \[SearchResponse.SearchResult\] will be returned.
+        /// \[SearchResponse.Facet\] will not be returned, even if
+        /// \[SearchRequest.facet_specs][google.cloud.retail.v2alpha.SearchRequest.facet_specs\]
+        /// or
+        /// \[SearchRequest.dynamic_facet_spec][google.cloud.retail.v2alpha.SearchRequest.dynamic_facet_spec\]
+        /// is set.
+        ProductSearchOnly = 1,
+        /// Only faceted search will be performed. The product search will be
+        /// disabled.
+        ///
+        /// When in this mode, one or both of \[SearchRequest.facet_spec][\] and
+        /// \[SearchRequest.dynamic_facet_spec][google.cloud.retail.v2alpha.SearchRequest.dynamic_facet_spec\]
+        /// should be set. Otherwise, an INVALID_ARGUMENT error is returned. Only
+        /// \[SearchResponse.Facet\] will be returned. \[SearchResponse.SearchResult\]
+        /// will not be returned.
+        FacetedSearchOnly = 2,
+    }
+}
+/// Response message for
+/// \[SearchService.Search][google.cloud.retail.v2alpha.SearchService.Search\]
+/// method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchResponse {
+    /// A list of matched items. The order represents the ranking.
+    #[prost(message, repeated, tag = "1")]
+    pub results: ::prost::alloc::vec::Vec<search_response::SearchResult>,
+    /// Results of facets requested by user.
+    #[prost(message, repeated, tag = "2")]
+    pub facets: ::prost::alloc::vec::Vec<search_response::Facet>,
+    /// The estimated total count of matched items irrespective of pagination. The
+    /// count of \[results][google.cloud.retail.v2alpha.SearchResponse.results\]
+    /// returned by pagination may be less than the
+    /// \[total_size][google.cloud.retail.v2alpha.SearchResponse.total_size\] that
+    /// matches.
+    #[prost(int32, tag = "3")]
+    pub total_size: i32,
+    /// If spell correction applies, the corrected query. Otherwise, empty.
+    #[prost(string, tag = "4")]
+    pub corrected_query: ::prost::alloc::string::String,
+    /// A unique search token. This should be included in the
+    /// \[UserEvent][google.cloud.retail.v2alpha.UserEvent\] logs resulting from this
+    /// search, which enables accurate attribution of search model performance.
+    #[prost(string, tag = "5")]
+    pub attribution_token: ::prost::alloc::string::String,
+    /// A token that can be sent as
+    /// \[SearchRequest.page_token][google.cloud.retail.v2alpha.SearchRequest.page_token\]
+    /// to retrieve the next page. If this field is omitted, there are no
+    /// subsequent pages.
+    #[prost(string, tag = "6")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Query expansion information for the returned results.
+    #[prost(message, optional, tag = "7")]
+    pub query_expansion_info: ::core::option::Option<search_response::QueryExpansionInfo>,
+    /// The URI of a customer-defined redirect page. If redirect action is
+    /// triggered, no search will be performed, and only
+    /// \[redirect_uri][google.cloud.retail.v2alpha.SearchResponse.redirect_uri\] and
+    /// \[attribution_token][google.cloud.retail.v2alpha.SearchResponse.attribution_token\]
+    /// will be set in the response.
+    #[prost(string, tag = "10")]
+    pub redirect_uri: ::prost::alloc::string::String,
+    /// The fully qualified resource name of applied
+    /// \[controls\](<https://cloud.google.com/retail/docs/serving-control-rules>).
+    #[prost(string, repeated, tag = "12")]
+    pub applied_controls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `SearchResponse`.
+pub mod search_response {
+    /// Represents the search results.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SearchResult {
+        /// \[Product.id][google.cloud.retail.v2alpha.Product.id\] of the searched
+        /// \[Product][google.cloud.retail.v2alpha.Product\].
+        #[prost(string, tag = "1")]
+        pub id: ::prost::alloc::string::String,
+        /// The product data snippet in the search response. Only
+        /// \[Product.name][google.cloud.retail.v2alpha.Product.name\] is guaranteed to
+        /// be populated.
+        ///
+        /// \[Product.variants][google.cloud.retail.v2alpha.Product.variants\] contains
+        /// the product variants that match the search query. If there are multiple
+        /// product variants matching the query, top 5 most relevant product variants
+        /// are returned and ordered by relevancy.
+        ///
+        /// If relevancy can be deternmined, use
+        /// \[matching_variant_fields][google.cloud.retail.v2alpha.SearchResponse.SearchResult.matching_variant_fields\]
+        /// to look up matched product variants fields. If relevancy cannot be
+        /// determined, e.g. when searching "shoe" all products in a shoe product can
+        /// be a match, 5 product variants are returned but order is meaningless.
+        #[prost(message, optional, tag = "2")]
+        pub product: ::core::option::Option<super::Product>,
+        /// The count of matched
+        /// \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
+        /// \[Product][google.cloud.retail.v2alpha.Product\]s.
+        #[prost(int32, tag = "3")]
+        pub matching_variant_count: i32,
+        /// If a \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
+        /// \[Product][google.cloud.retail.v2alpha.Product\] matches the search query,
+        /// this map indicates which \[Product][google.cloud.retail.v2alpha.Product\]
+        /// fields are matched. The key is the
+        /// \[Product.name][google.cloud.retail.v2alpha.Product.name\], the value is a
+        /// field mask of the matched \[Product][google.cloud.retail.v2alpha.Product\]
+        /// fields. If matched attributes cannot be determined, this map will be
+        /// empty.
+        ///
+        /// For example, a key "sku1" with field mask
+        /// "products.color_info" indicates there is a match between
+        /// "sku1" \[ColorInfo][google.cloud.retail.v2alpha.ColorInfo\] and the query.
+        #[prost(btree_map = "string, message", tag = "4")]
+        pub matching_variant_fields: ::prost::alloc::collections::BTreeMap<
+            ::prost::alloc::string::String,
+            ::prost_types::FieldMask,
+        >,
+        /// The rollup matching
+        /// \[variant][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
+        /// \[Product][google.cloud.retail.v2alpha.Product\] attributes. The key is one
+        /// of the
+        /// \[SearchRequest.variant_rollup_keys][google.cloud.retail.v2alpha.SearchRequest.variant_rollup_keys\].
+        /// The values are the merged and de-duplicated
+        /// \[Product][google.cloud.retail.v2alpha.Product\] attributes. Notice that
+        /// the rollup values are respect filter. For example, when filtering by
+        /// "colorFamilies:ANY(\"red\")" and rollup "colorFamilies", only "red" is
+        /// returned.
+        ///
+        /// For textual and numerical attributes, the rollup values is a list of
+        /// string or double values with type
+        /// \[google.protobuf.ListValue][google.protobuf.ListValue\]. For example, if
+        /// there are two variants with colors "red" and "blue", the rollup values
+        /// are
+        ///
+        ///     { key: "colorFamilies"
+        ///       value {
+        ///         list_value {
+        ///           values { string_value: "red" }
+        ///           values { string_value: "blue" }
+        ///          }
+        ///       }
+        ///     }
+        ///
+        /// For \[FulfillmentInfo][google.cloud.retail.v2alpha.FulfillmentInfo\], the
+        /// rollup values is a double value with type
+        /// \[google.protobuf.Value][google.protobuf.Value\]. For example,
+        /// `{key: "pickupInStore.store1" value { number_value: 10 }}` means a there
+        /// are 10 variants in this product are available in the store "store1".
+        #[prost(btree_map = "string, message", tag = "5")]
+        pub variant_rollup_values: ::prost::alloc::collections::BTreeMap<
+            ::prost::alloc::string::String,
+            ::prost_types::Value,
+        >,
+    }
+    /// A facet result.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Facet {
+        /// The key for this facet. E.g., "colorFamilies" or "price" or
+        /// "attributes.attr1".
+        #[prost(string, tag = "1")]
+        pub key: ::prost::alloc::string::String,
+        /// The facet values for this field.
+        #[prost(message, repeated, tag = "2")]
+        pub values: ::prost::alloc::vec::Vec<facet::FacetValue>,
+        /// Whether the facet is dynamically generated.
+        #[prost(bool, tag = "3")]
+        pub dynamic_facet: bool,
+    }
+    /// Nested message and enum types in `Facet`.
+    pub mod facet {
+        /// A facet value which contains value names and their count.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct FacetValue {
+            /// Number of items that have this facet value.
+            #[prost(int64, tag = "3")]
+            pub count: i64,
+            /// A facet value which contains values.
+            #[prost(oneof = "facet_value::FacetValue", tags = "1, 2")]
+            pub facet_value: ::core::option::Option<facet_value::FacetValue>,
+        }
+        /// Nested message and enum types in `FacetValue`.
+        pub mod facet_value {
+            /// A facet value which contains values.
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            pub enum FacetValue {
+                /// Text value of a facet, such as "Black" for facet "colorFamilies".
+                #[prost(string, tag = "1")]
+                Value(::prost::alloc::string::String),
+                /// Interval value for a facet, such as [10, 20) for facet "price".
+                #[prost(message, tag = "2")]
+                Interval(super::super::super::Interval),
+            }
+        }
+    }
+    /// Information describing query expansion including whether expansion has
+    /// occurred.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct QueryExpansionInfo {
+        /// Bool describing whether query expansion has occurred.
+        #[prost(bool, tag = "1")]
+        pub expanded_query: bool,
+        /// Number of pinned results. This field will only be set when expansion
+        /// happens and
+        /// \[SearchRequest.QueryExpansionSpec.pin_unexpanded_results][google.cloud.retail.v2alpha.SearchRequest.QueryExpansionSpec.pin_unexpanded_results\]
+        /// is set to true.
+        #[prost(int64, tag = "2")]
+        pub pinned_result_count: i64,
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod search_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for search."]
+    #[doc = ""]
+    #[doc = " This feature is only available for users who have Retail Search enabled."]
+    #[doc = " Please submit a form [here](https://cloud.google.com/contact) to contact"]
+    #[doc = " cloud sales if you are interested in using Retail Search."]
+    #[derive(Debug, Clone)]
+    pub struct SearchServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> SearchServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> SearchServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            SearchServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Performs a search."]
+        #[doc = ""]
+        #[doc = " This feature is only available for users who have Retail Search enabled."]
+        #[doc = " Please submit a form [here](https://cloud.google.com/contact) to contact"]
+        #[doc = " cloud sales if you are interested in using Retail Search."]
+        pub async fn search(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchRequest>,
+        ) -> Result<tonic::Response<super::SearchResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2alpha.SearchService/Search",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Configures dynamic serving time metadata that is used to pre and post
+/// process search/recommendation model results.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Control {
+    /// Immutable. Fully qualified name
+    /// projects/*/locations/global/catalogs/*/controls/*
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The human readable control display name. Used in Retail UI.
+    ///
+    /// This field must be a UTF-8 encoded string with a length limit of 128
+    /// characters. Otherwise, an INVALID_ARGUMENT error is thrown.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. List of serving configuration ids that that are associated
+    /// with this control. Note the association is managed via the ServingConfig,
+    /// this is an output only denormalizeed  view. Assumed to be in the same
+    /// catalog.
+    #[prost(string, repeated, tag = "5")]
+    pub associated_serving_config_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Required. Immutable. The solution types that the serving config is used
+    /// for. Currently we support setting only one type of solution at creation
+    /// time.
+    ///
+    /// Only `SOLUTION_TYPE_SEARCH` value is supported at the moment.
+    #[prost(enumeration = "SolutionType", repeated, packed = "false", tag = "6")]
+    pub solution_types: ::prost::alloc::vec::Vec<i32>,
+    /// The behavior/type of the control
+    ///
+    /// A behavior/type must be specified on creation. Type cannot be changed once
+    /// specified (e.g. A Rule control will always be a Rule control.). An
+    /// INVALID_ARGUMENT will be returned if either condition is violated.
+    #[prost(oneof = "control::Control", tags = "3, 4")]
+    pub control: ::core::option::Option<control::Control>,
+}
+/// Nested message and enum types in `Control`.
+pub mod control {
+    /// The behavior/type of the control
+    ///
+    /// A behavior/type must be specified on creation. Type cannot be changed once
+    /// specified (e.g. A Rule control will always be a Rule control.). An
+    /// INVALID_ARGUMENT will be returned if either condition is violated.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Control {
+        /// A facet specification to perform faceted search.
+        #[prost(message, tag = "3")]
+        FacetSpec(super::search_request::FacetSpec),
+        /// A rule control - a condition-action pair.
+        /// Enacts a set action when the condition is triggered.
+        /// For example: Boost "gShoe" when query full matches "Running Shoes".
+        #[prost(message, tag = "4")]
+        Rule(super::Rule),
+    }
+}
+/// Configures metadata that is used to generate serving time results (e.g.
+/// search results or recommendation predictions).
+/// The ServingConfig is passed in the search and predict request and together
+/// with the Catalog.default_branch, generates results.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ServingConfig {
+    /// Immutable. Fully qualified name
+    /// projects/*/locations/global/catalogs/*/servingConfig/*
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The human readable serving config display name. Used in Retail
+    /// UI.
+    ///
+    /// This field must be a UTF-8 encoded string with a length limit of 128
+    /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The id of the model to use at serving time.
+    /// Currently only RecommendationModels are supported:
+    /// <https://cloud.google.com/retail/recommendations-ai/docs/create-models>
+    /// Can be changed but only to a compatible model (e.g.
+    /// others-you-may-like CTR to others-you-may-like CVR).
+    ///
+    /// Required when
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
+    #[prost(string, tag = "3")]
+    pub model_id: ::prost::alloc::string::String,
+    /// How much price ranking we want in serving results.
+    /// Price reranking causes product items with a similar
+    /// recommendation probability to be ordered by price, with the
+    /// highest-priced items first. This setting could result in a decrease in
+    /// click-through and conversion rates.
+    ///  Allowed values are:
+    ///
+    /// * 'no-price-reranking'
+    /// * 'low-price-raranking'
+    /// * 'medium-price-reranking'
+    /// * 'high-price-reranking'
+    ///
+    /// If not specified, we choose default based on model type. Default value:
+    /// 'no-price-reranking'.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
+    #[prost(string, tag = "4")]
+    pub price_reranking_level: ::prost::alloc::string::String,
+    /// Facet specifications for faceted search. If empty, no facets are returned.
+    /// The ids refer to the ids of \[Control][google.cloud.retail.v2alpha.Control\]
+    /// resources with only the Facet control set. These controls are assumed to be
+    /// in the same \[Catalog][google.cloud.retail.v2alpha.Catalog\] as the
+    /// \[ServingConfig][google.cloud.retail.v2alpha.ServingConfig\].
+    /// A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error
+    /// is returned.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "5")]
+    pub facet_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The specification for dynamically generated facets. Notice that only
+    /// textual facets can be dynamically generated.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(message, optional, tag = "6")]
+    pub dynamic_facet_spec: ::core::option::Option<search_request::DynamicFacetSpec>,
+    /// Condition boost specifications. If a product matches multiple conditions
+    /// in the specifications, boost scores from these specifications are all
+    /// applied and combined in a non-linear way. Maximum number of
+    /// specifications is 10.
+    ///
+    /// Notice that if both
+    /// \[ServingConfig.boost_control_ids][google.cloud.retail.v2alpha.ServingConfig.boost_control_ids\]
+    /// and \[SearchRequest.boost_spec\] are set, the boost conditions from both
+    /// places are evaluated. If a search request matches multiple boost
+    /// conditions, the final boost score is equal to the sum of the boost scores
+    /// from all matched boost conditions.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "7")]
+    pub boost_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition filter specifications. If a product matches multiple conditions
+    /// in the specifications, filters from these specifications are all
+    /// applied and combined via the AND operator. Maximum number of
+    /// specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "9")]
+    pub filter_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition redirect specifications. Only the first triggered redirect action
+    /// is applied, even if multiple apply. Maximum number of specifications is
+    /// 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "10")]
+    pub redirect_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition synonyms specifications. If multiple syonyms conditions match,
+    /// all matching synonyms control in the list will execute. Order of controls
+    /// in the list will not matter. Maximum number of specifications is
+    /// 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "18")]
+    pub twoway_synonyms_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition oneway synonyms specifications. If multiple oneway synonyms
+    /// conditions match, all matching oneway synonyms controls in the list will
+    /// execute. Order of controls in the list will not matter. Maximum number of
+    /// specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "12")]
+    pub oneway_synonyms_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition do not associate specifications. If multiple do not associate
+    /// conditions match, all matching do not associate controls in the list will
+    /// execute.
+    /// - Order does not matter.
+    /// - Maximum number of specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "13")]
+    pub do_not_associate_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition replacement specifications.
+    /// - Applied according to the order in the list.
+    /// - A previously replaced term can not be re-replaced.
+    /// - Maximum number of specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "14")]
+    pub replacement_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition ignore specifications. If multiple ignore
+    /// conditions match, all matching ignore controls in the list will
+    /// execute.
+    /// - Order does not matter.
+    /// - Maximum number of specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "15")]
+    pub ignore_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// How much diversity to use in recommendation model results e.g.
+    /// 'medium-diversity' or 'high-diversity'. Currently supported values:
+    ///
+    /// * 'no-diversity'
+    /// * 'low-diversity'
+    /// * 'medium-diversity'
+    /// * 'high-diversity'
+    /// * 'auto-diversity'
+    ///
+    /// If not specified, we choose default based on recommendation model
+    /// type. Default value: 'no-diversity'.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
+    #[prost(string, tag = "8")]
+    pub diversity_level: ::prost::alloc::string::String,
+    /// Whether to add additional category filters on the 'similar-items' model.
+    /// If not specified, we enable it by default.
+    ///  Allowed values are:
+    ///
+    /// * 'no-category-match': No additional filtering of original results from
+    ///   the model and the customer's filters.
+    /// * 'relaxed-category-match': Only keep results with categories that match
+    ///   at least one item categories in the PredictRequests's context item.
+    ///   * If customer also sends filters in the PredictRequest, then the results
+    ///   will satisfy both conditions (user given and category match).
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2alpha.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
+    #[prost(string, tag = "16")]
+    pub enable_category_filter_level: ::prost::alloc::string::String,
+    /// Required. Immutable. Specifies the solution types that a serving config can
+    /// be associated with. Currently we support setting only one type of solution.
+    #[prost(enumeration = "SolutionType", repeated, packed = "false", tag = "19")]
+    pub solution_types: ::prost::alloc::vec::Vec<i32>,
+}
+/// Request for CreateServingConfig method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateServingConfigRequest {
+    /// Required. Full resource name of parent. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The ServingConfig to create.
+    #[prost(message, optional, tag = "2")]
+    pub serving_config: ::core::option::Option<ServingConfig>,
+    /// Required. The ID to use for the ServingConfig, which will become the final
+    /// component of the ServingConfig's resource name.
+    ///
+    /// This value should be 4-63 characters, and valid characters
+    /// are /\[a-z][0-9\]-_/.
+    #[prost(string, tag = "3")]
+    pub serving_config_id: ::prost::alloc::string::String,
+}
+/// Request for UpdateServingConfig method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateServingConfigRequest {
+    /// Required. The ServingConfig to update.
+    #[prost(message, optional, tag = "1")]
+    pub serving_config: ::core::option::Option<ServingConfig>,
+    /// Indicates which fields in the provided
+    /// \[ServingConfig][google.cloud.retail.v2alpha.ServingConfig\] to update. The
+    /// following are NOT supported:
+    ///
+    /// * \[ServingConfig.name][google.cloud.retail.v2alpha.ServingConfig.name\]
+    ///
+    /// If not set, all supported fields are updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request for DeleteServingConfig method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteServingConfigRequest {
+    /// Required. The resource name of the ServingConfig to delete. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for GetServingConfig method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetServingConfigRequest {
+    /// Required. The resource name of the ServingConfig to get. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for ListServingConfigs method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListServingConfigsRequest {
+    /// Required. The catalog resource name. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of results to return. If unspecified, defaults
+    /// to 100. If a value greater than 100 is provided, at most 100 results are
+    /// returned.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. A page token, received from a previous `ListServingConfigs` call.
+    /// Provide this to retrieve the subsequent page.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for ListServingConfigs method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListServingConfigsResponse {
+    /// All the ServingConfigs for a given catalog.
+    #[prost(message, repeated, tag = "1")]
+    pub serving_configs: ::prost::alloc::vec::Vec<ServingConfig>,
+    /// Pagination token, if not returned indicates the last page.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request for AddControl method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AddControlRequest {
+    /// Required. The source ServingConfig resource name . Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+    #[prost(string, tag = "1")]
+    pub serving_config: ::prost::alloc::string::String,
+    /// Required. The id of the control to apply. Assumed to be in the same catalog
+    /// as the serving config - if id is not found a NOT_FOUND error is returned.
+    #[prost(string, tag = "2")]
+    pub control_id: ::prost::alloc::string::String,
+}
+/// Request for RemoveControl method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RemoveControlRequest {
+    /// Required. The source ServingConfig resource name . Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+    #[prost(string, tag = "1")]
+    pub serving_config: ::prost::alloc::string::String,
+    /// Required. The id of the control to apply. Assumed to be in the same catalog
+    /// as the serving config.
+    #[prost(string, tag = "2")]
+    pub control_id: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod serving_config_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for modifying ServingConfig."]
+    #[derive(Debug, Clone)]
+    pub struct ServingConfigServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ServingConfigServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ServingConfigServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ServingConfigServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Creates a ServingConfig."]
+        #[doc = ""]
+        #[doc = " A maximum of 100"]
+        #[doc = " [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]s are allowed in"]
+        #[doc = " a [Catalog][google.cloud.retail.v2alpha.Catalog], otherwise a"]
+        #[doc = " FAILED_PRECONDITION error is returned."]
+        pub async fn create_serving_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateServingConfigRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2alpha.ServingConfigService/CreateServingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes a ServingConfig."]
+        #[doc = ""]
+        #[doc = " Returns a NotFound error if the ServingConfig does not exist."]
+        pub async fn delete_serving_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteServingConfigRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2alpha.ServingConfigService/DeleteServingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates a ServingConfig."]
+        pub async fn update_serving_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateServingConfigRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2alpha.ServingConfigService/UpdateServingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets a ServingConfig."]
+        #[doc = ""]
+        #[doc = " Returns a NotFound error if the ServingConfig does not exist."]
+        pub async fn get_serving_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetServingConfigRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2alpha.ServingConfigService/GetServingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists all ServingConfigs linked to this catalog."]
+        pub async fn list_serving_configs(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListServingConfigsRequest>,
+        ) -> Result<tonic::Response<super::ListServingConfigsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2alpha.ServingConfigService/ListServingConfigs",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Enables a Control on the specified ServingConfig."]
+        #[doc = " The control is added in the last position of the list of controls"]
+        #[doc = " it belongs to (e.g. if it's a facet spec control it will be applied"]
+        #[doc = " in the last position of servingConfig.facetSpecIds)"]
+        #[doc = " Returns a ALREADY_EXISTS error if the control has already been applied."]
+        #[doc = " Returns a FAILED_PRECONDITION error if the addition could exceed maximum"]
+        #[doc = " number of control allowed for that type of control."]
+        pub async fn add_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::AddControlRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2alpha.ServingConfigService/AddControl",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Disables a Control on the specified ServingConfig."]
+        #[doc = " The control is removed from the ServingConfig."]
+        #[doc = " Returns a NOT_FOUND error if the Control is not enabled for the"]
+        #[doc = " ServingConfig."]
+        pub async fn remove_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RemoveControlRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2alpha.ServingConfigService/RemoveControl",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Configures what level the product should be uploaded with regards to
+/// how users will be send events and how predictions will be made.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProductLevelConfig {
+    /// The type of \[Product][google.cloud.retail.v2alpha.Product\]s allowed to be
+    /// ingested into the catalog. Acceptable values are:
+    ///
+    /// * `primary` (default): You can ingest
+    /// \[Product][google.cloud.retail.v2alpha.Product\]s of all types. When
+    ///   ingesting a \[Product][google.cloud.retail.v2alpha.Product\], its type will
+    ///   default to
+    ///   \[Product.Type.PRIMARY][google.cloud.retail.v2alpha.Product.Type.PRIMARY\]
+    ///   if unset.
+    /// * `variant`: You can only ingest
+    /// \[Product.Type.VARIANT][google.cloud.retail.v2alpha.Product.Type.VARIANT\]
+    /// \[Product][google.cloud.retail.v2alpha.Product\]s.
+    ///   This means
+    ///   \[Product.primary_product_id][google.cloud.retail.v2alpha.Product.primary_product_id\]
+    ///   cannot be empty.
+    ///
+    /// If this field is set to an invalid value other than these, an
+    /// INVALID_ARGUMENT error is returned.
+    ///
+    /// If this field is `variant` and
+    /// \[merchant_center_product_id_field][google.cloud.retail.v2alpha.ProductLevelConfig.merchant_center_product_id_field\]
+    /// is `itemGroupId`, an INVALID_ARGUMENT error is returned.
+    ///
+    /// See [Using product
+    /// levels](<https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels>)
+    /// for more details.
+    #[prost(string, tag = "1")]
+    pub ingestion_product_type: ::prost::alloc::string::String,
+    /// Which field of [Merchant Center
+    /// Product](/bigquery-transfer/docs/merchant-center-products-schema) should be
+    /// imported as \[Product.id][google.cloud.retail.v2alpha.Product.id\].
+    /// Acceptable values are:
+    ///
+    /// * `offerId` (default): Import `offerId` as the product ID.
+    /// * `itemGroupId`: Import `itemGroupId` as the product ID. Notice that Retail
+    ///   API will choose one item from the ones with the same `itemGroupId`, and
+    ///   use it to represent the item group.
+    ///
+    /// If this field is set to an invalid value other than these, an
+    /// INVALID_ARGUMENT error is returned.
+    ///
+    /// If this field is `itemGroupId` and
+    /// \[ingestion_product_type][google.cloud.retail.v2alpha.ProductLevelConfig.ingestion_product_type\]
+    /// is `variant`, an INVALID_ARGUMENT error is returned.
+    ///
+    /// See [Using product
+    /// levels](<https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels>)
+    /// for more details.
+    #[prost(string, tag = "2")]
+    pub merchant_center_product_id_field: ::prost::alloc::string::String,
+}
+/// Represents a link between a Merchant Center account and a branch.
+/// Once a link is established, products from the linked merchant center account
+/// will be streamed to the linked branch.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MerchantCenterLink {
+    /// Required. The linked [Merchant center account
+    /// id](<https://developers.google.com/shopping-content/guides/accountstatuses>).
+    /// The account must be a standalone account or a sub-account of a MCA.
+    #[prost(int64, tag = "1")]
+    pub merchant_center_account_id: i64,
+    /// The branch id (e.g. 0/1/2) within this catalog that products from
+    /// merchant_center_account_id are streamed to. When updating this field, an
+    /// empty value will use the currently configured default branch. However,
+    /// changing the default branch later on won't change the linked branch here.
+    ///
+    /// A single branch id can only have one linked merchant center account id.
+    #[prost(string, tag = "2")]
+    pub branch_id: ::prost::alloc::string::String,
+    /// String representing the destination to import for, all if left empty.
+    /// List of possible values can be found here.
+    /// \[<https://support.google.com/merchants/answer/7501026\]>
+    /// List of allowed string values:
+    /// "Shopping_ads", "Buy_on_google_listings", "Display_ads", "Local_inventory
+    /// _ads", "Free_listings", "Free_local_listings"
+    /// NOTE: The string values are case sensitive.
+    #[prost(string, repeated, tag = "3")]
+    pub destinations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Region code of offers to accept. 2-letter Uppercase ISO 3166-1 alpha-2
+    /// code. List of values can be found
+    /// \[here\](<https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry>)
+    /// under the `region` tag. If left blank no region filtering will be
+    /// performed.
+    ///
+    /// Example value: `US`.
+    #[prost(string, tag = "4")]
+    pub region_code: ::prost::alloc::string::String,
+    /// Language of the title/description and other string attributes. Use language
+    /// tags defined by [BCP 47](<https://www.rfc-editor.org/rfc/bcp/bcp47.txt>).
+    /// ISO 639-1.
+    ///
+    /// This specifies the language of offers in Merchant Center that will be
+    /// accepted.
+    /// If  empty no language filtering will be performed.
+    #[prost(string, tag = "5")]
+    pub language_code: ::prost::alloc::string::String,
+}
+/// Configures Merchant Center linking.
+/// Links contained in the config will be used to sync data from a Merchant
+/// Center account to a Cloud Retail branch.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MerchantCenterLinkingConfig {
+    /// Links between Merchant Center accounts and branches.
+    #[prost(message, repeated, tag = "1")]
+    pub links: ::prost::alloc::vec::Vec<MerchantCenterLink>,
+}
+/// The catalog configuration.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Catalog {
+    /// Required. Immutable. The fully qualified resource name of the catalog.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Immutable. The catalog display name.
+    ///
+    /// This field must be a UTF-8 encoded string with a length limit of 128
+    /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Required. The product level configuration.
+    #[prost(message, optional, tag = "4")]
+    pub product_level_config: ::core::option::Option<ProductLevelConfig>,
+    /// The Merchant Center linking configuration.
+    /// Once a link is added, the data stream from Merchant Center to Cloud Retail
+    /// will be enabled automatically. The requester must have access to the
+    /// merchant center account in order to make changes to this field.
+    #[prost(message, optional, tag = "6")]
+    pub merchant_center_linking_config: ::core::option::Option<MerchantCenterLinkingConfig>,
+}
+/// Request message for Predict method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PredictRequest {
+    /// Required. Full resource name of the format:
+    /// {name=projects/*/locations/global/catalogs/default_catalog/placements/*}
+    /// The ID of the Recommendations AI placement. Before you can request
+    /// predictions from your model, you must create at least one placement for it.
+    /// For more information, see [Managing
+    /// placements](<https://cloud.google.com/retail/recommendations-ai/docs/manage-placements>).
+    ///
+    /// The full list of available placements can be seen at
+    /// <https://console.cloud.google.com/recommendation/catalogs/default_catalog/placements>
+    #[prost(string, tag = "1")]
+    pub placement: ::prost::alloc::string::String,
+    /// Required. Context about the user, what they are looking at and what action
+    /// they took to trigger the predict request. Note that this user event detail
+    /// won't be ingested to userEvent logs. Thus, a separate userEvent write
+    /// request is required for event logging.
+    #[prost(message, optional, tag = "2")]
+    pub user_event: ::core::option::Option<UserEvent>,
+    /// Maximum number of results to return per page. Set this property
+    /// to the number of prediction results needed. If zero, the service will
+    /// choose a reasonable default. The maximum allowed value is 100. Values
+    /// above 100 will be coerced to 100.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// The previous PredictResponse.next_page_token.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Filter for restricting prediction results with a length limit of 5,000
+    /// characters. Accepts values for tags and the `filterOutOfStockItems` flag.
+    ///
+    ///  * Tag expressions. Restricts predictions to products that match all of the
+    ///    specified tags. Boolean operators `OR` and `NOT` are supported if the
+    ///    expression is enclosed in parentheses, and must be separated from the
+    ///    tag values by a space. `-"tagA"` is also supported and is equivalent to
+    ///    `NOT "tagA"`. Tag values must be double quoted UTF-8 encoded strings
+    ///    with a size limit of 1,000 characters.
+    ///
+    ///    Note: "Recently viewed" models don't support tag filtering at the
+    ///    moment.
+    ///
+    ///  * filterOutOfStockItems. Restricts predictions to products that do not
+    ///  have a
+    ///    stockState value of OUT_OF_STOCK.
+    ///
+    /// Examples:
+    ///
+    ///  * tag=("Red" OR "Blue") tag="New-Arrival" tag=(NOT "promotional")
+    ///  * filterOutOfStockItems  tag=(-"promotional")
+    ///  * filterOutOfStockItems
+    ///
+    /// If your filter blocks all prediction results, nothing will be returned. If
+    /// you want generic (unfiltered) popular products to be returned instead, set
+    /// `strictFiltering` to false in `PredictRequest.params`.
+    #[prost(string, tag = "5")]
+    pub filter: ::prost::alloc::string::String,
+    /// Use validate only mode for this prediction query. If set to true, a
+    /// dummy model will be used that returns arbitrary products.
+    /// Note that the validate only mode should only be used for testing the API,
+    /// or if the model is not ready.
+    #[prost(bool, tag = "6")]
+    pub validate_only: bool,
+    /// Additional domain specific parameters for the predictions.
+    ///
+    /// Allowed values:
+    ///
+    /// * `returnProduct`: Boolean. If set to true, the associated product
+    ///    object will be returned in the `results.metadata` field in the
+    ///    prediction response.
+    /// * `returnScore`: Boolean. If set to true, the prediction 'score'
+    ///    corresponding to each returned product will be set in the
+    ///    `results.metadata` field in the prediction response. The given
+    ///    'score' indicates the probability of an product being clicked/purchased
+    ///    given the user's context and history.
+    /// * `strictFiltering`: Boolean. True by default. If set to false, the service
+    ///    will return generic (unfiltered) popular products instead of empty if
+    ///    your filter blocks all prediction results.
+    /// * `priceRerankLevel`: String. Default empty. If set to be non-empty, then
+    ///    it needs to be one of {'no-price-reranking', 'low-price-reranking',
+    ///    'medium-price-reranking', 'high-price-reranking'}. This gives
+    ///    request-level control and adjusts prediction results based on product
+    ///    price.
+    /// * `diversityLevel`: String. Default empty. If set to be non-empty, then
+    ///    it needs to be one of {'no-diversity', 'low-diversity',
+    ///    'medium-diversity', 'high-diversity', 'auto-diversity'}. This gives
+    ///    request-level control and adjusts prediction results based on product
+    ///    category.
+    #[prost(btree_map = "string, message", tag = "7")]
+    pub params:
+        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::Value>,
+    /// The labels applied to a resource must meet the following requirements:
+    ///
+    /// * Each resource can have multiple labels, up to a maximum of 64.
+    /// * Each label must be a key-value pair.
+    /// * Keys have a minimum length of 1 character and a maximum length of 63
+    ///   characters, and cannot be empty. Values can be empty, and have a maximum
+    ///   length of 63 characters.
+    /// * Keys and values can contain only lowercase letters, numeric characters,
+    ///   underscores, and dashes. All characters must use UTF-8 encoding, and
+    ///   international characters are allowed.
+    /// * The key portion of a label must be unique. However, you can use the same
+    ///   key with multiple resources.
+    /// * Keys must start with a lowercase letter or international character.
+    ///
+    /// See [Google Cloud
+    /// Document](<https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements>)
+    /// for more details.
+    #[prost(btree_map = "string, string", tag = "8")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+}
+/// Response message for predict method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PredictResponse {
+    /// A list of recommended products. The order represents the ranking (from the
+    /// most relevant product to the least).
+    #[prost(message, repeated, tag = "1")]
+    pub results: ::prost::alloc::vec::Vec<predict_response::PredictionResult>,
+    /// A unique attribution token. This should be included in the
+    /// \[UserEvent][google.cloud.retail.v2alpha.UserEvent\] logs resulting from this
+    /// recommendation, which enables accurate attribution of recommendation model
+    /// performance.
+    #[prost(string, tag = "2")]
+    pub attribution_token: ::prost::alloc::string::String,
+    /// IDs of products in the request that were missing from the inventory.
+    #[prost(string, repeated, tag = "3")]
+    pub missing_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// True if the validateOnly property was set in the request.
+    #[prost(bool, tag = "4")]
+    pub validate_only: bool,
+}
+/// Nested message and enum types in `PredictResponse`.
+pub mod predict_response {
+    /// PredictionResult represents the recommendation prediction results.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PredictionResult {
+        /// ID of the recommended product
+        #[prost(string, tag = "1")]
+        pub id: ::prost::alloc::string::String,
+        /// Additional product metadata / annotations.
+        ///
+        /// Possible values:
+        ///
+        /// * `product`: JSON representation of the product. Will be set if
+        ///   `returnProduct` is set to true in `PredictRequest.params`.
+        /// * `score`: Prediction score in double value. Will be set if
+        ///   `returnScore` is set to true in `PredictRequest.params`.
+        #[prost(btree_map = "string, message", tag = "2")]
+        pub metadata: ::prost::alloc::collections::BTreeMap<
+            ::prost::alloc::string::String,
+            ::prost_types::Value,
+        >,
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod prediction_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for making recommendation prediction."]
+    #[derive(Debug, Clone)]
+    pub struct PredictionServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> PredictionServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> PredictionServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            PredictionServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Makes a recommendation prediction."]
+        pub async fn predict(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PredictRequest>,
+        ) -> Result<tonic::Response<super::PredictResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2alpha.PredictionService/Predict",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Request for
 /// \[CatalogService.ListCatalogs][google.cloud.retail.v2alpha.CatalogService.ListCatalogs\]
 /// method.
@@ -5209,296 +5499,6 @@ pub mod control_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.retail.v2alpha.ControlService/ListControls",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Request for CreateServingConfig method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateServingConfigRequest {
-    /// Required. Full resource name of parent. Format:
-    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The ServingConfig to create.
-    #[prost(message, optional, tag = "2")]
-    pub serving_config: ::core::option::Option<ServingConfig>,
-    /// Required. The ID to use for the ServingConfig, which will become the final
-    /// component of the ServingConfig's resource name.
-    ///
-    /// This value should be 4-63 characters, and valid characters
-    /// are /\[a-z][0-9\]-_/.
-    #[prost(string, tag = "3")]
-    pub serving_config_id: ::prost::alloc::string::String,
-}
-/// Request for UpdateServingConfig method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateServingConfigRequest {
-    /// Required. The ServingConfig to update.
-    #[prost(message, optional, tag = "1")]
-    pub serving_config: ::core::option::Option<ServingConfig>,
-    /// Indicates which fields in the provided
-    /// \[ServingConfig][google.cloud.retail.v2alpha.ServingConfig\] to update. The
-    /// following are NOT supported:
-    ///
-    /// * \[ServingConfig.name][google.cloud.retail.v2alpha.ServingConfig.name\]
-    ///
-    /// If not set, all supported fields are updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request for DeleteServingConfig method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteServingConfigRequest {
-    /// Required. The resource name of the ServingConfig to delete. Format:
-    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for GetServingConfig method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetServingConfigRequest {
-    /// Required. The resource name of the ServingConfig to get. Format:
-    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for ListServingConfigs method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListServingConfigsRequest {
-    /// Required. The catalog resource name. Format:
-    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of results to return. If unspecified, defaults
-    /// to 100. If a value greater than 100 is provided, at most 100 results are
-    /// returned.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. A page token, received from a previous `ListServingConfigs` call.
-    /// Provide this to retrieve the subsequent page.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response for ListServingConfigs method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListServingConfigsResponse {
-    /// All the ServingConfigs for a given catalog.
-    #[prost(message, repeated, tag = "1")]
-    pub serving_configs: ::prost::alloc::vec::Vec<ServingConfig>,
-    /// Pagination token, if not returned indicates the last page.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request for AddControl method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AddControlRequest {
-    /// Required. The source ServingConfig resource name . Format:
-    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
-    #[prost(string, tag = "1")]
-    pub serving_config: ::prost::alloc::string::String,
-    /// Required. The id of the control to apply. Assumed to be in the same catalog
-    /// as the serving config - if id is not found a NOT_FOUND error is returned.
-    #[prost(string, tag = "2")]
-    pub control_id: ::prost::alloc::string::String,
-}
-/// Request for RemoveControl method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RemoveControlRequest {
-    /// Required. The source ServingConfig resource name . Format:
-    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
-    #[prost(string, tag = "1")]
-    pub serving_config: ::prost::alloc::string::String,
-    /// Required. The id of the control to apply. Assumed to be in the same catalog
-    /// as the serving config.
-    #[prost(string, tag = "2")]
-    pub control_id: ::prost::alloc::string::String,
-}
-#[doc = r" Generated client implementations."]
-pub mod serving_config_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for modifying ServingConfig."]
-    #[derive(Debug, Clone)]
-    pub struct ServingConfigServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ServingConfigServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ServingConfigServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ServingConfigServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Creates a ServingConfig."]
-        #[doc = ""]
-        #[doc = " A maximum of 100"]
-        #[doc = " [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]s are allowed in"]
-        #[doc = " a [Catalog][google.cloud.retail.v2alpha.Catalog], otherwise a"]
-        #[doc = " FAILED_PRECONDITION error is returned."]
-        pub async fn create_serving_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateServingConfigRequest>,
-        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.retail.v2alpha.ServingConfigService/CreateServingConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes a ServingConfig."]
-        #[doc = ""]
-        #[doc = " Returns a NotFound error if the ServingConfig does not exist."]
-        pub async fn delete_serving_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteServingConfigRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.retail.v2alpha.ServingConfigService/DeleteServingConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates a ServingConfig."]
-        pub async fn update_serving_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateServingConfigRequest>,
-        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.retail.v2alpha.ServingConfigService/UpdateServingConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets a ServingConfig."]
-        #[doc = ""]
-        #[doc = " Returns a NotFound error if the ServingConfig does not exist."]
-        pub async fn get_serving_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetServingConfigRequest>,
-        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.retail.v2alpha.ServingConfigService/GetServingConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Lists all ServingConfigs linked to this catalog."]
-        pub async fn list_serving_configs(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListServingConfigsRequest>,
-        ) -> Result<tonic::Response<super::ListServingConfigsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.retail.v2alpha.ServingConfigService/ListServingConfigs",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Enables a Control on the specified ServingConfig."]
-        #[doc = " The control is added in the last position of the list of controls"]
-        #[doc = " it belongs to (e.g. if it's a facet spec control it will be applied"]
-        #[doc = " in the last position of servingConfig.facetSpecIds)"]
-        #[doc = " Returns a ALREADY_EXISTS error if the control has already been applied."]
-        #[doc = " Returns a FAILED_PRECONDITION error if the addition could exceed maximum"]
-        #[doc = " number of control allowed for that type of control."]
-        pub async fn add_control(
-            &mut self,
-            request: impl tonic::IntoRequest<super::AddControlRequest>,
-        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.retail.v2alpha.ServingConfigService/AddControl",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Disables a Control on the specified ServingConfig."]
-        #[doc = " The control is removed from the ServingConfig."]
-        #[doc = " Returns a NOT_FOUND error if the Control is not enabled for the"]
-        #[doc = " ServingConfig."]
-        pub async fn remove_control(
-            &mut self,
-            request: impl tonic::IntoRequest<super::RemoveControlRequest>,
-        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.retail.v2alpha.ServingConfigService/RemoveControl",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

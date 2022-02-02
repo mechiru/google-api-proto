@@ -1,22 +1,20 @@
-/// Table reference that includes just the 3 strings needed to identify a table.
+/// Avro schema.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableReference {
-    /// The assigned project ID of the project.
+pub struct AvroSchema {
+    /// Json serialized schema, as described at
+    /// <https://avro.apache.org/docs/1.8.1/spec.html>
     #[prost(string, tag = "1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The ID of the dataset in the above project.
-    #[prost(string, tag = "2")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// The ID of the table in the above dataset.
-    #[prost(string, tag = "3")]
-    pub table_id: ::prost::alloc::string::String,
+    pub schema: ::prost::alloc::string::String,
 }
-/// All fields in this message optional.
+/// Avro rows.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableModifiers {
-    /// The snapshot time of the table. If not set, interpreted as now.
-    #[prost(message, optional, tag = "1")]
-    pub snapshot_time: ::core::option::Option<::prost_types::Timestamp>,
+pub struct AvroRows {
+    /// Binary serialized rows in a block.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub serialized_binary_rows: ::prost::bytes::Bytes,
+    /// The count of rows in the returning block.
+    #[prost(int64, tag = "2")]
+    pub row_count: i64,
 }
 /// Options dictating how we read a table.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -38,24 +36,6 @@ pub struct TableReadOptions {
     #[prost(string, tag = "2")]
     pub row_restriction: ::prost::alloc::string::String,
 }
-/// Avro schema.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroSchema {
-    /// Json serialized schema, as described at
-    /// <https://avro.apache.org/docs/1.8.1/spec.html>
-    #[prost(string, tag = "1")]
-    pub schema: ::prost::alloc::string::String,
-}
-/// Avro rows.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroRows {
-    /// Binary serialized rows in a block.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub serialized_binary_rows: ::prost::bytes::Bytes,
-    /// The count of rows in the returning block.
-    #[prost(int64, tag = "2")]
-    pub row_count: i64,
-}
 /// Arrow schema.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ArrowSchema {
@@ -72,6 +52,26 @@ pub struct ArrowRecordBatch {
     /// The count of rows in the returning block.
     #[prost(int64, tag = "2")]
     pub row_count: i64,
+}
+/// Table reference that includes just the 3 strings needed to identify a table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableReference {
+    /// The assigned project ID of the project.
+    #[prost(string, tag = "1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The ID of the dataset in the above project.
+    #[prost(string, tag = "2")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// The ID of the table in the above dataset.
+    #[prost(string, tag = "3")]
+    pub table_id: ::prost::alloc::string::String,
+}
+/// All fields in this message optional.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableModifiers {
+    /// The snapshot time of the table. If not set, interpreted as now.
+    #[prost(message, optional, tag = "1")]
+    pub snapshot_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Information about a single data stream within a read session.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -1,81 +1,172 @@
+/// The request message used for the Echo, Collect and Chat methods.
+/// If content or opt are set in this message then the request will succeed.
+/// If status is set in this message then the status will be returned as an
+/// error.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Sequence {
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Sequence of responses to return in order for each attempt. If empty, the
-    /// default response is an immediate OK.
-    #[prost(message, repeated, tag = "2")]
-    pub responses: ::prost::alloc::vec::Vec<sequence::Response>,
+pub struct EchoRequest {
+    /// The severity to be echoed by the server.
+    #[prost(enumeration = "Severity", tag = "3")]
+    pub severity: i32,
+    /// The response contents.
+    #[prost(oneof = "echo_request::Response", tags = "1, 2")]
+    pub response: ::core::option::Option<echo_request::Response>,
 }
-/// Nested message and enum types in `Sequence`.
-pub mod sequence {
-    /// A server response to an RPC Attempt in a sequence.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Response {
-        /// The status to return for an individual attempt.
-        #[prost(message, optional, tag = "1")]
-        pub status: ::core::option::Option<super::super::super::super::rpc::Status>,
-        /// The amount of time to delay sending the response.
-        #[prost(message, optional, tag = "2")]
-        pub delay: ::core::option::Option<::prost_types::Duration>,
+/// Nested message and enum types in `EchoRequest`.
+pub mod echo_request {
+    /// The response contents.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Response {
+        /// The content to be echoed by the server.
+        #[prost(string, tag = "1")]
+        Content(::prost::alloc::string::String),
+        /// The error to be thrown by the server.
+        #[prost(message, tag = "2")]
+        Error(super::super::super::super::rpc::Status),
     }
 }
+/// The response message for the Echo methods.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SequenceReport {
+pub struct EchoResponse {
+    /// The content specified in the request.
     #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The set of RPC attempts received by the server for a Sequence.
-    #[prost(message, repeated, tag = "2")]
-    pub attempts: ::prost::alloc::vec::Vec<sequence_report::Attempt>,
+    pub content: ::prost::alloc::string::String,
+    /// The severity specified in the request.
+    #[prost(enumeration = "Severity", tag = "2")]
+    pub severity: i32,
 }
-/// Nested message and enum types in `SequenceReport`.
-pub mod sequence_report {
-    /// Contains metrics on individual RPC Attempts in a sequence.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Attempt {
-        /// The attempt number - starting at 0.
-        #[prost(int32, tag = "1")]
-        pub attempt_number: i32,
-        /// The deadline dictated by the attempt to the server.
-        #[prost(message, optional, tag = "2")]
-        pub attempt_deadline: ::core::option::Option<::prost_types::Timestamp>,
-        /// The time that the server responded to the RPC attempt. Used for
-        /// calculating attempt_delay.
-        #[prost(message, optional, tag = "3")]
-        pub response_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// The server perceived delay between sending the last response and
-        /// receiving this attempt. Used for validating attempt delay backoff.
-        #[prost(message, optional, tag = "4")]
-        pub attempt_delay: ::core::option::Option<::prost_types::Duration>,
-        /// The status returned to the attempt.
-        #[prost(message, optional, tag = "5")]
-        pub status: ::core::option::Option<super::super::super::super::rpc::Status>,
+/// The request message for the Expand method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExpandRequest {
+    /// The content that will be split into words and returned on the stream.
+    #[prost(string, tag = "1")]
+    pub content: ::prost::alloc::string::String,
+    /// The error that is thrown after all words are sent on the stream.
+    #[prost(message, optional, tag = "2")]
+    pub error: ::core::option::Option<super::super::super::rpc::Status>,
+}
+/// The request for the PagedExpand method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PagedExpandRequest {
+    /// Required. The string to expand.
+    #[prost(string, tag = "1")]
+    pub content: ::prost::alloc::string::String,
+    /// The amount of words to returned in each page.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The position of the page to be returned.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response for the PagedExpand method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PagedExpandResponse {
+    /// The words that were expanded.
+    #[prost(message, repeated, tag = "1")]
+    pub responses: ::prost::alloc::vec::Vec<EchoResponse>,
+    /// The next page token.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request for Wait method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WaitRequest {
+    /// The ending time or duration.
+    #[prost(oneof = "wait_request::End", tags = "1, 4")]
+    pub end: ::core::option::Option<wait_request::End>,
+    /// The response.
+    #[prost(oneof = "wait_request::Response", tags = "2, 3")]
+    pub response: ::core::option::Option<wait_request::Response>,
+}
+/// Nested message and enum types in `WaitRequest`.
+pub mod wait_request {
+    /// The ending time or duration.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum End {
+        /// The time that this operation will complete.
+        #[prost(message, tag = "1")]
+        EndTime(::prost_types::Timestamp),
+        /// The duration of this operation.
+        #[prost(message, tag = "4")]
+        Ttl(::prost_types::Duration),
+    }
+    /// The response.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Response {
+        /// The error that will be returned by the server. If this code is specified
+        /// to be the OK rpc code, an empty response will be returned.
+        #[prost(message, tag = "2")]
+        Error(super::super::super::super::rpc::Status),
+        /// The response to be returned on operation completion.
+        #[prost(message, tag = "3")]
+        Success(super::WaitResponse),
     }
 }
+/// The result of the Wait operation.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateSequenceRequest {
+pub struct WaitResponse {
+    /// This content of the result.
+    #[prost(string, tag = "1")]
+    pub content: ::prost::alloc::string::String,
+}
+/// The request for Block method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BlockRequest {
+    /// The amount of time to block before returning a response.
     #[prost(message, optional, tag = "1")]
-    pub sequence: ::core::option::Option<Sequence>,
+    pub response_delay: ::core::option::Option<::prost_types::Duration>,
+    /// The response.
+    #[prost(oneof = "block_request::Response", tags = "2, 3")]
+    pub response: ::core::option::Option<block_request::Response>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AttemptSequenceRequest {
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
+/// Nested message and enum types in `BlockRequest`.
+pub mod block_request {
+    /// The response.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Response {
+        /// The error that will be returned by the server. If this code is specified
+        /// to be the OK rpc code, an empty response will be returned.
+        #[prost(message, tag = "2")]
+        Error(super::super::super::super::rpc::Status),
+        /// The response to be returned that will signify successful method call.
+        #[prost(message, tag = "3")]
+        Success(super::BlockResponse),
+    }
 }
+/// The response for Block method.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetSequenceReportRequest {
+pub struct BlockResponse {
+    /// This content can contain anything, the server will not depend on a value
+    /// here.
     #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
+    pub content: ::prost::alloc::string::String,
+}
+/// A severity enum used to test enum capabilities in GAPIC surfaces.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Severity {
+    /// The severity is unnecessary.
+    Unnecessary = 0,
+    /// The severity is necessary.
+    Necessary = 1,
+    /// Urgent.
+    Urgent = 2,
+    /// Critical.
+    Critical = 3,
 }
 #[doc = r" Generated client implementations."]
-pub mod sequence_service_client {
+pub mod echo_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
+    #[doc = " This service is used showcase the four main types of rpcs - unary, server"]
+    #[doc = " side streaming, client side streaming, and bidirectional streaming. This"]
+    #[doc = " service also exposes methods that explicitly implement server delay, and"]
+    #[doc = " paginated calls. Set the 'showcase-trailer' metadata key on any method"]
+    #[doc = " to have the values echoed in the response trailers."]
     #[derive(Debug, Clone)]
-    pub struct SequenceServiceClient<T> {
+    pub struct EchoClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl<T> SequenceServiceClient<T>
+    impl<T> EchoClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::ResponseBody: Body + Send + 'static,
@@ -86,10 +177,7 @@ pub mod sequence_service_client {
             let inner = tonic::client::Grpc::new(inner);
             Self { inner }
         }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> SequenceServiceClient<InterceptedService<T, F>>
+        pub fn with_interceptor<F>(inner: T, interceptor: F) -> EchoClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T: tonic::codegen::Service<
@@ -101,7 +189,7 @@ pub mod sequence_service_client {
             <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
                 Into<StdError> + Send + Sync,
         {
-            SequenceServiceClient::new(InterceptedService::new(inner, interceptor))
+            EchoClient::new(InterceptedService::new(inner, interceptor))
         }
         #[doc = r" Compress requests with `gzip`."]
         #[doc = r""]
@@ -116,11 +204,89 @@ pub mod sequence_service_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        #[doc = " Creates a sequence."]
-        pub async fn create_sequence(
+        #[doc = " This method simply echoes the request. This method showcases unary RPCs."]
+        pub async fn echo(
             &mut self,
-            request: impl tonic::IntoRequest<super::CreateSequenceRequest>,
-        ) -> Result<tonic::Response<super::Sequence>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::EchoRequest>,
+        ) -> Result<tonic::Response<super::EchoResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Echo");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " This method splits the given content into words and will pass each word"]
+        #[doc = " back through the stream. This method showcases server-side streaming RPCs."]
+        pub async fn expand(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ExpandRequest>,
+        ) -> Result<tonic::Response<tonic::codec::Streaming<super::EchoResponse>>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Expand");
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
+        }
+        #[doc = " This method will collect the words given to it. When the stream is closed"]
+        #[doc = " by the client, this method will return the a concatenation of the strings"]
+        #[doc = " passed to it. This method showcases client-side streaming RPCs."]
+        pub async fn collect(
+            &mut self,
+            request: impl tonic::IntoStreamingRequest<Message = super::EchoRequest>,
+        ) -> Result<tonic::Response<super::EchoResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Collect");
+            self.inner
+                .client_streaming(request.into_streaming_request(), path, codec)
+                .await
+        }
+        #[doc = " This method, upon receiving a request on the stream, will pass the same"]
+        #[doc = " content back on the stream. This method showcases bidirectional"]
+        #[doc = " streaming RPCs."]
+        pub async fn chat(
+            &mut self,
+            request: impl tonic::IntoStreamingRequest<Message = super::EchoRequest>,
+        ) -> Result<tonic::Response<tonic::codec::Streaming<super::EchoResponse>>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Chat");
+            self.inner
+                .streaming(request.into_streaming_request(), path, codec)
+                .await
+        }
+        #[doc = " This is similar to the Expand method but instead of returning a stream of"]
+        #[doc = " expanded words, this method returns a paged list of expanded words."]
+        pub async fn paged_expand(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PagedExpandRequest>,
+        ) -> Result<tonic::Response<super::PagedExpandResponse>, tonic::Status> {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -129,15 +295,19 @@ pub mod sequence_service_client {
             })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1.SequenceService/CreateSequence",
+                "/google.example.showcase.v1.Echo/PagedExpand",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Retrieves a sequence."]
-        pub async fn get_sequence_report(
+        #[doc = " This method will wait for the requested amount of time and then return."]
+        #[doc = " This method showcases how a client handles a request timeout."]
+        pub async fn wait(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetSequenceReportRequest>,
-        ) -> Result<tonic::Response<super::SequenceReport>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::WaitRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -145,16 +315,17 @@ pub mod sequence_service_client {
                 )
             })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1.SequenceService/GetSequenceReport",
-            );
+            let path =
+                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Wait");
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Attempts a sequence."]
-        pub async fn attempt_sequence(
+        #[doc = " This method will block (wait) for the requested amount of time"]
+        #[doc = " and then return the response or error."]
+        #[doc = " This method showcases how a client handles delays or retries."]
+        pub async fn block(
             &mut self,
-            request: impl tonic::IntoRequest<super::AttemptSequenceRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::BlockRequest>,
+        ) -> Result<tonic::Response<super::BlockResponse>, tonic::Status> {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -162,9 +333,8 @@ pub mod sequence_service_client {
                 )
             })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1.SequenceService/AttemptSequence",
-            );
+            let path =
+                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Block");
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
@@ -907,175 +1077,84 @@ pub mod compliance_client {
         }
     }
 }
-/// The request message used for the Echo, Collect and Chat methods.
-/// If content or opt are set in this message then the request will succeed.
-/// If status is set in this message then the status will be returned as an
-/// error.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EchoRequest {
-    /// The severity to be echoed by the server.
-    #[prost(enumeration = "Severity", tag = "3")]
-    pub severity: i32,
-    /// The response contents.
-    #[prost(oneof = "echo_request::Response", tags = "1, 2")]
-    pub response: ::core::option::Option<echo_request::Response>,
+pub struct Sequence {
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Sequence of responses to return in order for each attempt. If empty, the
+    /// default response is an immediate OK.
+    #[prost(message, repeated, tag = "2")]
+    pub responses: ::prost::alloc::vec::Vec<sequence::Response>,
 }
-/// Nested message and enum types in `EchoRequest`.
-pub mod echo_request {
-    /// The response contents.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Response {
-        /// The content to be echoed by the server.
-        #[prost(string, tag = "1")]
-        Content(::prost::alloc::string::String),
-        /// The error to be thrown by the server.
-        #[prost(message, tag = "2")]
-        Error(super::super::super::super::rpc::Status),
+/// Nested message and enum types in `Sequence`.
+pub mod sequence {
+    /// A server response to an RPC Attempt in a sequence.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Response {
+        /// The status to return for an individual attempt.
+        #[prost(message, optional, tag = "1")]
+        pub status: ::core::option::Option<super::super::super::super::rpc::Status>,
+        /// The amount of time to delay sending the response.
+        #[prost(message, optional, tag = "2")]
+        pub delay: ::core::option::Option<::prost_types::Duration>,
     }
 }
-/// The response message for the Echo methods.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EchoResponse {
-    /// The content specified in the request.
+pub struct SequenceReport {
     #[prost(string, tag = "1")]
-    pub content: ::prost::alloc::string::String,
-    /// The severity specified in the request.
-    #[prost(enumeration = "Severity", tag = "2")]
-    pub severity: i32,
+    pub name: ::prost::alloc::string::String,
+    /// The set of RPC attempts received by the server for a Sequence.
+    #[prost(message, repeated, tag = "2")]
+    pub attempts: ::prost::alloc::vec::Vec<sequence_report::Attempt>,
 }
-/// The request message for the Expand method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExpandRequest {
-    /// The content that will be split into words and returned on the stream.
-    #[prost(string, tag = "1")]
-    pub content: ::prost::alloc::string::String,
-    /// The error that is thrown after all words are sent on the stream.
-    #[prost(message, optional, tag = "2")]
-    pub error: ::core::option::Option<super::super::super::rpc::Status>,
-}
-/// The request for the PagedExpand method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PagedExpandRequest {
-    /// Required. The string to expand.
-    #[prost(string, tag = "1")]
-    pub content: ::prost::alloc::string::String,
-    /// The amount of words to returned in each page.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The position of the page to be returned.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response for the PagedExpand method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PagedExpandResponse {
-    /// The words that were expanded.
-    #[prost(message, repeated, tag = "1")]
-    pub responses: ::prost::alloc::vec::Vec<EchoResponse>,
-    /// The next page token.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request for Wait method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WaitRequest {
-    /// The ending time or duration.
-    #[prost(oneof = "wait_request::End", tags = "1, 4")]
-    pub end: ::core::option::Option<wait_request::End>,
-    /// The response.
-    #[prost(oneof = "wait_request::Response", tags = "2, 3")]
-    pub response: ::core::option::Option<wait_request::Response>,
-}
-/// Nested message and enum types in `WaitRequest`.
-pub mod wait_request {
-    /// The ending time or duration.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum End {
-        /// The time that this operation will complete.
-        #[prost(message, tag = "1")]
-        EndTime(::prost_types::Timestamp),
-        /// The duration of this operation.
-        #[prost(message, tag = "4")]
-        Ttl(::prost_types::Duration),
-    }
-    /// The response.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Response {
-        /// The error that will be returned by the server. If this code is specified
-        /// to be the OK rpc code, an empty response will be returned.
-        #[prost(message, tag = "2")]
-        Error(super::super::super::super::rpc::Status),
-        /// The response to be returned on operation completion.
-        #[prost(message, tag = "3")]
-        Success(super::WaitResponse),
+/// Nested message and enum types in `SequenceReport`.
+pub mod sequence_report {
+    /// Contains metrics on individual RPC Attempts in a sequence.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Attempt {
+        /// The attempt number - starting at 0.
+        #[prost(int32, tag = "1")]
+        pub attempt_number: i32,
+        /// The deadline dictated by the attempt to the server.
+        #[prost(message, optional, tag = "2")]
+        pub attempt_deadline: ::core::option::Option<::prost_types::Timestamp>,
+        /// The time that the server responded to the RPC attempt. Used for
+        /// calculating attempt_delay.
+        #[prost(message, optional, tag = "3")]
+        pub response_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// The server perceived delay between sending the last response and
+        /// receiving this attempt. Used for validating attempt delay backoff.
+        #[prost(message, optional, tag = "4")]
+        pub attempt_delay: ::core::option::Option<::prost_types::Duration>,
+        /// The status returned to the attempt.
+        #[prost(message, optional, tag = "5")]
+        pub status: ::core::option::Option<super::super::super::super::rpc::Status>,
     }
 }
-/// The result of the Wait operation.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WaitResponse {
-    /// This content of the result.
-    #[prost(string, tag = "1")]
-    pub content: ::prost::alloc::string::String,
-}
-/// The request for Block method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BlockRequest {
-    /// The amount of time to block before returning a response.
+pub struct CreateSequenceRequest {
     #[prost(message, optional, tag = "1")]
-    pub response_delay: ::core::option::Option<::prost_types::Duration>,
-    /// The response.
-    #[prost(oneof = "block_request::Response", tags = "2, 3")]
-    pub response: ::core::option::Option<block_request::Response>,
+    pub sequence: ::core::option::Option<Sequence>,
 }
-/// Nested message and enum types in `BlockRequest`.
-pub mod block_request {
-    /// The response.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Response {
-        /// The error that will be returned by the server. If this code is specified
-        /// to be the OK rpc code, an empty response will be returned.
-        #[prost(message, tag = "2")]
-        Error(super::super::super::super::rpc::Status),
-        /// The response to be returned that will signify successful method call.
-        #[prost(message, tag = "3")]
-        Success(super::BlockResponse),
-    }
-}
-/// The response for Block method.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BlockResponse {
-    /// This content can contain anything, the server will not depend on a value
-    /// here.
+pub struct AttemptSequenceRequest {
     #[prost(string, tag = "1")]
-    pub content: ::prost::alloc::string::String,
+    pub name: ::prost::alloc::string::String,
 }
-/// A severity enum used to test enum capabilities in GAPIC surfaces.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum Severity {
-    /// The severity is unnecessary.
-    Unnecessary = 0,
-    /// The severity is necessary.
-    Necessary = 1,
-    /// Urgent.
-    Urgent = 2,
-    /// Critical.
-    Critical = 3,
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetSequenceReportRequest {
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
 }
 #[doc = r" Generated client implementations."]
-pub mod echo_client {
+pub mod sequence_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    #[doc = " This service is used showcase the four main types of rpcs - unary, server"]
-    #[doc = " side streaming, client side streaming, and bidirectional streaming. This"]
-    #[doc = " service also exposes methods that explicitly implement server delay, and"]
-    #[doc = " paginated calls. Set the 'showcase-trailer' metadata key on any method"]
-    #[doc = " to have the values echoed in the response trailers."]
     #[derive(Debug, Clone)]
-    pub struct EchoClient<T> {
+    pub struct SequenceServiceClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl<T> EchoClient<T>
+    impl<T> SequenceServiceClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::ResponseBody: Body + Send + 'static,
@@ -1086,7 +1165,10 @@ pub mod echo_client {
             let inner = tonic::client::Grpc::new(inner);
             Self { inner }
         }
-        pub fn with_interceptor<F>(inner: T, interceptor: F) -> EchoClient<InterceptedService<T, F>>
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> SequenceServiceClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T: tonic::codegen::Service<
@@ -1098,7 +1180,7 @@ pub mod echo_client {
             <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
                 Into<StdError> + Send + Sync,
         {
-            EchoClient::new(InterceptedService::new(inner, interceptor))
+            SequenceServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         #[doc = r" Compress requests with `gzip`."]
         #[doc = r""]
@@ -1113,89 +1195,11 @@ pub mod echo_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        #[doc = " This method simply echoes the request. This method showcases unary RPCs."]
-        pub async fn echo(
+        #[doc = " Creates a sequence."]
+        pub async fn create_sequence(
             &mut self,
-            request: impl tonic::IntoRequest<super::EchoRequest>,
-        ) -> Result<tonic::Response<super::EchoResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Echo");
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " This method splits the given content into words and will pass each word"]
-        #[doc = " back through the stream. This method showcases server-side streaming RPCs."]
-        pub async fn expand(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ExpandRequest>,
-        ) -> Result<tonic::Response<tonic::codec::Streaming<super::EchoResponse>>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Expand");
-            self.inner
-                .server_streaming(request.into_request(), path, codec)
-                .await
-        }
-        #[doc = " This method will collect the words given to it. When the stream is closed"]
-        #[doc = " by the client, this method will return the a concatenation of the strings"]
-        #[doc = " passed to it. This method showcases client-side streaming RPCs."]
-        pub async fn collect(
-            &mut self,
-            request: impl tonic::IntoStreamingRequest<Message = super::EchoRequest>,
-        ) -> Result<tonic::Response<super::EchoResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Collect");
-            self.inner
-                .client_streaming(request.into_streaming_request(), path, codec)
-                .await
-        }
-        #[doc = " This method, upon receiving a request on the stream, will pass the same"]
-        #[doc = " content back on the stream. This method showcases bidirectional"]
-        #[doc = " streaming RPCs."]
-        pub async fn chat(
-            &mut self,
-            request: impl tonic::IntoStreamingRequest<Message = super::EchoRequest>,
-        ) -> Result<tonic::Response<tonic::codec::Streaming<super::EchoResponse>>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Chat");
-            self.inner
-                .streaming(request.into_streaming_request(), path, codec)
-                .await
-        }
-        #[doc = " This is similar to the Expand method but instead of returning a stream of"]
-        #[doc = " expanded words, this method returns a paged list of expanded words."]
-        pub async fn paged_expand(
-            &mut self,
-            request: impl tonic::IntoRequest<super::PagedExpandRequest>,
-        ) -> Result<tonic::Response<super::PagedExpandResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::CreateSequenceRequest>,
+        ) -> Result<tonic::Response<super::Sequence>, tonic::Status> {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -1204,19 +1208,15 @@ pub mod echo_client {
             })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.example.showcase.v1.Echo/PagedExpand",
+                "/google.example.showcase.v1.SequenceService/CreateSequence",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " This method will wait for the requested amount of time and then return."]
-        #[doc = " This method showcases how a client handles a request timeout."]
-        pub async fn wait(
+        #[doc = " Retrieves a sequence."]
+        pub async fn get_sequence_report(
             &mut self,
-            request: impl tonic::IntoRequest<super::WaitRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
+            request: impl tonic::IntoRequest<super::GetSequenceReportRequest>,
+        ) -> Result<tonic::Response<super::SequenceReport>, tonic::Status> {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -1224,17 +1224,16 @@ pub mod echo_client {
                 )
             })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Wait");
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1.SequenceService/GetSequenceReport",
+            );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " This method will block (wait) for the requested amount of time"]
-        #[doc = " and then return the response or error."]
-        #[doc = " This method showcases how a client handles delays or retries."]
-        pub async fn block(
+        #[doc = " Attempts a sequence."]
+        pub async fn attempt_sequence(
             &mut self,
-            request: impl tonic::IntoRequest<super::BlockRequest>,
-        ) -> Result<tonic::Response<super::BlockResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::AttemptSequenceRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -1242,8 +1241,9 @@ pub mod echo_client {
                 )
             })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/google.example.showcase.v1.Echo/Block");
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.example.showcase.v1.SequenceService/AttemptSequence",
+            );
             self.inner.unary(request.into_request(), path, codec).await
         }
     }

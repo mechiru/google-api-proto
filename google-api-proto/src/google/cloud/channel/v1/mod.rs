@@ -194,6 +194,70 @@ pub enum ChannelPartnerLinkState {
     /// Status when the reseller is suspended by Google or distributor.
     Suspended = 4,
 }
+/// A Product is the entity a customer uses when placing an order. For example,
+/// Google Workspace, Google Voice, etc.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Product {
+    /// Resource Name of the Product.
+    /// Format: products/{product_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Marketing information for the product.
+    #[prost(message, optional, tag = "2")]
+    pub marketing_info: ::core::option::Option<MarketingInfo>,
+}
+/// Represents a product's purchasable Stock Keeping Unit (SKU).
+/// SKUs represent the different variations of the product. For example, Google
+/// Workspace Business Standard and Google Workspace Business Plus are Google
+/// Workspace product SKUs.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Sku {
+    /// Resource Name of the SKU.
+    /// Format: products/{product_id}/skus/{sku_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Marketing information for the SKU.
+    #[prost(message, optional, tag = "2")]
+    pub marketing_info: ::core::option::Option<MarketingInfo>,
+    /// Product the SKU is associated with.
+    #[prost(message, optional, tag = "3")]
+    pub product: ::core::option::Option<Product>,
+}
+/// Represents the marketing information for a Product, SKU or Offer.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MarketingInfo {
+    /// Human readable name.
+    #[prost(string, tag = "1")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Human readable description. Description can contain HTML.
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// Default logo.
+    #[prost(message, optional, tag = "3")]
+    pub default_logo: ::core::option::Option<Media>,
+}
+/// Represents media information.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Media {
+    /// Title of the media.
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    /// URL of the media.
+    #[prost(string, tag = "2")]
+    pub content: ::prost::alloc::string::String,
+    /// Type of the media.
+    #[prost(enumeration = "MediaType", tag = "3")]
+    pub r#type: i32,
+}
+/// Type of media used.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum MediaType {
+    /// Not used.
+    Unspecified = 0,
+    /// Type of image.
+    Image = 1,
+}
 /// Entity representing a customer of a reseller or distributor.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Customer {
@@ -272,70 +336,6 @@ pub struct ContactInfo {
     /// The customer account's contact phone number.
     #[prost(string, tag = "7")]
     pub phone: ::prost::alloc::string::String,
-}
-/// A Product is the entity a customer uses when placing an order. For example,
-/// Google Workspace, Google Voice, etc.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Product {
-    /// Resource Name of the Product.
-    /// Format: products/{product_id}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Marketing information for the product.
-    #[prost(message, optional, tag = "2")]
-    pub marketing_info: ::core::option::Option<MarketingInfo>,
-}
-/// Represents a product's purchasable Stock Keeping Unit (SKU).
-/// SKUs represent the different variations of the product. For example, Google
-/// Workspace Business Standard and Google Workspace Business Plus are Google
-/// Workspace product SKUs.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Sku {
-    /// Resource Name of the SKU.
-    /// Format: products/{product_id}/skus/{sku_id}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Marketing information for the SKU.
-    #[prost(message, optional, tag = "2")]
-    pub marketing_info: ::core::option::Option<MarketingInfo>,
-    /// Product the SKU is associated with.
-    #[prost(message, optional, tag = "3")]
-    pub product: ::core::option::Option<Product>,
-}
-/// Represents the marketing information for a Product, SKU or Offer.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MarketingInfo {
-    /// Human readable name.
-    #[prost(string, tag = "1")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Human readable description. Description can contain HTML.
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// Default logo.
-    #[prost(message, optional, tag = "3")]
-    pub default_logo: ::core::option::Option<Media>,
-}
-/// Represents media information.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Media {
-    /// Title of the media.
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    /// URL of the media.
-    #[prost(string, tag = "2")]
-    pub content: ::prost::alloc::string::String,
-    /// Type of the media.
-    #[prost(enumeration = "MediaType", tag = "3")]
-    pub r#type: i32,
-}
-/// Type of media used.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum MediaType {
-    /// Not used.
-    Unspecified = 0,
-    /// Type of image.
-    Image = 1,
 }
 /// Represents an offer made to resellers for purchase.
 /// An offer is associated with a \[Sku][google.cloud.channel.v1.Sku\], has a plan for payment, a price, and
@@ -3160,45 +3160,6 @@ pub mod cloud_channel_service_client {
         }
     }
 }
-/// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadata {
-    /// The RPC that initiated this Long Running Operation.
-    #[prost(enumeration = "operation_metadata::OperationType", tag = "1")]
-    pub operation_type: i32,
-}
-/// Nested message and enum types in `OperationMetadata`.
-pub mod operation_metadata {
-    /// RPCs that return a Long Running Operation.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum OperationType {
-        /// Not used.
-        Unspecified = 0,
-        /// Long Running Operation was triggered by CreateEntitlement.
-        CreateEntitlement = 1,
-        /// Long Running Operation was triggered by ChangeRenewalSettings.
-        ChangeRenewalSettings = 3,
-        /// Long Running Operation was triggered by StartPaidService.
-        StartPaidService = 5,
-        /// Long Running Operation was triggered by ActivateEntitlement.
-        ActivateEntitlement = 7,
-        /// Long Running Operation was triggered by SuspendEntitlement.
-        SuspendEntitlement = 8,
-        /// Long Running Operation was triggered by CancelEntitlement.
-        CancelEntitlement = 9,
-        /// Long Running Operation was triggered by TransferEntitlements.
-        TransferEntitlements = 10,
-        /// Long Running Operation was triggered by TransferEntitlementsToGoogle.
-        TransferEntitlementsToGoogle = 11,
-        /// Long Running Operation was triggered by ChangeOffer.
-        ChangeOffer = 14,
-        /// Long Running Operation was triggered by ChangeParameters.
-        ChangeParameters = 15,
-        /// Long Running Operation was triggered by ProvisionCloudIdentity.
-        ProvisionCloudIdentity = 16,
-    }
-}
 /// Represents Pub/Sub message content describing customer update.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CustomerEvent {
@@ -3293,5 +3254,44 @@ pub mod subscriber_event {
         /// Entitlement event send as part of Pub/Sub event to partners.
         #[prost(message, tag = "2")]
         EntitlementEvent(super::EntitlementEvent),
+    }
+}
+/// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadata {
+    /// The RPC that initiated this Long Running Operation.
+    #[prost(enumeration = "operation_metadata::OperationType", tag = "1")]
+    pub operation_type: i32,
+}
+/// Nested message and enum types in `OperationMetadata`.
+pub mod operation_metadata {
+    /// RPCs that return a Long Running Operation.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum OperationType {
+        /// Not used.
+        Unspecified = 0,
+        /// Long Running Operation was triggered by CreateEntitlement.
+        CreateEntitlement = 1,
+        /// Long Running Operation was triggered by ChangeRenewalSettings.
+        ChangeRenewalSettings = 3,
+        /// Long Running Operation was triggered by StartPaidService.
+        StartPaidService = 5,
+        /// Long Running Operation was triggered by ActivateEntitlement.
+        ActivateEntitlement = 7,
+        /// Long Running Operation was triggered by SuspendEntitlement.
+        SuspendEntitlement = 8,
+        /// Long Running Operation was triggered by CancelEntitlement.
+        CancelEntitlement = 9,
+        /// Long Running Operation was triggered by TransferEntitlements.
+        TransferEntitlements = 10,
+        /// Long Running Operation was triggered by TransferEntitlementsToGoogle.
+        TransferEntitlementsToGoogle = 11,
+        /// Long Running Operation was triggered by ChangeOffer.
+        ChangeOffer = 14,
+        /// Long Running Operation was triggered by ChangeParameters.
+        ChangeParameters = 15,
+        /// Long Running Operation was triggered by ProvisionCloudIdentity.
+        ProvisionCloudIdentity = 16,
     }
 }

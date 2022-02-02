@@ -576,15 +576,6 @@ pub enum SparkChartType {
     /// The sparkbar will be rendered as a small bar chart.
     SparkBar = 2,
 }
-/// A chart that displays alert policy data.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AlertChart {
-    /// Required. The resource name of the alert policy. The format is:
-    ///
-    ///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
 /// A widget showing the latest value of a metric, and how this value relates to
 /// one or more thresholds.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -678,30 +669,6 @@ pub mod scorecard {
         /// Will cause the scorecard to show a spark chart.
         #[prost(message, tag = "5")]
         SparkChartView(SparkChartView),
-    }
-}
-/// A widget that displays textual content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Text {
-    /// The text content to be displayed.
-    #[prost(string, tag = "1")]
-    pub content: ::prost::alloc::string::String,
-    /// How the text content is formatted.
-    #[prost(enumeration = "text::Format", tag = "2")]
-    pub format: i32,
-}
-/// Nested message and enum types in `Text`.
-pub mod text {
-    /// The format type of the text content.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Format {
-        /// Format is unspecified. Defaults to MARKDOWN.
-        Unspecified = 0,
-        /// The text contains Markdown formatting.
-        Markdown = 1,
-        /// The text contains no special formatting.
-        Raw = 2,
     }
 }
 /// A chart that displays data on a 2D (X and Y axes) plane.
@@ -835,6 +802,39 @@ pub mod chart_options {
         /// The chart displays statistics such as average, median, 95th percentile,
         /// and more.
         Stats = 3,
+    }
+}
+/// A chart that displays alert policy data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AlertChart {
+    /// Required. The resource name of the alert policy. The format is:
+    ///
+    ///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A widget that displays textual content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Text {
+    /// The text content to be displayed.
+    #[prost(string, tag = "1")]
+    pub content: ::prost::alloc::string::String,
+    /// How the text content is formatted.
+    #[prost(enumeration = "text::Format", tag = "2")]
+    pub format: i32,
+}
+/// Nested message and enum types in `Text`.
+pub mod text {
+    /// The format type of the text content.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Format {
+        /// Format is unspecified. Defaults to MARKDOWN.
+        Unspecified = 0,
+        /// The text contains Markdown formatting.
+        Markdown = 1,
+        /// The text contains no special formatting.
+        Raw = 2,
     }
 }
 /// Widget contains a single dashboard component and configuration of how to

@@ -1,3 +1,86 @@
+/// The metadata for a file or an archive file entry.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct File {
+    /// The identifier of the file or archive entry.
+    /// User-provided, must be unique for the repeated field it is in. When an
+    /// Append RPC is called with a Files field populated, if a File already exists
+    /// with this ID, that File will be overwritten with the new File proto.
+    #[prost(string, tag = "1")]
+    pub uid: ::prost::alloc::string::String,
+    /// The URI of a file.
+    /// This could also be the URI of an entire archive.
+    /// Most log data doesn't need to be stored forever, so a ttl is suggested.
+    /// Note that if you ever move or delete the file at this URI, the link from
+    /// the server will be broken.
+    #[prost(string, tag = "2")]
+    pub uri: ::prost::alloc::string::String,
+    /// The length of the file in bytes.  Allows the filesize to be shown in the
+    /// UI.  Omit if file is still being written or length is not known.  This
+    /// could also be the length of an entire archive.
+    #[prost(message, optional, tag = "3")]
+    pub length: ::core::option::Option<i64>,
+    /// The content-type (aka MIME-type) of the file.  This is sent to the web
+    /// browser so it knows how to handle the file. (e.g. text/plain, image/jpeg,
+    /// text/html, etc). For zip archives, use "application/zip".
+    #[prost(string, tag = "4")]
+    pub content_type: ::prost::alloc::string::String,
+    /// If the above path, length, and content_type are referring to an archive,
+    /// and you wish to refer to a particular entry within that archive, put the
+    /// particular archive entry data here.
+    #[prost(message, optional, tag = "5")]
+    pub archive_entry: ::core::option::Option<ArchiveEntry>,
+    /// A url to a content display app/site for this file or archive entry.
+    #[prost(string, tag = "6")]
+    pub content_viewer: ::prost::alloc::string::String,
+    /// Whether to hide this file or archive entry in the UI.  Defaults to false.
+    /// A checkbox lets users see hidden files, but they're hidden by default.
+    #[prost(bool, tag = "7")]
+    pub hidden: bool,
+    /// A short description of what this file or archive entry contains. This
+    /// description should help someone viewing the list of these files to
+    /// understand the purpose of this file and what they would want to view it
+    /// for.
+    #[prost(string, tag = "8")]
+    pub description: ::prost::alloc::string::String,
+    /// The digest of this file in hexadecimal-like string if known.
+    #[prost(string, tag = "9")]
+    pub digest: ::prost::alloc::string::String,
+    /// The algorithm corresponding to the digest if known.
+    #[prost(enumeration = "file::HashType", tag = "10")]
+    pub hash_type: i32,
+}
+/// Nested message and enum types in `File`.
+pub mod file {
+    /// If known, the hash function used to compute this digest.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum HashType {
+        /// Unknown
+        Unspecified = 0,
+        /// MD5
+        Md5 = 1,
+        /// SHA-1
+        Sha1 = 2,
+        /// SHA-256
+        Sha256 = 3,
+    }
+}
+/// Information specific to an entry in an archive.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArchiveEntry {
+    /// The relative path of the entry within the archive.
+    #[prost(string, tag = "1")]
+    pub path: ::prost::alloc::string::String,
+    /// The uncompressed length of the archive entry in bytes.  Allows the entry
+    /// size to be shown in the UI.  Omit if the length is not known.
+    #[prost(message, optional, tag = "2")]
+    pub length: ::core::option::Option<i64>,
+    /// The content-type (aka MIME-type) of the archive entry. (e.g. text/plain,
+    /// image/jpeg, text/html, etc). This is sent to the web browser so it knows
+    /// how to handle the entry.
+    #[prost(string, tag = "3")]
+    pub content_type: ::prost::alloc::string::String,
+}
 /// Describes the status of a resource in both enum and string form.
 /// Only use description when conveying additional info not captured in the enum
 /// name.
@@ -175,224 +258,136 @@ pub enum UploadStatus {
     /// All post-processing is complete, and the invocation is now immutable.
     Immutable = 3,
 }
-/// Describes line coverage for a file
+/// Each Target represents data for a given target in a given Invocation.
+/// ConfiguredTarget and Action resources under each Target contain the bulk of
+/// the data.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LineCoverage {
-    /// Which source lines in the file represent the start of a statement that was
-    /// instrumented to detect whether it was executed by the test.
-    ///
-    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
-    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
-    /// number (0 = LSB, 7 = MSB).
-    ///
-    /// A 1 denotes the line was instrumented.
-    /// A 0 denotes the line was not instrumented.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub instrumented_lines: ::prost::bytes::Bytes,
-    /// Which of the instrumented source lines were executed by the test. Should
-    /// include lines that were not instrumented.
-    ///
-    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
-    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
-    /// number (0 = LSB, 7 = MSB).
-    ///
-    /// A 1 denotes the line was executed.
-    /// A 0 denotes the line was not executed.
-    #[prost(bytes = "bytes", tag = "2")]
-    pub executed_lines: ::prost::bytes::Bytes,
-}
-/// Describes branch coverage for a file
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BranchCoverage {
-    /// The field branch_present denotes the lines containing at least one branch.
-    ///
-    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
-    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
-    /// number (0 = LSB, 7 = MSB).
-    ///
-    /// A 1 denotes the line contains at least one branch.
-    /// A 0 denotes the line contains no branches.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub branch_present: ::prost::bytes::Bytes,
-    /// Contains the number of branches present, only for the lines which have the
-    /// corresponding bit set in branch_present, in a relative order ignoring
-    /// lines which do not have any branches.
-    #[prost(int32, repeated, tag = "2")]
-    pub branches_in_line: ::prost::alloc::vec::Vec<i32>,
-    /// As each branch can have any one of the following three states: not
-    /// executed, executed but not taken, executed and taken.
-    ///
-    /// This is a bitfield where i-th bit corresponds to the i-th branch. Divide
-    /// branch number by 8 to get index into byte array. Mod branch number by 8 to
-    /// get bit number (0 = LSB, 7 = MSB).
-    ///
-    /// i-th bit of the following two byte arrays are used to denote the above
-    /// mentioned states.
-    ///
-    /// not executed: i-th bit of executed == 0 && i-th bit of taken == 0
-    /// executed but not taken: i-th bit of executed == 1 && i-th bit of taken == 0
-    /// executed and taken: i-th bit of executed == 1 && i-th bit of taken == 1
-    #[prost(bytes = "bytes", tag = "3")]
-    pub executed: ::prost::bytes::Bytes,
-    /// Described above.
-    #[prost(bytes = "bytes", tag = "4")]
-    pub taken: ::prost::bytes::Bytes,
-}
-/// Describes code coverage for a particular file under test.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileCoverage {
-    /// Path of source file within the SourceContext of this Invocation.
+pub struct Target {
+    /// The resource name.  Its format must be:
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
     #[prost(string, tag = "1")]
-    pub path: ::prost::alloc::string::String,
-    /// Details of lines in a file for calculating line coverage.
+    pub name: ::prost::alloc::string::String,
+    /// The resource ID components that identify the Target. They must match the
+    /// resource name after proper encoding.
     #[prost(message, optional, tag = "2")]
-    pub line_coverage: ::core::option::Option<LineCoverage>,
-    /// Details of branches in a file for calculating branch coverage.
+    pub id: ::core::option::Option<target::Id>,
+    /// This is the aggregate status of the target.
     #[prost(message, optional, tag = "3")]
-    pub branch_coverage: ::core::option::Option<BranchCoverage>,
-}
-/// Describes code coverage for a build or test Action. This is used to store
-/// baseline coverage for build Actions and test coverage for test Actions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ActionCoverage {
-    /// List of coverage info for all source files that the TestResult covers.
-    #[prost(message, repeated, tag = "2")]
-    pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
-}
-/// Describes aggregate code coverage for a collection of build or test Actions.
-/// A line or branch is covered if and only if it is covered in any of the build
-/// or test actions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AggregateCoverage {
-    /// Aggregated coverage info for all source files that the actions cover.
-    #[prost(message, repeated, tag = "1")]
-    pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
-}
-/// The metadata for a file or an archive file entry.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct File {
-    /// The identifier of the file or archive entry.
-    /// User-provided, must be unique for the repeated field it is in. When an
-    /// Append RPC is called with a Files field populated, if a File already exists
-    /// with this ID, that File will be overwritten with the new File proto.
-    #[prost(string, tag = "1")]
-    pub uid: ::prost::alloc::string::String,
-    /// The URI of a file.
-    /// This could also be the URI of an entire archive.
-    /// Most log data doesn't need to be stored forever, so a ttl is suggested.
-    /// Note that if you ever move or delete the file at this URI, the link from
-    /// the server will be broken.
-    #[prost(string, tag = "2")]
-    pub uri: ::prost::alloc::string::String,
-    /// The length of the file in bytes.  Allows the filesize to be shown in the
-    /// UI.  Omit if file is still being written or length is not known.  This
-    /// could also be the length of an entire archive.
-    #[prost(message, optional, tag = "3")]
-    pub length: ::core::option::Option<i64>,
-    /// The content-type (aka MIME-type) of the file.  This is sent to the web
-    /// browser so it knows how to handle the file. (e.g. text/plain, image/jpeg,
-    /// text/html, etc). For zip archives, use "application/zip".
-    #[prost(string, tag = "4")]
-    pub content_type: ::prost::alloc::string::String,
-    /// If the above path, length, and content_type are referring to an archive,
-    /// and you wish to refer to a particular entry within that archive, put the
-    /// particular archive entry data here.
+    pub status_attributes: ::core::option::Option<StatusAttributes>,
+    /// When this target started and its duration.
+    #[prost(message, optional, tag = "4")]
+    pub timing: ::core::option::Option<Timing>,
+    /// Attributes that apply to all targets.
     #[prost(message, optional, tag = "5")]
-    pub archive_entry: ::core::option::Option<ArchiveEntry>,
-    /// A url to a content display app/site for this file or archive entry.
-    #[prost(string, tag = "6")]
-    pub content_viewer: ::prost::alloc::string::String,
-    /// Whether to hide this file or archive entry in the UI.  Defaults to false.
-    /// A checkbox lets users see hidden files, but they're hidden by default.
-    #[prost(bool, tag = "7")]
-    pub hidden: bool,
-    /// A short description of what this file or archive entry contains. This
-    /// description should help someone viewing the list of these files to
-    /// understand the purpose of this file and what they would want to view it
-    /// for.
-    #[prost(string, tag = "8")]
-    pub description: ::prost::alloc::string::String,
-    /// The digest of this file in hexadecimal-like string if known.
-    #[prost(string, tag = "9")]
-    pub digest: ::prost::alloc::string::String,
-    /// The algorithm corresponding to the digest if known.
-    #[prost(enumeration = "file::HashType", tag = "10")]
-    pub hash_type: i32,
+    pub target_attributes: ::core::option::Option<TargetAttributes>,
+    /// Attributes that apply to all test actions under this target.
+    #[prost(message, optional, tag = "6")]
+    pub test_attributes: ::core::option::Option<TestAttributes>,
+    /// Arbitrary name-value pairs.
+    /// This is implemented as a multi-map. Multiple properties are allowed with
+    /// the same key. Properties will be returned in lexicographical order by key.
+    #[prost(message, repeated, tag = "7")]
+    pub properties: ::prost::alloc::vec::Vec<Property>,
+    /// A list of file references for target level files.
+    /// The file IDs must be unique within this list. Duplicate file IDs will
+    /// result in an error. Files will be returned in lexicographical order by ID.
+    /// Use this field to specify outputs not related to a configuration.
+    #[prost(message, repeated, tag = "8")]
+    pub files: ::prost::alloc::vec::Vec<File>,
+    /// Provides a hint to clients as to whether to display the Target to users.
+    /// If true then clients likely want to display the Target by default.
+    /// Once set to true, this may not be set back to false.
+    #[prost(bool, tag = "10")]
+    pub visible: bool,
 }
-/// Nested message and enum types in `File`.
-pub mod file {
-    /// If known, the hash function used to compute this digest.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum HashType {
-        /// Unknown
-        Unspecified = 0,
-        /// MD5
-        Md5 = 1,
-        /// SHA-1
-        Sha1 = 2,
-        /// SHA-256
-        Sha256 = 3,
+/// Nested message and enum types in `Target`.
+pub mod target {
+    /// The resource ID components that identify the Target.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Id {
+        /// The Invocation ID.
+        #[prost(string, tag = "1")]
+        pub invocation_id: ::prost::alloc::string::String,
+        /// The Target ID.
+        #[prost(string, tag = "2")]
+        pub target_id: ::prost::alloc::string::String,
     }
 }
-/// Information specific to an entry in an archive.
+/// Attributes that apply to all targets.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArchiveEntry {
-    /// The relative path of the entry within the archive.
-    #[prost(string, tag = "1")]
-    pub path: ::prost::alloc::string::String,
-    /// The uncompressed length of the archive entry in bytes.  Allows the entry
-    /// size to be shown in the UI.  Omit if the length is not known.
-    #[prost(message, optional, tag = "2")]
-    pub length: ::core::option::Option<i64>,
-    /// The content-type (aka MIME-type) of the archive entry. (e.g. text/plain,
-    /// image/jpeg, text/html, etc). This is sent to the web browser so it knows
-    /// how to handle the entry.
-    #[prost(string, tag = "3")]
-    pub content_type: ::prost::alloc::string::String,
-}
-/// Stores errors reading or parsing a file during post-processing.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileProcessingErrors {
-    /// The uid of the File being read or parsed.
-    #[prost(string, tag = "1")]
-    pub file_uid: ::prost::alloc::string::String,
-    /// What went wrong.
-    #[prost(message, repeated, tag = "3")]
-    pub file_processing_errors: ::prost::alloc::vec::Vec<FileProcessingError>,
-}
-/// Stores an error reading or parsing a file during post-processing.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileProcessingError {
-    /// The type of error that occurred.
-    #[prost(enumeration = "FileProcessingErrorType", tag = "1")]
+pub struct TargetAttributes {
+    /// If known, indicates the type of this target.  In bazel this corresponds
+    /// to the rule-suffix.
+    #[prost(enumeration = "TargetType", tag = "1")]
     pub r#type: i32,
-    /// Error message describing the problem.
-    #[prost(string, tag = "2")]
-    pub message: ::prost::alloc::string::String,
+    /// If known, the main language of this target, e.g. java, cc, python, etc.
+    #[prost(enumeration = "Language", tag = "2")]
+    pub language: i32,
+    /// The tags attribute of the build rule. These should be short, descriptive
+    /// words, and there should only be a few of them.
+    /// This is implemented as a set. All tags will be unique. Any duplicate tags
+    /// will be ignored. Tags will be returned in lexicographical order.
+    #[prost(string, repeated, tag = "3")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-/// Errors in file post-processing are categorized using this enum.
+/// Attributes that apply only to test actions under this target.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TestAttributes {
+    /// Indicates how big the user indicated the test action was.
+    #[prost(enumeration = "TestSize", tag = "1")]
+    pub size: i32,
+}
+/// These correspond to the suffix of the rule name. Eg cc_test has type TEST.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum FileProcessingErrorType {
-    /// Type unspecified or not listed here.
+pub enum TargetType {
+    /// Unspecified by the build system.
     Unspecified = 0,
-    /// A read error occurred trying to read the file.
-    GenericReadError = 1,
-    /// There was an error trying to parse the file.
-    GenericParseError = 2,
-    /// File is exceeds size limit.
-    FileTooLarge = 3,
-    /// The result of parsing the file exceeded size limit.
-    OutputTooLarge = 4,
-    /// Read access to the file was denied by file system.
-    AccessDenied = 5,
-    /// Deadline exceeded trying to read the file.
-    DeadlineExceeded = 6,
-    /// File not found.
-    NotFound = 7,
-    /// File is empty but was expected to have content.
-    FileEmpty = 8,
+    /// An application e.g. ios_application.
+    Application = 1,
+    /// A binary target e.g. cc_binary.
+    Binary = 2,
+    /// A library target e.g. java_library
+    Library = 3,
+    /// A package
+    Package = 4,
+    /// Any test target, in bazel that means a rule with a '_test' suffix.
+    Test = 5,
+}
+/// Indicates how big the user indicated the test action was.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TestSize {
+    /// Unspecified by the user.
+    Unspecified = 0,
+    /// Unit test taking less than 1 minute.
+    Small = 1,
+    /// Integration tests taking less than 5 minutes.
+    Medium = 2,
+    /// End-to-end tests taking less than 15 minutes.
+    Large = 3,
+    /// Even bigger than LARGE.
+    Enormous = 4,
+    /// Something that doesn't fit into the above categories.
+    OtherSize = 5,
+}
+/// The upload metadata for an invocation
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UploadMetadata {
+    /// The name of the upload metadata.  Its format will be:
+    /// invocations/${INVOCATION_ID}/uploadMetadata
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resume token of the last batch that was committed in the most recent
+    /// batch upload.
+    /// More information with resume_token could be found in
+    /// resultstore_upload.proto
+    #[prost(string, tag = "2")]
+    pub resume_token: ::prost::alloc::string::String,
+    /// Client-specific data used to resume batch upload if an error occurs and
+    /// retry action is needed.
+    #[prost(bytes = "bytes", tag = "3")]
+    pub uploader_state: ::prost::bytes::Bytes,
 }
 /// The result of running a test suite, as reported in a <testsuite> element of
 /// an XML log.
@@ -576,6 +571,142 @@ pub struct TestError {
     /// exception_type and message.
     #[prost(string, tag = "3")]
     pub stack_trace: ::prost::alloc::string::String,
+}
+/// Describes line coverage for a file
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LineCoverage {
+    /// Which source lines in the file represent the start of a statement that was
+    /// instrumented to detect whether it was executed by the test.
+    ///
+    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
+    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
+    /// number (0 = LSB, 7 = MSB).
+    ///
+    /// A 1 denotes the line was instrumented.
+    /// A 0 denotes the line was not instrumented.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub instrumented_lines: ::prost::bytes::Bytes,
+    /// Which of the instrumented source lines were executed by the test. Should
+    /// include lines that were not instrumented.
+    ///
+    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
+    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
+    /// number (0 = LSB, 7 = MSB).
+    ///
+    /// A 1 denotes the line was executed.
+    /// A 0 denotes the line was not executed.
+    #[prost(bytes = "bytes", tag = "2")]
+    pub executed_lines: ::prost::bytes::Bytes,
+}
+/// Describes branch coverage for a file
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BranchCoverage {
+    /// The field branch_present denotes the lines containing at least one branch.
+    ///
+    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
+    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
+    /// number (0 = LSB, 7 = MSB).
+    ///
+    /// A 1 denotes the line contains at least one branch.
+    /// A 0 denotes the line contains no branches.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub branch_present: ::prost::bytes::Bytes,
+    /// Contains the number of branches present, only for the lines which have the
+    /// corresponding bit set in branch_present, in a relative order ignoring
+    /// lines which do not have any branches.
+    #[prost(int32, repeated, tag = "2")]
+    pub branches_in_line: ::prost::alloc::vec::Vec<i32>,
+    /// As each branch can have any one of the following three states: not
+    /// executed, executed but not taken, executed and taken.
+    ///
+    /// This is a bitfield where i-th bit corresponds to the i-th branch. Divide
+    /// branch number by 8 to get index into byte array. Mod branch number by 8 to
+    /// get bit number (0 = LSB, 7 = MSB).
+    ///
+    /// i-th bit of the following two byte arrays are used to denote the above
+    /// mentioned states.
+    ///
+    /// not executed: i-th bit of executed == 0 && i-th bit of taken == 0
+    /// executed but not taken: i-th bit of executed == 1 && i-th bit of taken == 0
+    /// executed and taken: i-th bit of executed == 1 && i-th bit of taken == 1
+    #[prost(bytes = "bytes", tag = "3")]
+    pub executed: ::prost::bytes::Bytes,
+    /// Described above.
+    #[prost(bytes = "bytes", tag = "4")]
+    pub taken: ::prost::bytes::Bytes,
+}
+/// Describes code coverage for a particular file under test.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileCoverage {
+    /// Path of source file within the SourceContext of this Invocation.
+    #[prost(string, tag = "1")]
+    pub path: ::prost::alloc::string::String,
+    /// Details of lines in a file for calculating line coverage.
+    #[prost(message, optional, tag = "2")]
+    pub line_coverage: ::core::option::Option<LineCoverage>,
+    /// Details of branches in a file for calculating branch coverage.
+    #[prost(message, optional, tag = "3")]
+    pub branch_coverage: ::core::option::Option<BranchCoverage>,
+}
+/// Describes code coverage for a build or test Action. This is used to store
+/// baseline coverage for build Actions and test coverage for test Actions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ActionCoverage {
+    /// List of coverage info for all source files that the TestResult covers.
+    #[prost(message, repeated, tag = "2")]
+    pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
+}
+/// Describes aggregate code coverage for a collection of build or test Actions.
+/// A line or branch is covered if and only if it is covered in any of the build
+/// or test actions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AggregateCoverage {
+    /// Aggregated coverage info for all source files that the actions cover.
+    #[prost(message, repeated, tag = "1")]
+    pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
+}
+/// Stores errors reading or parsing a file during post-processing.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileProcessingErrors {
+    /// The uid of the File being read or parsed.
+    #[prost(string, tag = "1")]
+    pub file_uid: ::prost::alloc::string::String,
+    /// What went wrong.
+    #[prost(message, repeated, tag = "3")]
+    pub file_processing_errors: ::prost::alloc::vec::Vec<FileProcessingError>,
+}
+/// Stores an error reading or parsing a file during post-processing.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileProcessingError {
+    /// The type of error that occurred.
+    #[prost(enumeration = "FileProcessingErrorType", tag = "1")]
+    pub r#type: i32,
+    /// Error message describing the problem.
+    #[prost(string, tag = "2")]
+    pub message: ::prost::alloc::string::String,
+}
+/// Errors in file post-processing are categorized using this enum.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum FileProcessingErrorType {
+    /// Type unspecified or not listed here.
+    Unspecified = 0,
+    /// A read error occurred trying to read the file.
+    GenericReadError = 1,
+    /// There was an error trying to parse the file.
+    GenericParseError = 2,
+    /// File is exceeds size limit.
+    FileTooLarge = 3,
+    /// The result of parsing the file exceeded size limit.
+    OutputTooLarge = 4,
+    /// Read access to the file was denied by file system.
+    AccessDenied = 5,
+    /// Deadline exceeded trying to read the file.
+    DeadlineExceeded = 6,
+    /// File not found.
+    NotFound = 7,
+    /// File is empty but was expected to have content.
+    FileEmpty = 8,
 }
 /// An action that happened as part of a configured target. This action could be
 /// a build, a test, or another type of action, as specified in action_type
@@ -921,173 +1052,6 @@ pub enum TestCaching {
     /// The test result was not found in any cache, so it had to be run again.
     CacheMiss = 3,
 }
-/// Represents a configuration within an Invocation associated with one or more
-/// ConfiguredTargets. It captures the environment and other settings that
-/// were used.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Configuration {
-    /// The format of this Configuration resource name must be:
-    /// invocations/${INVOCATION_ID}/configs/${url_encode(CONFIG_ID)}
-    /// The configuration ID of "default" should be preferred for the default
-    /// configuration in a single-config invocation.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the Configuration. They must match
-    /// the resource name after proper encoding.
-    #[prost(message, optional, tag = "2")]
-    pub id: ::core::option::Option<configuration::Id>,
-    /// The aggregate status for this configuration.
-    #[prost(message, optional, tag = "3")]
-    pub status_attributes: ::core::option::Option<StatusAttributes>,
-    /// Attributes that apply only to this configuration.
-    #[prost(message, optional, tag = "5")]
-    pub configuration_attributes: ::core::option::Option<ConfigurationAttributes>,
-    /// Arbitrary name-value pairs.
-    /// This is implemented as a multi-map. Multiple properties are allowed with
-    /// the same key. Properties will be returned in lexicographical order by key.
-    #[prost(message, repeated, tag = "6")]
-    pub properties: ::prost::alloc::vec::Vec<Property>,
-    /// A human-readable name for Configuration for UIs.
-    /// It is recommended that this name be unique.
-    /// If omitted, UIs should default to configuration_id.
-    #[prost(string, tag = "8")]
-    pub display_name: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `Configuration`.
-pub mod configuration {
-    /// The resource ID components that identify the Configuration.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Id {
-        /// The Invocation ID.
-        #[prost(string, tag = "1")]
-        pub invocation_id: ::prost::alloc::string::String,
-        /// The Configuration ID.
-        #[prost(string, tag = "2")]
-        pub configuration_id: ::prost::alloc::string::String,
-    }
-}
-/// Attributes that apply only to the configuration.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfigurationAttributes {
-    /// The type of cpu. (e.g. "x86", "powerpc")
-    #[prost(string, tag = "1")]
-    pub cpu: ::prost::alloc::string::String,
-}
-/// Each ConfiguredTarget represents data for a given configuration of a given
-/// target in a given Invocation.
-/// Every ConfiguredTarget should have at least one Action as a child resource
-/// before the invocation is finalized. Refer to the Action's documentation for
-/// more info on this.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfiguredTarget {
-    /// The resource name.  Its format must be:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${url_encode(CONFIG_ID)}
-    /// where ${CONFIG_ID} must match the ID of an existing Configuration under
-    /// this Invocation.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the ConfiguredTarget. They must
-    /// match the resource name after proper encoding.
-    #[prost(message, optional, tag = "2")]
-    pub id: ::core::option::Option<configured_target::Id>,
-    /// The aggregate status for this configuration of this target. If testing
-    /// was not requested, set this to the build status (e.g. BUILT or
-    /// FAILED_TO_BUILD).
-    #[prost(message, optional, tag = "3")]
-    pub status_attributes: ::core::option::Option<StatusAttributes>,
-    /// Captures the start time and duration of this configured target.
-    #[prost(message, optional, tag = "4")]
-    pub timing: ::core::option::Option<Timing>,
-    /// Test specific attributes for this ConfiguredTarget.
-    #[prost(message, optional, tag = "6")]
-    pub test_attributes: ::core::option::Option<ConfiguredTestAttributes>,
-    /// Arbitrary name-value pairs.
-    /// This is implemented as a multi-map. Multiple properties are allowed with
-    /// the same key. Properties will be returned in lexicographical order by key.
-    #[prost(message, repeated, tag = "7")]
-    pub properties: ::prost::alloc::vec::Vec<Property>,
-    /// A list of file references for configured target level files.
-    /// The file IDs must be unique within this list. Duplicate file IDs will
-    /// result in an error. Files will be returned in lexicographical order by ID.
-    #[prost(message, repeated, tag = "8")]
-    pub files: ::prost::alloc::vec::Vec<File>,
-}
-/// Nested message and enum types in `ConfiguredTarget`.
-pub mod configured_target {
-    /// The resource ID components that identify the ConfiguredTarget.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Id {
-        /// The Invocation ID.
-        #[prost(string, tag = "1")]
-        pub invocation_id: ::prost::alloc::string::String,
-        /// The Target ID.
-        #[prost(string, tag = "2")]
-        pub target_id: ::prost::alloc::string::String,
-        /// The Configuration ID.
-        #[prost(string, tag = "3")]
-        pub configuration_id: ::prost::alloc::string::String,
-    }
-}
-/// Attributes that apply only to test actions under this configured target.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfiguredTestAttributes {
-    /// Total number of test runs. For example, in bazel this is specified with
-    /// --runs_per_test. Zero if runs_per_test is not used.
-    #[prost(int32, tag = "2")]
-    pub total_run_count: i32,
-    /// Total number of test shards. Zero if shard count was not specified.
-    #[prost(int32, tag = "3")]
-    pub total_shard_count: i32,
-    /// How long test is allowed to run.
-    #[prost(message, optional, tag = "5")]
-    pub timeout_duration: ::core::option::Option<::prost_types::Duration>,
-}
-/// This resource represents a set of Files and other (nested) FileSets.
-/// A FileSet is a node in the graph, and the file_sets field represents the
-/// outgoing edges. A resource may reference various nodes in the graph to
-/// represent the transitive closure of all files from those nodes.
-/// The FileSets must form a directed acyclic graph. The Upload API is unable to
-/// enforce that the graph is acyclic at write time, and if cycles are written,
-/// it may cause issues at read time.
-///
-/// A FileSet may be referenced by other resources in conjunction with Files.
-///
-/// Clients should prefer using Files directly under resources. Clients should
-/// not use FileSets unless their usecase requires a directed acyclic graph of
-/// Files.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileSet {
-    /// The format of this FileSet resource name must be:
-    /// invocations/${INVOCATION_ID}/fileSets/${url_encode(FILE_SET_ID)}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the file set. They must match the
-    /// resource name after proper encoding.
-    #[prost(message, optional, tag = "2")]
-    pub id: ::core::option::Option<file_set::Id>,
-    /// List of names of other file sets that are referenced from this one.
-    /// Each name must point to a file set under the same invocation. The name
-    /// format must be: invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
-    #[prost(string, repeated, tag = "3")]
-    pub file_sets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Files that are contained within this file set.
-    /// The uid field in the file should be unique for the Invocation.
-    #[prost(message, repeated, tag = "4")]
-    pub files: ::prost::alloc::vec::Vec<File>,
-}
-/// Nested message and enum types in `FileSet`.
-pub mod file_set {
-    /// The resource ID components that identify the FileSet.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Id {
-        /// The Invocation ID.
-        #[prost(string, tag = "1")]
-        pub invocation_id: ::prost::alloc::string::String,
-        /// The FileSet ID.
-        #[prost(string, tag = "2")]
-        pub file_set_id: ::prost::alloc::string::String,
-    }
-}
 /// Summary of line coverage
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LineCoverageSummary {
@@ -1304,51 +1268,100 @@ pub struct InvocationContext {
     #[prost(string, tag = "2")]
     pub url: ::prost::alloc::string::String,
 }
-/// Each Target represents data for a given target in a given Invocation.
-/// ConfiguredTarget and Action resources under each Target contain the bulk of
-/// the data.
+/// Represents a configuration within an Invocation associated with one or more
+/// ConfiguredTargets. It captures the environment and other settings that
+/// were used.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Target {
-    /// The resource name.  Its format must be:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
+pub struct Configuration {
+    /// The format of this Configuration resource name must be:
+    /// invocations/${INVOCATION_ID}/configs/${url_encode(CONFIG_ID)}
+    /// The configuration ID of "default" should be preferred for the default
+    /// configuration in a single-config invocation.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the Target. They must match the
-    /// resource name after proper encoding.
+    /// The resource ID components that identify the Configuration. They must match
+    /// the resource name after proper encoding.
     #[prost(message, optional, tag = "2")]
-    pub id: ::core::option::Option<target::Id>,
-    /// This is the aggregate status of the target.
+    pub id: ::core::option::Option<configuration::Id>,
+    /// The aggregate status for this configuration.
     #[prost(message, optional, tag = "3")]
     pub status_attributes: ::core::option::Option<StatusAttributes>,
-    /// When this target started and its duration.
+    /// Attributes that apply only to this configuration.
+    #[prost(message, optional, tag = "5")]
+    pub configuration_attributes: ::core::option::Option<ConfigurationAttributes>,
+    /// Arbitrary name-value pairs.
+    /// This is implemented as a multi-map. Multiple properties are allowed with
+    /// the same key. Properties will be returned in lexicographical order by key.
+    #[prost(message, repeated, tag = "6")]
+    pub properties: ::prost::alloc::vec::Vec<Property>,
+    /// A human-readable name for Configuration for UIs.
+    /// It is recommended that this name be unique.
+    /// If omitted, UIs should default to configuration_id.
+    #[prost(string, tag = "8")]
+    pub display_name: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `Configuration`.
+pub mod configuration {
+    /// The resource ID components that identify the Configuration.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Id {
+        /// The Invocation ID.
+        #[prost(string, tag = "1")]
+        pub invocation_id: ::prost::alloc::string::String,
+        /// The Configuration ID.
+        #[prost(string, tag = "2")]
+        pub configuration_id: ::prost::alloc::string::String,
+    }
+}
+/// Attributes that apply only to the configuration.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConfigurationAttributes {
+    /// The type of cpu. (e.g. "x86", "powerpc")
+    #[prost(string, tag = "1")]
+    pub cpu: ::prost::alloc::string::String,
+}
+/// Each ConfiguredTarget represents data for a given configuration of a given
+/// target in a given Invocation.
+/// Every ConfiguredTarget should have at least one Action as a child resource
+/// before the invocation is finalized. Refer to the Action's documentation for
+/// more info on this.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConfiguredTarget {
+    /// The resource name.  Its format must be:
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${url_encode(CONFIG_ID)}
+    /// where ${CONFIG_ID} must match the ID of an existing Configuration under
+    /// this Invocation.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resource ID components that identify the ConfiguredTarget. They must
+    /// match the resource name after proper encoding.
+    #[prost(message, optional, tag = "2")]
+    pub id: ::core::option::Option<configured_target::Id>,
+    /// The aggregate status for this configuration of this target. If testing
+    /// was not requested, set this to the build status (e.g. BUILT or
+    /// FAILED_TO_BUILD).
+    #[prost(message, optional, tag = "3")]
+    pub status_attributes: ::core::option::Option<StatusAttributes>,
+    /// Captures the start time and duration of this configured target.
     #[prost(message, optional, tag = "4")]
     pub timing: ::core::option::Option<Timing>,
-    /// Attributes that apply to all targets.
-    #[prost(message, optional, tag = "5")]
-    pub target_attributes: ::core::option::Option<TargetAttributes>,
-    /// Attributes that apply to all test actions under this target.
+    /// Test specific attributes for this ConfiguredTarget.
     #[prost(message, optional, tag = "6")]
-    pub test_attributes: ::core::option::Option<TestAttributes>,
+    pub test_attributes: ::core::option::Option<ConfiguredTestAttributes>,
     /// Arbitrary name-value pairs.
     /// This is implemented as a multi-map. Multiple properties are allowed with
     /// the same key. Properties will be returned in lexicographical order by key.
     #[prost(message, repeated, tag = "7")]
     pub properties: ::prost::alloc::vec::Vec<Property>,
-    /// A list of file references for target level files.
+    /// A list of file references for configured target level files.
     /// The file IDs must be unique within this list. Duplicate file IDs will
     /// result in an error. Files will be returned in lexicographical order by ID.
-    /// Use this field to specify outputs not related to a configuration.
     #[prost(message, repeated, tag = "8")]
     pub files: ::prost::alloc::vec::Vec<File>,
-    /// Provides a hint to clients as to whether to display the Target to users.
-    /// If true then clients likely want to display the Target by default.
-    /// Once set to true, this may not be set back to false.
-    #[prost(bool, tag = "10")]
-    pub visible: bool,
 }
-/// Nested message and enum types in `Target`.
-pub mod target {
-    /// The resource ID components that identify the Target.
+/// Nested message and enum types in `ConfiguredTarget`.
+pub mod configured_target {
+    /// The resource ID components that identify the ConfiguredTarget.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Id {
         /// The Invocation ID.
@@ -1357,83 +1370,1170 @@ pub mod target {
         /// The Target ID.
         #[prost(string, tag = "2")]
         pub target_id: ::prost::alloc::string::String,
+        /// The Configuration ID.
+        #[prost(string, tag = "3")]
+        pub configuration_id: ::prost::alloc::string::String,
     }
 }
-/// Attributes that apply to all targets.
+/// Attributes that apply only to test actions under this configured target.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TargetAttributes {
-    /// If known, indicates the type of this target.  In bazel this corresponds
-    /// to the rule-suffix.
-    #[prost(enumeration = "TargetType", tag = "1")]
-    pub r#type: i32,
-    /// If known, the main language of this target, e.g. java, cc, python, etc.
-    #[prost(enumeration = "Language", tag = "2")]
-    pub language: i32,
-    /// The tags attribute of the build rule. These should be short, descriptive
-    /// words, and there should only be a few of them.
-    /// This is implemented as a set. All tags will be unique. Any duplicate tags
-    /// will be ignored. Tags will be returned in lexicographical order.
-    #[prost(string, repeated, tag = "3")]
-    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+pub struct ConfiguredTestAttributes {
+    /// Total number of test runs. For example, in bazel this is specified with
+    /// --runs_per_test. Zero if runs_per_test is not used.
+    #[prost(int32, tag = "2")]
+    pub total_run_count: i32,
+    /// Total number of test shards. Zero if shard count was not specified.
+    #[prost(int32, tag = "3")]
+    pub total_shard_count: i32,
+    /// How long test is allowed to run.
+    #[prost(message, optional, tag = "5")]
+    pub timeout_duration: ::core::option::Option<::prost_types::Duration>,
 }
-/// Attributes that apply only to test actions under this target.
+/// The download metadata for an invocation
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TestAttributes {
-    /// Indicates how big the user indicated the test action was.
-    #[prost(enumeration = "TestSize", tag = "1")]
-    pub size: i32,
-}
-/// These correspond to the suffix of the rule name. Eg cc_test has type TEST.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TargetType {
-    /// Unspecified by the build system.
-    Unspecified = 0,
-    /// An application e.g. ios_application.
-    Application = 1,
-    /// A binary target e.g. cc_binary.
-    Binary = 2,
-    /// A library target e.g. java_library
-    Library = 3,
-    /// A package
-    Package = 4,
-    /// Any test target, in bazel that means a rule with a '_test' suffix.
-    Test = 5,
-}
-/// Indicates how big the user indicated the test action was.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TestSize {
-    /// Unspecified by the user.
-    Unspecified = 0,
-    /// Unit test taking less than 1 minute.
-    Small = 1,
-    /// Integration tests taking less than 5 minutes.
-    Medium = 2,
-    /// End-to-end tests taking less than 15 minutes.
-    Large = 3,
-    /// Even bigger than LARGE.
-    Enormous = 4,
-    /// Something that doesn't fit into the above categories.
-    OtherSize = 5,
-}
-/// The upload metadata for an invocation
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UploadMetadata {
-    /// The name of the upload metadata.  Its format will be:
-    /// invocations/${INVOCATION_ID}/uploadMetadata
+pub struct DownloadMetadata {
+    /// The name of the download metadata.  Its format will be:
+    /// invocations/${INVOCATION_ID}/downloadMetadata
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The resume token of the last batch that was committed in the most recent
-    /// batch upload.
-    /// More information with resume_token could be found in
-    /// resultstore_upload.proto
+    /// Indicates the upload status of the invocation, whether it is
+    /// post-processing, or immutable, etc.
+    #[prost(enumeration = "UploadStatus", tag = "2")]
+    pub upload_status: i32,
+}
+/// This resource represents a set of Files and other (nested) FileSets.
+/// A FileSet is a node in the graph, and the file_sets field represents the
+/// outgoing edges. A resource may reference various nodes in the graph to
+/// represent the transitive closure of all files from those nodes.
+/// The FileSets must form a directed acyclic graph. The Upload API is unable to
+/// enforce that the graph is acyclic at write time, and if cycles are written,
+/// it may cause issues at read time.
+///
+/// A FileSet may be referenced by other resources in conjunction with Files.
+///
+/// Clients should prefer using Files directly under resources. Clients should
+/// not use FileSets unless their usecase requires a directed acyclic graph of
+/// Files.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileSet {
+    /// The format of this FileSet resource name must be:
+    /// invocations/${INVOCATION_ID}/fileSets/${url_encode(FILE_SET_ID)}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resource ID components that identify the file set. They must match the
+    /// resource name after proper encoding.
+    #[prost(message, optional, tag = "2")]
+    pub id: ::core::option::Option<file_set::Id>,
+    /// List of names of other file sets that are referenced from this one.
+    /// Each name must point to a file set under the same invocation. The name
+    /// format must be: invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
+    #[prost(string, repeated, tag = "3")]
+    pub file_sets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Files that are contained within this file set.
+    /// The uid field in the file should be unique for the Invocation.
+    #[prost(message, repeated, tag = "4")]
+    pub files: ::prost::alloc::vec::Vec<File>,
+}
+/// Nested message and enum types in `FileSet`.
+pub mod file_set {
+    /// The resource ID components that identify the FileSet.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Id {
+        /// The Invocation ID.
+        #[prost(string, tag = "1")]
+        pub invocation_id: ::prost::alloc::string::String,
+        /// The FileSet ID.
+        #[prost(string, tag = "2")]
+        pub file_set_id: ::prost::alloc::string::String,
+    }
+}
+/// Request passed into GetInvocation
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetInvocationRequest {
+    /// Required. The name of the invocation to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}
+    /// where INVOCATION_ID must be an RFC 4122-compliant UUID.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request passed into SearchInvocations
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchInvocationsRequest {
+    /// The maximum number of items to return. Zero means all, but may be capped by
+    /// the server.
+    #[prost(int32, tag = "1")]
+    pub page_size: i32,
+    /// A filtering query string.
+    ///
+    /// Only a limited number of fields and operators are supported. Not every
+    /// field supports every operator.
+    ///
+    /// Fields that support equals ("=") restrictions:
+    ///
+    /// name
+    /// status_attributes.status
+    /// workspace_info.hostname
+    ///
+    /// Fields that support contains (":") restrictions:
+    ///
+    /// invocation_attributes.users
+    /// invocation_attributes.labels
+    ///
+    /// Fields that support comparison ("<", "<=", ">", ">=") restrictions;
+    ///
+    /// timing.start_time
+    ///
+    /// Supported custom function global restrictions:
+    ///
+    /// propertyEquals("key", "value")
+    #[prost(string, tag = "4")]
+    pub query: ::prost::alloc::string::String,
+    /// The project id to search under.
+    #[prost(string, tag = "5")]
+    pub project_id: ::prost::alloc::string::String,
+    /// If true, all equals or contains restrictions on string fields in query will
+    /// require exact match. Otherwise, a string field restriction may ignore case
+    /// and punctuation.
+    #[prost(bool, tag = "7")]
+    pub exact_match: bool,
+    /// Options for pagination.
+    #[prost(oneof = "search_invocations_request::PageStart", tags = "2, 3")]
+    pub page_start: ::core::option::Option<search_invocations_request::PageStart>,
+}
+/// Nested message and enum types in `SearchInvocationsRequest`.
+pub mod search_invocations_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous Search request, if
+        /// any.
+        #[prost(string, tag = "2")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip. May be rejected if too high.
+        #[prost(int64, tag = "3")]
+        Offset(i64),
+    }
+}
+/// Response from calling SearchInvocations
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchInvocationsResponse {
+    /// Invocations matching the search, possibly capped at request.page_size or a
+    /// server limit.
+    #[prost(message, repeated, tag = "1")]
+    pub invocations: ::prost::alloc::vec::Vec<Invocation>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results.
     #[prost(string, tag = "2")]
-    pub resume_token: ::prost::alloc::string::String,
-    /// Client-specific data used to resume batch upload if an error occurs and
-    /// retry action is needed.
-    #[prost(bytes = "bytes", tag = "3")]
-    pub uploader_state: ::prost::bytes::Bytes,
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request passed into ExportInvocationRequest
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportInvocationRequest {
+    /// Required. The name of the invocation to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}
+    /// where INVOCATION_ID must be an RFC 4122-compliant UUID.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The maximum number of items to return. Zero means all, but may be capped by
+    /// the server.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Options for pagination.
+    #[prost(oneof = "export_invocation_request::PageStart", tags = "3, 4")]
+    pub page_start: ::core::option::Option<export_invocation_request::PageStart>,
+}
+/// Nested message and enum types in `ExportInvocationRequest`.
+pub mod export_invocation_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous export request, if
+        /// any.
+        #[prost(string, tag = "3")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip.
+        #[prost(int64, tag = "4")]
+        Offset(i64),
+    }
+}
+/// Response from calling ExportInvocationResponse.
+/// Possibly capped at request.page_size or a server limit.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportInvocationResponse {
+    /// Parent Invocation resource.
+    #[prost(message, optional, tag = "1")]
+    pub invocation: ::core::option::Option<Invocation>,
+    /// Targets matching the request invocation.
+    #[prost(message, repeated, tag = "2")]
+    pub targets: ::prost::alloc::vec::Vec<Target>,
+    /// Configurations matching the request invocation.
+    #[prost(message, repeated, tag = "3")]
+    pub configurations: ::prost::alloc::vec::Vec<Configuration>,
+    /// ConfiguredTargets matching the request invocation.
+    #[prost(message, repeated, tag = "4")]
+    pub configured_targets: ::prost::alloc::vec::Vec<ConfiguredTarget>,
+    /// Actions matching the request invocation.
+    #[prost(message, repeated, tag = "5")]
+    pub actions: ::prost::alloc::vec::Vec<Action>,
+    /// FileSets matching the request invocation.
+    #[prost(message, repeated, tag = "6")]
+    pub file_sets: ::prost::alloc::vec::Vec<FileSet>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "7")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request passed into GetInvocationDownloadMetadata
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetInvocationDownloadMetadataRequest {
+    /// Required. The name of the download metadata to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}/downloadMetadata
+    /// where INVOCATION_ID must be an RFC 4122-compliant UUID.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request passed into GetConfiguration
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetConfigurationRequest {
+    /// Required. The name of the configuration to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}/configs/${CONFIGURATION_ID}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request passed into ListConfigurations
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListConfigurationsRequest {
+    /// Required. The invocation name of the configurations to retrieve.
+    /// It must match this format: invocations/${INVOCATION_ID}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return.
+    /// Zero means all, but may be capped by the server.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A filter to return only resources that match it.
+    /// Any fields used in the filter must be also specified in the field mask.
+    /// May cause pages with 0 results and a next_page_token to be returned.
+    #[prost(string, tag = "5")]
+    pub filter: ::prost::alloc::string::String,
+    /// Options for pagination.
+    #[prost(oneof = "list_configurations_request::PageStart", tags = "3, 4")]
+    pub page_start: ::core::option::Option<list_configurations_request::PageStart>,
+}
+/// Nested message and enum types in `ListConfigurationsRequest`.
+pub mod list_configurations_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous List request, if any.
+        #[prost(string, tag = "3")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip.
+        #[prost(int64, tag = "4")]
+        Offset(i64),
+    }
+}
+/// Response from calling ListConfigurations
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListConfigurationsResponse {
+    /// Configurations matching the request invocation,
+    /// possibly capped at request.page_size or a server limit.
+    #[prost(message, repeated, tag = "1")]
+    pub configurations: ::prost::alloc::vec::Vec<Configuration>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request passed into GetTarget
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTargetRequest {
+    /// Required. The name of the target to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request passed into ListTargets
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTargetsRequest {
+    /// Required. The invocation name of the targets to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return.
+    /// Zero means all, but may be capped by the server.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A filter to return only resources that match it.
+    /// Any fields used in the filter must be also specified in the field mask.
+    /// May cause pages with 0 results and a next_page_token to be returned.
+    #[prost(string, tag = "5")]
+    pub filter: ::prost::alloc::string::String,
+    /// Options for pagination.
+    #[prost(oneof = "list_targets_request::PageStart", tags = "3, 4")]
+    pub page_start: ::core::option::Option<list_targets_request::PageStart>,
+}
+/// Nested message and enum types in `ListTargetsRequest`.
+pub mod list_targets_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous List request, if any.
+        #[prost(string, tag = "3")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip.
+        #[prost(int64, tag = "4")]
+        Offset(i64),
+    }
+}
+/// Response from calling ListTargetsResponse
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTargetsResponse {
+    /// Targets matching the request invocation,
+    /// possibly capped at request.page_size or a server limit.
+    #[prost(message, repeated, tag = "1")]
+    pub targets: ::prost::alloc::vec::Vec<Target>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request passed into GetConfiguredTarget
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetConfiguredTargetRequest {
+    /// Required. The name of the configured target to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request passed into ListConfiguredTargets
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListConfiguredTargetsRequest {
+    /// Required. The invocation and target name of the configured targets to retrieve.
+    /// It must match this format:
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
+    /// Supports '-' for ${TARGET_ID} meaning all targets.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return.
+    /// Zero means all, but may be capped by the server.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A filter to return only resources that match it.
+    /// Any fields used in the filter must be also specified in the field mask.
+    /// May cause pages with 0 results and a next_page_token to be returned.
+    #[prost(string, tag = "5")]
+    pub filter: ::prost::alloc::string::String,
+    /// Options for pagination.
+    #[prost(oneof = "list_configured_targets_request::PageStart", tags = "3, 4")]
+    pub page_start: ::core::option::Option<list_configured_targets_request::PageStart>,
+}
+/// Nested message and enum types in `ListConfiguredTargetsRequest`.
+pub mod list_configured_targets_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous List request, if any.
+        #[prost(string, tag = "3")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip.
+        #[prost(int64, tag = "4")]
+        Offset(i64),
+    }
+}
+/// Response from calling ListConfiguredTargets
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListConfiguredTargetsResponse {
+    /// ConfiguredTargets matching the request,
+    /// possibly capped at request.page_size or a server limit.
+    #[prost(message, repeated, tag = "1")]
+    pub configured_targets: ::prost::alloc::vec::Vec<ConfiguredTarget>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request passed into SearchConfiguredTargets
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchConfiguredTargetsRequest {
+    /// Required. Must be set to invocations/-/targets/-
+    /// This only supports searching all ConfiguredTargets across all Invocations.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return. Zero means all, but may be capped by
+    /// the server.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A filtering query string.
+    ///
+    /// Only a limited number of fields and operators are supported. Not every
+    /// field supports every operator. Access to parent resources is provided
+    /// via synthetic fields ‘invocation’, ‘configuration’, and ‘target’.
+    ///
+    /// Any search must contain an equals restriction on id.target_id.
+    ///
+    /// Fields that support equals ("=") restrictions:
+    ///
+    /// id.target_id
+    /// status_attributes.status
+    ///
+    /// target.target_attributes.type
+    /// target.target_attributes.language
+    /// target.test_attributes.size
+    ///
+    /// configuration.configuration_attributes.cpu
+    ///
+    /// invocation.workspace_info.hostname
+    ///
+    /// Fields that support contains (":") restrictions:
+    ///
+    /// target.target_attributes.tags
+    ///
+    /// invocation.invocation_attributes.users
+    /// invocation.invocation_attributes.labels
+    ///
+    /// Fields that support comparison ("<", "<=", ">", ">=") restrictions;
+    ///
+    /// timing.start_time
+    ///
+    /// Supported custom function global restrictions:
+    ///
+    /// invocationPropertyEquals("key", "value")
+    /// targetPropertyEquals("key", "value")
+    /// configurationPropertyEquals("key", "value")
+    /// configuredTargetPropertyEquals("key", "value")
+    #[prost(string, tag = "5")]
+    pub query: ::prost::alloc::string::String,
+    /// The project id to search under.
+    #[prost(string, tag = "6")]
+    pub project_id: ::prost::alloc::string::String,
+    /// If true, all equals or contains restrictions on string fields in query will
+    /// require exact match. Otherwise, a string field restriction may ignore case
+    /// and punctuation.
+    #[prost(bool, tag = "7")]
+    pub exact_match: bool,
+    /// Options for pagination.
+    #[prost(oneof = "search_configured_targets_request::PageStart", tags = "3, 4")]
+    pub page_start: ::core::option::Option<search_configured_targets_request::PageStart>,
+}
+/// Nested message and enum types in `SearchConfiguredTargetsRequest`.
+pub mod search_configured_targets_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous Search request, if
+        /// any.
+        #[prost(string, tag = "3")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip. May be rejected if too high.
+        #[prost(int64, tag = "4")]
+        Offset(i64),
+    }
+}
+/// Response from calling SearchConfiguredTargets
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchConfiguredTargetsResponse {
+    /// ConfiguredTargets matching the search, possibly capped at request.page_size
+    /// or a server limit.
+    #[prost(message, repeated, tag = "1")]
+    pub configured_targets: ::prost::alloc::vec::Vec<ConfiguredTarget>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request passed into GetAction
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetActionRequest {
+    /// Required. The name of the action to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}/actions/${ACTION_ID}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request passed into ListActions
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListActionsRequest {
+    /// Required. The invocation, target, and configuration name of the action to retrieve.
+    /// It must match this format:
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}
+    /// Supports '-' for ${CONFIGURATION_ID} to mean all Actions for all
+    /// Configurations for a Target, or '-' for ${TARGET_ID} and
+    /// ${CONFIGURATION_ID} to mean all Actions for all Configurations and all
+    /// Targets. Does not support ${TARGET_ID} '-' with a specified configuration.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return.
+    /// Zero means all, but may be capped by the server.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A filter to return only resources that match it.
+    /// Any fields used in the filter must be also specified in the field mask.
+    /// May cause pages with 0 results and a next_page_token to be returned.
+    #[prost(string, tag = "5")]
+    pub filter: ::prost::alloc::string::String,
+    /// Options for pagination.
+    #[prost(oneof = "list_actions_request::PageStart", tags = "3, 4")]
+    pub page_start: ::core::option::Option<list_actions_request::PageStart>,
+}
+/// Nested message and enum types in `ListActionsRequest`.
+pub mod list_actions_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous List request, if any.
+        #[prost(string, tag = "3")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip.
+        #[prost(int64, tag = "4")]
+        Offset(i64),
+    }
+}
+/// Response from calling ListActions
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListActionsResponse {
+    /// Actions matching the request,
+    /// possibly capped at request.page_size or a server limit.
+    #[prost(message, repeated, tag = "1")]
+    pub actions: ::prost::alloc::vec::Vec<Action>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request passed into BatchListActionsRequest
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchListActionsRequest {
+    /// Required. The invocation name of the actions to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The names of the configured targets to retrieve.
+    /// It must match this format:
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}
+    #[prost(string, repeated, tag = "2")]
+    pub configured_targets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The maximum number of items to return.
+    /// Zero means all, but may be capped by the server.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// A filter to return only resources that match it.
+    /// Any fields used in the filter must be also specified in the field mask.
+    /// May cause pages with 0 results and a next_page_token to be returned.
+    #[prost(string, tag = "6")]
+    pub filter: ::prost::alloc::string::String,
+    /// Options for pagination.
+    #[prost(oneof = "batch_list_actions_request::PageStart", tags = "4, 5")]
+    pub page_start: ::core::option::Option<batch_list_actions_request::PageStart>,
+}
+/// Nested message and enum types in `BatchListActionsRequest`.
+pub mod batch_list_actions_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous List request, if any.
+        /// Page tokens will become larger with every page returned, and if a page
+        /// token becomes too large, it will no longer be possible to continue to
+        /// calculate the transitive dependencies. The API will return a 400
+        /// Bad request (HTTPS), or a INVALID_ARGUMENT (gRPC ) when
+        /// this happens.
+        #[prost(string, tag = "4")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip.
+        /// Not yet implemented. 0 for default.
+        #[prost(int64, tag = "5")]
+        Offset(i64),
+    }
+}
+/// Response from calling BatchListActionsResponse
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchListActionsResponse {
+    /// Actions matching the request,
+    /// possibly capped at request.page_size or a server limit.
+    #[prost(message, repeated, tag = "1")]
+    pub actions: ::prost::alloc::vec::Vec<Action>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Not found configured target names.
+    #[prost(string, repeated, tag = "3")]
+    pub not_found: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Request passed into GetFileSet
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFileSetRequest {
+    /// Required. The name of the file set to retrieve. It must match this format:
+    /// invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request passed into ListFileSets
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListFileSetsRequest {
+    /// Required. The invocation name of the file sets to retrieve.
+    /// It must match this format: invocations/${INVOCATION_ID}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return.
+    /// Zero means all, but may be capped by the server.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A filter to return only resources that match it.
+    /// Any fields used in the filter must be also specified in the field mask.
+    /// May cause pages with 0 results and a next_page_token to be returned.
+    #[prost(string, tag = "5")]
+    pub filter: ::prost::alloc::string::String,
+    /// Options for pagination.
+    #[prost(oneof = "list_file_sets_request::PageStart", tags = "3, 4")]
+    pub page_start: ::core::option::Option<list_file_sets_request::PageStart>,
+}
+/// Nested message and enum types in `ListFileSetsRequest`.
+pub mod list_file_sets_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous List request, if any.
+        #[prost(string, tag = "3")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip.
+        #[prost(int64, tag = "4")]
+        Offset(i64),
+    }
+}
+/// Response from calling ListFileSets
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListFileSetsResponse {
+    /// File sets matching the request,
+    /// possibly capped at request.page_size or a server limit.
+    #[prost(message, repeated, tag = "1")]
+    pub file_sets: ::prost::alloc::vec::Vec<FileSet>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request passed into TraverseFileSets
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TraverseFileSetsRequest {
+    /// Required. The name of the resource to traverse.
+    /// It must match one of the following formats:
+    ///
+    /// invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
+    /// This returns the transitive closure of FileSets referenced by the given
+    /// FileSet, including itself.
+    ///
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}/actions/${ACTION_ID}
+    /// This returns the transitive closure of FileSets referenced by the given
+    /// Action. If ${ACTION_ID} is "-", this returns the transitive closure of
+    /// FileSets referenced by all Actions under the given ConfiguredTarget.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The maximum number of items to return.
+    /// Zero means all, but may be capped by the server.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Options for pagination.
+    #[prost(oneof = "traverse_file_sets_request::PageStart", tags = "3, 4")]
+    pub page_start: ::core::option::Option<traverse_file_sets_request::PageStart>,
+}
+/// Nested message and enum types in `TraverseFileSetsRequest`.
+pub mod traverse_file_sets_request {
+    /// Options for pagination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PageStart {
+        /// The next_page_token value returned from a previous List request, if any.
+        /// Page tokens will become larger with every page returned, and if a page
+        /// token becomes too large, it will no longer be possible to continue to
+        /// calculate the transitive dependencies. The API will return a 400
+        /// Bad request (HTTPS), or a INVALID_ARGUMENT (gRPC ) when
+        /// this happens.
+        #[prost(string, tag = "3")]
+        PageToken(::prost::alloc::string::String),
+        /// Absolute number of results to skip.
+        /// Not yet implemented. 0 for default.
+        #[prost(int64, tag = "4")]
+        Offset(i64),
+    }
+}
+/// Response from calling TraverseFileSets
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TraverseFileSetsResponse {
+    /// File sets matching the request.
+    /// The order in which results are returned is undefined, but stable.
+    #[prost(message, repeated, tag = "1")]
+    pub file_sets: ::prost::alloc::vec::Vec<FileSet>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// more results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod result_store_download_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " This is the interface used to download information from the ResultStore"]
+    #[doc = " database."]
+    #[doc = ""]
+    #[doc = " Most APIs require setting a response FieldMask via the 'fields' URL query"]
+    #[doc = " parameter or the X-Goog-FieldMask HTTP/gRPC header."]
+    #[derive(Debug, Clone)]
+    pub struct ResultStoreDownloadClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ResultStoreDownloadClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ResultStoreDownloadClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ResultStoreDownloadClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Retrieves the invocation with the given name."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the invocation is not found."]
+        #[doc = " - If the given invocation name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn get_invocation(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetInvocationRequest>,
+        ) -> Result<tonic::Response<super::Invocation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/GetInvocation",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Searches for invocations matching the given query parameters. Results will"]
+        #[doc = " be ordered by timing.start_time with most recent first, but total ordering"]
+        #[doc = " of results is not guaranteed when difference in timestamps is very small."]
+        #[doc = " Results may be stale. Results may be omitted."]
+        #[doc = ""]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If a query string is not provided"]
+        #[doc = " - If no field mask was given."]
+        pub async fn search_invocations(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchInvocationsRequest>,
+        ) -> Result<tonic::Response<super::SearchInvocationsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/SearchInvocations",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Exports the invocation and its child resources with a given name."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the invocation is not found."]
+        #[doc = " - If the given invocation name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn export_invocation(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ExportInvocationRequest>,
+        ) -> Result<tonic::Response<super::ExportInvocationResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/ExportInvocation",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the metadata for an invocation with the given name."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the invocation is not found."]
+        #[doc = " - If the given invocation name is badly formatted."]
+        pub async fn get_invocation_download_metadata(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetInvocationDownloadMetadataRequest>,
+        ) -> Result<tonic::Response<super::DownloadMetadata>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/GetInvocationDownloadMetadata",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the configuration with the given name."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the configuration or its parent invocation is not found."]
+        #[doc = " - If the given configuration name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn get_configuration(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetConfigurationRequest>,
+        ) -> Result<tonic::Response<super::Configuration>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/GetConfiguration",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves all configurations for a parent invocation."]
+        #[doc = " This might be limited by user or server,"]
+        #[doc = " in which case a continuation token is provided."]
+        #[doc = " The order in which results are returned is undefined, but stable."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the parent invocation is not found."]
+        #[doc = " - If the given parent invocation name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn list_configurations(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListConfigurationsRequest>,
+        ) -> Result<tonic::Response<super::ListConfigurationsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/ListConfigurations",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the target with the given name."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the target or its parent invocation is not found."]
+        #[doc = " - If the given target name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn get_target(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetTargetRequest>,
+        ) -> Result<tonic::Response<super::Target>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/GetTarget",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves all targets for a parent invocation.  This might be limited by"]
+        #[doc = " user or server, in which case a continuation token is provided."]
+        #[doc = " The order in which results are returned is undefined, but stable."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the parent is not found."]
+        #[doc = " - If the given parent name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn list_targets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListTargetsRequest>,
+        ) -> Result<tonic::Response<super::ListTargetsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/ListTargets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the configured target with the given name."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the configured target is not found."]
+        #[doc = " - If the given name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn get_configured_target(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetConfiguredTargetRequest>,
+        ) -> Result<tonic::Response<super::ConfiguredTarget>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/GetConfiguredTarget",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves all configured targets for a parent invocation/target."]
+        #[doc = " This might be limited by user or server, in which case a continuation"]
+        #[doc = " token is provided. Supports '-' for targetId meaning all targets."]
+        #[doc = " The order in which results are returned is undefined, but stable and"]
+        #[doc = " consistent with ListTargets and ListConfigurations."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the parent is not found."]
+        #[doc = " - If the given parent name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn list_configured_targets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListConfiguredTargetsRequest>,
+        ) -> Result<tonic::Response<super::ListConfiguredTargetsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/ListConfiguredTargets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Searches for ConfiguredTargets matching the given query parameters. Results"]
+        #[doc = " will be ordered by timing.start_time with most recent first, but total"]
+        #[doc = " ordering of results is not guaranteed when difference in timestamps is"]
+        #[doc = " very small. Results may be stale. Results may be omitted."]
+        #[doc = ""]
+        #[doc = ""]
+        #[doc = " Field masks are supported for only these fields and their subfields:"]
+        #[doc = " - configured_targets.name"]
+        #[doc = " - configured_targets.id"]
+        #[doc = " - configured_targets.status_attributes"]
+        #[doc = " - configured_targets.timing"]
+        #[doc = " - next_page_token"]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If a query string is not provided"]
+        #[doc = " - If no field mask was given."]
+        pub async fn search_configured_targets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchConfiguredTargetsRequest>,
+        ) -> Result<tonic::Response<super::SearchConfiguredTargetsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/SearchConfiguredTargets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the action with the given name."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the action is not found."]
+        #[doc = " - If the given name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn get_action(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetActionRequest>,
+        ) -> Result<tonic::Response<super::Action>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/GetAction",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves all actions for a parent invocation/target/configuration."]
+        #[doc = " This might be limited by user or server, in which case a continuation"]
+        #[doc = " token is provided. Supports '-' for configurationId to mean all"]
+        #[doc = " actions for all configurations for a target, or '-' for targetId and"]
+        #[doc = " configurationId to mean all actions for all configurations and all targets."]
+        #[doc = " Does not support targetId '-' with a specified configuration."]
+        #[doc = " The order in which results are returned is undefined, but stable and"]
+        #[doc = " consistent with ListConfiguredTargets."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the parent is not found."]
+        #[doc = " - If the given parent name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn list_actions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListActionsRequest>,
+        ) -> Result<tonic::Response<super::ListActionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/ListActions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves a list of actions for a parent invocation or multiple parents"]
+        #[doc = " target/configuration. This might be limited by user or server, in which"]
+        #[doc = " case a continuation token is provided. The order in which results are"]
+        #[doc = " returned is undefined, but stable and consistent with"]
+        #[doc = " ListConfiguredTargets."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the given parent name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn batch_list_actions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::BatchListActionsRequest>,
+        ) -> Result<tonic::Response<super::BatchListActionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/BatchListActions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the file set with the given name."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the file set or its parent invocation is not found."]
+        #[doc = " - If the given file set name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn get_file_set(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetFileSetRequest>,
+        ) -> Result<tonic::Response<super::FileSet>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/GetFileSet",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves all file sets for a parent invocation."]
+        #[doc = " This might be limited by user or server,"]
+        #[doc = " in which case a continuation token is provided."]
+        #[doc = " The order in which results are returned is undefined, but stable."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If the parent invocation is not found."]
+        #[doc = " - If the given parent invocation name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn list_file_sets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListFileSetsRequest>,
+        ) -> Result<tonic::Response<super::ListFileSetsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/ListFileSets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Returns the transitive closure of FileSets. This might be limited by user"]
+        #[doc = " or server, in which case a continuation token is provided."]
+        #[doc = " The order in which results are returned is undefined, and unstable."]
+        #[doc = ""]
+        #[doc = " An error will be reported in the following cases:"]
+        #[doc = " - If page_token is too large to continue the calculation."]
+        #[doc = " - If the resource is not found."]
+        #[doc = " - If the given resource name is badly formatted."]
+        #[doc = " - If no field mask was given."]
+        pub async fn traverse_file_sets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::TraverseFileSetsRequest>,
+        ) -> Result<tonic::Response<super::TraverseFileSetsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreDownload/TraverseFileSets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
 }
 /// Request passed into CreateInvocation
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2898,1106 +3998,6 @@ pub mod result_store_upload_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.devtools.resultstore.v2.ResultStoreUpload/GetInvocationUploadMetadata",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// The download metadata for an invocation
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DownloadMetadata {
-    /// The name of the download metadata.  Its format will be:
-    /// invocations/${INVOCATION_ID}/downloadMetadata
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Indicates the upload status of the invocation, whether it is
-    /// post-processing, or immutable, etc.
-    #[prost(enumeration = "UploadStatus", tag = "2")]
-    pub upload_status: i32,
-}
-/// Request passed into GetInvocation
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetInvocationRequest {
-    /// Required. The name of the invocation to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}
-    /// where INVOCATION_ID must be an RFC 4122-compliant UUID.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request passed into SearchInvocations
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchInvocationsRequest {
-    /// The maximum number of items to return. Zero means all, but may be capped by
-    /// the server.
-    #[prost(int32, tag = "1")]
-    pub page_size: i32,
-    /// A filtering query string.
-    ///
-    /// Only a limited number of fields and operators are supported. Not every
-    /// field supports every operator.
-    ///
-    /// Fields that support equals ("=") restrictions:
-    ///
-    /// name
-    /// status_attributes.status
-    /// workspace_info.hostname
-    ///
-    /// Fields that support contains (":") restrictions:
-    ///
-    /// invocation_attributes.users
-    /// invocation_attributes.labels
-    ///
-    /// Fields that support comparison ("<", "<=", ">", ">=") restrictions;
-    ///
-    /// timing.start_time
-    ///
-    /// Supported custom function global restrictions:
-    ///
-    /// propertyEquals("key", "value")
-    #[prost(string, tag = "4")]
-    pub query: ::prost::alloc::string::String,
-    /// The project id to search under.
-    #[prost(string, tag = "5")]
-    pub project_id: ::prost::alloc::string::String,
-    /// If true, all equals or contains restrictions on string fields in query will
-    /// require exact match. Otherwise, a string field restriction may ignore case
-    /// and punctuation.
-    #[prost(bool, tag = "7")]
-    pub exact_match: bool,
-    /// Options for pagination.
-    #[prost(oneof = "search_invocations_request::PageStart", tags = "2, 3")]
-    pub page_start: ::core::option::Option<search_invocations_request::PageStart>,
-}
-/// Nested message and enum types in `SearchInvocationsRequest`.
-pub mod search_invocations_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous Search request, if
-        /// any.
-        #[prost(string, tag = "2")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip. May be rejected if too high.
-        #[prost(int64, tag = "3")]
-        Offset(i64),
-    }
-}
-/// Response from calling SearchInvocations
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchInvocationsResponse {
-    /// Invocations matching the search, possibly capped at request.page_size or a
-    /// server limit.
-    #[prost(message, repeated, tag = "1")]
-    pub invocations: ::prost::alloc::vec::Vec<Invocation>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request passed into ExportInvocationRequest
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportInvocationRequest {
-    /// Required. The name of the invocation to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}
-    /// where INVOCATION_ID must be an RFC 4122-compliant UUID.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The maximum number of items to return. Zero means all, but may be capped by
-    /// the server.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Options for pagination.
-    #[prost(oneof = "export_invocation_request::PageStart", tags = "3, 4")]
-    pub page_start: ::core::option::Option<export_invocation_request::PageStart>,
-}
-/// Nested message and enum types in `ExportInvocationRequest`.
-pub mod export_invocation_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous export request, if
-        /// any.
-        #[prost(string, tag = "3")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip.
-        #[prost(int64, tag = "4")]
-        Offset(i64),
-    }
-}
-/// Response from calling ExportInvocationResponse.
-/// Possibly capped at request.page_size or a server limit.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportInvocationResponse {
-    /// Parent Invocation resource.
-    #[prost(message, optional, tag = "1")]
-    pub invocation: ::core::option::Option<Invocation>,
-    /// Targets matching the request invocation.
-    #[prost(message, repeated, tag = "2")]
-    pub targets: ::prost::alloc::vec::Vec<Target>,
-    /// Configurations matching the request invocation.
-    #[prost(message, repeated, tag = "3")]
-    pub configurations: ::prost::alloc::vec::Vec<Configuration>,
-    /// ConfiguredTargets matching the request invocation.
-    #[prost(message, repeated, tag = "4")]
-    pub configured_targets: ::prost::alloc::vec::Vec<ConfiguredTarget>,
-    /// Actions matching the request invocation.
-    #[prost(message, repeated, tag = "5")]
-    pub actions: ::prost::alloc::vec::Vec<Action>,
-    /// FileSets matching the request invocation.
-    #[prost(message, repeated, tag = "6")]
-    pub file_sets: ::prost::alloc::vec::Vec<FileSet>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "7")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request passed into GetInvocationDownloadMetadata
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetInvocationDownloadMetadataRequest {
-    /// Required. The name of the download metadata to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}/downloadMetadata
-    /// where INVOCATION_ID must be an RFC 4122-compliant UUID.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request passed into GetConfiguration
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetConfigurationRequest {
-    /// Required. The name of the configuration to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}/configs/${CONFIGURATION_ID}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request passed into ListConfigurations
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListConfigurationsRequest {
-    /// Required. The invocation name of the configurations to retrieve.
-    /// It must match this format: invocations/${INVOCATION_ID}
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return.
-    /// Zero means all, but may be capped by the server.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A filter to return only resources that match it.
-    /// Any fields used in the filter must be also specified in the field mask.
-    /// May cause pages with 0 results and a next_page_token to be returned.
-    #[prost(string, tag = "5")]
-    pub filter: ::prost::alloc::string::String,
-    /// Options for pagination.
-    #[prost(oneof = "list_configurations_request::PageStart", tags = "3, 4")]
-    pub page_start: ::core::option::Option<list_configurations_request::PageStart>,
-}
-/// Nested message and enum types in `ListConfigurationsRequest`.
-pub mod list_configurations_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous List request, if any.
-        #[prost(string, tag = "3")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip.
-        #[prost(int64, tag = "4")]
-        Offset(i64),
-    }
-}
-/// Response from calling ListConfigurations
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListConfigurationsResponse {
-    /// Configurations matching the request invocation,
-    /// possibly capped at request.page_size or a server limit.
-    #[prost(message, repeated, tag = "1")]
-    pub configurations: ::prost::alloc::vec::Vec<Configuration>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request passed into GetTarget
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTargetRequest {
-    /// Required. The name of the target to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request passed into ListTargets
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTargetsRequest {
-    /// Required. The invocation name of the targets to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return.
-    /// Zero means all, but may be capped by the server.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A filter to return only resources that match it.
-    /// Any fields used in the filter must be also specified in the field mask.
-    /// May cause pages with 0 results and a next_page_token to be returned.
-    #[prost(string, tag = "5")]
-    pub filter: ::prost::alloc::string::String,
-    /// Options for pagination.
-    #[prost(oneof = "list_targets_request::PageStart", tags = "3, 4")]
-    pub page_start: ::core::option::Option<list_targets_request::PageStart>,
-}
-/// Nested message and enum types in `ListTargetsRequest`.
-pub mod list_targets_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous List request, if any.
-        #[prost(string, tag = "3")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip.
-        #[prost(int64, tag = "4")]
-        Offset(i64),
-    }
-}
-/// Response from calling ListTargetsResponse
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTargetsResponse {
-    /// Targets matching the request invocation,
-    /// possibly capped at request.page_size or a server limit.
-    #[prost(message, repeated, tag = "1")]
-    pub targets: ::prost::alloc::vec::Vec<Target>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request passed into GetConfiguredTarget
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetConfiguredTargetRequest {
-    /// Required. The name of the configured target to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request passed into ListConfiguredTargets
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListConfiguredTargetsRequest {
-    /// Required. The invocation and target name of the configured targets to retrieve.
-    /// It must match this format:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
-    /// Supports '-' for ${TARGET_ID} meaning all targets.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return.
-    /// Zero means all, but may be capped by the server.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A filter to return only resources that match it.
-    /// Any fields used in the filter must be also specified in the field mask.
-    /// May cause pages with 0 results and a next_page_token to be returned.
-    #[prost(string, tag = "5")]
-    pub filter: ::prost::alloc::string::String,
-    /// Options for pagination.
-    #[prost(oneof = "list_configured_targets_request::PageStart", tags = "3, 4")]
-    pub page_start: ::core::option::Option<list_configured_targets_request::PageStart>,
-}
-/// Nested message and enum types in `ListConfiguredTargetsRequest`.
-pub mod list_configured_targets_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous List request, if any.
-        #[prost(string, tag = "3")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip.
-        #[prost(int64, tag = "4")]
-        Offset(i64),
-    }
-}
-/// Response from calling ListConfiguredTargets
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListConfiguredTargetsResponse {
-    /// ConfiguredTargets matching the request,
-    /// possibly capped at request.page_size or a server limit.
-    #[prost(message, repeated, tag = "1")]
-    pub configured_targets: ::prost::alloc::vec::Vec<ConfiguredTarget>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request passed into SearchConfiguredTargets
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchConfiguredTargetsRequest {
-    /// Required. Must be set to invocations/-/targets/-
-    /// This only supports searching all ConfiguredTargets across all Invocations.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return. Zero means all, but may be capped by
-    /// the server.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A filtering query string.
-    ///
-    /// Only a limited number of fields and operators are supported. Not every
-    /// field supports every operator. Access to parent resources is provided
-    /// via synthetic fields ‘invocation’, ‘configuration’, and ‘target’.
-    ///
-    /// Any search must contain an equals restriction on id.target_id.
-    ///
-    /// Fields that support equals ("=") restrictions:
-    ///
-    /// id.target_id
-    /// status_attributes.status
-    ///
-    /// target.target_attributes.type
-    /// target.target_attributes.language
-    /// target.test_attributes.size
-    ///
-    /// configuration.configuration_attributes.cpu
-    ///
-    /// invocation.workspace_info.hostname
-    ///
-    /// Fields that support contains (":") restrictions:
-    ///
-    /// target.target_attributes.tags
-    ///
-    /// invocation.invocation_attributes.users
-    /// invocation.invocation_attributes.labels
-    ///
-    /// Fields that support comparison ("<", "<=", ">", ">=") restrictions;
-    ///
-    /// timing.start_time
-    ///
-    /// Supported custom function global restrictions:
-    ///
-    /// invocationPropertyEquals("key", "value")
-    /// targetPropertyEquals("key", "value")
-    /// configurationPropertyEquals("key", "value")
-    /// configuredTargetPropertyEquals("key", "value")
-    #[prost(string, tag = "5")]
-    pub query: ::prost::alloc::string::String,
-    /// The project id to search under.
-    #[prost(string, tag = "6")]
-    pub project_id: ::prost::alloc::string::String,
-    /// If true, all equals or contains restrictions on string fields in query will
-    /// require exact match. Otherwise, a string field restriction may ignore case
-    /// and punctuation.
-    #[prost(bool, tag = "7")]
-    pub exact_match: bool,
-    /// Options for pagination.
-    #[prost(oneof = "search_configured_targets_request::PageStart", tags = "3, 4")]
-    pub page_start: ::core::option::Option<search_configured_targets_request::PageStart>,
-}
-/// Nested message and enum types in `SearchConfiguredTargetsRequest`.
-pub mod search_configured_targets_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous Search request, if
-        /// any.
-        #[prost(string, tag = "3")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip. May be rejected if too high.
-        #[prost(int64, tag = "4")]
-        Offset(i64),
-    }
-}
-/// Response from calling SearchConfiguredTargets
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchConfiguredTargetsResponse {
-    /// ConfiguredTargets matching the search, possibly capped at request.page_size
-    /// or a server limit.
-    #[prost(message, repeated, tag = "1")]
-    pub configured_targets: ::prost::alloc::vec::Vec<ConfiguredTarget>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request passed into GetAction
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetActionRequest {
-    /// Required. The name of the action to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}/actions/${ACTION_ID}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request passed into ListActions
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListActionsRequest {
-    /// Required. The invocation, target, and configuration name of the action to retrieve.
-    /// It must match this format:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}
-    /// Supports '-' for ${CONFIGURATION_ID} to mean all Actions for all
-    /// Configurations for a Target, or '-' for ${TARGET_ID} and
-    /// ${CONFIGURATION_ID} to mean all Actions for all Configurations and all
-    /// Targets. Does not support ${TARGET_ID} '-' with a specified configuration.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return.
-    /// Zero means all, but may be capped by the server.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A filter to return only resources that match it.
-    /// Any fields used in the filter must be also specified in the field mask.
-    /// May cause pages with 0 results and a next_page_token to be returned.
-    #[prost(string, tag = "5")]
-    pub filter: ::prost::alloc::string::String,
-    /// Options for pagination.
-    #[prost(oneof = "list_actions_request::PageStart", tags = "3, 4")]
-    pub page_start: ::core::option::Option<list_actions_request::PageStart>,
-}
-/// Nested message and enum types in `ListActionsRequest`.
-pub mod list_actions_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous List request, if any.
-        #[prost(string, tag = "3")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip.
-        #[prost(int64, tag = "4")]
-        Offset(i64),
-    }
-}
-/// Response from calling ListActions
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListActionsResponse {
-    /// Actions matching the request,
-    /// possibly capped at request.page_size or a server limit.
-    #[prost(message, repeated, tag = "1")]
-    pub actions: ::prost::alloc::vec::Vec<Action>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request passed into BatchListActionsRequest
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchListActionsRequest {
-    /// Required. The invocation name of the actions to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The names of the configured targets to retrieve.
-    /// It must match this format:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}
-    #[prost(string, repeated, tag = "2")]
-    pub configured_targets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The maximum number of items to return.
-    /// Zero means all, but may be capped by the server.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// A filter to return only resources that match it.
-    /// Any fields used in the filter must be also specified in the field mask.
-    /// May cause pages with 0 results and a next_page_token to be returned.
-    #[prost(string, tag = "6")]
-    pub filter: ::prost::alloc::string::String,
-    /// Options for pagination.
-    #[prost(oneof = "batch_list_actions_request::PageStart", tags = "4, 5")]
-    pub page_start: ::core::option::Option<batch_list_actions_request::PageStart>,
-}
-/// Nested message and enum types in `BatchListActionsRequest`.
-pub mod batch_list_actions_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous List request, if any.
-        /// Page tokens will become larger with every page returned, and if a page
-        /// token becomes too large, it will no longer be possible to continue to
-        /// calculate the transitive dependencies. The API will return a 400
-        /// Bad request (HTTPS), or a INVALID_ARGUMENT (gRPC ) when
-        /// this happens.
-        #[prost(string, tag = "4")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip.
-        /// Not yet implemented. 0 for default.
-        #[prost(int64, tag = "5")]
-        Offset(i64),
-    }
-}
-/// Response from calling BatchListActionsResponse
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchListActionsResponse {
-    /// Actions matching the request,
-    /// possibly capped at request.page_size or a server limit.
-    #[prost(message, repeated, tag = "1")]
-    pub actions: ::prost::alloc::vec::Vec<Action>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Not found configured target names.
-    #[prost(string, repeated, tag = "3")]
-    pub not_found: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Request passed into GetFileSet
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFileSetRequest {
-    /// Required. The name of the file set to retrieve. It must match this format:
-    /// invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request passed into ListFileSets
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListFileSetsRequest {
-    /// Required. The invocation name of the file sets to retrieve.
-    /// It must match this format: invocations/${INVOCATION_ID}
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return.
-    /// Zero means all, but may be capped by the server.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A filter to return only resources that match it.
-    /// Any fields used in the filter must be also specified in the field mask.
-    /// May cause pages with 0 results and a next_page_token to be returned.
-    #[prost(string, tag = "5")]
-    pub filter: ::prost::alloc::string::String,
-    /// Options for pagination.
-    #[prost(oneof = "list_file_sets_request::PageStart", tags = "3, 4")]
-    pub page_start: ::core::option::Option<list_file_sets_request::PageStart>,
-}
-/// Nested message and enum types in `ListFileSetsRequest`.
-pub mod list_file_sets_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous List request, if any.
-        #[prost(string, tag = "3")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip.
-        #[prost(int64, tag = "4")]
-        Offset(i64),
-    }
-}
-/// Response from calling ListFileSets
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListFileSetsResponse {
-    /// File sets matching the request,
-    /// possibly capped at request.page_size or a server limit.
-    #[prost(message, repeated, tag = "1")]
-    pub file_sets: ::prost::alloc::vec::Vec<FileSet>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request passed into TraverseFileSets
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TraverseFileSetsRequest {
-    /// Required. The name of the resource to traverse.
-    /// It must match one of the following formats:
-    ///
-    /// invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
-    /// This returns the transitive closure of FileSets referenced by the given
-    /// FileSet, including itself.
-    ///
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${CONFIGURATION_ID}/actions/${ACTION_ID}
-    /// This returns the transitive closure of FileSets referenced by the given
-    /// Action. If ${ACTION_ID} is "-", this returns the transitive closure of
-    /// FileSets referenced by all Actions under the given ConfiguredTarget.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The maximum number of items to return.
-    /// Zero means all, but may be capped by the server.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Options for pagination.
-    #[prost(oneof = "traverse_file_sets_request::PageStart", tags = "3, 4")]
-    pub page_start: ::core::option::Option<traverse_file_sets_request::PageStart>,
-}
-/// Nested message and enum types in `TraverseFileSetsRequest`.
-pub mod traverse_file_sets_request {
-    /// Options for pagination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PageStart {
-        /// The next_page_token value returned from a previous List request, if any.
-        /// Page tokens will become larger with every page returned, and if a page
-        /// token becomes too large, it will no longer be possible to continue to
-        /// calculate the transitive dependencies. The API will return a 400
-        /// Bad request (HTTPS), or a INVALID_ARGUMENT (gRPC ) when
-        /// this happens.
-        #[prost(string, tag = "3")]
-        PageToken(::prost::alloc::string::String),
-        /// Absolute number of results to skip.
-        /// Not yet implemented. 0 for default.
-        #[prost(int64, tag = "4")]
-        Offset(i64),
-    }
-}
-/// Response from calling TraverseFileSets
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TraverseFileSetsResponse {
-    /// File sets matching the request.
-    /// The order in which results are returned is undefined, but stable.
-    #[prost(message, repeated, tag = "1")]
-    pub file_sets: ::prost::alloc::vec::Vec<FileSet>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-#[doc = r" Generated client implementations."]
-pub mod result_store_download_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " This is the interface used to download information from the ResultStore"]
-    #[doc = " database."]
-    #[doc = ""]
-    #[doc = " Most APIs require setting a response FieldMask via the 'fields' URL query"]
-    #[doc = " parameter or the X-Goog-FieldMask HTTP/gRPC header."]
-    #[derive(Debug, Clone)]
-    pub struct ResultStoreDownloadClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ResultStoreDownloadClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ResultStoreDownloadClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ResultStoreDownloadClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Retrieves the invocation with the given name."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the invocation is not found."]
-        #[doc = " - If the given invocation name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn get_invocation(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetInvocationRequest>,
-        ) -> Result<tonic::Response<super::Invocation>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/GetInvocation",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Searches for invocations matching the given query parameters. Results will"]
-        #[doc = " be ordered by timing.start_time with most recent first, but total ordering"]
-        #[doc = " of results is not guaranteed when difference in timestamps is very small."]
-        #[doc = " Results may be stale. Results may be omitted."]
-        #[doc = ""]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If a query string is not provided"]
-        #[doc = " - If no field mask was given."]
-        pub async fn search_invocations(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchInvocationsRequest>,
-        ) -> Result<tonic::Response<super::SearchInvocationsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/SearchInvocations",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Exports the invocation and its child resources with a given name."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the invocation is not found."]
-        #[doc = " - If the given invocation name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn export_invocation(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ExportInvocationRequest>,
-        ) -> Result<tonic::Response<super::ExportInvocationResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/ExportInvocation",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the metadata for an invocation with the given name."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the invocation is not found."]
-        #[doc = " - If the given invocation name is badly formatted."]
-        pub async fn get_invocation_download_metadata(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetInvocationDownloadMetadataRequest>,
-        ) -> Result<tonic::Response<super::DownloadMetadata>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/GetInvocationDownloadMetadata",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the configuration with the given name."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the configuration or its parent invocation is not found."]
-        #[doc = " - If the given configuration name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn get_configuration(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetConfigurationRequest>,
-        ) -> Result<tonic::Response<super::Configuration>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/GetConfiguration",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves all configurations for a parent invocation."]
-        #[doc = " This might be limited by user or server,"]
-        #[doc = " in which case a continuation token is provided."]
-        #[doc = " The order in which results are returned is undefined, but stable."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the parent invocation is not found."]
-        #[doc = " - If the given parent invocation name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn list_configurations(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListConfigurationsRequest>,
-        ) -> Result<tonic::Response<super::ListConfigurationsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/ListConfigurations",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the target with the given name."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the target or its parent invocation is not found."]
-        #[doc = " - If the given target name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn get_target(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetTargetRequest>,
-        ) -> Result<tonic::Response<super::Target>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/GetTarget",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves all targets for a parent invocation.  This might be limited by"]
-        #[doc = " user or server, in which case a continuation token is provided."]
-        #[doc = " The order in which results are returned is undefined, but stable."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the parent is not found."]
-        #[doc = " - If the given parent name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn list_targets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListTargetsRequest>,
-        ) -> Result<tonic::Response<super::ListTargetsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/ListTargets",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the configured target with the given name."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the configured target is not found."]
-        #[doc = " - If the given name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn get_configured_target(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetConfiguredTargetRequest>,
-        ) -> Result<tonic::Response<super::ConfiguredTarget>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/GetConfiguredTarget",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves all configured targets for a parent invocation/target."]
-        #[doc = " This might be limited by user or server, in which case a continuation"]
-        #[doc = " token is provided. Supports '-' for targetId meaning all targets."]
-        #[doc = " The order in which results are returned is undefined, but stable and"]
-        #[doc = " consistent with ListTargets and ListConfigurations."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the parent is not found."]
-        #[doc = " - If the given parent name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn list_configured_targets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListConfiguredTargetsRequest>,
-        ) -> Result<tonic::Response<super::ListConfiguredTargetsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/ListConfiguredTargets",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Searches for ConfiguredTargets matching the given query parameters. Results"]
-        #[doc = " will be ordered by timing.start_time with most recent first, but total"]
-        #[doc = " ordering of results is not guaranteed when difference in timestamps is"]
-        #[doc = " very small. Results may be stale. Results may be omitted."]
-        #[doc = ""]
-        #[doc = ""]
-        #[doc = " Field masks are supported for only these fields and their subfields:"]
-        #[doc = " - configured_targets.name"]
-        #[doc = " - configured_targets.id"]
-        #[doc = " - configured_targets.status_attributes"]
-        #[doc = " - configured_targets.timing"]
-        #[doc = " - next_page_token"]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If a query string is not provided"]
-        #[doc = " - If no field mask was given."]
-        pub async fn search_configured_targets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchConfiguredTargetsRequest>,
-        ) -> Result<tonic::Response<super::SearchConfiguredTargetsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/SearchConfiguredTargets",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the action with the given name."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the action is not found."]
-        #[doc = " - If the given name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn get_action(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetActionRequest>,
-        ) -> Result<tonic::Response<super::Action>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/GetAction",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves all actions for a parent invocation/target/configuration."]
-        #[doc = " This might be limited by user or server, in which case a continuation"]
-        #[doc = " token is provided. Supports '-' for configurationId to mean all"]
-        #[doc = " actions for all configurations for a target, or '-' for targetId and"]
-        #[doc = " configurationId to mean all actions for all configurations and all targets."]
-        #[doc = " Does not support targetId '-' with a specified configuration."]
-        #[doc = " The order in which results are returned is undefined, but stable and"]
-        #[doc = " consistent with ListConfiguredTargets."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the parent is not found."]
-        #[doc = " - If the given parent name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn list_actions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListActionsRequest>,
-        ) -> Result<tonic::Response<super::ListActionsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/ListActions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves a list of actions for a parent invocation or multiple parents"]
-        #[doc = " target/configuration. This might be limited by user or server, in which"]
-        #[doc = " case a continuation token is provided. The order in which results are"]
-        #[doc = " returned is undefined, but stable and consistent with"]
-        #[doc = " ListConfiguredTargets."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the given parent name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn batch_list_actions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::BatchListActionsRequest>,
-        ) -> Result<tonic::Response<super::BatchListActionsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/BatchListActions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the file set with the given name."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the file set or its parent invocation is not found."]
-        #[doc = " - If the given file set name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn get_file_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetFileSetRequest>,
-        ) -> Result<tonic::Response<super::FileSet>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/GetFileSet",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves all file sets for a parent invocation."]
-        #[doc = " This might be limited by user or server,"]
-        #[doc = " in which case a continuation token is provided."]
-        #[doc = " The order in which results are returned is undefined, but stable."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If the parent invocation is not found."]
-        #[doc = " - If the given parent invocation name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn list_file_sets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListFileSetsRequest>,
-        ) -> Result<tonic::Response<super::ListFileSetsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/ListFileSets",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Returns the transitive closure of FileSets. This might be limited by user"]
-        #[doc = " or server, in which case a continuation token is provided."]
-        #[doc = " The order in which results are returned is undefined, and unstable."]
-        #[doc = ""]
-        #[doc = " An error will be reported in the following cases:"]
-        #[doc = " - If page_token is too large to continue the calculation."]
-        #[doc = " - If the resource is not found."]
-        #[doc = " - If the given resource name is badly formatted."]
-        #[doc = " - If no field mask was given."]
-        pub async fn traverse_file_sets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::TraverseFileSetsRequest>,
-        ) -> Result<tonic::Response<super::TraverseFileSetsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreDownload/TraverseFileSets",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

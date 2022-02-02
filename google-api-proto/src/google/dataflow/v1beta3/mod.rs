@@ -1,657 +1,3 @@
-/// Identifies a metric, by describing the source which generated the
-/// metric.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MetricStructuredName {
-    /// Origin (namespace) of metric name. May be blank for user-define metrics;
-    /// will be "dataflow" for metrics defined by the Dataflow service or SDK.
-    #[prost(string, tag = "1")]
-    pub origin: ::prost::alloc::string::String,
-    /// Worker-defined metric name.
-    #[prost(string, tag = "2")]
-    pub name: ::prost::alloc::string::String,
-    /// Zero or more labeled fields which identify the part of the job this
-    /// metric is associated with, such as the name of a step or collection.
-    ///
-    /// For example, built-in counters associated with steps will have
-    /// context\['step'\] = <step-name>. Counters associated with PCollections
-    /// in the SDK will have context\['pcollection'\] = <pcollection-name>.
-    #[prost(btree_map = "string, string", tag = "3")]
-    pub context: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-}
-/// Describes the state of a metric.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MetricUpdate {
-    /// Name of the metric.
-    #[prost(message, optional, tag = "1")]
-    pub name: ::core::option::Option<MetricStructuredName>,
-    /// Metric aggregation kind.  The possible metric aggregation kinds are
-    /// "Sum", "Max", "Min", "Mean", "Set", "And", "Or", and "Distribution".
-    /// The specified aggregation kind is case-insensitive.
-    ///
-    /// If omitted, this is not an aggregated value but instead
-    /// a single metric sample value.
-    #[prost(string, tag = "2")]
-    pub kind: ::prost::alloc::string::String,
-    /// True if this metric is reported as the total cumulative aggregate
-    /// value accumulated since the worker started working on this WorkItem.
-    /// By default this is false, indicating that this metric is reported
-    /// as a delta that is not associated with any WorkItem.
-    #[prost(bool, tag = "3")]
-    pub cumulative: bool,
-    /// Worker-computed aggregate value for aggregation kinds "Sum", "Max", "Min",
-    /// "And", and "Or".  The possible value types are Long, Double, and Boolean.
-    #[prost(message, optional, tag = "4")]
-    pub scalar: ::core::option::Option<::prost_types::Value>,
-    /// Worker-computed aggregate value for the "Mean" aggregation kind.
-    /// This holds the sum of the aggregated values and is used in combination
-    /// with mean_count below to obtain the actual mean aggregate value.
-    /// The only possible value types are Long and Double.
-    #[prost(message, optional, tag = "5")]
-    pub mean_sum: ::core::option::Option<::prost_types::Value>,
-    /// Worker-computed aggregate value for the "Mean" aggregation kind.
-    /// This holds the count of the aggregated values and is used in combination
-    /// with mean_sum above to obtain the actual mean aggregate value.
-    /// The only possible value type is Long.
-    #[prost(message, optional, tag = "6")]
-    pub mean_count: ::core::option::Option<::prost_types::Value>,
-    /// Worker-computed aggregate value for the "Set" aggregation kind.  The only
-    /// possible value type is a list of Values whose type can be Long, Double,
-    /// or String, according to the metric's type.  All Values in the list must
-    /// be of the same type.
-    #[prost(message, optional, tag = "7")]
-    pub set: ::core::option::Option<::prost_types::Value>,
-    /// A struct value describing properties of a distribution of numeric values.
-    #[prost(message, optional, tag = "11")]
-    pub distribution: ::core::option::Option<::prost_types::Value>,
-    /// A struct value describing properties of a Gauge.
-    /// Metrics of gauge type show the value of a metric across time, and is
-    /// aggregated based on the newest value.
-    #[prost(message, optional, tag = "12")]
-    pub gauge: ::core::option::Option<::prost_types::Value>,
-    /// Worker-computed aggregate value for internal use by the Dataflow
-    /// service.
-    #[prost(message, optional, tag = "8")]
-    pub internal: ::core::option::Option<::prost_types::Value>,
-    /// Timestamp associated with the metric value. Optional when workers are
-    /// reporting work progress; it will be filled in responses from the
-    /// metrics API.
-    #[prost(message, optional, tag = "9")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Request to get job metrics.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetJobMetricsRequest {
-    /// A project id.
-    #[prost(string, tag = "1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The job to get metrics for.
-    #[prost(string, tag = "2")]
-    pub job_id: ::prost::alloc::string::String,
-    /// Return only metric data that has changed since this time.
-    /// Default is to return all information about all metrics for the job.
-    #[prost(message, optional, tag = "3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The [regional endpoint]
-    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
-    /// contains the job specified by job_id.
-    #[prost(string, tag = "4")]
-    pub location: ::prost::alloc::string::String,
-}
-/// JobMetrics contains a collection of metrics describing the detailed progress
-/// of a Dataflow job. Metrics correspond to user-defined and system-defined
-/// metrics in the job.
-///
-/// This resource captures only the most recent values of each metric;
-/// time-series data can be queried for them (under the same metric names)
-/// from Cloud Monitoring.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobMetrics {
-    /// Timestamp as of which metric values are current.
-    #[prost(message, optional, tag = "1")]
-    pub metric_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// All metrics for this job.
-    #[prost(message, repeated, tag = "2")]
-    pub metrics: ::prost::alloc::vec::Vec<MetricUpdate>,
-}
-/// Request to get job execution details.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetJobExecutionDetailsRequest {
-    /// A project id.
-    #[prost(string, tag = "1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The job to get execution details for.
-    #[prost(string, tag = "2")]
-    pub job_id: ::prost::alloc::string::String,
-    /// The [regional endpoint]
-    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
-    /// contains the job specified by job_id.
-    #[prost(string, tag = "3")]
-    pub location: ::prost::alloc::string::String,
-    /// If specified, determines the maximum number of stages to
-    /// return.  If unspecified, the service may choose an appropriate
-    /// default, or may return an arbitrarily large number of results.
-    #[prost(int32, tag = "4")]
-    pub page_size: i32,
-    /// If supplied, this should be the value of next_page_token returned
-    /// by an earlier call. This will cause the next page of results to
-    /// be returned.
-    #[prost(string, tag = "5")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Information about the progress of some component of job execution.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProgressTimeseries {
-    /// The current progress of the component, in the range \[0,1\].
-    #[prost(double, tag = "1")]
-    pub current_progress: f64,
-    /// History of progress for the component.
-    ///
-    /// Points are sorted by time.
-    #[prost(message, repeated, tag = "2")]
-    pub data_points: ::prost::alloc::vec::Vec<progress_timeseries::Point>,
-}
-/// Nested message and enum types in `ProgressTimeseries`.
-pub mod progress_timeseries {
-    /// A point in the timeseries.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Point {
-        /// The timestamp of the point.
-        #[prost(message, optional, tag = "1")]
-        pub time: ::core::option::Option<::prost_types::Timestamp>,
-        /// The value of the point.
-        #[prost(double, tag = "2")]
-        pub value: f64,
-    }
-}
-/// Information about a particular execution stage of a job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StageSummary {
-    /// ID of this stage
-    #[prost(string, tag = "1")]
-    pub stage_id: ::prost::alloc::string::String,
-    /// State of this stage.
-    #[prost(enumeration = "ExecutionState", tag = "2")]
-    pub state: i32,
-    /// Start time of this stage.
-    #[prost(message, optional, tag = "3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// End time of this stage.
-    ///
-    /// If the work item is completed, this is the actual end time of the stage.
-    /// Otherwise, it is the predicted end time.
-    #[prost(message, optional, tag = "4")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Progress for this stage.
-    /// Only applicable to Batch jobs.
-    #[prost(message, optional, tag = "5")]
-    pub progress: ::core::option::Option<ProgressTimeseries>,
-    /// Metrics for this stage.
-    #[prost(message, repeated, tag = "6")]
-    pub metrics: ::prost::alloc::vec::Vec<MetricUpdate>,
-}
-/// Information about the execution of a job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobExecutionDetails {
-    /// The stages of the job execution.
-    #[prost(message, repeated, tag = "1")]
-    pub stages: ::prost::alloc::vec::Vec<StageSummary>,
-    /// If present, this response does not contain all requested tasks.  To obtain
-    /// the next page of results, repeat the request with page_token set to this
-    /// value.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request to get information about a particular execution stage of a job.
-/// Currently only tracked for Batch jobs.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetStageExecutionDetailsRequest {
-    /// A project id.
-    #[prost(string, tag = "1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The job to get execution details for.
-    #[prost(string, tag = "2")]
-    pub job_id: ::prost::alloc::string::String,
-    /// The [regional endpoint]
-    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
-    /// contains the job specified by job_id.
-    #[prost(string, tag = "3")]
-    pub location: ::prost::alloc::string::String,
-    /// The stage for which to fetch information.
-    #[prost(string, tag = "4")]
-    pub stage_id: ::prost::alloc::string::String,
-    /// If specified, determines the maximum number of work items to
-    /// return.  If unspecified, the service may choose an appropriate
-    /// default, or may return an arbitrarily large number of results.
-    #[prost(int32, tag = "5")]
-    pub page_size: i32,
-    /// If supplied, this should be the value of next_page_token returned
-    /// by an earlier call. This will cause the next page of results to
-    /// be returned.
-    #[prost(string, tag = "6")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Lower time bound of work items to include, by start time.
-    #[prost(message, optional, tag = "7")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Upper time bound of work items to include, by start time.
-    #[prost(message, optional, tag = "8")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Information about an individual work item execution.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WorkItemDetails {
-    /// Name of this work item.
-    #[prost(string, tag = "1")]
-    pub task_id: ::prost::alloc::string::String,
-    /// Attempt ID of this work item
-    #[prost(string, tag = "2")]
-    pub attempt_id: ::prost::alloc::string::String,
-    /// Start time of this work item attempt.
-    #[prost(message, optional, tag = "3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// End time of this work item attempt.
-    ///
-    /// If the work item is completed, this is the actual end time of the work
-    /// item.  Otherwise, it is the predicted end time.
-    #[prost(message, optional, tag = "4")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// State of this work item.
-    #[prost(enumeration = "ExecutionState", tag = "5")]
-    pub state: i32,
-    /// Progress of this work item.
-    #[prost(message, optional, tag = "6")]
-    pub progress: ::core::option::Option<ProgressTimeseries>,
-    /// Metrics for this work item.
-    #[prost(message, repeated, tag = "7")]
-    pub metrics: ::prost::alloc::vec::Vec<MetricUpdate>,
-}
-/// Information about a worker
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WorkerDetails {
-    /// Name of this worker
-    #[prost(string, tag = "1")]
-    pub worker_name: ::prost::alloc::string::String,
-    /// Work items processed by this worker, sorted by time.
-    #[prost(message, repeated, tag = "2")]
-    pub work_items: ::prost::alloc::vec::Vec<WorkItemDetails>,
-}
-/// Information about the workers and work items within a stage.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StageExecutionDetails {
-    /// Workers that have done work on the stage.
-    #[prost(message, repeated, tag = "1")]
-    pub workers: ::prost::alloc::vec::Vec<WorkerDetails>,
-    /// If present, this response does not contain all requested tasks.  To obtain
-    /// the next page of results, repeat the request with page_token set to this
-    /// value.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The state of some component of job execution.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ExecutionState {
-    /// The component state is unknown or unspecified.
-    Unknown = 0,
-    /// The component is not yet running.
-    NotStarted = 1,
-    /// The component is currently running.
-    Running = 2,
-    /// The component succeeded.
-    Succeeded = 3,
-    /// The component failed.
-    Failed = 4,
-    /// Execution of the component was cancelled.
-    Cancelled = 5,
-}
-#[doc = r" Generated client implementations."]
-pub mod metrics_v1_beta3_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " The Dataflow Metrics API lets you monitor the progress of Dataflow"]
-    #[doc = " jobs."]
-    #[derive(Debug, Clone)]
-    pub struct MetricsV1Beta3Client<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> MetricsV1Beta3Client<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> MetricsV1Beta3Client<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            MetricsV1Beta3Client::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Request the job status."]
-        #[doc = ""]
-        #[doc = " To request the status of a job, we recommend using"]
-        #[doc = " `projects.locations.jobs.getMetrics` with a [regional endpoint]"]
-        #[doc = " (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using"]
-        #[doc = " `projects.jobs.getMetrics` is not recommended, as you can only request the"]
-        #[doc = " status of jobs that are running in `us-central1`."]
-        pub async fn get_job_metrics(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetJobMetricsRequest>,
-        ) -> Result<tonic::Response<super::JobMetrics>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.dataflow.v1beta3.MetricsV1Beta3/GetJobMetrics",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Request detailed information about the execution status of the job."]
-        #[doc = ""]
-        #[doc = " EXPERIMENTAL.  This API is subject to change or removal without notice."]
-        pub async fn get_job_execution_details(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetJobExecutionDetailsRequest>,
-        ) -> Result<tonic::Response<super::JobExecutionDetails>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.dataflow.v1beta3.MetricsV1Beta3/GetJobExecutionDetails",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Request detailed information about the execution status of a stage of the"]
-        #[doc = " job."]
-        #[doc = ""]
-        #[doc = " EXPERIMENTAL.  This API is subject to change or removal without notice."]
-        pub async fn get_stage_execution_details(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetStageExecutionDetailsRequest>,
-        ) -> Result<tonic::Response<super::StageExecutionDetails>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.dataflow.v1beta3.MetricsV1Beta3/GetStageExecutionDetails",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Global topology of the streaming Dataflow job, including all
-/// computations and their sharded locations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TopologyConfig {
-    /// The computations associated with a streaming Dataflow job.
-    #[prost(message, repeated, tag = "1")]
-    pub computations: ::prost::alloc::vec::Vec<ComputationTopology>,
-    /// The disks assigned to a streaming Dataflow job.
-    #[prost(message, repeated, tag = "2")]
-    pub data_disk_assignments: ::prost::alloc::vec::Vec<DataDiskAssignment>,
-    /// Maps user stage names to stable computation names.
-    #[prost(btree_map = "string, string", tag = "3")]
-    pub user_stage_to_computation_name_map: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// The size (in bits) of keys that will be assigned to source messages.
-    #[prost(int32, tag = "4")]
-    pub forwarding_key_bits: i32,
-    /// Version number for persistent state.
-    #[prost(int32, tag = "5")]
-    pub persistent_state_version: i32,
-}
-/// Identifies a pubsub location to use for transferring data into or
-/// out of a streaming Dataflow job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PubsubLocation {
-    /// A pubsub topic, in the form of
-    /// "pubsub.googleapis.com/topics/<project-id>/<topic-name>"
-    #[prost(string, tag = "1")]
-    pub topic: ::prost::alloc::string::String,
-    /// A pubsub subscription, in the form of
-    /// "pubsub.googleapis.com/subscriptions/<project-id>/<subscription-name>"
-    #[prost(string, tag = "2")]
-    pub subscription: ::prost::alloc::string::String,
-    /// If set, contains a pubsub label from which to extract record timestamps.
-    /// If left empty, record timestamps will be generated upon arrival.
-    #[prost(string, tag = "3")]
-    pub timestamp_label: ::prost::alloc::string::String,
-    /// If set, contains a pubsub label from which to extract record ids.
-    /// If left empty, record deduplication will be strictly best effort.
-    #[prost(string, tag = "4")]
-    pub id_label: ::prost::alloc::string::String,
-    /// Indicates whether the pipeline allows late-arriving data.
-    #[prost(bool, tag = "5")]
-    pub drop_late_data: bool,
-    /// If set, specifies the pubsub subscription that will be used for tracking
-    /// custom time timestamps for watermark estimation.
-    #[prost(string, tag = "6")]
-    pub tracking_subscription: ::prost::alloc::string::String,
-    /// If true, then the client has requested to get pubsub attributes.
-    #[prost(bool, tag = "7")]
-    pub with_attributes: bool,
-}
-/// Identifies the location of a streaming computation stage, for
-/// stage-to-stage communication.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamingStageLocation {
-    /// Identifies the particular stream within the streaming Dataflow
-    /// job.
-    #[prost(string, tag = "1")]
-    pub stream_id: ::prost::alloc::string::String,
-}
-/// Identifies the location of a streaming side input.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamingSideInputLocation {
-    /// Identifies the particular side input within the streaming Dataflow job.
-    #[prost(string, tag = "1")]
-    pub tag: ::prost::alloc::string::String,
-    /// Identifies the state family where this side input is stored.
-    #[prost(string, tag = "2")]
-    pub state_family: ::prost::alloc::string::String,
-}
-/// Identifies the location of a custom souce.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CustomSourceLocation {
-    /// Whether this source is stateful.
-    #[prost(bool, tag = "1")]
-    pub stateful: bool,
-}
-/// Describes a stream of data, either as input to be processed or as
-/// output of a streaming Dataflow job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamLocation {
-    /// A specification of a stream's location.
-    #[prost(oneof = "stream_location::Location", tags = "1, 2, 3, 4")]
-    pub location: ::core::option::Option<stream_location::Location>,
-}
-/// Nested message and enum types in `StreamLocation`.
-pub mod stream_location {
-    /// A specification of a stream's location.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Location {
-        /// The stream is part of another computation within the current
-        /// streaming Dataflow job.
-        #[prost(message, tag = "1")]
-        StreamingStageLocation(super::StreamingStageLocation),
-        /// The stream is a pubsub stream.
-        #[prost(message, tag = "2")]
-        PubsubLocation(super::PubsubLocation),
-        /// The stream is a streaming side input.
-        #[prost(message, tag = "3")]
-        SideInputLocation(super::StreamingSideInputLocation),
-        /// The stream is a custom source.
-        #[prost(message, tag = "4")]
-        CustomSourceLocation(super::CustomSourceLocation),
-    }
-}
-/// State family configuration.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StateFamilyConfig {
-    /// The state family value.
-    #[prost(string, tag = "1")]
-    pub state_family: ::prost::alloc::string::String,
-    /// If true, this family corresponds to a read operation.
-    #[prost(bool, tag = "2")]
-    pub is_read: bool,
-}
-/// All configuration data for a particular Computation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputationTopology {
-    /// The system stage name.
-    #[prost(string, tag = "1")]
-    pub system_stage_name: ::prost::alloc::string::String,
-    /// The ID of the computation.
-    #[prost(string, tag = "5")]
-    pub computation_id: ::prost::alloc::string::String,
-    /// The key ranges processed by the computation.
-    #[prost(message, repeated, tag = "2")]
-    pub key_ranges: ::prost::alloc::vec::Vec<KeyRangeLocation>,
-    /// The inputs to the computation.
-    #[prost(message, repeated, tag = "3")]
-    pub inputs: ::prost::alloc::vec::Vec<StreamLocation>,
-    /// The outputs from the computation.
-    #[prost(message, repeated, tag = "4")]
-    pub outputs: ::prost::alloc::vec::Vec<StreamLocation>,
-    /// The state family values.
-    #[prost(message, repeated, tag = "7")]
-    pub state_families: ::prost::alloc::vec::Vec<StateFamilyConfig>,
-}
-/// Location information for a specific key-range of a sharded computation.
-/// Currently we only support UTF-8 character splits to simplify encoding into
-/// JSON.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct KeyRangeLocation {
-    /// The start (inclusive) of the key range.
-    #[prost(string, tag = "1")]
-    pub start: ::prost::alloc::string::String,
-    /// The end (exclusive) of the key range.
-    #[prost(string, tag = "2")]
-    pub end: ::prost::alloc::string::String,
-    /// The physical location of this range assignment to be used for
-    /// streaming computation cross-worker message delivery.
-    #[prost(string, tag = "3")]
-    pub delivery_endpoint: ::prost::alloc::string::String,
-    /// The name of the data disk where data for this range is stored.
-    /// This name is local to the Google Cloud Platform project and uniquely
-    /// identifies the disk within that project, for example
-    /// "myproject-1014-104817-4c2-harness-0-disk-1".
-    #[prost(string, tag = "5")]
-    pub data_disk: ::prost::alloc::string::String,
-    /// DEPRECATED. The location of the persistent state for this range, as a
-    /// persistent directory in the worker local filesystem.
-    #[deprecated]
-    #[prost(string, tag = "4")]
-    pub deprecated_persistent_directory: ::prost::alloc::string::String,
-}
-/// Describes mounted data disk.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MountedDataDisk {
-    /// The name of the data disk.
-    /// This name is local to the Google Cloud Platform project and uniquely
-    /// identifies the disk within that project, for example
-    /// "myproject-1014-104817-4c2-harness-0-disk-1".
-    #[prost(string, tag = "1")]
-    pub data_disk: ::prost::alloc::string::String,
-}
-/// Data disk assignment for a given VM instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataDiskAssignment {
-    /// VM instance name the data disks mounted to, for example
-    /// "myproject-1014-104817-4c2-harness-0".
-    #[prost(string, tag = "1")]
-    pub vm_instance: ::prost::alloc::string::String,
-    /// Mounted data disks. The order is important a data disk's 0-based index in
-    /// this list defines which persistent directory the disk is mounted to, for
-    /// example the list of { "myproject-1014-104817-4c2-harness-0-disk-0" },
-    /// { "myproject-1014-104817-4c2-harness-0-disk-1" }.
-    #[prost(string, repeated, tag = "2")]
-    pub data_disks: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Data disk assignment information for a specific key-range of a sharded
-/// computation.
-/// Currently we only support UTF-8 character splits to simplify encoding into
-/// JSON.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct KeyRangeDataDiskAssignment {
-    /// The start (inclusive) of the key range.
-    #[prost(string, tag = "1")]
-    pub start: ::prost::alloc::string::String,
-    /// The end (exclusive) of the key range.
-    #[prost(string, tag = "2")]
-    pub end: ::prost::alloc::string::String,
-    /// The name of the data disk where data for this range is stored.
-    /// This name is local to the Google Cloud Platform project and uniquely
-    /// identifies the disk within that project, for example
-    /// "myproject-1014-104817-4c2-harness-0-disk-1".
-    #[prost(string, tag = "3")]
-    pub data_disk: ::prost::alloc::string::String,
-}
-/// Describes full or partial data disk assignment information of the computation
-/// ranges.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamingComputationRanges {
-    /// The ID of the computation.
-    #[prost(string, tag = "1")]
-    pub computation_id: ::prost::alloc::string::String,
-    /// Data disk assignments for ranges from this computation.
-    #[prost(message, repeated, tag = "2")]
-    pub range_assignments: ::prost::alloc::vec::Vec<KeyRangeDataDiskAssignment>,
-}
-/// Streaming appliance snapshot configuration.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamingApplianceSnapshotConfig {
-    /// If set, indicates the snapshot id for the snapshot being performed.
-    #[prost(string, tag = "1")]
-    pub snapshot_id: ::prost::alloc::string::String,
-    /// Indicates which endpoint is used to import appliance state.
-    #[prost(string, tag = "2")]
-    pub import_state_endpoint: ::prost::alloc::string::String,
-}
 /// Describes the environment in which a Dataflow Job runs.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Environment {
@@ -1175,6 +521,268 @@ pub enum ShuffleMode {
     VmBased = 1,
     /// Shuffle is done on the service side.
     ServiceBased = 2,
+}
+/// A particular message pertaining to a Dataflow job.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobMessage {
+    /// Deprecated.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// The timestamp of the message.
+    #[prost(message, optional, tag = "2")]
+    pub time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The text of the message.
+    #[prost(string, tag = "3")]
+    pub message_text: ::prost::alloc::string::String,
+    /// Importance level of the message.
+    #[prost(enumeration = "JobMessageImportance", tag = "4")]
+    pub message_importance: i32,
+}
+/// A rich message format, including a human readable string, a key for
+/// identifying the message, and structured data associated with the message for
+/// programmatic consumption.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StructuredMessage {
+    /// Human-readable version of message.
+    #[prost(string, tag = "1")]
+    pub message_text: ::prost::alloc::string::String,
+    /// Identifier for this message type.  Used by external systems to
+    /// internationalize or personalize message.
+    #[prost(string, tag = "2")]
+    pub message_key: ::prost::alloc::string::String,
+    /// The structured data associated with this message.
+    #[prost(message, repeated, tag = "3")]
+    pub parameters: ::prost::alloc::vec::Vec<structured_message::Parameter>,
+}
+/// Nested message and enum types in `StructuredMessage`.
+pub mod structured_message {
+    /// Structured data associated with this message.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Parameter {
+        /// Key or name for this parameter.
+        #[prost(string, tag = "1")]
+        pub key: ::prost::alloc::string::String,
+        /// Value for this parameter.
+        #[prost(message, optional, tag = "2")]
+        pub value: ::core::option::Option<::prost_types::Value>,
+    }
+}
+/// A structured message reporting an autoscaling decision made by the Dataflow
+/// service.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoscalingEvent {
+    /// The current number of workers the job has.
+    #[prost(int64, tag = "1")]
+    pub current_num_workers: i64,
+    /// The target number of workers the worker pool wants to resize to use.
+    #[prost(int64, tag = "2")]
+    pub target_num_workers: i64,
+    /// The type of autoscaling event to report.
+    #[prost(enumeration = "autoscaling_event::AutoscalingEventType", tag = "3")]
+    pub event_type: i32,
+    /// A message describing why the system decided to adjust the current
+    /// number of workers, why it failed, or why the system decided to
+    /// not make any changes to the number of workers.
+    #[prost(message, optional, tag = "4")]
+    pub description: ::core::option::Option<StructuredMessage>,
+    /// The time this event was emitted to indicate a new target or current
+    /// num_workers value.
+    #[prost(message, optional, tag = "5")]
+    pub time: ::core::option::Option<::prost_types::Timestamp>,
+    /// A short and friendly name for the worker pool this event refers to.
+    #[prost(string, tag = "7")]
+    pub worker_pool: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `AutoscalingEvent`.
+pub mod autoscaling_event {
+    /// Indicates the type of autoscaling event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AutoscalingEventType {
+        /// Default type for the enum.  Value should never be returned.
+        TypeUnknown = 0,
+        /// The TARGET_NUM_WORKERS_CHANGED type should be used when the target
+        /// worker pool size has changed at the start of an actuation. An event
+        /// should always be specified as TARGET_NUM_WORKERS_CHANGED if it reflects
+        /// a change in the target_num_workers.
+        TargetNumWorkersChanged = 1,
+        /// The CURRENT_NUM_WORKERS_CHANGED type should be used when actual worker
+        /// pool size has been changed, but the target_num_workers has not changed.
+        CurrentNumWorkersChanged = 2,
+        /// The ACTUATION_FAILURE type should be used when we want to report
+        /// an error to the user indicating why the current number of workers
+        /// in the pool could not be changed.
+        /// Displayed in the current status and history widgets.
+        ActuationFailure = 3,
+        /// Used when we want to report to the user a reason why we are
+        /// not currently adjusting the number of workers.
+        /// Should specify both target_num_workers, current_num_workers and a
+        /// decision_message.
+        NoChange = 4,
+    }
+}
+/// Request to list job messages.
+/// Up to max_results messages will be returned in the time range specified
+/// starting with the oldest messages first. If no time range is specified
+/// the results with start with the oldest message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListJobMessagesRequest {
+    /// A project id.
+    #[prost(string, tag = "1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The job to get messages about.
+    #[prost(string, tag = "2")]
+    pub job_id: ::prost::alloc::string::String,
+    /// Filter to only get messages with importance >= level
+    #[prost(enumeration = "JobMessageImportance", tag = "3")]
+    pub minimum_importance: i32,
+    /// If specified, determines the maximum number of messages to
+    /// return.  If unspecified, the service may choose an appropriate
+    /// default, or may return an arbitrarily large number of results.
+    #[prost(int32, tag = "4")]
+    pub page_size: i32,
+    /// If supplied, this should be the value of next_page_token returned
+    /// by an earlier call. This will cause the next page of results to
+    /// be returned.
+    #[prost(string, tag = "5")]
+    pub page_token: ::prost::alloc::string::String,
+    /// If specified, return only messages with timestamps >= start_time.
+    /// The default is the job creation time (i.e. beginning of messages).
+    #[prost(message, optional, tag = "6")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Return only messages with timestamps < end_time. The default is now
+    /// (i.e. return up to the latest messages available).
+    #[prost(message, optional, tag = "7")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The [regional endpoint]
+    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
+    /// contains the job specified by job_id.
+    #[prost(string, tag = "8")]
+    pub location: ::prost::alloc::string::String,
+}
+/// Response to a request to list job messages.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListJobMessagesResponse {
+    /// Messages in ascending timestamp order.
+    #[prost(message, repeated, tag = "1")]
+    pub job_messages: ::prost::alloc::vec::Vec<JobMessage>,
+    /// The token to obtain the next page of results if there are more.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Autoscaling events in ascending timestamp order.
+    #[prost(message, repeated, tag = "3")]
+    pub autoscaling_events: ::prost::alloc::vec::Vec<AutoscalingEvent>,
+}
+/// Indicates the importance of the message.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum JobMessageImportance {
+    /// The message importance isn't specified, or is unknown.
+    Unknown = 0,
+    /// The message is at the 'debug' level: typically only useful for
+    /// software engineers working on the code the job is running.
+    /// Typically, Dataflow pipeline runners do not display log messages
+    /// at this level by default.
+    JobMessageDebug = 1,
+    /// The message is at the 'detailed' level: somewhat verbose, but
+    /// potentially useful to users.  Typically, Dataflow pipeline
+    /// runners do not display log messages at this level by default.
+    /// These messages are displayed by default in the Dataflow
+    /// monitoring UI.
+    JobMessageDetailed = 2,
+    /// The message is at the 'basic' level: useful for keeping
+    /// track of the execution of a Dataflow pipeline.  Typically,
+    /// Dataflow pipeline runners display log messages at this level by
+    /// default, and these messages are displayed by default in the
+    /// Dataflow monitoring UI.
+    JobMessageBasic = 5,
+    /// The message is at the 'warning' level: indicating a condition
+    /// pertaining to a job which may require human intervention.
+    /// Typically, Dataflow pipeline runners display log messages at this
+    /// level by default, and these messages are displayed by default in
+    /// the Dataflow monitoring UI.
+    JobMessageWarning = 3,
+    /// The message is at the 'error' level: indicating a condition
+    /// preventing a job from succeeding.  Typically, Dataflow pipeline
+    /// runners display log messages at this level by default, and these
+    /// messages are displayed by default in the Dataflow monitoring UI.
+    JobMessageError = 4,
+}
+#[doc = r" Generated client implementations."]
+pub mod messages_v1_beta3_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " The Dataflow Messages API is used for monitoring the progress of"]
+    #[doc = " Dataflow jobs."]
+    #[derive(Debug, Clone)]
+    pub struct MessagesV1Beta3Client<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> MessagesV1Beta3Client<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> MessagesV1Beta3Client<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            MessagesV1Beta3Client::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Request the job status."]
+        #[doc = ""]
+        #[doc = " To request the status of a job, we recommend using"]
+        #[doc = " `projects.locations.jobs.messages.list` with a [regional endpoint]"]
+        #[doc = " (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using"]
+        #[doc = " `projects.jobs.messages.list` is not recommended, as you can only request"]
+        #[doc = " the status of jobs that are running in `us-central1`."]
+        pub async fn list_job_messages(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListJobMessagesRequest>,
+        ) -> Result<tonic::Response<super::ListJobMessagesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.dataflow.v1beta3.MessagesV1Beta3/ListJobMessages",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
 }
 /// Represents a Pubsub snapshot.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2412,6 +2020,660 @@ pub mod jobs_v1_beta3_client {
         }
     }
 }
+/// Global topology of the streaming Dataflow job, including all
+/// computations and their sharded locations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TopologyConfig {
+    /// The computations associated with a streaming Dataflow job.
+    #[prost(message, repeated, tag = "1")]
+    pub computations: ::prost::alloc::vec::Vec<ComputationTopology>,
+    /// The disks assigned to a streaming Dataflow job.
+    #[prost(message, repeated, tag = "2")]
+    pub data_disk_assignments: ::prost::alloc::vec::Vec<DataDiskAssignment>,
+    /// Maps user stage names to stable computation names.
+    #[prost(btree_map = "string, string", tag = "3")]
+    pub user_stage_to_computation_name_map: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// The size (in bits) of keys that will be assigned to source messages.
+    #[prost(int32, tag = "4")]
+    pub forwarding_key_bits: i32,
+    /// Version number for persistent state.
+    #[prost(int32, tag = "5")]
+    pub persistent_state_version: i32,
+}
+/// Identifies a pubsub location to use for transferring data into or
+/// out of a streaming Dataflow job.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PubsubLocation {
+    /// A pubsub topic, in the form of
+    /// "pubsub.googleapis.com/topics/<project-id>/<topic-name>"
+    #[prost(string, tag = "1")]
+    pub topic: ::prost::alloc::string::String,
+    /// A pubsub subscription, in the form of
+    /// "pubsub.googleapis.com/subscriptions/<project-id>/<subscription-name>"
+    #[prost(string, tag = "2")]
+    pub subscription: ::prost::alloc::string::String,
+    /// If set, contains a pubsub label from which to extract record timestamps.
+    /// If left empty, record timestamps will be generated upon arrival.
+    #[prost(string, tag = "3")]
+    pub timestamp_label: ::prost::alloc::string::String,
+    /// If set, contains a pubsub label from which to extract record ids.
+    /// If left empty, record deduplication will be strictly best effort.
+    #[prost(string, tag = "4")]
+    pub id_label: ::prost::alloc::string::String,
+    /// Indicates whether the pipeline allows late-arriving data.
+    #[prost(bool, tag = "5")]
+    pub drop_late_data: bool,
+    /// If set, specifies the pubsub subscription that will be used for tracking
+    /// custom time timestamps for watermark estimation.
+    #[prost(string, tag = "6")]
+    pub tracking_subscription: ::prost::alloc::string::String,
+    /// If true, then the client has requested to get pubsub attributes.
+    #[prost(bool, tag = "7")]
+    pub with_attributes: bool,
+}
+/// Identifies the location of a streaming computation stage, for
+/// stage-to-stage communication.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StreamingStageLocation {
+    /// Identifies the particular stream within the streaming Dataflow
+    /// job.
+    #[prost(string, tag = "1")]
+    pub stream_id: ::prost::alloc::string::String,
+}
+/// Identifies the location of a streaming side input.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StreamingSideInputLocation {
+    /// Identifies the particular side input within the streaming Dataflow job.
+    #[prost(string, tag = "1")]
+    pub tag: ::prost::alloc::string::String,
+    /// Identifies the state family where this side input is stored.
+    #[prost(string, tag = "2")]
+    pub state_family: ::prost::alloc::string::String,
+}
+/// Identifies the location of a custom souce.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CustomSourceLocation {
+    /// Whether this source is stateful.
+    #[prost(bool, tag = "1")]
+    pub stateful: bool,
+}
+/// Describes a stream of data, either as input to be processed or as
+/// output of a streaming Dataflow job.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StreamLocation {
+    /// A specification of a stream's location.
+    #[prost(oneof = "stream_location::Location", tags = "1, 2, 3, 4")]
+    pub location: ::core::option::Option<stream_location::Location>,
+}
+/// Nested message and enum types in `StreamLocation`.
+pub mod stream_location {
+    /// A specification of a stream's location.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Location {
+        /// The stream is part of another computation within the current
+        /// streaming Dataflow job.
+        #[prost(message, tag = "1")]
+        StreamingStageLocation(super::StreamingStageLocation),
+        /// The stream is a pubsub stream.
+        #[prost(message, tag = "2")]
+        PubsubLocation(super::PubsubLocation),
+        /// The stream is a streaming side input.
+        #[prost(message, tag = "3")]
+        SideInputLocation(super::StreamingSideInputLocation),
+        /// The stream is a custom source.
+        #[prost(message, tag = "4")]
+        CustomSourceLocation(super::CustomSourceLocation),
+    }
+}
+/// State family configuration.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StateFamilyConfig {
+    /// The state family value.
+    #[prost(string, tag = "1")]
+    pub state_family: ::prost::alloc::string::String,
+    /// If true, this family corresponds to a read operation.
+    #[prost(bool, tag = "2")]
+    pub is_read: bool,
+}
+/// All configuration data for a particular Computation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputationTopology {
+    /// The system stage name.
+    #[prost(string, tag = "1")]
+    pub system_stage_name: ::prost::alloc::string::String,
+    /// The ID of the computation.
+    #[prost(string, tag = "5")]
+    pub computation_id: ::prost::alloc::string::String,
+    /// The key ranges processed by the computation.
+    #[prost(message, repeated, tag = "2")]
+    pub key_ranges: ::prost::alloc::vec::Vec<KeyRangeLocation>,
+    /// The inputs to the computation.
+    #[prost(message, repeated, tag = "3")]
+    pub inputs: ::prost::alloc::vec::Vec<StreamLocation>,
+    /// The outputs from the computation.
+    #[prost(message, repeated, tag = "4")]
+    pub outputs: ::prost::alloc::vec::Vec<StreamLocation>,
+    /// The state family values.
+    #[prost(message, repeated, tag = "7")]
+    pub state_families: ::prost::alloc::vec::Vec<StateFamilyConfig>,
+}
+/// Location information for a specific key-range of a sharded computation.
+/// Currently we only support UTF-8 character splits to simplify encoding into
+/// JSON.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KeyRangeLocation {
+    /// The start (inclusive) of the key range.
+    #[prost(string, tag = "1")]
+    pub start: ::prost::alloc::string::String,
+    /// The end (exclusive) of the key range.
+    #[prost(string, tag = "2")]
+    pub end: ::prost::alloc::string::String,
+    /// The physical location of this range assignment to be used for
+    /// streaming computation cross-worker message delivery.
+    #[prost(string, tag = "3")]
+    pub delivery_endpoint: ::prost::alloc::string::String,
+    /// The name of the data disk where data for this range is stored.
+    /// This name is local to the Google Cloud Platform project and uniquely
+    /// identifies the disk within that project, for example
+    /// "myproject-1014-104817-4c2-harness-0-disk-1".
+    #[prost(string, tag = "5")]
+    pub data_disk: ::prost::alloc::string::String,
+    /// DEPRECATED. The location of the persistent state for this range, as a
+    /// persistent directory in the worker local filesystem.
+    #[deprecated]
+    #[prost(string, tag = "4")]
+    pub deprecated_persistent_directory: ::prost::alloc::string::String,
+}
+/// Describes mounted data disk.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MountedDataDisk {
+    /// The name of the data disk.
+    /// This name is local to the Google Cloud Platform project and uniquely
+    /// identifies the disk within that project, for example
+    /// "myproject-1014-104817-4c2-harness-0-disk-1".
+    #[prost(string, tag = "1")]
+    pub data_disk: ::prost::alloc::string::String,
+}
+/// Data disk assignment for a given VM instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataDiskAssignment {
+    /// VM instance name the data disks mounted to, for example
+    /// "myproject-1014-104817-4c2-harness-0".
+    #[prost(string, tag = "1")]
+    pub vm_instance: ::prost::alloc::string::String,
+    /// Mounted data disks. The order is important a data disk's 0-based index in
+    /// this list defines which persistent directory the disk is mounted to, for
+    /// example the list of { "myproject-1014-104817-4c2-harness-0-disk-0" },
+    /// { "myproject-1014-104817-4c2-harness-0-disk-1" }.
+    #[prost(string, repeated, tag = "2")]
+    pub data_disks: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Data disk assignment information for a specific key-range of a sharded
+/// computation.
+/// Currently we only support UTF-8 character splits to simplify encoding into
+/// JSON.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KeyRangeDataDiskAssignment {
+    /// The start (inclusive) of the key range.
+    #[prost(string, tag = "1")]
+    pub start: ::prost::alloc::string::String,
+    /// The end (exclusive) of the key range.
+    #[prost(string, tag = "2")]
+    pub end: ::prost::alloc::string::String,
+    /// The name of the data disk where data for this range is stored.
+    /// This name is local to the Google Cloud Platform project and uniquely
+    /// identifies the disk within that project, for example
+    /// "myproject-1014-104817-4c2-harness-0-disk-1".
+    #[prost(string, tag = "3")]
+    pub data_disk: ::prost::alloc::string::String,
+}
+/// Describes full or partial data disk assignment information of the computation
+/// ranges.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StreamingComputationRanges {
+    /// The ID of the computation.
+    #[prost(string, tag = "1")]
+    pub computation_id: ::prost::alloc::string::String,
+    /// Data disk assignments for ranges from this computation.
+    #[prost(message, repeated, tag = "2")]
+    pub range_assignments: ::prost::alloc::vec::Vec<KeyRangeDataDiskAssignment>,
+}
+/// Streaming appliance snapshot configuration.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StreamingApplianceSnapshotConfig {
+    /// If set, indicates the snapshot id for the snapshot being performed.
+    #[prost(string, tag = "1")]
+    pub snapshot_id: ::prost::alloc::string::String,
+    /// Indicates which endpoint is used to import appliance state.
+    #[prost(string, tag = "2")]
+    pub import_state_endpoint: ::prost::alloc::string::String,
+}
+/// Identifies a metric, by describing the source which generated the
+/// metric.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MetricStructuredName {
+    /// Origin (namespace) of metric name. May be blank for user-define metrics;
+    /// will be "dataflow" for metrics defined by the Dataflow service or SDK.
+    #[prost(string, tag = "1")]
+    pub origin: ::prost::alloc::string::String,
+    /// Worker-defined metric name.
+    #[prost(string, tag = "2")]
+    pub name: ::prost::alloc::string::String,
+    /// Zero or more labeled fields which identify the part of the job this
+    /// metric is associated with, such as the name of a step or collection.
+    ///
+    /// For example, built-in counters associated with steps will have
+    /// context\['step'\] = <step-name>. Counters associated with PCollections
+    /// in the SDK will have context\['pcollection'\] = <pcollection-name>.
+    #[prost(btree_map = "string, string", tag = "3")]
+    pub context: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+}
+/// Describes the state of a metric.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MetricUpdate {
+    /// Name of the metric.
+    #[prost(message, optional, tag = "1")]
+    pub name: ::core::option::Option<MetricStructuredName>,
+    /// Metric aggregation kind.  The possible metric aggregation kinds are
+    /// "Sum", "Max", "Min", "Mean", "Set", "And", "Or", and "Distribution".
+    /// The specified aggregation kind is case-insensitive.
+    ///
+    /// If omitted, this is not an aggregated value but instead
+    /// a single metric sample value.
+    #[prost(string, tag = "2")]
+    pub kind: ::prost::alloc::string::String,
+    /// True if this metric is reported as the total cumulative aggregate
+    /// value accumulated since the worker started working on this WorkItem.
+    /// By default this is false, indicating that this metric is reported
+    /// as a delta that is not associated with any WorkItem.
+    #[prost(bool, tag = "3")]
+    pub cumulative: bool,
+    /// Worker-computed aggregate value for aggregation kinds "Sum", "Max", "Min",
+    /// "And", and "Or".  The possible value types are Long, Double, and Boolean.
+    #[prost(message, optional, tag = "4")]
+    pub scalar: ::core::option::Option<::prost_types::Value>,
+    /// Worker-computed aggregate value for the "Mean" aggregation kind.
+    /// This holds the sum of the aggregated values and is used in combination
+    /// with mean_count below to obtain the actual mean aggregate value.
+    /// The only possible value types are Long and Double.
+    #[prost(message, optional, tag = "5")]
+    pub mean_sum: ::core::option::Option<::prost_types::Value>,
+    /// Worker-computed aggregate value for the "Mean" aggregation kind.
+    /// This holds the count of the aggregated values and is used in combination
+    /// with mean_sum above to obtain the actual mean aggregate value.
+    /// The only possible value type is Long.
+    #[prost(message, optional, tag = "6")]
+    pub mean_count: ::core::option::Option<::prost_types::Value>,
+    /// Worker-computed aggregate value for the "Set" aggregation kind.  The only
+    /// possible value type is a list of Values whose type can be Long, Double,
+    /// or String, according to the metric's type.  All Values in the list must
+    /// be of the same type.
+    #[prost(message, optional, tag = "7")]
+    pub set: ::core::option::Option<::prost_types::Value>,
+    /// A struct value describing properties of a distribution of numeric values.
+    #[prost(message, optional, tag = "11")]
+    pub distribution: ::core::option::Option<::prost_types::Value>,
+    /// A struct value describing properties of a Gauge.
+    /// Metrics of gauge type show the value of a metric across time, and is
+    /// aggregated based on the newest value.
+    #[prost(message, optional, tag = "12")]
+    pub gauge: ::core::option::Option<::prost_types::Value>,
+    /// Worker-computed aggregate value for internal use by the Dataflow
+    /// service.
+    #[prost(message, optional, tag = "8")]
+    pub internal: ::core::option::Option<::prost_types::Value>,
+    /// Timestamp associated with the metric value. Optional when workers are
+    /// reporting work progress; it will be filled in responses from the
+    /// metrics API.
+    #[prost(message, optional, tag = "9")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Request to get job metrics.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetJobMetricsRequest {
+    /// A project id.
+    #[prost(string, tag = "1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The job to get metrics for.
+    #[prost(string, tag = "2")]
+    pub job_id: ::prost::alloc::string::String,
+    /// Return only metric data that has changed since this time.
+    /// Default is to return all information about all metrics for the job.
+    #[prost(message, optional, tag = "3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The [regional endpoint]
+    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
+    /// contains the job specified by job_id.
+    #[prost(string, tag = "4")]
+    pub location: ::prost::alloc::string::String,
+}
+/// JobMetrics contains a collection of metrics describing the detailed progress
+/// of a Dataflow job. Metrics correspond to user-defined and system-defined
+/// metrics in the job.
+///
+/// This resource captures only the most recent values of each metric;
+/// time-series data can be queried for them (under the same metric names)
+/// from Cloud Monitoring.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobMetrics {
+    /// Timestamp as of which metric values are current.
+    #[prost(message, optional, tag = "1")]
+    pub metric_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// All metrics for this job.
+    #[prost(message, repeated, tag = "2")]
+    pub metrics: ::prost::alloc::vec::Vec<MetricUpdate>,
+}
+/// Request to get job execution details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetJobExecutionDetailsRequest {
+    /// A project id.
+    #[prost(string, tag = "1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The job to get execution details for.
+    #[prost(string, tag = "2")]
+    pub job_id: ::prost::alloc::string::String,
+    /// The [regional endpoint]
+    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
+    /// contains the job specified by job_id.
+    #[prost(string, tag = "3")]
+    pub location: ::prost::alloc::string::String,
+    /// If specified, determines the maximum number of stages to
+    /// return.  If unspecified, the service may choose an appropriate
+    /// default, or may return an arbitrarily large number of results.
+    #[prost(int32, tag = "4")]
+    pub page_size: i32,
+    /// If supplied, this should be the value of next_page_token returned
+    /// by an earlier call. This will cause the next page of results to
+    /// be returned.
+    #[prost(string, tag = "5")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Information about the progress of some component of job execution.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProgressTimeseries {
+    /// The current progress of the component, in the range \[0,1\].
+    #[prost(double, tag = "1")]
+    pub current_progress: f64,
+    /// History of progress for the component.
+    ///
+    /// Points are sorted by time.
+    #[prost(message, repeated, tag = "2")]
+    pub data_points: ::prost::alloc::vec::Vec<progress_timeseries::Point>,
+}
+/// Nested message and enum types in `ProgressTimeseries`.
+pub mod progress_timeseries {
+    /// A point in the timeseries.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Point {
+        /// The timestamp of the point.
+        #[prost(message, optional, tag = "1")]
+        pub time: ::core::option::Option<::prost_types::Timestamp>,
+        /// The value of the point.
+        #[prost(double, tag = "2")]
+        pub value: f64,
+    }
+}
+/// Information about a particular execution stage of a job.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StageSummary {
+    /// ID of this stage
+    #[prost(string, tag = "1")]
+    pub stage_id: ::prost::alloc::string::String,
+    /// State of this stage.
+    #[prost(enumeration = "ExecutionState", tag = "2")]
+    pub state: i32,
+    /// Start time of this stage.
+    #[prost(message, optional, tag = "3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// End time of this stage.
+    ///
+    /// If the work item is completed, this is the actual end time of the stage.
+    /// Otherwise, it is the predicted end time.
+    #[prost(message, optional, tag = "4")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Progress for this stage.
+    /// Only applicable to Batch jobs.
+    #[prost(message, optional, tag = "5")]
+    pub progress: ::core::option::Option<ProgressTimeseries>,
+    /// Metrics for this stage.
+    #[prost(message, repeated, tag = "6")]
+    pub metrics: ::prost::alloc::vec::Vec<MetricUpdate>,
+}
+/// Information about the execution of a job.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobExecutionDetails {
+    /// The stages of the job execution.
+    #[prost(message, repeated, tag = "1")]
+    pub stages: ::prost::alloc::vec::Vec<StageSummary>,
+    /// If present, this response does not contain all requested tasks.  To obtain
+    /// the next page of results, repeat the request with page_token set to this
+    /// value.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request to get information about a particular execution stage of a job.
+/// Currently only tracked for Batch jobs.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetStageExecutionDetailsRequest {
+    /// A project id.
+    #[prost(string, tag = "1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The job to get execution details for.
+    #[prost(string, tag = "2")]
+    pub job_id: ::prost::alloc::string::String,
+    /// The [regional endpoint]
+    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
+    /// contains the job specified by job_id.
+    #[prost(string, tag = "3")]
+    pub location: ::prost::alloc::string::String,
+    /// The stage for which to fetch information.
+    #[prost(string, tag = "4")]
+    pub stage_id: ::prost::alloc::string::String,
+    /// If specified, determines the maximum number of work items to
+    /// return.  If unspecified, the service may choose an appropriate
+    /// default, or may return an arbitrarily large number of results.
+    #[prost(int32, tag = "5")]
+    pub page_size: i32,
+    /// If supplied, this should be the value of next_page_token returned
+    /// by an earlier call. This will cause the next page of results to
+    /// be returned.
+    #[prost(string, tag = "6")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Lower time bound of work items to include, by start time.
+    #[prost(message, optional, tag = "7")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Upper time bound of work items to include, by start time.
+    #[prost(message, optional, tag = "8")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Information about an individual work item execution.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WorkItemDetails {
+    /// Name of this work item.
+    #[prost(string, tag = "1")]
+    pub task_id: ::prost::alloc::string::String,
+    /// Attempt ID of this work item
+    #[prost(string, tag = "2")]
+    pub attempt_id: ::prost::alloc::string::String,
+    /// Start time of this work item attempt.
+    #[prost(message, optional, tag = "3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// End time of this work item attempt.
+    ///
+    /// If the work item is completed, this is the actual end time of the work
+    /// item.  Otherwise, it is the predicted end time.
+    #[prost(message, optional, tag = "4")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// State of this work item.
+    #[prost(enumeration = "ExecutionState", tag = "5")]
+    pub state: i32,
+    /// Progress of this work item.
+    #[prost(message, optional, tag = "6")]
+    pub progress: ::core::option::Option<ProgressTimeseries>,
+    /// Metrics for this work item.
+    #[prost(message, repeated, tag = "7")]
+    pub metrics: ::prost::alloc::vec::Vec<MetricUpdate>,
+}
+/// Information about a worker
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WorkerDetails {
+    /// Name of this worker
+    #[prost(string, tag = "1")]
+    pub worker_name: ::prost::alloc::string::String,
+    /// Work items processed by this worker, sorted by time.
+    #[prost(message, repeated, tag = "2")]
+    pub work_items: ::prost::alloc::vec::Vec<WorkItemDetails>,
+}
+/// Information about the workers and work items within a stage.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StageExecutionDetails {
+    /// Workers that have done work on the stage.
+    #[prost(message, repeated, tag = "1")]
+    pub workers: ::prost::alloc::vec::Vec<WorkerDetails>,
+    /// If present, this response does not contain all requested tasks.  To obtain
+    /// the next page of results, repeat the request with page_token set to this
+    /// value.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The state of some component of job execution.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ExecutionState {
+    /// The component state is unknown or unspecified.
+    Unknown = 0,
+    /// The component is not yet running.
+    NotStarted = 1,
+    /// The component is currently running.
+    Running = 2,
+    /// The component succeeded.
+    Succeeded = 3,
+    /// The component failed.
+    Failed = 4,
+    /// Execution of the component was cancelled.
+    Cancelled = 5,
+}
+#[doc = r" Generated client implementations."]
+pub mod metrics_v1_beta3_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " The Dataflow Metrics API lets you monitor the progress of Dataflow"]
+    #[doc = " jobs."]
+    #[derive(Debug, Clone)]
+    pub struct MetricsV1Beta3Client<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> MetricsV1Beta3Client<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> MetricsV1Beta3Client<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            MetricsV1Beta3Client::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Request the job status."]
+        #[doc = ""]
+        #[doc = " To request the status of a job, we recommend using"]
+        #[doc = " `projects.locations.jobs.getMetrics` with a [regional endpoint]"]
+        #[doc = " (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using"]
+        #[doc = " `projects.jobs.getMetrics` is not recommended, as you can only request the"]
+        #[doc = " status of jobs that are running in `us-central1`."]
+        pub async fn get_job_metrics(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetJobMetricsRequest>,
+        ) -> Result<tonic::Response<super::JobMetrics>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.dataflow.v1beta3.MetricsV1Beta3/GetJobMetrics",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Request detailed information about the execution status of the job."]
+        #[doc = ""]
+        #[doc = " EXPERIMENTAL.  This API is subject to change or removal without notice."]
+        pub async fn get_job_execution_details(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetJobExecutionDetailsRequest>,
+        ) -> Result<tonic::Response<super::JobExecutionDetails>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.dataflow.v1beta3.MetricsV1Beta3/GetJobExecutionDetails",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Request detailed information about the execution status of a stage of the"]
+        #[doc = " job."]
+        #[doc = ""]
+        #[doc = " EXPERIMENTAL.  This API is subject to change or removal without notice."]
+        pub async fn get_stage_execution_details(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetStageExecutionDetailsRequest>,
+        ) -> Result<tonic::Response<super::StageExecutionDetails>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.dataflow.v1beta3.MetricsV1Beta3/GetStageExecutionDetails",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Response to the request to launch a job from Flex Template.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LaunchFlexTemplateResponse {
@@ -3193,268 +3455,6 @@ pub mod flex_templates_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.dataflow.v1beta3.FlexTemplatesService/LaunchFlexTemplate",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// A particular message pertaining to a Dataflow job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobMessage {
-    /// Deprecated.
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-    /// The timestamp of the message.
-    #[prost(message, optional, tag = "2")]
-    pub time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The text of the message.
-    #[prost(string, tag = "3")]
-    pub message_text: ::prost::alloc::string::String,
-    /// Importance level of the message.
-    #[prost(enumeration = "JobMessageImportance", tag = "4")]
-    pub message_importance: i32,
-}
-/// A rich message format, including a human readable string, a key for
-/// identifying the message, and structured data associated with the message for
-/// programmatic consumption.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StructuredMessage {
-    /// Human-readable version of message.
-    #[prost(string, tag = "1")]
-    pub message_text: ::prost::alloc::string::String,
-    /// Identifier for this message type.  Used by external systems to
-    /// internationalize or personalize message.
-    #[prost(string, tag = "2")]
-    pub message_key: ::prost::alloc::string::String,
-    /// The structured data associated with this message.
-    #[prost(message, repeated, tag = "3")]
-    pub parameters: ::prost::alloc::vec::Vec<structured_message::Parameter>,
-}
-/// Nested message and enum types in `StructuredMessage`.
-pub mod structured_message {
-    /// Structured data associated with this message.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Parameter {
-        /// Key or name for this parameter.
-        #[prost(string, tag = "1")]
-        pub key: ::prost::alloc::string::String,
-        /// Value for this parameter.
-        #[prost(message, optional, tag = "2")]
-        pub value: ::core::option::Option<::prost_types::Value>,
-    }
-}
-/// A structured message reporting an autoscaling decision made by the Dataflow
-/// service.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoscalingEvent {
-    /// The current number of workers the job has.
-    #[prost(int64, tag = "1")]
-    pub current_num_workers: i64,
-    /// The target number of workers the worker pool wants to resize to use.
-    #[prost(int64, tag = "2")]
-    pub target_num_workers: i64,
-    /// The type of autoscaling event to report.
-    #[prost(enumeration = "autoscaling_event::AutoscalingEventType", tag = "3")]
-    pub event_type: i32,
-    /// A message describing why the system decided to adjust the current
-    /// number of workers, why it failed, or why the system decided to
-    /// not make any changes to the number of workers.
-    #[prost(message, optional, tag = "4")]
-    pub description: ::core::option::Option<StructuredMessage>,
-    /// The time this event was emitted to indicate a new target or current
-    /// num_workers value.
-    #[prost(message, optional, tag = "5")]
-    pub time: ::core::option::Option<::prost_types::Timestamp>,
-    /// A short and friendly name for the worker pool this event refers to.
-    #[prost(string, tag = "7")]
-    pub worker_pool: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `AutoscalingEvent`.
-pub mod autoscaling_event {
-    /// Indicates the type of autoscaling event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AutoscalingEventType {
-        /// Default type for the enum.  Value should never be returned.
-        TypeUnknown = 0,
-        /// The TARGET_NUM_WORKERS_CHANGED type should be used when the target
-        /// worker pool size has changed at the start of an actuation. An event
-        /// should always be specified as TARGET_NUM_WORKERS_CHANGED if it reflects
-        /// a change in the target_num_workers.
-        TargetNumWorkersChanged = 1,
-        /// The CURRENT_NUM_WORKERS_CHANGED type should be used when actual worker
-        /// pool size has been changed, but the target_num_workers has not changed.
-        CurrentNumWorkersChanged = 2,
-        /// The ACTUATION_FAILURE type should be used when we want to report
-        /// an error to the user indicating why the current number of workers
-        /// in the pool could not be changed.
-        /// Displayed in the current status and history widgets.
-        ActuationFailure = 3,
-        /// Used when we want to report to the user a reason why we are
-        /// not currently adjusting the number of workers.
-        /// Should specify both target_num_workers, current_num_workers and a
-        /// decision_message.
-        NoChange = 4,
-    }
-}
-/// Request to list job messages.
-/// Up to max_results messages will be returned in the time range specified
-/// starting with the oldest messages first. If no time range is specified
-/// the results with start with the oldest message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListJobMessagesRequest {
-    /// A project id.
-    #[prost(string, tag = "1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The job to get messages about.
-    #[prost(string, tag = "2")]
-    pub job_id: ::prost::alloc::string::String,
-    /// Filter to only get messages with importance >= level
-    #[prost(enumeration = "JobMessageImportance", tag = "3")]
-    pub minimum_importance: i32,
-    /// If specified, determines the maximum number of messages to
-    /// return.  If unspecified, the service may choose an appropriate
-    /// default, or may return an arbitrarily large number of results.
-    #[prost(int32, tag = "4")]
-    pub page_size: i32,
-    /// If supplied, this should be the value of next_page_token returned
-    /// by an earlier call. This will cause the next page of results to
-    /// be returned.
-    #[prost(string, tag = "5")]
-    pub page_token: ::prost::alloc::string::String,
-    /// If specified, return only messages with timestamps >= start_time.
-    /// The default is the job creation time (i.e. beginning of messages).
-    #[prost(message, optional, tag = "6")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Return only messages with timestamps < end_time. The default is now
-    /// (i.e. return up to the latest messages available).
-    #[prost(message, optional, tag = "7")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The [regional endpoint]
-    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
-    /// contains the job specified by job_id.
-    #[prost(string, tag = "8")]
-    pub location: ::prost::alloc::string::String,
-}
-/// Response to a request to list job messages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListJobMessagesResponse {
-    /// Messages in ascending timestamp order.
-    #[prost(message, repeated, tag = "1")]
-    pub job_messages: ::prost::alloc::vec::Vec<JobMessage>,
-    /// The token to obtain the next page of results if there are more.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Autoscaling events in ascending timestamp order.
-    #[prost(message, repeated, tag = "3")]
-    pub autoscaling_events: ::prost::alloc::vec::Vec<AutoscalingEvent>,
-}
-/// Indicates the importance of the message.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum JobMessageImportance {
-    /// The message importance isn't specified, or is unknown.
-    Unknown = 0,
-    /// The message is at the 'debug' level: typically only useful for
-    /// software engineers working on the code the job is running.
-    /// Typically, Dataflow pipeline runners do not display log messages
-    /// at this level by default.
-    JobMessageDebug = 1,
-    /// The message is at the 'detailed' level: somewhat verbose, but
-    /// potentially useful to users.  Typically, Dataflow pipeline
-    /// runners do not display log messages at this level by default.
-    /// These messages are displayed by default in the Dataflow
-    /// monitoring UI.
-    JobMessageDetailed = 2,
-    /// The message is at the 'basic' level: useful for keeping
-    /// track of the execution of a Dataflow pipeline.  Typically,
-    /// Dataflow pipeline runners display log messages at this level by
-    /// default, and these messages are displayed by default in the
-    /// Dataflow monitoring UI.
-    JobMessageBasic = 5,
-    /// The message is at the 'warning' level: indicating a condition
-    /// pertaining to a job which may require human intervention.
-    /// Typically, Dataflow pipeline runners display log messages at this
-    /// level by default, and these messages are displayed by default in
-    /// the Dataflow monitoring UI.
-    JobMessageWarning = 3,
-    /// The message is at the 'error' level: indicating a condition
-    /// preventing a job from succeeding.  Typically, Dataflow pipeline
-    /// runners display log messages at this level by default, and these
-    /// messages are displayed by default in the Dataflow monitoring UI.
-    JobMessageError = 4,
-}
-#[doc = r" Generated client implementations."]
-pub mod messages_v1_beta3_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " The Dataflow Messages API is used for monitoring the progress of"]
-    #[doc = " Dataflow jobs."]
-    #[derive(Debug, Clone)]
-    pub struct MessagesV1Beta3Client<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> MessagesV1Beta3Client<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> MessagesV1Beta3Client<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            MessagesV1Beta3Client::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Request the job status."]
-        #[doc = ""]
-        #[doc = " To request the status of a job, we recommend using"]
-        #[doc = " `projects.locations.jobs.messages.list` with a [regional endpoint]"]
-        #[doc = " (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using"]
-        #[doc = " `projects.jobs.messages.list` is not recommended, as you can only request"]
-        #[doc = " the status of jobs that are running in `us-central1`."]
-        pub async fn list_job_messages(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListJobMessagesRequest>,
-        ) -> Result<tonic::Response<super::ListJobMessagesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.dataflow.v1beta3.MessagesV1Beta3/ListJobMessages",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

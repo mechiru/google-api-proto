@@ -23,6 +23,15 @@ pub struct EntityDisplay {
     #[prost(string, tag = "2")]
     pub icon_url: ::prost::alloc::string::String,
 }
+/// Type that matches any text if surrounding words context is close to provided
+/// training examples.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FreeTextType {
+    /// Optional. Elements that will be displayed on the canvas once an entity is extracted
+    /// from a query. Only relevant for canvas enabled apps.
+    #[prost(message, optional, tag = "2")]
+    pub display: ::core::option::Option<EntityDisplay>,
+}
 /// Type that matches text by regular expressions.
 /// **This message is localizable.**
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -49,15 +58,6 @@ pub mod regular_expression_type {
         #[prost(string, repeated, tag = "2")]
         pub regular_expressions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     }
-}
-/// Type that matches any text if surrounding words context is close to provided
-/// training examples.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FreeTextType {
-    /// Optional. Elements that will be displayed on the canvas once an entity is extracted
-    /// from a query. Only relevant for canvas enabled apps.
-    #[prost(message, optional, tag = "2")]
-    pub display: ::core::option::Option<EntityDisplay>,
 }
 /// Type that matches text by set of synonyms.
 #[derive(Clone, PartialEq, ::prost::Message)]

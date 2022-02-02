@@ -1,21 +1,3 @@
-/// Options for how to validate json schemas.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum JsonValidationOption {
-    /// As per the default behavior, no validation will be run. Will not override
-    /// any option set in a Task.
-    Unspecified = 0,
-    /// Do not run any validation against JSON schemas.
-    Skip = 1,
-    /// Validate all potential input JSON parameters against schemas specified in
-    /// IntegrationParameter.
-    PreExecution = 2,
-    /// Validate all potential output JSON parameters against schemas specified in
-    /// IntegrationParameter.
-    PostExecution = 3,
-    /// Perform both PRE_EXECUTION and POST_EXECUTION validations.
-    PrePostExecution = 4,
-}
 /// The type of the parameter.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ValueType {
@@ -83,19 +65,23 @@ pub struct BooleanParameterArray {
     #[prost(bool, repeated, tag = "1")]
     pub boolean_values: ::prost::alloc::vec::Vec<bool>,
 }
-/// This message is used for processing and persisting (when applicable) key
-/// value pair parameters for each event in the event bus.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventParameter {
-    /// Key is used to retrieve the corresponding parameter value. This should be
-    /// unique for a given fired event. These parameters must be predefined in the
-    /// integration definition.
-    #[prost(string, tag = "1")]
-    pub key: ::prost::alloc::string::String,
-    /// Values for the defined keys. Each value can either be string, int, double
-    /// or any proto message.
-    #[prost(message, optional, tag = "2")]
-    pub value: ::core::option::Option<ValueType>,
+/// Options for how to validate json schemas.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum JsonValidationOption {
+    /// As per the default behavior, no validation will be run. Will not override
+    /// any option set in a Task.
+    Unspecified = 0,
+    /// Do not run any validation against JSON schemas.
+    Skip = 1,
+    /// Validate all potential input JSON parameters against schemas specified in
+    /// IntegrationParameter.
+    PreExecution = 2,
+    /// Validate all potential output JSON parameters against schemas specified in
+    /// IntegrationParameter.
+    PostExecution = 3,
+    /// Perform both PRE_EXECUTION and POST_EXECUTION validations.
+    PrePostExecution = 4,
 }
 /// Enum Product.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -109,6 +95,20 @@ pub enum Product {
     Apigee = 2,
     /// Security Command Center.
     Security = 3,
+}
+/// This message is used for processing and persisting (when applicable) key
+/// value pair parameters for each event in the event bus.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventParameter {
+    /// Key is used to retrieve the corresponding parameter value. This should be
+    /// unique for a given fired event. These parameters must be predefined in the
+    /// integration definition.
+    #[prost(string, tag = "1")]
+    pub key: ::prost::alloc::string::String,
+    /// Values for the defined keys. Each value can either be string, int, double
+    /// or any proto message.
+    #[prost(message, optional, tag = "2")]
+    pub value: ::core::option::Option<ValueType>,
 }
 /// The task configuration details. This is not the implementation of Task.
 /// There might be multiple TaskConfigs for the same Task.
