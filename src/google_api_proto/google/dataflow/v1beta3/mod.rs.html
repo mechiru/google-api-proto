@@ -3440,6 +3440,27 @@
 <span id="3439">3439</span>
 <span id="3440">3440</span>
 <span id="3441">3441</span>
+<span id="3442">3442</span>
+<span id="3443">3443</span>
+<span id="3444">3444</span>
+<span id="3445">3445</span>
+<span id="3446">3446</span>
+<span id="3447">3447</span>
+<span id="3448">3448</span>
+<span id="3449">3449</span>
+<span id="3450">3450</span>
+<span id="3451">3451</span>
+<span id="3452">3452</span>
+<span id="3453">3453</span>
+<span id="3454">3454</span>
+<span id="3455">3455</span>
+<span id="3456">3456</span>
+<span id="3457">3457</span>
+<span id="3458">3458</span>
+<span id="3459">3459</span>
+<span id="3460">3460</span>
+<span id="3461">3461</span>
+<span id="3462">3462</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Identifies a metric, by describing the source which generated the</span>
 <span class="doccomment">/// metric.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -4652,7 +4673,7 @@
     <span class="doccomment">/// State of the snapshot.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;SnapshotState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// PubSub snapshot metadata.</span>
+    <span class="doccomment">/// Pub/Sub snapshot metadata.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">pubsub_metadata</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PubsubSnapshotMetadata</span><span class="op">&gt;</span>,
     <span class="doccomment">/// User specified description of the snapshot. Maybe empty.</span>
@@ -5027,7 +5048,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">file_pattern</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Metadata for a Cloud BigTable connector used by the job.</span>
+<span class="doccomment">/// Metadata for a Cloud Bigtable connector used by the job.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigTableIoDetails</span> {
     <span class="doccomment">/// ProjectId accessed in the connection.</span>
@@ -5114,10 +5135,10 @@
     <span class="doccomment">/// Identification of a BigQuery source used in the Dataflow job.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bigquery_details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">BigQueryIoDetails</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Identification of a Cloud BigTable source used in the Dataflow job.</span>
+    <span class="doccomment">/// Identification of a Cloud Bigtable source used in the Dataflow job.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">big_table_details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">BigTableIoDetails</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Identification of a PubSub source used in the Dataflow job.</span>
+    <span class="doccomment">/// Identification of a Pub/Sub source used in the Dataflow job.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">pubsub_details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PubSubIoDetails</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Identification of a File source used in the Dataflow job.</span>
@@ -6025,6 +6046,27 @@
     <span class="doccomment">/// only valid for portable pipelines.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;18&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">sdk_container_image</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Worker disk size, in gigabytes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">disk_size_gb</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The algorithm to use for autoscaling</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;AutoscalingAlgorithm&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">autoscaling_algorithm</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// If true, save a heap dump before killing a thread or process which is GC</span>
+    <span class="doccomment">/// thrashing or out of memory. The location of the heap file will either be</span>
+    <span class="doccomment">/// echoed back to the user, or the user will be given the opportunity to</span>
+    <span class="doccomment">/// download the heap file.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dump_heap_on_oom</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Cloud Storage bucket (directory) to upload heap dumps to the given</span>
+    <span class="doccomment">/// location. Enabling this implies that heap dumps should be generated on OOM</span>
+    <span class="doccomment">/// (dump_heap_on_oom is set to true).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;23&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">save_heap_dumps_to_gcs_path</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The machine type to use for launching the job. The default is</span>
+    <span class="doccomment">/// n1-standard-1.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;24&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">launcher_machine_type</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// A request to launch a Cloud Dataflow job from a FlexTemplate.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -6076,7 +6118,8 @@
     <span class="doccomment">/// template if not specified.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">machine_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Additional experiment flags for the job.</span>
+    <span class="doccomment">/// Additional experiment flags for the job, specified with the</span>
+    <span class="doccomment">/// `--experiments` option.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">additional_experiments</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Network to which VMs will be assigned.  If empty or unspecified,</span>
@@ -6685,8 +6728,7 @@
     <span class="doccomment">/// num_workers value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A short and friendly name for the worker pool this event refers to,</span>
-    <span class="doccomment">/// populated from the value of PoolStageRelation::user_pool_name.</span>
+    <span class="doccomment">/// A short and friendly name for the worker pool this event refers to.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">worker_pool</span>: <span class="ident">::prost::alloc::string::String</span>,
 }

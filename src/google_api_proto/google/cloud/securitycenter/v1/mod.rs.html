@@ -2655,6 +2655,43 @@
 <span id="2654">2654</span>
 <span id="2655">2655</span>
 <span id="2656">2656</span>
+<span id="2657">2657</span>
+<span id="2658">2658</span>
+<span id="2659">2659</span>
+<span id="2660">2660</span>
+<span id="2661">2661</span>
+<span id="2662">2662</span>
+<span id="2663">2663</span>
+<span id="2664">2664</span>
+<span id="2665">2665</span>
+<span id="2666">2666</span>
+<span id="2667">2667</span>
+<span id="2668">2668</span>
+<span id="2669">2669</span>
+<span id="2670">2670</span>
+<span id="2671">2671</span>
+<span id="2672">2672</span>
+<span id="2673">2673</span>
+<span id="2674">2674</span>
+<span id="2675">2675</span>
+<span id="2676">2676</span>
+<span id="2677">2677</span>
+<span id="2678">2678</span>
+<span id="2679">2679</span>
+<span id="2680">2680</span>
+<span id="2681">2681</span>
+<span id="2682">2682</span>
+<span id="2683">2683</span>
+<span id="2684">2684</span>
+<span id="2685">2685</span>
+<span id="2686">2686</span>
+<span id="2687">2687</span>
+<span id="2688">2688</span>
+<span id="2689">2689</span>
+<span id="2690">2690</span>
+<span id="2691">2691</span>
+<span id="2692">2692</span>
+<span id="2693">2693</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Cloud Security Command Center (Cloud SCC) notification configs.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A notification config is a Cloud SCC resource that contains the configuration</span>
@@ -2967,33 +3004,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">domains</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Response of asset discovery run</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RunAssetDiscoveryResponse</span> {
-    <span class="doccomment">/// The state of an asset discovery run.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;run_asset_discovery_response::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The duration between asset discovery run start and end</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `RunAssetDiscoveryResponse`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">run_asset_discovery_response</span> {
-    <span class="doccomment">/// The state of an asset discovery run.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// Asset discovery run state was unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Asset discovery run completed successfully.</span>
-        <span class="ident">Completed</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Asset discovery run was cancelled with tasks still pending, as another</span>
-        <span class="doccomment">/// run for the same organization was started with a higher priority.</span>
-        <span class="ident">Superseded</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Asset discovery run was killed and terminated.</span>
-        <span class="ident">Terminated</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
 <span class="doccomment">/// Security Command Center representation of a Google Cloud</span>
 <span class="doccomment">/// resource.</span>
 <span class="doccomment">///</span>
@@ -3122,6 +3132,37 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">external_system_update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
+<span class="doccomment">/// Represents an access event.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Access</span> {
+    <span class="doccomment">/// Associated email, such as &quot;foo@google.com&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">principal_email</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Caller&#39;s IP address, such as &quot;1.1.1.1&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">caller_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The caller IP&#39;s geolocation, which identifies where the call came from.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">caller_ip_geo</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Geolocation</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// What kind of user agent is associated, e.g. operating system shells,</span>
+    <span class="doccomment">/// embedded or stand-alone applications, etc.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_agent_family</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// This is the API service that the service account made a call to, e.g.</span>
+    <span class="doccomment">/// &quot;iam.googleapis.com&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The method that the service account called, e.g. &quot;SetIamPolicy&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">method_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Represents a geographical location for a given access.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Geolocation</span> {
+    <span class="doccomment">/// A CLDR.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">region_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Security Command Center finding.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A finding is a record of assessment data like security, risk, health, or</span>
@@ -3177,11 +3218,12 @@
     <span class="doccomment">/// to the finding.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">security_marks</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">SecurityMarks</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time at which the event took place, or when an update to the finding</span>
-    <span class="doccomment">/// occurred. For example, if the finding represents an open firewall it would</span>
-    <span class="doccomment">/// capture the time the detector believes the firewall became open. The</span>
-    <span class="doccomment">/// accuracy is determined by the detector. If the finding were to be resolved</span>
-    <span class="doccomment">/// afterward, this time would reflect when the finding was resolved. Must not</span>
+    <span class="doccomment">/// The time the finding was first detected. If an existing finding is updated,</span>
+    <span class="doccomment">/// then this is the time the update occurred.</span>
+    <span class="doccomment">/// For example, if the finding represents an open firewall, this property</span>
+    <span class="doccomment">/// captures the time the detector believes the firewall became open. The</span>
+    <span class="doccomment">/// accuracy is determined by the detector. If the finding is later resolved,</span>
+    <span class="doccomment">/// then this time reflects when the finding was resolved. This must not</span>
     <span class="doccomment">/// be set to a value greater than the current timestamp.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">event_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
@@ -3227,6 +3269,10 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">external_systems</span>:
         <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">ExternalSystem</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Access details associated to the Finding, such as more information on the</span>
+    <span class="doccomment">/// caller, which method was accessed, from where, etc.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;26&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">access</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Access</span><span class="op">&gt;</span>,
     <span class="doccomment">/// First known as mute_annotation. Records additional information about the</span>
     <span class="doccomment">/// mute operation e.g. mute config that muted the finding, user who muted the</span>
     <span class="doccomment">/// finding, etc.</span>
@@ -3450,6 +3496,33 @@
             <span class="doccomment">/// All other resources will be retrieved.</span>
             <span class="ident">Exclude</span> <span class="op">=</span> <span class="number">2</span>,
         }
+    }
+}
+<span class="doccomment">/// Response of asset discovery run</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RunAssetDiscoveryResponse</span> {
+    <span class="doccomment">/// The state of an asset discovery run.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;run_asset_discovery_response::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The duration between asset discovery run start and end</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `RunAssetDiscoveryResponse`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">run_asset_discovery_response</span> {
+    <span class="doccomment">/// The state of an asset discovery run.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// Asset discovery run state was unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Asset discovery run completed successfully.</span>
+        <span class="ident">Completed</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Asset discovery run was cancelled with tasks still pending, as another</span>
+        <span class="doccomment">/// run for the same organization was started with a higher priority.</span>
+        <span class="ident">Superseded</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Asset discovery run was killed and terminated.</span>
+        <span class="ident">Terminated</span> <span class="op">=</span> <span class="number">3</span>,
     }
 }
 <span class="doccomment">/// Security Command Center finding source. A finding source</span>
@@ -4638,7 +4711,8 @@
     <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The time at which the updated SecurityMarks take effect.</span>
     <span class="doccomment">/// If not set uses current server time.  Updates will be applied to the</span>
-    <span class="doccomment">/// SecurityMarks that are active immediately preceding this time.</span>
+    <span class="doccomment">/// SecurityMarks that are active immediately preceding this time. Must be</span>
+    <span class="doccomment">/// smaller or equal to the server time.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ServingConfigServiceClient","Service for modifying ServingConfig."]]});
