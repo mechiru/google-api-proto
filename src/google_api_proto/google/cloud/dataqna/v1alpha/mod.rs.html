@@ -913,36 +913,7 @@
 <span id="912">912</span>
 <span id="913">913</span>
 <span id="914">914</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Feedback provided by a user.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UserFeedback</span> {
-    <span class="doccomment">/// Required. The unique identifier for the user feedback.</span>
-    <span class="doccomment">/// User feedback is a singleton resource on a Question.</span>
-    <span class="doccomment">/// Example: `projects/foo/locations/bar/questions/1234/userFeedback`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Free form user feedback, such as a text box.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">free_form_feedback</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The user feedback rating</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;user_feedback::UserFeedbackRating&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">rating</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `UserFeedback`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">user_feedback</span> {
-    <span class="doccomment">/// Enumeration of feedback ratings.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserFeedbackRating</span> {
-        <span class="doccomment">/// No rating was specified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The user provided positive feedback.</span>
-        <span class="ident">Positive</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The user provided negative feedback.</span>
-        <span class="ident">Negative</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Describes string annotation from both semantic and formatting perspectives.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Describes string annotation from both semantic and formatting perspectives.</span>
 <span class="doccomment">/// Example:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// User Query:</span>
@@ -1619,6 +1590,35 @@
     <span class="ident">Dimension</span> <span class="op">=</span> <span class="number">1</span>,
     <span class="doccomment">/// A metric entity.</span>
     <span class="ident">Metric</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// Feedback provided by a user.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UserFeedback</span> {
+    <span class="doccomment">/// Required. The unique identifier for the user feedback.</span>
+    <span class="doccomment">/// User feedback is a singleton resource on a Question.</span>
+    <span class="doccomment">/// Example: `projects/foo/locations/bar/questions/1234/userFeedback`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Free form user feedback, such as a text box.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">free_form_feedback</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The user feedback rating</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;user_feedback::UserFeedbackRating&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">rating</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `UserFeedback`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">user_feedback</span> {
+    <span class="doccomment">/// Enumeration of feedback ratings.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserFeedbackRating</span> {
+        <span class="doccomment">/// No rating was specified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The user provided positive feedback.</span>
+        <span class="ident">Positive</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The user provided negative feedback.</span>
+        <span class="ident">Negative</span> <span class="op">=</span> <span class="number">2</span>,
+    }
 }
 <span class="doccomment">/// A request to get a previously created question.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

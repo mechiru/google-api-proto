@@ -1165,7 +1165,266 @@
 <span id="1164">1164</span>
 <span id="1165">1165</span>
 <span id="1166">1166</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Distribution represents a frequency distribution of double-valued sample</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A common proto for logging HTTP requests. Only contains semantics</span>
+<span class="doccomment">/// defined by the HTTP specification. Product-specific logging</span>
+<span class="doccomment">/// information MUST be defined in a separate message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HttpRequest</span> {
+    <span class="doccomment">/// The request method. Examples: `&quot;GET&quot;`, `&quot;HEAD&quot;`, `&quot;PUT&quot;`, `&quot;POST&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_method</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The scheme (http, https), the host name, the path, and the query</span>
+    <span class="doccomment">/// portion of the URL that was requested.</span>
+    <span class="doccomment">/// Example: `&quot;&lt;http://example.com/some/info?color=red&quot;`.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The size of the HTTP request message in bytes, including the request</span>
+    <span class="doccomment">/// headers and the request body.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_size</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The response code indicating the status of the response.</span>
+    <span class="doccomment">/// Examples: 200, 404.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The size of the HTTP response message sent back to the client, in bytes,</span>
+    <span class="doccomment">/// including the response headers and the response body.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response_size</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The user agent sent by the client. Example:</span>
+    <span class="doccomment">/// `&quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; Q312461; .NET</span>
+    <span class="doccomment">/// CLR 1.0.3705)&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_agent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The IP address (IPv4 or IPv6) of the client that issued the HTTP</span>
+    <span class="doccomment">/// request. Examples: `&quot;192.168.1.1&quot;`, `&quot;FE80::0202:B3FF:FE1E:8329&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">remote_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The IP address (IPv4 or IPv6) of the origin server that the request was</span>
+    <span class="doccomment">/// sent to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">server_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The referer URL of the request, as defined in</span>
+    <span class="doccomment">/// [HTTP/1.1 Header Field</span>
+    <span class="doccomment">/// Definitions](&lt;http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html&gt;).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">referer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The request processing latency on the server, from the time the request was</span>
+    <span class="doccomment">/// received until the response was sent.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">latency</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether or not a cache lookup was attempted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cache_lookup</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Whether or not an entity was served from cache</span>
+    <span class="doccomment">/// (with or without validation).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cache_hit</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Whether or not the response was validated with the origin server before</span>
+    <span class="doccomment">/// being served from cache. This field is only meaningful if `cache_hit` is</span>
+    <span class="doccomment">/// True.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cache_validated_with_origin_server</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The number of HTTP response bytes inserted into cache. Set only when a</span>
+    <span class="doccomment">/// cache fill was attempted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cache_fill_bytes</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Protocol used for the request. Examples: &quot;HTTP/1.1&quot;, &quot;HTTP/2&quot;, &quot;websocket&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">protocol</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Defines the errors to be returned in</span>
+<span class="doccomment">/// \[google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CheckError</span> {
+    <span class="doccomment">/// The error code.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;check_error::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Subject to whom this error applies. See the specific code enum for more</span>
+    <span class="doccomment">/// details on this field. For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - &quot;project:&lt;project-id or project-number&gt;&quot;</span>
+    <span class="doccomment">/// - &quot;folder:&lt;folder-id&gt;&quot;</span>
+    <span class="doccomment">/// - &quot;organization:&lt;organization-id&gt;&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">subject</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Free-form text providing details on the error cause of the error.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">detail</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Contains public information about the check error. If available,</span>
+    <span class="doccomment">/// `status.code` will be non zero and client can propagate it out as public</span>
+    <span class="doccomment">/// error.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CheckError`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">check_error</span> {
+    <span class="doccomment">/// Error codes for Check responses.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
+        <span class="doccomment">/// This is never used in `CheckResponse`.</span>
+        <span class="ident">ErrorCodeUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The consumer&#39;s project id, network container, or resource container was</span>
+        <span class="doccomment">/// not found. Same as \[google.rpc.Code.NOT_FOUND][google.rpc.Code.NOT_FOUND\].</span>
+        <span class="ident">NotFound</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// The consumer doesn&#39;t have access to the specified resource.</span>
+        <span class="doccomment">/// Same as \[google.rpc.Code.PERMISSION_DENIED][google.rpc.Code.PERMISSION_DENIED\].</span>
+        <span class="ident">PermissionDenied</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// Quota check failed. Same as \[google.rpc.Code.RESOURCE_EXHAUSTED][google.rpc.Code.RESOURCE_EXHAUSTED\].</span>
+        <span class="ident">ResourceExhausted</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// The consumer hasn&#39;t activated the service.</span>
+        <span class="ident">ServiceNotActivated</span> <span class="op">=</span> <span class="number">104</span>,
+        <span class="doccomment">/// The consumer cannot access the service because billing is disabled.</span>
+        <span class="ident">BillingDisabled</span> <span class="op">=</span> <span class="number">107</span>,
+        <span class="doccomment">/// The consumer&#39;s project has been marked as deleted (soft deletion).</span>
+        <span class="ident">ProjectDeleted</span> <span class="op">=</span> <span class="number">108</span>,
+        <span class="doccomment">/// The consumer&#39;s project number or id does not represent a valid project.</span>
+        <span class="ident">ProjectInvalid</span> <span class="op">=</span> <span class="number">114</span>,
+        <span class="doccomment">/// The input consumer info does not represent a valid consumer folder or</span>
+        <span class="doccomment">/// organization.</span>
+        <span class="ident">ConsumerInvalid</span> <span class="op">=</span> <span class="number">125</span>,
+        <span class="doccomment">/// The IP address of the consumer is invalid for the specific consumer</span>
+        <span class="doccomment">/// project.</span>
+        <span class="ident">IpAddressBlocked</span> <span class="op">=</span> <span class="number">109</span>,
+        <span class="doccomment">/// The referer address of the consumer request is invalid for the specific</span>
+        <span class="doccomment">/// consumer project.</span>
+        <span class="ident">RefererBlocked</span> <span class="op">=</span> <span class="number">110</span>,
+        <span class="doccomment">/// The client application of the consumer request is invalid for the</span>
+        <span class="doccomment">/// specific consumer project.</span>
+        <span class="ident">ClientAppBlocked</span> <span class="op">=</span> <span class="number">111</span>,
+        <span class="doccomment">/// The API targeted by this request is invalid for the specified consumer</span>
+        <span class="doccomment">/// project.</span>
+        <span class="ident">ApiTargetBlocked</span> <span class="op">=</span> <span class="number">122</span>,
+        <span class="doccomment">/// The consumer&#39;s API key is invalid.</span>
+        <span class="ident">ApiKeyInvalid</span> <span class="op">=</span> <span class="number">105</span>,
+        <span class="doccomment">/// The consumer&#39;s API Key has expired.</span>
+        <span class="ident">ApiKeyExpired</span> <span class="op">=</span> <span class="number">112</span>,
+        <span class="doccomment">/// The consumer&#39;s API Key was not found in config record.</span>
+        <span class="ident">ApiKeyNotFound</span> <span class="op">=</span> <span class="number">113</span>,
+        <span class="doccomment">/// The credential in the request can not be verified.</span>
+        <span class="ident">InvalidCredential</span> <span class="op">=</span> <span class="number">123</span>,
+        <span class="doccomment">/// The backend server for looking up project id/number is unavailable.</span>
+        <span class="ident">NamespaceLookupUnavailable</span> <span class="op">=</span> <span class="number">300</span>,
+        <span class="doccomment">/// The backend server for checking service status is unavailable.</span>
+        <span class="ident">ServiceStatusUnavailable</span> <span class="op">=</span> <span class="number">301</span>,
+        <span class="doccomment">/// The backend server for checking billing status is unavailable.</span>
+        <span class="ident">BillingStatusUnavailable</span> <span class="op">=</span> <span class="number">302</span>,
+        <span class="doccomment">/// Cloud Resource Manager backend server is unavailable.</span>
+        <span class="ident">CloudResourceManagerBackendUnavailable</span> <span class="op">=</span> <span class="number">305</span>,
+    }
+}
+<span class="doccomment">/// An individual log entry.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntry</span> {
+    <span class="doccomment">/// Required. The log to which this log entry belongs. Examples: `&quot;syslog&quot;`,</span>
+    <span class="doccomment">/// `&quot;book_log&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The time the event described by the log entry occurred. If</span>
+    <span class="doccomment">/// omitted, defaults to operation start time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The severity of the log entry. The default value is</span>
+    <span class="doccomment">/// `LogSeverity.DEFAULT`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::super::super::logging::r#type::LogSeverity&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Information about the HTTP request associated with this</span>
+    <span class="doccomment">/// log entry, if applicable.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">http_request</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HttpRequest</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Resource name of the trace associated with the log entry, if any.</span>
+    <span class="doccomment">/// If this field contains a relative resource name, you can assume the name is</span>
+    <span class="doccomment">/// relative to `//tracing.googleapis.com`. Example:</span>
+    <span class="doccomment">/// `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">trace</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A unique ID for the log entry used for deduplication. If omitted,</span>
+    <span class="doccomment">/// the implementation will generate one based on operation_id.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">insert_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A set of user-defined (key, value) data that provides additional</span>
+    <span class="doccomment">/// information about the log entry.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Information about an operation associated with the log entry, if</span>
+    <span class="doccomment">/// applicable.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogEntryOperation</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Source code location information associated with the log entry,</span>
+    <span class="doccomment">/// if any.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogEntrySourceLocation</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The log entry payload, which can be one of multiple types.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;log_entry::Payload&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3, 6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">log_entry::Payload</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `LogEntry`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">log_entry</span> {
+    <span class="doccomment">/// The log entry payload, which can be one of multiple types.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Payload</span> {
+        <span class="doccomment">/// The log entry payload, represented as a protocol buffer that is</span>
+        <span class="doccomment">/// expressed as a JSON object. The only accepted type currently is</span>
+        <span class="doccomment">/// \[AuditLog][google.cloud.audit.AuditLog\].</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">ProtoPayload</span>(<span class="ident">::prost_types::Any</span>),
+        <span class="doccomment">/// The log entry payload, represented as a Unicode string (UTF-8).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">TextPayload</span>(<span class="ident">::prost::alloc::string::String</span>),
+        <span class="doccomment">/// The log entry payload, represented as a structure that</span>
+        <span class="doccomment">/// is expressed as a JSON object.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">StructPayload</span>(<span class="ident">::prost_types::Struct</span>),
+    }
+}
+<span class="doccomment">/// Additional information about a potentially long-running operation with which</span>
+<span class="doccomment">/// a log entry is associated.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntryOperation</span> {
+    <span class="doccomment">/// Optional. An arbitrary operation identifier. Log entries with the</span>
+    <span class="doccomment">/// same identifier are assumed to be part of the same operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. An arbitrary producer identifier. The combination of</span>
+    <span class="doccomment">/// `id` and `producer` must be globally unique.  Examples for `producer`:</span>
+    <span class="doccomment">/// `&quot;MyDivision.MyBigCompany.com&quot;`, `&quot;github.com/MyProject/MyApplication&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">producer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Set this to True if this is the first log entry in the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">first</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Optional. Set this to True if this is the last log entry in the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Additional information about the source code location that produced the log</span>
+<span class="doccomment">/// entry.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntrySourceLocation</span> {
+    <span class="doccomment">/// Optional. Source file name. Depending on the runtime environment, this</span>
+    <span class="doccomment">/// might be a simple name or a fully-qualified name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Line within the source file. 1-based; 0 indicates no line number</span>
+    <span class="doccomment">/// available.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">line</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Optional. Human-readable name of the function or method being invoked, with</span>
+    <span class="doccomment">/// optional context such as the class or package name. This information may be</span>
+    <span class="doccomment">/// used in contexts such as the logs viewer, where a file and line number are</span>
+    <span class="doccomment">/// less meaningful. The format can vary by language. For example:</span>
+    <span class="doccomment">/// `qual.if.ied.Class.method` (Java), `dir/package.func` (Go), `function`</span>
+    <span class="doccomment">/// (Python).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">function</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Distribution represents a frequency distribution of double-valued sample</span>
 <span class="doccomment">/// points. It contains the size of the population of sample points plus</span>
 <span class="doccomment">/// additional optional information:</span>
 <span class="doccomment">///</span>
@@ -1402,184 +1661,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">metric_values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">MetricValue</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// A common proto for logging HTTP requests. Only contains semantics</span>
-<span class="doccomment">/// defined by the HTTP specification. Product-specific logging</span>
-<span class="doccomment">/// information MUST be defined in a separate message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HttpRequest</span> {
-    <span class="doccomment">/// The request method. Examples: `&quot;GET&quot;`, `&quot;HEAD&quot;`, `&quot;PUT&quot;`, `&quot;POST&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_method</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The scheme (http, https), the host name, the path, and the query</span>
-    <span class="doccomment">/// portion of the URL that was requested.</span>
-    <span class="doccomment">/// Example: `&quot;&lt;http://example.com/some/info?color=red&quot;`.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The size of the HTTP request message in bytes, including the request</span>
-    <span class="doccomment">/// headers and the request body.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_size</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The response code indicating the status of the response.</span>
-    <span class="doccomment">/// Examples: 200, 404.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The size of the HTTP response message sent back to the client, in bytes,</span>
-    <span class="doccomment">/// including the response headers and the response body.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response_size</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The user agent sent by the client. Example:</span>
-    <span class="doccomment">/// `&quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; Q312461; .NET</span>
-    <span class="doccomment">/// CLR 1.0.3705)&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_agent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The IP address (IPv4 or IPv6) of the client that issued the HTTP</span>
-    <span class="doccomment">/// request. Examples: `&quot;192.168.1.1&quot;`, `&quot;FE80::0202:B3FF:FE1E:8329&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">remote_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The IP address (IPv4 or IPv6) of the origin server that the request was</span>
-    <span class="doccomment">/// sent to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">server_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The referer URL of the request, as defined in</span>
-    <span class="doccomment">/// [HTTP/1.1 Header Field</span>
-    <span class="doccomment">/// Definitions](&lt;http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html&gt;).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">referer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The request processing latency on the server, from the time the request was</span>
-    <span class="doccomment">/// received until the response was sent.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">latency</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Whether or not a cache lookup was attempted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cache_lookup</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Whether or not an entity was served from cache</span>
-    <span class="doccomment">/// (with or without validation).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cache_hit</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Whether or not the response was validated with the origin server before</span>
-    <span class="doccomment">/// being served from cache. This field is only meaningful if `cache_hit` is</span>
-    <span class="doccomment">/// True.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cache_validated_with_origin_server</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// The number of HTTP response bytes inserted into cache. Set only when a</span>
-    <span class="doccomment">/// cache fill was attempted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cache_fill_bytes</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Protocol used for the request. Examples: &quot;HTTP/1.1&quot;, &quot;HTTP/2&quot;, &quot;websocket&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">protocol</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// An individual log entry.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntry</span> {
-    <span class="doccomment">/// Required. The log to which this log entry belongs. Examples: `&quot;syslog&quot;`,</span>
-    <span class="doccomment">/// `&quot;book_log&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The time the event described by the log entry occurred. If</span>
-    <span class="doccomment">/// omitted, defaults to operation start time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The severity of the log entry. The default value is</span>
-    <span class="doccomment">/// `LogSeverity.DEFAULT`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::super::super::logging::r#type::LogSeverity&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Information about the HTTP request associated with this</span>
-    <span class="doccomment">/// log entry, if applicable.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">http_request</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">HttpRequest</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Resource name of the trace associated with the log entry, if any.</span>
-    <span class="doccomment">/// If this field contains a relative resource name, you can assume the name is</span>
-    <span class="doccomment">/// relative to `//tracing.googleapis.com`. Example:</span>
-    <span class="doccomment">/// `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">trace</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A unique ID for the log entry used for deduplication. If omitted,</span>
-    <span class="doccomment">/// the implementation will generate one based on operation_id.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">insert_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A set of user-defined (key, value) data that provides additional</span>
-    <span class="doccomment">/// information about the log entry.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Information about an operation associated with the log entry, if</span>
-    <span class="doccomment">/// applicable.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogEntryOperation</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Source code location information associated with the log entry,</span>
-    <span class="doccomment">/// if any.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">source_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogEntrySourceLocation</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The log entry payload, which can be one of multiple types.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;log_entry::Payload&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3, 6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">log_entry::Payload</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `LogEntry`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">log_entry</span> {
-    <span class="doccomment">/// The log entry payload, which can be one of multiple types.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Payload</span> {
-        <span class="doccomment">/// The log entry payload, represented as a protocol buffer that is</span>
-        <span class="doccomment">/// expressed as a JSON object. The only accepted type currently is</span>
-        <span class="doccomment">/// \[AuditLog][google.cloud.audit.AuditLog\].</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">ProtoPayload</span>(<span class="ident">::prost_types::Any</span>),
-        <span class="doccomment">/// The log entry payload, represented as a Unicode string (UTF-8).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">TextPayload</span>(<span class="ident">::prost::alloc::string::String</span>),
-        <span class="doccomment">/// The log entry payload, represented as a structure that</span>
-        <span class="doccomment">/// is expressed as a JSON object.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">StructPayload</span>(<span class="ident">::prost_types::Struct</span>),
-    }
-}
-<span class="doccomment">/// Additional information about a potentially long-running operation with which</span>
-<span class="doccomment">/// a log entry is associated.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntryOperation</span> {
-    <span class="doccomment">/// Optional. An arbitrary operation identifier. Log entries with the</span>
-    <span class="doccomment">/// same identifier are assumed to be part of the same operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. An arbitrary producer identifier. The combination of</span>
-    <span class="doccomment">/// `id` and `producer` must be globally unique.  Examples for `producer`:</span>
-    <span class="doccomment">/// `&quot;MyDivision.MyBigCompany.com&quot;`, `&quot;github.com/MyProject/MyApplication&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">producer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Set this to True if this is the first log entry in the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">first</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Optional. Set this to True if this is the last log entry in the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Additional information about the source code location that produced the log</span>
-<span class="doccomment">/// entry.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntrySourceLocation</span> {
-    <span class="doccomment">/// Optional. Source file name. Depending on the runtime environment, this</span>
-    <span class="doccomment">/// might be a simple name or a fully-qualified name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Line within the source file. 1-based; 0 indicates no line number</span>
-    <span class="doccomment">/// available.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">line</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Optional. Human-readable name of the function or method being invoked, with</span>
-    <span class="doccomment">/// optional context such as the class or package name. This information may be</span>
-    <span class="doccomment">/// used in contexts such as the logs viewer, where a file and line number are</span>
-    <span class="doccomment">/// less meaningful. The format can vary by language. For example:</span>
-    <span class="doccomment">/// `qual.if.ied.Class.method` (Java), `dir/package.func` (Go), `function`</span>
-    <span class="doccomment">/// (Python).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">function</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
 <span class="doccomment">/// Represents information regarding an operation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Operation</span> {
@@ -1677,87 +1758,6 @@
         <span class="doccomment">/// that contains significant monetary value or audit trail. This feature</span>
         <span class="doccomment">/// only applies to the client libraries.</span>
         <span class="ident">High</span> <span class="op">=</span> <span class="number">1</span>,
-    }
-}
-<span class="doccomment">/// Defines the errors to be returned in</span>
-<span class="doccomment">/// \[google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CheckError</span> {
-    <span class="doccomment">/// The error code.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;check_error::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Subject to whom this error applies. See the specific code enum for more</span>
-    <span class="doccomment">/// details on this field. For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - &quot;project:&lt;project-id or project-number&gt;&quot;</span>
-    <span class="doccomment">/// - &quot;folder:&lt;folder-id&gt;&quot;</span>
-    <span class="doccomment">/// - &quot;organization:&lt;organization-id&gt;&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">subject</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Free-form text providing details on the error cause of the error.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">detail</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Contains public information about the check error. If available,</span>
-    <span class="doccomment">/// `status.code` will be non zero and client can propagate it out as public</span>
-    <span class="doccomment">/// error.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CheckError`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">check_error</span> {
-    <span class="doccomment">/// Error codes for Check responses.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
-        <span class="doccomment">/// This is never used in `CheckResponse`.</span>
-        <span class="ident">ErrorCodeUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The consumer&#39;s project id, network container, or resource container was</span>
-        <span class="doccomment">/// not found. Same as \[google.rpc.Code.NOT_FOUND][google.rpc.Code.NOT_FOUND\].</span>
-        <span class="ident">NotFound</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// The consumer doesn&#39;t have access to the specified resource.</span>
-        <span class="doccomment">/// Same as \[google.rpc.Code.PERMISSION_DENIED][google.rpc.Code.PERMISSION_DENIED\].</span>
-        <span class="ident">PermissionDenied</span> <span class="op">=</span> <span class="number">7</span>,
-        <span class="doccomment">/// Quota check failed. Same as \[google.rpc.Code.RESOURCE_EXHAUSTED][google.rpc.Code.RESOURCE_EXHAUSTED\].</span>
-        <span class="ident">ResourceExhausted</span> <span class="op">=</span> <span class="number">8</span>,
-        <span class="doccomment">/// The consumer hasn&#39;t activated the service.</span>
-        <span class="ident">ServiceNotActivated</span> <span class="op">=</span> <span class="number">104</span>,
-        <span class="doccomment">/// The consumer cannot access the service because billing is disabled.</span>
-        <span class="ident">BillingDisabled</span> <span class="op">=</span> <span class="number">107</span>,
-        <span class="doccomment">/// The consumer&#39;s project has been marked as deleted (soft deletion).</span>
-        <span class="ident">ProjectDeleted</span> <span class="op">=</span> <span class="number">108</span>,
-        <span class="doccomment">/// The consumer&#39;s project number or id does not represent a valid project.</span>
-        <span class="ident">ProjectInvalid</span> <span class="op">=</span> <span class="number">114</span>,
-        <span class="doccomment">/// The input consumer info does not represent a valid consumer folder or</span>
-        <span class="doccomment">/// organization.</span>
-        <span class="ident">ConsumerInvalid</span> <span class="op">=</span> <span class="number">125</span>,
-        <span class="doccomment">/// The IP address of the consumer is invalid for the specific consumer</span>
-        <span class="doccomment">/// project.</span>
-        <span class="ident">IpAddressBlocked</span> <span class="op">=</span> <span class="number">109</span>,
-        <span class="doccomment">/// The referer address of the consumer request is invalid for the specific</span>
-        <span class="doccomment">/// consumer project.</span>
-        <span class="ident">RefererBlocked</span> <span class="op">=</span> <span class="number">110</span>,
-        <span class="doccomment">/// The client application of the consumer request is invalid for the</span>
-        <span class="doccomment">/// specific consumer project.</span>
-        <span class="ident">ClientAppBlocked</span> <span class="op">=</span> <span class="number">111</span>,
-        <span class="doccomment">/// The API targeted by this request is invalid for the specified consumer</span>
-        <span class="doccomment">/// project.</span>
-        <span class="ident">ApiTargetBlocked</span> <span class="op">=</span> <span class="number">122</span>,
-        <span class="doccomment">/// The consumer&#39;s API key is invalid.</span>
-        <span class="ident">ApiKeyInvalid</span> <span class="op">=</span> <span class="number">105</span>,
-        <span class="doccomment">/// The consumer&#39;s API Key has expired.</span>
-        <span class="ident">ApiKeyExpired</span> <span class="op">=</span> <span class="number">112</span>,
-        <span class="doccomment">/// The consumer&#39;s API Key was not found in config record.</span>
-        <span class="ident">ApiKeyNotFound</span> <span class="op">=</span> <span class="number">113</span>,
-        <span class="doccomment">/// The credential in the request can not be verified.</span>
-        <span class="ident">InvalidCredential</span> <span class="op">=</span> <span class="number">123</span>,
-        <span class="doccomment">/// The backend server for looking up project id/number is unavailable.</span>
-        <span class="ident">NamespaceLookupUnavailable</span> <span class="op">=</span> <span class="number">300</span>,
-        <span class="doccomment">/// The backend server for checking service status is unavailable.</span>
-        <span class="ident">ServiceStatusUnavailable</span> <span class="op">=</span> <span class="number">301</span>,
-        <span class="doccomment">/// The backend server for checking billing status is unavailable.</span>
-        <span class="ident">BillingStatusUnavailable</span> <span class="op">=</span> <span class="number">302</span>,
-        <span class="doccomment">/// Cloud Resource Manager backend server is unavailable.</span>
-        <span class="ident">CloudResourceManagerBackendUnavailable</span> <span class="op">=</span> <span class="number">305</span>,
     }
 }
 <span class="doccomment">/// Request message for the Check method.</span>

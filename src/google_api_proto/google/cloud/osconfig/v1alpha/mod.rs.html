@@ -2143,626 +2143,7 @@
 <span id="2142">2142</span>
 <span id="2143">2143</span>
 <span id="2144">2144</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Step performed by the OS Config agent for configuring an `OSPolicyResource`</span>
-<span class="doccomment">/// to its desired state.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyResourceConfigStep</span> {
-    <span class="doccomment">/// Configuration step type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_config_step::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Outcome of the configuration step.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_config_step::Outcome&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">outcome</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// An error message recorded during the execution of this step.</span>
-    <span class="doccomment">/// Only populated when outcome is FAILED.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_message</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `OSPolicyResourceConfigStep`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_policy_resource_config_step</span> {
-    <span class="doccomment">/// Supported configuration step types</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
-        <span class="doccomment">/// Default value. This value is unused.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Validation to detect resource conflicts, schema errors, etc.</span>
-        <span class="ident">Validation</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Check the current desired state status of the resource.</span>
-        <span class="ident">DesiredStateCheck</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Enforce the desired state for a resource that is not in desired state.</span>
-        <span class="ident">DesiredStateEnforcement</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Re-check desired state status for a resource after enforcement of all</span>
-        <span class="doccomment">/// resources in the current configuration run.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This step is used to determine the final desired state status for the</span>
-        <span class="doccomment">/// resource. It accounts for any resources that might have drifted from</span>
-        <span class="doccomment">/// their desired state due to side effects from configuring other resources</span>
-        <span class="doccomment">/// during the current configuration run.</span>
-        <span class="ident">DesiredStateCheckPostEnforcement</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-    <span class="doccomment">/// Supported outcomes for a configuration step.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Outcome</span> {
-        <span class="doccomment">/// Default value. This value is unused.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The step succeeded.</span>
-        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The step failed.</span>
-        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Compliance data for an OS policy resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyResourceCompliance</span> {
-    <span class="doccomment">/// The id of the OS policy resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_policy_resource_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Ordered list of configuration steps taken by the agent for the OS policy</span>
-    <span class="doccomment">/// resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">config_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">OsPolicyResourceConfigStep</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Compliance state of the OS policy resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Resource specific output.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_compliance::Output&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">output</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">os_policy_resource_compliance::Output</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `OSPolicyResourceCompliance`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_policy_resource_compliance</span> {
-    <span class="doccomment">/// ExecResource specific output.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecResourceOutput</span> {
-        <span class="doccomment">/// Output from Enforcement phase output file (if run).</span>
-        <span class="doccomment">/// Output size is limited to 100K bytes.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">enforcement_output</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    }
-    <span class="doccomment">/// Resource specific output.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Output</span> {
-        <span class="doccomment">/// ExecResource specific output.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">ExecResourceOutput</span>(<span class="ident">ExecResourceOutput</span>),
-    }
-}
-<span class="doccomment">/// Supported OSPolicy compliance states.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OsPolicyComplianceState</span> {
-    <span class="doccomment">/// Default value. This value is unused.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Compliant state.</span>
-    <span class="ident">Compliant</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Non-compliant state</span>
-    <span class="ident">NonCompliant</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Unknown compliance state.</span>
-    <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// No applicable OS policies were found for the instance.</span>
-    <span class="doccomment">/// This state is only applicable to the instance.</span>
-    <span class="ident">NoOsPoliciesApplicable</span> <span class="op">=</span> <span class="number">4</span>,
-}
-<span class="doccomment">/// This API resource represents the OS policies compliance data for a Compute</span>
-<span class="doccomment">/// Engine virtual machine (VM) instance at a given point in time.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// A Compute Engine VM can have multiple OS policy assignments, and each</span>
-<span class="doccomment">/// assignment can have multiple OS policies. As a result, multiple OS policies</span>
-<span class="doccomment">/// could be applied to a single VM.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// You can use this API resource to determine both the compliance state of your</span>
-<span class="doccomment">/// VM as well as the compliance state of an individual OS policy.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For more information, see [View</span>
-<span class="doccomment">/// compliance](&lt;https://cloud.google.com/compute/docs/os-configuration-management/view-compliance&gt;).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceOsPoliciesCompliance</span> {
-    <span class="doccomment">/// Output only. The `InstanceOSPoliciesCompliance` API resource name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format:</span>
-    <span class="doccomment">/// `projects/{project_number}/locations/{location}/instanceOSPoliciesCompliances/{instance_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The Compute Engine VM instance name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Compliance state of the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Detailed compliance state of the VM.</span>
-    <span class="doccomment">/// This field is populated only when compliance state is `UNKNOWN`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// It may contain one of the following values:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `no-compliance-data`: Compliance data is not available for this VM.</span>
-    <span class="doccomment">/// * `no-agent-detected`: OS Config agent is not detected for this VM.</span>
-    <span class="doccomment">/// * `config-not-supported-by-agent`: The version of the OS Config agent</span>
-    <span class="doccomment">/// running on this VM does not support configuration management.</span>
-    <span class="doccomment">/// * `inactive`: VM is not running.</span>
-    <span class="doccomment">/// * `internal-service-errors`: There were internal service errors encountered</span>
-    <span class="doccomment">/// while enforcing compliance.</span>
-    <span class="doccomment">/// * `agent-errors`: OS config agent encountered errors while enforcing</span>
-    <span class="doccomment">/// compliance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">detailed_state</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The reason for the `detailed_state` of the VM (if any).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">detailed_state_reason</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Compliance data for each `OSPolicy` that is applied to the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_policy_compliances</span>:
-        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">instance_os_policies_compliance::OsPolicyCompliance</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp of the last compliance check for the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_compliance_check_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Unique identifier for the last compliance run.</span>
-    <span class="doccomment">/// This id will be logged by the OS config agent during a compliance run and</span>
-    <span class="doccomment">/// can be used for debugging and tracing purpose.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_compliance_run_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `InstanceOSPoliciesCompliance`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">instance_os_policies_compliance</span> {
-    <span class="doccomment">/// Compliance data for an OS policy</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyCompliance</span> {
-        <span class="doccomment">/// The OS policy id</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">os_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`</span>
-        <span class="doccomment">/// belongs to.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Format:</span>
-        <span class="doccomment">/// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">os_policy_assignment</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Compliance state of the OS policy.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// Compliance data for each `OSPolicyResource` that is applied to the</span>
-        <span class="doccomment">/// VM.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">os_policy_resource_compliances</span>:
-            <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::OsPolicyResourceCompliance</span><span class="op">&gt;</span>,
-    }
-}
-<span class="doccomment">/// A request message for getting OS policies compliance data for the given</span>
-<span class="doccomment">/// Compute Engine VM instance.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetInstanceOsPoliciesComplianceRequest</span> {
-    <span class="doccomment">/// Required. API resource name for instance OS policies compliance resource.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format:</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/instanceOSPoliciesCompliances/{instance}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For `{project}`, either Compute Engine project-number or project-id can be</span>
-    <span class="doccomment">/// provided.</span>
-    <span class="doccomment">/// For `{instance}`, either Compute Engine VM instance-id or instance-name can</span>
-    <span class="doccomment">/// be provided.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A request message for listing OS policies compliance data for all Compute</span>
-<span class="doccomment">/// Engine VMs in the given location.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInstanceOsPoliciesCompliancesRequest</span> {
-    <span class="doccomment">/// Required. The parent resource name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format: `projects/{project}/locations/{location}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For `{project}`, either Compute Engine project-number or project-id can be</span>
-    <span class="doccomment">/// provided.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of results to return.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A pagination token returned from a previous call to</span>
-    <span class="doccomment">/// `ListInstanceOSPoliciesCompliances` that indicates where this listing</span>
-    <span class="doccomment">/// should continue from.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by a</span>
-    <span class="doccomment">/// `InstanceOSPoliciesCompliance` API resource to be included in the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A response message for listing OS policies compliance data for all Compute</span>
-<span class="doccomment">/// Engine VMs in the given location.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInstanceOsPoliciesCompliancesResponse</span> {
-    <span class="doccomment">/// List of instance OS policies compliance objects.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance_os_policies_compliances</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">InstanceOsPoliciesCompliance</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The pagination token to retrieve the next page of instance OS policies</span>
-    <span class="doccomment">/// compliance objects.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="comment">// OS Inventory is a service for collecting and reporting operating</span>
-<span class="comment">// system and package information on VM instances.</span>
-
-<span class="doccomment">/// This API resource represents the available inventory data for a</span>
-<span class="doccomment">/// Compute Engine virtual machine (VM) instance at a given point in time.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// You can use this API resource to determine the inventory data of your VM.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For more information, see [Information provided by OS inventory</span>
-<span class="doccomment">/// management](&lt;https://cloud.google.com/compute/docs/instances/os-inventory-management#data-collected&gt;).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Inventory</span> {
-    <span class="doccomment">/// Output only. The `Inventory` API resource name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format:</span>
-    <span class="doccomment">/// `projects/{project_number}/locations/{location}/instances/{instance_id}/inventory`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Base level operating system information for the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">inventory::OsInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Inventory items related to the VM keyed by an opaque unique</span>
-    <span class="doccomment">/// identifier for each inventory item. The identifier is unique to each</span>
-    <span class="doccomment">/// distinct and addressable inventory item and will change, when there is a</span>
-    <span class="doccomment">/// new package version.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">items</span>:
-        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">inventory::Item</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp of the last reported inventory for the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Inventory`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">inventory</span> {
-    <span class="doccomment">/// Operating system information for the VM.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsInfo</span> {
-        <span class="doccomment">/// The VM hostname.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The operating system long name.</span>
-        <span class="doccomment">/// For example &#39;Debian GNU/Linux 9&#39; or &#39;Microsoft Window Server 2019</span>
-        <span class="doccomment">/// Datacenter&#39;.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">long_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The operating system short name.</span>
-        <span class="doccomment">/// For example, &#39;windows&#39; or &#39;debian&#39;.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">short_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The version of the operating system.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The system architecture of the operating system.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The kernel version of the operating system.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">kernel_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The kernel release of the operating system.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">kernel_release</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The current version of the OS Config agent running on the VM.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">osconfig_agent_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// A single piece of inventory on a VM.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Item</span> {
-        <span class="doccomment">/// Identifier for this item, unique across items for this VM.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The origin of this inventory item.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;item::OriginType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">origin_type</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// When this inventory item was first detected.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// When this inventory item was last modified.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The specific type of inventory, correlating to its specific details.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;item::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// Specific details of this inventory item based on its type.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;item::Details&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;6, 7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">item::Details</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Item`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">item</span> {
-        <span class="doccomment">/// The origin of a specific inventory item.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OriginType</span> {
-            <span class="doccomment">/// Invalid. An origin type must be specified.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// This inventory item was discovered as the result of the agent</span>
-            <span class="doccomment">/// reporting inventory via the reporting API.</span>
-            <span class="ident">InventoryReport</span> <span class="op">=</span> <span class="number">1</span>,
-        }
-        <span class="doccomment">/// The different types of inventory that are tracked on a VM.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
-            <span class="doccomment">/// Invalid. An type must be specified.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// This represents a package that is installed on the VM.</span>
-            <span class="ident">InstalledPackage</span> <span class="op">=</span> <span class="number">1</span>,
-            <span class="doccomment">/// This represents an update that is available for a package.</span>
-            <span class="ident">AvailablePackage</span> <span class="op">=</span> <span class="number">2</span>,
-        }
-        <span class="doccomment">/// Specific details of this inventory item based on its type.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
-            <span class="doccomment">/// Software package present on the VM instance.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-            <span class="ident">InstalledPackage</span>(<span class="ident"><span class="kw">super</span>::SoftwarePackage</span>),
-            <span class="doccomment">/// Software package available to be installed on the VM instance.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-            <span class="ident">AvailablePackage</span>(<span class="ident"><span class="kw">super</span>::SoftwarePackage</span>),
-        }
-    }
-    <span class="doccomment">/// Software package information of the operating system.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SoftwarePackage</span> {
-        <span class="doccomment">/// Information about the different types of software packages.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(
-            <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;software_package::Details&quot;</span>,
-            <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 8, 9&quot;</span>
-        )]</span>
-        <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">software_package::Details</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `SoftwarePackage`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">software_package</span> {
-        <span class="doccomment">/// Information about the different types of software packages.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
-            <span class="doccomment">/// Yum package info.</span>
-            <span class="doccomment">/// For details about the yum package manager, see</span>
-            <span class="doccomment">/// &lt;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="ident">YumPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of an APT package.</span>
-            <span class="doccomment">/// For details about the apt package manager, see</span>
-            <span class="doccomment">/// &lt;https://wiki.debian.org/Apt.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">AptPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of a Zypper package.</span>
-            <span class="doccomment">/// For details about the Zypper package manager, see</span>
-            <span class="doccomment">/// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="ident">ZypperPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of a Googet package.</span>
-            <span class="doccomment">///  For details about the googet package manager, see</span>
-            <span class="doccomment">///  &lt;https://github.com/google/googet.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-            <span class="ident">GoogetPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of a Zypper patch.</span>
-            <span class="doccomment">/// For details about the Zypper package manager, see</span>
-            <span class="doccomment">/// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-            <span class="ident">ZypperPatch</span>(<span class="ident"><span class="kw">super</span>::ZypperPatch</span>),
-            <span class="doccomment">/// Details of a Windows Update package.</span>
-            <span class="doccomment">/// See &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt; for</span>
-            <span class="doccomment">/// information about Windows Update.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-            <span class="ident">WuaPackage</span>(<span class="ident"><span class="kw">super</span>::WindowsUpdatePackage</span>),
-            <span class="doccomment">/// Details of a Windows Quick Fix engineering package.</span>
-            <span class="doccomment">/// See</span>
-            <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;</span>
-            <span class="doccomment">/// for info in Windows Quick Fix Engineering.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-            <span class="ident">QfePackage</span>(<span class="ident"><span class="kw">super</span>::WindowsQuickFixEngineeringPackage</span>),
-            <span class="doccomment">/// Details of a COS package.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-            <span class="ident">CosPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
-            <span class="doccomment">/// Details of Windows Application.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-            <span class="ident">WindowsApplication</span>(<span class="ident"><span class="kw">super</span>::WindowsApplication</span>),
-        }
-    }
-    <span class="doccomment">/// Information related to the a standard versioned package.  This includes</span>
-    <span class="doccomment">/// package info for APT, Yum, Zypper, and Googet package managers.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VersionedPackage</span> {
-        <span class="doccomment">/// The name of the package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">package_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The system architecture this package is intended for.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The version of the package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Details related to a Zypper Patch.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZypperPatch</span> {
-        <span class="doccomment">/// The name of the patch.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">patch_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The category of the patch.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">category</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The severity specified for this patch</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Any summary information provided about this patch.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">summary</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Details related to a Windows Update package.</span>
-    <span class="doccomment">/// Field data and names are taken from Windows Update API IUpdate Interface:</span>
-    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt;</span>
-    <span class="doccomment">/// Descriptive fields like title, and description are localized based on</span>
-    <span class="doccomment">/// the locale of the VM being updated.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdatePackage</span> {
-        <span class="doccomment">/// The localized title of the update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The localized description of the update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The categories that are associated with this update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">categories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">windows_update_package::WindowsUpdateCategory</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// A collection of Microsoft Knowledge Base article IDs that are associated</span>
-        <span class="doccomment">/// with the update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">kb_article_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// A hyperlink to the language-specific support information for the update.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">support_url</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// A collection of URLs that provide more information about the update</span>
-        <span class="doccomment">/// package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">more_info_urls</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Gets the identifier of an update package.  Stays the same across</span>
-        <span class="doccomment">/// revisions.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">update_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The revision number of this update package.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">revision_number</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// The last published date of the update, in (UTC) date and time.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">last_deployment_change_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `WindowsUpdatePackage`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windows_update_package</span> {
-        <span class="doccomment">/// Categories specified by the Windows Update.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdateCategory</span> {
-            <span class="doccomment">/// The identifier of the windows update category.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The name of the windows update category.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-    }
-    <span class="doccomment">/// Information related to a Quick Fix Engineering package.</span>
-    <span class="doccomment">/// Fields are taken from Windows QuickFixEngineering Interface and match</span>
-    <span class="doccomment">/// the source names:</span>
-    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsQuickFixEngineeringPackage</span> {
-        <span class="doccomment">/// A short textual description of the QFE update.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">caption</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// A textual description of the QFE update.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Unique identifier associated with a particular QFE update.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">hot_fix_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Date that the QFE update was installed.  Mapped from installed_on field.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">install_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Contains information about a Windows application as retrieved from the</span>
-    <span class="doccomment">/// Windows Registry. For more information about these fields, see</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [Windows Installer Properties for the Uninstall</span>
-    <span class="doccomment">/// Registry](&lt;https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key&gt;){:</span>
-    <span class="doccomment">/// class=&quot;external&quot; }</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsApplication</span> {
-        <span class="doccomment">/// The name of the application or product.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The version of the product or application in string format.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">display_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The name of the manufacturer for the product or application.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">publisher</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The last time this product received service. The value of this property</span>
-        <span class="doccomment">/// is replaced each time a patch is applied or removed from the product or</span>
-        <span class="doccomment">/// the command-line option is used to repair the product.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">install_date</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Date</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The internet address for technical support.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">help_link</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
-<span class="doccomment">/// A request message for getting inventory data for the specified VM.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetInventoryRequest</span> {
-    <span class="doccomment">/// Required. API resource name for inventory resource.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format:</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/instances/{instance}/inventory`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For `{project}`, either `project-number` or `project-id` can be provided.</span>
-    <span class="doccomment">/// For `{instance}`, either Compute Engine  `instance-id` or `instance-name`</span>
-    <span class="doccomment">/// can be provided.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Inventory view indicating what information should be included in the</span>
-    <span class="doccomment">/// inventory resource. If unspecified, the default view is BASIC.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;InventoryView&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A request message for listing inventory data for all VMs in the specified</span>
-<span class="doccomment">/// location.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInventoriesRequest</span> {
-    <span class="doccomment">/// Required. The parent resource name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format: `projects/{project}/locations/{location}/instances/{instance}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For `{project}`, either `project-number` or `project-id` can be</span>
-    <span class="doccomment">/// provided. For `{instance}`, only hyphen or dash character is supported to</span>
-    <span class="doccomment">/// list inventories across VMs.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Inventory view indicating what information should be included in the</span>
-    <span class="doccomment">/// inventory resource. If unspecified, the default view is BASIC.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;InventoryView&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The maximum number of results to return.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A pagination token returned from a previous call to</span>
-    <span class="doccomment">/// `ListInventories` that indicates where this listing</span>
-    <span class="doccomment">/// should continue from.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by a</span>
-    <span class="doccomment">/// `Inventory` API resource to be included in the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A response message for listing inventory data for all VMs in a specified</span>
-<span class="doccomment">/// location.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInventoriesResponse</span> {
-    <span class="doccomment">/// List of inventory objects.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inventories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Inventory</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The pagination token to retrieve the next page of inventory objects.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The view for inventory objects.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InventoryView</span> {
-    <span class="doccomment">/// The default value.</span>
-    <span class="doccomment">/// The API defaults to the BASIC view.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Returns the basic inventory information that includes `os_info`.</span>
-    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Returns all fields.</span>
-    <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// An OS policy defines the desired state configuration for a VM.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// An OS policy defines the desired state configuration for a VM.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicy</span> {
     <span class="doccomment">/// Required. The id of the OS policy with the following restrictions:</span>
@@ -3683,6 +3064,107 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// Step performed by the OS Config agent for configuring an `OSPolicyResource`</span>
+<span class="doccomment">/// to its desired state.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyResourceConfigStep</span> {
+    <span class="doccomment">/// Configuration step type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_config_step::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Outcome of the configuration step.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_config_step::Outcome&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">outcome</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// An error message recorded during the execution of this step.</span>
+    <span class="doccomment">/// Only populated when outcome is FAILED.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error_message</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `OSPolicyResourceConfigStep`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_policy_resource_config_step</span> {
+    <span class="doccomment">/// Supported configuration step types</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+        <span class="doccomment">/// Default value. This value is unused.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Validation to detect resource conflicts, schema errors, etc.</span>
+        <span class="ident">Validation</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Check the current desired state status of the resource.</span>
+        <span class="ident">DesiredStateCheck</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Enforce the desired state for a resource that is not in desired state.</span>
+        <span class="ident">DesiredStateEnforcement</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Re-check desired state status for a resource after enforcement of all</span>
+        <span class="doccomment">/// resources in the current configuration run.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This step is used to determine the final desired state status for the</span>
+        <span class="doccomment">/// resource. It accounts for any resources that might have drifted from</span>
+        <span class="doccomment">/// their desired state due to side effects from configuring other resources</span>
+        <span class="doccomment">/// during the current configuration run.</span>
+        <span class="ident">DesiredStateCheckPostEnforcement</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+    <span class="doccomment">/// Supported outcomes for a configuration step.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Outcome</span> {
+        <span class="doccomment">/// Default value. This value is unused.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The step succeeded.</span>
+        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The step failed.</span>
+        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Compliance data for an OS policy resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyResourceCompliance</span> {
+    <span class="doccomment">/// The id of the OS policy resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_policy_resource_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Ordered list of configuration steps taken by the agent for the OS policy</span>
+    <span class="doccomment">/// resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">config_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">OsPolicyResourceConfigStep</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Compliance state of the OS policy resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Resource specific output.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_compliance::Output&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">output</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">os_policy_resource_compliance::Output</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `OSPolicyResourceCompliance`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_policy_resource_compliance</span> {
+    <span class="doccomment">/// ExecResource specific output.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecResourceOutput</span> {
+        <span class="doccomment">/// Output from Enforcement phase output file (if run).</span>
+        <span class="doccomment">/// Output size is limited to 100K bytes.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">enforcement_output</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    }
+    <span class="doccomment">/// Resource specific output.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Output</span> {
+        <span class="doccomment">/// ExecResource specific output.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">ExecResourceOutput</span>(<span class="ident">ExecResourceOutput</span>),
+    }
+}
+<span class="doccomment">/// Supported OSPolicy compliance states.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OsPolicyComplianceState</span> {
+    <span class="doccomment">/// Default value. This value is unused.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Compliant state.</span>
+    <span class="ident">Compliant</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Non-compliant state</span>
+    <span class="ident">NonCompliant</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Unknown compliance state.</span>
+    <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// No applicable OS policies were found for the instance.</span>
+    <span class="doccomment">/// This state is only applicable to the instance.</span>
+    <span class="ident">NoOsPoliciesApplicable</span> <span class="op">=</span> <span class="number">4</span>,
+}
 <span class="doccomment">/// This API resource represents the vulnerability report for a specified</span>
 <span class="doccomment">/// Compute Engine virtual machine (VM) instance at a given point in time.</span>
 <span class="doccomment">///</span>
@@ -3983,6 +3465,524 @@
         <span class="doccomment">/// No impact.</span>
         <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
     }
+}
+<span class="doccomment">/// This API resource represents the OS policies compliance data for a Compute</span>
+<span class="doccomment">/// Engine virtual machine (VM) instance at a given point in time.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A Compute Engine VM can have multiple OS policy assignments, and each</span>
+<span class="doccomment">/// assignment can have multiple OS policies. As a result, multiple OS policies</span>
+<span class="doccomment">/// could be applied to a single VM.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You can use this API resource to determine both the compliance state of your</span>
+<span class="doccomment">/// VM as well as the compliance state of an individual OS policy.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For more information, see [View</span>
+<span class="doccomment">/// compliance](&lt;https://cloud.google.com/compute/docs/os-configuration-management/view-compliance&gt;).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceOsPoliciesCompliance</span> {
+    <span class="doccomment">/// Output only. The `InstanceOSPoliciesCompliance` API resource name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// `projects/{project_number}/locations/{location}/instanceOSPoliciesCompliances/{instance_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The Compute Engine VM instance name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Compliance state of the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Detailed compliance state of the VM.</span>
+    <span class="doccomment">/// This field is populated only when compliance state is `UNKNOWN`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// It may contain one of the following values:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `no-compliance-data`: Compliance data is not available for this VM.</span>
+    <span class="doccomment">/// * `no-agent-detected`: OS Config agent is not detected for this VM.</span>
+    <span class="doccomment">/// * `config-not-supported-by-agent`: The version of the OS Config agent</span>
+    <span class="doccomment">/// running on this VM does not support configuration management.</span>
+    <span class="doccomment">/// * `inactive`: VM is not running.</span>
+    <span class="doccomment">/// * `internal-service-errors`: There were internal service errors encountered</span>
+    <span class="doccomment">/// while enforcing compliance.</span>
+    <span class="doccomment">/// * `agent-errors`: OS config agent encountered errors while enforcing</span>
+    <span class="doccomment">/// compliance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">detailed_state</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The reason for the `detailed_state` of the VM (if any).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">detailed_state_reason</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Compliance data for each `OSPolicy` that is applied to the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_policy_compliances</span>:
+        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">instance_os_policies_compliance::OsPolicyCompliance</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp of the last compliance check for the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_compliance_check_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Unique identifier for the last compliance run.</span>
+    <span class="doccomment">/// This id will be logged by the OS config agent during a compliance run and</span>
+    <span class="doccomment">/// can be used for debugging and tracing purpose.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_compliance_run_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `InstanceOSPoliciesCompliance`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">instance_os_policies_compliance</span> {
+    <span class="doccomment">/// Compliance data for an OS policy</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyCompliance</span> {
+        <span class="doccomment">/// The OS policy id</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">os_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`</span>
+        <span class="doccomment">/// belongs to.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Format:</span>
+        <span class="doccomment">/// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">os_policy_assignment</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Compliance state of the OS policy.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// Compliance data for each `OSPolicyResource` that is applied to the</span>
+        <span class="doccomment">/// VM.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">os_policy_resource_compliances</span>:
+            <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::OsPolicyResourceCompliance</span><span class="op">&gt;</span>,
+    }
+}
+<span class="doccomment">/// A request message for getting OS policies compliance data for the given</span>
+<span class="doccomment">/// Compute Engine VM instance.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetInstanceOsPoliciesComplianceRequest</span> {
+    <span class="doccomment">/// Required. API resource name for instance OS policies compliance resource.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/instanceOSPoliciesCompliances/{instance}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For `{project}`, either Compute Engine project-number or project-id can be</span>
+    <span class="doccomment">/// provided.</span>
+    <span class="doccomment">/// For `{instance}`, either Compute Engine VM instance-id or instance-name can</span>
+    <span class="doccomment">/// be provided.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A request message for listing OS policies compliance data for all Compute</span>
+<span class="doccomment">/// Engine VMs in the given location.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInstanceOsPoliciesCompliancesRequest</span> {
+    <span class="doccomment">/// Required. The parent resource name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format: `projects/{project}/locations/{location}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For `{project}`, either Compute Engine project-number or project-id can be</span>
+    <span class="doccomment">/// provided.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of results to return.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A pagination token returned from a previous call to</span>
+    <span class="doccomment">/// `ListInstanceOSPoliciesCompliances` that indicates where this listing</span>
+    <span class="doccomment">/// should continue from.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by a</span>
+    <span class="doccomment">/// `InstanceOSPoliciesCompliance` API resource to be included in the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A response message for listing OS policies compliance data for all Compute</span>
+<span class="doccomment">/// Engine VMs in the given location.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInstanceOsPoliciesCompliancesResponse</span> {
+    <span class="doccomment">/// List of instance OS policies compliance objects.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance_os_policies_compliances</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">InstanceOsPoliciesCompliance</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The pagination token to retrieve the next page of instance OS policies</span>
+    <span class="doccomment">/// compliance objects.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="comment">// OS Inventory is a service for collecting and reporting operating</span>
+<span class="comment">// system and package information on VM instances.</span>
+
+<span class="doccomment">/// This API resource represents the available inventory data for a</span>
+<span class="doccomment">/// Compute Engine virtual machine (VM) instance at a given point in time.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You can use this API resource to determine the inventory data of your VM.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For more information, see [Information provided by OS inventory</span>
+<span class="doccomment">/// management](&lt;https://cloud.google.com/compute/docs/instances/os-inventory-management#data-collected&gt;).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Inventory</span> {
+    <span class="doccomment">/// Output only. The `Inventory` API resource name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// `projects/{project_number}/locations/{location}/instances/{instance_id}/inventory`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Base level operating system information for the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">inventory::OsInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Inventory items related to the VM keyed by an opaque unique</span>
+    <span class="doccomment">/// identifier for each inventory item. The identifier is unique to each</span>
+    <span class="doccomment">/// distinct and addressable inventory item and will change, when there is a</span>
+    <span class="doccomment">/// new package version.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">items</span>:
+        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">inventory::Item</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp of the last reported inventory for the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Inventory`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">inventory</span> {
+    <span class="doccomment">/// Operating system information for the VM.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsInfo</span> {
+        <span class="doccomment">/// The VM hostname.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The operating system long name.</span>
+        <span class="doccomment">/// For example &#39;Debian GNU/Linux 9&#39; or &#39;Microsoft Window Server 2019</span>
+        <span class="doccomment">/// Datacenter&#39;.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">long_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The operating system short name.</span>
+        <span class="doccomment">/// For example, &#39;windows&#39; or &#39;debian&#39;.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">short_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The version of the operating system.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The system architecture of the operating system.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The kernel version of the operating system.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">kernel_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The kernel release of the operating system.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">kernel_release</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The current version of the OS Config agent running on the VM.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">osconfig_agent_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// A single piece of inventory on a VM.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Item</span> {
+        <span class="doccomment">/// Identifier for this item, unique across items for this VM.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The origin of this inventory item.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;item::OriginType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">origin_type</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// When this inventory item was first detected.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// When this inventory item was last modified.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The specific type of inventory, correlating to its specific details.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;item::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// Specific details of this inventory item based on its type.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;item::Details&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;6, 7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">item::Details</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Item`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">item</span> {
+        <span class="doccomment">/// The origin of a specific inventory item.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OriginType</span> {
+            <span class="doccomment">/// Invalid. An origin type must be specified.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// This inventory item was discovered as the result of the agent</span>
+            <span class="doccomment">/// reporting inventory via the reporting API.</span>
+            <span class="ident">InventoryReport</span> <span class="op">=</span> <span class="number">1</span>,
+        }
+        <span class="doccomment">/// The different types of inventory that are tracked on a VM.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+            <span class="doccomment">/// Invalid. An type must be specified.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// This represents a package that is installed on the VM.</span>
+            <span class="ident">InstalledPackage</span> <span class="op">=</span> <span class="number">1</span>,
+            <span class="doccomment">/// This represents an update that is available for a package.</span>
+            <span class="ident">AvailablePackage</span> <span class="op">=</span> <span class="number">2</span>,
+        }
+        <span class="doccomment">/// Specific details of this inventory item based on its type.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
+            <span class="doccomment">/// Software package present on the VM instance.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+            <span class="ident">InstalledPackage</span>(<span class="ident"><span class="kw">super</span>::SoftwarePackage</span>),
+            <span class="doccomment">/// Software package available to be installed on the VM instance.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+            <span class="ident">AvailablePackage</span>(<span class="ident"><span class="kw">super</span>::SoftwarePackage</span>),
+        }
+    }
+    <span class="doccomment">/// Software package information of the operating system.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SoftwarePackage</span> {
+        <span class="doccomment">/// Information about the different types of software packages.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(
+            <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;software_package::Details&quot;</span>,
+            <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 8, 9&quot;</span>
+        )]</span>
+        <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">software_package::Details</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `SoftwarePackage`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">software_package</span> {
+        <span class="doccomment">/// Information about the different types of software packages.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
+            <span class="doccomment">/// Yum package info.</span>
+            <span class="doccomment">/// For details about the yum package manager, see</span>
+            <span class="doccomment">/// &lt;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="ident">YumPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of an APT package.</span>
+            <span class="doccomment">/// For details about the apt package manager, see</span>
+            <span class="doccomment">/// &lt;https://wiki.debian.org/Apt.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">AptPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of a Zypper package.</span>
+            <span class="doccomment">/// For details about the Zypper package manager, see</span>
+            <span class="doccomment">/// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="ident">ZypperPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of a Googet package.</span>
+            <span class="doccomment">///  For details about the googet package manager, see</span>
+            <span class="doccomment">///  &lt;https://github.com/google/googet.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+            <span class="ident">GoogetPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of a Zypper patch.</span>
+            <span class="doccomment">/// For details about the Zypper package manager, see</span>
+            <span class="doccomment">/// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+            <span class="ident">ZypperPatch</span>(<span class="ident"><span class="kw">super</span>::ZypperPatch</span>),
+            <span class="doccomment">/// Details of a Windows Update package.</span>
+            <span class="doccomment">/// See &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt; for</span>
+            <span class="doccomment">/// information about Windows Update.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+            <span class="ident">WuaPackage</span>(<span class="ident"><span class="kw">super</span>::WindowsUpdatePackage</span>),
+            <span class="doccomment">/// Details of a Windows Quick Fix engineering package.</span>
+            <span class="doccomment">/// See</span>
+            <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;</span>
+            <span class="doccomment">/// for info in Windows Quick Fix Engineering.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+            <span class="ident">QfePackage</span>(<span class="ident"><span class="kw">super</span>::WindowsQuickFixEngineeringPackage</span>),
+            <span class="doccomment">/// Details of a COS package.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+            <span class="ident">CosPackage</span>(<span class="ident"><span class="kw">super</span>::VersionedPackage</span>),
+            <span class="doccomment">/// Details of Windows Application.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+            <span class="ident">WindowsApplication</span>(<span class="ident"><span class="kw">super</span>::WindowsApplication</span>),
+        }
+    }
+    <span class="doccomment">/// Information related to the a standard versioned package.  This includes</span>
+    <span class="doccomment">/// package info for APT, Yum, Zypper, and Googet package managers.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VersionedPackage</span> {
+        <span class="doccomment">/// The name of the package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">package_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The system architecture this package is intended for.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The version of the package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Details related to a Zypper Patch.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZypperPatch</span> {
+        <span class="doccomment">/// The name of the patch.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">patch_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The category of the patch.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">category</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The severity specified for this patch</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Any summary information provided about this patch.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">summary</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Details related to a Windows Update package.</span>
+    <span class="doccomment">/// Field data and names are taken from Windows Update API IUpdate Interface:</span>
+    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt;</span>
+    <span class="doccomment">/// Descriptive fields like title, and description are localized based on</span>
+    <span class="doccomment">/// the locale of the VM being updated.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdatePackage</span> {
+        <span class="doccomment">/// The localized title of the update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The localized description of the update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The categories that are associated with this update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">categories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">windows_update_package::WindowsUpdateCategory</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// A collection of Microsoft Knowledge Base article IDs that are associated</span>
+        <span class="doccomment">/// with the update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">kb_article_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// A hyperlink to the language-specific support information for the update.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">support_url</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// A collection of URLs that provide more information about the update</span>
+        <span class="doccomment">/// package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">more_info_urls</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Gets the identifier of an update package.  Stays the same across</span>
+        <span class="doccomment">/// revisions.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">update_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The revision number of this update package.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">revision_number</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// The last published date of the update, in (UTC) date and time.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">last_deployment_change_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `WindowsUpdatePackage`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windows_update_package</span> {
+        <span class="doccomment">/// Categories specified by the Windows Update.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdateCategory</span> {
+            <span class="doccomment">/// The identifier of the windows update category.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// The name of the windows update category.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+    }
+    <span class="doccomment">/// Information related to a Quick Fix Engineering package.</span>
+    <span class="doccomment">/// Fields are taken from Windows QuickFixEngineering Interface and match</span>
+    <span class="doccomment">/// the source names:</span>
+    <span class="doccomment">/// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsQuickFixEngineeringPackage</span> {
+        <span class="doccomment">/// A short textual description of the QFE update.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">caption</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// A textual description of the QFE update.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Unique identifier associated with a particular QFE update.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">hot_fix_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Date that the QFE update was installed.  Mapped from installed_on field.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">install_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Contains information about a Windows application as retrieved from the</span>
+    <span class="doccomment">/// Windows Registry. For more information about these fields, see</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [Windows Installer Properties for the Uninstall</span>
+    <span class="doccomment">/// Registry](&lt;https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key&gt;){:</span>
+    <span class="doccomment">/// class=&quot;external&quot; }</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsApplication</span> {
+        <span class="doccomment">/// The name of the application or product.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The version of the product or application in string format.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">display_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The name of the manufacturer for the product or application.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">publisher</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The last time this product received service. The value of this property</span>
+        <span class="doccomment">/// is replaced each time a patch is applied or removed from the product or</span>
+        <span class="doccomment">/// the command-line option is used to repair the product.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">install_date</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Date</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The internet address for technical support.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">help_link</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
+<span class="doccomment">/// A request message for getting inventory data for the specified VM.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetInventoryRequest</span> {
+    <span class="doccomment">/// Required. API resource name for inventory resource.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/instances/{instance}/inventory`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For `{project}`, either `project-number` or `project-id` can be provided.</span>
+    <span class="doccomment">/// For `{instance}`, either Compute Engine  `instance-id` or `instance-name`</span>
+    <span class="doccomment">/// can be provided.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Inventory view indicating what information should be included in the</span>
+    <span class="doccomment">/// inventory resource. If unspecified, the default view is BASIC.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;InventoryView&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// A request message for listing inventory data for all VMs in the specified</span>
+<span class="doccomment">/// location.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInventoriesRequest</span> {
+    <span class="doccomment">/// Required. The parent resource name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format: `projects/{project}/locations/{location}/instances/{instance}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For `{project}`, either `project-number` or `project-id` can be</span>
+    <span class="doccomment">/// provided. For `{instance}`, only hyphen or dash character is supported to</span>
+    <span class="doccomment">/// list inventories across VMs.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Inventory view indicating what information should be included in the</span>
+    <span class="doccomment">/// inventory resource. If unspecified, the default view is BASIC.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;InventoryView&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The maximum number of results to return.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A pagination token returned from a previous call to</span>
+    <span class="doccomment">/// `ListInventories` that indicates where this listing</span>
+    <span class="doccomment">/// should continue from.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by a</span>
+    <span class="doccomment">/// `Inventory` API resource to be included in the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A response message for listing inventory data for all VMs in a specified</span>
+<span class="doccomment">/// location.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInventoriesResponse</span> {
+    <span class="doccomment">/// List of inventory objects.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inventories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Inventory</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The pagination token to retrieve the next page of inventory objects.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The view for inventory objects.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InventoryView</span> {
+    <span class="doccomment">/// The default value.</span>
+    <span class="doccomment">/// The API defaults to the BASIC view.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Returns the basic inventory information that includes `os_info`.</span>
+    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Returns all fields.</span>
+    <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_config_zonal_service_client</span> {

@@ -785,6 +785,49 @@
         <span class="ident">Key</span>(<span class="ident">::prost::alloc::string::String</span>),
     }
 }
+<span class="doccomment">/// Payload of Image DataItem.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageDataItem</span> {
+    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original image in user&#39;s bucket.</span>
+    <span class="doccomment">/// The image is up to 30MB in size.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The mime type of the content of the image. Only the images in below listed</span>
+    <span class="doccomment">/// mime types are supported.</span>
+    <span class="doccomment">/// - image/jpeg</span>
+    <span class="doccomment">/// - image/gif</span>
+    <span class="doccomment">/// - image/png</span>
+    <span class="doccomment">/// - image/webp</span>
+    <span class="doccomment">/// - image/bmp</span>
+    <span class="doccomment">/// - image/tiff</span>
+    <span class="doccomment">/// - image/vnd.microsoft.icon</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Payload of Video DataItem.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoDataItem</span> {
+    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original video in user&#39;s bucket.</span>
+    <span class="doccomment">/// The video is up to 50 GB in size and up to 3 hour in duration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The mime type of the content of the video. Only the videos in below listed</span>
+    <span class="doccomment">/// mime types are supported.</span>
+    <span class="doccomment">/// Supported mime_type:</span>
+    <span class="doccomment">/// - video/mp4</span>
+    <span class="doccomment">/// - video/avi</span>
+    <span class="doccomment">/// - video/quicktime</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Payload of Text DataItem.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextDataItem</span> {
+    <span class="doccomment">/// Output only. Google Cloud Storage URI points to the original text in user&#39;s bucket.</span>
+    <span class="doccomment">/// The text file is up to 10MB in size.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// The metadata of Datasets that contain Image DataItems.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageDatasetMetadata</span> {
@@ -913,49 +956,6 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
-}
-<span class="doccomment">/// Payload of Image DataItem.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageDataItem</span> {
-    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original image in user&#39;s bucket.</span>
-    <span class="doccomment">/// The image is up to 30MB in size.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The mime type of the content of the image. Only the images in below listed</span>
-    <span class="doccomment">/// mime types are supported.</span>
-    <span class="doccomment">/// - image/jpeg</span>
-    <span class="doccomment">/// - image/gif</span>
-    <span class="doccomment">/// - image/png</span>
-    <span class="doccomment">/// - image/webp</span>
-    <span class="doccomment">/// - image/bmp</span>
-    <span class="doccomment">/// - image/tiff</span>
-    <span class="doccomment">/// - image/vnd.microsoft.icon</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Payload of Video DataItem.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoDataItem</span> {
-    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original video in user&#39;s bucket.</span>
-    <span class="doccomment">/// The video is up to 50 GB in size and up to 3 hour in duration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The mime type of the content of the video. Only the videos in below listed</span>
-    <span class="doccomment">/// mime types are supported.</span>
-    <span class="doccomment">/// Supported mime_type:</span>
-    <span class="doccomment">/// - video/mp4</span>
-    <span class="doccomment">/// - video/avi</span>
-    <span class="doccomment">/// - video/quicktime</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Payload of Text DataItem.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextDataItem</span> {
-    <span class="doccomment">/// Output only. Google Cloud Storage URI points to the original text in user&#39;s bucket.</span>
-    <span class="doccomment">/// The text file is up to 10MB in size.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../../" data-current-crate="google_api_proto" data-search-index-js="../../../../../../../search-index.js" data-search-js="../../../../../../../search.js"></div>

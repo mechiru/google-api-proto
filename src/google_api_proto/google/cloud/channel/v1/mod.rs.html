@@ -3492,6 +3492,70 @@
     <span class="doccomment">/// Status when the reseller is suspended by Google or distributor.</span>
     <span class="ident">Suspended</span> <span class="op">=</span> <span class="number">4</span>,
 }
+<span class="doccomment">/// A Product is the entity a customer uses when placing an order. For example,</span>
+<span class="doccomment">/// Google Workspace, Google Voice, etc.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Product</span> {
+    <span class="doccomment">/// Resource Name of the Product.</span>
+    <span class="doccomment">/// Format: products/{product_id}</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Marketing information for the product.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">marketing_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">MarketingInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Represents a product&#39;s purchasable Stock Keeping Unit (SKU).</span>
+<span class="doccomment">/// SKUs represent the different variations of the product. For example, Google</span>
+<span class="doccomment">/// Workspace Business Standard and Google Workspace Business Plus are Google</span>
+<span class="doccomment">/// Workspace product SKUs.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Sku</span> {
+    <span class="doccomment">/// Resource Name of the SKU.</span>
+    <span class="doccomment">/// Format: products/{product_id}/skus/{sku_id}</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Marketing information for the SKU.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">marketing_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">MarketingInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Product the SKU is associated with.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">product</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Product</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Represents the marketing information for a Product, SKU or Offer.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MarketingInfo</span> {
+    <span class="doccomment">/// Human readable name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Human readable description. Description can contain HTML.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Default logo.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">default_logo</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Media</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Represents media information.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Media</span> {
+    <span class="doccomment">/// Title of the media.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// URL of the media.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of the media.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;MediaType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Type of media used.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MediaType</span> {
+    <span class="doccomment">/// Not used.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Type of image.</span>
+    <span class="ident">Image</span> <span class="op">=</span> <span class="number">1</span>,
+}
 <span class="doccomment">/// Entity representing a customer of a reseller or distributor.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Customer</span> {
@@ -3570,70 +3634,6 @@
     <span class="doccomment">/// The customer account&#39;s contact phone number.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">phone</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A Product is the entity a customer uses when placing an order. For example,</span>
-<span class="doccomment">/// Google Workspace, Google Voice, etc.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Product</span> {
-    <span class="doccomment">/// Resource Name of the Product.</span>
-    <span class="doccomment">/// Format: products/{product_id}</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Marketing information for the product.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">marketing_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">MarketingInfo</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents a product&#39;s purchasable Stock Keeping Unit (SKU).</span>
-<span class="doccomment">/// SKUs represent the different variations of the product. For example, Google</span>
-<span class="doccomment">/// Workspace Business Standard and Google Workspace Business Plus are Google</span>
-<span class="doccomment">/// Workspace product SKUs.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Sku</span> {
-    <span class="doccomment">/// Resource Name of the SKU.</span>
-    <span class="doccomment">/// Format: products/{product_id}/skus/{sku_id}</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Marketing information for the SKU.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">marketing_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">MarketingInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Product the SKU is associated with.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">product</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Product</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents the marketing information for a Product, SKU or Offer.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MarketingInfo</span> {
-    <span class="doccomment">/// Human readable name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Human readable description. Description can contain HTML.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Default logo.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">default_logo</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Media</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents media information.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Media</span> {
-    <span class="doccomment">/// Title of the media.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// URL of the media.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Type of the media.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;MediaType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Type of media used.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MediaType</span> {
-    <span class="doccomment">/// Not used.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Type of image.</span>
-    <span class="ident">Image</span> <span class="op">=</span> <span class="number">1</span>,
 }
 <span class="doccomment">/// Represents an offer made to resellers for purchase.</span>
 <span class="doccomment">/// An offer is associated with a \[Sku][google.cloud.channel.v1.Sku\], has a plan for payment, a price, and</span>
@@ -6458,45 +6458,6 @@
         }
     }
 }
-<span class="doccomment">/// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
-    <span class="doccomment">/// The RPC that initiated this Long Running Operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;operation_metadata::OperationType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">operation_type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `OperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">operation_metadata</span> {
-    <span class="doccomment">/// RPCs that return a Long Running Operation.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OperationType</span> {
-        <span class="doccomment">/// Not used.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by CreateEntitlement.</span>
-        <span class="ident">CreateEntitlement</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ChangeRenewalSettings.</span>
-        <span class="ident">ChangeRenewalSettings</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by StartPaidService.</span>
-        <span class="ident">StartPaidService</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ActivateEntitlement.</span>
-        <span class="ident">ActivateEntitlement</span> <span class="op">=</span> <span class="number">7</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by SuspendEntitlement.</span>
-        <span class="ident">SuspendEntitlement</span> <span class="op">=</span> <span class="number">8</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by CancelEntitlement.</span>
-        <span class="ident">CancelEntitlement</span> <span class="op">=</span> <span class="number">9</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by TransferEntitlements.</span>
-        <span class="ident">TransferEntitlements</span> <span class="op">=</span> <span class="number">10</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by TransferEntitlementsToGoogle.</span>
-        <span class="ident">TransferEntitlementsToGoogle</span> <span class="op">=</span> <span class="number">11</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ChangeOffer.</span>
-        <span class="ident">ChangeOffer</span> <span class="op">=</span> <span class="number">14</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ChangeParameters.</span>
-        <span class="ident">ChangeParameters</span> <span class="op">=</span> <span class="number">15</span>,
-        <span class="doccomment">/// Long Running Operation was triggered by ProvisionCloudIdentity.</span>
-        <span class="ident">ProvisionCloudIdentity</span> <span class="op">=</span> <span class="number">16</span>,
-    }
-}
 <span class="doccomment">/// Represents Pub/Sub message content describing customer update.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomerEvent</span> {
@@ -6591,6 +6552,45 @@
         <span class="doccomment">/// Entitlement event send as part of Pub/Sub event to partners.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">EntitlementEvent</span>(<span class="ident"><span class="kw">super</span>::EntitlementEvent</span>),
+    }
+}
+<span class="doccomment">/// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
+    <span class="doccomment">/// The RPC that initiated this Long Running Operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;operation_metadata::OperationType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">operation_type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `OperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">operation_metadata</span> {
+    <span class="doccomment">/// RPCs that return a Long Running Operation.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OperationType</span> {
+        <span class="doccomment">/// Not used.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by CreateEntitlement.</span>
+        <span class="ident">CreateEntitlement</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ChangeRenewalSettings.</span>
+        <span class="ident">ChangeRenewalSettings</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by StartPaidService.</span>
+        <span class="ident">StartPaidService</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ActivateEntitlement.</span>
+        <span class="ident">ActivateEntitlement</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by SuspendEntitlement.</span>
+        <span class="ident">SuspendEntitlement</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by CancelEntitlement.</span>
+        <span class="ident">CancelEntitlement</span> <span class="op">=</span> <span class="number">9</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by TransferEntitlements.</span>
+        <span class="ident">TransferEntitlements</span> <span class="op">=</span> <span class="number">10</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by TransferEntitlementsToGoogle.</span>
+        <span class="ident">TransferEntitlementsToGoogle</span> <span class="op">=</span> <span class="number">11</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ChangeOffer.</span>
+        <span class="ident">ChangeOffer</span> <span class="op">=</span> <span class="number">14</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ChangeParameters.</span>
+        <span class="ident">ChangeParameters</span> <span class="op">=</span> <span class="number">15</span>,
+        <span class="doccomment">/// Long Running Operation was triggered by ProvisionCloudIdentity.</span>
+        <span class="ident">ProvisionCloudIdentity</span> <span class="op">=</span> <span class="number">16</span>,
     }
 }
 </code></pre></div>

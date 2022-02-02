@@ -1164,7 +1164,203 @@
 <span id="1163">1163</span>
 <span id="1164">1164</span>
 <span id="1165">1165</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Membership contains information about a member cluster.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Feature represents the settings and status of any Hub Feature.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Feature</span> {
+    <span class="doccomment">/// Output only. The full, unique name of this Feature resource in the format</span>
+    <span class="doccomment">/// `projects/*/locations/*/features/*`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// GCP labels for this Feature.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. State of the Feature resource itself.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FeatureResourceState</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Hub-wide Feature configuration. If this Feature does not support any</span>
+    <span class="doccomment">/// Hub-wide configuration, this field may be unused.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CommonFeatureSpec</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Membership-specific configuration for this Feature. If this Feature does</span>
+    <span class="doccomment">/// not support any per-Membership configuration, this field may be unused.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The keys indicate which Membership the configuration is for, in the form:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     projects/{p}/locations/{l}/memberships/{m}</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Where {p} is the project, {l} is a valid location and {m} is a valid</span>
+    <span class="doccomment">/// Membership in this project at that location. {p} WILL match the Feature&#39;s</span>
+    <span class="doccomment">/// project.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// {p} will always be returned as the project number, but the project ID is</span>
+    <span class="doccomment">/// also accepted during input. If the same Membership is specified in the map</span>
+    <span class="doccomment">/// twice (using the project ID form, and the project number form), exactly</span>
+    <span class="doccomment">/// ONE of the entries will be saved, with no guarantees as to which. For this</span>
+    <span class="doccomment">/// reason, it is recommended the same format be used for all entries when</span>
+    <span class="doccomment">/// mutating a Feature.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">membership_specs</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">MembershipFeatureSpec</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The Hub-wide Feature state.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CommonFeatureState</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Membership-specific Feature status. If this Feature does</span>
+    <span class="doccomment">/// report any per-Membership status, this field may be unused.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The keys indicate which Membership the state is for, in the form:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     projects/{p}/locations/{l}/memberships/{m}</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Where {p} is the project number, {l} is a valid location and {m} is a valid</span>
+    <span class="doccomment">/// Membership in this project at that location. {p} MUST match the Feature&#39;s</span>
+    <span class="doccomment">/// project number.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">membership_states</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">MembershipFeatureState</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. When the Feature resource was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. When the Feature resource was last updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. When the Feature resource was deleted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">delete_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// FeatureResourceState describes the state of a Feature *resource* in the</span>
+<span class="doccomment">/// GkeHub API. See `FeatureState` for the &quot;running state&quot; of the Feature in the</span>
+<span class="doccomment">/// Hub and across Memberships.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FeatureResourceState</span> {
+    <span class="doccomment">/// The current state of the Feature resource in the Hub API.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;feature_resource_state::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `FeatureResourceState`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">feature_resource_state</span> {
+    <span class="doccomment">/// State describes the lifecycle status of a Feature.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// State is unknown or not set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The Feature is being enabled, and the Feature resource is being created.</span>
+        <span class="doccomment">/// Once complete, the corresponding Feature will be enabled in this Hub.</span>
+        <span class="ident">Enabling</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The Feature is enabled in this Hub, and the Feature resource is fully</span>
+        <span class="doccomment">/// available.</span>
+        <span class="ident">Active</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The Feature is being disabled in this Hub, and the Feature resource</span>
+        <span class="doccomment">/// is being deleted.</span>
+        <span class="ident">Disabling</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The Feature resource is being updated.</span>
+        <span class="ident">Updating</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// The Feature resource is being updated by the Hub Service.</span>
+        <span class="ident">ServiceUpdating</span> <span class="op">=</span> <span class="number">5</span>,
+    }
+}
+<span class="doccomment">/// FeatureState describes the high-level state of a Feature. It may be used to</span>
+<span class="doccomment">/// describe a Feature&#39;s state at the environ-level, or per-membershop, depending</span>
+<span class="doccomment">/// on the context.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FeatureState</span> {
+    <span class="doccomment">/// The high-level, machine-readable status of this Feature.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;feature_state::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A human-readable description of the current status.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The time this status and any related Feature-specific details were updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `FeatureState`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">feature_state</span> {
+    <span class="doccomment">/// Code represents a machine-readable, high-level status of the Feature.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
+        <span class="doccomment">/// Unknown or not set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The Feature is operating normally.</span>
+        <span class="prelude-val">Ok</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The Feature has encountered an issue, and is operating in a degraded</span>
+        <span class="doccomment">/// state. The Feature may need intervention to return to normal operation.</span>
+        <span class="doccomment">/// See the description and any associated Feature-specific details for more</span>
+        <span class="doccomment">/// information.</span>
+        <span class="ident">Warning</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The Feature is not operating or is in a severely degraded state.</span>
+        <span class="doccomment">/// The Feature may need intervention to return to normal operation.</span>
+        <span class="doccomment">/// See the description and any associated Feature-specific details for more</span>
+        <span class="doccomment">/// information.</span>
+        <span class="ident">Error</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// CommonFeatureSpec contains Hub-wide configuration information</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommonFeatureSpec</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;common_feature_spec::FeatureSpec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;102&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">feature_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">common_feature_spec::FeatureSpec</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CommonFeatureSpec`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">common_feature_spec</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FeatureSpec</span> {
+        <span class="doccomment">/// Multicluster Ingress-specific spec.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;102&quot;</span>)]</span>
+        <span class="ident">Multiclusteringress</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::multiclusteringress::v1::FeatureSpec</span>),
+    }
+}
+<span class="doccomment">/// CommonFeatureState contains Hub-wide Feature status information.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommonFeatureState</span> {
+    <span class="doccomment">/// Output only. The &quot;running state&quot; of the Feature in this Hub.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FeatureState</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// MembershipFeatureSpec contains configuration information for a single</span>
+<span class="doccomment">/// Membership.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MembershipFeatureSpec</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;membership_feature_spec::FeatureSpec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;106&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">feature_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">membership_feature_spec::FeatureSpec</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `MembershipFeatureSpec`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">membership_feature_spec</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FeatureSpec</span> {
+        <span class="doccomment">/// Config Management-specific spec.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;106&quot;</span>)]</span>
+        <span class="ident">Configmanagement</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::configmanagement::v1::MembershipSpec</span>),
+    }
+}
+<span class="doccomment">/// MembershipFeatureState contains Feature status information for a single</span>
+<span class="doccomment">/// Membership.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MembershipFeatureState</span> {
+    <span class="doccomment">/// The high-level state of this Feature for a single membership.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FeatureState</span><span class="op">&gt;</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;membership_feature_state::FeatureState&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;106&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">feature_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">membership_feature_state::FeatureState</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `MembershipFeatureState`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">membership_feature_state</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FeatureState</span> {
+        <span class="doccomment">/// Config Management-specific state.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;106&quot;</span>)]</span>
+        <span class="ident">Configmanagement</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::configmanagement::v1::MembershipState</span>),
+    }
+}
+<span class="doccomment">/// Membership contains information about a member cluster.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Membership</span> {
     <span class="doccomment">/// Output only. The full, unique name of this Membership resource in the format</span>
@@ -1439,202 +1635,6 @@
     <span class="doccomment">/// and instead OIDC tokens will be validated using this field.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">oidc_jwks</span>: <span class="ident">::prost::bytes::Bytes</span>,
-}
-<span class="doccomment">/// Feature represents the settings and status of any Hub Feature.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Feature</span> {
-    <span class="doccomment">/// Output only. The full, unique name of this Feature resource in the format</span>
-    <span class="doccomment">/// `projects/*/locations/*/features/*`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// GCP labels for this Feature.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. State of the Feature resource itself.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FeatureResourceState</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Hub-wide Feature configuration. If this Feature does not support any</span>
-    <span class="doccomment">/// Hub-wide configuration, this field may be unused.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CommonFeatureSpec</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Membership-specific configuration for this Feature. If this Feature does</span>
-    <span class="doccomment">/// not support any per-Membership configuration, this field may be unused.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The keys indicate which Membership the configuration is for, in the form:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     projects/{p}/locations/{l}/memberships/{m}</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Where {p} is the project, {l} is a valid location and {m} is a valid</span>
-    <span class="doccomment">/// Membership in this project at that location. {p} WILL match the Feature&#39;s</span>
-    <span class="doccomment">/// project.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// {p} will always be returned as the project number, but the project ID is</span>
-    <span class="doccomment">/// also accepted during input. If the same Membership is specified in the map</span>
-    <span class="doccomment">/// twice (using the project ID form, and the project number form), exactly</span>
-    <span class="doccomment">/// ONE of the entries will be saved, with no guarantees as to which. For this</span>
-    <span class="doccomment">/// reason, it is recommended the same format be used for all entries when</span>
-    <span class="doccomment">/// mutating a Feature.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">membership_specs</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">MembershipFeatureSpec</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The Hub-wide Feature state.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CommonFeatureState</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Membership-specific Feature status. If this Feature does</span>
-    <span class="doccomment">/// report any per-Membership status, this field may be unused.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The keys indicate which Membership the state is for, in the form:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     projects/{p}/locations/{l}/memberships/{m}</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Where {p} is the project number, {l} is a valid location and {m} is a valid</span>
-    <span class="doccomment">/// Membership in this project at that location. {p} MUST match the Feature&#39;s</span>
-    <span class="doccomment">/// project number.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">membership_states</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">MembershipFeatureState</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. When the Feature resource was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. When the Feature resource was last updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. When the Feature resource was deleted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">delete_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// FeatureResourceState describes the state of a Feature *resource* in the</span>
-<span class="doccomment">/// GkeHub API. See `FeatureState` for the &quot;running state&quot; of the Feature in the</span>
-<span class="doccomment">/// Hub and across Memberships.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FeatureResourceState</span> {
-    <span class="doccomment">/// The current state of the Feature resource in the Hub API.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;feature_resource_state::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `FeatureResourceState`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">feature_resource_state</span> {
-    <span class="doccomment">/// State describes the lifecycle status of a Feature.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// State is unknown or not set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The Feature is being enabled, and the Feature resource is being created.</span>
-        <span class="doccomment">/// Once complete, the corresponding Feature will be enabled in this Hub.</span>
-        <span class="ident">Enabling</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The Feature is enabled in this Hub, and the Feature resource is fully</span>
-        <span class="doccomment">/// available.</span>
-        <span class="ident">Active</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The Feature is being disabled in this Hub, and the Feature resource</span>
-        <span class="doccomment">/// is being deleted.</span>
-        <span class="ident">Disabling</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The Feature resource is being updated.</span>
-        <span class="ident">Updating</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// The Feature resource is being updated by the Hub Service.</span>
-        <span class="ident">ServiceUpdating</span> <span class="op">=</span> <span class="number">5</span>,
-    }
-}
-<span class="doccomment">/// FeatureState describes the high-level state of a Feature. It may be used to</span>
-<span class="doccomment">/// describe a Feature&#39;s state at the environ-level, or per-membershop, depending</span>
-<span class="doccomment">/// on the context.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FeatureState</span> {
-    <span class="doccomment">/// The high-level, machine-readable status of this Feature.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;feature_state::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A human-readable description of the current status.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The time this status and any related Feature-specific details were updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `FeatureState`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">feature_state</span> {
-    <span class="doccomment">/// Code represents a machine-readable, high-level status of the Feature.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
-        <span class="doccomment">/// Unknown or not set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The Feature is operating normally.</span>
-        <span class="prelude-val">Ok</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The Feature has encountered an issue, and is operating in a degraded</span>
-        <span class="doccomment">/// state. The Feature may need intervention to return to normal operation.</span>
-        <span class="doccomment">/// See the description and any associated Feature-specific details for more</span>
-        <span class="doccomment">/// information.</span>
-        <span class="ident">Warning</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The Feature is not operating or is in a severely degraded state.</span>
-        <span class="doccomment">/// The Feature may need intervention to return to normal operation.</span>
-        <span class="doccomment">/// See the description and any associated Feature-specific details for more</span>
-        <span class="doccomment">/// information.</span>
-        <span class="ident">Error</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// CommonFeatureSpec contains Hub-wide configuration information</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommonFeatureSpec</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;common_feature_spec::FeatureSpec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;102&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">feature_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">common_feature_spec::FeatureSpec</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CommonFeatureSpec`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">common_feature_spec</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FeatureSpec</span> {
-        <span class="doccomment">/// Multicluster Ingress-specific spec.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;102&quot;</span>)]</span>
-        <span class="ident">Multiclusteringress</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::multiclusteringress::v1::FeatureSpec</span>),
-    }
-}
-<span class="doccomment">/// CommonFeatureState contains Hub-wide Feature status information.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommonFeatureState</span> {
-    <span class="doccomment">/// Output only. The &quot;running state&quot; of the Feature in this Hub.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FeatureState</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// MembershipFeatureSpec contains configuration information for a single</span>
-<span class="doccomment">/// Membership.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MembershipFeatureSpec</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;membership_feature_spec::FeatureSpec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;106&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">feature_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">membership_feature_spec::FeatureSpec</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `MembershipFeatureSpec`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">membership_feature_spec</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FeatureSpec</span> {
-        <span class="doccomment">/// Config Management-specific spec.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;106&quot;</span>)]</span>
-        <span class="ident">Configmanagement</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::configmanagement::v1::MembershipSpec</span>),
-    }
-}
-<span class="doccomment">/// MembershipFeatureState contains Feature status information for a single</span>
-<span class="doccomment">/// Membership.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MembershipFeatureState</span> {
-    <span class="doccomment">/// The high-level state of this Feature for a single membership.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FeatureState</span><span class="op">&gt;</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;membership_feature_state::FeatureState&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;106&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">feature_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">membership_feature_state::FeatureState</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `MembershipFeatureState`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">membership_feature_state</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FeatureState</span> {
-        <span class="doccomment">/// Config Management-specific state.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;106&quot;</span>)]</span>
-        <span class="ident">Configmanagement</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::configmanagement::v1::MembershipState</span>),
-    }
 }
 <span class="doccomment">/// Request message for `GkeHub.ListMemberships` method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

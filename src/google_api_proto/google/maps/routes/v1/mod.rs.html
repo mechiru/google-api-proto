@@ -1249,59 +1249,6 @@
     <span class="doccomment">/// format](&lt;https://tools.ietf.org/html/rfc7946#section-3.1.4&gt;)</span>
     <span class="ident">GeoJsonLinestring</span> <span class="op">=</span> <span class="number">2</span>,
 }
-<span class="doccomment">/// List of toll passes around the world that we support.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TollPass</span> {
-    <span class="doccomment">/// Not used. If this value is used, then the request fails.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Australia-wide toll pass.</span>
-    <span class="doccomment">/// See additional details at &lt;https://www.linkt.com.au/.&gt;</span>
-    <span class="ident">AuLinkt</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Argentina toll pass. See additional details at &lt;https://telepase.com.ar&gt;</span>
-    <span class="ident">ArTelepase</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://conectcar.com.&gt;</span>
-    <span class="ident">BrConectcar</span> <span class="op">=</span> <span class="number">7</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://movemais.com.&gt;</span>
-    <span class="ident">BrMoveMais</span> <span class="op">=</span> <span class="number">8</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://www.semparar.com.br.&gt;</span>
-    <span class="ident">BrSemParar</span> <span class="op">=</span> <span class="number">9</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://taggy.com.br.&gt;</span>
-    <span class="ident">BrTaggy</span> <span class="op">=</span> <span class="number">10</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at</span>
-    <span class="doccomment">/// &lt;https://veloe.com.br/site/onde-usar.&gt;</span>
-    <span class="ident">BrVeloe</span> <span class="op">=</span> <span class="number">11</span>,
-    <span class="doccomment">/// Indonesia.</span>
-    <span class="doccomment">/// E-card provided by multiple banks used to pay for tolls. All e-cards</span>
-    <span class="doccomment">/// via banks are charged the same so only one enum value is needed. E.g.</span>
-    <span class="doccomment">/// Bank Mandiri &lt;https://www.bankmandiri.co.id/e-money&gt;</span>
-    <span class="doccomment">/// BCA &lt;https://www.bca.co.id/flazz&gt;</span>
-    <span class="doccomment">/// BNI &lt;https://www.bni.co.id/id-id/ebanking/tapcash&gt;</span>
-    <span class="ident">IdEToll</span> <span class="op">=</span> <span class="number">16</span>,
-    <span class="doccomment">/// Mexico toll pass.</span>
-    <span class="ident">MxTagIave</span> <span class="op">=</span> <span class="number">12</span>,
-    <span class="doccomment">/// Mexico toll pass company. One of many operating in Mexico City. See</span>
-    <span class="doccomment">/// additional details at &lt;https://www.televia.com.mx.&gt;</span>
-    <span class="ident">MxTagTelevia</span> <span class="op">=</span> <span class="number">13</span>,
-    <span class="doccomment">/// Mexico toll pass. See additional details at</span>
-    <span class="doccomment">/// &lt;https://www.viapass.com.mx/viapass/web_home.aspx.&gt;</span>
-    <span class="ident">MxViapass</span> <span class="op">=</span> <span class="number">14</span>,
-    <span class="doccomment">/// State pass of California, United States. Passes vary between Standard,</span>
-    <span class="doccomment">/// Flex, and Clean Air. Flex and Clean Air have settings for carpool. See</span>
-    <span class="doccomment">/// additional details at &lt;https://www.bayareafastrak.org/en/home/index.shtml.&gt;</span>
-    <span class="ident">UsCaFastrak</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// State pass of Illinois, United States. See additional details at</span>
-    <span class="doccomment">/// &lt;https://www.illinoistollway.com/about-ipass.&gt;</span>
-    <span class="ident">UsIlIpass</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// State pass of Massachusetts, United States. See additional details at</span>
-    <span class="doccomment">/// &lt;https://www.mass.gov/ezdrivema.&gt;</span>
-    <span class="ident">UsMaEzpassma</span> <span class="op">=</span> <span class="number">6</span>,
-    <span class="doccomment">/// State pass of New York, United States. See additional details at</span>
-    <span class="doccomment">/// &lt;https://www.e-zpassny.com.&gt;</span>
-    <span class="ident">UsNyEzpassny</span> <span class="op">=</span> <span class="number">15</span>,
-    <span class="doccomment">/// State pass of the Washington state, United States.</span>
-    <span class="ident">UsWaGoodToGo</span> <span class="op">=</span> <span class="number">1</span>,
-}
 <span class="doccomment">/// A set of values describing the vehicle&#39;s emission type.</span>
 <span class="doccomment">/// Applies only to the DRIVE travel mode.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
@@ -1315,6 +1262,50 @@
     <span class="ident">Electric</span> <span class="op">=</span> <span class="number">2</span>,
     <span class="doccomment">/// Hybrid fuel (such as gasoline + electric) vehicle.</span>
     <span class="ident">Hybrid</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="doccomment">/// Information related to how and why a fallback result was used. If this field</span>
+<span class="doccomment">/// is set, then it means the server used a different routing mode from your</span>
+<span class="doccomment">/// preferred mode as fallback.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FallbackInfo</span> {
+    <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode</span>
+    <span class="doccomment">/// may be different from routing preference set in the original client</span>
+    <span class="doccomment">/// request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;FallbackRoutingMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">routing_mode</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The reason why fallback response was used instead of the original response.</span>
+    <span class="doccomment">/// This field is only populated when the fallback mode is triggered and the</span>
+    <span class="doccomment">/// fallback response is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;FallbackReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">reason</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Reasons for using fallback response.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackReason</span> {
+    <span class="doccomment">/// No fallback reason specified.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// A server error happened while calculating routes with your preferred</span>
+    <span class="doccomment">/// routing mode, but we were able to return a result calculated by an</span>
+    <span class="doccomment">/// alternative mode.</span>
+    <span class="ident">ServerError</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// We were not able to finish the calculation with your preferred routing mode</span>
+    <span class="doccomment">/// on time, but we were able to return a result calculated by an alternative</span>
+    <span class="doccomment">/// mode.</span>
+    <span class="ident">LatencyExceeded</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// Actual routing mode used for returned fallback response.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackRoutingMode</span> {
+    <span class="doccomment">/// Not used.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Indicates the &quot;TRAFFIC_UNAWARE&quot; routing mode was used to compute the</span>
+    <span class="doccomment">/// response.</span>
+    <span class="ident">FallbackTrafficUnaware</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Indicates the &quot;TRAFFIC_AWARE&quot; routing mode was used to compute the</span>
+    <span class="doccomment">/// response.</span>
+    <span class="ident">FallbackTrafficAware</span> <span class="op">=</span> <span class="number">2</span>,
 }
 <span class="doccomment">/// Encapsulates a waypoint. Waypoints mark both the beginning and end of a</span>
 <span class="doccomment">/// route, and include intermediate stops along the route.</span>
@@ -1376,262 +1367,6 @@
     <span class="doccomment">/// field only for `DRIVE` and `TWO_WHEELER` travel modes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">heading</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// ComputeRoutes request message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRoutesRequest</span> {
-    <span class="doccomment">/// Required. Origin waypoint.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">origin</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Destination waypoint.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. A set of waypoints along the route (excluding terminal points),</span>
-    <span class="doccomment">/// for either stopping at or passing by. Up to 25 intermediate waypoints are</span>
-    <span class="doccomment">/// supported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">intermediates</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Specifies the mode of transportation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteTravelMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">travel_mode</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Specifies how to compute the route. The server</span>
-    <span class="doccomment">/// attempts to use the selected routing preference to compute the route. If</span>
-    <span class="doccomment">///  the routing preference results in an error or an extra long latency, then</span>
-    <span class="doccomment">/// an error is returned. In the future, we might implement a fallback</span>
-    <span class="doccomment">/// mechanism to use a different option when the preferred option does not give</span>
-    <span class="doccomment">/// a valid result. You can specify this option only when the `travel_mode` is</span>
-    <span class="doccomment">/// `DRIVE` or `TWO_WHEELER`, otherwise the request fails.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RoutingPreference&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">routing_preference</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Specifies your preference for the quality of the polyline.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PolylineQuality&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">polyline_quality</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Specifies the preferred encoding for the polyline.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PolylineEncoding&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">polyline_encoding</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. The departure time. If you don&#39;t set this value, then this value</span>
-    <span class="doccomment">/// defaults to the time that you made the request. If you set this value to a</span>
-    <span class="doccomment">/// time that has already occurred, then the request fails.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">departure_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Specifies whether to calculate alternate routes in addition to the route.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">compute_alternative_routes</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Optional. A set of conditions to satisfy that affect the way routes are</span>
-    <span class="doccomment">/// calculated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">route_modifiers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteModifiers</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. The BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;. For more</span>
-    <span class="doccomment">/// information, see</span>
-    <span class="doccomment">/// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; See</span>
-    <span class="doccomment">/// [Language Support](&lt;https://developers.google.com/maps/faq#languagesupport&gt;)</span>
-    <span class="doccomment">/// for the list of supported languages. When you don&#39;t provide this value, the</span>
-    <span class="doccomment">/// display language is inferred from the location of the route request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Specifies the units of measure for the display fields. This</span>
-    <span class="doccomment">/// includes the `instruction` field in `NavigationInstruction`. The units of</span>
-    <span class="doccomment">/// measure used for the route, leg, step distance, and duration are not</span>
-    <span class="doccomment">/// affected by this value. If you don&#39;t provide this value, then the display</span>
-    <span class="doccomment">/// units are inferred from the location of the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Units&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">units</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Encapsulates a set of optional conditions to satisfy when calculating the</span>
-<span class="doccomment">/// routes.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteModifiers</span> {
-    <span class="doccomment">/// Specifies whether to avoid toll roads where reasonable. Preference will be</span>
-    <span class="doccomment">/// given to routes not containing toll roads. Applies only to the `DRIVE` and</span>
-    <span class="doccomment">/// `TWO_WHEELER` travel modes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">avoid_tolls</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Specifies whether to avoid highways where reasonable. Preference will be</span>
-    <span class="doccomment">/// given to routes not containing highways. Applies only to the `DRIVE` and</span>
-    <span class="doccomment">/// `TWO_WHEELER` travel modes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">avoid_highways</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Specifies whether to avoid ferries where reasonable. Preference will be</span>
-    <span class="doccomment">/// given to routes not containing travel by ferries.</span>
-    <span class="doccomment">/// Applies only to the `DRIVE` and`TWO_WHEELER` travel modes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">avoid_ferries</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Specifies whether to avoid navigating indoors where reasonable. Preference</span>
-    <span class="doccomment">/// will be given to routes not containing indoor navigation.</span>
-    <span class="doccomment">/// Applies only to the `WALK` travel mode.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">avoid_indoor</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Specifies the vehicle information.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">vehicle_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">VehicleInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Encapsulates information about toll passes.</span>
-    <span class="doccomment">/// If toll passes are provided, the API tries to return the pass price. If</span>
-    <span class="doccomment">/// toll passes are not provided, the API treats the toll pass as unknown and</span>
-    <span class="doccomment">/// tries to return the cash price.</span>
-    <span class="doccomment">/// Applies only to the DRIVE and TWO_WHEELER travel modes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;TollPass&quot;</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">toll_passes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Encapsulates the vehicle information, such as the license plate last</span>
-<span class="doccomment">/// character.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VehicleInfo</span> {
-    <span class="doccomment">/// Specifies the license plate last character. Could be a digit or a letter.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">license_plate_last_character</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Describes the vehicle&#39;s emission type.</span>
-    <span class="doccomment">/// Applies only to the DRIVE travel mode.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;VehicleEmissionType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">emission_type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A set of values used to specify the mode of travel.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RouteTravelMode</span> {
-    <span class="doccomment">/// No travel mode specified. Defaults to `DRIVE`.</span>
-    <span class="ident">TravelModeUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Travel by passenger car.</span>
-    <span class="ident">Drive</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Travel by bicycle.</span>
-    <span class="ident">Bicycle</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Travel by walking.</span>
-    <span class="ident">Walk</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Two-wheeled, motorized vehicle. For example, motorcycle. Note that this</span>
-    <span class="doccomment">/// differs from the `BICYCLE` travel mode which covers human-powered mode.</span>
-    <span class="ident">TwoWheeler</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// Travel by licensed taxi, which may allow the vehicle to travel on</span>
-    <span class="doccomment">/// designated taxi lanes in some areas.</span>
-    <span class="ident">Taxi</span> <span class="op">=</span> <span class="number">5</span>,
-}
-<span class="doccomment">/// A set of values that specify factors to take into consideration when</span>
-<span class="doccomment">/// calculating the route.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RoutingPreference</span> {
-    <span class="doccomment">/// No routing preference specified. Default to `TRAFFIC_AWARE`.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Computes routes without taking traffic conditions into consideration.</span>
-    <span class="doccomment">/// Suitable when traffic conditions don&#39;t matter. Using this value produces</span>
-    <span class="doccomment">/// the lowest latency.</span>
-    <span class="ident">TrafficUnaware</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Calculates routes taking traffic conditions into consideration. In contrast</span>
-    <span class="doccomment">/// to `TRAFFIC_AWARE_OPTIMAL`, some optimizations are applied to significantly</span>
-    <span class="doccomment">/// reduce latency.</span>
-    <span class="ident">TrafficAware</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Calculates the routes taking traffic conditions into consideration,</span>
-    <span class="doccomment">/// without applying most performance optimizations. Using this value produces</span>
-    <span class="doccomment">/// the highest latency.</span>
-    <span class="ident">TrafficAwareOptimal</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="doccomment">/// A set of values that specify the unit of measure used in the display.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Units</span> {
-    <span class="doccomment">/// Units of measure not specified. Defaults to the unit of measure inferred</span>
-    <span class="doccomment">/// from the request.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Metric units of measure.</span>
-    <span class="ident">Metric</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Imperial (English) units of measure.</span>
-    <span class="ident">Imperial</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// ComputeCustomRoutes request message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeCustomRoutesRequest</span> {
-    <span class="doccomment">/// Required. Origin waypoint.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">origin</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Destination waypoint.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. A set of waypoints along the route (excluding terminal points), for either</span>
-    <span class="doccomment">/// stopping at or passing by. Up to 25 intermediate waypoints are supported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">intermediates</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Specifies the mode of transportation. Only DRIVE is supported now.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteTravelMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">travel_mode</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Specifies how to compute the route. The server attempts to use the selected</span>
-    <span class="doccomment">/// routing preference to compute the route. If the routing preference results</span>
-    <span class="doccomment">/// in an error or an extra long latency, then an error is returned. In the</span>
-    <span class="doccomment">/// future, we might implement a fallback mechanism to use a different option</span>
-    <span class="doccomment">/// when the preferred option does not give a valid result. You can specify</span>
-    <span class="doccomment">/// this option only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`,</span>
-    <span class="doccomment">/// otherwise the request fails.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RoutingPreference&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">routing_preference</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Specifies your preference for the quality of the polyline.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PolylineQuality&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">polyline_quality</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Specifies the preferred encoding for the polyline.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PolylineEncoding&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">polyline_encoding</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. The departure time. If you don&#39;t set this value, then this value</span>
-    <span class="doccomment">/// defaults to the time that you made the request. If you set this value to a</span>
-    <span class="doccomment">/// time that has already occurred, then the request fails.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">departure_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. A set of conditions to satisfy that affect the way routes are calculated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">route_modifiers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteModifiers</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. A route objective to optimize for.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">route_objective</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteObjective</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. The BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;. For more</span>
-    <span class="doccomment">/// information, see</span>
-    <span class="doccomment">/// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; See</span>
-    <span class="doccomment">/// [Language Support](&lt;https://developers.google.com/maps/faq#languagesupport&gt;)</span>
-    <span class="doccomment">/// for the list of supported languages. When you don&#39;t provide this value, the</span>
-    <span class="doccomment">/// display language is inferred from the location of the route request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Specifies the units of measure for the display fields. This includes the</span>
-    <span class="doccomment">/// `instruction` field in `NavigationInstruction`. The units of measure used</span>
-    <span class="doccomment">/// for the route, leg, step distance, and duration are not affected by this</span>
-    <span class="doccomment">/// value. If you don&#39;t provide this value, then the display units are inferred</span>
-    <span class="doccomment">/// from the location of the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Units&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">units</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Encapsulates an objective to optimize for by ComputeCustomRoutes.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteObjective</span> {
-    <span class="doccomment">/// The route objective.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;route_objective::Objective&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">objective</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">route_objective::Objective</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `RouteObjective`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">route_objective</span> {
-    <span class="doccomment">/// Encapsulates a RateCard route objective.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RateCard</span> {
-        <span class="doccomment">/// Optional. Cost per minute.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">cost_per_minute</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">rate_card::MonetaryCost</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Optional. Cost per kilometer.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">cost_per_km</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">rate_card::MonetaryCost</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Optional. Whether to include toll cost in the overall cost.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">include_tolls</span>: <span class="ident">bool</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `RateCard`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rate_card</span> {
-        <span class="doccomment">/// Encapsulates the cost used in the rate card.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MonetaryCost</span> {
-            <span class="doccomment">/// Required. The cost value in local currency inferred from the request.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">f64</span>,
-        }
-    }
-    <span class="doccomment">/// The route objective.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Objective</span> {
-        <span class="doccomment">/// The RateCard objective.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">RateCard</span>(<span class="ident">RateCard</span>),
-    }
 }
 <span class="doccomment">/// Encapsulates a route, which consists of a series of connected road segments</span>
 <span class="doccomment">/// that join beginning, ending, and intermediate waypoints.</span>
@@ -1936,6 +1671,387 @@
     <span class="doccomment">/// Turn right at the roundabout.</span>
     <span class="ident">RoundaboutRight</span> <span class="op">=</span> <span class="number">18</span>,
 }
+<span class="doccomment">/// Encapsulates route information computed for an origin/destination pair in the</span>
+<span class="doccomment">/// ComputeRouteMatrix API. This proto can be streamed to the client.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixElement</span> {
+    <span class="doccomment">/// Zero-based index of the origin in the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">origin_index</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Zero-based index of the destination in the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_index</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Error status code for this element.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Indicates whether the route was found or not. Independent of status.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteMatrixElementCondition&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">condition</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The travel distance of the route, in meters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">distance_meters</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The length of time needed to navigate the route. If you set the</span>
+    <span class="doccomment">/// `route_preference` to `TRAFFIC_UNAWARE`, then this value is the same as</span>
+    <span class="doccomment">/// `static_duration`. If you set the `route_preference` to either</span>
+    <span class="doccomment">/// `TRAFFIC_AWARE` or `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated</span>
+    <span class="doccomment">/// taking traffic conditions into account.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The duration of traveling through the route without taking traffic</span>
+    <span class="doccomment">/// conditions into consideration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">static_duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Additional information about the route. For example: restriction</span>
+    <span class="doccomment">/// information and toll information</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">travel_advisory</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteTravelAdvisory</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// In some cases when the server is not able to compute the route with the</span>
+    <span class="doccomment">/// given preferences for this particular origin/destination pair, it may</span>
+    <span class="doccomment">/// fall back to using a different mode of computation. When fallback mode is</span>
+    <span class="doccomment">/// used, this field contains detailed information about the fallback response.</span>
+    <span class="doccomment">/// Otherwise this field is unset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FallbackInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The condition of the route being returned.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RouteMatrixElementCondition</span> {
+    <span class="doccomment">/// Only used when the `status` of the element is not OK.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// A route was found, and the corresponding information was filled out for the</span>
+    <span class="doccomment">/// element.</span>
+    <span class="ident">RouteExists</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// No route could be found. Fields containing route information, such as</span>
+    <span class="doccomment">/// `distance_meters` or `duration`, will not be filled out in the element.</span>
+    <span class="ident">RouteNotFound</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// ComputeRoutes the response message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRoutesResponse</span> {
+    <span class="doccomment">/// Contains an array of computed routes (up to three) when you specify</span>
+    <span class="doccomment">/// compute_alternatives_routes, and contains just one route when you don&#39;t.</span>
+    <span class="doccomment">/// When this array contains multiple entries, the first one is the most</span>
+    <span class="doccomment">/// recommended route. If the array is empty, then it means no route could be</span>
+    <span class="doccomment">/// found.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">routes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// In some cases when the server is not able to compute the route results with</span>
+    <span class="doccomment">/// all of the input preferences, it may fallback to using a different way of</span>
+    <span class="doccomment">/// computation. When fallback mode is used, this field contains detailed info</span>
+    <span class="doccomment">/// about the fallback response. Otherwise this field is unset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FallbackInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// List of toll passes around the world that we support.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TollPass</span> {
+    <span class="doccomment">/// Not used. If this value is used, then the request fails.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Australia-wide toll pass.</span>
+    <span class="doccomment">/// See additional details at &lt;https://www.linkt.com.au/.&gt;</span>
+    <span class="ident">AuLinkt</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Argentina toll pass. See additional details at &lt;https://telepase.com.ar&gt;</span>
+    <span class="ident">ArTelepase</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://conectcar.com.&gt;</span>
+    <span class="ident">BrConectcar</span> <span class="op">=</span> <span class="number">7</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://movemais.com.&gt;</span>
+    <span class="ident">BrMoveMais</span> <span class="op">=</span> <span class="number">8</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://www.semparar.com.br.&gt;</span>
+    <span class="ident">BrSemParar</span> <span class="op">=</span> <span class="number">9</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://taggy.com.br.&gt;</span>
+    <span class="ident">BrTaggy</span> <span class="op">=</span> <span class="number">10</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at</span>
+    <span class="doccomment">/// &lt;https://veloe.com.br/site/onde-usar.&gt;</span>
+    <span class="ident">BrVeloe</span> <span class="op">=</span> <span class="number">11</span>,
+    <span class="doccomment">/// Indonesia.</span>
+    <span class="doccomment">/// E-card provided by multiple banks used to pay for tolls. All e-cards</span>
+    <span class="doccomment">/// via banks are charged the same so only one enum value is needed. E.g.</span>
+    <span class="doccomment">/// Bank Mandiri &lt;https://www.bankmandiri.co.id/e-money&gt;</span>
+    <span class="doccomment">/// BCA &lt;https://www.bca.co.id/flazz&gt;</span>
+    <span class="doccomment">/// BNI &lt;https://www.bni.co.id/id-id/ebanking/tapcash&gt;</span>
+    <span class="ident">IdEToll</span> <span class="op">=</span> <span class="number">16</span>,
+    <span class="doccomment">/// Mexico toll pass.</span>
+    <span class="ident">MxTagIave</span> <span class="op">=</span> <span class="number">12</span>,
+    <span class="doccomment">/// Mexico toll pass company. One of many operating in Mexico City. See</span>
+    <span class="doccomment">/// additional details at &lt;https://www.televia.com.mx.&gt;</span>
+    <span class="ident">MxTagTelevia</span> <span class="op">=</span> <span class="number">13</span>,
+    <span class="doccomment">/// Mexico toll pass. See additional details at</span>
+    <span class="doccomment">/// &lt;https://www.viapass.com.mx/viapass/web_home.aspx.&gt;</span>
+    <span class="ident">MxViapass</span> <span class="op">=</span> <span class="number">14</span>,
+    <span class="doccomment">/// State pass of California, United States. Passes vary between Standard,</span>
+    <span class="doccomment">/// Flex, and Clean Air. Flex and Clean Air have settings for carpool. See</span>
+    <span class="doccomment">/// additional details at &lt;https://www.bayareafastrak.org/en/home/index.shtml.&gt;</span>
+    <span class="ident">UsCaFastrak</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// State pass of Illinois, United States. See additional details at</span>
+    <span class="doccomment">/// &lt;https://www.illinoistollway.com/about-ipass.&gt;</span>
+    <span class="ident">UsIlIpass</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="doccomment">/// State pass of Massachusetts, United States. See additional details at</span>
+    <span class="doccomment">/// &lt;https://www.mass.gov/ezdrivema.&gt;</span>
+    <span class="ident">UsMaEzpassma</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="doccomment">/// State pass of New York, United States. See additional details at</span>
+    <span class="doccomment">/// &lt;https://www.e-zpassny.com.&gt;</span>
+    <span class="ident">UsNyEzpassny</span> <span class="op">=</span> <span class="number">15</span>,
+    <span class="doccomment">/// State pass of the Washington state, United States.</span>
+    <span class="ident">UsWaGoodToGo</span> <span class="op">=</span> <span class="number">1</span>,
+}
+<span class="doccomment">/// ComputeRoutes request message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRoutesRequest</span> {
+    <span class="doccomment">/// Required. Origin waypoint.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">origin</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Destination waypoint.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. A set of waypoints along the route (excluding terminal points),</span>
+    <span class="doccomment">/// for either stopping at or passing by. Up to 25 intermediate waypoints are</span>
+    <span class="doccomment">/// supported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">intermediates</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Specifies the mode of transportation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteTravelMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">travel_mode</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Specifies how to compute the route. The server</span>
+    <span class="doccomment">/// attempts to use the selected routing preference to compute the route. If</span>
+    <span class="doccomment">///  the routing preference results in an error or an extra long latency, then</span>
+    <span class="doccomment">/// an error is returned. In the future, we might implement a fallback</span>
+    <span class="doccomment">/// mechanism to use a different option when the preferred option does not give</span>
+    <span class="doccomment">/// a valid result. You can specify this option only when the `travel_mode` is</span>
+    <span class="doccomment">/// `DRIVE` or `TWO_WHEELER`, otherwise the request fails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RoutingPreference&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">routing_preference</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Specifies your preference for the quality of the polyline.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PolylineQuality&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">polyline_quality</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Specifies the preferred encoding for the polyline.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PolylineEncoding&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">polyline_encoding</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. The departure time. If you don&#39;t set this value, then this value</span>
+    <span class="doccomment">/// defaults to the time that you made the request. If you set this value to a</span>
+    <span class="doccomment">/// time that has already occurred, then the request fails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">departure_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Specifies whether to calculate alternate routes in addition to the route.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">compute_alternative_routes</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Optional. A set of conditions to satisfy that affect the way routes are</span>
+    <span class="doccomment">/// calculated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">route_modifiers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteModifiers</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. The BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;. For more</span>
+    <span class="doccomment">/// information, see</span>
+    <span class="doccomment">/// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; See</span>
+    <span class="doccomment">/// [Language Support](&lt;https://developers.google.com/maps/faq#languagesupport&gt;)</span>
+    <span class="doccomment">/// for the list of supported languages. When you don&#39;t provide this value, the</span>
+    <span class="doccomment">/// display language is inferred from the location of the route request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Specifies the units of measure for the display fields. This</span>
+    <span class="doccomment">/// includes the `instruction` field in `NavigationInstruction`. The units of</span>
+    <span class="doccomment">/// measure used for the route, leg, step distance, and duration are not</span>
+    <span class="doccomment">/// affected by this value. If you don&#39;t provide this value, then the display</span>
+    <span class="doccomment">/// units are inferred from the location of the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Units&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">units</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Encapsulates a set of optional conditions to satisfy when calculating the</span>
+<span class="doccomment">/// routes.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteModifiers</span> {
+    <span class="doccomment">/// Specifies whether to avoid toll roads where reasonable. Preference will be</span>
+    <span class="doccomment">/// given to routes not containing toll roads. Applies only to the `DRIVE` and</span>
+    <span class="doccomment">/// `TWO_WHEELER` travel modes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">avoid_tolls</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Specifies whether to avoid highways where reasonable. Preference will be</span>
+    <span class="doccomment">/// given to routes not containing highways. Applies only to the `DRIVE` and</span>
+    <span class="doccomment">/// `TWO_WHEELER` travel modes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">avoid_highways</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Specifies whether to avoid ferries where reasonable. Preference will be</span>
+    <span class="doccomment">/// given to routes not containing travel by ferries.</span>
+    <span class="doccomment">/// Applies only to the `DRIVE` and`TWO_WHEELER` travel modes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">avoid_ferries</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Specifies whether to avoid navigating indoors where reasonable. Preference</span>
+    <span class="doccomment">/// will be given to routes not containing indoor navigation.</span>
+    <span class="doccomment">/// Applies only to the `WALK` travel mode.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">avoid_indoor</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Specifies the vehicle information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">vehicle_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">VehicleInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Encapsulates information about toll passes.</span>
+    <span class="doccomment">/// If toll passes are provided, the API tries to return the pass price. If</span>
+    <span class="doccomment">/// toll passes are not provided, the API treats the toll pass as unknown and</span>
+    <span class="doccomment">/// tries to return the cash price.</span>
+    <span class="doccomment">/// Applies only to the DRIVE and TWO_WHEELER travel modes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;TollPass&quot;</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">toll_passes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Encapsulates the vehicle information, such as the license plate last</span>
+<span class="doccomment">/// character.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VehicleInfo</span> {
+    <span class="doccomment">/// Specifies the license plate last character. Could be a digit or a letter.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">license_plate_last_character</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Describes the vehicle&#39;s emission type.</span>
+    <span class="doccomment">/// Applies only to the DRIVE travel mode.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;VehicleEmissionType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">emission_type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// A set of values used to specify the mode of travel.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RouteTravelMode</span> {
+    <span class="doccomment">/// No travel mode specified. Defaults to `DRIVE`.</span>
+    <span class="ident">TravelModeUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Travel by passenger car.</span>
+    <span class="ident">Drive</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Travel by bicycle.</span>
+    <span class="ident">Bicycle</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Travel by walking.</span>
+    <span class="ident">Walk</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Two-wheeled, motorized vehicle. For example, motorcycle. Note that this</span>
+    <span class="doccomment">/// differs from the `BICYCLE` travel mode which covers human-powered mode.</span>
+    <span class="ident">TwoWheeler</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// Travel by licensed taxi, which may allow the vehicle to travel on</span>
+    <span class="doccomment">/// designated taxi lanes in some areas.</span>
+    <span class="ident">Taxi</span> <span class="op">=</span> <span class="number">5</span>,
+}
+<span class="doccomment">/// A set of values that specify factors to take into consideration when</span>
+<span class="doccomment">/// calculating the route.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RoutingPreference</span> {
+    <span class="doccomment">/// No routing preference specified. Default to `TRAFFIC_AWARE`.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Computes routes without taking traffic conditions into consideration.</span>
+    <span class="doccomment">/// Suitable when traffic conditions don&#39;t matter. Using this value produces</span>
+    <span class="doccomment">/// the lowest latency.</span>
+    <span class="ident">TrafficUnaware</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Calculates routes taking traffic conditions into consideration. In contrast</span>
+    <span class="doccomment">/// to `TRAFFIC_AWARE_OPTIMAL`, some optimizations are applied to significantly</span>
+    <span class="doccomment">/// reduce latency.</span>
+    <span class="ident">TrafficAware</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Calculates the routes taking traffic conditions into consideration,</span>
+    <span class="doccomment">/// without applying most performance optimizations. Using this value produces</span>
+    <span class="doccomment">/// the highest latency.</span>
+    <span class="ident">TrafficAwareOptimal</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="doccomment">/// A set of values that specify the unit of measure used in the display.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Units</span> {
+    <span class="doccomment">/// Units of measure not specified. Defaults to the unit of measure inferred</span>
+    <span class="doccomment">/// from the request.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Metric units of measure.</span>
+    <span class="ident">Metric</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Imperial (English) units of measure.</span>
+    <span class="ident">Imperial</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// ComputeCustomRoutes request message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeCustomRoutesRequest</span> {
+    <span class="doccomment">/// Required. Origin waypoint.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">origin</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Destination waypoint.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. A set of waypoints along the route (excluding terminal points), for either</span>
+    <span class="doccomment">/// stopping at or passing by. Up to 25 intermediate waypoints are supported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">intermediates</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Specifies the mode of transportation. Only DRIVE is supported now.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteTravelMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">travel_mode</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Specifies how to compute the route. The server attempts to use the selected</span>
+    <span class="doccomment">/// routing preference to compute the route. If the routing preference results</span>
+    <span class="doccomment">/// in an error or an extra long latency, then an error is returned. In the</span>
+    <span class="doccomment">/// future, we might implement a fallback mechanism to use a different option</span>
+    <span class="doccomment">/// when the preferred option does not give a valid result. You can specify</span>
+    <span class="doccomment">/// this option only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`,</span>
+    <span class="doccomment">/// otherwise the request fails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RoutingPreference&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">routing_preference</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Specifies your preference for the quality of the polyline.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PolylineQuality&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">polyline_quality</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Specifies the preferred encoding for the polyline.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PolylineEncoding&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">polyline_encoding</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. The departure time. If you don&#39;t set this value, then this value</span>
+    <span class="doccomment">/// defaults to the time that you made the request. If you set this value to a</span>
+    <span class="doccomment">/// time that has already occurred, then the request fails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">departure_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. A set of conditions to satisfy that affect the way routes are calculated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">route_modifiers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteModifiers</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. A route objective to optimize for.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">route_objective</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteObjective</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. The BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;. For more</span>
+    <span class="doccomment">/// information, see</span>
+    <span class="doccomment">/// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; See</span>
+    <span class="doccomment">/// [Language Support](&lt;https://developers.google.com/maps/faq#languagesupport&gt;)</span>
+    <span class="doccomment">/// for the list of supported languages. When you don&#39;t provide this value, the</span>
+    <span class="doccomment">/// display language is inferred from the location of the route request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Specifies the units of measure for the display fields. This includes the</span>
+    <span class="doccomment">/// `instruction` field in `NavigationInstruction`. The units of measure used</span>
+    <span class="doccomment">/// for the route, leg, step distance, and duration are not affected by this</span>
+    <span class="doccomment">/// value. If you don&#39;t provide this value, then the display units are inferred</span>
+    <span class="doccomment">/// from the location of the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Units&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">units</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Encapsulates an objective to optimize for by ComputeCustomRoutes.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteObjective</span> {
+    <span class="doccomment">/// The route objective.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;route_objective::Objective&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">objective</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">route_objective::Objective</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `RouteObjective`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">route_objective</span> {
+    <span class="doccomment">/// Encapsulates a RateCard route objective.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RateCard</span> {
+        <span class="doccomment">/// Optional. Cost per minute.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">cost_per_minute</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">rate_card::MonetaryCost</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Optional. Cost per kilometer.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">cost_per_km</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">rate_card::MonetaryCost</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Optional. Whether to include toll cost in the overall cost.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">include_tolls</span>: <span class="ident">bool</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `RateCard`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rate_card</span> {
+        <span class="doccomment">/// Encapsulates the cost used in the rate card.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MonetaryCost</span> {
+            <span class="doccomment">/// Required. The cost value in local currency inferred from the request.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">f64</span>,
+        }
+    }
+    <span class="doccomment">/// The route objective.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Objective</span> {
+        <span class="doccomment">/// The RateCard objective.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">RateCard</span>(<span class="ident">RateCard</span>),
+    }
+}
 <span class="doccomment">/// Encapsulates a custom route computed based on the route objective specified</span>
 <span class="doccomment">/// by the customer. CustomRoute contains a route and a route token, which can be</span>
 <span class="doccomment">/// passed to NavSDK to reconstruct the custom route for turn by turn navigation.</span>
@@ -1952,49 +2068,58 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">token</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Information related to how and why a fallback result was used. If this field</span>
-<span class="doccomment">/// is set, then it means the server used a different routing mode from your</span>
-<span class="doccomment">/// preferred mode as fallback.</span>
+<span class="doccomment">/// ComputeRouteMatrix request message</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FallbackInfo</span> {
-    <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode</span>
-    <span class="doccomment">/// may be different from routing preference set in the original client</span>
-    <span class="doccomment">/// request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;FallbackRoutingMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">routing_mode</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The reason why fallback response was used instead of the original response.</span>
-    <span class="doccomment">/// This field is only populated when the fallback mode is triggered and the</span>
-    <span class="doccomment">/// fallback response is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;FallbackReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">reason</span>: <span class="ident">i32</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRouteMatrixRequest</span> {
+    <span class="doccomment">/// Required. Array of origins, which determines the rows of the response matrix.</span>
+    <span class="doccomment">/// Several size restrictions apply to the cardinality of origins and</span>
+    <span class="doccomment">/// destinations:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * The number of elements (origins × destinations) must be no greater than</span>
+    <span class="doccomment">/// 625 in any case.</span>
+    <span class="doccomment">/// * The number of elements (origins × destinations) must be no greater than</span>
+    <span class="doccomment">/// 100 if routing_preference is set to `TRAFFIC_AWARE_OPTIMAL`.</span>
+    <span class="doccomment">/// * The number of waypoints (origins + destinations) specified as `place_id`</span>
+    <span class="doccomment">/// must be no greater than 50.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">origins</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RouteMatrixOrigin</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Array of destinations, which determines the columns of the response matrix.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destinations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RouteMatrixDestination</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Specifies the mode of transportation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteTravelMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">travel_mode</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Specifies how to compute the route. The server attempts to use the selected</span>
+    <span class="doccomment">/// routing preference to compute the route. If the routing preference results</span>
+    <span class="doccomment">/// in an error or an extra long latency, an error is returned. In the future,</span>
+    <span class="doccomment">/// we might implement a fallback mechanism to use a different option when the</span>
+    <span class="doccomment">/// preferred option does not give a valid result. You can specify this option</span>
+    <span class="doccomment">/// only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`, otherwise the</span>
+    <span class="doccomment">/// request fails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RoutingPreference&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">routing_preference</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. The departure time. If you don&#39;t set this value, this defaults to the time</span>
+    <span class="doccomment">/// that you made the request. If you set this value to a time that has already</span>
+    <span class="doccomment">/// occurred, the request fails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">departure_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Reasons for using fallback response.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackReason</span> {
-    <span class="doccomment">/// No fallback reason specified.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// A server error happened while calculating routes with your preferred</span>
-    <span class="doccomment">/// routing mode, but we were able to return a result calculated by an</span>
-    <span class="doccomment">/// alternative mode.</span>
-    <span class="ident">ServerError</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// We were not able to finish the calculation with your preferred routing mode</span>
-    <span class="doccomment">/// on time, but we were able to return a result calculated by an alternative</span>
-    <span class="doccomment">/// mode.</span>
-    <span class="ident">LatencyExceeded</span> <span class="op">=</span> <span class="number">2</span>,
+<span class="doccomment">/// A single origin for ComputeRouteMatrixRequest</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixOrigin</span> {
+    <span class="doccomment">/// Required. Origin waypoint</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">waypoint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Modifiers for every route that takes this as the origin</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">route_modifiers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteModifiers</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Actual routing mode used for returned fallback response.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackRoutingMode</span> {
-    <span class="doccomment">/// Not used.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Indicates the &quot;TRAFFIC_UNAWARE&quot; routing mode was used to compute the</span>
-    <span class="doccomment">/// response.</span>
-    <span class="ident">FallbackTrafficUnaware</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Indicates the &quot;TRAFFIC_AWARE&quot; routing mode was used to compute the</span>
-    <span class="doccomment">/// response.</span>
-    <span class="ident">FallbackTrafficAware</span> <span class="op">=</span> <span class="number">2</span>,
+<span class="doccomment">/// A single destination for ComputeRouteMatrixRequest</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixDestination</span> {
+    <span class="doccomment">/// Required. Destination waypoint</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">waypoint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// ComputeCustomRoutes response message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2062,131 +2187,6 @@
             <span class="ident">FallbackRatecardWithoutTollPriceData</span> <span class="op">=</span> <span class="number">1</span>,
         }
     }
-}
-<span class="doccomment">/// ComputeRouteMatrix request message</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRouteMatrixRequest</span> {
-    <span class="doccomment">/// Required. Array of origins, which determines the rows of the response matrix.</span>
-    <span class="doccomment">/// Several size restrictions apply to the cardinality of origins and</span>
-    <span class="doccomment">/// destinations:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * The number of elements (origins × destinations) must be no greater than</span>
-    <span class="doccomment">/// 625 in any case.</span>
-    <span class="doccomment">/// * The number of elements (origins × destinations) must be no greater than</span>
-    <span class="doccomment">/// 100 if routing_preference is set to `TRAFFIC_AWARE_OPTIMAL`.</span>
-    <span class="doccomment">/// * The number of waypoints (origins + destinations) specified as `place_id`</span>
-    <span class="doccomment">/// must be no greater than 50.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">origins</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RouteMatrixOrigin</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Array of destinations, which determines the columns of the response matrix.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destinations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RouteMatrixDestination</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Specifies the mode of transportation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteTravelMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">travel_mode</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Specifies how to compute the route. The server attempts to use the selected</span>
-    <span class="doccomment">/// routing preference to compute the route. If the routing preference results</span>
-    <span class="doccomment">/// in an error or an extra long latency, an error is returned. In the future,</span>
-    <span class="doccomment">/// we might implement a fallback mechanism to use a different option when the</span>
-    <span class="doccomment">/// preferred option does not give a valid result. You can specify this option</span>
-    <span class="doccomment">/// only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`, otherwise the</span>
-    <span class="doccomment">/// request fails.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RoutingPreference&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">routing_preference</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. The departure time. If you don&#39;t set this value, this defaults to the time</span>
-    <span class="doccomment">/// that you made the request. If you set this value to a time that has already</span>
-    <span class="doccomment">/// occurred, the request fails.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">departure_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A single origin for ComputeRouteMatrixRequest</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixOrigin</span> {
-    <span class="doccomment">/// Required. Origin waypoint</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">waypoint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Modifiers for every route that takes this as the origin</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">route_modifiers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteModifiers</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A single destination for ComputeRouteMatrixRequest</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixDestination</span> {
-    <span class="doccomment">/// Required. Destination waypoint</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">waypoint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// ComputeRoutes the response message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRoutesResponse</span> {
-    <span class="doccomment">/// Contains an array of computed routes (up to three) when you specify</span>
-    <span class="doccomment">/// compute_alternatives_routes, and contains just one route when you don&#39;t.</span>
-    <span class="doccomment">/// When this array contains multiple entries, the first one is the most</span>
-    <span class="doccomment">/// recommended route. If the array is empty, then it means no route could be</span>
-    <span class="doccomment">/// found.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">routes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// In some cases when the server is not able to compute the route results with</span>
-    <span class="doccomment">/// all of the input preferences, it may fallback to using a different way of</span>
-    <span class="doccomment">/// computation. When fallback mode is used, this field contains detailed info</span>
-    <span class="doccomment">/// about the fallback response. Otherwise this field is unset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FallbackInfo</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Encapsulates route information computed for an origin/destination pair in the</span>
-<span class="doccomment">/// ComputeRouteMatrix API. This proto can be streamed to the client.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixElement</span> {
-    <span class="doccomment">/// Zero-based index of the origin in the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">origin_index</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Zero-based index of the destination in the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination_index</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Error status code for this element.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Indicates whether the route was found or not. Independent of status.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteMatrixElementCondition&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">condition</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The travel distance of the route, in meters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">distance_meters</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The length of time needed to navigate the route. If you set the</span>
-    <span class="doccomment">/// `route_preference` to `TRAFFIC_UNAWARE`, then this value is the same as</span>
-    <span class="doccomment">/// `static_duration`. If you set the `route_preference` to either</span>
-    <span class="doccomment">/// `TRAFFIC_AWARE` or `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated</span>
-    <span class="doccomment">/// taking traffic conditions into account.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The duration of traveling through the route without taking traffic</span>
-    <span class="doccomment">/// conditions into consideration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">static_duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Additional information about the route. For example: restriction</span>
-    <span class="doccomment">/// information and toll information</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">travel_advisory</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteTravelAdvisory</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// In some cases when the server is not able to compute the route with the</span>
-    <span class="doccomment">/// given preferences for this particular origin/destination pair, it may</span>
-    <span class="doccomment">/// fall back to using a different mode of computation. When fallback mode is</span>
-    <span class="doccomment">/// used, this field contains detailed information about the fallback response.</span>
-    <span class="doccomment">/// Otherwise this field is unset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FallbackInfo</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The condition of the route being returned.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RouteMatrixElementCondition</span> {
-    <span class="doccomment">/// Only used when the `status` of the element is not OK.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// A route was found, and the corresponding information was filled out for the</span>
-    <span class="doccomment">/// element.</span>
-    <span class="ident">RouteExists</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// No route could be found. Fields containing route information, such as</span>
-    <span class="doccomment">/// `distance_meters` or `duration`, will not be filled out in the element.</span>
-    <span class="ident">RouteNotFound</span> <span class="op">=</span> <span class="number">2</span>,
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">routes_preferred_client</span> {

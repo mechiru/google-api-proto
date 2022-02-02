@@ -1121,175 +1121,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Output only.</span>
-<span class="doccomment">/// Defines a warning trace message for ScanRun. Warning traces provide customers</span>
-<span class="doccomment">/// with useful information that helps make the scanning process more effective.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScanRunWarningTrace</span> {
-    <span class="doccomment">/// Indicates the warning code.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;scan_run_warning_trace::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ScanRunWarningTrace`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">scan_run_warning_trace</span> {
-    <span class="doccomment">/// Output only.</span>
-    <span class="doccomment">/// Defines a warning message code.</span>
-    <span class="doccomment">/// Next id: 6</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
-        <span class="doccomment">/// Default value is never used.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Indicates that a scan discovered an unexpectedly low number of URLs. This</span>
-        <span class="doccomment">/// is sometimes caused by complex navigation features or by using a single</span>
-        <span class="doccomment">/// URL for numerous pages.</span>
-        <span class="ident">InsufficientCrawlResults</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Indicates that a scan discovered too many URLs to test, or excessive</span>
-        <span class="doccomment">/// redundant URLs.</span>
-        <span class="ident">TooManyCrawlResults</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Indicates that too many tests have been generated for the scan. Customer</span>
-        <span class="doccomment">/// should try reducing the number of starting URLs, increasing the QPS rate,</span>
-        <span class="doccomment">/// or narrowing down the scope of the scan using the excluded patterns.</span>
-        <span class="ident">TooManyFuzzTasks</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Indicates that a scan is blocked by IAP.</span>
-        <span class="ident">BlockedByIap</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-}
-<span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType</span>
-<span class="doccomment">/// of Findings under a given ScanRun.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FindingTypeStats</span> {
-    <span class="doccomment">/// The finding type associated with the stats.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">finding_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The count of findings belonging to this finding type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">finding_count</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig</span>
-<span class="doccomment">/// APIs when scan configuration validation fails. It is also reported as part of</span>
-<span class="doccomment">/// a ScanRunErrorTrace message if scan validation fails due to a scan</span>
-<span class="doccomment">/// configuration error.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScanConfigError</span> {
-    <span class="doccomment">/// Indicates the reason code for a configuration failure.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;scan_config_error::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Indicates the full name of the ScanConfig field that triggers this error,</span>
-    <span class="doccomment">/// for example &quot;scan_config.max_qps&quot;. This field is provided for</span>
-    <span class="doccomment">/// troubleshooting purposes only and its actual value can change in the</span>
-    <span class="doccomment">/// future.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">field_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ScanConfigError`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">scan_config_error</span> {
-    <span class="doccomment">/// Output only.</span>
-    <span class="doccomment">/// Defines an error reason code.</span>
-    <span class="doccomment">/// Next id: 44</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
-        <span class="doccomment">/// There is no error.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Indicates an internal server error.</span>
-        <span class="doccomment">/// Please DO NOT USE THIS ERROR CODE unless the root cause is truly unknown.</span>
-        <span class="ident">InternalError</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// One of the seed URLs is an App Engine URL but we cannot validate the scan</span>
-        <span class="doccomment">/// settings due to an App Engine API backend error.</span>
-        <span class="ident">AppengineApiBackendError</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// One of the seed URLs is an App Engine URL but we cannot access the</span>
-        <span class="doccomment">/// App Engine API to validate scan settings.</span>
-        <span class="ident">AppengineApiNotAccessible</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// One of the seed URLs is an App Engine URL but the Default Host of the</span>
-        <span class="doccomment">/// App Engine is not set.</span>
-        <span class="ident">AppengineDefaultHostMissing</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// Google corporate accounts can not be used for scanning.</span>
-        <span class="ident">CannotUseGoogleComAccount</span> <span class="op">=</span> <span class="number">6</span>,
-        <span class="doccomment">/// The account of the scan creator can not be used for scanning.</span>
-        <span class="ident">CannotUseOwnerAccount</span> <span class="op">=</span> <span class="number">7</span>,
-        <span class="doccomment">/// This scan targets Compute Engine, but we cannot validate scan settings</span>
-        <span class="doccomment">/// due to a Compute Engine API backend error.</span>
-        <span class="ident">ComputeApiBackendError</span> <span class="op">=</span> <span class="number">8</span>,
-        <span class="doccomment">/// This scan targets Compute Engine, but we cannot access the Compute Engine</span>
-        <span class="doccomment">/// API to validate the scan settings.</span>
-        <span class="ident">ComputeApiNotAccessible</span> <span class="op">=</span> <span class="number">9</span>,
-        <span class="doccomment">/// The Custom Login URL does not belong to the current project.</span>
-        <span class="ident">CustomLoginUrlDoesNotBelongToCurrentProject</span> <span class="op">=</span> <span class="number">10</span>,
-        <span class="doccomment">/// The Custom Login URL is malformed (can not be parsed).</span>
-        <span class="ident">CustomLoginUrlMalformed</span> <span class="op">=</span> <span class="number">11</span>,
-        <span class="doccomment">/// The Custom Login URL is mapped to a non-routable IP address in DNS.</span>
-        <span class="ident">CustomLoginUrlMappedToNonRoutableAddress</span> <span class="op">=</span> <span class="number">12</span>,
-        <span class="doccomment">/// The Custom Login URL is mapped to an IP address which is not reserved for</span>
-        <span class="doccomment">/// the current project.</span>
-        <span class="ident">CustomLoginUrlMappedToUnreservedAddress</span> <span class="op">=</span> <span class="number">13</span>,
-        <span class="doccomment">/// The Custom Login URL has a non-routable IP address.</span>
-        <span class="ident">CustomLoginUrlHasNonRoutableIpAddress</span> <span class="op">=</span> <span class="number">14</span>,
-        <span class="doccomment">/// The Custom Login URL has an IP address which is not reserved for the</span>
-        <span class="doccomment">/// current project.</span>
-        <span class="ident">CustomLoginUrlHasUnreservedIpAddress</span> <span class="op">=</span> <span class="number">15</span>,
-        <span class="doccomment">/// Another scan with the same name (case-sensitive) already exists.</span>
-        <span class="ident">DuplicateScanName</span> <span class="op">=</span> <span class="number">16</span>,
-        <span class="doccomment">/// A field is set to an invalid value.</span>
-        <span class="ident">InvalidFieldValue</span> <span class="op">=</span> <span class="number">18</span>,
-        <span class="doccomment">/// There was an error trying to authenticate to the scan target.</span>
-        <span class="ident">FailedToAuthenticateToTarget</span> <span class="op">=</span> <span class="number">19</span>,
-        <span class="doccomment">/// Finding type value is not specified in the list findings request.</span>
-        <span class="ident">FindingTypeUnspecified</span> <span class="op">=</span> <span class="number">20</span>,
-        <span class="doccomment">/// Scan targets Compute Engine, yet current project was not whitelisted for</span>
-        <span class="doccomment">/// Google Compute Engine Scanning Alpha access.</span>
-        <span class="ident">ForbiddenToScanCompute</span> <span class="op">=</span> <span class="number">21</span>,
-        <span class="doccomment">/// User tries to update managed scan</span>
-        <span class="ident">ForbiddenUpdateToManagedScan</span> <span class="op">=</span> <span class="number">43</span>,
-        <span class="doccomment">/// The supplied filter is malformed. For example, it can not be parsed, does</span>
-        <span class="doccomment">/// not have a filter type in expression, or the same filter type appears</span>
-        <span class="doccomment">/// more than once.</span>
-        <span class="ident">MalformedFilter</span> <span class="op">=</span> <span class="number">22</span>,
-        <span class="doccomment">/// The supplied resource name is malformed (can not be parsed).</span>
-        <span class="ident">MalformedResourceName</span> <span class="op">=</span> <span class="number">23</span>,
-        <span class="doccomment">/// The current project is not in an active state.</span>
-        <span class="ident">ProjectInactive</span> <span class="op">=</span> <span class="number">24</span>,
-        <span class="doccomment">/// A required field is not set.</span>
-        <span class="ident">RequiredField</span> <span class="op">=</span> <span class="number">25</span>,
-        <span class="doccomment">/// Project id, scanconfig id, scanrun id, or finding id are not consistent</span>
-        <span class="doccomment">/// with each other in resource name.</span>
-        <span class="ident">ResourceNameInconsistent</span> <span class="op">=</span> <span class="number">26</span>,
-        <span class="doccomment">/// The scan being requested to start is already running.</span>
-        <span class="ident">ScanAlreadyRunning</span> <span class="op">=</span> <span class="number">27</span>,
-        <span class="doccomment">/// The scan that was requested to be stopped is not running.</span>
-        <span class="ident">ScanNotRunning</span> <span class="op">=</span> <span class="number">28</span>,
-        <span class="doccomment">/// One of the seed URLs does not belong to the current project.</span>
-        <span class="ident">SeedUrlDoesNotBelongToCurrentProject</span> <span class="op">=</span> <span class="number">29</span>,
-        <span class="doccomment">/// One of the seed URLs is malformed (can not be parsed).</span>
-        <span class="ident">SeedUrlMalformed</span> <span class="op">=</span> <span class="number">30</span>,
-        <span class="doccomment">/// One of the seed URLs is mapped to a non-routable IP address in DNS.</span>
-        <span class="ident">SeedUrlMappedToNonRoutableAddress</span> <span class="op">=</span> <span class="number">31</span>,
-        <span class="doccomment">/// One of the seed URLs is mapped to an IP address which is not reserved</span>
-        <span class="doccomment">/// for the current project.</span>
-        <span class="ident">SeedUrlMappedToUnreservedAddress</span> <span class="op">=</span> <span class="number">32</span>,
-        <span class="doccomment">/// One of the seed URLs has on-routable IP address.</span>
-        <span class="ident">SeedUrlHasNonRoutableIpAddress</span> <span class="op">=</span> <span class="number">33</span>,
-        <span class="doccomment">/// One of the seed URLs has an IP address that is not reserved</span>
-        <span class="doccomment">/// for the current project.</span>
-        <span class="ident">SeedUrlHasUnreservedIpAddress</span> <span class="op">=</span> <span class="number">35</span>,
-        <span class="doccomment">/// The Cloud Security Scanner service account is not configured under the</span>
-        <span class="doccomment">/// project.</span>
-        <span class="ident">ServiceAccountNotConfigured</span> <span class="op">=</span> <span class="number">36</span>,
-        <span class="doccomment">/// A project has reached the maximum number of scans.</span>
-        <span class="ident">TooManyScans</span> <span class="op">=</span> <span class="number">37</span>,
-        <span class="doccomment">/// Resolving the details of the current project fails.</span>
-        <span class="ident">UnableToResolveProjectInfo</span> <span class="op">=</span> <span class="number">38</span>,
-        <span class="doccomment">/// One or more blacklist patterns were in the wrong format.</span>
-        <span class="ident">UnsupportedBlacklistPatternFormat</span> <span class="op">=</span> <span class="number">39</span>,
-        <span class="doccomment">/// The supplied filter is not supported.</span>
-        <span class="ident">UnsupportedFilter</span> <span class="op">=</span> <span class="number">40</span>,
-        <span class="doccomment">/// The supplied finding type is not supported. For example, we do not</span>
-        <span class="doccomment">/// provide findings of the given finding type.</span>
-        <span class="ident">UnsupportedFindingType</span> <span class="op">=</span> <span class="number">41</span>,
-        <span class="doccomment">/// The URL scheme of one or more of the supplied URLs is not supported.</span>
-        <span class="ident">UnsupportedUrlScheme</span> <span class="op">=</span> <span class="number">42</span>,
-    }
-}
 <span class="doccomment">/// ! Information about a vulnerability with an HTML.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Form</span> {
@@ -1429,6 +1260,141 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">xss</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Xss</span><span class="op">&gt;</span>,
 }
+<span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType</span>
+<span class="doccomment">/// of Findings under a given ScanRun.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FindingTypeStats</span> {
+    <span class="doccomment">/// The finding type associated with the stats.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">finding_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The count of findings belonging to this finding type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">finding_count</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig</span>
+<span class="doccomment">/// APIs when scan configuration validation fails. It is also reported as part of</span>
+<span class="doccomment">/// a ScanRunErrorTrace message if scan validation fails due to a scan</span>
+<span class="doccomment">/// configuration error.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScanConfigError</span> {
+    <span class="doccomment">/// Indicates the reason code for a configuration failure.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;scan_config_error::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Indicates the full name of the ScanConfig field that triggers this error,</span>
+    <span class="doccomment">/// for example &quot;scan_config.max_qps&quot;. This field is provided for</span>
+    <span class="doccomment">/// troubleshooting purposes only and its actual value can change in the</span>
+    <span class="doccomment">/// future.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">field_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ScanConfigError`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">scan_config_error</span> {
+    <span class="doccomment">/// Output only.</span>
+    <span class="doccomment">/// Defines an error reason code.</span>
+    <span class="doccomment">/// Next id: 44</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
+        <span class="doccomment">/// There is no error.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Indicates an internal server error.</span>
+        <span class="doccomment">/// Please DO NOT USE THIS ERROR CODE unless the root cause is truly unknown.</span>
+        <span class="ident">InternalError</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// One of the seed URLs is an App Engine URL but we cannot validate the scan</span>
+        <span class="doccomment">/// settings due to an App Engine API backend error.</span>
+        <span class="ident">AppengineApiBackendError</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// One of the seed URLs is an App Engine URL but we cannot access the</span>
+        <span class="doccomment">/// App Engine API to validate scan settings.</span>
+        <span class="ident">AppengineApiNotAccessible</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// One of the seed URLs is an App Engine URL but the Default Host of the</span>
+        <span class="doccomment">/// App Engine is not set.</span>
+        <span class="ident">AppengineDefaultHostMissing</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// Google corporate accounts can not be used for scanning.</span>
+        <span class="ident">CannotUseGoogleComAccount</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// The account of the scan creator can not be used for scanning.</span>
+        <span class="ident">CannotUseOwnerAccount</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// This scan targets Compute Engine, but we cannot validate scan settings</span>
+        <span class="doccomment">/// due to a Compute Engine API backend error.</span>
+        <span class="ident">ComputeApiBackendError</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// This scan targets Compute Engine, but we cannot access the Compute Engine</span>
+        <span class="doccomment">/// API to validate the scan settings.</span>
+        <span class="ident">ComputeApiNotAccessible</span> <span class="op">=</span> <span class="number">9</span>,
+        <span class="doccomment">/// The Custom Login URL does not belong to the current project.</span>
+        <span class="ident">CustomLoginUrlDoesNotBelongToCurrentProject</span> <span class="op">=</span> <span class="number">10</span>,
+        <span class="doccomment">/// The Custom Login URL is malformed (can not be parsed).</span>
+        <span class="ident">CustomLoginUrlMalformed</span> <span class="op">=</span> <span class="number">11</span>,
+        <span class="doccomment">/// The Custom Login URL is mapped to a non-routable IP address in DNS.</span>
+        <span class="ident">CustomLoginUrlMappedToNonRoutableAddress</span> <span class="op">=</span> <span class="number">12</span>,
+        <span class="doccomment">/// The Custom Login URL is mapped to an IP address which is not reserved for</span>
+        <span class="doccomment">/// the current project.</span>
+        <span class="ident">CustomLoginUrlMappedToUnreservedAddress</span> <span class="op">=</span> <span class="number">13</span>,
+        <span class="doccomment">/// The Custom Login URL has a non-routable IP address.</span>
+        <span class="ident">CustomLoginUrlHasNonRoutableIpAddress</span> <span class="op">=</span> <span class="number">14</span>,
+        <span class="doccomment">/// The Custom Login URL has an IP address which is not reserved for the</span>
+        <span class="doccomment">/// current project.</span>
+        <span class="ident">CustomLoginUrlHasUnreservedIpAddress</span> <span class="op">=</span> <span class="number">15</span>,
+        <span class="doccomment">/// Another scan with the same name (case-sensitive) already exists.</span>
+        <span class="ident">DuplicateScanName</span> <span class="op">=</span> <span class="number">16</span>,
+        <span class="doccomment">/// A field is set to an invalid value.</span>
+        <span class="ident">InvalidFieldValue</span> <span class="op">=</span> <span class="number">18</span>,
+        <span class="doccomment">/// There was an error trying to authenticate to the scan target.</span>
+        <span class="ident">FailedToAuthenticateToTarget</span> <span class="op">=</span> <span class="number">19</span>,
+        <span class="doccomment">/// Finding type value is not specified in the list findings request.</span>
+        <span class="ident">FindingTypeUnspecified</span> <span class="op">=</span> <span class="number">20</span>,
+        <span class="doccomment">/// Scan targets Compute Engine, yet current project was not whitelisted for</span>
+        <span class="doccomment">/// Google Compute Engine Scanning Alpha access.</span>
+        <span class="ident">ForbiddenToScanCompute</span> <span class="op">=</span> <span class="number">21</span>,
+        <span class="doccomment">/// User tries to update managed scan</span>
+        <span class="ident">ForbiddenUpdateToManagedScan</span> <span class="op">=</span> <span class="number">43</span>,
+        <span class="doccomment">/// The supplied filter is malformed. For example, it can not be parsed, does</span>
+        <span class="doccomment">/// not have a filter type in expression, or the same filter type appears</span>
+        <span class="doccomment">/// more than once.</span>
+        <span class="ident">MalformedFilter</span> <span class="op">=</span> <span class="number">22</span>,
+        <span class="doccomment">/// The supplied resource name is malformed (can not be parsed).</span>
+        <span class="ident">MalformedResourceName</span> <span class="op">=</span> <span class="number">23</span>,
+        <span class="doccomment">/// The current project is not in an active state.</span>
+        <span class="ident">ProjectInactive</span> <span class="op">=</span> <span class="number">24</span>,
+        <span class="doccomment">/// A required field is not set.</span>
+        <span class="ident">RequiredField</span> <span class="op">=</span> <span class="number">25</span>,
+        <span class="doccomment">/// Project id, scanconfig id, scanrun id, or finding id are not consistent</span>
+        <span class="doccomment">/// with each other in resource name.</span>
+        <span class="ident">ResourceNameInconsistent</span> <span class="op">=</span> <span class="number">26</span>,
+        <span class="doccomment">/// The scan being requested to start is already running.</span>
+        <span class="ident">ScanAlreadyRunning</span> <span class="op">=</span> <span class="number">27</span>,
+        <span class="doccomment">/// The scan that was requested to be stopped is not running.</span>
+        <span class="ident">ScanNotRunning</span> <span class="op">=</span> <span class="number">28</span>,
+        <span class="doccomment">/// One of the seed URLs does not belong to the current project.</span>
+        <span class="ident">SeedUrlDoesNotBelongToCurrentProject</span> <span class="op">=</span> <span class="number">29</span>,
+        <span class="doccomment">/// One of the seed URLs is malformed (can not be parsed).</span>
+        <span class="ident">SeedUrlMalformed</span> <span class="op">=</span> <span class="number">30</span>,
+        <span class="doccomment">/// One of the seed URLs is mapped to a non-routable IP address in DNS.</span>
+        <span class="ident">SeedUrlMappedToNonRoutableAddress</span> <span class="op">=</span> <span class="number">31</span>,
+        <span class="doccomment">/// One of the seed URLs is mapped to an IP address which is not reserved</span>
+        <span class="doccomment">/// for the current project.</span>
+        <span class="ident">SeedUrlMappedToUnreservedAddress</span> <span class="op">=</span> <span class="number">32</span>,
+        <span class="doccomment">/// One of the seed URLs has on-routable IP address.</span>
+        <span class="ident">SeedUrlHasNonRoutableIpAddress</span> <span class="op">=</span> <span class="number">33</span>,
+        <span class="doccomment">/// One of the seed URLs has an IP address that is not reserved</span>
+        <span class="doccomment">/// for the current project.</span>
+        <span class="ident">SeedUrlHasUnreservedIpAddress</span> <span class="op">=</span> <span class="number">35</span>,
+        <span class="doccomment">/// The Cloud Security Scanner service account is not configured under the</span>
+        <span class="doccomment">/// project.</span>
+        <span class="ident">ServiceAccountNotConfigured</span> <span class="op">=</span> <span class="number">36</span>,
+        <span class="doccomment">/// A project has reached the maximum number of scans.</span>
+        <span class="ident">TooManyScans</span> <span class="op">=</span> <span class="number">37</span>,
+        <span class="doccomment">/// Resolving the details of the current project fails.</span>
+        <span class="ident">UnableToResolveProjectInfo</span> <span class="op">=</span> <span class="number">38</span>,
+        <span class="doccomment">/// One or more blacklist patterns were in the wrong format.</span>
+        <span class="ident">UnsupportedBlacklistPatternFormat</span> <span class="op">=</span> <span class="number">39</span>,
+        <span class="doccomment">/// The supplied filter is not supported.</span>
+        <span class="ident">UnsupportedFilter</span> <span class="op">=</span> <span class="number">40</span>,
+        <span class="doccomment">/// The supplied finding type is not supported. For example, we do not</span>
+        <span class="doccomment">/// provide findings of the given finding type.</span>
+        <span class="ident">UnsupportedFindingType</span> <span class="op">=</span> <span class="number">41</span>,
+        <span class="doccomment">/// The URL scheme of one or more of the supplied URLs is not supported.</span>
+        <span class="ident">UnsupportedUrlScheme</span> <span class="op">=</span> <span class="number">42</span>,
+    }
+}
 <span class="doccomment">/// Output only.</span>
 <span class="doccomment">/// Defines an error trace message for a ScanRun.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1474,6 +1440,40 @@
         <span class="doccomment">/// pages. When available, most_common_http_error_code field indicates the</span>
         <span class="doccomment">/// most common HTTP error code encountered during the scan.</span>
         <span class="ident">TooManyHttpErrors</span> <span class="op">=</span> <span class="number">6</span>,
+    }
+}
+<span class="doccomment">/// Output only.</span>
+<span class="doccomment">/// Defines a warning trace message for ScanRun. Warning traces provide customers</span>
+<span class="doccomment">/// with useful information that helps make the scanning process more effective.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScanRunWarningTrace</span> {
+    <span class="doccomment">/// Indicates the warning code.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;scan_run_warning_trace::Code&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ScanRunWarningTrace`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">scan_run_warning_trace</span> {
+    <span class="doccomment">/// Output only.</span>
+    <span class="doccomment">/// Defines a warning message code.</span>
+    <span class="doccomment">/// Next id: 6</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Code</span> {
+        <span class="doccomment">/// Default value is never used.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Indicates that a scan discovered an unexpectedly low number of URLs. This</span>
+        <span class="doccomment">/// is sometimes caused by complex navigation features or by using a single</span>
+        <span class="doccomment">/// URL for numerous pages.</span>
+        <span class="ident">InsufficientCrawlResults</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Indicates that a scan discovered too many URLs to test, or excessive</span>
+        <span class="doccomment">/// redundant URLs.</span>
+        <span class="ident">TooManyCrawlResults</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Indicates that too many tests have been generated for the scan. Customer</span>
+        <span class="doccomment">/// should try reducing the number of starting URLs, increasing the QPS rate,</span>
+        <span class="doccomment">/// or narrowing down the scope of the scan using the excluded patterns.</span>
+        <span class="ident">TooManyFuzzTasks</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Indicates that a scan is blocked by IAP.</span>
+        <span class="ident">BlockedByIap</span> <span class="op">=</span> <span class="number">4</span>,
     }
 }
 <span class="doccomment">/// A ScanRun is a output-only resource representing an actual run of the scan.</span>

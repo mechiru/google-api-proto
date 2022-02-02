@@ -776,7 +776,95 @@
 <span id="775">775</span>
 <span id="776">776</span>
 <span id="777">777</span>
-</pre><pre class="rust"><code><span class="doccomment">/// An event signifying a change in state of a [migration from Cloud Datastore to</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Datastore composite index definition.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Index</span> {
+    <span class="doccomment">/// Output only. Project ID.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The resource ID of the index.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">index_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The entity kind to which this index applies.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The index&#39;s ancestor mode.  Must not be ANCESTOR_MODE_UNSPECIFIED.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;index::AncestorMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ancestor</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Required. An ordered sequence of property names and their index attributes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">index::IndexedProperty</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The state of the index.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;index::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Index`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">index</span> {
+    <span class="doccomment">/// A property of an index.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IndexedProperty</span> {
+        <span class="doccomment">/// Required. The property name to index.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Required. The indexed property&#39;s direction.  Must not be DIRECTION_UNSPECIFIED.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Direction&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">direction</span>: <span class="ident">i32</span>,
+    }
+    <span class="doccomment">/// For an ordered index, specifies whether each of the entity&#39;s ancestors</span>
+    <span class="doccomment">/// will be included.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AncestorMode</span> {
+        <span class="doccomment">/// The ancestor mode is unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Do not include the entity&#39;s ancestors in the index.</span>
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Include all the entity&#39;s ancestors in the index.</span>
+        <span class="ident">AllAncestors</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// The direction determines how a property is indexed.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Direction</span> {
+        <span class="doccomment">/// The direction is unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The property&#39;s values are indexed so as to support sequencing in</span>
+        <span class="doccomment">/// ascending order and also query by &lt;, &gt;, &lt;=, &gt;=, and =.</span>
+        <span class="ident">Ascending</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The property&#39;s values are indexed so as to support sequencing in</span>
+        <span class="doccomment">/// descending order and also query by &lt;, &gt;, &lt;=, &gt;=, and =.</span>
+        <span class="ident">Descending</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// The possible set of states of an index.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// The state is unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The index is being created, and cannot be used by queries.</span>
+        <span class="doccomment">/// There is an active long-running operation for the index.</span>
+        <span class="doccomment">/// The index is updated when writing an entity.</span>
+        <span class="doccomment">/// Some index data may exist.</span>
+        <span class="ident">Creating</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The index is ready to be used.</span>
+        <span class="doccomment">/// The index is updated when writing an entity.</span>
+        <span class="doccomment">/// The index is fully populated from all stored entities it applies to.</span>
+        <span class="ident">Ready</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The index is being deleted, and cannot be used by queries.</span>
+        <span class="doccomment">/// There is an active long-running operation for the index.</span>
+        <span class="doccomment">/// The index is not updated when writing an entity.</span>
+        <span class="doccomment">/// Some index data may exist.</span>
+        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The index was being created or deleted, but something went wrong.</span>
+        <span class="doccomment">/// The index cannot by used by queries.</span>
+        <span class="doccomment">/// There is no active long-running operation for the index,</span>
+        <span class="doccomment">/// and the most recently finished long-running operation failed.</span>
+        <span class="doccomment">/// The index is not updated when writing an entity.</span>
+        <span class="doccomment">/// Some index data may exist.</span>
+        <span class="ident">Error</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+}
+<span class="doccomment">/// An event signifying a change in state of a [migration from Cloud Datastore to</span>
 <span class="doccomment">/// Cloud Firestore in Datastore</span>
 <span class="doccomment">/// mode](&lt;https://cloud.google.com/datastore/docs/upgrade-to-firestore&gt;).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -873,94 +961,6 @@
     <span class="ident">RedirectStronglyConsistentReads</span> <span class="op">=</span> <span class="number">4</span>,
     <span class="doccomment">/// Writes are redirected to Cloud Firestore.</span>
     <span class="ident">RedirectWrites</span> <span class="op">=</span> <span class="number">5</span>,
-}
-<span class="doccomment">/// Datastore composite index definition.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Index</span> {
-    <span class="doccomment">/// Output only. Project ID.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The resource ID of the index.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">index_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The entity kind to which this index applies.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The index&#39;s ancestor mode.  Must not be ANCESTOR_MODE_UNSPECIFIED.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;index::AncestorMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ancestor</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Required. An ordered sequence of property names and their index attributes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">index::IndexedProperty</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The state of the index.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;index::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Index`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">index</span> {
-    <span class="doccomment">/// A property of an index.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IndexedProperty</span> {
-        <span class="doccomment">/// Required. The property name to index.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Required. The indexed property&#39;s direction.  Must not be DIRECTION_UNSPECIFIED.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Direction&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">direction</span>: <span class="ident">i32</span>,
-    }
-    <span class="doccomment">/// For an ordered index, specifies whether each of the entity&#39;s ancestors</span>
-    <span class="doccomment">/// will be included.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AncestorMode</span> {
-        <span class="doccomment">/// The ancestor mode is unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Do not include the entity&#39;s ancestors in the index.</span>
-        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Include all the entity&#39;s ancestors in the index.</span>
-        <span class="ident">AllAncestors</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// The direction determines how a property is indexed.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Direction</span> {
-        <span class="doccomment">/// The direction is unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The property&#39;s values are indexed so as to support sequencing in</span>
-        <span class="doccomment">/// ascending order and also query by &lt;, &gt;, &lt;=, &gt;=, and =.</span>
-        <span class="ident">Ascending</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The property&#39;s values are indexed so as to support sequencing in</span>
-        <span class="doccomment">/// descending order and also query by &lt;, &gt;, &lt;=, &gt;=, and =.</span>
-        <span class="ident">Descending</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// The possible set of states of an index.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// The state is unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The index is being created, and cannot be used by queries.</span>
-        <span class="doccomment">/// There is an active long-running operation for the index.</span>
-        <span class="doccomment">/// The index is updated when writing an entity.</span>
-        <span class="doccomment">/// Some index data may exist.</span>
-        <span class="ident">Creating</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The index is ready to be used.</span>
-        <span class="doccomment">/// The index is updated when writing an entity.</span>
-        <span class="doccomment">/// The index is fully populated from all stored entities it applies to.</span>
-        <span class="ident">Ready</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The index is being deleted, and cannot be used by queries.</span>
-        <span class="doccomment">/// There is an active long-running operation for the index.</span>
-        <span class="doccomment">/// The index is not updated when writing an entity.</span>
-        <span class="doccomment">/// Some index data may exist.</span>
-        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The index was being created or deleted, but something went wrong.</span>
-        <span class="doccomment">/// The index cannot by used by queries.</span>
-        <span class="doccomment">/// There is no active long-running operation for the index,</span>
-        <span class="doccomment">/// and the most recently finished long-running operation failed.</span>
-        <span class="doccomment">/// The index is not updated when writing an entity.</span>
-        <span class="doccomment">/// Some index data may exist.</span>
-        <span class="ident">Error</span> <span class="op">=</span> <span class="number">4</span>,
-    }
 }
 <span class="doccomment">/// Metadata common to all Datastore Admin operations.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
