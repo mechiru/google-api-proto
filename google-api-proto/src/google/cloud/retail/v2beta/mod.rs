@@ -1,3 +1,256 @@
+/// Metadata that is used to define a condition that triggers an action.
+/// A valid condition must specify at least one of 'query_terms' or
+/// 'products_filter'. If multiple fields are specified, the condition is met if
+/// all the fields are satisfied e.g. if a set of query terms and product_filter
+/// are set, then only items matching the product_filter for requests with a
+/// query matching the query terms wil get boosted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Condition {
+    /// A list (up to 10 entries) of terms to match the query on. If not
+    /// specified, match all queries.
+    /// If many query terms are specified, the condition
+    /// is matched if any of the terms is a match (i.e. using the OR operator).
+    #[prost(message, repeated, tag = "1")]
+    pub query_terms: ::prost::alloc::vec::Vec<condition::QueryTerm>,
+    /// Range of time(s) specifying when Condition is active.
+    /// Condition true if any time range matches.
+    #[prost(message, repeated, tag = "3")]
+    pub active_time_range: ::prost::alloc::vec::Vec<condition::TimeRange>,
+}
+/// Nested message and enum types in `Condition`.
+pub mod condition {
+    /// Query terms that we want to match on.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct QueryTerm {
+        /// The value of the term to match on.
+        /// Value cannot be empty.
+        /// Value can have at most 3 terms if specified as a partial match. Each
+        /// space separated string is considered as one term.
+        /// Example) "a b c" is 3 terms and allowed, " a b c d" is 4 terms and not
+        /// allowed for partial match.
+        #[prost(string, tag = "1")]
+        pub value: ::prost::alloc::string::String,
+        /// Whether this is supposed to be a full or partial match.
+        #[prost(bool, tag = "2")]
+        pub full_match: bool,
+    }
+    /// Used for time-dependent conditions.
+    /// Example: Want to have rule applied for week long sale.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TimeRange {
+        /// Start of time range. Range is inclusive.
+        #[prost(message, optional, tag = "1")]
+        pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// End of time range. Range is inclusive.
+        #[prost(message, optional, tag = "2")]
+        pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    }
+}
+/// A rule is a condition-action pair
+/// * A condition defines when a rule is to be triggered.
+/// * An action specifies what occurs on that trigger.
+/// Currently only boost rules are supported.
+/// Currently only supported by the search endpoint.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Rule {
+    /// Required. The condition that triggers the rule.
+    /// If the condition is empty, the rule will always apply.
+    #[prost(message, optional, tag = "1")]
+    pub condition: ::core::option::Option<Condition>,
+    /// An action must be provided.
+    #[prost(oneof = "rule::Action", tags = "2, 3, 6, 7, 8, 9, 10, 11")]
+    pub action: ::core::option::Option<rule::Action>,
+}
+/// Nested message and enum types in `Rule`.
+pub mod rule {
+    /// A boost action to apply to results matching condition specified above.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct BoostAction {
+        /// Strength of the condition boost, which must be in [-1, 1]. Negative
+        /// boost means demotion. Default is 0.0.
+        ///
+        /// Setting to 1.0 gives the item a big promotion. However, it does not
+        /// necessarily mean that the boosted item will be the top result at all
+        /// times, nor that other items will be excluded. Results could still be
+        /// shown even when none of them matches the condition. And results that
+        /// are significantly more relevant to the search query can still trump
+        /// your heavily favored but irrelevant items.
+        ///
+        /// Setting to -1.0 gives the item a big demotion. However, results that
+        /// are deeply relevant might still be shown. The item will have an
+        /// upstream battle to get a fairly high ranking, but it is not blocked out
+        /// completely.
+        ///
+        /// Setting to 0.0 means no boost applied. The boosting condition is
+        /// ignored.
+        #[prost(float, tag = "1")]
+        pub boost: f32,
+        /// The filter can have a max size of 5000 characters.
+        /// An expression which specifies which products to apply an action to.
+        /// The syntax and supported fields are the same as a filter expression. See
+        /// \[SearchRequest.filter][google.cloud.retail.v2beta.SearchRequest.filter\]
+        /// for detail syntax and limitations.
+        ///
+        /// Examples:
+        ///
+        /// * To boost products with product ID "product_1" or "product_2", and
+        /// color
+        ///   "Red" or "Blue":<br>
+        ///   *(id: ANY("product_1", "product_2"))<br>*
+        ///   *AND<br>*
+        ///   *(colorFamilies: ANY("Red", "Blue"))<br>*
+        #[prost(string, tag = "2")]
+        pub products_filter: ::prost::alloc::string::String,
+    }
+    /// * Rule Condition:
+    ///   - No \[Condition][query_terms\] provided is a global match.
+    ///   - 1 or more \[Condition][query_terms\] provided is combined with OR
+    ///   operator.
+    /// * Action Input: The request query and filter that will be applied to the
+    /// retrieved products, in addition to any filters already provided with the
+    /// SearchRequest. The AND operator is used to combine the query's existing
+    /// filters with the filter rule(s). NOTE: May result in 0 results when
+    /// filters conflict.
+    /// * Action Result: Filters the returned objects to be ONLY those that passed
+    /// the filter.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct FilterAction {
+        /// A filter to apply on the matching condition results. Supported features:
+        ///
+        /// * \[filter][google.cloud.retail.v2beta.Rule.FilterAction.filter\] must be
+        /// set.
+        /// * Filter syntax is identical to
+        /// \[SearchRequest.filter][google.cloud.retail.v2beta.SearchRequest.filter\].
+        /// See more
+        ///   details at the Retail Search
+        ///   [user guide](/retail/search/docs/filter-and-order#filter).
+        /// * To filter products with product ID "product_1" or "product_2", and
+        /// color
+        ///   "Red" or "Blue":<br>
+        ///   *(id: ANY("product_1", "product_2"))<br>*
+        ///   *AND<br>*
+        ///   *(colorFamilies: ANY("Red", "Blue"))<br>*
+        #[prost(string, tag = "1")]
+        pub filter: ::prost::alloc::string::String,
+    }
+    /// Redirects a shopper to a specific page.
+    /// * Rule Condition:
+    ///   - Must specify \[Condition][query_terms\].
+    /// * Action Input: Request Query
+    /// * Action Result: Redirects shopper to provided uri.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct RedirectAction {
+        /// URL must have length equal or less than 2000 characters.
+        #[prost(string, tag = "1")]
+        pub redirect_uri: ::prost::alloc::string::String,
+    }
+    /// Creates a set of terms that will be treated as synonyms of each other.
+    /// Example: synonyms of "sneakers" and "shoes".
+    ///  * "sneakers" will use a synonym of "shoes".
+    ///  * "shoes" will use a synonym of "sneakers".
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TwowaySynonymsAction {
+        /// Defines a set of synonyms.
+        /// Can specify up to 100 synonyms.
+        /// Must specify at least 2 synonyms.
+        #[prost(string, repeated, tag = "1")]
+        pub synonyms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
+    /// Maps a set of terms to a set of synonyms.
+    /// Set of synonyms will be treated as synonyms of each query term only.
+    /// `query_terms` will not be treated as synonyms of each other.
+    /// Example: "sneakers" will use a synonym of "shoes".
+    /// "shoes" will not use a synonym of "sneakers".
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct OnewaySynonymsAction {
+        /// Terms from the search query.
+        /// Will treat synonyms as their synonyms.
+        /// Not themselves synonyms of the synonyms.
+        /// Can specify up to 100 terms.
+        #[prost(string, repeated, tag = "3")]
+        pub query_terms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Defines a set of synonyms.
+        /// Cannot contain duplicates.
+        /// Can specify up to 100 synonyms.
+        #[prost(string, repeated, tag = "4")]
+        pub synonyms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Will be [deprecated = true] post migration;
+        #[prost(string, repeated, tag = "2")]
+        pub oneway_terms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
+    /// Prevents `query_term` from being associated with specified terms during
+    /// search.
+    /// Example: Don't associate "gShoe" and "cheap".
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DoNotAssociateAction {
+        /// Terms from the search query.
+        /// Will not consider do_not_associate_terms for search if in search query.
+        /// Can specify up to 100 terms.
+        #[prost(string, repeated, tag = "2")]
+        pub query_terms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Cannot contain duplicates or the query term.
+        /// Can specify up to 100 terms.
+        #[prost(string, repeated, tag = "3")]
+        pub do_not_associate_terms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Will be [deprecated = true] post migration;
+        #[prost(string, repeated, tag = "1")]
+        pub terms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
+    /// Replaces a term in the query. Multiple replacement candidates can be
+    /// specified. All `query_terms` will be replaced with the replacement term.
+    /// Example: Replace "gShoe" with "google shoe".
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ReplacementAction {
+        /// Terms from the search query.
+        /// Will be replaced by replacement term.
+        /// Can specify up to 100 terms.
+        #[prost(string, repeated, tag = "2")]
+        pub query_terms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Term that will be used for replacement.
+        #[prost(string, tag = "3")]
+        pub replacement_term: ::prost::alloc::string::String,
+        /// Will be [deprecated = true] post migration;
+        #[prost(string, tag = "1")]
+        pub term: ::prost::alloc::string::String,
+    }
+    /// Prevents a term in the query from being used in search.
+    /// Example: Don't search for "shoddy".
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct IgnoreAction {
+        /// Terms to ignore in the search query.
+        #[prost(string, repeated, tag = "1")]
+        pub ignore_terms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
+    /// An action must be provided.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Action {
+        /// A boost action.
+        #[prost(message, tag = "2")]
+        BoostAction(BoostAction),
+        /// Redirects a shopper to a specific page.
+        #[prost(message, tag = "3")]
+        RedirectAction(RedirectAction),
+        /// Treats specific term as a synonym with a group of terms.
+        /// Group of terms will not be treated as synonyms with the specific term.
+        #[prost(message, tag = "6")]
+        OnewaySynonymsAction(OnewaySynonymsAction),
+        /// Prevents term from being associated with other terms.
+        #[prost(message, tag = "7")]
+        DoNotAssociateAction(DoNotAssociateAction),
+        /// Replaces specific terms in the query.
+        #[prost(message, tag = "8")]
+        ReplacementAction(ReplacementAction),
+        /// Ignores specific terms from query during search.
+        #[prost(message, tag = "9")]
+        IgnoreAction(IgnoreAction),
+        /// Filters results.
+        #[prost(message, tag = "10")]
+        FilterAction(FilterAction),
+        /// Treats a set of terms as synonyms of one another.
+        #[prost(message, tag = "11")]
+        TwowaySynonymsAction(TwowaySynonymsAction),
+    }
+}
 /// An intended audience of the \[Product][google.cloud.retail.v2beta.Product\] for
 /// whom it's sold.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -72,10 +325,6 @@ pub struct CustomAttribute {
     /// The textual values of this custom attribute. For example, `["yellow",
     /// "green"]` when the key is "color".
     ///
-    /// At most 400 values are allowed. Empty values are not allowed. Each value
-    /// must be a UTF-8 encoded string with a length limit of 256 characters.
-    /// Otherwise, an INVALID_ARGUMENT error is returned.
-    ///
     /// Exactly one of \[text][google.cloud.retail.v2beta.CustomAttribute.text\] or
     /// \[numbers][google.cloud.retail.v2beta.CustomAttribute.numbers\] should be
     /// set. Otherwise, an INVALID_ARGUMENT error is returned.
@@ -83,9 +332,6 @@ pub struct CustomAttribute {
     pub text: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// The numerical values of this custom attribute. For example, `[2.3, 15.4]`
     /// when the key is "lengths_cm".
-    ///
-    /// At most 400 values are allowed.Otherwise, an INVALID_ARGUMENT error is
-    /// returned.
     ///
     /// Exactly one of \[text][google.cloud.retail.v2beta.CustomAttribute.text\] or
     /// \[numbers][google.cloud.retail.v2beta.CustomAttribute.numbers\] should be
@@ -255,7 +501,7 @@ pub struct PriceInfo {
     ///
     /// Google Merchant Center property
     /// \[price\](<https://support.google.com/merchants/answer/6324371>). Schema.org
-    /// property \[Offer.priceSpecification\](<https://schema.org/priceSpecification>).
+    /// property \[Offer.price\](<https://schema.org/price>).
     #[prost(float, tag = "2")]
     pub price: f32,
     /// Price of the product without any discount. If zero, by default set to be
@@ -436,6 +682,17 @@ pub struct Promotion {
     #[prost(string, tag = "1")]
     pub promotion_id: ::prost::alloc::string::String,
 }
+/// The type of solution.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum SolutionType {
+    /// Default value.
+    Unspecified = 0,
+    /// Used for Recommendations AI.
+    Recommendation = 1,
+    /// Used for Retail Search.
+    Search = 2,
+}
 /// Product captures all metadata information of items to be recommended or
 /// searched.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -453,9 +710,9 @@ pub struct Product {
     /// This field must be a UTF-8 encoded string with a length limit of 128
     /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[id\](<https://support.google.com/merchants/answer/6324405>). Schema.org
-    /// Property \[Product.sku\](<https://schema.org/sku>).
+    /// property \[Product.sku\](<https://schema.org/sku>).
     #[prost(string, tag = "2")]
     pub id: ::prost::alloc::string::String,
     /// Immutable. The type of the product. Default to
@@ -478,21 +735,23 @@ pub struct Product {
     /// \[Product][google.cloud.retail.v2beta.Product\]. Otherwise, an
     /// INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center Property
+    /// Corresponding properties: Google Merchant Center property
     /// \[item_group_id\](<https://support.google.com/merchants/answer/6324507>).
-    /// Schema.org Property
+    /// Schema.org property
     /// \[Product.inProductGroupWithID\](<https://schema.org/inProductGroupWithID>).
-    ///
-    /// This field must be enabled before it can be used. [Learn
-    /// more](/recommendations-ai/docs/catalog#item-group-id).
     #[prost(string, tag = "4")]
     pub primary_product_id: ::prost::alloc::string::String,
     /// The \[id][google.cloud.retail.v2beta.Product.id\] of the collection members
     /// when \[type][google.cloud.retail.v2beta.Product.type\] is
     /// \[Type.COLLECTION][google.cloud.retail.v2beta.Product.Type.COLLECTION\].
     ///
-    /// Should not set it for other types. A maximum of 1000 values are allowed.
-    /// Otherwise, an INVALID_ARGUMENT error is return.
+    /// Non-existent product ids are allowed.
+    /// The \[type][google.cloud.retail.v2beta.Product.type\] of the members must be
+    /// either \[Type.PRIMARY][google.cloud.retail.v2beta.Product.Type.PRIMARY\] or
+    /// \[Type.VARIANT][google.cloud.retail.v2beta.Product.Type.VARIANT\] otherwise
+    /// and INVALID_ARGUMENT error is thrown. Should not set it for other types. A
+    /// maximum of 1000 values are allowed. Otherwise, an INVALID_ARGUMENT error is
+    /// return.
     #[prost(string, repeated, tag = "5")]
     pub collection_member_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// The Global Trade Item Number (GTIN) of the product.
@@ -503,13 +762,13 @@ pub struct Product {
     /// This field must be a Unigram. Otherwise, an INVALID_ARGUMENT error is
     /// returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[gtin\](<https://support.google.com/merchants/answer/6324461>).
     /// Schema.org property
-    /// \[Product.isbn\](<https://schema.org/isbn>) or
-    /// \[Product.gtin8\](<https://schema.org/gtin8>) or
-    /// \[Product.gtin12\](<https://schema.org/gtin12>) or
-    /// \[Product.gtin13\](<https://schema.org/gtin13>) or
+    /// \[Product.isbn\](<https://schema.org/isbn>),
+    /// \[Product.gtin8\](<https://schema.org/gtin8>),
+    /// \[Product.gtin12\](<https://schema.org/gtin12>),
+    /// \[Product.gtin13\](<https://schema.org/gtin13>), or
     /// \[Product.gtin14\](<https://schema.org/gtin14>).
     ///
     /// If the value is not a valid GTIN, an INVALID_ARGUMENT error is returned.
@@ -544,7 +803,7 @@ pub struct Product {
     /// allowed. Each value must be a UTF-8 encoded string with a length limit of
     /// 5,000 characters. Otherwise, an INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[google_product_category][mc_google_product_category\]. Schema.org property
     /// \[Product.category\] (<https://schema.org/category>).
     ///
@@ -557,7 +816,7 @@ pub struct Product {
     /// This field must be a UTF-8 encoded string with a length limit of 1,000
     /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[title\](<https://support.google.com/merchants/answer/6324415>). Schema.org
     /// property \[Product.name\](<https://schema.org/name>).
     #[prost(string, tag = "8")]
@@ -568,7 +827,7 @@ pub struct Product {
     /// string with a length limit of 1,000 characters. Otherwise, an
     /// INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[brand\](<https://support.google.com/merchants/answer/6324351>). Schema.org
     /// property \[Product.brand\](<https://schema.org/brand>).
     #[prost(string, repeated, tag = "9")]
@@ -578,13 +837,13 @@ pub struct Product {
     /// This field must be a UTF-8 encoded string with a length limit of 5,000
     /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[description\](<https://support.google.com/merchants/answer/6324468>).
-    /// schema.org property \[Product.description\](<https://schema.org/description>).
+    /// Schema.org property \[Product.description\](<https://schema.org/description>).
     #[prost(string, tag = "10")]
     pub description: ::prost::alloc::string::String,
     /// Language of the title/description and other string attributes. Use language
-    /// tags defined by [BCP 47]\[<https://www.rfc-editor.org/rfc/bcp/bcp47.txt\].>
+    /// tags defined by [BCP 47](<https://www.rfc-editor.org/rfc/bcp/bcp47.txt>).
     ///
     /// For product prediction, this field is ignored and the model automatically
     /// detects the text language. The
@@ -619,7 +878,12 @@ pub struct Product {
     /// * The key must be a UTF-8 encoded string with a length limit of 128
     ///   characters.
     /// * For indexable attribute, the key must match the pattern:
-    ///   `\[a-zA-Z0-9][a-zA-Z0-9_\]*`. For example, key0LikeThis or KEY_1_LIKE_THIS.
+    ///   `\[a-zA-Z0-9][a-zA-Z0-9_\]*`. For example, `key0LikeThis` or
+    ///   `KEY_1_LIKE_THIS`.
+    /// * For text attributes, at most 400 values are allowed. Empty values are not
+    ///   allowed. Each value must be a UTF-8 encoded string with a length limit of
+    ///   256 characters.
+    /// * For number attributes, at most 400 values are allowed.
     #[prost(btree_map = "string, message", tag = "12")]
     pub attributes:
         ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, CustomAttribute>,
@@ -634,13 +898,13 @@ pub struct Product {
     /// tag as part of the
     /// \[PredictRequest.filter][google.cloud.retail.v2beta.PredictRequest.filter\].
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[custom_label_0–4\](<https://support.google.com/merchants/answer/6324473>).
     #[prost(string, repeated, tag = "13")]
     pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Product price and cost information.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[price\](<https://support.google.com/merchants/answer/6324371>).
     #[prost(message, optional, tag = "14")]
     pub price_info: ::core::option::Option<PriceInfo>,
@@ -656,9 +920,9 @@ pub struct Product {
     /// \[Product][google.cloud.retail.v2beta.Product\]. Default to
     /// \[Availability.IN_STOCK][google.cloud.retail.v2beta.Product.Availability.IN_STOCK\].
     ///
-    /// Google Merchant Center Property
+    /// Corresponding properties: Google Merchant Center property
     /// \[availability\](<https://support.google.com/merchants/answer/6324448>).
-    /// Schema.org Property \[Offer.availability\](<https://schema.org/availability>).
+    /// Schema.org property \[Offer.availability\](<https://schema.org/availability>).
     #[prost(enumeration = "product::Availability", tag = "19")]
     pub availability: i32,
     /// The available quantity of the item.
@@ -680,7 +944,7 @@ pub struct Product {
     /// This field must be a UTF-8 encoded string with a length limit of 5,000
     /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[link\](<https://support.google.com/merchants/answer/6324416>). Schema.org
     /// property \[Offer.url\](<https://schema.org/url>).
     #[prost(string, tag = "22")]
@@ -690,7 +954,7 @@ pub struct Product {
     ///
     /// A maximum of 300 images are allowed.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[image_link\](<https://support.google.com/merchants/answer/6324350>).
     /// Schema.org property \[Product.image\](<https://schema.org/image>).
     #[prost(message, repeated, tag = "23")]
@@ -701,7 +965,7 @@ pub struct Product {
     pub audience: ::core::option::Option<Audience>,
     /// The color of the product.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[color\](<https://support.google.com/merchants/answer/6324487>). Schema.org
     /// property \[Product.color\](<https://schema.org/color>).
     #[prost(message, optional, tag = "25")]
@@ -719,9 +983,9 @@ pub struct Product {
     /// encoded string with a length limit of 128 characters. Otherwise, an
     /// INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[size\](<https://support.google.com/merchants/answer/6324492>),
-    /// \[size_type\](<https://support.google.com/merchants/answer/6324497>) and
+    /// \[size_type\](<https://support.google.com/merchants/answer/6324497>), and
     /// \[size_system\](<https://support.google.com/merchants/answer/6324502>).
     /// Schema.org property \[Product.size\](<https://schema.org/size>).
     #[prost(string, repeated, tag = "26")]
@@ -732,7 +996,7 @@ pub struct Product {
     /// string with a length limit of 128 characters. Otherwise, an
     /// INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[material\](<https://support.google.com/merchants/answer/6324410>). Schema.org
     /// property \[Product.material\](<https://schema.org/material>).
     #[prost(string, repeated, tag = "27")]
@@ -745,7 +1009,7 @@ pub struct Product {
     /// encoded string with a length limit of 128 characters. Otherwise, an
     /// INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[pattern\](<https://support.google.com/merchants/answer/6324483>). Schema.org
     /// property \[Product.pattern\](<https://schema.org/pattern>).
     #[prost(string, repeated, tag = "28")]
@@ -753,12 +1017,12 @@ pub struct Product {
     /// The condition of the product. Strongly encouraged to use the standard
     /// values: "new", "refurbished", "used".
     ///
-    /// A maximum of 5 values are allowed per
+    /// A maximum of 1 value is allowed per
     /// \[Product][google.cloud.retail.v2beta.Product\]. Each value must be a UTF-8
     /// encoded string with a length limit of 128 characters. Otherwise, an
     /// INVALID_ARGUMENT error is returned.
     ///
-    /// Google Merchant Center property
+    /// Corresponding properties: Google Merchant Center property
     /// \[condition\](<https://support.google.com/merchants/answer/6324469>).
     /// Schema.org property
     /// \[Offer.itemCondition\](<https://schema.org/itemCondition>).
@@ -925,7 +1189,7 @@ pub mod product {
         /// \[publish_time][google.cloud.retail.v2beta.Product.publish_time\],
         /// otherwise an INVALID_ARGUMENT error is thrown.
         ///
-        /// Google Merchant Center property
+        /// Corresponding properties: Google Merchant Center property
         /// \[expiration_date\](<https://support.google.com/merchants/answer/6324499>).
         #[prost(message, tag = "16")]
         ExpireTime(::prost_types::Timestamp),
@@ -976,6 +1240,9 @@ pub struct SearchRequest {
     /// could be implemented with an HTTP cookie, which should be able to uniquely
     /// identify a visitor on a single device. This unique identifier should not
     /// change if the visitor logs in or out of the website.
+    ///
+    /// This should be the same identifier as
+    /// \[UserEvent.visitor_id][google.cloud.retail.v2beta.UserEvent.visitor_id\].
     ///
     /// The field must be a UTF-8 encoded string with a length limit of 128
     /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
@@ -1056,11 +1323,12 @@ pub struct SearchRequest {
     /// Boost specification to boost certain products. See more details at this
     /// [user guide](<https://cloud.google.com/retail/docs/boosting>).
     ///
-    /// Notice that if both \[ServingConfig.boost_control_ids][\] and
-    /// \[SearchRequest.boost_spec\] are set, the boost conditions from both places
-    /// are evaluated. If a search request matches multiple boost conditions,
-    /// the final boost score is equal to the sum of the boost scores from all
-    /// matched boost conditions.
+    /// Notice that if both
+    /// \[ServingConfig.boost_control_ids][google.cloud.retail.v2beta.ServingConfig.boost_control_ids\]
+    /// and \[SearchRequest.boost_spec\] are set, the boost conditions from both
+    /// places are evaluated. If a search request matches multiple boost
+    /// conditions, the final boost score is equal to the sum of the boost scores
+    /// from all matched boost conditions.
     #[prost(message, optional, tag = "13")]
     pub boost_spec: ::core::option::Option<search_request::BoostSpec>,
     /// The query expansion specification that specifies the conditions under which
@@ -1070,14 +1338,13 @@ pub struct SearchRequest {
     pub query_expansion_spec: ::core::option::Option<search_request::QueryExpansionSpec>,
     /// The keys to fetch and rollup the matching
     /// \[variant][google.cloud.retail.v2beta.Product.Type.VARIANT\]
-    /// \[Product][google.cloud.retail.v2beta.Product\]s attributes. The attributes
-    /// from all the matching
+    /// \[Product][google.cloud.retail.v2beta.Product\]s attributes,
+    /// \[FulfillmentInfo][google.cloud.retail.v2beta.FulfillmentInfo\] or
+    /// \[LocalInventory][\]s attributes. The attributes from all the matching
     /// \[variant][google.cloud.retail.v2beta.Product.Type.VARIANT\]
-    /// \[Product][google.cloud.retail.v2beta.Product\]s are merged and
-    /// de-duplicated. Notice that rollup
-    /// \[variant][google.cloud.retail.v2beta.Product.Type.VARIANT\]
-    /// \[Product][google.cloud.retail.v2beta.Product\]s attributes will lead to
-    /// extra query latency. Maximum number of keys is 10.
+    /// \[Product][google.cloud.retail.v2beta.Product\]s or \[LocalInventory][\]s are
+    /// merged and de-duplicated. Notice that rollup attributes will lead to extra
+    /// query latency. Maximum number of keys is 30.
     ///
     /// For \[FulfillmentInfo][google.cloud.retail.v2beta.FulfillmentInfo\], a
     /// fulfillment type and a fulfillment ID must be provided in the format of
@@ -1092,6 +1359,7 @@ pub struct SearchRequest {
     /// * discount
     /// * variantId
     /// * inventory(place_id,price)
+    /// * inventory(place_id,original_price)
     /// * inventory(place_id,attributes.key), where key is any key in the
     ///   \[Product.inventories.attributes][\] map.
     /// * attributes.key, where key is any key in the
@@ -1266,6 +1534,7 @@ pub mod search_request {
             ///     * "ratingCount"
             ///     * "attributes.key"
             ///     * "inventory(place_id,price)"
+            ///     * "inventory(place_id,original_price)"
             ///     * "inventory(place_id,attributes.key)"
             #[prost(string, tag = "1")]
             pub key: ::prost::alloc::string::String,
@@ -1540,6 +1809,10 @@ pub struct SearchResponse {
     /// will be set in the response.
     #[prost(string, tag = "10")]
     pub redirect_uri: ::prost::alloc::string::String,
+    /// The fully qualified resource name of applied
+    /// \[controls\](<https://cloud.google.com/retail/docs/serving-control-rules>).
+    #[prost(string, repeated, tag = "12")]
+    pub applied_controls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `SearchResponse`.
 pub mod search_response {
@@ -1766,7 +2039,6 @@ pub struct UserEvent {
     /// * `add-to-cart`: Products being added to cart.
     /// * `category-page-view`: Special pages such as sale or promotion pages
     ///   viewed.
-    /// * `completion`: Completion query result showed/clicked.
     /// * `detail-page-view`: Products detail page viewed.
     /// * `home-page-view`: Homepage viewed.
     /// * `promotion-offered`: Promotion is offered to a user.
@@ -1844,6 +2116,7 @@ pub struct UserEvent {
     /// * `add-to-cart`
     /// * `detail-page-view`
     /// * `purchase-complete`
+    /// * `search`
     ///
     /// In a `search` event, this field represents the products returned to the end
     /// user on the current page (the end user may have not finished browsing the
@@ -1854,17 +2127,23 @@ pub struct UserEvent {
     /// desired. The end user may have not finished browsing the whole page yet.
     #[prost(message, repeated, tag = "6")]
     pub product_details: ::prost::alloc::vec::Vec<ProductDetail>,
-    /// The main completion details related to the event.
+    /// The main auto-completion details related to the event.
     ///
-    /// In a `completion` event, this field represents the completions returned to
-    /// the end user and the clicked completion by the end user. In a `search`
-    /// event, it represents the search event happens after clicking completion.
+    /// This field should be set for `search` event when autocomplete function is
+    /// enabled and the user clicks a suggestion for search.
     #[prost(message, optional, tag = "22")]
     pub completion_detail: ::core::option::Option<CompletionDetail>,
     /// Extra user event features to include in the recommendation model.
     ///
-    /// The key must be a UTF-8 encoded string with a length limit of 5,000
-    /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
+    /// This field needs to pass all below criteria, otherwise an INVALID_ARGUMENT
+    /// error is returned:
+    ///
+    /// * The key must be a UTF-8 encoded string with a length limit of 5,000
+    ///   characters.
+    /// * For text attributes, at most 400 values are allowed. Empty values are not
+    ///   allowed. Each value must be a UTF-8 encoded string with a length limit of
+    ///   256 characters.
+    /// * For number attributes, at most 400 values are allowed.
     ///
     /// For product recommendation, an example of extra user information is
     /// traffic_channel, i.e. how user arrives at the site. Users can arrive
@@ -2089,6 +2368,15 @@ pub struct GcsSource {
     /// \[UserEvent][google.cloud.retail.v2beta.UserEvent\] per line.
     /// * `user_event_ga360`: Using
     ///   <https://support.google.com/analytics/answer/3437719.>
+    ///
+    /// Supported values for control imports:
+    ///
+    /// * 'control' (default): One JSON
+    /// \[Control][google.cloud.retail.v2beta.Control\] per line.
+    ///
+    /// Supported values for catalog attribute imports:
+    ///
+    /// * 'catalog_attribute' (default): One CSV \[CatalogAttribute][\] per line.
     #[prost(string, tag = "2")]
     pub data_schema: ::prost::alloc::string::String,
 }
@@ -2529,6 +2817,215 @@ pub struct Catalog {
     #[prost(message, optional, tag = "4")]
     pub product_level_config: ::core::option::Option<ProductLevelConfig>,
 }
+/// Configures metadata that is used to generate serving time results (e.g.
+/// search results or recommendation predictions).
+/// The ServingConfig is passed in the search and predict request and together
+/// with the Catalog.default_branch, generates results.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ServingConfig {
+    /// Immutable. Fully qualified name
+    /// projects/*/locations/global/catalogs/*/servingConfig/*
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The human readable serving config display name. Used in Retail
+    /// UI.
+    ///
+    /// This field must be a UTF-8 encoded string with a length limit of 128
+    /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The id of the model to use at serving time.
+    /// Currently only RecommendationModels are supported:
+    /// <https://cloud.google.com/retail/recommendations-ai/docs/create-models>
+    /// Can be changed but only to a compatible model (e.g.
+    /// others-you-may-like CTR to others-you-may-like CVR).
+    ///
+    /// Required when
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
+    #[prost(string, tag = "3")]
+    pub model_id: ::prost::alloc::string::String,
+    /// How much price ranking we want in serving results.
+    /// Price reranking causes product items with a similar
+    /// recommendation probability to be ordered by price, with the
+    /// highest-priced items first. This setting could result in a decrease in
+    /// click-through and conversion rates.
+    ///  Allowed values are:
+    ///
+    /// * 'no-price-reranking'
+    /// * 'low-price-raranking'
+    /// * 'medium-price-reranking'
+    /// * 'high-price-reranking'
+    ///
+    /// If not specified, we choose default based on model type. Default value:
+    /// 'no-price-reranking'.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
+    #[prost(string, tag = "4")]
+    pub price_reranking_level: ::prost::alloc::string::String,
+    /// Facet specifications for faceted search. If empty, no facets are returned.
+    /// The ids refer to the ids of \[Control][google.cloud.retail.v2beta.Control\]
+    /// resources with only the Facet control set. These controls are assumed to be
+    /// in the same \[Catalog][google.cloud.retail.v2beta.Catalog\] as the
+    /// \[ServingConfig][google.cloud.retail.v2beta.ServingConfig\].
+    /// A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error
+    /// is returned.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "5")]
+    pub facet_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The specification for dynamically generated facets. Notice that only
+    /// textual facets can be dynamically generated.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(message, optional, tag = "6")]
+    pub dynamic_facet_spec: ::core::option::Option<search_request::DynamicFacetSpec>,
+    /// Condition boost specifications. If a product matches multiple conditions
+    /// in the specifications, boost scores from these specifications are all
+    /// applied and combined in a non-linear way. Maximum number of
+    /// specifications is 10.
+    ///
+    /// Notice that if both
+    /// \[ServingConfig.boost_control_ids][google.cloud.retail.v2beta.ServingConfig.boost_control_ids\]
+    /// and \[SearchRequest.boost_spec\] are set, the boost conditions from both
+    /// places are evaluated. If a search request matches multiple boost
+    /// conditions, the final boost score is equal to the sum of the boost scores
+    /// from all matched boost conditions.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "7")]
+    pub boost_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition filter specifications. If a product matches multiple conditions
+    /// in the specifications, filters from these specifications are all
+    /// applied and combined via the AND operator. Maximum number of
+    /// specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "9")]
+    pub filter_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition redirect specifications. Only the first triggered redirect action
+    /// is applied, even if multiple apply. Maximum number of specifications is
+    /// 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "10")]
+    pub redirect_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition synonyms specifications. If multiple syonyms conditions match,
+    /// all matching synonyms control in the list will execute. Order of controls
+    /// in the list will not matter. Maximum number of specifications is
+    /// 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "18")]
+    pub twoway_synonyms_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition oneway synonyms specifications. If multiple oneway synonyms
+    /// conditions match, all matching oneway synonyms controls in the list will
+    /// execute. Order of controls in the list will not matter. Maximum number of
+    /// specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "12")]
+    pub oneway_synonyms_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition do not associate specifications. If multiple do not associate
+    /// conditions match, all matching do not associate controls in the list will
+    /// execute.
+    /// - Order does not matter.
+    /// - Maximum number of specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "13")]
+    pub do_not_associate_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition replacement specifications.
+    /// - Applied according to the order in the list.
+    /// - A previously replaced term can not be re-replaced.
+    /// - Maximum number of specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "14")]
+    pub replacement_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Condition ignore specifications. If multiple ignore
+    /// conditions match, all matching ignore controls in the list will
+    /// execute.
+    /// - Order does not matter.
+    /// - Maximum number of specifications is 100.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_SEARCH][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_SEARCH\].
+    #[prost(string, repeated, tag = "15")]
+    pub ignore_control_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// How much diversity to use in recommendation model results e.g.
+    /// 'medium-diversity' or 'high-diversity'. Currently supported values:
+    ///
+    /// * 'no-diversity'
+    /// * 'low-diversity'
+    /// * 'medium-diversity'
+    /// * 'high-diversity'
+    /// * 'auto-diversity'
+    ///
+    /// If not specified, we choose default based on recommendation model
+    /// type. Default value: 'no-diversity'.
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
+    #[prost(string, tag = "8")]
+    pub diversity_level: ::prost::alloc::string::String,
+    /// Whether to add additional category filters on the 'similar-items' model.
+    /// If not specified, we enable it by default.
+    ///  Allowed values are:
+    ///
+    /// * 'no-category-match': No additional filtering of original results from
+    ///   the model and the customer's filters.
+    /// * 'relaxed-category-match': Only keep results with categories that match
+    ///   at least one item categories in the PredictRequests's context item.
+    ///   * If customer also sends filters in the PredictRequest, then the results
+    ///   will satisfy both conditions (user given and category match).
+    ///
+    /// Can only be set if
+    /// \[solution_types][google.cloud.retail.v2beta.ServingConfig.solution_types\]
+    /// is
+    /// \[SOLUTION_TYPE_RECOMMENDATION][google.cloud.retail.v2main.SolutionType.SOLUTION_TYPE_RECOMMENDATION\].
+    #[prost(string, tag = "16")]
+    pub enable_category_filter_level: ::prost::alloc::string::String,
+    /// Required. Immutable. Specifies the solution types that a serving config can
+    /// be associated with. Currently we support setting only one type of solution.
+    #[prost(enumeration = "SolutionType", repeated, packed = "false", tag = "19")]
+    pub solution_types: ::prost::alloc::vec::Vec<i32>,
+}
 /// Request message for Predict method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PredictRequest {
@@ -2811,6 +3308,60 @@ pub struct ExportUserEventsResponse {
     /// the request.
     #[prost(message, optional, tag = "2")]
     pub errors_config: ::core::option::Option<ExportErrorsConfig>,
+}
+/// Configures dynamic serving time metadata that is used to pre and post
+/// process search/recommendation model results.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Control {
+    /// Immutable. Fully qualified name
+    /// projects/*/locations/global/catalogs/*/controls/*
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The human readable control display name. Used in Retail UI.
+    ///
+    /// This field must be a UTF-8 encoded string with a length limit of 128
+    /// characters. Otherwise, an INVALID_ARGUMENT error is thrown.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. List of serving configuration ids that that are associated
+    /// with this control. Note the association is managed via the ServingConfig,
+    /// this is an output only denormalizeed  view. Assumed to be in the same
+    /// catalog.
+    #[prost(string, repeated, tag = "5")]
+    pub associated_serving_config_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Required. Immutable. The solution types that the serving config is used
+    /// for. Currently we support setting only one type of solution at creation
+    /// time.
+    ///
+    /// Only `SOLUTION_TYPE_SEARCH` value is supported at the moment.
+    #[prost(enumeration = "SolutionType", repeated, packed = "false", tag = "6")]
+    pub solution_types: ::prost::alloc::vec::Vec<i32>,
+    /// The behavior/type of the control
+    ///
+    /// A behavior/type must be specified on creation. Type cannot be changed once
+    /// specified (e.g. A Rule control will always be a Rule control.). An
+    /// INVALID_ARGUMENT will be returned if either condition is violated.
+    #[prost(oneof = "control::Control", tags = "3, 4")]
+    pub control: ::core::option::Option<control::Control>,
+}
+/// Nested message and enum types in `Control`.
+pub mod control {
+    /// The behavior/type of the control
+    ///
+    /// A behavior/type must be specified on creation. Type cannot be changed once
+    /// specified (e.g. A Rule control will always be a Rule control.). An
+    /// INVALID_ARGUMENT will be returned if either condition is violated.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Control {
+        /// A facet specification to perform faceted search.
+        #[prost(message, tag = "3")]
+        FacetSpec(super::search_request::FacetSpec),
+        /// A rule control - a condition-action pair.
+        /// Enacts a set action when the condition is triggered.
+        /// For example: Boost "gShoe" when query full matches "Running Shoes".
+        #[prost(message, tag = "4")]
+        Rule(super::Rule),
+    }
 }
 /// Metadata related to the progress of the Purge operation.
 /// This will be returned by the google.longrunning.Operation.metadata field.
@@ -3109,8 +3660,9 @@ pub struct SetInventoryRequest {
     #[prost(message, optional, tag = "1")]
     pub inventory: ::core::option::Option<Product>,
     /// Indicates which inventory fields in the provided
-    /// \[Product][google.cloud.retail.v2beta.Product\] to update. If not set or set
-    /// with empty paths, all inventory fields will be updated.
+    /// \[Product][google.cloud.retail.v2beta.Product\] to update.
+    ///
+    /// At least one field must be provided.
     ///
     /// If an unsupported or unknown field is provided, an INVALID_ARGUMENT error
     /// is returned and the entire update will be ignored.
@@ -4081,6 +4633,527 @@ pub mod completion_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.retail.v2beta.CompletionService/ImportCompletionData",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Request for CreateControl method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateControlRequest {
+    /// Required. Full resource name of parent catalog. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The Control to create.
+    #[prost(message, optional, tag = "2")]
+    pub control: ::core::option::Option<Control>,
+    /// Required. The ID to use for the Control, which will become the final
+    /// component of the Control's resource name.
+    ///
+    /// This value should be 4-63 characters, and valid characters
+    /// are /\[a-z][0-9\]-_/.
+    #[prost(string, tag = "3")]
+    pub control_id: ::prost::alloc::string::String,
+}
+/// Request for UpdateControl method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateControlRequest {
+    /// Required. The Control to update.
+    #[prost(message, optional, tag = "1")]
+    pub control: ::core::option::Option<Control>,
+    /// Indicates which fields in the provided
+    /// \[Control][google.cloud.retail.v2beta.Control\] to update. The following are
+    /// NOT supported:
+    ///
+    /// * \[Control.name][google.cloud.retail.v2beta.Control.name\]
+    ///
+    /// If not set or empty, all supported fields are updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request for DeleteControl method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteControlRequest {
+    /// Required. The resource name of the Control to delete. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/controls/{control_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for GetControl method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetControlRequest {
+    /// Required. The resource name of the Control to delete. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/controls/{control_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for ListControls method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListControlsRequest {
+    /// Required. The catalog resource name. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of results to return. If unspecified, defaults
+    /// to 50. Max allowed value is 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. A page token, received from a previous `ListControls` call.
+    /// Provide this to retrieve the subsequent page.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. A filter to apply on the list results. Supported features:
+    ///
+    /// * List all the products under the parent branch if
+    /// \[filter][google.cloud.retail.v2beta.ListControlsRequest.filter\] is unset.
+    /// * List controls that are used in a single ServingConfig:
+    ///     'serving_config = "boosted_home_page_cvr"'
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Response for ListControls method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListControlsResponse {
+    /// All the Controls for a given catalog.
+    #[prost(message, repeated, tag = "1")]
+    pub controls: ::prost::alloc::vec::Vec<Control>,
+    /// Pagination token, if not returned indicates the last page.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod control_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for modifying Control."]
+    #[derive(Debug, Clone)]
+    pub struct ControlServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ControlServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ControlServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ControlServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Creates a Control."]
+        #[doc = ""]
+        #[doc = " If the [Control][google.cloud.retail.v2beta.Control] to create already"]
+        #[doc = " exists, an ALREADY_EXISTS error is returned."]
+        pub async fn create_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateControlRequest>,
+        ) -> Result<tonic::Response<super::Control>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ControlService/CreateControl",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes a Control."]
+        #[doc = ""]
+        #[doc = " If the [Control][google.cloud.retail.v2beta.Control] to delete does not"]
+        #[doc = " exist, a NOT_FOUND error is returned."]
+        pub async fn delete_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteControlRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ControlService/DeleteControl",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates a Control."]
+        #[doc = ""]
+        #[doc = " [Control][google.cloud.retail.v2beta.Control] cannot be set to a different"]
+        #[doc = " oneof field, if so an INVALID_ARGUMENT is returned. If the"]
+        #[doc = " [Control][google.cloud.retail.v2beta.Control] to delete does not exist, a"]
+        #[doc = " NOT_FOUND error is returned."]
+        pub async fn update_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateControlRequest>,
+        ) -> Result<tonic::Response<super::Control>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ControlService/UpdateControl",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets a Control."]
+        pub async fn get_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetControlRequest>,
+        ) -> Result<tonic::Response<super::Control>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ControlService/GetControl",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists all Controls linked to this catalog."]
+        pub async fn list_controls(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListControlsRequest>,
+        ) -> Result<tonic::Response<super::ListControlsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ControlService/ListControls",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Request for CreateServingConfig method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateServingConfigRequest {
+    /// Required. Full resource name of parent. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The ServingConfig to create.
+    #[prost(message, optional, tag = "2")]
+    pub serving_config: ::core::option::Option<ServingConfig>,
+    /// Required. The ID to use for the ServingConfig, which will become the final
+    /// component of the ServingConfig's resource name.
+    ///
+    /// This value should be 4-63 characters, and valid characters
+    /// are /\[a-z][0-9\]-_/.
+    #[prost(string, tag = "3")]
+    pub serving_config_id: ::prost::alloc::string::String,
+}
+/// Request for UpdateServingConfig method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateServingConfigRequest {
+    /// Required. The ServingConfig to update.
+    #[prost(message, optional, tag = "1")]
+    pub serving_config: ::core::option::Option<ServingConfig>,
+    /// Indicates which fields in the provided
+    /// \[ServingConfig][google.cloud.retail.v2beta.ServingConfig\] to update. The
+    /// following are NOT supported:
+    ///
+    /// * \[ServingConfig.name][google.cloud.retail.v2beta.ServingConfig.name\]
+    ///
+    /// If not set, all supported fields are updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request for DeleteServingConfig method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteServingConfigRequest {
+    /// Required. The resource name of the ServingConfig to delete. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for GetServingConfig method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetServingConfigRequest {
+    /// Required. The resource name of the ServingConfig to get. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for ListServingConfigs method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListServingConfigsRequest {
+    /// Required. The catalog resource name. Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of results to return. If unspecified, defaults
+    /// to 100. If a value greater than 100 is provided, at most 100 results are
+    /// returned.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. A page token, received from a previous `ListServingConfigs` call.
+    /// Provide this to retrieve the subsequent page.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for ListServingConfigs method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListServingConfigsResponse {
+    /// All the ServingConfigs for a given catalog.
+    #[prost(message, repeated, tag = "1")]
+    pub serving_configs: ::prost::alloc::vec::Vec<ServingConfig>,
+    /// Pagination token, if not returned indicates the last page.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request for AddControl method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AddControlRequest {
+    /// Required. The source ServingConfig resource name . Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+    #[prost(string, tag = "1")]
+    pub serving_config: ::prost::alloc::string::String,
+    /// Required. The id of the control to apply. Assumed to be in the same catalog
+    /// as the serving config - if id is not found a NOT_FOUND error is returned.
+    #[prost(string, tag = "2")]
+    pub control_id: ::prost::alloc::string::String,
+}
+/// Request for RemoveControl method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RemoveControlRequest {
+    /// Required. The source ServingConfig resource name . Format:
+    /// projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+    #[prost(string, tag = "1")]
+    pub serving_config: ::prost::alloc::string::String,
+    /// Required. The id of the control to apply. Assumed to be in the same catalog
+    /// as the serving config.
+    #[prost(string, tag = "2")]
+    pub control_id: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod serving_config_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for modifying ServingConfig."]
+    #[derive(Debug, Clone)]
+    pub struct ServingConfigServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ServingConfigServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ServingConfigServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ServingConfigServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Creates a ServingConfig."]
+        #[doc = ""]
+        #[doc = " A maximum of 100 [ServingConfig][google.cloud.retail.v2beta.ServingConfig]s"]
+        #[doc = " are allowed in a [Catalog][google.cloud.retail.v2beta.Catalog], otherwise"]
+        #[doc = " a FAILED_PRECONDITION error is returned."]
+        pub async fn create_serving_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateServingConfigRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ServingConfigService/CreateServingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes a ServingConfig."]
+        #[doc = ""]
+        #[doc = " Returns a NotFound error if the ServingConfig does not exist."]
+        pub async fn delete_serving_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteServingConfigRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ServingConfigService/DeleteServingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates a ServingConfig."]
+        pub async fn update_serving_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateServingConfigRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ServingConfigService/UpdateServingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets a ServingConfig."]
+        #[doc = ""]
+        #[doc = " Returns a NotFound error if the ServingConfig does not exist."]
+        pub async fn get_serving_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetServingConfigRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ServingConfigService/GetServingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists all ServingConfigs linked to this catalog."]
+        pub async fn list_serving_configs(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListServingConfigsRequest>,
+        ) -> Result<tonic::Response<super::ListServingConfigsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ServingConfigService/ListServingConfigs",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Enables a Control on the specified ServingConfig."]
+        #[doc = " The control is added in the last position of the list of controls"]
+        #[doc = " it belongs to (e.g. if it's a facet spec control it will be applied"]
+        #[doc = " in the last position of servingConfig.facetSpecIds)"]
+        #[doc = " Returns a ALREADY_EXISTS error if the control has already been applied."]
+        #[doc = " Returns a FAILED_PRECONDITION error if the addition could exceed maximum"]
+        #[doc = " number of control allowed for that type of control."]
+        pub async fn add_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::AddControlRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ServingConfigService/AddControl",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Disables a Control on the specified ServingConfig."]
+        #[doc = " The control is removed from the ServingConfig."]
+        #[doc = " Returns a NOT_FOUND error if the Control is not enabled for the"]
+        #[doc = " ServingConfig."]
+        pub async fn remove_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RemoveControlRequest>,
+        ) -> Result<tonic::Response<super::ServingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.retail.v2beta.ServingConfigService/RemoveControl",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

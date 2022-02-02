@@ -310,33 +310,6 @@ pub struct Indicator {
     #[prost(string, repeated, tag = "2")]
     pub domains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-/// Response of asset discovery run
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RunAssetDiscoveryResponse {
-    /// The state of an asset discovery run.
-    #[prost(enumeration = "run_asset_discovery_response::State", tag = "1")]
-    pub state: i32,
-    /// The duration between asset discovery run start and end
-    #[prost(message, optional, tag = "2")]
-    pub duration: ::core::option::Option<::prost_types::Duration>,
-}
-/// Nested message and enum types in `RunAssetDiscoveryResponse`.
-pub mod run_asset_discovery_response {
-    /// The state of an asset discovery run.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Asset discovery run state was unspecified.
-        Unspecified = 0,
-        /// Asset discovery run completed successfully.
-        Completed = 1,
-        /// Asset discovery run was cancelled with tasks still pending, as another
-        /// run for the same organization was started with a higher priority.
-        Superseded = 2,
-        /// Asset discovery run was killed and terminated.
-        Terminated = 3,
-    }
-}
 /// Security Command Center representation of a Google Cloud
 /// resource.
 ///
@@ -465,6 +438,37 @@ pub struct ExternalSystem {
     #[prost(message, optional, tag = "5")]
     pub external_system_update_time: ::core::option::Option<::prost_types::Timestamp>,
 }
+/// Represents an access event.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Access {
+    /// Associated email, such as "foo@google.com".
+    #[prost(string, tag = "1")]
+    pub principal_email: ::prost::alloc::string::String,
+    /// Caller's IP address, such as "1.1.1.1".
+    #[prost(string, tag = "2")]
+    pub caller_ip: ::prost::alloc::string::String,
+    /// The caller IP's geolocation, which identifies where the call came from.
+    #[prost(message, optional, tag = "3")]
+    pub caller_ip_geo: ::core::option::Option<Geolocation>,
+    /// What kind of user agent is associated, e.g. operating system shells,
+    /// embedded or stand-alone applications, etc.
+    #[prost(string, tag = "4")]
+    pub user_agent_family: ::prost::alloc::string::String,
+    /// This is the API service that the service account made a call to, e.g.
+    /// "iam.googleapis.com"
+    #[prost(string, tag = "5")]
+    pub service_name: ::prost::alloc::string::String,
+    /// The method that the service account called, e.g. "SetIamPolicy".
+    #[prost(string, tag = "6")]
+    pub method_name: ::prost::alloc::string::String,
+}
+/// Represents a geographical location for a given access.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Geolocation {
+    /// A CLDR.
+    #[prost(string, tag = "1")]
+    pub region_code: ::prost::alloc::string::String,
+}
 /// Security Command Center finding.
 ///
 /// A finding is a record of assessment data like security, risk, health, or
@@ -520,11 +524,12 @@ pub struct Finding {
     /// to the finding.
     #[prost(message, optional, tag = "8")]
     pub security_marks: ::core::option::Option<SecurityMarks>,
-    /// The time at which the event took place, or when an update to the finding
-    /// occurred. For example, if the finding represents an open firewall it would
-    /// capture the time the detector believes the firewall became open. The
-    /// accuracy is determined by the detector. If the finding were to be resolved
-    /// afterward, this time would reflect when the finding was resolved. Must not
+    /// The time the finding was first detected. If an existing finding is updated,
+    /// then this is the time the update occurred.
+    /// For example, if the finding represents an open firewall, this property
+    /// captures the time the detector believes the firewall became open. The
+    /// accuracy is determined by the detector. If the finding is later resolved,
+    /// then this time reflects when the finding was resolved. This must not
     /// be set to a value greater than the current timestamp.
     #[prost(message, optional, tag = "9")]
     pub event_time: ::core::option::Option<::prost_types::Timestamp>,
@@ -570,6 +575,10 @@ pub struct Finding {
     #[prost(btree_map = "string, message", tag = "22")]
     pub external_systems:
         ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ExternalSystem>,
+    /// Access details associated to the Finding, such as more information on the
+    /// caller, which method was accessed, from where, etc.
+    #[prost(message, optional, tag = "26")]
+    pub access: ::core::option::Option<Access>,
     /// First known as mute_annotation. Records additional information about the
     /// mute operation e.g. mute config that muted the finding, user who muted the
     /// finding, etc.
@@ -793,6 +802,33 @@ pub mod organization_settings {
             /// All other resources will be retrieved.
             Exclude = 2,
         }
+    }
+}
+/// Response of asset discovery run
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RunAssetDiscoveryResponse {
+    /// The state of an asset discovery run.
+    #[prost(enumeration = "run_asset_discovery_response::State", tag = "1")]
+    pub state: i32,
+    /// The duration between asset discovery run start and end
+    #[prost(message, optional, tag = "2")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
+}
+/// Nested message and enum types in `RunAssetDiscoveryResponse`.
+pub mod run_asset_discovery_response {
+    /// The state of an asset discovery run.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Asset discovery run state was unspecified.
+        Unspecified = 0,
+        /// Asset discovery run completed successfully.
+        Completed = 1,
+        /// Asset discovery run was cancelled with tasks still pending, as another
+        /// run for the same organization was started with a higher priority.
+        Superseded = 2,
+        /// Asset discovery run was killed and terminated.
+        Terminated = 3,
     }
 }
 /// Security Command Center finding source. A finding source
@@ -1981,7 +2017,8 @@ pub struct UpdateSecurityMarksRequest {
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
     /// The time at which the updated SecurityMarks take effect.
     /// If not set uses current server time.  Updates will be applied to the
-    /// SecurityMarks that are active immediately preceding this time.
+    /// SecurityMarks that are active immediately preceding this time. Must be
+    /// smaller or equal to the server time.
     #[prost(message, optional, tag = "3")]
     pub start_time: ::core::option::Option<::prost_types::Timestamp>,
 }
