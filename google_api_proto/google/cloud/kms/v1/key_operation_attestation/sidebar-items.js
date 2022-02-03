@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["AttestationFormat","Attestation formats provided by the HSM."]]});
+initSidebarItems({"enum":[["AttestationFormat","Attestation formats provided by the HSM."]],"struct":[["CertificateChains","Certificate chains needed to verify the attestation. Certificates in chains are PEM-encoded and are ordered based on https://tools.ietf.org/html/rfc5246#section-7.4.2."]]});

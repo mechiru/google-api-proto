@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ServiceResolver","A [ServiceResolver][google.cloud.kms.v1.EkmConnection.ServiceResolver] represents an EKM replica that can be reached within an [EkmConnection][google.cloud.kms.v1.EkmConnection]."]]});

@@ -2511,6 +2511,7 @@
 <span id="2510">2510</span>
 <span id="2511">2511</span>
 <span id="2512">2512</span>
+<span id="2513">2513</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A \[CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority\] represents an individual Certificate Authority.</span>
 <span class="doccomment">/// A \[CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority\] can be used to create \[Certificates][google.cloud.security.privateca.v1.Certificate\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2525,7 +2526,7 @@
     <span class="doccomment">/// Required. Immutable. The config used to create a self-signed X.509 certificate or CSR.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CertificateConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. The desired lifetime of the CA certificate. Used to create the</span>
+    <span class="doccomment">/// Required. Immutable. The desired lifetime of the CA certificate. Used to create the</span>
     <span class="doccomment">/// &quot;not_before_time&quot; and &quot;not_after_time&quot; fields inside an X.509</span>
     <span class="doccomment">/// certificate.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
@@ -2678,7 +2679,7 @@
     <span class="doccomment">/// \[CryptoKeyVersionAlgorithm][google.cloud.kms.v1.CryptoKeyVersion.CryptoKeyVersionAlgorithm\]</span>
     <span class="doccomment">/// values. For RSA signing algorithms, the PSS algorithms should be preferred,</span>
     <span class="doccomment">/// use PKCS1 algorithms if required for compatibility. For further</span>
-    <span class="doccomment">/// recommandations, see</span>
+    <span class="doccomment">/// recommendations, see</span>
     <span class="doccomment">/// &lt;https://cloud.google.com/kms/docs/algorithms#algorithm_recommendations.&gt;</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
     <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
@@ -2822,14 +2823,14 @@
             <span class="doccomment">/// a \[CaPool][google.cloud.security.privateca.v1.CaPool\].</span>
             <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
             <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RsaKeyType</span> {
-                <span class="doccomment">/// Optional. The minimum allowed RSA modulus size, in bits. If this is not set,</span>
-                <span class="doccomment">/// or if set to zero, the service-level min RSA modulus size will</span>
-                <span class="doccomment">/// continue to apply.</span>
+                <span class="doccomment">/// Optional. The minimum allowed RSA modulus size (inclusive), in bits. If this is</span>
+                <span class="doccomment">/// not set, or if set to zero, the service-level min RSA modulus size</span>
+                <span class="doccomment">/// will continue to apply.</span>
                 <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
                 <span class="kw">pub</span> <span class="ident">min_modulus_size</span>: <span class="ident">i64</span>,
-                <span class="doccomment">/// Optional. The maximum allowed RSA modulus size, in bits. If this is not set,</span>
-                <span class="doccomment">/// or if set to zero, the service will not enforce an explicit upper</span>
-                <span class="doccomment">/// bound on RSA modulus sizes.</span>
+                <span class="doccomment">/// Optional. The maximum allowed RSA modulus size (inclusive), in bits. If this is</span>
+                <span class="doccomment">/// not set, or if set to zero, the service will not enforce an explicit</span>
+                <span class="doccomment">/// upper bound on RSA modulus sizes.</span>
                 <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
                 <span class="kw">pub</span> <span class="ident">max_modulus_size</span>: <span class="ident">i64</span>,
             }
@@ -3172,10 +3173,9 @@
     }
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SubordinateConfig</span> {
-        <span class="doccomment">/// Required. This can refer to a \[CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority\] in the same project that</span>
-        <span class="doccomment">/// was used to create a subordinate \[CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority\]. This field</span>
-        <span class="doccomment">/// is used for information and usability purposes only. The resource name</span>
-        <span class="doccomment">/// is in the format</span>
+        <span class="doccomment">/// Required. This can refer to a \[CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority\] that was used to create a</span>
+        <span class="doccomment">/// subordinate \[CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority\]. This field is used for information</span>
+        <span class="doccomment">/// and usability purposes only. The resource name is in the format</span>
         <span class="doccomment">/// `projects/*/locations/*/caPools/*/certificateAuthorities/*`.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="ident">CertificateAuthority</span>(<span class="ident">::prost::alloc::string::String</span>),
@@ -3487,6 +3487,8 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">ip_addresses</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Contains additional subject alternative name values.</span>
+    <span class="doccomment">/// For each custom_san, the `value` field must contain an ASN.1 encoded</span>
+    <span class="doccomment">/// UTF8String.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">custom_sans</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">X509Extension</span><span class="op">&gt;</span>,
 }
@@ -3640,11 +3642,11 @@
     <span class="doccomment">/// already been completed. The server will guarantee that for at least 60</span>
     <span class="doccomment">/// minutes since the first request.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// For example, consider a situation where you make an initial request and t</span>
-    <span class="doccomment">/// he request times out. If you make the request again with the same request</span>
-    <span class="doccomment">/// ID, the server can check if original operation with the same request ID</span>
-    <span class="doccomment">/// was received, and if so, will ignore the second request. This prevents</span>
-    <span class="doccomment">/// clients from accidentally creating duplicate commitments.</span>
+    <span class="doccomment">/// For example, consider a situation where you make an initial request and the</span>
+    <span class="doccomment">/// request times out. If you make the request again with the same request ID,</span>
+    <span class="doccomment">/// the server can check if original operation with the same request ID was</span>
+    <span class="doccomment">/// received, and if so, will ignore the second request. This prevents clients</span>
+    <span class="doccomment">/// from accidentally creating duplicate commitments.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The request ID must be a valid UUID with the exception that zero UUID is</span>
     <span class="doccomment">/// not supported (00000000-0000-0000-0000-000000000000).</span>
