@@ -35,13 +35,33 @@ pub struct WordDetectionRequest {
     /// Required. The word to locate in the image.
     #[prost(string, tag = "1")]
     pub word: ::prost::alloc::string::String,
+    /// Indicating whether the query string is a regex or not.
+    #[prost(bool, tag = "2")]
+    pub regex_mode: bool,
+    /// Indicating whether the detection is an approximate match.
+    #[prost(bool, tag = "3")]
+    pub disable_approx_match: bool,
+    /// Levenshtein distance threshold.
+    /// Applicable only if regex_mode is False.
+    #[prost(int32, optional, tag = "4")]
+    pub max_edit_distance: ::core::option::Option<i32>,
 }
 /// Detection type for text block detection.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TextBlockDetectionRequest {
-    /// Required. The text block consisting a list of words to locate im the image.
+    /// Required. The text block consisting a list of words to locate in the image.
     #[prost(string, repeated, tag = "1")]
     pub words: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Indicating whether the query string is a regex or not.
+    #[prost(bool, tag = "2")]
+    pub regex_mode: bool,
+    /// Indicating whether the detection is an approximate match.
+    #[prost(bool, tag = "3")]
+    pub disable_approx_match: bool,
+    /// Levenshtein distance threshold.
+    /// Applicable only if regex_mode is False.
+    #[prost(int32, optional, tag = "4")]
+    pub max_edit_distance: ::core::option::Option<i32>,
 }
 /// Detection type for custom icon detection.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -49,6 +69,13 @@ pub struct CustomIconDetectionRequest {
     /// Required. Required field that represents an icon in PNG format.
     #[prost(bytes = "bytes", tag = "1")]
     pub icon_png: ::prost::bytes::Bytes,
+    /// Set match_count to -1 to not limit the number of matches.
+    #[prost(int32, tag = "2")]
+    pub match_count: i32,
+    /// Confidence threshold in the range [0.0, 1.0] below which the matches will
+    /// be considered as non-existent.
+    #[prost(double, tag = "3")]
+    pub min_confidence_threshold: f64,
 }
 /// Response message for UI detection.
 #[derive(Clone, PartialEq, ::prost::Message)]
