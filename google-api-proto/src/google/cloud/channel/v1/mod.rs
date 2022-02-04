@@ -744,7 +744,8 @@ pub struct AssociationInfo {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProvisionedService {
     /// Output only. Provisioning ID of the entitlement. For Google Workspace, this would be the
-    /// underlying Subscription ID.
+    /// underlying Subscription ID. For Google Cloud Platform, this would be the
+    /// Billing Account ID of the billing subaccount."
     #[prost(string, tag = "1")]
     pub provisioning_id: ::prost::alloc::string::String,
     /// Output only. The product pertaining to the provisioning resource as specified in the

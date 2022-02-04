@@ -1385,6 +1385,9 @@ pub struct ReviewDocumentOperationMetadata {
     /// The basic metadata of the long running operation.
     #[prost(message, optional, tag = "5")]
     pub common_metadata: ::core::option::Option<CommonOperationMetadata>,
+    /// The question ID.
+    #[prost(string, tag = "6")]
+    pub question_id: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `ReviewDocumentOperationMetadata`.
 pub mod review_document_operation_metadata {
