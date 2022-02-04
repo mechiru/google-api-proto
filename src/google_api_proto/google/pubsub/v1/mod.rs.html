@@ -1883,6 +1883,59 @@
 <span id="1882">1882</span>
 <span id="1883">1883</span>
 <span id="1884">1884</span>
+<span id="1885">1885</span>
+<span id="1886">1886</span>
+<span id="1887">1887</span>
+<span id="1888">1888</span>
+<span id="1889">1889</span>
+<span id="1890">1890</span>
+<span id="1891">1891</span>
+<span id="1892">1892</span>
+<span id="1893">1893</span>
+<span id="1894">1894</span>
+<span id="1895">1895</span>
+<span id="1896">1896</span>
+<span id="1897">1897</span>
+<span id="1898">1898</span>
+<span id="1899">1899</span>
+<span id="1900">1900</span>
+<span id="1901">1901</span>
+<span id="1902">1902</span>
+<span id="1903">1903</span>
+<span id="1904">1904</span>
+<span id="1905">1905</span>
+<span id="1906">1906</span>
+<span id="1907">1907</span>
+<span id="1908">1908</span>
+<span id="1909">1909</span>
+<span id="1910">1910</span>
+<span id="1911">1911</span>
+<span id="1912">1912</span>
+<span id="1913">1913</span>
+<span id="1914">1914</span>
+<span id="1915">1915</span>
+<span id="1916">1916</span>
+<span id="1917">1917</span>
+<span id="1918">1918</span>
+<span id="1919">1919</span>
+<span id="1920">1920</span>
+<span id="1921">1921</span>
+<span id="1922">1922</span>
+<span id="1923">1923</span>
+<span id="1924">1924</span>
+<span id="1925">1925</span>
+<span id="1926">1926</span>
+<span id="1927">1927</span>
+<span id="1928">1928</span>
+<span id="1929">1929</span>
+<span id="1930">1930</span>
+<span id="1931">1931</span>
+<span id="1932">1932</span>
+<span id="1933">1933</span>
+<span id="1934">1934</span>
+<span id="1935">1935</span>
+<span id="1936">1936</span>
+<span id="1937">1937</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A schema resource.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Schema</span> {
@@ -2584,6 +2637,19 @@
     <span class="doccomment">/// the endpoint will not be made.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">detached</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// If true, Pub/Sub provides the following guarantees for the delivery of</span>
+    <span class="doccomment">/// a message with a given value of `message_id` on this subscription:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * The message sent to a subscriber is guaranteed not to be resent</span>
+    <span class="doccomment">/// before the message&#39;s acknowledgement deadline expires.</span>
+    <span class="doccomment">/// * An acknowledged message will not be resent to a subscriber.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note that subscribers may still receive multiple copies of a message</span>
+    <span class="doccomment">/// when `enable_exactly_once_delivery` is true if the message was published</span>
+    <span class="doccomment">/// multiple times by a publisher client. These copies are  considered distinct</span>
+    <span class="doccomment">/// by Pub/Sub and have distinct `message_id` values.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">enable_exactly_once_delivery</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Output only. Indicates the minimum duration for which a message is retained</span>
     <span class="doccomment">/// after it is published to the subscription&#39;s topic. If this field is set,</span>
     <span class="doccomment">/// messages published to the subscription&#39;s topic in the last</span>
@@ -2987,6 +3053,16 @@
     <span class="doccomment">/// Received Pub/Sub messages. This will not be empty.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">received_messages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ReceivedMessage</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// This field will only be set if `enable_exactly_once_delivery` is set to</span>
+    <span class="doccomment">/// `true`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">acknowlege_confirmation</span>:
+        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">streaming_pull_response::AcknowledgeConfirmation</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// This field will only be set if `enable_exactly_once_delivery` is set to</span>
+    <span class="doccomment">/// `true`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">modify_ack_deadline_confirmation</span>:
+        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">streaming_pull_response::ModifyAckDeadlineConfirmation</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Properties associated with this subscription.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">subscription_properties</span>:
@@ -2994,9 +3070,39 @@
 }
 <span class="doccomment">/// Nested message and enum types in `StreamingPullResponse`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">streaming_pull_response</span> {
+    <span class="doccomment">/// Acknowledgement IDs sent in one or more previous requests to acknowledge a</span>
+    <span class="doccomment">/// previously received message.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AcknowledgeConfirmation</span> {
+        <span class="doccomment">/// Successfully processed acknowledgement IDs.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">ack_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// List of acknowledgement IDs that were malformed or whose acknowledgement</span>
+        <span class="doccomment">/// deadline has expired.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">invalid_ack_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// List of acknowledgement IDs that were out of order.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">unordered_ack_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Acknowledgement IDs sent in one or more previous requests to modify the</span>
+    <span class="doccomment">/// deadline for a specific message.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModifyAckDeadlineConfirmation</span> {
+        <span class="doccomment">/// Successfully processed acknowledgement IDs.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">ack_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// List of acknowledgement IDs that were malformed or whose acknowledgement</span>
+        <span class="doccomment">/// deadline has expired.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">invalid_ack_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    }
     <span class="doccomment">/// Subscription properties sent as part of the response.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SubscriptionProperties</span> {
+        <span class="doccomment">/// True iff exactly once delivery is enabled for this subscription.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">exactly_once_delivery_enabled</span>: <span class="ident">bool</span>,
         <span class="doccomment">/// True iff message ordering is enabled for this subscription.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">message_ordering_enabled</span>: <span class="ident">bool</span>,

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["SubscriptionProperties","Subscription properties sent as part of the response."]]});
+initSidebarItems({"struct":[["AcknowledgeConfirmation","Acknowledgement IDs sent in one or more previous requests to acknowledge a previously received message."],["ModifyAckDeadlineConfirmation","Acknowledgement IDs sent in one or more previous requests to modify the deadline for a specific message."],["SubscriptionProperties","Subscription properties sent as part of the response."]]});
