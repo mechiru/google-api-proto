@@ -3296,6 +3296,7 @@
 <span id="3295">3295</span>
 <span id="3296">3296</span>
 <span id="3297">3297</span>
+<span id="3298">3298</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Required Edu Attributes</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EduData</span> {
@@ -4042,7 +4043,8 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProvisionedService</span> {
     <span class="doccomment">/// Output only. Provisioning ID of the entitlement. For Google Workspace, this would be the</span>
-    <span class="doccomment">/// underlying Subscription ID.</span>
+    <span class="doccomment">/// underlying Subscription ID. For Google Cloud Platform, this would be the</span>
+    <span class="doccomment">/// Billing Account ID of the billing subaccount.&quot;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">provisioning_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Output only. The product pertaining to the provisioning resource as specified in the</span>

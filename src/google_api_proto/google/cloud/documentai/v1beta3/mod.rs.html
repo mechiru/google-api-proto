@@ -1634,6 +1634,9 @@
 <span id="1633">1633</span>
 <span id="1634">1634</span>
 <span id="1635">1635</span>
+<span id="1636">1636</span>
+<span id="1637">1637</span>
+<span id="1638">1638</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Payload message of raw document content (bytes).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RawDocument</span> {
@@ -3021,6 +3024,9 @@
     <span class="doccomment">/// The basic metadata of the long running operation.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">common_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CommonOperationMetadata</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The question ID.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">question_id</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `ReviewDocumentOperationMetadata`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">review_document_operation_metadata</span> {
