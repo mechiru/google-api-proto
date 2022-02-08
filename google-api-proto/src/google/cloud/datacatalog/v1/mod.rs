@@ -197,6 +197,16 @@ pub struct GcsFileSpec {
     #[prost(int64, tag = "4")]
     pub size_bytes: i64,
 }
+/// Entry metadata relevant only to the user and private to them.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PersonalDetails {
+    /// True if the entry is starred by the user; false otherwise.
+    #[prost(bool, tag = "1")]
+    pub starred: bool,
+    /// Set if the entry is starred; unset otherwise.
+    #[prost(message, optional, tag = "2")]
+    pub star_time: ::core::option::Option<::prost_types::Timestamp>,
+}
 /// This enum lists all the systems that Data Catalog integrates with.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -588,33 +598,12 @@ pub struct TagTemplate {
     /// The maximum length is 200 characters.
     #[prost(string, tag = "2")]
     pub display_name: ::prost::alloc::string::String,
-    /// Indicates whether this is a public tag template.
+    /// Indicates whether tags created with this template are public. Public tags
+    /// do not require tag template access to appear in
+    /// \[ListTags][google.cloud.datacatalog.v1.ListTags\] API response.
     ///
-    /// Every user has view access to a *public* tag template by default.
-    /// This means that:
-    ///
-    ///   * Every user can use this tag template to tag an entry.
-    ///   * If an entry is tagged using the tag template, the tag is always
-    ///     shown in the response to ``ListTags`` called on the entry.
-    ///   * To get the template using the GetTagTemplate method, you
-    ///     need view access either on the project or the organization the tag
-    ///     template resides in but no other permission is needed.
-    ///   * Operations on the tag template other than viewing (for example,
-    ///     editing IAM policies) follow standard IAM structures.
-    ///
-    /// Tags created with a public tag template are referred to as public tags.
-    ///
-    /// You can search for a public tag by value with a
+    /// Additionally, you can search for a public tag by value with a
     /// simple search query instead of using a ``tag:`` predicate.
-    ///
-    /// Public tag templates may not appear in search results depending on scope,
-    /// see:
-    /// \[include_public_tag_templates][google.cloud.datacatalog.v1.SearchCatalogRequest.Scope.include_public_tag_templates\]
-    ///
-    /// Note: If an [IAM domain
-    /// restriction](<https://cloud.google.com/resource-manager/docs/organization-policy/restricting-domains>)
-    /// is configured in the tag template's location, the public access will not be
-    /// enabled but the simple search for tag values will still work.
     #[prost(bool, tag = "5")]
     pub is_publicly_readable: bool,
     /// Required. Map of tag template field IDs to the settings for the field.
@@ -782,6 +771,7 @@ pub struct SearchCatalogRequest {
     ///
     /// * `relevance` that can only be descending
     /// * `last_modified_timestamp \[asc|desc\]` with descending (`desc`) as default
+    /// * `default` that can only be descending
     ///
     /// If this parameter is omitted, it defaults to the descending `relevance`.
     #[prost(string, tag = "5")]
@@ -824,15 +814,14 @@ pub mod search_catalog_request {
         /// value of this parameter.
         #[prost(string, repeated, tag = "16")]
         pub restricted_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Optional. If `true`, include [public tag
-        /// templates]\[google.cloud.datacatalog.v1.TagTemplate.is_publicly_readable\]
-        /// in the search results. By default, they are included only if you have
-        /// explicit permissions on them to view them. For example, if you are the
-        /// owner.
+        /// Optional. If `true`, search only among starred entries.
         ///
-        /// Other scope fields, for example, `include_org_ids`,
-        /// still restrict the returned public tag templates and at least one of
-        /// them is required.
+        /// By default, all results are returned, starred or not.
+        #[prost(bool, tag = "18")]
+        pub starred_only: bool,
+        /// Optional. This field is deprecated. The search mechanism for public and private tag
+        /// templates is the same.
+        #[deprecated]
         #[prost(bool, tag = "19")]
         pub include_public_tag_templates: bool,
     }
@@ -1159,6 +1148,9 @@ pub struct Entry {
     /// Default value is an empty string.
     #[prost(string, tag = "4")]
     pub description: ::prost::alloc::string::String,
+    /// Business Context of the entry. Not supported for BigQuery datasets.
+    #[prost(message, optional, tag = "37")]
+    pub business_context: ::core::option::Option<BusinessContext>,
     /// Schema of the entry. An entry might not have any schema attached to it.
     #[prost(message, optional, tag = "5")]
     pub schema: ::core::option::Option<Schema>,
@@ -1186,6 +1178,9 @@ pub struct Entry {
     /// Output only. Physical location of the entry.
     #[prost(message, optional, tag = "20")]
     pub data_source: ::core::option::Option<DataSource>,
+    /// Output only. Additional information related to the entry. Private to the current user.
+    #[prost(message, optional, tag = "26")]
+    pub personal_details: ::core::option::Option<PersonalDetails>,
     /// Required. Entry type.
     #[prost(oneof = "entry::EntryType", tags = "2, 16")]
     pub entry_type: ::core::option::Option<entry::EntryType>,
@@ -1404,6 +1399,50 @@ pub mod routine_spec {
         BigqueryRoutineSpec(super::BigQueryRoutineSpec),
     }
 }
+/// Business Context of the entry.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BusinessContext {
+    /// Entry overview fields for rich text descriptions of entries.
+    #[prost(message, optional, tag = "1")]
+    pub entry_overview: ::core::option::Option<EntryOverview>,
+    /// Contact people for the entry.
+    #[prost(message, optional, tag = "2")]
+    pub contacts: ::core::option::Option<Contacts>,
+}
+/// Entry overview fields for rich text descriptions of entries.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EntryOverview {
+    /// Entry overview with support for rich text.
+    ///
+    /// The overview must only contain Unicode characters, and should be
+    /// formatted using HTML.
+    /// The maximum length is 10 MiB as this value holds HTML descriptions
+    /// including encoded images. The maximum length of the text without images
+    /// is 100 KiB.
+    #[prost(string, tag = "1")]
+    pub overview: ::prost::alloc::string::String,
+}
+/// Contact people for the entry.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Contacts {
+    /// The list of contact people for the entry.
+    #[prost(message, repeated, tag = "1")]
+    pub people: ::prost::alloc::vec::Vec<contacts::Person>,
+}
+/// Nested message and enum types in `Contacts`.
+pub mod contacts {
+    /// A contact person for the entry.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Person {
+        /// Designation of the person, for example, Data Steward.
+        #[prost(string, tag = "1")]
+        pub designation: ::prost::alloc::string::String,
+        /// Email of the person in the format of `john.doe@example.com`,
+        /// `<john.doe@example.com>`, or `John Doe<john.doe@example.com>`.
+        #[prost(string, tag = "2")]
+        pub email: ::prost::alloc::string::String,
+    }
+}
 /// Entry group metadata.
 ///
 /// An `EntryGroup` resource represents a logical grouping of zero or more
@@ -1471,9 +1510,7 @@ pub struct UpdateTagTemplateRequest {
     /// request body, their values are emptied.
     ///
     /// Note: Updating the `is_publicly_readable` field may require up to 12
-    /// hours to take effect in search results. Additionally, it also requires
-    /// the `tagTemplates.getIamPolicy` and `tagTemplates.setIamPolicy`
-    /// permissions.
+    /// hours to take effect in search results.
     #[prost(message, optional, tag = "2")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
@@ -1684,6 +1721,54 @@ pub struct ListEntriesResponse {
     /// in results.
     #[prost(string, tag = "2")]
     pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for
+/// \[StarEntry][google.cloud.datacatalog.v1.DataCatalog.StarEntry\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StarEntryRequest {
+    /// Required. The name of the entry to mark as starred.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Response message for
+/// \[StarEntry][google.cloud.datacatalog.v1.DataCatalog.StarEntry\].
+/// Empty for now
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StarEntryResponse {}
+/// Request message for
+/// \[UnstarEntry][google.cloud.datacatalog.v1.DataCatalog.UnstarEntry\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UnstarEntryRequest {
+    /// Required. The name of the entry to mark as **not** starred.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Response message for
+/// \[UnstarEntry][google.cloud.datacatalog.v1.DataCatalog.UnstarEntry\].
+/// Empty for now
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UnstarEntryResponse {}
+/// Request message for
+/// \[ModifyEntryOverview][google.cloud.datacatalog.v1.DataCatalog.ModifyEntryOverview\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ModifyEntryOverviewRequest {
+    /// Required. The full resource name of the entry.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The new value for the Entry Overview.
+    #[prost(message, optional, tag = "2")]
+    pub entry_overview: ::core::option::Option<EntryOverview>,
+}
+/// Request message for
+/// \[ModifyEntryContacts][google.cloud.datacatalog.v1.DataCatalog.ModifyEntryContacts\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ModifyEntryContactsRequest {
+    /// Required. The full resource name of the entry.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The new value for the Contacts.
+    #[prost(message, optional, tag = "2")]
+    pub contacts: ::core::option::Option<Contacts>,
 }
 /// The enum field that lists all the types of entry resources in Data
 /// Catalog. For example, a BigQuery table entry has the `TABLE` type.
@@ -2052,6 +2137,48 @@ pub mod data_catalog_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = " Modifies entry overview, part of the business context of an"]
+        #[doc = " [Entry][google.cloud.datacatalog.v1.Entry]."]
+        #[doc = ""]
+        #[doc = " To call this method, you must have the `datacatalog.entries.updateOverview`"]
+        #[doc = " IAM permission on the corresponding project."]
+        pub async fn modify_entry_overview(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ModifyEntryOverviewRequest>,
+        ) -> Result<tonic::Response<super::EntryOverview>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.datacatalog.v1.DataCatalog/ModifyEntryOverview",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Modifies contacts, part of the business context of an"]
+        #[doc = " [Entry][google.cloud.datacatalog.v1.Entry]."]
+        #[doc = ""]
+        #[doc = " To call this method, you must have the `datacatalog.entries.updateContacts`"]
+        #[doc = " IAM permission on the corresponding project."]
+        pub async fn modify_entry_contacts(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ModifyEntryContactsRequest>,
+        ) -> Result<tonic::Response<super::Contacts>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.datacatalog.v1.DataCatalog/ModifyEntryContacts",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
         #[doc = " Creates a tag template."]
         #[doc = ""]
         #[doc = " You must enable the Data Catalog API in the project identified by the"]
@@ -2307,6 +2434,8 @@ pub mod data_catalog_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
         #[doc = " Lists tags assigned to an [Entry][google.cloud.datacatalog.v1.Entry]."]
+        #[doc = " The [columns][google.cloud.datacatalog.v1.Tag.column] in the response are"]
+        #[doc = " lowercased."]
         pub async fn list_tags(
             &mut self,
             request: impl tonic::IntoRequest<super::ListTagsRequest>,
@@ -2320,6 +2449,42 @@ pub mod data_catalog_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.datacatalog.v1.DataCatalog/ListTags",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Marks an [Entry][google.cloud.datacatalog.v1.Entry] as starred by"]
+        #[doc = " the current user. Starring information is private to each user."]
+        pub async fn star_entry(
+            &mut self,
+            request: impl tonic::IntoRequest<super::StarEntryRequest>,
+        ) -> Result<tonic::Response<super::StarEntryResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.datacatalog.v1.DataCatalog/StarEntry",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Marks an [Entry][google.cloud.datacatalog.v1.Entry] as NOT starred by"]
+        #[doc = " the current user. Starring information is private to each user."]
+        pub async fn unstar_entry(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UnstarEntryRequest>,
+        ) -> Result<tonic::Response<super::UnstarEntryResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.datacatalog.v1.DataCatalog/UnstarEntry",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
