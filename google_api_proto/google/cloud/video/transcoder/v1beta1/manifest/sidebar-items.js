@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["ManifestType","The manifest type can be either `\"HLS\"` or `\"DASH\"`."]]});
