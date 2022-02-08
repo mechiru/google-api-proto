@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Person","A contact person for the entry."]]});
