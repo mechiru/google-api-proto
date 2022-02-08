@@ -4,8 +4,5 @@
 ))]
 pub mod livestream;
 
-#[cfg(any(
-    feature = "google-cloud-video-transcoder-v1",
-    feature = "google-cloud-video-transcoder-v1beta1",
-))]
+#[cfg(any(feature = "google-cloud-video-transcoder-v1",))]
 pub mod transcoder;

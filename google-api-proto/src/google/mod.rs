@@ -294,7 +294,6 @@ pub mod chromeos;
     feature = "google-cloud-video-livestream-logging-v1",
     feature = "google-cloud-video-livestream-v1",
     feature = "google-cloud-video-transcoder-v1",
-    feature = "google-cloud-video-transcoder-v1beta1",
     feature = "google-cloud-videointelligence-v1",
     feature = "google-cloud-videointelligence-v1beta2",
     feature = "google-cloud-videointelligence-v1p1beta1",
