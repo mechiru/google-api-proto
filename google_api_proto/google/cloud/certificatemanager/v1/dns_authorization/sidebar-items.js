@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["DnsResourceRecord","The structure describing the DNS Resource Record that needs to be added to DNS configuration for the authorization to be usable by certificate."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Match",""],["Matcher","Defines predefined cases other than SNI-hostname match when this configuration should be applied."]]});
