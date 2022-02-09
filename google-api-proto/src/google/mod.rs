@@ -133,6 +133,7 @@ pub mod chromeos;
     feature = "google-cloud-billing-v1",
     feature = "google-cloud-binaryauthorization-v1",
     feature = "google-cloud-binaryauthorization-v1beta1",
+    feature = "google-cloud-certificatemanager-v1",
     feature = "google-cloud-channel-v1",
     feature = "google-cloud-clouddms-logging-v1",
     feature = "google-cloud-clouddms-v1",

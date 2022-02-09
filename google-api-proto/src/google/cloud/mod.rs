@@ -79,6 +79,9 @@ pub mod billing;
 ))]
 pub mod binaryauthorization;
 
+#[cfg(any(feature = "google-cloud-certificatemanager-v1",))]
+pub mod certificatemanager;
+
 #[cfg(any(feature = "google-cloud-channel-v1",))]
 pub mod channel;
 

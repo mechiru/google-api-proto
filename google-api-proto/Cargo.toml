@@ -127,6 +127,7 @@ google-cloud-billing-budgets-v1beta1 = ["google-api", "google-cloud", "google-ty
 google-cloud-billing-v1 = ["google-api", "google-cloud", "google-iam-v1", "google-type"]
 google-cloud-binaryauthorization-v1 = ["google-api", "google-cloud", "grafeas-v1"]
 google-cloud-binaryauthorization-v1beta1 = ["google-api", "google-cloud"]
+google-cloud-certificatemanager-v1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-channel-v1 = ["google-api", "google-cloud", "google-longrunning", "google-type"]
 google-cloud-clouddms-logging-v1 = ["google-api", "google-cloud", "google-rpc"]
 google-cloud-clouddms-v1 = ["google-api", "google-cloud", "google-longrunning", "google-rpc"]
