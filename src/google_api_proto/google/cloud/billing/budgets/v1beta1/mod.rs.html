@@ -508,6 +508,22 @@
 <span id="507">507</span>
 <span id="508">508</span>
 <span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A budget is a plan that describes what you expect to spend on Cloud</span>
 <span class="doccomment">/// projects, plus the rules to execute as spend is tracked against that plan,</span>
 <span class="doccomment">/// (for example, send an alert when 90% of the target spend is met).</span>
@@ -524,9 +540,9 @@
     <span class="doccomment">/// Validation: &lt;= 60 chars.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Filters that define which resources are used to compute the</span>
-    <span class="doccomment">/// actual spend against the budget amount, such as projects, services, and the</span>
-    <span class="doccomment">/// budget&#39;s time period, as well as other filters.</span>
+    <span class="doccomment">/// Optional. Filters that define which resources are used to compute the actual spend</span>
+    <span class="doccomment">/// against the budget amount, such as projects, services, and the budget&#39;s</span>
+    <span class="doccomment">/// time period, as well as other filters.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">budget_filter</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Filter</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Required. Budgeted amount.</span>
@@ -534,10 +550,13 @@
     <span class="kw">pub</span> <span class="ident">amount</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BudgetAmount</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Optional. Rules that trigger alerts (notifications of thresholds</span>
     <span class="doccomment">/// being crossed) when spend exceeds the specified percentages of the budget.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Optional for `pubsubTopic` notifications.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Required if using email notifications.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">threshold_rules</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ThresholdRule</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Rules to apply to notifications sent based on budget spend and</span>
-    <span class="doccomment">/// thresholds.</span>
+    <span class="doccomment">/// Optional. Rules to apply to notifications sent based on budget spend and thresholds.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">all_updates_rule</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AllUpdatesRule</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Optional. Etag to validate that the object is unchanged for a</span>
@@ -567,31 +586,43 @@
         <span class="ident">SpecifiedAmount</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Money</span>),
         <span class="doccomment">/// Use the last period&#39;s actual spend as the budget for the present period.</span>
         <span class="doccomment">/// LastPeriodAmount can only be set when the budget&#39;s time period is a</span>
-        <span class="doccomment">/// \[Filter.calendar_period][google.cloud.billing.budgets.v1beta1.Filter.calendar_period\].</span>
-        <span class="doccomment">/// It cannot be set in combination with</span>
+        <span class="doccomment">/// \[Filter.calendar_period][google.cloud.billing.budgets.v1beta1.Filter.calendar_period\]. It cannot be set in combination with</span>
         <span class="doccomment">/// \[Filter.custom_period][google.cloud.billing.budgets.v1beta1.Filter.custom_period\].</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">LastPeriodAmount</span>(<span class="ident"><span class="kw">super</span>::LastPeriodAmount</span>),
     }
 }
-<span class="doccomment">/// Describes a budget amount targeted to the last</span>
-<span class="doccomment">/// \[Filter.calendar_period][google.cloud.billing.budgets.v1beta1.Filter.calendar_period\]</span>
+<span class="doccomment">/// Describes a budget amount targeted to the last \[Filter.calendar_period][google.cloud.billing.budgets.v1beta1.Filter.calendar_period\]</span>
 <span class="doccomment">/// spend. At this time, the amount is automatically 100% of the last calendar</span>
 <span class="doccomment">/// period&#39;s spend; that is, there are no other options yet.</span>
 <span class="doccomment">/// Future configuration options will be described here (for example, configuring</span>
 <span class="doccomment">/// a percentage of last period&#39;s spend).</span>
 <span class="doccomment">/// LastPeriodAmount cannot be set for a budget configured with</span>
-<span class="doccomment">/// a</span>
-<span class="doccomment">/// \[Filter.custom_period][google.cloud.billing.budgets.v1beta1.Filter.custom_period\].</span>
+<span class="doccomment">/// a \[Filter.custom_period][google.cloud.billing.budgets.v1beta1.Filter.custom_period\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LastPeriodAmount</span> {}
-<span class="doccomment">/// ThresholdRule contains a definition of a threshold which triggers</span>
-<span class="doccomment">/// an alert (a notification of a threshold being crossed) to be sent when</span>
-<span class="doccomment">/// spend goes above the specified amount.</span>
-<span class="doccomment">/// Alerts are automatically e-mailed to users with the Billing Account</span>
-<span class="doccomment">/// Administrator role or the Billing Account User role.</span>
-<span class="doccomment">/// The thresholds here have no effect on notifications sent to anything</span>
-<span class="doccomment">/// configured under `Budget.all_updates_rule`.</span>
+<span class="doccomment">/// ThresholdRule contains the definition of a threshold. Threshold rules define</span>
+<span class="doccomment">/// the triggering events used to generate a budget notification email. When a</span>
+<span class="doccomment">/// threshold is crossed (spend exceeds the specified percentages of the</span>
+<span class="doccomment">/// budget), budget alert emails are sent to the email recipients you specify</span>
+<span class="doccomment">/// in the</span>
+<span class="doccomment">/// \[NotificationsRule\](#notificationsrule).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Threshold rules also affect the fields included in the</span>
+<span class="doccomment">/// [JSON data</span>
+<span class="doccomment">/// object](&lt;https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#notification_format&gt;)</span>
+<span class="doccomment">/// sent to a Pub/Sub topic.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Threshold rules are _required_ if using email notifications.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Threshold rules are _optional_ if only setting a</span>
+<span class="doccomment">/// [`pubsubTopic` NotificationsRule](#NotificationsRule),</span>
+<span class="doccomment">/// unless you want your JSON data object to include data about the thresholds</span>
+<span class="doccomment">/// you set.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For more information, see</span>
+<span class="doccomment">/// [set budget threshold rules and</span>
+<span class="doccomment">/// actions](&lt;https://cloud.google.com/billing/docs/how-to/budgets#budget-actions&gt;).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ThresholdRule</span> {
     <span class="doccomment">/// Required. Send an alert when this threshold is exceeded.</span>
@@ -617,8 +648,7 @@
         <span class="doccomment">/// Use forecasted spend for the period as the basis for comparison against</span>
         <span class="doccomment">/// the threshold.</span>
         <span class="doccomment">/// FORECASTED_SPEND can only be set when the budget&#39;s time period is a</span>
-        <span class="doccomment">/// \[Filter.calendar_period][google.cloud.billing.budgets.v1beta1.Filter.calendar_period\].</span>
-        <span class="doccomment">/// It cannot be set in combination with</span>
+        <span class="doccomment">/// \[Filter.calendar_period][google.cloud.billing.budgets.v1beta1.Filter.calendar_period\].  It cannot be set in combination with</span>
         <span class="doccomment">/// \[Filter.custom_period][google.cloud.billing.budgets.v1beta1.Filter.custom_period\].</span>
         <span class="ident">ForecastedSpend</span> <span class="op">=</span> <span class="number">2</span>,
     }
@@ -627,10 +657,10 @@
 <span class="doccomment">/// and thresholds.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AllUpdatesRule</span> {
-    <span class="doccomment">/// Optional. The name of the Pub/Sub topic where budget related messages will</span>
-    <span class="doccomment">/// be published, in the form `projects/{project_id}/topics/{topic_id}`.</span>
-    <span class="doccomment">/// Updates are sent at regular intervals to the topic. The topic needs to be</span>
-    <span class="doccomment">/// created before the budget is created; see</span>
+    <span class="doccomment">/// Optional. The name of the Pub/Sub topic where budget related messages will be</span>
+    <span class="doccomment">/// published, in the form `projects/{project_id}/topics/{topic_id}`. Updates</span>
+    <span class="doccomment">/// are sent at regular intervals to the topic.</span>
+    <span class="doccomment">/// The topic needs to be created before the budget is created; see</span>
     <span class="doccomment">/// &lt;https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications&gt;</span>
     <span class="doccomment">/// for more details.</span>
     <span class="doccomment">/// Caller is expected to have</span>
@@ -640,28 +670,25 @@
     <span class="doccomment">/// for more details on Pub/Sub roles and permissions.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">pubsub_topic</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Required when</span>
-    <span class="doccomment">/// \[AllUpdatesRule.pubsub_topic][google.cloud.billing.budgets.v1beta1.AllUpdatesRule.pubsub_topic\]</span>
-    <span class="doccomment">/// is set. The schema version of the notification sent to</span>
-    <span class="doccomment">/// \[AllUpdatesRule.pubsub_topic][google.cloud.billing.budgets.v1beta1.AllUpdatesRule.pubsub_topic\].</span>
-    <span class="doccomment">/// Only &quot;1.0&quot; is accepted. It represents the JSON schema as defined in</span>
+    <span class="doccomment">/// Optional. Required when \[AllUpdatesRule.pubsub_topic][google.cloud.billing.budgets.v1beta1.AllUpdatesRule.pubsub_topic\] is set. The schema version of</span>
+    <span class="doccomment">/// the notification sent to \[AllUpdatesRule.pubsub_topic][google.cloud.billing.budgets.v1beta1.AllUpdatesRule.pubsub_topic\]. Only &quot;1.0&quot; is</span>
+    <span class="doccomment">/// accepted. It represents the JSON schema as defined in</span>
     <span class="doccomment">/// &lt;https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#notification_format.&gt;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">schema_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Targets to send notifications to when a threshold is exceeded.</span>
-    <span class="doccomment">/// This is in addition to default recipients who have billing account IAM</span>
-    <span class="doccomment">/// roles. The value is the full REST resource name of a monitoring</span>
-    <span class="doccomment">/// notification channel with the form</span>
+    <span class="doccomment">/// Optional. Targets to send notifications to when a threshold is exceeded. This is in</span>
+    <span class="doccomment">/// addition to default recipients who have billing account IAM roles.</span>
+    <span class="doccomment">/// The value is the full REST resource name of a monitoring notification</span>
+    <span class="doccomment">/// channel with the form</span>
     <span class="doccomment">/// `projects/{project_id}/notificationChannels/{channel_id}`. A maximum of 5</span>
     <span class="doccomment">/// channels are allowed. See</span>
     <span class="doccomment">/// &lt;https://cloud.google.com/billing/docs/how-to/budgets-notification-recipients&gt;</span>
     <span class="doccomment">/// for more details.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">monitoring_notification_channels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. When set to true, disables default notifications sent when a</span>
-    <span class="doccomment">/// threshold is exceeded. Default notifications are sent to those with Billing</span>
-    <span class="doccomment">/// Account Administrator and Billing Account User IAM roles for the target</span>
-    <span class="doccomment">/// account.</span>
+    <span class="doccomment">/// Optional. When set to true, disables default notifications sent when a threshold is</span>
+    <span class="doccomment">/// exceeded. Default notifications are sent to those with Billing Account</span>
+    <span class="doccomment">/// Administrator and Billing Account User IAM roles for the target account.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">disable_default_iam_recipients</span>: <span class="ident">bool</span>,
 }
@@ -675,16 +702,14 @@
     <span class="doccomment">/// Only zero or one project can be specified currently.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">projects</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. If</span>
-    <span class="doccomment">/// \[Filter.credit_types_treatment][google.cloud.billing.budgets.v1beta1.Filter.credit_types_treatment\]</span>
-    <span class="doccomment">/// is INCLUDE_SPECIFIED_CREDITS, this is a list of credit types to be</span>
-    <span class="doccomment">/// subtracted from gross cost to determine the spend for threshold</span>
-    <span class="doccomment">/// calculations. See [a list of acceptable credit type</span>
+    <span class="doccomment">/// Optional. If \[Filter.credit_types_treatment][google.cloud.billing.budgets.v1beta1.Filter.credit_types_treatment\] is INCLUDE_SPECIFIED_CREDITS, this is</span>
+    <span class="doccomment">/// a list of credit types to be subtracted from gross cost to determine the</span>
+    <span class="doccomment">/// spend for threshold calculations. See</span>
+    <span class="doccomment">/// [a list of acceptable credit type</span>
     <span class="doccomment">/// values](&lt;https://cloud.google.com/billing/docs/how-to/export-data-bigquery-tables#credits-type&gt;).</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// If</span>
-    <span class="doccomment">/// \[Filter.credit_types_treatment][google.cloud.billing.budgets.v1beta1.Filter.credit_types_treatment\]</span>
-    <span class="doccomment">/// is **not** INCLUDE_SPECIFIED_CREDITS, this field must be empty.</span>
+    <span class="doccomment">/// If \[Filter.credit_types_treatment][google.cloud.billing.budgets.v1beta1.Filter.credit_types_treatment\] is **not** INCLUDE_SPECIFIED_CREDITS,</span>
+    <span class="doccomment">/// this field must be empty.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">credit_types</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Optional. If not set, default behavior is `INCLUDE_ALL_CREDITS`.</span>
@@ -698,18 +723,23 @@
     <span class="doccomment">/// &lt;https://cloud.google.com/billing/v1/how-tos/catalog-api.&gt;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">services</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. A set of subaccounts of the form `billingAccounts/{account_id}`,</span>
-    <span class="doccomment">/// specifying that usage from only this set of subaccounts should be included</span>
-    <span class="doccomment">/// in the budget. If a subaccount is set to the name of the parent account,</span>
+    <span class="doccomment">/// Optional. A set of subaccounts of the form `billingAccounts/{account_id}`, specifying</span>
+    <span class="doccomment">/// that usage from only this set of subaccounts should be included in the</span>
+    <span class="doccomment">/// budget. If a subaccount is set to the name of the parent account,</span>
     <span class="doccomment">/// usage from the parent account will be included. If omitted, the</span>
     <span class="doccomment">/// report will include usage from the parent account and all</span>
     <span class="doccomment">/// subaccounts, if they exist.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">subaccounts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. A single label and value pair specifying that usage from only</span>
-    <span class="doccomment">/// this set of labeled resources should be included in the budget. Currently,</span>
-    <span class="doccomment">/// multiple entries or multiple values per entry are not allowed. If omitted,</span>
-    <span class="doccomment">/// the report will include all labeled and unlabeled usage.</span>
+    <span class="doccomment">/// Optional. A single label and value pair specifying that usage from only this set of</span>
+    <span class="doccomment">/// labeled resources should be included in the budget. If omitted, the</span>
+    <span class="doccomment">/// report will include all labeled and unlabeled usage.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// An object containing a single `&quot;key&quot;: value` pair. Example: `{ &quot;name&quot;:</span>
+    <span class="doccomment">/// &quot;wrench&quot; }`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  _Currently, multiple entries or multiple values per entry are not</span>
+    <span class="doccomment">///  allowed._</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
         <span class="ident">::prost::alloc::string::String</span>,
@@ -717,7 +747,7 @@
     <span class="op">&gt;</span>,
     <span class="doccomment">/// Multiple options to choose the budget&#39;s time period, specifying that only</span>
     <span class="doccomment">/// usage that occurs during this time period should be included in the budget.</span>
-    <span class="doccomment">/// If not set, the `usage_period` defaults to CalendarPeriod.MONTH.</span>
+    <span class="doccomment">/// If not set, the &lt;code&gt;usage_period&lt;/code&gt; defaults to CalendarPeriod.MONTH.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;filter::UsagePeriod&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;8, 9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">usage_period</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">filter::UsagePeriod</span><span class="op">&gt;</span>,
 }
@@ -746,7 +776,7 @@
     }
     <span class="doccomment">/// Multiple options to choose the budget&#39;s time period, specifying that only</span>
     <span class="doccomment">/// usage that occurs during this time period should be included in the budget.</span>
-    <span class="doccomment">/// If not set, the `usage_period` defaults to CalendarPeriod.MONTH.</span>
+    <span class="doccomment">/// If not set, the &lt;code&gt;usage_period&lt;/code&gt; defaults to CalendarPeriod.MONTH.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UsagePeriod</span> {
         <span class="doccomment">/// Optional. Specifies to track usage for recurring calendar period.</span>
@@ -757,8 +787,8 @@
         <span class="doccomment">/// so on.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::CalendarPeriod&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
         <span class="ident">CalendarPeriod</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// Optional. Specifies to track usage from any start date (required) to any</span>
-        <span class="doccomment">/// end date (optional). This time period is static, it does not recur.</span>
+        <span class="doccomment">/// Optional. Specifies to track usage from any start date (required) to any end date</span>
+        <span class="doccomment">/// (optional). This time period is static, it does not recur.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
         <span class="ident">CustomPeriod</span>(<span class="ident"><span class="kw">super</span>::CustomPeriod</span>),
     }
@@ -769,9 +799,9 @@
     <span class="doccomment">/// Required. The start date must be after January 1, 2017.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">start_date</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Date</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. The end date of the time period. Budgets with elapsed end date</span>
-    <span class="doccomment">/// won&#39;t be processed. If unset, specifies to track all usage incurred since</span>
-    <span class="doccomment">/// the start_date.</span>
+    <span class="doccomment">/// Optional. The end date of the time period. Budgets with elapsed end date won&#39;t be</span>
+    <span class="doccomment">/// processed. If unset, specifies to track all usage</span>
+    <span class="doccomment">/// incurred since the start_date.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">end_date</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Date</span><span class="op">&gt;</span>,
 }
@@ -782,6 +812,8 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CalendarPeriod</span> {
+    <span class="doccomment">/// Calendar period is unset. This is the default if the budget is for a</span>
+    <span class="doccomment">/// custom time period (CustomPeriod).</span>
     <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
     <span class="doccomment">/// A month. Month starts on the first day of each month, such as January 1,</span>
     <span class="doccomment">/// February 1, March 1, and so on.</span>
@@ -915,7 +947,7 @@
             <span class="self">self</span>
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a new budget. See&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; &lt;a href=\&quot;https://cloud.google.com/billing/quotas\&quot;&gt;Quotas and limits&lt;/a&gt;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [Quotas and limits](https://cloud.google.com/billing/quotas)&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; for more information on the limits of the number of budgets you can create.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_budget</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,

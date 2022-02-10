@@ -534,6 +534,57 @@
 <span id="533">533</span>
 <span id="534">534</span>
 <span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Home office and physical location of the principal.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AccessLocations</span> {
@@ -543,15 +594,14 @@
     <span class="doccomment">/// of a country code.</span>
     <span class="doccomment">/// Possible Region Codes:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// - ASI: Asia</span>
-    <span class="doccomment">/// - EUR: Europe</span>
-    <span class="doccomment">/// - OCE: Oceania</span>
-    <span class="doccomment">/// - AFR: Africa</span>
-    <span class="doccomment">/// - NAM: North America</span>
-    <span class="doccomment">/// - SAM: South America</span>
-    <span class="doccomment">/// - ANT: Antarctica</span>
-    <span class="doccomment">/// - ANY: Any location</span>
-    <span class="doccomment">///</span>
+    <span class="doccomment">///   * ASI: Asia</span>
+    <span class="doccomment">///   * EUR: Europe</span>
+    <span class="doccomment">///   * OCE: Oceania</span>
+    <span class="doccomment">///   * AFR: Africa</span>
+    <span class="doccomment">///   * NAM: North America</span>
+    <span class="doccomment">///   * SAM: South America</span>
+    <span class="doccomment">///   * ANT: Antarctica</span>
+    <span class="doccomment">///   * ANY: Any location</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">principal_office_country</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Physical location of the principal at the time of the access. A</span>
@@ -560,15 +610,14 @@
     <span class="doccomment">/// a region code instead of a country code.</span>
     <span class="doccomment">/// Possible Region Codes:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// - ASI: Asia</span>
-    <span class="doccomment">/// - EUR: Europe</span>
-    <span class="doccomment">/// - OCE: Oceania</span>
-    <span class="doccomment">/// - AFR: Africa</span>
-    <span class="doccomment">/// - NAM: North America</span>
-    <span class="doccomment">/// - SAM: South America</span>
-    <span class="doccomment">/// - ANT: Antarctica</span>
-    <span class="doccomment">/// - ANY: Any location</span>
-    <span class="doccomment">///</span>
+    <span class="doccomment">///   * ASI: Asia</span>
+    <span class="doccomment">///   * EUR: Europe</span>
+    <span class="doccomment">///   * OCE: Oceania</span>
+    <span class="doccomment">///   * AFR: Africa</span>
+    <span class="doccomment">///   * NAM: North America</span>
+    <span class="doccomment">///   * SAM: South America</span>
+    <span class="doccomment">///   * ANT: Antarctica</span>
+    <span class="doccomment">///   * ANY: Any location</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">principal_physical_location_country</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -592,13 +641,12 @@
         <span class="doccomment">/// Customer made a request or raised an issue that required the principal to</span>
         <span class="doccomment">/// access customer data. `detail` is of the form (&quot;#####&quot; is the issue ID):</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// - &quot;Feedback Report: #####&quot;</span>
-        <span class="doccomment">/// - &quot;Case Number: #####&quot;</span>
-        <span class="doccomment">/// - &quot;Case ID: #####&quot;</span>
-        <span class="doccomment">/// - &quot;E-PIN Reference: #####&quot;</span>
-        <span class="doccomment">/// - &quot;Google-#####&quot;</span>
-        <span class="doccomment">/// - &quot;T-#####&quot;</span>
-        <span class="doccomment">///</span>
+        <span class="doccomment">///   * &quot;Feedback Report: #####&quot;</span>
+        <span class="doccomment">///   * &quot;Case Number: #####&quot;</span>
+        <span class="doccomment">///   * &quot;Case ID: #####&quot;</span>
+        <span class="doccomment">///   * &quot;E-PIN Reference: #####&quot;</span>
+        <span class="doccomment">///   * &quot;Google-#####&quot;</span>
+        <span class="doccomment">///   * &quot;T-#####&quot;</span>
         <span class="ident">CustomerInitiatedSupport</span> <span class="op">=</span> <span class="number">1</span>,
         <span class="doccomment">/// The principal accessed customer data in order to diagnose or resolve a</span>
         <span class="doccomment">/// suspected issue in services or a known outage. Often this access is used</span>
@@ -626,6 +674,11 @@
     <span class="doccomment">/// The time at which the approval request was dismissed.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dismiss_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// This field will be true if the ApprovalRequest was implcitly dismissed</span>
+    <span class="doccomment">/// due to inaction by the access approval approvers (the request is not acted</span>
+    <span class="doccomment">/// on by the approvers before the exiration time).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">implicit</span>: <span class="ident">bool</span>,
 }
 <span class="doccomment">/// The properties associated with the resource of the request.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -639,7 +692,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ApprovalRequest</span> {
     <span class="doccomment">/// The resource name of the request. Format is</span>
-    <span class="doccomment">/// &quot;{projects|folders|organizations}/{id}/approvalRequests/{approval_request_id}&quot;.</span>
+    <span class="doccomment">/// &quot;{projects|folders|organizations}/{id}/approvalRequests/{approval_request}&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The resource for which approval is being requested. The format of the</span>
@@ -690,17 +743,61 @@
     <span class="doccomment">/// The product for which Access Approval will be enrolled. Allowed values are</span>
     <span class="doccomment">/// listed below (case-sensitive):</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// - all</span>
-    <span class="doccomment">/// - appengine.googleapis.com</span>
-    <span class="doccomment">/// - bigquery.googleapis.com</span>
-    <span class="doccomment">/// - bigtable.googleapis.com</span>
-    <span class="doccomment">/// - cloudkms.googleapis.com</span>
-    <span class="doccomment">/// - compute.googleapis.com</span>
-    <span class="doccomment">/// - dataflow.googleapis.com</span>
-    <span class="doccomment">/// - iam.googleapis.com</span>
-    <span class="doccomment">/// - pubsub.googleapis.com</span>
-    <span class="doccomment">/// - storage.googleapis.com</span>
+    <span class="doccomment">///   * all</span>
+    <span class="doccomment">///   * GA</span>
+    <span class="doccomment">///   * App Engine</span>
+    <span class="doccomment">///   * BigQuery</span>
+    <span class="doccomment">///   * Cloud Bigtable</span>
+    <span class="doccomment">///   * Cloud Key Management Service</span>
+    <span class="doccomment">///   * Compute Engine</span>
+    <span class="doccomment">///   * Cloud Dataflow</span>
+    <span class="doccomment">///   * Cloud DLP</span>
+    <span class="doccomment">///   * Cloud EKM</span>
+    <span class="doccomment">///   * Cloud HSM</span>
+    <span class="doccomment">///   * Cloud Identity and Access Management</span>
+    <span class="doccomment">///   * Cloud Logging</span>
+    <span class="doccomment">///   * Cloud Pub/Sub</span>
+    <span class="doccomment">///   * Cloud Spanner</span>
+    <span class="doccomment">///   * Cloud SQL</span>
+    <span class="doccomment">///   * Cloud Storage</span>
+    <span class="doccomment">///   * Google Kubernetes Engine</span>
+    <span class="doccomment">///   * Organization Policy Serivice</span>
+    <span class="doccomment">///   * Persistent Disk</span>
+    <span class="doccomment">///   * Resource Manager</span>
+    <span class="doccomment">///   * Speaker ID</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// Note: These values are supported as input for legacy purposes, but will not</span>
+    <span class="doccomment">/// be returned from the API.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   * all</span>
+    <span class="doccomment">///   * ga-only</span>
+    <span class="doccomment">///   * appengine.googleapis.com</span>
+    <span class="doccomment">///   * bigquery.googleapis.com</span>
+    <span class="doccomment">///   * bigtable.googleapis.com</span>
+    <span class="doccomment">///   * container.googleapis.com</span>
+    <span class="doccomment">///   * cloudkms.googleapis.com</span>
+    <span class="doccomment">///   * cloudresourcemanager.googleapis.com</span>
+    <span class="doccomment">///   * cloudsql.googleapis.com</span>
+    <span class="doccomment">///   * compute.googleapis.com</span>
+    <span class="doccomment">///   * dataflow.googleapis.com</span>
+    <span class="doccomment">///   * dlp.googleapis.com</span>
+    <span class="doccomment">///   * iam.googleapis.com</span>
+    <span class="doccomment">///   * logging.googleapis.com</span>
+    <span class="doccomment">///   * orgpolicy.googleapis.com</span>
+    <span class="doccomment">///   * pubsub.googleapis.com</span>
+    <span class="doccomment">///   * spanner.googleapis.com</span>
+    <span class="doccomment">///   * speakerid.googleapis.com</span>
+    <span class="doccomment">///   * storage.googleapis.com</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Calls to UpdateAccessApprovalSettings using &#39;all&#39; or any of the</span>
+    <span class="doccomment">/// XXX.googleapis.com will be translated to the associated product name</span>
+    <span class="doccomment">/// (&#39;all&#39;, &#39;App Engine&#39;, etc.).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note: &#39;all&#39; will enroll the resource in all products supported at both &#39;GA&#39;</span>
+    <span class="doccomment">/// and &#39;Preview&#39; levels.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// More information about levels of support is available at</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/access-approval/docs/supported-services&gt;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">cloud_product</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The enrollment level of the service.</span>
@@ -712,10 +809,9 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AccessApprovalSettings</span> {
     <span class="doccomment">/// The resource name of the settings. Format is one of:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// - &quot;projects/{project_id}/accessApprovalSettings&quot;</span>
-    <span class="doccomment">/// - &quot;folders/{folder_id}/accessApprovalSettings&quot;</span>
-    <span class="doccomment">/// - &quot;organizations/{organization_id}/accessApprovalSettings&quot;</span>
-    <span class="doccomment">///</span>
+    <span class="doccomment">///   * &quot;projects/{project}/accessApprovalSettings&quot;</span>
+    <span class="doccomment">///   * &quot;folders/{folder}/accessApprovalSettings&quot;</span>
+    <span class="doccomment">///   * &quot;organizations/{organization}/accessApprovalSettings&quot;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// A list of email addresses to which notifications relating to approval</span>
@@ -738,7 +834,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">enrolled_services</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">EnrolledService</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Output only. This field is read only (not settable via</span>
-    <span class="doccomment">/// UpdateAccessAccessApprovalSettings method). If the field is true, that</span>
+    <span class="doccomment">/// UpdateAccessApprovalSettings method). If the field is true, that</span>
     <span class="doccomment">/// indicates that at least one service is enrolled for Access Approval in one</span>
     <span class="doccomment">/// or more ancestors of the Project or Folder (this field will always be</span>
     <span class="doccomment">/// unset for the organization since organizations do not have ancestors).</span>
@@ -748,19 +844,22 @@
 <span class="doccomment">/// Request to list approval requests.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListApprovalRequestsMessage</span> {
-    <span class="doccomment">/// The parent resource. This may be &quot;projects/{project_id}&quot;,</span>
-    <span class="doccomment">/// &quot;folders/{folder_id}&quot;, or &quot;organizations/{organization_id}&quot;.</span>
+    <span class="doccomment">/// The parent resource. This may be &quot;projects/{project}&quot;,</span>
+    <span class="doccomment">/// &quot;folders/{folder}&quot;, or &quot;organizations/{organization}&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// A filter on the type of approval requests to retrieve. Must be one of the</span>
     <span class="doccomment">/// following values:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// - [not set]: Requests that are pending or have active approvals.</span>
-    <span class="doccomment">/// - ALL: All requests.</span>
-    <span class="doccomment">/// - PENDING: Only pending requests.</span>
-    <span class="doccomment">/// - ACTIVE: Only active (i.e. currently approved) requests.</span>
-    <span class="doccomment">/// - DISMISSED: Only dismissed (including expired) requests.</span>
-    <span class="doccomment">///</span>
+    <span class="doccomment">///   * [not set]: Requests that are pending or have active approvals.</span>
+    <span class="doccomment">///   * ALL: All requests.</span>
+    <span class="doccomment">///   * PENDING: Only pending requests.</span>
+    <span class="doccomment">///   * ACTIVE: Only active (i.e. currently approved) requests.</span>
+    <span class="doccomment">///   * DISMISSED: Only requests that have been dismissed, or requests that</span>
+    <span class="doccomment">///     are not approved and past expiration.</span>
+    <span class="doccomment">///   * EXPIRED: Only requests that have been approved, and the approval has</span>
+    <span class="doccomment">///     expired.</span>
+    <span class="doccomment">///   * HISTORY: Active, dismissed and expired requests.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Requested page size.</span>
@@ -783,7 +882,9 @@
 <span class="doccomment">/// Request to get an approval request.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetApprovalRequestMessage</span> {
-    <span class="doccomment">/// Name of the approval request to retrieve.</span>
+    <span class="doccomment">/// The name of the approval request to retrieve.</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// &quot;{projects|folders|organizations}/{id}/approvalRequests/{approval_request}&quot;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -807,7 +908,8 @@
 <span class="doccomment">/// Request to get access approval settings.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetAccessApprovalSettingsMessage</span> {
-    <span class="doccomment">/// Name of the AccessApprovalSettings to retrieve.</span>
+    <span class="doccomment">/// The name of the AccessApprovalSettings to retrieve.</span>
+    <span class="doccomment">/// Format: &quot;{projects|folders|organizations}/{id}/accessApprovalSettings&quot;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -855,17 +957,17 @@
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; - The API has a collection of&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   [ApprovalRequest][google.cloud.accessapproval.v1.ApprovalRequest]&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   resources, named `approvalRequests/{approval_request_id}`&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   resources, named `approvalRequests/{approval_request}`&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; - The API has top-level settings per Project/Folder/Organization, named&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;   `accessApprovalSettings`&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The service also periodically emails a list of recipients, defined at the&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Project/Folder/Organization level in the accessApprovalSettings, when there&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; is a pending ApprovalRequest for them to act on. The ApprovalRequests can&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; also optionally be published to a Cloud Pub/Sub topic owned by the customer&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; (for Beta, the Pub/Sub setup is managed manually).&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; also optionally be published to a Pub/Sub topic owned by the customer&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; (contact support if you would like to enable Pub/Sub notifications).&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; ApprovalRequests can be approved or dismissed. Google personel can only&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; ApprovalRequests can be approved or dismissed. Google personnel can only&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; access the indicated resource or resources if the request is approved&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; (subject to some exclusions:&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/access-approval/docs/overview#exclusions).&quot;</span>]</span>

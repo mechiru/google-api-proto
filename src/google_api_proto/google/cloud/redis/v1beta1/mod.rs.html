@@ -1003,6 +1003,12 @@
 <span id="1002">1002</span>
 <span id="1003">1003</span>
 <span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Node specific properties.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NodeInfo</span> {
@@ -1013,7 +1019,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">zone</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// A Google Cloud Redis instance.</span>
+<span class="doccomment">/// A Memorystore for Redis instance.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Instance</span> {
     <span class="doccomment">/// Required. Unique name of the resource in this scope including project and</span>
@@ -1070,6 +1076,13 @@
     <span class="doccomment">/// the default block size is /28.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">reserved_ip_range</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Additional IP range for node placement. Required when enabling read</span>
+    <span class="doccomment">/// replicas on an existing instance. For DIRECT_PEERING mode value must be a</span>
+    <span class="doccomment">/// CIDR range of size /28, or &quot;auto&quot;. For PRIVATE_SERVICE_ACCESS mode value</span>
+    <span class="doccomment">/// must be the name of an allocated address range associated with the private</span>
+    <span class="doccomment">/// service access connection, or &quot;auto&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;30&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">secondary_ip_range</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Output only. Hostname or IP address of the exposed Redis endpoint used by</span>
     <span class="doccomment">///  clients to connect to the service.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
@@ -1180,8 +1193,7 @@
     <span class="doccomment">/// endpoint. Standard tier only. Write requests should target &#39;port&#39;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;34&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">read_endpoint_port</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Read replica mode. Can only be specified when trying to create the</span>
-    <span class="doccomment">/// instance.</span>
+    <span class="doccomment">/// Optional. Read replicas mode for the instance. Defaults to READ_REPLICAS_DISABLED.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;instance::ReadReplicasMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;35&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">read_replicas_mode</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Optional. Persistence configuration parameters</span>
