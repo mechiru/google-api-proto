@@ -8,7 +8,7 @@ pub struct NodeInfo {
     #[prost(string, tag = "2")]
     pub zone: ::prost::alloc::string::String,
 }
-/// A Google Cloud Redis instance.
+/// A Memorystore for Redis instance.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Instance {
     /// Required. Unique name of the resource in this scope including project and
@@ -65,6 +65,13 @@ pub struct Instance {
     /// the default block size is /28.
     #[prost(string, tag = "9")]
     pub reserved_ip_range: ::prost::alloc::string::String,
+    /// Optional. Additional IP range for node placement. Required when enabling read
+    /// replicas on an existing instance. For DIRECT_PEERING mode value must be a
+    /// CIDR range of size /28, or "auto". For PRIVATE_SERVICE_ACCESS mode value
+    /// must be the name of an allocated address range associated with the private
+    /// service access connection, or "auto".
+    #[prost(string, tag = "30")]
+    pub secondary_ip_range: ::prost::alloc::string::String,
     /// Output only. Hostname or IP address of the exposed Redis endpoint used by
     ///  clients to connect to the service.
     #[prost(string, tag = "10")]
@@ -175,8 +182,7 @@ pub struct Instance {
     /// endpoint. Standard tier only. Write requests should target 'port'.
     #[prost(int32, tag = "34")]
     pub read_endpoint_port: i32,
-    /// Optional. Read replica mode. Can only be specified when trying to create the
-    /// instance.
+    /// Optional. Read replicas mode for the instance. Defaults to READ_REPLICAS_DISABLED.
     #[prost(enumeration = "instance::ReadReplicasMode", tag = "35")]
     pub read_replicas_mode: i32,
     /// Optional. Persistence configuration parameters
