@@ -10,6 +10,11 @@ pub mod actions;
 
 #[cfg(any(
     feature = "google-ads-admob-v1",
+    feature = "google-ads-googleads-v10-common",
+    feature = "google-ads-googleads-v10-enums",
+    feature = "google-ads-googleads-v10-errors",
+    feature = "google-ads-googleads-v10-resources",
+    feature = "google-ads-googleads-v10-services",
     feature = "google-ads-googleads-v7-common",
     feature = "google-ads-googleads-v7-enums",
     feature = "google-ads-googleads-v7-errors",
@@ -294,6 +299,7 @@ pub mod chromeos;
     feature = "google-cloud-translation-v3beta1",
     feature = "google-cloud-video-livestream-logging-v1",
     feature = "google-cloud-video-livestream-v1",
+    feature = "google-cloud-video-stitcher-v1",
     feature = "google-cloud-video-transcoder-v1",
     feature = "google-cloud-videointelligence-v1",
     feature = "google-cloud-videointelligence-v1beta2",
