@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SkAdNetworkUserType","Enumerates SkAdNetwork user types"]]});

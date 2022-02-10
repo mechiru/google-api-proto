@@ -20,10 +20,20 @@
 <span id="19">19</span>
 <span id="20">20</span>
 <span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-ads-admob-v1&quot;</span>,))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">admob</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-ads-googleads-v10-common&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-ads-googleads-v10-enums&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-ads-googleads-v10-errors&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-ads-googleads-v10-resources&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-ads-googleads-v10-services&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-ads-googleads-v7-common&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-ads-googleads-v7-enums&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-ads-googleads-v7-errors&quot;</span>,

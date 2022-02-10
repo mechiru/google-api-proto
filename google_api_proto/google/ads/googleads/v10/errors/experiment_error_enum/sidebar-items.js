@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ExperimentError","Enum describing possible experiment errors."]]});

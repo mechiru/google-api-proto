@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["DisplayRequirement","Indicates how many of the companions should be displayed with the ad."]]});

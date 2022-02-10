@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["AdResource","Ad resource associated with the companion ad."]]});

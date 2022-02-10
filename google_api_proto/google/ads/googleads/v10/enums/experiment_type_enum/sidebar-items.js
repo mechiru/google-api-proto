@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ExperimentType","The type of the experiment."]]});

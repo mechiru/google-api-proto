@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["VideoStitcherServiceClient","Video-On-Demand content stitching API allows you to insert ads into (VoD) video on demand files. You will be able to render custom scrubber bars with highlighted ads, enforce ad policies, allow seamless playback and tracking on native players and monetize content with any standard VMAP compliant ad server."]]});

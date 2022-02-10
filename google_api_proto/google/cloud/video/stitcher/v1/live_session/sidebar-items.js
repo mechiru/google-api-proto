@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["StitchingPolicy","Defines the stitcher behavior in case an ad does not align exactly with the ad break boundaries. If not specified, the default is COMPLETE_AD."]]});
