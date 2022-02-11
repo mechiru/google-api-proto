@@ -3055,8 +3055,8 @@
     <span class="kw">pub</span> <span class="ident">received_messages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ReceivedMessage</span><span class="op">&gt;</span>,
     <span class="doccomment">/// This field will only be set if `enable_exactly_once_delivery` is set to</span>
     <span class="doccomment">/// `true`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">acknowlege_confirmation</span>:
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">acknowledge_confirmation</span>:
         <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">streaming_pull_response::AcknowledgeConfirmation</span><span class="op">&gt;</span>,
     <span class="doccomment">/// This field will only be set if `enable_exactly_once_delivery` is set to</span>
     <span class="doccomment">/// `true`.</span>
