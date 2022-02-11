@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ShareType","Type of sharing for this shared-reservation"]]});

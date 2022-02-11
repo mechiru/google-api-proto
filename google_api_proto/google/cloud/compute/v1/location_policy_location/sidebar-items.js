@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Preference","Preference for a given location: ALLOW or DENY."]]});
+initSidebarItems({"enum":[["Preference","Preference for a given location."]]});

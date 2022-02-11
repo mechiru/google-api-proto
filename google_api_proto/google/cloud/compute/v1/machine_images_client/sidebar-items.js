@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["MachineImagesClient","The MachineImages API."]]});

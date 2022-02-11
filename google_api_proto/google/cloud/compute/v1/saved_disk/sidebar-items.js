@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["StorageBytesStatus","[Output Only] An indicator whether storageBytes is in a stable state or it is being adjusted as a result of shared storage reallocation. This status can either be UPDATING, meaning the size of the snapshot is being updated, or UP_TO_DATE, meaning the size of the snapshot is up-to-date."]]});

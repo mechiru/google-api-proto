@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Status","[Output Only] The status of the machine image. One of the following values: INVALID, CREATING, READY, DELETING, and UPLOADING."]]});

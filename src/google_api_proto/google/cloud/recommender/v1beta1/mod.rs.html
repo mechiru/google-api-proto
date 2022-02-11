@@ -1142,6 +1142,21 @@
 <span id="1141">1141</span>
 <span id="1142">1142</span>
 <span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
 </pre><pre class="rust"><code><span class="doccomment">/// An insight along with the information used to derive the insight. The insight</span>
 <span class="doccomment">/// may have associated recomendations as well.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1194,7 +1209,7 @@
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RecommendationReference</span> {
         <span class="doccomment">/// Recommendation resource name, e.g.</span>
-        <span class="doccomment">/// `projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/recommendations/[RECOMMENDATION_ID\]`</span>
+        <span class="doccomment">/// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/recommendations/[RECOMMENDATION_ID\]</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">recommendation</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
@@ -1510,6 +1525,18 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
 }
+<span class="doccomment">/// Contains metadata about how much sustainability a recommendation can save or</span>
+<span class="doccomment">/// incur.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SustainabilityProjection</span> {
+    <span class="doccomment">/// Carbon Footprint generated in kg of CO2 equivalent.</span>
+    <span class="doccomment">/// Chose kg_c_o2e so that the name renders correctly in camelCase (kgCO2e).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kg_c_o2e</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Duration for which this sustanability applies.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
 <span class="doccomment">/// Contains the impact a recommendation can have for a given category.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Impact</span> {
@@ -1517,7 +1544,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;impact::Category&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">category</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Contains projections (if any) for this category.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;impact::Projection&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;100, 101&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;impact::Projection&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;100, 101, 102&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">projection</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">impact::Projection</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Impact`.</span>
@@ -1548,6 +1575,9 @@
         <span class="doccomment">/// Use with CategoryType.SECURITY</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;101&quot;</span>)]</span>
         <span class="ident">SecurityProjection</span>(<span class="ident"><span class="kw">super</span>::SecurityProjection</span>),
+        <span class="doccomment">/// Use with CategoryType.SUSTAINABILITY</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;102&quot;</span>)]</span>
+        <span class="ident">SustainabilityProjection</span>(<span class="ident"><span class="kw">super</span>::SustainabilityProjection</span>),
     }
 }
 <span class="doccomment">/// Information for state. Contains state and metadata.</span>
@@ -1629,7 +1659,7 @@
     <span class="doccomment">/// separated by a slash (/).</span>
     <span class="doccomment">/// Prefix must be a DNS subdomain.</span>
     <span class="doccomment">/// Name must be 63 characters or less, begin and end with alphanumerics,</span>
-    <span class="doccomment">/// with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between.</span>
+    <span class="doccomment">/// with dashes (-), underscores (_), dots (.), and alphanumerics between.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">annotations</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
         <span class="ident">::prost::alloc::string::String</span>,
@@ -1681,7 +1711,7 @@
     <span class="doccomment">/// separated by a slash (/).</span>
     <span class="doccomment">/// Prefix must be a DNS subdomain.</span>
     <span class="doccomment">/// Name must be 63 characters or less, begin and end with alphanumerics,</span>
-    <span class="doccomment">/// with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between.</span>
+    <span class="doccomment">/// with dashes (-), underscores (_), dots (.), and alphanumerics between.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">annotations</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
         <span class="ident">::prost::alloc::string::String</span>,

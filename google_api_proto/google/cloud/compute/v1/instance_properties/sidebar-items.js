@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["PrivateIpv6GoogleAccess","The private IPv6 google access type for VMs. If not specified, use INHERIT_FROM_SUBNETWORK as default."]]});
+initSidebarItems({"enum":[["PrivateIpv6GoogleAccess","The private IPv6 google access type for VMs. If not specified, use INHERIT_FROM_SUBNETWORK as default. Note that for MachineImage, this is not supported yet."]]});

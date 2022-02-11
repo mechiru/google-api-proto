@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["StackType","The stack type for this VPN gateway to identify the IP protocols that are enabled. If not specified, IPV4_ONLY will be used."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Duration","From how long ago in the past these intervals were observed."],["Type","The type of packets for which inter-packet intervals were computed."]]});
