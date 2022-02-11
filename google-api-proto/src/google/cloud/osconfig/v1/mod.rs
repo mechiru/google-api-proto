@@ -826,7 +826,7 @@ pub mod os_policy {
                 )]
                 #[repr(i32)]
                 pub enum Interpreter {
-                    /// Defaults to NONE.
+                    /// Invalid value, the request will return validation error.
                     Unspecified = 0,
                     /// If an interpreter is not specified, the
                     /// source is executed directly. This execution, without an

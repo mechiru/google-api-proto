@@ -1117,8 +1117,8 @@ pub struct StreamingPullResponse {
     pub received_messages: ::prost::alloc::vec::Vec<ReceivedMessage>,
     /// This field will only be set if `enable_exactly_once_delivery` is set to
     /// `true`.
-    #[prost(message, optional, tag = "2")]
-    pub acknowlege_confirmation:
+    #[prost(message, optional, tag = "5")]
+    pub acknowledge_confirmation:
         ::core::option::Option<streaming_pull_response::AcknowledgeConfirmation>,
     /// This field will only be set if `enable_exactly_once_delivery` is set to
     /// `true`.
