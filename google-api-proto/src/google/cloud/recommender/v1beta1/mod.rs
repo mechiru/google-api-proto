@@ -50,7 +50,7 @@ pub mod insight {
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct RecommendationReference {
         /// Recommendation resource name, e.g.
-        /// `projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/recommendations/[RECOMMENDATION_ID\]`
+        /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/recommendations/[RECOMMENDATION_ID\]
         #[prost(string, tag = "1")]
         pub recommendation: ::prost::alloc::string::String,
     }
@@ -366,6 +366,18 @@ pub struct SecurityProjection {
     #[prost(message, optional, tag = "2")]
     pub details: ::core::option::Option<::prost_types::Struct>,
 }
+/// Contains metadata about how much sustainability a recommendation can save or
+/// incur.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SustainabilityProjection {
+    /// Carbon Footprint generated in kg of CO2 equivalent.
+    /// Chose kg_c_o2e so that the name renders correctly in camelCase (kgCO2e).
+    #[prost(double, tag = "1")]
+    pub kg_c_o2e: f64,
+    /// Duration for which this sustanability applies.
+    #[prost(message, optional, tag = "2")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
+}
 /// Contains the impact a recommendation can have for a given category.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Impact {
@@ -373,7 +385,7 @@ pub struct Impact {
     #[prost(enumeration = "impact::Category", tag = "1")]
     pub category: i32,
     /// Contains projections (if any) for this category.
-    #[prost(oneof = "impact::Projection", tags = "100, 101")]
+    #[prost(oneof = "impact::Projection", tags = "100, 101, 102")]
     pub projection: ::core::option::Option<impact::Projection>,
 }
 /// Nested message and enum types in `Impact`.
@@ -404,6 +416,9 @@ pub mod impact {
         /// Use with CategoryType.SECURITY
         #[prost(message, tag = "101")]
         SecurityProjection(super::SecurityProjection),
+        /// Use with CategoryType.SUSTAINABILITY
+        #[prost(message, tag = "102")]
+        SustainabilityProjection(super::SustainabilityProjection),
     }
 }
 /// Information for state. Contains state and metadata.
@@ -485,7 +500,7 @@ pub struct RecommenderConfig {
     /// separated by a slash (/).
     /// Prefix must be a DNS subdomain.
     /// Name must be 63 characters or less, begin and end with alphanumerics,
-    /// with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between.
+    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
     #[prost(btree_map = "string, string", tag = "6")]
     pub annotations: ::prost::alloc::collections::BTreeMap<
         ::prost::alloc::string::String,
@@ -537,7 +552,7 @@ pub struct InsightTypeConfig {
     /// separated by a slash (/).
     /// Prefix must be a DNS subdomain.
     /// Name must be 63 characters or less, begin and end with alphanumerics,
-    /// with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between.
+    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
     #[prost(btree_map = "string, string", tag = "6")]
     pub annotations: ::prost::alloc::collections::BTreeMap<
         ::prost::alloc::string::String,

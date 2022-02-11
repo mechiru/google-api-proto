@@ -155,10 +155,10 @@ pub struct Accelerators {
 /// An access configuration attached to an instance's network interface. Only one access config per instance is supported.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AccessConfig {
-    /// [Output Only] The first IPv6 address of the external IPv6 range associated with this instance, prefix length is stored in externalIpv6PrefixLength in ipv6AccessConfig. The field is output only, an IPv6 address from a subnetwork associated with the instance will be allocated dynamically.
+    /// The first IPv6 address of the external IPv6 range associated with this instance, prefix length is stored in externalIpv6PrefixLength in ipv6AccessConfig. The field is output only, an IPv6 address from a subnetwork associated with the instance will be allocated dynamically.
     #[prost(string, optional, tag = "532703707")]
     pub external_ipv6: ::core::option::Option<::prost::alloc::string::String>,
-    /// [Output Only] The prefix length of the external IPv6 range.
+    /// The prefix length of the external IPv6 range.
     #[prost(int32, optional, tag = "425672143")]
     pub external_ipv6_prefix_length: ::core::option::Option<i32>,
     /// [Output Only] Type of the resource. Always compute#accessConfig for access configs.
@@ -174,10 +174,10 @@ pub struct AccessConfig {
     /// Check the NetworkTier enum for the list of possible values.
     #[prost(string, optional, tag = "517397843")]
     pub network_tier: ::core::option::Option<::prost::alloc::string::String>,
-    /// The DNS domain name for the public PTR record. You can set this field only if the `setPublicPtr` field is enabled.
+    /// The DNS domain name for the public PTR record. You can set this field only if the `setPublicPtr` field is enabled in accessConfig. If this field is unspecified in ipv6AccessConfig, a default PTR record will be createc for first IP in associated external IPv6 range.
     #[prost(string, optional, tag = "316599167")]
     pub public_ptr_domain_name: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies whether a public DNS 'PTR' record should be created to map the external IP address of the instance to a DNS domain name.
+    /// Specifies whether a public DNS 'PTR' record should be created to map the external IP address of the instance to a DNS domain name. This field is not used in ipv6AccessConfig. A default PTR record will be created if the VM has external IPv6 range associated.
     #[prost(bool, optional, tag = "523870229")]
     pub set_public_ptr: ::core::option::Option<bool>,
     /// The type of configuration. The default and only option is ONE_TO_ONE_NAT.
@@ -193,10 +193,14 @@ pub mod access_config {
     pub enum NetworkTier {
         /// A value indicating that the enum field is not set.
         UndefinedNetworkTier = 0,
+        /// Public internet quality with fixed bandwidth.
+        FixedStandard = 310464328,
         /// High quality, Google-grade network tier, support for all networking products.
         Premium = 399530551,
         /// Public internet quality, only limited support for other networking products.
         Standard = 484642493,
+        /// (Output only) Temporary tier for FIXED_STANDARD when fixed standard tier is expired or not configured.
+        StandardOverridesFixedStandard = 465847234,
     }
     /// The type of configuration. The default and only option is ONE_TO_ONE_NAT.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -498,7 +502,7 @@ pub struct Address {
     /// The prefix length if the resource represents an IP range.
     #[prost(int32, optional, tag = "453565747")]
     pub prefix_length: ::core::option::Option<i32>,
-    /// The purpose of this resource, which can be one of the following values: - GCE_ENDPOINT for addresses that are used by VM instances, alias IP ranges, load balancers, and similar resources. - DNS_RESOLVER for a DNS resolver address in a subnetwork for a Cloud DNS inbound forwarder IP addresses (regional internal IP address in a subnet of a VPC network) - VPC_PEERING for global internal IP addresses used for private services access allocated ranges. - NAT_AUTO for the regional external IP addresses used by Cloud NAT when allocating addresses using . - IPSEC_INTERCONNECT for addresses created from a private IP range that are reserved for a VLAN attachment in an *IPsec-encrypted Cloud Interconnect* configuration. These addresses are regional resources. Not currently available publicly. - `SHARED_LOADBALANCER_VIP` for an internal IP address that is assigned to multiple internal forwarding rules. - `PRIVATE_SERVICE_CONNECT` for a private network address that is used to configure Private Service Connect. Only global internal addresses can use this purpose.
+    /// The purpose of this resource, which can be one of the following values: - GCE_ENDPOINT for addresses that are used by VM instances, alias IP ranges, load balancers, and similar resources. - DNS_RESOLVER for a DNS resolver address in a subnetwork for a Cloud DNS inbound forwarder IP addresses (regional internal IP address in a subnet of a VPC network) - VPC_PEERING for global internal IP addresses used for private services access allocated ranges. - NAT_AUTO for the regional external IP addresses used by Cloud NAT when allocating addresses using automatic NAT IP address allocation. - IPSEC_INTERCONNECT for addresses created from a private IP range that are reserved for a VLAN attachment in an *IPsec-encrypted Cloud Interconnect* configuration. These addresses are regional resources. Not currently available publicly. - `SHARED_LOADBALANCER_VIP` for an internal IP address that is assigned to multiple internal forwarding rules. - `PRIVATE_SERVICE_CONNECT` for a private network address that is used to configure Private Service Connect. Only global internal addresses can use this purpose.
     /// Check the Purpose enum for the list of possible values.
     #[prost(string, optional, tag = "316407070")]
     pub purpose: ::core::option::Option<::prost::alloc::string::String>,
@@ -549,12 +553,16 @@ pub mod address {
     pub enum NetworkTier {
         /// A value indicating that the enum field is not set.
         UndefinedNetworkTier = 0,
+        /// Public internet quality with fixed bandwidth.
+        FixedStandard = 310464328,
         /// High quality, Google-grade network tier, support for all networking products.
         Premium = 399530551,
         /// Public internet quality, only limited support for other networking products.
         Standard = 484642493,
+        /// (Output only) Temporary tier for FIXED_STANDARD when fixed standard tier is expired or not configured.
+        StandardOverridesFixedStandard = 465847234,
     }
-    /// The purpose of this resource, which can be one of the following values: - GCE_ENDPOINT for addresses that are used by VM instances, alias IP ranges, load balancers, and similar resources. - DNS_RESOLVER for a DNS resolver address in a subnetwork for a Cloud DNS inbound forwarder IP addresses (regional internal IP address in a subnet of a VPC network) - VPC_PEERING for global internal IP addresses used for private services access allocated ranges. - NAT_AUTO for the regional external IP addresses used by Cloud NAT when allocating addresses using . - IPSEC_INTERCONNECT for addresses created from a private IP range that are reserved for a VLAN attachment in an *IPsec-encrypted Cloud Interconnect* configuration. These addresses are regional resources. Not currently available publicly. - `SHARED_LOADBALANCER_VIP` for an internal IP address that is assigned to multiple internal forwarding rules. - `PRIVATE_SERVICE_CONNECT` for a private network address that is used to configure Private Service Connect. Only global internal addresses can use this purpose.
+    /// The purpose of this resource, which can be one of the following values: - GCE_ENDPOINT for addresses that are used by VM instances, alias IP ranges, load balancers, and similar resources. - DNS_RESOLVER for a DNS resolver address in a subnetwork for a Cloud DNS inbound forwarder IP addresses (regional internal IP address in a subnet of a VPC network) - VPC_PEERING for global internal IP addresses used for private services access allocated ranges. - NAT_AUTO for the regional external IP addresses used by Cloud NAT when allocating addresses using automatic NAT IP address allocation. - IPSEC_INTERCONNECT for addresses created from a private IP range that are reserved for a VLAN attachment in an *IPsec-encrypted Cloud Interconnect* configuration. These addresses are regional resources. Not currently available publicly. - `SHARED_LOADBALANCER_VIP` for an internal IP address that is assigned to multiple internal forwarding rules. - `PRIVATE_SERVICE_CONNECT` for a private network address that is used to configure Private Service Connect. Only global internal addresses can use this purpose.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Purpose {
@@ -564,7 +572,7 @@ pub mod address {
         DnsResolver = 476114556,
         /// VM internal/alias IP, Internal LB service IP, etc.
         GceEndpoint = 230515243,
-        /// A regional internal IP address range reserved for the VLAN attachment that is used in IPsec-encrypted Cloud Interconnect. This regional internal IP address range must not overlap with any IP address range of subnet/route in the VPC network and its peering networks. After the VLAN attachment is created with the reserved IP address range, when creating a new VPN gateway, its interface IP address is allocated from the associated VLAN attachment’s IP address range.
+        /// A regional internal IP address range reserved for the VLAN attachment that is used in IPsec-encrypted Cloud Interconnect. This regional internal IP address range must not overlap with any IP address range of subnet/route in the VPC network and its peering networks. After the VLAN attachment is created with the reserved IP address range, when creating a new VPN gateway, its interface IP address is allocated from the associated VLAN attachment���s IP address range.
         IpsecInterconnect = 340437251,
         /// External IP automatically reserved for Cloud NAT.
         NatAuto = 163666477,
@@ -653,6 +661,9 @@ pub struct AdvancedMachineFeatures {
     /// Whether to enable nested virtualization or not (default is false).
     #[prost(bool, optional, tag = "16639365")]
     pub enable_nested_virtualization: ::core::option::Option<bool>,
+    /// Whether to enable UEFI networking for instance creation.
+    #[prost(bool, optional, tag = "334485668")]
+    pub enable_uefi_networking: ::core::option::Option<bool>,
     /// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
     #[prost(int32, optional, tag = "352611671")]
     pub threads_per_core: ::core::option::Option<i32>,
@@ -660,7 +671,7 @@ pub struct AdvancedMachineFeatures {
 /// A request message for AcceleratorTypes.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListAcceleratorTypesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -685,7 +696,7 @@ pub struct AggregatedListAcceleratorTypesRequest {
 /// A request message for Addresses.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListAddressesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -710,7 +721,7 @@ pub struct AggregatedListAddressesRequest {
 /// A request message for Autoscalers.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListAutoscalersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -735,7 +746,7 @@ pub struct AggregatedListAutoscalersRequest {
 /// A request message for BackendServices.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListBackendServicesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -760,7 +771,7 @@ pub struct AggregatedListBackendServicesRequest {
 /// A request message for DiskTypes.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListDiskTypesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -785,7 +796,7 @@ pub struct AggregatedListDiskTypesRequest {
 /// A request message for Disks.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListDisksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -810,7 +821,7 @@ pub struct AggregatedListDisksRequest {
 /// A request message for ForwardingRules.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListForwardingRulesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -835,7 +846,7 @@ pub struct AggregatedListForwardingRulesRequest {
 /// A request message for GlobalOperations.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListGlobalOperationsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -860,7 +871,7 @@ pub struct AggregatedListGlobalOperationsRequest {
 /// A request message for HealthChecks.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListHealthChecksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -885,7 +896,7 @@ pub struct AggregatedListHealthChecksRequest {
 /// A request message for InstanceGroupManagers.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListInstanceGroupManagersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -910,7 +921,7 @@ pub struct AggregatedListInstanceGroupManagersRequest {
 /// A request message for InstanceGroups.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListInstanceGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -935,7 +946,7 @@ pub struct AggregatedListInstanceGroupsRequest {
 /// A request message for Instances.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListInstancesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -960,7 +971,7 @@ pub struct AggregatedListInstancesRequest {
 /// A request message for InterconnectAttachments.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListInterconnectAttachmentsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -985,7 +996,7 @@ pub struct AggregatedListInterconnectAttachmentsRequest {
 /// A request message for MachineTypes.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListMachineTypesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1010,7 +1021,7 @@ pub struct AggregatedListMachineTypesRequest {
 /// A request message for NetworkEndpointGroups.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListNetworkEndpointGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1035,7 +1046,7 @@ pub struct AggregatedListNetworkEndpointGroupsRequest {
 /// A request message for NodeGroups.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListNodeGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1060,7 +1071,7 @@ pub struct AggregatedListNodeGroupsRequest {
 /// A request message for NodeTemplates.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListNodeTemplatesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1085,7 +1096,7 @@ pub struct AggregatedListNodeTemplatesRequest {
 /// A request message for NodeTypes.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListNodeTypesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1110,7 +1121,7 @@ pub struct AggregatedListNodeTypesRequest {
 /// A request message for PacketMirrorings.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListPacketMirroringsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1135,7 +1146,7 @@ pub struct AggregatedListPacketMirroringsRequest {
 /// A request message for PublicDelegatedPrefixes.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListPublicDelegatedPrefixesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1160,7 +1171,7 @@ pub struct AggregatedListPublicDelegatedPrefixesRequest {
 /// A request message for RegionCommitments.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListRegionCommitmentsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1185,7 +1196,7 @@ pub struct AggregatedListRegionCommitmentsRequest {
 /// A request message for Reservations.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListReservationsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1210,7 +1221,7 @@ pub struct AggregatedListReservationsRequest {
 /// A request message for ResourcePolicies.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListResourcePoliciesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1235,7 +1246,7 @@ pub struct AggregatedListResourcePoliciesRequest {
 /// A request message for Routers.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListRoutersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1260,7 +1271,7 @@ pub struct AggregatedListRoutersRequest {
 /// A request message for ServiceAttachments.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListServiceAttachmentsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1285,7 +1296,7 @@ pub struct AggregatedListServiceAttachmentsRequest {
 /// A request message for SslCertificates.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListSslCertificatesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1310,7 +1321,7 @@ pub struct AggregatedListSslCertificatesRequest {
 /// A request message for Subnetworks.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListSubnetworksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1335,7 +1346,7 @@ pub struct AggregatedListSubnetworksRequest {
 /// A request message for TargetHttpProxies.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListTargetHttpProxiesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1360,7 +1371,7 @@ pub struct AggregatedListTargetHttpProxiesRequest {
 /// A request message for TargetHttpsProxies.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListTargetHttpsProxiesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1385,7 +1396,7 @@ pub struct AggregatedListTargetHttpsProxiesRequest {
 /// A request message for TargetInstances.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListTargetInstancesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1410,7 +1421,7 @@ pub struct AggregatedListTargetInstancesRequest {
 /// A request message for TargetPools.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListTargetPoolsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1435,7 +1446,7 @@ pub struct AggregatedListTargetPoolsRequest {
 /// A request message for TargetVpnGateways.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListTargetVpnGatewaysRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1460,7 +1471,7 @@ pub struct AggregatedListTargetVpnGatewaysRequest {
 /// A request message for UrlMaps.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListUrlMapsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1485,7 +1496,7 @@ pub struct AggregatedListUrlMapsRequest {
 /// A request message for VpnGateways.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListVpnGatewaysRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1510,7 +1521,7 @@ pub struct AggregatedListVpnGatewaysRequest {
 /// A request message for VpnTunnels.AggregatedList. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AggregatedListVpnTunnelsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included.
@@ -1747,7 +1758,7 @@ pub struct AttachedDisk {
     /// [Output Only] shielded vm initial state stored on disk
     #[prost(message, optional, tag = "192356867")]
     pub shielded_instance_initial_state: ::core::option::Option<InitialStateConfig>,
-    /// Specifies a valid partial or full URL to an existing Persistent Disk resource. When creating a new instance, one of initializeParams.sourceImage or initializeParams.sourceSnapshot or disks.source is required except for local SSD. If desired, you can also attach existing non-root persistent disks using this property. This field is only applicable for persistent disks. Note that for InstanceTemplate, specify the disk name, not the URL for the disk.
+    /// Specifies a valid partial or full URL to an existing Persistent Disk resource. When creating a new instance, one of initializeParams.sourceImage or initializeParams.sourceSnapshot or disks.source is required except for local SSD. If desired, you can also attach existing non-root persistent disks using this property. This field is only applicable for persistent disks. Note that for InstanceTemplate, specify the disk name for zonal disk, and the URL for regional disk.
     #[prost(string, optional, tag = "177235995")]
     pub source: ::core::option::Option<::prost::alloc::string::String>,
     /// Specifies the type of the disk, either SCRATCH or PERSISTENT. If not specified, the default is PERSISTENT.
@@ -1808,6 +1819,9 @@ pub struct AttachedDiskInitializeParams {
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     >,
+    /// A list of publicly visible licenses. Reserved for Google's use.
+    #[prost(string, repeated, tag = "337642578")]
+    pub licenses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Specifies which action to take on instance update with this disk. Default is to use the existing disk.
     /// Check the OnUpdateAction enum for the list of possible values.
     #[prost(string, optional, tag = "202451980")]
@@ -2258,7 +2272,7 @@ pub struct AutoscalingPolicyScalingSchedule {
     /// The start timestamps of time intervals when this scaling schedule is to provide a scaling signal. This field uses the extended cron format (with an optional year field). The expression can describe a single timestamp if the optional year is set, in which case the scaling schedule runs once. The schedule is interpreted with respect to time_zone. This field is required. Note: These timestamps only describe when autoscaler starts providing the scaling signal. The VMs need additional time to become serving.
     #[prost(string, optional, tag = "375820951")]
     pub schedule: ::core::option::Option<::prost::alloc::string::String>,
-    /// The time zone to use when interpreting the schedule. The value of this field must be a time zone name from the tz database: <http://en.wikipedia.org/wiki/Tz_database.> This field is assigned a default value of “UTC” if left empty.
+    /// The time zone to use when interpreting the schedule. The value of this field must be a time zone name from the tz database: <http://en.wikipedia.org/wiki/Tz_database.> This field is assigned a default value of ���UTC��� if left empty.
     #[prost(string, optional, tag = "36848094")]
     pub time_zone: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -2337,6 +2351,9 @@ pub struct BackendBucket {
     /// An optional textual description of the resource; provided by the client when the resource is created.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] The resource URL for the edge security policy associated with this backend bucket.
+    #[prost(string, optional, tag = "41036943")]
+    pub edge_security_policy: ::core::option::Option<::prost::alloc::string::String>,
     /// If true, enable Cloud CDN for this BackendBucket.
     #[prost(bool, optional, tag = "282942321")]
     pub enable_cdn: ::core::option::Option<bool>,
@@ -2360,11 +2377,14 @@ pub struct BackendBucketCdnPolicy {
     #[prost(message, repeated, tag = "486203082")]
     pub bypass_cache_on_request_headers:
         ::prost::alloc::vec::Vec<BackendBucketCdnPolicyBypassCacheOnRequestHeader>,
+    /// The CacheKeyPolicy for this CdnPolicy.
+    #[prost(message, optional, tag = "159263727")]
+    pub cache_key_policy: ::core::option::Option<BackendBucketCdnPolicyCacheKeyPolicy>,
     /// Specifies the cache setting for all responses from this backend. The possible values are: USE_ORIGIN_HEADERS Requires the origin to set valid caching headers to cache content. Responses without these headers will not be cached at Google's edge, and will require a full trip to the origin on every request, potentially impacting performance and increasing load on the origin server. FORCE_CACHE_ALL Cache all content, ignoring any "private", "no-store" or "no-cache" directives in Cache-Control response headers. Warning: this may result in Cloud CDN caching private, per-user (user identifiable) content. CACHE_ALL_STATIC Automatically cache static content, including common image formats, media (video and audio), and web assets (JavaScript and CSS). Requests and responses that are marked as uncacheable, as well as dynamic content (including HTML), will not be cached.
     /// Check the CacheMode enum for the list of possible values.
     #[prost(string, optional, tag = "28877888")]
     pub cache_mode: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies a separate client (e.g. browser client) maximum TTL. This is used to clamp the max-age (or Expires) value sent to the client. With FORCE_CACHE_ALL, the lesser of client_ttl and default_ttl is used for the response max-age directive, along with a "public" directive. For cacheable content in CACHE_ALL_STATIC mode, client_ttl clamps the max-age from the origin (if specified), or else sets the response max-age directive to the lesser of the client_ttl and default_ttl, and also ensures a "public" cache-control directive is present. If a client TTL is not specified, a default value (1 hour) will be used. The maximum allowed value is 86400s (1 day).
+    /// Specifies a separate client (e.g. browser client) maximum TTL. This is used to clamp the max-age (or Expires) value sent to the client. With FORCE_CACHE_ALL, the lesser of client_ttl and default_ttl is used for the response max-age directive, along with a "public" directive. For cacheable content in CACHE_ALL_STATIC mode, client_ttl clamps the max-age from the origin (if specified), or else sets the response max-age directive to the lesser of the client_ttl and default_ttl, and also ensures a "public" cache-control directive is present. If a client TTL is not specified, a default value (1 hour) will be used. The maximum allowed value is 31,622,400s (1 year).
     #[prost(int32, optional, tag = "29034360")]
     pub client_ttl: ::core::option::Option<i32>,
     /// Specifies the default TTL for cached content served by this origin for responses that do not have an existing valid TTL (max-age or s-max-age). Setting a TTL of "0" means "always revalidate". The value of defaultTTL cannot be set to a value greater than that of maxTTL, but can be equal. When the cacheMode is set to FORCE_CACHE_ALL, the defaultTTL will overwrite the TTL set in all responses. The maximum allowed value is 31,622,400s (1 year), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
@@ -2417,6 +2437,16 @@ pub struct BackendBucketCdnPolicyBypassCacheOnRequestHeader {
     #[prost(string, optional, tag = "110223613")]
     pub header_name: ::core::option::Option<::prost::alloc::string::String>,
 }
+/// Message containing what to include in the cache key for a request for Cloud CDN.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BackendBucketCdnPolicyCacheKeyPolicy {
+    /// Allows HTTP request headers (by name) to be used in the cache key.
+    #[prost(string, repeated, tag = "2489606")]
+    pub include_http_headers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Names of query string parameters to include in cache keys. All other parameters will be excluded. '&' and '=' will be percent encoded and not treated as delimiters.
+    #[prost(string, repeated, tag = "52456496")]
+    pub query_string_whitelist: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// Specify CDN TTLs for response error codes.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BackendBucketCdnPolicyNegativeCachingPolicy {
@@ -2465,7 +2495,10 @@ pub struct BackendService {
     pub circuit_breakers: ::core::option::Option<CircuitBreakers>,
     #[prost(message, optional, tag = "461096747")]
     pub connection_draining: ::core::option::Option<ConnectionDraining>,
-    /// Consistent Hash-based load balancing can be used to provide soft session affinity based on HTTP headers, cookies or other properties. This load balancing policy is applicable only for HTTP connections. The affinity to a particular destination host will be lost when one or more hosts are added/removed from the destination service. This field specifies parameters that control consistent hashing. This field is only applicable when localityLbPolicy is set to MAGLEV or RING_HASH. This field is applicable to either: - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED. Not supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Connection Tracking configuration for this BackendService. Connection tracking policy settings are only available for Network Load Balancing and Internal TCP/UDP Load Balancing.
+    #[prost(message, optional, tag = "143994969")]
+    pub connection_tracking_policy: ::core::option::Option<BackendServiceConnectionTrackingPolicy>,
+    /// Consistent Hash-based load balancing can be used to provide soft session affinity based on HTTP headers, cookies or other properties. This load balancing policy is applicable only for HTTP connections. The affinity to a particular destination host will be lost when one or more hosts are added/removed from the destination service. This field specifies parameters that control consistent hashing. This field is only applicable when localityLbPolicy is set to MAGLEV or RING_HASH. This field is applicable to either: - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
     #[prost(message, optional, tag = "905883")]
     pub consistent_hash: ::core::option::Option<ConsistentHashLoadBalancerSettings>,
     /// [Output Only] Creation timestamp in RFC3339 text format.
@@ -2480,10 +2513,13 @@ pub struct BackendService {
     /// An optional description of this resource. Provide this property when you create the resource.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] The resource URL for the edge security policy associated with this backend service.
+    #[prost(string, optional, tag = "41036943")]
+    pub edge_security_policy: ::core::option::Option<::prost::alloc::string::String>,
     /// If true, enables Cloud CDN for the backend service of an external HTTP(S) load balancer.
     #[prost(bool, optional, tag = "250733499")]
     pub enable_c_d_n: ::core::option::Option<bool>,
-    /// Requires at least one backend instance group to be defined as a backup (failover) backend. For load balancers that have configurable failover: [Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal/failover-overview>) and [external TCP/UDP Load Balancing](/network/networklb-failover-overview).
+    /// Requires at least one backend instance group to be defined as a backup (failover) backend. For load balancers that have configurable failover: [Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal/failover-overview>) and [external TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/network/networklb-failover-overview>).
     #[prost(message, optional, tag = "105658655")]
     pub failover_policy: ::core::option::Option<BackendServiceFailoverPolicy>,
     /// Fingerprint of this resource. A hash of the contents stored in this object. This field is used in optimistic locking. This field will be ignored when inserting a BackendService. An up-to-date fingerprint must be provided in order to update the BackendService, otherwise the request will fail with error 412 conditionNotMet. To see the latest fingerprint, make a get() request to retrieve a BackendService.
@@ -2505,7 +2541,7 @@ pub struct BackendService {
     /// Check the LoadBalancingScheme enum for the list of possible values.
     #[prost(string, optional, tag = "363890244")]
     pub load_balancing_scheme: ::core::option::Option<::prost::alloc::string::String>,
-    /// The load balancing algorithm used within the scope of the locality. The possible values are: - ROUND_ROBIN: This is a simple policy in which each healthy backend is selected in round robin order. This is the default. - LEAST_REQUEST: An O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests. - RING_HASH: The ring/modulo hash load balancer implements consistent hashing to backends. The algorithm has the property that the addition/removal of a host from a set of N hosts only affects 1/N of the requests. - RANDOM: The load balancer selects a random healthy host. - ORIGINAL_DESTINATION: Backend host is selected based on the client connection metadata, i.e., connections are opened to the same address as the destination address of the incoming connection before the connection was redirected to the load balancer. - MAGLEV: used as a drop in replacement for the ring hash load balancer. Maglev is not as stable as ring hash but has faster table lookup build times and host selection times. For more information about Maglev, see <https://ai.google/research/pubs/pub44824> This field is applicable to either: - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED. If sessionAffinity is not NONE, and this field is not set to MAGLEV or RING_HASH, session affinity settings will not take effect. Only the default ROUND_ROBIN policy is supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// The load balancing algorithm used within the scope of the locality. The possible values are: - ROUND_ROBIN: This is a simple policy in which each healthy backend is selected in round robin order. This is the default. - LEAST_REQUEST: An O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests. - RING_HASH: The ring/modulo hash load balancer implements consistent hashing to backends. The algorithm has the property that the addition/removal of a host from a set of N hosts only affects 1/N of the requests. - RANDOM: The load balancer selects a random healthy host. - ORIGINAL_DESTINATION: Backend host is selected based on the client connection metadata, i.e., connections are opened to the same address as the destination address of the incoming connection before the connection was redirected to the load balancer. - MAGLEV: used as a drop in replacement for the ring hash load balancer. Maglev is not as stable as ring hash but has faster table lookup build times and host selection times. For more information about Maglev, see <https://ai.google/research/pubs/pub44824> This field is applicable to either: - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED. If sessionAffinity is not NONE, and this field is not set to MAGLEV or RING_HASH, session affinity settings will not take effect. Only ROUND_ROBIN and RING_HASH are supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true.
     /// Check the LocalityLbPolicy enum for the list of possible values.
     #[prost(string, optional, tag = "131431487")]
     pub locality_lb_policy: ::core::option::Option<::prost::alloc::string::String>,
@@ -2540,13 +2576,13 @@ pub struct BackendService {
     /// [Output Only] The resource URL for the security policy associated with this backend service.
     #[prost(string, optional, tag = "171082513")]
     pub security_policy: ::core::option::Option<::prost::alloc::string::String>,
-    /// This field specifies the security policy that applies to this backend service. This field is applicable to either: - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+    /// This field specifies the security settings that apply to this backend service. This field is applicable to a global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
     #[prost(message, optional, tag = "478649922")]
     pub security_settings: ::core::option::Option<SecuritySettings>,
     /// [Output Only] Server-defined URL for the resource.
     #[prost(string, optional, tag = "456214797")]
     pub self_link: ::core::option::Option<::prost::alloc::string::String>,
-    /// Type of session affinity to use. The default is NONE. For a detailed description of session affinity options, see: [Session affinity](<https://cloud.google.com/load-balancing/docs/backend-service#session_affinity>). Not supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Type of session affinity to use. The default is NONE. Only NONE and HEADER_FIELD are supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true. For more details, see: [Session Affinity](<https://cloud.google.com/load-balancing/docs/backend-service#session_affinity>).
     /// Check the SessionAffinity enum for the list of possible values.
     #[prost(string, optional, tag = "463888561")]
     pub session_affinity: ::core::option::Option<::prost::alloc::string::String>,
@@ -2566,6 +2602,8 @@ pub mod backend_service {
         UndefinedLoadBalancingScheme = 0,
         /// Signifies that this will be used for external HTTP(S), SSL Proxy, TCP Proxy, or Network Load Balancing
         External = 35607499,
+        /// Signifies that this will be used for External Managed HTTP(S) Load Balancing.
+        ExternalManaged = 512006923,
         /// Signifies that this will be used for Internal TCP/UDP Load Balancing.
         Internal = 279295677,
         /// Signifies that this will be used for Internal HTTP(S) Load Balancing.
@@ -2574,7 +2612,7 @@ pub mod backend_service {
         InternalSelfManaged = 236211150,
         InvalidLoadBalancingScheme = 275352060,
     }
-    /// The load balancing algorithm used within the scope of the locality. The possible values are: - ROUND_ROBIN: This is a simple policy in which each healthy backend is selected in round robin order. This is the default. - LEAST_REQUEST: An O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests. - RING_HASH: The ring/modulo hash load balancer implements consistent hashing to backends. The algorithm has the property that the addition/removal of a host from a set of N hosts only affects 1/N of the requests. - RANDOM: The load balancer selects a random healthy host. - ORIGINAL_DESTINATION: Backend host is selected based on the client connection metadata, i.e., connections are opened to the same address as the destination address of the incoming connection before the connection was redirected to the load balancer. - MAGLEV: used as a drop in replacement for the ring hash load balancer. Maglev is not as stable as ring hash but has faster table lookup build times and host selection times. For more information about Maglev, see <https://ai.google/research/pubs/pub44824> This field is applicable to either: - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED. If sessionAffinity is not NONE, and this field is not set to MAGLEV or RING_HASH, session affinity settings will not take effect. Only the default ROUND_ROBIN policy is supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// The load balancing algorithm used within the scope of the locality. The possible values are: - ROUND_ROBIN: This is a simple policy in which each healthy backend is selected in round robin order. This is the default. - LEAST_REQUEST: An O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests. - RING_HASH: The ring/modulo hash load balancer implements consistent hashing to backends. The algorithm has the property that the addition/removal of a host from a set of N hosts only affects 1/N of the requests. - RANDOM: The load balancer selects a random healthy host. - ORIGINAL_DESTINATION: Backend host is selected based on the client connection metadata, i.e., connections are opened to the same address as the destination address of the incoming connection before the connection was redirected to the load balancer. - MAGLEV: used as a drop in replacement for the ring hash load balancer. Maglev is not as stable as ring hash but has faster table lookup build times and host selection times. For more information about Maglev, see <https://ai.google/research/pubs/pub44824> This field is applicable to either: - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED. If sessionAffinity is not NONE, and this field is not set to MAGLEV or RING_HASH, session affinity settings will not take effect. Only ROUND_ROBIN and RING_HASH are supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum LocalityLbPolicy {
@@ -2612,8 +2650,10 @@ pub mod backend_service {
         Tcp = 82881,
         /// UDP.
         Udp = 83873,
+        /// If a Backend Service has UNSPECIFIED as its protocol, it can be used with any L3/L4 Forwarding Rules.
+        Unspecified = 526786327,
     }
-    /// Type of session affinity to use. The default is NONE. For a detailed description of session affinity options, see: [Session affinity](<https://cloud.google.com/load-balancing/docs/backend-service#session_affinity>). Not supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Type of session affinity to use. The default is NONE. Only NONE and HEADER_FIELD are supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true. For more details, see: [Session Affinity](<https://cloud.google.com/load-balancing/docs/backend-service#session_affinity>).
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum SessionAffinity {
@@ -2679,7 +2719,7 @@ pub struct BackendServiceCdnPolicy {
     /// Check the CacheMode enum for the list of possible values.
     #[prost(string, optional, tag = "28877888")]
     pub cache_mode: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies a separate client (e.g. browser client) maximum TTL. This is used to clamp the max-age (or Expires) value sent to the client. With FORCE_CACHE_ALL, the lesser of client_ttl and default_ttl is used for the response max-age directive, along with a "public" directive. For cacheable content in CACHE_ALL_STATIC mode, client_ttl clamps the max-age from the origin (if specified), or else sets the response max-age directive to the lesser of the client_ttl and default_ttl, and also ensures a "public" cache-control directive is present. If a client TTL is not specified, a default value (1 hour) will be used. The maximum allowed value is 86400s (1 day).
+    /// Specifies a separate client (e.g. browser client) maximum TTL. This is used to clamp the max-age (or Expires) value sent to the client. With FORCE_CACHE_ALL, the lesser of client_ttl and default_ttl is used for the response max-age directive, along with a "public" directive. For cacheable content in CACHE_ALL_STATIC mode, client_ttl clamps the max-age from the origin (if specified), or else sets the response max-age directive to the lesser of the client_ttl and default_ttl, and also ensures a "public" cache-control directive is present. If a client TTL is not specified, a default value (1 hour) will be used. The maximum allowed value is 31,622,400s (1 year).
     #[prost(int32, optional, tag = "29034360")]
     pub client_ttl: ::core::option::Option<i32>,
     /// Specifies the default TTL for cached content served by this origin for responses that do not have an existing valid TTL (max-age or s-max-age). Setting a TTL of "0" means "always revalidate". The value of defaultTTL cannot be set to a value greater than that of maxTTL, but can be equal. When the cacheMode is set to FORCE_CACHE_ALL, the defaultTTL will overwrite the TTL set in all responses. The maximum allowed value is 31,622,400s (1 year), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
@@ -2742,16 +2782,55 @@ pub struct BackendServiceCdnPolicyNegativeCachingPolicy {
     #[prost(int32, optional, tag = "115180")]
     pub ttl: ::core::option::Option<i32>,
 }
-/// For load balancers that have configurable failover: [Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal/failover-overview>) and [external TCP/UDP Load Balancing](/network/networklb-failover-overview). On failover or failback, this field indicates whether connection draining will be honored. Google Cloud has a fixed connection draining timeout of 10 minutes. A setting of true terminates existing TCP connections to the active pool during failover and failback, immediately draining traffic. A setting of false allows existing TCP connections to persist, even on VMs no longer in the active pool, for up to the duration of the connection draining timeout (10 minutes).
+/// Connection Tracking configuration for this BackendService.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BackendServiceConnectionTrackingPolicy {
+    /// Specifies connection persistence when backends are unhealthy. The default value is DEFAULT_FOR_PROTOCOL. If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on unhealthy backends only for connection-oriented protocols (TCP and SCTP) and only if the Tracking Mode is PER_CONNECTION (default tracking mode) or the Session Affinity is configured for 5-tuple. They do not persist for UDP. If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing connections on the unhealthy backend are never persisted on the unhealthy backend. They are always diverted to newly selected healthy backends (unless all backends are unhealthy). If set to ALWAYS_PERSIST, existing connections always persist on unhealthy backends regardless of protocol and session affinity. It is generally not recommended to use this mode overriding the default. For more details, see [Connection Persistence for Network Load Balancing](<https://cloud.google.com/load-balancing/docs/network/networklb-backend-service#connection-persistence>) and [Connection Persistence for Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal#connection-persistence>).
+    /// Check the ConnectionPersistenceOnUnhealthyBackends enum for the list of possible values.
+    #[prost(string, optional, tag = "152439033")]
+    pub connection_persistence_on_unhealthy_backends:
+        ::core::option::Option<::prost::alloc::string::String>,
+    /// Specifies how long to keep a Connection Tracking entry while there is no matching traffic (in seconds). For Internal TCP/UDP Load Balancing: - The minimum (default) is 10 minutes and the maximum is 16 hours. - It can be set only if Connection Tracking is less than 5-tuple (i.e. Session Affinity is CLIENT_IP_NO_DESTINATION, CLIENT_IP or CLIENT_IP_PROTO, and Tracking Mode is PER_SESSION). For Network Load Balancer the default is 60 seconds. This option is not available publicly.
+    #[prost(int32, optional, tag = "24977544")]
+    pub idle_timeout_sec: ::core::option::Option<i32>,
+    /// Specifies the key used for connection tracking. There are two options: - PER_CONNECTION: This is the default mode. The Connection Tracking is performed as per the Connection Key (default Hash Method) for the specific protocol. - PER_SESSION: The Connection Tracking is performed as per the configured Session Affinity. It matches the configured Session Affinity. For more details, see [Tracking Mode for Network Load Balancing](<https://cloud.google.com/load-balancing/docs/network/networklb-backend-service#tracking-mode>) and [Tracking Mode for Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal#tracking-mode>).
+    /// Check the TrackingMode enum for the list of possible values.
+    #[prost(string, optional, tag = "127757867")]
+    pub tracking_mode: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `BackendServiceConnectionTrackingPolicy`.
+pub mod backend_service_connection_tracking_policy {
+    /// Specifies connection persistence when backends are unhealthy. The default value is DEFAULT_FOR_PROTOCOL. If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on unhealthy backends only for connection-oriented protocols (TCP and SCTP) and only if the Tracking Mode is PER_CONNECTION (default tracking mode) or the Session Affinity is configured for 5-tuple. They do not persist for UDP. If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing connections on the unhealthy backend are never persisted on the unhealthy backend. They are always diverted to newly selected healthy backends (unless all backends are unhealthy). If set to ALWAYS_PERSIST, existing connections always persist on unhealthy backends regardless of protocol and session affinity. It is generally not recommended to use this mode overriding the default. For more details, see [Connection Persistence for Network Load Balancing](<https://cloud.google.com/load-balancing/docs/network/networklb-backend-service#connection-persistence>) and [Connection Persistence for Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal#connection-persistence>).
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ConnectionPersistenceOnUnhealthyBackends {
+        /// A value indicating that the enum field is not set.
+        UndefinedConnectionPersistenceOnUnhealthyBackends = 0,
+        AlwaysPersist = 38400900,
+        DefaultForProtocol = 145265356,
+        NeverPersist = 138646241,
+    }
+    /// Specifies the key used for connection tracking. There are two options: - PER_CONNECTION: This is the default mode. The Connection Tracking is performed as per the Connection Key (default Hash Method) for the specific protocol. - PER_SESSION: The Connection Tracking is performed as per the configured Session Affinity. It matches the configured Session Affinity. For more details, see [Tracking Mode for Network Load Balancing](<https://cloud.google.com/load-balancing/docs/network/networklb-backend-service#tracking-mode>) and [Tracking Mode for Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal#tracking-mode>).
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum TrackingMode {
+        /// A value indicating that the enum field is not set.
+        UndefinedTrackingMode = 0,
+        InvalidTrackingMode = 49234371,
+        PerConnection = 85162848,
+        PerSession = 182099252,
+    }
+}
+/// For load balancers that have configurable failover: [Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal/failover-overview>) and [external TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/network/networklb-failover-overview>). On failover or failback, this field indicates whether connection draining will be honored. Google Cloud has a fixed connection draining timeout of 10 minutes. A setting of true terminates existing TCP connections to the active pool during failover and failback, immediately draining traffic. A setting of false allows existing TCP connections to persist, even on VMs no longer in the active pool, for up to the duration of the connection draining timeout (10 minutes).
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BackendServiceFailoverPolicy {
     /// This can be set to true only if the protocol is TCP. The default is false.
     #[prost(bool, optional, tag = "182150753")]
     pub disable_connection_drain_on_failover: ::core::option::Option<bool>,
-    /// If set to true, connections to the load balancer are dropped when all primary and all backup backend VMs are unhealthy.If set to false, connections are distributed among all primary VMs when all primary and all backup backend VMs are unhealthy. For load balancers that have configurable failover: [Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal/failover-overview>) and [external TCP/UDP Load Balancing](/network/networklb-failover-overview). The default is false.
+    /// If set to true, connections to the load balancer are dropped when all primary and all backup backend VMs are unhealthy.If set to false, connections are distributed among all primary VMs when all primary and all backup backend VMs are unhealthy. For load balancers that have configurable failover: [Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal/failover-overview>) and [external TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/network/networklb-failover-overview>). The default is false.
     #[prost(bool, optional, tag = "112289428")]
     pub drop_traffic_if_unhealthy: ::core::option::Option<bool>,
-    /// The value of the field must be in the range [0, 1]. If the value is 0, the load balancer performs a failover when the number of healthy primary VMs equals zero. For all other values, the load balancer performs a failover when the total number of healthy primary VMs is less than this ratio. For load balancers that have configurable failover: [Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal/failover-overview>) and [external TCP/UDP Load Balancing](/network/networklb-failover-overview).
+    /// The value of the field must be in the range [0, 1]. If the value is 0, the load balancer performs a failover when the number of healthy primary VMs equals zero. For all other values, the load balancer performs a failover when the total number of healthy primary VMs is less than this ratio. For load balancers that have configurable failover: [Internal TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/internal/failover-overview>) and [external TCP/UDP Load Balancing](<https://cloud.google.com/load-balancing/docs/network/networklb-failover-overview>).
     #[prost(float, optional, tag = "212667006")]
     pub failover_ratio: ::core::option::Option<f32>,
 }
@@ -2835,19 +2914,200 @@ pub struct BackendServicesScopedList {
     #[prost(message, optional, tag = "50704284")]
     pub warning: ::core::option::Option<Warning>,
 }
-/// Associates `members` with a `role`.
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BfdPacket {
+    /// The Authentication Present bit of the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(bool, optional, tag = "105974260")]
+    pub authentication_present: ::core::option::Option<bool>,
+    /// The Control Plane Independent bit of the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(bool, optional, tag = "62363573")]
+    pub control_plane_independent: ::core::option::Option<bool>,
+    /// The demand bit of the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(bool, optional, tag = "275180107")]
+    pub demand: ::core::option::Option<bool>,
+    /// The diagnostic code specifies the local system's reason for the last change in session state. This allows remote systems to determine the reason that the previous session failed, for example. These diagnostic codes are specified in section 4.1 of RFC5880
+    /// Check the Diagnostic enum for the list of possible values.
+    #[prost(string, optional, tag = "62708647")]
+    pub diagnostic: ::core::option::Option<::prost::alloc::string::String>,
+    /// The Final bit of the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(bool, optional, tag = "97436022")]
+    pub r#final: ::core::option::Option<bool>,
+    /// The length of the BFD Control packet in bytes. This is specified in section 4.1 of RFC5880
+    #[prost(uint32, optional, tag = "504249062")]
+    pub length: ::core::option::Option<u32>,
+    /// The Required Min Echo RX Interval value in the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(uint32, optional, tag = "97286868")]
+    pub min_echo_rx_interval_ms: ::core::option::Option<u32>,
+    /// The Required Min RX Interval value in the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(uint32, optional, tag = "463399028")]
+    pub min_rx_interval_ms: ::core::option::Option<u32>,
+    /// The Desired Min TX Interval value in the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(uint32, optional, tag = "526023602")]
+    pub min_tx_interval_ms: ::core::option::Option<u32>,
+    /// The detection time multiplier of the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(uint32, optional, tag = "191331777")]
+    pub multiplier: ::core::option::Option<u32>,
+    /// The multipoint bit of the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(bool, optional, tag = "191421431")]
+    pub multipoint: ::core::option::Option<bool>,
+    /// The My Discriminator value in the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(uint32, optional, tag = "76663113")]
+    pub my_discriminator: ::core::option::Option<u32>,
+    /// The Poll bit of the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(bool, optional, tag = "3446719")]
+    pub poll: ::core::option::Option<bool>,
+    /// The current BFD session state as seen by the transmitting system. These states are specified in section 4.1 of RFC5880
+    /// Check the State enum for the list of possible values.
+    #[prost(string, optional, tag = "109757585")]
+    pub state: ::core::option::Option<::prost::alloc::string::String>,
+    /// The version number of the BFD protocol, as specified in section 4.1 of RFC5880.
+    #[prost(uint32, optional, tag = "351608024")]
+    pub version: ::core::option::Option<u32>,
+    /// The Your Discriminator value in the BFD packet. This is specified in section 4.1 of RFC5880
+    #[prost(uint32, optional, tag = "515634064")]
+    pub your_discriminator: ::core::option::Option<u32>,
+}
+/// Nested message and enum types in `BfdPacket`.
+pub mod bfd_packet {
+    /// The diagnostic code specifies the local system's reason for the last change in session state. This allows remote systems to determine the reason that the previous session failed, for example. These diagnostic codes are specified in section 4.1 of RFC5880
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Diagnostic {
+        /// A value indicating that the enum field is not set.
+        UndefinedDiagnostic = 0,
+        AdministrativelyDown = 121685798,
+        ConcatenatedPathDown = 26186892,
+        ControlDetectionTimeExpired = 135478383,
+        Unspecified = 58720895,
+        EchoFunctionFailed = 220687466,
+        ForwardingPlaneReset = 19715882,
+        NeighborSignaledSessionDown = 374226742,
+        NoDiagnostic = 222503141,
+        PathDown = 290605180,
+        ReverseConcatenatedPathDown = 479337129,
+    }
+    /// The current BFD session state as seen by the transmitting system. These states are specified in section 4.1 of RFC5880
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// A value indicating that the enum field is not set.
+        UndefinedState = 0,
+        AdminDown = 128544690,
+        Down = 2104482,
+        Init = 2252048,
+        Unspecified = 470755401,
+        Up = 2715,
+    }
+}
+/// Next free: 15
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BfdStatus {
+    /// The BFD session initialization mode for this BGP peer. If set to ACTIVE, the Cloud Router will initiate the BFD session for this BGP peer. If set to PASSIVE, the Cloud Router will wait for the peer router to initiate the BFD session for this BGP peer. If set to DISABLED, BFD is disabled for this BGP peer.
+    /// Check the BfdSessionInitializationMode enum for the list of possible values.
+    #[prost(string, optional, tag = "218156954")]
+    pub bfd_session_initialization_mode: ::core::option::Option<::prost::alloc::string::String>,
+    /// Unix timestamp of the most recent config update.
+    #[prost(int64, optional, tag = "457195569")]
+    pub config_update_timestamp_micros: ::core::option::Option<i64>,
+    /// Control packet counts for the current BFD session.
+    #[prost(message, optional, tag = "132573561")]
+    pub control_packet_counts: ::core::option::Option<BfdStatusPacketCounts>,
+    /// Inter-packet time interval statistics for control packets.
+    #[prost(message, repeated, tag = "500806649")]
+    pub control_packet_intervals: ::prost::alloc::vec::Vec<PacketIntervals>,
+    /// The diagnostic code specifies the local system's reason for the last change in session state. This allows remote systems to determine the reason that the previous session failed, for example. These diagnostic codes are specified in section 4.1 of RFC5880
+    /// Check the LocalDiagnostic enum for the list of possible values.
+    #[prost(string, optional, tag = "463737083")]
+    pub local_diagnostic: ::core::option::Option<::prost::alloc::string::String>,
+    /// The current BFD session state as seen by the transmitting system. These states are specified in section 4.1 of RFC5880
+    /// Check the LocalState enum for the list of possible values.
+    #[prost(string, optional, tag = "149195453")]
+    pub local_state: ::core::option::Option<::prost::alloc::string::String>,
+    /// Negotiated transmit interval for control packets.
+    #[prost(uint32, optional, tag = "21768340")]
+    pub negotiated_local_control_tx_interval_ms: ::core::option::Option<u32>,
+    /// The most recent Rx control packet for this BFD session.
+    #[prost(message, optional, tag = "505069729")]
+    pub rx_packet: ::core::option::Option<BfdPacket>,
+    /// The most recent Tx control packet for this BFD session.
+    #[prost(message, optional, tag = "111386275")]
+    pub tx_packet: ::core::option::Option<BfdPacket>,
+    /// Session uptime in milliseconds. Value will be 0 if session is not up.
+    #[prost(int64, optional, tag = "125398365")]
+    pub uptime_ms: ::core::option::Option<i64>,
+}
+/// Nested message and enum types in `BfdStatus`.
+pub mod bfd_status {
+    /// The BFD session initialization mode for this BGP peer. If set to ACTIVE, the Cloud Router will initiate the BFD session for this BGP peer. If set to PASSIVE, the Cloud Router will wait for the peer router to initiate the BFD session for this BGP peer. If set to DISABLED, BFD is disabled for this BGP peer.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum BfdSessionInitializationMode {
+        /// A value indicating that the enum field is not set.
+        UndefinedBfdSessionInitializationMode = 0,
+        Active = 314733318,
+        Disabled = 516696700,
+        Passive = 462813959,
+    }
+    /// The diagnostic code specifies the local system's reason for the last change in session state. This allows remote systems to determine the reason that the previous session failed, for example. These diagnostic codes are specified in section 4.1 of RFC5880
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum LocalDiagnostic {
+        /// A value indicating that the enum field is not set.
+        UndefinedLocalDiagnostic = 0,
+        AdministrativelyDown = 121685798,
+        ConcatenatedPathDown = 26186892,
+        ControlDetectionTimeExpired = 135478383,
+        DiagnosticUnspecified = 58720895,
+        EchoFunctionFailed = 220687466,
+        ForwardingPlaneReset = 19715882,
+        NeighborSignaledSessionDown = 374226742,
+        NoDiagnostic = 222503141,
+        PathDown = 290605180,
+        ReverseConcatenatedPathDown = 479337129,
+    }
+    /// The current BFD session state as seen by the transmitting system. These states are specified in section 4.1 of RFC5880
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum LocalState {
+        /// A value indicating that the enum field is not set.
+        UndefinedLocalState = 0,
+        AdminDown = 128544690,
+        Down = 2104482,
+        Init = 2252048,
+        StateUnspecified = 470755401,
+        Up = 2715,
+    }
+}
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BfdStatusPacketCounts {
+    /// Number of packets received since the beginning of the current BFD session.
+    #[prost(uint32, optional, tag = "39375263")]
+    pub num_rx: ::core::option::Option<u32>,
+    /// Number of packets received that were rejected because of errors since the beginning of the current BFD session.
+    #[prost(uint32, optional, tag = "281007902")]
+    pub num_rx_rejected: ::core::option::Option<u32>,
+    /// Number of packets received that were successfully processed since the beginning of the current BFD session.
+    #[prost(uint32, optional, tag = "455361850")]
+    pub num_rx_successful: ::core::option::Option<u32>,
+    /// Number of packets transmitted since the beginning of the current BFD session.
+    #[prost(uint32, optional, tag = "39375325")]
+    pub num_tx: ::core::option::Option<u32>,
+}
+/// Associates `members`, or principals, with a `role`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Binding {
     /// This is deprecated and has no effect. Do not use.
     #[prost(string, optional, tag = "441088277")]
     pub binding_id: ::core::option::Option<::prost::alloc::string::String>,
-    /// The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the members in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](<https://cloud.google.com/iam/help/conditions/resource-policies>).
+    /// The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](<https://cloud.google.com/iam/help/conditions/resource-policies>).
     #[prost(message, optional, tag = "212430107")]
     pub condition: ::core::option::Option<Expr>,
-    /// Specifies the identities requesting access for a Cloud Platform resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`.
+    /// Specifies the principals requesting access for a Cloud Platform resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`.
     #[prost(string, repeated, tag = "412010777")]
     pub members: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Role that is assigned to `members`. For example, `roles/viewer`, `roles/editor`, or `roles/owner`.
+    /// Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`.
     #[prost(string, optional, tag = "3506294")]
     pub role: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -2933,6 +3193,12 @@ pub struct CacheKeyPolicy {
     /// If true, requests to different hosts will be cached separately.
     #[prost(bool, optional, tag = "486867679")]
     pub include_host: ::core::option::Option<bool>,
+    /// Allows HTTP request headers (by name) to be used in the cache key.
+    #[prost(string, repeated, tag = "2489606")]
+    pub include_http_headers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Allows HTTP cookies (by name) to be used in the cache key. The name=value pair will be used in the cache key Cloud CDN generates.
+    #[prost(string, repeated, tag = "87316530")]
+    pub include_named_cookies: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// If true, http and https requests will be cached separately.
     #[prost(bool, optional, tag = "303507535")]
     pub include_protocol: ::core::option::Option<bool>,
@@ -2981,6 +3247,9 @@ pub struct CloneRulesFirewallPolicyRequest {
 /// Represents a regional Commitment resource. Creating a commitment resource means that you are purchasing a committed use contract with an explicit start and end time. You can create commitments based on vCPUs and memory usage and receive discounted rates. For full details, read Signing Up for Committed Use Discounts.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Commitment {
+    /// Specifies whether to enable automatic renewal for the commitment. The default value is false if not specified. The field can be updated until the day of the commitment expiration at 12:00am PST. If the field is set to true, the commitment will be automatically renewed for either one or three years according to the terms of the existing commitment.
+    #[prost(bool, optional, tag = "495520765")]
+    pub auto_renew: ::core::option::Option<bool>,
     /// The category of the commitment. Category MACHINE specifies commitments composed of machine resources such as VCPU or MEMORY, listed in resources. Category LICENSE specifies commitments composed of software licenses, listed in licenseResources. Note that only MACHINE commitments should have a Type specified.
     /// Check the Category enum for the list of possible values.
     #[prost(string, optional, tag = "50511102")]
@@ -3078,10 +3347,12 @@ pub mod commitment {
         UndefinedType = 0,
         AcceleratorOptimized = 280848403,
         ComputeOptimized = 158349023,
+        ComputeOptimizedC2d = 383246453,
         GeneralPurpose = 299793543,
         GeneralPurposeE2 = 301911877,
         GeneralPurposeN2 = 301912156,
         GeneralPurposeN2d = 232471400,
+        GeneralPurposeT2d = 232477166,
         MemoryOptimized = 281753417,
         Unspecified = 437714322,
     }
@@ -3182,7 +3453,7 @@ pub struct ConnectionDraining {
 /// This message defines settings for a consistent hash style load balancer.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConsistentHashLoadBalancerSettings {
-    /// Hash is based on HTTP Cookie. This field describes a HTTP cookie that will be used as the hash key for the consistent hash load balancer. If the cookie is not present, it will be generated. This field is applicable if the sessionAffinity is set to HTTP_COOKIE.
+    /// Hash is based on HTTP Cookie. This field describes a HTTP cookie that will be used as the hash key for the consistent hash load balancer. If the cookie is not present, it will be generated. This field is applicable if the sessionAffinity is set to HTTP_COOKIE. Not supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true.
     #[prost(message, optional, tag = "6673915")]
     pub http_cookie: ::core::option::Option<ConsistentHashLoadBalancerSettingsHttpCookie>,
     /// The hash based on the value of the specified header field. This field is applicable if the sessionAffinity is set to HEADER_FIELD.
@@ -3205,10 +3476,10 @@ pub struct ConsistentHashLoadBalancerSettingsHttpCookie {
     #[prost(message, optional, tag = "115180")]
     pub ttl: ::core::option::Option<Duration>,
 }
-/// The specification for allowing client side cross-origin requests. Please see W3C Recommendation for Cross Origin Resource Sharing
+/// The specification for allowing client-side cross-origin requests. For more information about the W3C recommendation for cross-origin resource sharing (CORS), see Fetch API Living Standard.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CorsPolicy {
-    /// In response to a preflight request, setting this to true indicates that the actual request can include user credentials. This translates to the Access-Control-Allow-Credentials header. Default is false.
+    /// In response to a preflight request, setting this to true indicates that the actual request can include user credentials. This field translates to the Access-Control-Allow-Credentials header. Default is false.
     #[prost(bool, optional, tag = "481263366")]
     pub allow_credentials: ::core::option::Option<bool>,
     /// Specifies the content for the Access-Control-Allow-Headers header.
@@ -3217,19 +3488,19 @@ pub struct CorsPolicy {
     /// Specifies the content for the Access-Control-Allow-Methods header.
     #[prost(string, repeated, tag = "205405372")]
     pub allow_methods: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Specifies the regualar expression patterns that match allowed origins. For regular expression grammar please see github.com/google/re2/wiki/Syntax An origin is allowed if it matches either an item in allowOrigins or an item in allowOriginRegexes.
+    /// Specifies a regular expression that matches allowed origins. For more information about the regular expression syntax, see Syntax. An origin is allowed if it matches either an item in allowOrigins or an item in allowOriginRegexes.
     #[prost(string, repeated, tag = "215385810")]
     pub allow_origin_regexes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Specifies the list of origins that will be allowed to do CORS requests. An origin is allowed if it matches either an item in allowOrigins or an item in allowOriginRegexes.
+    /// Specifies the list of origins that is allowed to do CORS requests. An origin is allowed if it matches either an item in allowOrigins or an item in allowOriginRegexes.
     #[prost(string, repeated, tag = "194914071")]
     pub allow_origins: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// If true, specifies the CORS policy is disabled. The default value of false, which indicates that the CORS policy is in effect.
+    /// If true, the setting specifies the CORS policy is disabled. The default value of false, which indicates that the CORS policy is in effect.
     #[prost(bool, optional, tag = "270940796")]
     pub disabled: ::core::option::Option<bool>,
     /// Specifies the content for the Access-Control-Expose-Headers header.
     #[prost(string, repeated, tag = "247604747")]
     pub expose_headers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Specifies how long results of a preflight request can be cached in seconds. This translates to the Access-Control-Max-Age header.
+    /// Specifies how long results of a preflight request can be cached in seconds. This field translates to the Access-Control-Max-Age header.
     #[prost(int32, optional, tag = "307559332")]
     pub max_age: ::core::option::Option<i32>,
 }
@@ -3575,7 +3846,7 @@ pub struct DeleteGlobalPublicDelegatedPrefixeRequest {
     /// Name of the PublicDelegatedPrefix resource to delete.
     #[prost(string, tag = "204238440")]
     pub public_delegated_prefix: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -3748,6 +4019,19 @@ pub struct DeleteLicenseRequest {
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
+/// A request message for MachineImages.Delete. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteMachineImageRequest {
+    /// The name of the machine image to delete.
+    #[prost(string, tag = "69189475")]
+    pub machine_image: ::prost::alloc::string::String,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
+    #[prost(string, optional, tag = "37109963")]
+    pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+}
 /// A request message for NetworkEndpointGroups.Delete. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteNetworkEndpointGroupRequest {
@@ -3888,7 +4172,7 @@ pub struct DeletePublicAdvertisedPrefixeRequest {
     /// Name of the PublicAdvertisedPrefix resource to delete.
     #[prost(string, tag = "101874590")]
     pub public_advertised_prefix: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -3904,7 +4188,7 @@ pub struct DeletePublicDelegatedPrefixeRequest {
     /// Name of the region of this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -4032,7 +4316,7 @@ pub struct DeleteRegionNotificationEndpointRequest {
     /// Name of the region scoping this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -4061,7 +4345,7 @@ pub struct DeleteRegionSslCertificateRequest {
     /// Name of the region scoping this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the SslCertificate resource to delete.
@@ -4093,7 +4377,7 @@ pub struct DeleteRegionTargetHttpsProxyRequest {
     /// Name of the region scoping this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the TargetHttpsProxy resource to delete.
@@ -4199,7 +4483,7 @@ pub struct DeleteServiceAttachmentRequest {
     /// Name of the region of this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the ServiceAttachment resource to delete.
@@ -4257,7 +4541,7 @@ pub struct DeleteSslCertificateRequest {
     /// Project ID for this request.
     #[prost(string, tag = "227560217")]
     pub project: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the SslCertificate resource to delete.
@@ -4299,7 +4583,7 @@ pub struct DeleteTargetGrpcProxyRequest {
     /// Project ID for this request.
     #[prost(string, tag = "227560217")]
     pub project: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the TargetGrpcProxy resource to delete.
@@ -5303,7 +5587,7 @@ pub struct Firewall {
     /// This field denotes the logging options for a particular firewall rule. If logging is enabled, logs will be exported to Cloud Logging.
     #[prost(message, optional, tag = "351299741")]
     pub log_config: ::core::option::Option<FirewallLogConfig>,
-    /// Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression \[a-z]([-a-z0-9]*[a-z0-9\])?. The first character must be a lowercase letter, and all following characters (except for the last character) must be a dash, lowercase letter, or digit. The last character must be a lowercase letter or digit.
+    /// Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `\[a-z]([-a-z0-9]*[a-z0-9\])?`. The first character must be a lowercase letter, and all following characters (except for the last character) must be a dash, lowercase letter, or digit. The last character must be a lowercase letter or digit.
     #[prost(string, optional, tag = "3373707")]
     pub name: ::core::option::Option<::prost::alloc::string::String>,
     /// URL of the network resource for this firewall rule. If not specified when creating a firewall rule, the default network is used: global/networks/default If you choose to specify this field, you can specify the network as a full or partial URL. For example, the following are all valid URLs: - <https://www.googleapis.com/compute/v1/projects/myproject/global/networks/my-network> - projects/myproject/global/networks/my-network - global/networks/default
@@ -5656,7 +5940,7 @@ pub struct ForwardingRule {
     /// [Output Only] Server-defined URL for the resource.
     #[prost(string, optional, tag = "456214797")]
     pub self_link: ::core::option::Option<::prost::alloc::string::String>,
-    /// Service Directory resources to register this forwarding rule with. Currently, only supports a single Service Directory resource. It is only supported for internal load balancing.
+    /// Service Directory resources to register this forwarding rule with. Currently, only supports a single Service Directory resource.
     #[prost(message, repeated, tag = "223549694")]
     pub service_directory_registrations:
         ::prost::alloc::vec::Vec<ForwardingRuleServiceDirectoryRegistration>,
@@ -5683,6 +5967,7 @@ pub mod forwarding_rule {
         Ah = 2087,
         Esp = 68962,
         Icmp = 2241597,
+        L3Default = 48151369,
         Sctp = 2539724,
         Tcp = 82881,
         Udp = 83873,
@@ -5704,6 +5989,7 @@ pub mod forwarding_rule {
         /// A value indicating that the enum field is not set.
         UndefinedLoadBalancingScheme = 0,
         External = 35607499,
+        ExternalManaged = 512006923,
         Internal = 279295677,
         InternalManaged = 37350397,
         InternalSelfManaged = 236211150,
@@ -5715,10 +6001,14 @@ pub mod forwarding_rule {
     pub enum NetworkTier {
         /// A value indicating that the enum field is not set.
         UndefinedNetworkTier = 0,
+        /// Public internet quality with fixed bandwidth.
+        FixedStandard = 310464328,
         /// High quality, Google-grade network tier, support for all networking products.
         Premium = 399530551,
         /// Public internet quality, only limited support for other networking products.
         Standard = 484642493,
+        /// (Output only) Temporary tier for FIXED_STANDARD when fixed standard tier is expired or not configured.
+        StandardOverridesFixedStandard = 465847234,
     }
     ///
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -6243,6 +6533,19 @@ pub struct GetIamPolicyLicenseRequest {
     #[prost(string, tag = "195806222")]
     pub resource: ::prost::alloc::string::String,
 }
+/// A request message for MachineImages.GetIamPolicy. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetIamPolicyMachineImageRequest {
+    /// Requested IAM Policy version.
+    #[prost(int32, optional, tag = "499220029")]
+    pub options_requested_policy_version: ::core::option::Option<i32>,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// Name or id of the resource for this request.
+    #[prost(string, tag = "195806222")]
+    pub resource: ::prost::alloc::string::String,
+}
 /// A request message for NodeGroups.GetIamPolicy. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetIamPolicyNodeGroupRequest {
@@ -6493,6 +6796,16 @@ pub struct GetLicenseRequest {
     #[prost(string, tag = "227560217")]
     pub project: ::prost::alloc::string::String,
 }
+/// A request message for MachineImages.Get. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetMachineImageRequest {
+    /// The name of the machine image.
+    #[prost(string, tag = "69189475")]
+    pub machine_image: ::prost::alloc::string::String,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+}
 /// A request message for MachineTypes.Get. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetMachineTypeRequest {
@@ -6509,7 +6822,7 @@ pub struct GetMachineTypeRequest {
 /// A request message for Routers.GetNatMappingInfo. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetNatMappingInfoRoutersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -7201,7 +7514,7 @@ pub struct GetXpnHostProjectRequest {
 /// A request message for Projects.GetXpnResources. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetXpnResourcesProjectsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -7340,14 +7653,14 @@ pub struct GuestAttributesValue {
 /// Guest OS features.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GuestOsFeature {
-    /// The ID of a supported feature. Read Enabling guest operating system features to see a list of available options.
+    /// The ID of a supported feature. To add multiple values, use commas to separate values. Set to one or more of the following values: - VIRTIO_SCSI_MULTIQUEUE - WINDOWS - MULTI_IP_SUBNET - UEFI_COMPATIBLE - SECURE_BOOT - GVNIC - SEV_CAPABLE - SUSPEND_RESUME_COMPATIBLE For more information, see Enabling guest operating system features.
     /// Check the Type enum for the list of possible values.
     #[prost(string, optional, tag = "3575610")]
     pub r#type: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `GuestOsFeature`.
 pub mod guest_os_feature {
-    /// The ID of a supported feature. Read Enabling guest operating system features to see a list of available options.
+    /// The ID of a supported feature. To add multiple values, use commas to separate values. Set to one or more of the following values: - VIRTIO_SCSI_MULTIQUEUE - WINDOWS - MULTI_IP_SUBNET - UEFI_COMPATIBLE - SECURE_BOOT - GVNIC - SEV_CAPABLE - SUSPEND_RESUME_COMPATIBLE For more information, see Enabling guest operating system features.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Type {
@@ -7567,7 +7880,7 @@ pub struct HealthCheck {
     /// How long (in seconds) to wait before claiming failure. The default value is 5 seconds. It is invalid for timeoutSec to have greater value than checkIntervalSec.
     #[prost(int32, optional, tag = "79994995")]
     pub timeout_sec: ::core::option::Option<i32>,
-    /// Specifies the type of the healthCheck, either TCP, SSL, HTTP, HTTPS or HTTP2. If not specified, the default is TCP. Exactly one of the protocol-specific health check field must be specified, which must match type field.
+    /// Specifies the type of the healthCheck, either TCP, SSL, HTTP, HTTPS or HTTP2. Exactly one of the protocol-specific health check field must be specified, which must match type field.
     /// Check the Type enum for the list of possible values.
     #[prost(string, optional, tag = "3575610")]
     pub r#type: ::core::option::Option<::prost::alloc::string::String>,
@@ -7577,7 +7890,7 @@ pub struct HealthCheck {
 }
 /// Nested message and enum types in `HealthCheck`.
 pub mod health_check {
-    /// Specifies the type of the healthCheck, either TCP, SSL, HTTP, HTTPS or HTTP2. If not specified, the default is TCP. Exactly one of the protocol-specific health check field must be specified, which must match type field.
+    /// Specifies the type of the healthCheck, either TCP, SSL, HTTP, HTTPS or HTTP2. Exactly one of the protocol-specific health check field must be specified, which must match type field.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Type {
@@ -7850,7 +8163,7 @@ pub struct HostRule {
     /// An optional description of this resource. Provide this property when you create the resource.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
-    /// The list of host patterns to match. They must be valid hostnames with optional port numbers in the format host:port. * matches any string of (\[a-z0-9-.\]*). In that case, * must be the first character and must be followed in the pattern by either - or .. * based matching is not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// The list of host patterns to match. They must be valid hostnames with optional port numbers in the format host:port. * matches any string of (\[a-z0-9-.\]*). In that case, * must be the first character and must be followed in the pattern by either - or .. * based matching is not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
     #[prost(string, repeated, tag = "99467211")]
     pub hosts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// The name of the PathMatcher to use to match the path portion of the URL if the hostRule matches the URL's host portion.
@@ -7860,24 +8173,24 @@ pub struct HostRule {
 /// Specification for how requests are aborted as part of fault injection.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HttpFaultAbort {
-    /// The HTTP status code used to abort the request. The value must be between 200 and 599 inclusive. For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
+    /// The HTTP status code used to abort the request. The value must be from 200 to 599 inclusive. For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
     #[prost(uint32, optional, tag = "468949897")]
     pub http_status: ::core::option::Option<u32>,
-    /// The percentage of traffic (connections/operations/requests) which will be aborted as part of fault injection. The value must be between 0.0 and 100.0 inclusive.
+    /// The percentage of traffic for connections, operations, or requests that is aborted as part of fault injection. The value must be from 0.0 to 100.0 inclusive.
     #[prost(double, optional, tag = "151909018")]
     pub percentage: ::core::option::Option<f64>,
 }
-/// Specifies the delay introduced by Loadbalancer before forwarding the request to the backend service as part of fault injection.
+/// Specifies the delay introduced by the load balancer before forwarding the request to the backend service as part of fault injection.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HttpFaultDelay {
     /// Specifies the value of the fixed delay interval.
     #[prost(message, optional, tag = "317037816")]
     pub fixed_delay: ::core::option::Option<Duration>,
-    /// The percentage of traffic (connections/operations/requests) on which delay will be introduced as part of fault injection. The value must be between 0.0 and 100.0 inclusive.
+    /// The percentage of traffic for connections, operations, or requests for which a delay is introduced as part of fault injection. The value must be from 0.0 to 100.0 inclusive.
     #[prost(double, optional, tag = "151909018")]
     pub percentage: ::core::option::Option<f64>,
 }
-/// The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests.
+/// The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by the load balancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the load balancer for a percentage of requests.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HttpFaultInjection {
     /// The specification for how client requests are aborted as part of fault injection.
@@ -7890,16 +8203,16 @@ pub struct HttpFaultInjection {
 /// The request and response header transformations that take effect before the request is passed along to the selected backendService.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HttpHeaderAction {
-    /// Headers to add to a matching request prior to forwarding the request to the backendService.
+    /// Headers to add to a matching request before forwarding the request to the backendService.
     #[prost(message, repeated, tag = "72111974")]
     pub request_headers_to_add: ::prost::alloc::vec::Vec<HttpHeaderOption>,
-    /// A list of header names for headers that need to be removed from the request prior to forwarding the request to the backendService.
+    /// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
     #[prost(string, repeated, tag = "218425247")]
     pub request_headers_to_remove: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Headers to add the response prior to sending the response back to the client.
+    /// Headers to add the response before sending the response back to the client.
     #[prost(message, repeated, tag = "32136052")]
     pub response_headers_to_add: ::prost::alloc::vec::Vec<HttpHeaderOption>,
-    /// A list of header names for headers that need to be removed from the response prior to sending the response back to the client.
+    /// A list of header names for headers that need to be removed from the response before sending the response back to the client.
     #[prost(string, repeated, tag = "75415761")]
     pub response_headers_to_remove: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
@@ -7909,10 +8222,10 @@ pub struct HttpHeaderMatch {
     /// The value should exactly match contents of exactMatch. Only one of exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set.
     #[prost(string, optional, tag = "457641093")]
     pub exact_match: ::core::option::Option<::prost::alloc::string::String>,
-    /// The name of the HTTP header to match. For matching against the HTTP request's authority, use a headerMatch with the header name ":authority". For matching a request's method, use the headerName ":method". When the URL map is bound to target gRPC proxy that has validateForProxyless field set to true, only non-binary user-specified custom metadata and the `content-type` header are supported. The following transport-level headers cannot be used in header matching rules: `:authority`, `:method`, `:path`, `:scheme`, `user-agent`, `accept-encoding`, `content-encoding`, `grpc-accept-encoding`, `grpc-encoding`, `grpc-previous-rpc-attempts`, `grpc-tags-bin`, `grpc-timeout` and `grpc-trace-bin.
+    /// The name of the HTTP header to match. For matching against the HTTP request's authority, use a headerMatch with the header name ":authority". For matching a request's method, use the headerName ":method". When the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true, only non-binary user-specified custom metadata and the `content-type` header are supported. The following transport-level headers cannot be used in header matching rules: `:authority`, `:method`, `:path`, `:scheme`, `user-agent`, `accept-encoding`, `content-encoding`, `grpc-accept-encoding`, `grpc-encoding`, `grpc-previous-rpc-attempts`, `grpc-tags-bin`, `grpc-timeout` and `grpc-trace-bin`.
     #[prost(string, optional, tag = "110223613")]
     pub header_name: ::core::option::Option<::prost::alloc::string::String>,
-    /// If set to false, the headerMatch is considered a match if the match criteria above are met. If set to true, the headerMatch is considered a match if the match criteria above are NOT met. The default setting is false.
+    /// If set to false, the headerMatch is considered a match if the preceding match criteria are met. If set to true, the headerMatch is considered a match if the preceding match criteria are NOT met. The default setting is false.
     #[prost(bool, optional, tag = "501130268")]
     pub invert_match: ::core::option::Option<bool>,
     /// The value of the header must start with the contents of prefixMatch. Only one of exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set.
@@ -7921,10 +8234,10 @@ pub struct HttpHeaderMatch {
     /// A header with the contents of headerName must exist. The match takes place whether or not the request's header has a value. Only one of exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set.
     #[prost(bool, optional, tag = "67435841")]
     pub present_match: ::core::option::Option<bool>,
-    /// The header value must be an integer and its value must be in the range specified in rangeMatch. If the header does not contain an integer, number or is empty, the match fails. For example for a range [-5, 0] - -3 will match. - 0 will not match. - 0.25 will not match. - -3someString will not match. Only one of exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set. Note that rangeMatch is not supported for Loadbalancers that have their loadBalancingScheme set to EXTERNAL.
+    /// The header value must be an integer and its value must be in the range specified in rangeMatch. If the header does not contain an integer, number or is empty, the match fails. For example for a range [-5, 0] - -3 will match. - 0 will not match. - 0.25 will not match. - -3someString will not match. Only one of exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set. rangeMatch is not supported for load balancers that have loadBalancingScheme set to EXTERNAL.
     #[prost(message, optional, tag = "97244227")]
     pub range_match: ::core::option::Option<Int64RangeMatch>,
-    /// The value of the header must match the regular expression specified in regexMatch. For regular expression grammar, please see: github.com/google/re2/wiki/Syntax For matching against a port specified in the HTTP request, use a headerMatch with headerName set to PORT and a regular expression that satisfies the RFC2616 Host header's port specifier. Only one of exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set. Note that regexMatch only applies to Loadbalancers that have their loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+    /// The value of the header must match the regular expression specified in regexMatch. For more information about regular expression syntax, see Syntax. For matching against a port specified in the HTTP request, use a headerMatch with headerName set to PORT and a regular expression that satisfies the RFC2616 Host header's port specifier. Only one of exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set. regexMatch only applies to load balancers that have loadBalancingScheme set to INTERNAL_SELF_MANAGED.
     #[prost(string, optional, tag = "107387853")]
     pub regex_match: ::core::option::Option<::prost::alloc::string::String>,
     /// The value of the header must end with the contents of suffixMatch. Only one of exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set.
@@ -7947,45 +8260,45 @@ pub struct HttpHeaderOption {
 /// HttpRouteRuleMatch criteria for a request's query parameter.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HttpQueryParameterMatch {
-    /// The queryParameterMatch matches if the value of the parameter exactly matches the contents of exactMatch. Only one of presentMatch, exactMatch or regexMatch must be set.
+    /// The queryParameterMatch matches if the value of the parameter exactly matches the contents of exactMatch. Only one of presentMatch, exactMatch, or regexMatch must be set.
     #[prost(string, optional, tag = "457641093")]
     pub exact_match: ::core::option::Option<::prost::alloc::string::String>,
     /// The name of the query parameter to match. The query parameter must exist in the request, in the absence of which the request match fails.
     #[prost(string, optional, tag = "3373707")]
     pub name: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies that the queryParameterMatch matches if the request contains the query parameter, irrespective of whether the parameter has a value or not. Only one of presentMatch, exactMatch or regexMatch must be set.
+    /// Specifies that the queryParameterMatch matches if the request contains the query parameter, irrespective of whether the parameter has a value or not. Only one of presentMatch, exactMatch, or regexMatch must be set.
     #[prost(bool, optional, tag = "67435841")]
     pub present_match: ::core::option::Option<bool>,
-    /// The queryParameterMatch matches if the value of the parameter matches the regular expression specified by regexMatch. For the regular expression grammar, please see github.com/google/re2/wiki/Syntax Only one of presentMatch, exactMatch or regexMatch must be set. Note that regexMatch only applies when the loadBalancingScheme is set to INTERNAL_SELF_MANAGED.
+    /// The queryParameterMatch matches if the value of the parameter matches the regular expression specified by regexMatch. For more information about regular expression syntax, see Syntax. Only one of presentMatch, exactMatch, or regexMatch must be set. regexMatch only applies when the loadBalancingScheme is set to INTERNAL_SELF_MANAGED.
     #[prost(string, optional, tag = "107387853")]
     pub regex_match: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// Specifies settings for an HTTP redirect.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HttpRedirectAction {
-    /// The host that will be used in the redirect response instead of the one that was supplied in the request. The value must be between 1 and 255 characters.
+    /// The host that is used in the redirect response instead of the one that was supplied in the request. The value must be from 1 to 255 characters.
     #[prost(string, optional, tag = "107417747")]
     pub host_redirect: ::core::option::Option<::prost::alloc::string::String>,
-    /// If set to true, the URL scheme in the redirected request is set to https. If set to false, the URL scheme of the redirected request will remain the same as that of the request. This must only be set for UrlMaps used in TargetHttpProxys. Setting this true for TargetHttpsProxy is not permitted. The default is set to false.
+    /// If set to true, the URL scheme in the redirected request is set to HTTPS. If set to false, the URL scheme of the redirected request remains the same as that of the request. This must only be set for URL maps used in TargetHttpProxys. Setting this true for TargetHttpsProxy is not permitted. The default is set to false.
     #[prost(bool, optional, tag = "170260656")]
     pub https_redirect: ::core::option::Option<bool>,
-    /// The path that will be used in the redirect response instead of the one that was supplied in the request. pathRedirect cannot be supplied together with prefixRedirect. Supply one alone or neither. If neither is supplied, the path of the original request will be used for the redirect. The value must be between 1 and 1024 characters.
+    /// The path that is used in the redirect response instead of the one that was supplied in the request. pathRedirect cannot be supplied together with prefixRedirect. Supply one alone or neither. If neither is supplied, the path of the original request is used for the redirect. The value must be from 1 to 1024 characters.
     #[prost(string, optional, tag = "272342710")]
     pub path_redirect: ::core::option::Option<::prost::alloc::string::String>,
-    /// The prefix that replaces the prefixMatch specified in the HttpRouteRuleMatch, retaining the remaining portion of the URL before redirecting the request. prefixRedirect cannot be supplied together with pathRedirect. Supply one alone or neither. If neither is supplied, the path of the original request will be used for the redirect. The value must be between 1 and 1024 characters.
+    /// The prefix that replaces the prefixMatch specified in the HttpRouteRuleMatch, retaining the remaining portion of the URL before redirecting the request. prefixRedirect cannot be supplied together with pathRedirect. Supply one alone or neither. If neither is supplied, the path of the original request is used for the redirect. The value must be from 1 to 1024 characters.
     #[prost(string, optional, tag = "446184169")]
     pub prefix_redirect: ::core::option::Option<::prost::alloc::string::String>,
-    /// The HTTP Status code to use for this RedirectAction. Supported values are: - MOVED_PERMANENTLY_DEFAULT, which is the default value and corresponds to 301. - FOUND, which corresponds to 302. - SEE_OTHER which corresponds to 303. - TEMPORARY_REDIRECT, which corresponds to 307. In this case, the request method will be retained. - PERMANENT_REDIRECT, which corresponds to 308. In this case, the request method will be retained.
+    /// The HTTP Status code to use for this RedirectAction. Supported values are: - MOVED_PERMANENTLY_DEFAULT, which is the default value and corresponds to 301. - FOUND, which corresponds to 302. - SEE_OTHER which corresponds to 303. - TEMPORARY_REDIRECT, which corresponds to 307. In this case, the request method is retained. - PERMANENT_REDIRECT, which corresponds to 308. In this case, the request method is retained.
     /// Check the RedirectResponseCode enum for the list of possible values.
     #[prost(string, optional, tag = "436710408")]
     pub redirect_response_code: ::core::option::Option<::prost::alloc::string::String>,
-    /// If set to true, any accompanying query portion of the original URL is removed prior to redirecting the request. If set to false, the query portion of the original URL is retained. The default is set to false.
+    /// If set to true, any accompanying query portion of the original URL is removed before redirecting the request. If set to false, the query portion of the original URL is retained. The default is set to false.
     #[prost(bool, optional, tag = "52284641")]
     pub strip_query: ::core::option::Option<bool>,
 }
 /// Nested message and enum types in `HttpRedirectAction`.
 pub mod http_redirect_action {
-    /// The HTTP Status code to use for this RedirectAction. Supported values are: - MOVED_PERMANENTLY_DEFAULT, which is the default value and corresponds to 301. - FOUND, which corresponds to 302. - SEE_OTHER which corresponds to 303. - TEMPORARY_REDIRECT, which corresponds to 307. In this case, the request method will be retained. - PERMANENT_REDIRECT, which corresponds to 308. In this case, the request method will be retained.
+    /// The HTTP Status code to use for this RedirectAction. Supported values are: - MOVED_PERMANENTLY_DEFAULT, which is the default value and corresponds to 301. - FOUND, which corresponds to 302. - SEE_OTHER which corresponds to 303. - TEMPORARY_REDIRECT, which corresponds to 307. In this case, the request method is retained. - PERMANENT_REDIRECT, which corresponds to 308. In this case, the request method is retained.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum RedirectResponseCode {
@@ -8009,88 +8322,88 @@ pub struct HttpRetryPolicy {
     /// Specifies the allowed number retries. This number must be > 0. If not specified, defaults to 1.
     #[prost(uint32, optional, tag = "251680141")]
     pub num_retries: ::core::option::Option<u32>,
-    /// Specifies a non-zero timeout per retry attempt. If not specified, will use the timeout set in HttpRouteAction. If timeout in HttpRouteAction is not set, will use the largest timeout among all backend services associated with the route.
+    /// Specifies a non-zero timeout per retry attempt. If not specified, will use the timeout set in the HttpRouteAction field. If timeout in the HttpRouteAction field is not set, this field uses the largest timeout among all backend services associated with the route. Not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
     #[prost(message, optional, tag = "280041147")]
     pub per_try_timeout: ::core::option::Option<Duration>,
-    /// Specifies one or more conditions when this retry policy applies. Valid values are: - 5xx: Retry will be attempted if the instance or endpoint responds with any 5xx response code, or if the instance or endpoint does not respond at all, example: disconnects, reset, read timeout, connection failure, and refused streams. - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504. - - connect-failure: A retry will be attempted on failures connecting to the instance or endpoint, for example due to connection timeouts. - retriable-4xx: A retry will be attempted if the instance or endpoint responds with a retriable 4xx response code. Currently the only retriable error supported is 409. - refused-stream: A retry will be attempted if the instance or endpoint resets the stream with a REFUSED_STREAM error code. This reset type indicates that it is safe to retry. - cancelled: A retry will be attempted if the gRPC status code in the response header is set to cancelled. - deadline-exceeded: A retry will be attempted if the gRPC status code in the response header is set to deadline-exceeded. - internal: A retry will be attempted if the gRPC status code in the response header is set to internal. - resource-exhausted: A retry will be attempted if the gRPC status code in the response header is set to resource-exhausted. - unavailable: A retry will be attempted if the gRPC status code in the response header is set to unavailable.
+    /// Specifies one or more conditions when this retry policy applies. Valid values are: - 5xx: retry is attempted if the instance or endpoint responds with any 5xx response code, or if the instance or endpoint does not respond at all. For example, disconnects, reset, read timeout, connection failure, and refused streams. - gateway-error: Similar to 5xx, but only applies to response codes 502, 503 or 504. - connect-failure: a retry is attempted on failures connecting to the instance or endpoint. For example, connection timeouts. - retriable-4xx: a retry is attempted if the instance or endpoint responds with a 4xx response code. The only error that you can retry is error code 409. - refused-stream: a retry is attempted if the instance or endpoint resets the stream with a REFUSED_STREAM error code. This reset type indicates that it is safe to retry. - cancelled: a retry is attempted if the gRPC status code in the response header is set to cancelled. - deadline-exceeded: a retry is attempted if the gRPC status code in the response header is set to deadline-exceeded. - internal: a retry is attempted if the gRPC status code in the response header is set to internal. - resource-exhausted: a retry is attempted if the gRPC status code in the response header is set to resource-exhausted. - unavailable: a retry is attempted if the gRPC status code in the response header is set to unavailable. Only the following codes are supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true. - cancelled - deadline-exceeded - internal - resource-exhausted - unavailable
     #[prost(string, repeated, tag = "28815535")]
     pub retry_conditions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 ///
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HttpRouteAction {
-    /// The specification for allowing client side cross-origin requests. Please see W3C Recommendation for Cross Origin Resource Sharing Not supported when the URL map is bound to target gRPC proxy.
+    /// The specification for allowing client-side cross-origin requests. For more information about the W3C recommendation for cross-origin resource sharing (CORS), see Fetch API Living Standard. Not supported when the URL map is bound to a target gRPC proxy.
     #[prost(message, optional, tag = "398943748")]
     pub cors_policy: ::core::option::Option<CorsPolicy>,
-    /// The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the Loadbalancer for a percentage of requests. For the requests impacted by fault injection, timeout and retry_policy will be ignored by clients that are configured with a fault_injection_policy.
+    /// The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by a load balancer on a percentage of requests before sending those requests to the backend service. Similarly requests from clients can be aborted by the load balancer for a percentage of requests. For the requests impacted by fault injection, timeout and retry_policy is ignored by clients that are configured with a fault_injection_policy.
     #[prost(message, optional, tag = "412781079")]
     pub fault_injection_policy: ::core::option::Option<HttpFaultInjection>,
-    /// Specifies the maximum duration (timeout) for streams on the selected route. Unlike the timeout field where the timeout duration starts from the time the request has been fully processed (i.e. end-of-stream), the duration in this field is computed from the beginning of the stream until the response has been completely processed, including all retries. A stream that does not complete in this duration is closed. If not specified, will use the largest maxStreamDuration among all backend services associated with the route. This field is only allowed if the Url map is used with backend services with loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+    /// Specifies the maximum duration (timeout) for streams on the selected route. Unlike the timeout field where the timeout duration starts from the time the request has been fully processed (known as *end-of-stream*), the duration in this field is computed from the beginning of the stream until the response has been processed, including all retries. A stream that does not complete in this duration is closed. If not specified, this field uses the maximum maxStreamDuration value among all backend services associated with the route. This field is only allowed if the Url map is used with backend services with loadBalancingScheme set to INTERNAL_SELF_MANAGED.
     #[prost(message, optional, tag = "61428376")]
     pub max_stream_duration: ::core::option::Option<Duration>,
-    /// Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service. Loadbalancer does not wait for responses from the shadow service. Prior to sending traffic to the shadow service, the host / authority header is suffixed with -shadow. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service. The load balancer does not wait for responses from the shadow service. Before sending traffic to the shadow service, the host / authority header is suffixed with -shadow. Not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
     #[prost(message, optional, tag = "220196866")]
     pub request_mirror_policy: ::core::option::Option<RequestMirrorPolicy>,
-    /// Specifies the retry policy associated with this route. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Specifies the retry policy associated with this route.
     #[prost(message, optional, tag = "56799913")]
     pub retry_policy: ::core::option::Option<HttpRetryPolicy>,
-    /// Specifies the timeout for the selected route. Timeout is computed from the time the request has been fully processed (i.e. end-of-stream) up until the response has been completely processed. Timeout includes all retries. If not specified, will use the largest timeout among all backend services associated with the route. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Specifies the timeout for the selected route. Timeout is computed from the time the request has been fully processed (known as *end-of-stream*) up until the response has been processed. Timeout includes all retries. If not specified, this field uses the largest timeout among all backend services associated with the route. Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
     #[prost(message, optional, tag = "296701281")]
     pub timeout: ::core::option::Option<Duration>,
-    /// The spec to modify the URL of the request, prior to forwarding the request to the matched service. urlRewrite is the only action supported in UrlMaps for external HTTP(S) load balancers. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// The spec to modify the URL of the request, before forwarding the request to the matched service. urlRewrite is the only action supported in UrlMaps for external HTTP(S) load balancers. Not supported when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
     #[prost(message, optional, tag = "273333948")]
     pub url_rewrite: ::core::option::Option<UrlRewrite>,
-    /// A list of weighted backend services to send traffic to when a route match occurs. The weights determine the fraction of traffic that flows to their corresponding backend service. If all traffic needs to go to a single backend service, there must be one weightedBackendService with weight set to a non-zero number. Once a backendService is identified and before forwarding the request to the backend service, advanced routing actions such as URL rewrites and header transformations are applied depending on additional settings specified in this HttpRouteAction.
+    /// A list of weighted backend services to send traffic to when a route match occurs. The weights determine the fraction of traffic that flows to their corresponding backend service. If all traffic needs to go to a single backend service, there must be one weightedBackendService with weight set to a non-zero number. After a backend service is identified and before forwarding the request to the backend service, advanced routing actions such as URL rewrites and header transformations are applied depending on additional settings specified in this HttpRouteAction.
     #[prost(message, repeated, tag = "337028049")]
     pub weighted_backend_services: ::prost::alloc::vec::Vec<WeightedBackendService>,
 }
-/// An HttpRouteRule specifies how to match an HTTP request and the corresponding routing action that load balancing proxies will perform.
+/// The HttpRouteRule setting specifies how to match an HTTP request and the corresponding routing action that load balancing proxies perform.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HttpRouteRule {
     /// The short description conveying the intent of this routeRule. The description can have a maximum length of 1024 characters.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies changes to request and response headers that need to take effect for the selected backendService. The headerAction specified here are applied before the matching pathMatchers[].headerAction and after pathMatchers\[].routeRules[].routeAction.weightedBackendService.backendServiceWeightAction[\].headerAction Note that headerAction is not supported for Loadbalancers that have their loadBalancingScheme set to EXTERNAL. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Specifies changes to request and response headers that need to take effect for the selected backendService. The headerAction value specified here is applied before the matching pathMatchers[].headerAction and after pathMatchers\[].routeRules[].routeAction.weightedBackendService.backendServiceWeightAction[\].headerAction HeaderAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL. Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
     #[prost(message, optional, tag = "328077352")]
     pub header_action: ::core::option::Option<HttpHeaderAction>,
     /// The list of criteria for matching attributes of a request to this routeRule. This list has OR semantics: the request matches this routeRule when any of the matchRules are satisfied. However predicates within a given matchRule have AND semantics. All predicates within a matchRule must match for the request to match the rule.
     #[prost(message, repeated, tag = "376200701")]
     pub match_rules: ::prost::alloc::vec::Vec<HttpRouteRuleMatch>,
-    /// For routeRules within a given pathMatcher, priority determines the order in which load balancer will interpret routeRules. RouteRules are evaluated in order of priority, from the lowest to highest number. The priority of a rule decreases as its number increases (1, 2, 3, N+1). The first rule that matches the request is applied. You cannot configure two or more routeRules with the same priority. Priority for each rule must be set to a number between 0 and 2147483647 inclusive. Priority numbers can have gaps, which enable you to add or remove rules in the future without affecting the rest of the rules. For example, 1, 2, 3, 4, 5, 9, 12, 16 is a valid series of priority numbers to which you could add rules numbered from 6 to 8, 10 to 11, and 13 to 15 in the future without any impact on existing rules.
+    /// For routeRules within a given pathMatcher, priority determines the order in which a load balancer interprets routeRules. RouteRules are evaluated in order of priority, from the lowest to highest number. The priority of a rule decreases as its number increases (1, 2, 3, N+1). The first rule that matches the request is applied. You cannot configure two or more routeRules with the same priority. Priority for each rule must be set to a number from 0 to 2147483647 inclusive. Priority numbers can have gaps, which enable you to add or remove rules in the future without affecting the rest of the rules. For example, 1, 2, 3, 4, 5, 9, 12, 16 is a valid series of priority numbers to which you could add rules numbered from 6 to 8, 10 to 11, and 13 to 15 in the future without any impact on existing rules.
     #[prost(int32, optional, tag = "445151652")]
     pub priority: ::core::option::Option<i32>,
-    /// In response to a matching matchRule, the load balancer performs advanced routing actions like URL rewrites, header transformations, etc. prior to forwarding the request to the selected backend. If routeAction specifies any weightedBackendServices, service must not be set. Conversely if service is set, routeAction cannot contain any weightedBackendServices. Only one of urlRedirect, service or routeAction.weightedBackendService must be set. UrlMaps for external HTTP(S) load balancers support only the urlRewrite action within a routeRule's routeAction.
+    /// In response to a matching matchRule, the load balancer performs advanced routing actions, such as URL rewrites and header transformations, before forwarding the request to the selected backend. If routeAction specifies any weightedBackendServices, service must not be set. Conversely if service is set, routeAction cannot contain any weightedBackendServices. Only one of urlRedirect, service or routeAction.weightedBackendService must be set. UrlMaps for external HTTP(S) load balancers support only the urlRewrite action within a route rule's routeAction.
     #[prost(message, optional, tag = "424563948")]
     pub route_action: ::core::option::Option<HttpRouteAction>,
-    /// The full or partial URL of the backend service resource to which traffic is directed if this rule is matched. If routeAction is additionally specified, advanced routing actions like URL Rewrites, etc. take effect prior to sending the request to the backend. However, if service is specified, routeAction cannot contain any weightedBackendService s. Conversely, if routeAction specifies any weightedBackendServices, service must not be specified. Only one of urlRedirect, service or routeAction.weightedBackendService must be set.
+    /// The full or partial URL of the backend service resource to which traffic is directed if this rule is matched. If routeAction is also specified, advanced routing actions, such as URL rewrites, take effect before sending the request to the backend. However, if service is specified, routeAction cannot contain any weightedBackendServices. Conversely, if routeAction specifies any weightedBackendServices, service must not be specified. Only one of urlRedirect, service or routeAction.weightedBackendService must be set.
     #[prost(string, optional, tag = "373540533")]
     pub service: ::core::option::Option<::prost::alloc::string::String>,
-    /// When this rule is matched, the request is redirected to a URL specified by urlRedirect. If urlRedirect is specified, service or routeAction must not be set. Not supported when the URL map is bound to target gRPC proxy.
+    /// When this rule is matched, the request is redirected to a URL specified by urlRedirect. If urlRedirect is specified, service or routeAction must not be set. Not supported when the URL map is bound to a target gRPC proxy.
     #[prost(message, optional, tag = "405147820")]
     pub url_redirect: ::core::option::Option<HttpRedirectAction>,
 }
 /// HttpRouteRuleMatch specifies a set of criteria for matching requests to an HttpRouteRule. All specified criteria must be satisfied for a match to occur.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HttpRouteRuleMatch {
-    /// For satisfying the matchRule condition, the path of the request must exactly match the value specified in fullPathMatch after removing any query parameters and anchor that may be part of the original URL. fullPathMatch must be between 1 and 1024 characters. Only one of prefixMatch, fullPathMatch or regexMatch must be specified.
+    /// For satisfying the matchRule condition, the path of the request must exactly match the value specified in fullPathMatch after removing any query parameters and anchor that may be part of the original URL. fullPathMatch must be from 1 to 1024 characters. Only one of prefixMatch, fullPathMatch or regexMatch must be specified.
     #[prost(string, optional, tag = "214598875")]
     pub full_path_match: ::core::option::Option<::prost::alloc::string::String>,
     /// Specifies a list of header match criteria, all of which must match corresponding headers in the request.
     #[prost(message, repeated, tag = "361903489")]
     pub header_matches: ::prost::alloc::vec::Vec<HttpHeaderMatch>,
-    /// Specifies that prefixMatch and fullPathMatch matches are case sensitive. The default value is false. ignoreCase must not be used with regexMatch. Not supported when the URL map is bound to target gRPC proxy.
+    /// Specifies that prefixMatch and fullPathMatch matches are case sensitive. The default value is false. ignoreCase must not be used with regexMatch. Not supported when the URL map is bound to a target gRPC proxy.
     #[prost(bool, optional, tag = "464324989")]
     pub ignore_case: ::core::option::Option<bool>,
-    /// Opaque filter criteria used by Loadbalancer to restrict routing configuration to a limited set of xDS compliant clients. In their xDS requests to Loadbalancer, xDS clients present node metadata. When there is a match, the relevant routing configuration is made available to those proxies. For each metadataFilter in this list, if its filterMatchCriteria is set to MATCH_ANY, at least one of the filterLabels must match the corresponding label provided in the metadata. If its filterMatchCriteria is set to MATCH_ALL, then all of its filterLabels must match with corresponding labels provided in the metadata. If multiple metadataFilters are specified, all of them need to be satisfied in order to be considered a match. metadataFilters specified here will be applied after those specified in ForwardingRule that refers to the UrlMap this HttpRouteRuleMatch belongs to. metadataFilters only applies to Loadbalancers that have their loadBalancingScheme set to INTERNAL_SELF_MANAGED. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Opaque filter criteria used by the load balancer to restrict routing configuration to a limited set of xDS compliant clients. In their xDS requests to the load balancer, xDS clients present node metadata. When there is a match, the relevant routing configuration is made available to those proxies. For each metadataFilter in this list, if its filterMatchCriteria is set to MATCH_ANY, at least one of the filterLabels must match the corresponding label provided in the metadata. If its filterMatchCriteria is set to MATCH_ALL, then all of its filterLabels must match with corresponding labels provided in the metadata. If multiple metadata filters are specified, all of them need to be satisfied in order to be considered a match. metadataFilters specified here is applied after those specified in ForwardingRule that refers to the UrlMap this HttpRouteRuleMatch belongs to. metadataFilters only applies to load balancers that have loadBalancingScheme set to INTERNAL_SELF_MANAGED. Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
     #[prost(message, repeated, tag = "464725739")]
     pub metadata_filters: ::prost::alloc::vec::Vec<MetadataFilter>,
-    /// For satisfying the matchRule condition, the request's path must begin with the specified prefixMatch. prefixMatch must begin with a /. The value must be between 1 and 1024 characters. Only one of prefixMatch, fullPathMatch or regexMatch must be specified.
+    /// For satisfying the matchRule condition, the request's path must begin with the specified prefixMatch. prefixMatch must begin with a /. The value must be from 1 to 1024 characters. Only one of prefixMatch, fullPathMatch or regexMatch must be specified.
     #[prost(string, optional, tag = "257898968")]
     pub prefix_match: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies a list of query parameter match criteria, all of which must match corresponding query parameters in the request. Not supported when the URL map is bound to target gRPC proxy.
+    /// Specifies a list of query parameter match criteria, all of which must match corresponding query parameters in the request. Not supported when the URL map is bound to a target gRPC proxy.
     #[prost(message, repeated, tag = "286231270")]
     pub query_parameter_matches: ::prost::alloc::vec::Vec<HttpQueryParameterMatch>,
-    /// For satisfying the matchRule condition, the path of the request must satisfy the regular expression specified in regexMatch after removing any query parameters and anchor supplied with the original URL. For regular expression grammar please see github.com/google/re2/wiki/Syntax Only one of prefixMatch, fullPathMatch or regexMatch must be specified. Note that regexMatch only applies to Loadbalancers that have their loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+    /// For satisfying the matchRule condition, the path of the request must satisfy the regular expression specified in regexMatch after removing any query parameters and anchor supplied with the original URL. For more information about regular expression syntax, see Syntax. Only one of prefixMatch, fullPathMatch or regexMatch must be specified. regexMatch only applies to load balancers that have loadBalancingScheme set to INTERNAL_SELF_MANAGED.
     #[prost(string, optional, tag = "107387853")]
     pub regex_match: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -8115,7 +8428,7 @@ pub struct Image {
     /// The name of the image family to which this image belongs. You can create disks by specifying an image family instead of a specific image name. The image family always returns its latest image that is not deprecated. The name of the image family must comply with RFC1035.
     #[prost(string, optional, tag = "328751972")]
     pub family: ::core::option::Option<::prost::alloc::string::String>,
-    /// A list of features to enable on the guest operating system. Applicable only for bootable images. Read Enabling guest operating system features to see a list of available options.
+    /// A list of features to enable on the guest operating system. Applicable only for bootable images. To see a list of available options, see the guestOSfeatures[].type parameter.
     #[prost(message, repeated, tag = "79294545")]
     pub guest_os_features: ::prost::alloc::vec::Vec<GuestOsFeature>,
     /// [Output Only] The unique identifier for the resource. This identifier is defined by the server.
@@ -8364,8 +8677,8 @@ pub struct InsertFirewallPolicyRequest {
     #[prost(message, optional, tag = "495049532")]
     pub firewall_policy_resource: ::core::option::Option<FirewallPolicy>,
     /// Parent ID for this request. The ID can be either be "folders/\[FOLDER_ID\]" if the parent is a folder or "organizations/\[ORGANIZATION_ID\]" if the parent is an organization.
-    #[prost(string, tag = "459714768")]
-    pub parent_id: ::prost::alloc::string::String,
+    #[prost(string, optional, tag = "459714768")]
+    pub parent_id: ::core::option::Option<::prost::alloc::string::String>,
     /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
@@ -8447,7 +8760,7 @@ pub struct InsertGlobalPublicDelegatedPrefixeRequest {
     /// The body resource for this request
     #[prost(message, optional, tag = "47594501")]
     pub public_delegated_prefix_resource: ::core::option::Option<PublicDelegatedPrefix>,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -8527,6 +8840,9 @@ pub struct InsertInstanceRequest {
     /// Specifies instance template to create the instance. This field is optional. It can be a full or partial URL. For example, the following are all valid URLs to an instance template: - <https://www.googleapis.com/compute/v1/projects/project> /global/instanceTemplates/instanceTemplate - projects/project/global/instanceTemplates/instanceTemplate - global/instanceTemplates/instanceTemplate
     #[prost(string, optional, tag = "332423616")]
     pub source_instance_template: ::core::option::Option<::prost::alloc::string::String>,
+    /// Specifies the machine image to use to create the instance. This field is optional. It can be a full or partial URL. For example, the following are all valid URLs to a machine image: - <https://www.googleapis.com/compute/v1/projects/project/global/global> /machineImages/machineImage - projects/project/global/global/machineImages/machineImage - global/machineImages/machineImage
+    #[prost(string, optional, tag = "21769791")]
+    pub source_machine_image: ::core::option::Option<::prost::alloc::string::String>,
     /// The name of the zone for this request.
     #[prost(string, tag = "3744684")]
     pub zone: ::prost::alloc::string::String,
@@ -8588,6 +8904,22 @@ pub struct InsertLicenseRequest {
     /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// A request message for MachineImages.Insert. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InsertMachineImageRequest {
+    /// The body resource for this request
+    #[prost(message, optional, tag = "60740970")]
+    pub machine_image_resource: ::core::option::Option<MachineImage>,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
+    #[prost(string, optional, tag = "37109963")]
+    pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// Required. Source instance that is used to create the machine image from.
+    #[prost(string, optional, tag = "396315705")]
+    pub source_instance: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// A request message for NetworkEndpointGroups.Insert. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -8678,7 +9010,7 @@ pub struct InsertPublicAdvertisedPrefixeRequest {
     /// The body resource for this request
     #[prost(message, optional, tag = "233614223")]
     pub public_advertised_prefix_resource: ::core::option::Option<PublicAdvertisedPrefix>,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -8694,7 +9026,7 @@ pub struct InsertPublicDelegatedPrefixeRequest {
     /// Name of the region of this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -8841,7 +9173,7 @@ pub struct InsertRegionNotificationEndpointRequest {
     /// Name of the region scoping this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -8854,7 +9186,7 @@ pub struct InsertRegionSslCertificateRequest {
     /// Name of the region scoping this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// The body resource for this request
@@ -8886,7 +9218,7 @@ pub struct InsertRegionTargetHttpsProxyRequest {
     /// Name of the region scoping this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// The body resource for this request
@@ -8992,12 +9324,25 @@ pub struct InsertServiceAttachmentRequest {
     /// Name of the region of this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// The body resource for this request
     #[prost(message, optional, tag = "472980256")]
     pub service_attachment_resource: ::core::option::Option<ServiceAttachment>,
+}
+/// A request message for Snapshots.Insert. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InsertSnapshotRequest {
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
+    #[prost(string, optional, tag = "37109963")]
+    pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// The body resource for this request
+    #[prost(message, optional, tag = "481319977")]
+    pub snapshot_resource: ::core::option::Option<Snapshot>,
 }
 /// A request message for SslCertificates.Insert. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9005,7 +9350,7 @@ pub struct InsertSslCertificateRequest {
     /// Project ID for this request.
     #[prost(string, tag = "227560217")]
     pub project: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// The body resource for this request
@@ -9047,7 +9392,7 @@ pub struct InsertTargetGrpcProxyRequest {
     /// Project ID for this request.
     #[prost(string, tag = "227560217")]
     pub project: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// The body resource for this request
@@ -9276,6 +9621,8 @@ pub struct Instance {
     /// An array of network configurations for this instance. These specify how interfaces are configured to interact with other network services, such as connecting to the internet. Multiple interfaces are supported per instance.
     #[prost(message, repeated, tag = "52735243")]
     pub network_interfaces: ::prost::alloc::vec::Vec<NetworkInterface>,
+    #[prost(message, optional, tag = "398330850")]
+    pub network_performance_config: ::core::option::Option<NetworkPerformanceConfig>,
     /// The private IPv6 google access type for the VM. If not specified, use INHERIT_FROM_SUBNETWORK as default.
     /// Check the PrivateIpv6GoogleAccess enum for the list of possible values.
     #[prost(string, optional, tag = "48277006")]
@@ -9302,6 +9649,12 @@ pub struct Instance {
     pub shielded_instance_config: ::core::option::Option<ShieldedInstanceConfig>,
     #[prost(message, optional, tag = "163696919")]
     pub shielded_instance_integrity_policy: ::core::option::Option<ShieldedInstanceIntegrityPolicy>,
+    /// Source machine image
+    #[prost(string, optional, tag = "21769791")]
+    pub source_machine_image: ::core::option::Option<::prost::alloc::string::String>,
+    /// Source machine image encryption key when creating an instance from a machine image.
+    #[prost(message, optional, tag = "192839075")]
+    pub source_machine_image_encryption_key: ::core::option::Option<CustomerEncryptionKey>,
     /// [Output Only] Whether a VM has been restricted for start because Compute Engine has detected suspicious activity.
     #[prost(bool, optional, tag = "123693144")]
     pub start_restricted: ::core::option::Option<bool>,
@@ -9578,6 +9931,18 @@ pub struct InstanceGroupManagerActionsSummary {
     /// [Output Only] The number of instances in the managed instance group that are scheduled to be restarted or are currently being restarted.
     #[prost(int32, optional, tag = "372312947")]
     pub restarting: ::core::option::Option<i32>,
+    /// [Output Only] The number of instances in the managed instance group that are scheduled to be resumed or are currently being resumed.
+    #[prost(int32, optional, tag = "201100714")]
+    pub resuming: ::core::option::Option<i32>,
+    /// [Output Only] The number of instances in the managed instance group that are scheduled to be started or are currently being started.
+    #[prost(int32, optional, tag = "243064896")]
+    pub starting: ::core::option::Option<i32>,
+    /// [Output Only] The number of instances in the managed instance group that are scheduled to be stopped or are currently being stopped.
+    #[prost(int32, optional, tag = "105035892")]
+    pub stopping: ::core::option::Option<i32>,
+    /// [Output Only] The number of instances in the managed instance group that are scheduled to be suspended or are currently being suspended.
+    #[prost(int32, optional, tag = "29113894")]
+    pub suspending: ::core::option::Option<i32>,
     /// [Output Only] The number of instances in the managed instance group that are being verified. See the managedInstances[].currentAction property in the listManagedInstances method documentation.
     #[prost(int32, optional, tag = "451612873")]
     pub verifying: ::core::option::Option<i32>,
@@ -9698,6 +10063,9 @@ pub struct InstanceGroupManagerUpdatePolicy {
     /// Minimal action to be taken on an instance. You can specify either RESTART to restart existing instances or REPLACE to delete and create new instances from the target template. If you specify a RESTART, the Updater will attempt to perform that action only. However, if the Updater determines that the minimal action you specify is not enough to perform the update, it might perform a more disruptive action.
     #[prost(string, optional, tag = "270567060")]
     pub minimal_action: ::core::option::Option<::prost::alloc::string::String>,
+    /// Most disruptive action that is allowed to be taken on an instance. You can specify either NONE to forbid any actions, REFRESH to allow actions that do not need instance restart, RESTART to allow actions that can be applied without instance replacing or REPLACE to allow all possible actions. If the Updater determines that the minimal update action needed is more disruptive than most disruptive allowed action you specify it will not perform the update at all.
+    #[prost(string, optional, tag = "66103053")]
+    pub most_disruptive_allowed_action: ::core::option::Option<::prost::alloc::string::String>,
     /// What action should be used to replace instances. See minimal_action.REPLACE
     #[prost(string, optional, tag = "505931694")]
     pub replacement_method: ::core::option::Option<::prost::alloc::string::String>,
@@ -9728,7 +10096,7 @@ pub struct InstanceGroupManagersAbandonInstancesRequest {
 /// InstanceGroupManagers.applyUpdatesToInstances
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstanceGroupManagersApplyUpdatesRequest {
-    /// Flag to update all instances instead of specified list of “instances”. If the flag is set to true then the instances may not be specified in the request.
+    /// Flag to update all instances instead of specified list of ���instances���. If the flag is set to true then the instances may not be specified in the request.
     #[prost(bool, optional, tag = "403676512")]
     pub all_instances: ::core::option::Option<bool>,
     /// The list of URLs of one or more instances for which you want to apply updates. Each URL can be a full URL or a partial URL, such as zones/\[ZONE]/instances/[INSTANCE_NAME\].
@@ -10020,6 +10388,14 @@ pub mod instance_managed_by_igm_error_instance_action_details {
         Refreshing = 163266343,
         /// The managed instance group is restarting this instance.
         Restarting = 320534387,
+        /// The managed instance group is resuming this instance.
+        Resuming = 446856618,
+        /// The managed instance group is starting this instance.
+        Starting = 488820800,
+        /// The managed instance group is stopping this instance.
+        Stopping = 350791796,
+        /// The managed instance group is suspending this instance.
+        Suspending = 514206246,
         /// The managed instance group is verifying this already created instance. Verification happens every time the instance is (re)created or restarted and consists of: 1. Waiting until health check specified as part of this managed instance group's autohealing policy reports HEALTHY. Note: Applies only if autohealing policy has a health check specified 2. Waiting for addition verification steps performed as post-instance creation (subject to future extensions).
         Verifying = 16982185,
     }
@@ -10047,13 +10423,13 @@ pub struct InstanceMoveRequest {
 ///
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstanceProperties {
-    /// Controls for advanced machine-related behavior features.
+    /// Controls for advanced machine-related behavior features. Note that for MachineImage, this is not supported yet.
     #[prost(message, optional, tag = "409646002")]
     pub advanced_machine_features: ::core::option::Option<AdvancedMachineFeatures>,
     /// Enables instances created based on these properties to send packets with source IP addresses other than their own and receive packets with destination IP addresses other than their own. If these instances will be used as an IP gateway or it will be set as the next-hop in a Route resource, specify true. If unsure, leave this set to false. See the Enable IP forwarding documentation for more information.
     #[prost(bool, optional, tag = "467731324")]
     pub can_ip_forward: ::core::option::Option<bool>,
-    /// Specifies the Confidential Instance options.
+    /// Specifies the Confidential Instance options. Note that for MachineImage, this is not supported yet.
     #[prost(message, optional, tag = "490637685")]
     pub confidential_instance_config: ::core::option::Option<ConfidentialInstanceConfig>,
     /// An optional text description for the instances that are created from these properties.
@@ -10083,14 +10459,23 @@ pub struct InstanceProperties {
     /// An array of network access configurations for this interface.
     #[prost(message, repeated, tag = "52735243")]
     pub network_interfaces: ::prost::alloc::vec::Vec<NetworkInterface>,
-    /// The private IPv6 google access type for VMs. If not specified, use INHERIT_FROM_SUBNETWORK as default.
+    /// Note that for MachineImage, this is not supported yet.
+    #[prost(message, optional, tag = "398330850")]
+    pub network_performance_config: ::core::option::Option<NetworkPerformanceConfig>,
+    /// The private IPv6 google access type for VMs. If not specified, use INHERIT_FROM_SUBNETWORK as default. Note that for MachineImage, this is not supported yet.
     /// Check the PrivateIpv6GoogleAccess enum for the list of possible values.
     #[prost(string, optional, tag = "48277006")]
     pub private_ipv6_google_access: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies the reservations that instances can consume from.
+    /// Specifies the reservations that instances can consume from. Note that for MachineImage, this is not supported yet.
     #[prost(message, optional, tag = "157850683")]
     pub reservation_affinity: ::core::option::Option<ReservationAffinity>,
-    /// Resource policies (names, not ULRs) applied to instances created from these properties.
+    /// Resource manager tags to be bound to the instance. Tag keys and values have the same definition as resource manager tags. Keys must be in the format `tagKeys/{tag_key_id}`, and values are in the format `tagValues/456`. The field is ignored (both PUT & PATCH) when empty.
+    #[prost(btree_map = "string, string", tag = "377671164")]
+    pub resource_manager_tags: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Resource policies (names, not URLs) applied to instances created from these properties. Note that for MachineImage, this is not supported yet.
     #[prost(string, repeated, tag = "22220385")]
     pub resource_policies: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Specifies the scheduling options for the instances that are created from these properties.
@@ -10099,6 +10484,7 @@ pub struct InstanceProperties {
     /// A list of service accounts with specified scopes. Access tokens for these service accounts are available to the instances that are created from these properties. Use metadata queries to obtain the access tokens for these instances.
     #[prost(message, repeated, tag = "277537328")]
     pub service_accounts: ::prost::alloc::vec::Vec<ServiceAccount>,
+    /// Note that for MachineImage, this is not supported yet.
     #[prost(message, optional, tag = "12862901")]
     pub shielded_instance_config: ::core::option::Option<ShieldedInstanceConfig>,
     /// A list of tags to apply to the instances that are created from these properties. The tags identify valid sources or targets for network firewalls. The setTags method can modify this list of tags. Each tag within the list must comply with RFC1035.
@@ -10107,7 +10493,7 @@ pub struct InstanceProperties {
 }
 /// Nested message and enum types in `InstanceProperties`.
 pub mod instance_properties {
-    /// The private IPv6 google access type for VMs. If not specified, use INHERIT_FROM_SUBNETWORK as default.
+    /// The private IPv6 google access type for VMs. If not specified, use INHERIT_FROM_SUBNETWORK as default. Note that for MachineImage, this is not supported yet.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum PrivateIpv6GoogleAccess {
@@ -10488,19 +10874,34 @@ pub struct InterconnectAttachment {
     /// Check the Bandwidth enum for the list of possible values.
     #[prost(string, optional, tag = "181715121")]
     pub bandwidth: ::core::option::Option<::prost::alloc::string::String>,
+    /// Up to 16 candidate prefixes that control the allocation of cloudRouterIpv6Address and customerRouterIpv6Address for this attachment. Each prefix must be in the Global Unique Address (GUA) space. It is highly recommended that it be in a range owned by the requestor. A GUA in a range owned by Google will cause the request to fail. Google will select an available prefix from the supplied candidates or fail the request. If not supplied, a /125 from a Google-owned GUA block will be selected.
+    #[prost(string, repeated, tag = "70682522")]
+    pub candidate_ipv6_subnets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Up to 16 candidate prefixes that can be used to restrict the allocation of cloudRouterIpAddress and customerRouterIpAddress for this attachment. All prefixes must be within link-local address space (169.254.0.0/16) and must be /29 or shorter (/28, /27, etc). Google will attempt to select an unused /29 from the supplied candidate prefix(es). The request will fail if all possible /29s are in use on Google's edge. If not supplied, Google will randomly select an unused /29 from all of link-local space.
     #[prost(string, repeated, tag = "237842938")]
     pub candidate_subnets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// [Output Only] IPv4 address + prefix length to be configured on Cloud Router Interface for this interconnect attachment.
     #[prost(string, optional, tag = "287392776")]
     pub cloud_router_ip_address: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] IPv6 address + prefix length to be configured on Cloud Router Interface for this interconnect attachment.
+    #[prost(string, optional, tag = "451922376")]
+    pub cloud_router_ipv6_address: ::core::option::Option<::prost::alloc::string::String>,
+    /// If supplied, the interface id (index within the subnet) to be used for the cloud router address. The id must be in the range of 1 to 6. If a subnet mask is supplied, it must be /125, and the subnet should either be 0 or match the selected subnet.
+    #[prost(string, optional, tag = "521282701")]
+    pub cloud_router_ipv6_interface_id: ::core::option::Option<::prost::alloc::string::String>,
     /// [Output Only] Creation timestamp in RFC3339 text format.
     #[prost(string, optional, tag = "30525366")]
     pub creation_timestamp: ::core::option::Option<::prost::alloc::string::String>,
     /// [Output Only] IPv4 address + prefix length to be configured on the customer router subinterface for this interconnect attachment.
     #[prost(string, optional, tag = "332475761")]
     pub customer_router_ip_address: ::core::option::Option<::prost::alloc::string::String>,
-    /// [Output Only] Dataplane version for this InterconnectAttachment.
+    /// [Output Only] IPv6 address + prefix length to be configured on the customer router subinterface for this interconnect attachment.
+    #[prost(string, optional, tag = "290127089")]
+    pub customer_router_ipv6_address: ::core::option::Option<::prost::alloc::string::String>,
+    /// If supplied, the interface id (index within the subnet) to be used for the customer router address. The id must be in the range of 1 to 6. If a subnet mask is supplied, it must be /125, and the subnet should either be 0 or match the selected subnet.
+    #[prost(string, optional, tag = "380994308")]
+    pub customer_router_ipv6_interface_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output only for types PARTNER and DEDICATED. Not present for PARTNER_PROVIDER.] Dataplane version for this InterconnectAttachment. This field is only present for Dataplane version 2 and higher. Absence of this field in the API output indicates that the Dataplane is version 1.
     #[prost(int32, optional, tag = "34920075")]
     pub dataplane_version: ::core::option::Option<i32>,
     /// An optional description of this resource.
@@ -10563,6 +10964,10 @@ pub struct InterconnectAttachment {
     /// [Output Only] Server-defined URL for the resource.
     #[prost(string, optional, tag = "456214797")]
     pub self_link: ::core::option::Option<::prost::alloc::string::String>,
+    /// The stack type for this interconnect attachment to identify whether the IPv6 feature is enabled or not. If not specified, IPV4_ONLY will be used. This field can be both set at interconnect attachments creation and update interconnect attachment operations.
+    /// Check the StackType enum for the list of possible values.
+    #[prost(string, optional, tag = "425908881")]
+    pub stack_type: ::core::option::Option<::prost::alloc::string::String>,
     /// [Output Only] The current state of this attachment's functionality. Enum values ACTIVE and UNPROVISIONED are shared by DEDICATED/PRIVATE, PARTNER, and PARTNER_PROVIDER interconnect attachments, while enum values PENDING_PARTNER, PARTNER_REQUEST_RECEIVED, and PENDING_CUSTOMER are used for only PARTNER and PARTNER_PROVIDER interconnect attachments. This state can take one of the following values: - ACTIVE: The attachment has been turned up and is ready to use. - UNPROVISIONED: The attachment is not ready to use yet, because turnup is not complete. - PENDING_PARTNER: A newly-created PARTNER attachment that has not yet been configured on the Partner side. - PARTNER_REQUEST_RECEIVED: A PARTNER attachment is in the process of provisioning after a PARTNER_PROVIDER attachment was created that references it. - PENDING_CUSTOMER: A PARTNER or PARTNER_PROVIDER attachment that is waiting for a customer to activate it. - DEFUNCT: The attachment was deleted externally and is no longer functional. This could be because the associated Interconnect was removed, or because the other side of a Partner attachment was deleted.
     /// Check the State enum for the list of possible values.
     #[prost(string, optional, tag = "109757585")]
@@ -10639,6 +11044,17 @@ pub mod interconnect_attachment {
         OsActive = 55721409,
         /// Indicates that attachment is not ready to use yet, because turnup is not complete.
         OsUnprovisioned = 239771840,
+    }
+    /// The stack type for this interconnect attachment to identify whether the IPv6 feature is enabled or not. If not specified, IPV4_ONLY will be used. This field can be both set at interconnect attachments creation and update interconnect attachment operations.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum StackType {
+        /// A value indicating that the enum field is not set.
+        UndefinedStackType = 0,
+        /// The interconnect attachment can have both IPv4 and IPv6 addresses.
+        Ipv4Ipv6 = 22197249,
+        /// The interconnect attachment will only be assigned IPv4 addresses.
+        Ipv4Only = 22373798,
     }
     /// [Output Only] The current state of this attachment's functionality. Enum values ACTIVE and UNPROVISIONED are shared by DEDICATED/PRIVATE, PARTNER, and PARTNER_PROVIDER interconnect attachments, while enum values PENDING_PARTNER, PARTNER_REQUEST_RECEIVED, and PENDING_CUSTOMER are used for only PARTNER and PARTNER_PROVIDER interconnect attachments. This state can take one of the following values: - ACTIVE: The attachment has been turned up and is ready to use. - UNPROVISIONED: The attachment is not ready to use yet, because turnup is not complete. - PENDING_PARTNER: A newly-created PARTNER attachment that has not yet been configured on the Partner side. - PARTNER_REQUEST_RECEIVED: A PARTNER attachment is in the process of provisioning after a PARTNER_PROVIDER attachment was created that references it. - PENDING_CUSTOMER: A PARTNER or PARTNER_PROVIDER attachment that is waiting for a customer to activate it. - DEFUNCT: The attachment was deleted externally and is no longer functional. This could be because the associated Interconnect was removed, or because the other side of a Partner attachment was deleted.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -11279,7 +11695,7 @@ pub struct LicensesListResponse {
 /// A request message for AcceleratorTypes.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListAcceleratorTypesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11304,7 +11720,7 @@ pub struct ListAcceleratorTypesRequest {
 /// A request message for Addresses.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListAddressesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11336,7 +11752,7 @@ pub struct ListAssociationsFirewallPolicyRequest {
 /// A request message for Autoscalers.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListAutoscalersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11361,7 +11777,7 @@ pub struct ListAutoscalersRequest {
 /// A request message for SslPolicies.ListAvailableFeatures. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListAvailableFeaturesSslPoliciesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11383,7 +11799,7 @@ pub struct ListAvailableFeaturesSslPoliciesRequest {
 /// A request message for BackendBuckets.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListBackendBucketsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11405,7 +11821,7 @@ pub struct ListBackendBucketsRequest {
 /// A request message for BackendServices.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListBackendServicesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11427,7 +11843,7 @@ pub struct ListBackendServicesRequest {
 /// A request message for DiskTypes.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListDiskTypesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11452,7 +11868,7 @@ pub struct ListDiskTypesRequest {
 /// A request message for Disks.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListDisksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11477,7 +11893,7 @@ pub struct ListDisksRequest {
 /// A request message for InstanceGroupManagers.ListErrors. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListErrorsInstanceGroupManagersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The name of the managed instance group. It must be a string that meets the requirements in RFC1035, or an unsigned long integer: must match regexp pattern: (?:\[a-z](?:[-a-z0-9]{0,61}[a-z0-9\])?)|1-9{0,19}.
@@ -11505,7 +11921,7 @@ pub struct ListErrorsInstanceGroupManagersRequest {
 /// A request message for RegionInstanceGroupManagers.ListErrors. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListErrorsRegionInstanceGroupManagersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The name of the managed instance group. It must be a string that meets the requirements in RFC1035, or an unsigned long integer: must match regexp pattern: (?:\[a-z](?:[-a-z0-9]{0,61}[a-z0-9\])?)|1-9{0,19}.
@@ -11533,7 +11949,7 @@ pub struct ListErrorsRegionInstanceGroupManagersRequest {
 /// A request message for ExternalVpnGateways.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListExternalVpnGatewaysRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11555,7 +11971,7 @@ pub struct ListExternalVpnGatewaysRequest {
 /// A request message for FirewallPolicies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListFirewallPoliciesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11577,7 +11993,7 @@ pub struct ListFirewallPoliciesRequest {
 /// A request message for Firewalls.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListFirewallsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11599,7 +12015,7 @@ pub struct ListFirewallsRequest {
 /// A request message for ForwardingRules.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListForwardingRulesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11624,7 +12040,7 @@ pub struct ListForwardingRulesRequest {
 /// A request message for GlobalAddresses.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGlobalAddressesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11646,7 +12062,7 @@ pub struct ListGlobalAddressesRequest {
 /// A request message for GlobalForwardingRules.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGlobalForwardingRulesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11668,7 +12084,7 @@ pub struct ListGlobalForwardingRulesRequest {
 /// A request message for GlobalNetworkEndpointGroups.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGlobalNetworkEndpointGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11690,7 +12106,7 @@ pub struct ListGlobalNetworkEndpointGroupsRequest {
 /// A request message for GlobalOperations.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGlobalOperationsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11712,7 +12128,7 @@ pub struct ListGlobalOperationsRequest {
 /// A request message for GlobalOrganizationOperations.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGlobalOrganizationOperationsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11734,7 +12150,7 @@ pub struct ListGlobalOrganizationOperationsRequest {
 /// A request message for GlobalPublicDelegatedPrefixes.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGlobalPublicDelegatedPrefixesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11756,7 +12172,7 @@ pub struct ListGlobalPublicDelegatedPrefixesRequest {
 /// A request message for HealthChecks.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListHealthChecksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11778,7 +12194,7 @@ pub struct ListHealthChecksRequest {
 /// A request message for Images.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListImagesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11800,7 +12216,7 @@ pub struct ListImagesRequest {
 /// A request message for InstanceGroupManagers.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInstanceGroupManagersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11825,7 +12241,7 @@ pub struct ListInstanceGroupManagersRequest {
 /// A request message for InstanceGroups.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInstanceGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11850,7 +12266,7 @@ pub struct ListInstanceGroupsRequest {
 /// A request message for InstanceTemplates.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInstanceTemplatesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11872,7 +12288,7 @@ pub struct ListInstanceTemplatesRequest {
 /// A request message for InstanceGroups.ListInstances. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInstancesInstanceGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The name of the instance group from which you want to generate a list of included instances.
@@ -11904,7 +12320,7 @@ pub struct ListInstancesInstanceGroupsRequest {
 /// A request message for RegionInstanceGroups.ListInstances. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInstancesRegionInstanceGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the regional instance group for which we want to list the instances.
@@ -11936,7 +12352,7 @@ pub struct ListInstancesRegionInstanceGroupsRequest {
 /// A request message for Instances.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInstancesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11961,7 +12377,7 @@ pub struct ListInstancesRequest {
 /// A request message for InterconnectAttachments.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInterconnectAttachmentsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -11986,7 +12402,7 @@ pub struct ListInterconnectAttachmentsRequest {
 /// A request message for InterconnectLocations.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInterconnectLocationsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12008,7 +12424,7 @@ pub struct ListInterconnectLocationsRequest {
 /// A request message for Interconnects.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInterconnectsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12030,7 +12446,29 @@ pub struct ListInterconnectsRequest {
 /// A request message for Licenses.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListLicensesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    #[prost(string, optional, tag = "336120696")]
+    pub filter: ::core::option::Option<::prost::alloc::string::String>,
+    /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
+    #[prost(uint32, optional, tag = "54715419")]
+    pub max_results: ::core::option::Option<u32>,
+    /// Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported.
+    #[prost(string, optional, tag = "160562920")]
+    pub order_by: ::core::option::Option<::prost::alloc::string::String>,
+    /// Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results.
+    #[prost(string, optional, tag = "19994697")]
+    pub page_token: ::core::option::Option<::prost::alloc::string::String>,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// Opt-in for partial success behavior which provides partial results in case of failure. The default value is false.
+    #[prost(bool, optional, tag = "517198390")]
+    pub return_partial_success: ::core::option::Option<bool>,
+}
+/// A request message for MachineImages.List. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListMachineImagesRequest {
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12052,7 +12490,7 @@ pub struct ListLicensesRequest {
 /// A request message for MachineTypes.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListMachineTypesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12077,7 +12515,7 @@ pub struct ListMachineTypesRequest {
 /// A request message for InstanceGroupManagers.ListManagedInstances. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListManagedInstancesInstanceGroupManagersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The name of the managed instance group.
@@ -12105,7 +12543,7 @@ pub struct ListManagedInstancesInstanceGroupManagersRequest {
 /// A request message for RegionInstanceGroupManagers.ListManagedInstances. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListManagedInstancesRegionInstanceGroupManagersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The name of the managed instance group.
@@ -12133,7 +12571,7 @@ pub struct ListManagedInstancesRegionInstanceGroupManagersRequest {
 /// A request message for NetworkEndpointGroups.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListNetworkEndpointGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12158,7 +12596,7 @@ pub struct ListNetworkEndpointGroupsRequest {
 /// A request message for GlobalNetworkEndpointGroups.ListNetworkEndpoints. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListNetworkEndpointsGlobalNetworkEndpointGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12183,7 +12621,7 @@ pub struct ListNetworkEndpointsGlobalNetworkEndpointGroupsRequest {
 /// A request message for NetworkEndpointGroups.ListNetworkEndpoints. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListNetworkEndpointsNetworkEndpointGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12215,7 +12653,7 @@ pub struct ListNetworkEndpointsNetworkEndpointGroupsRequest {
 /// A request message for Networks.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListNetworksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12237,7 +12675,7 @@ pub struct ListNetworksRequest {
 /// A request message for NodeGroups.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListNodeGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12262,7 +12700,7 @@ pub struct ListNodeGroupsRequest {
 /// A request message for NodeTemplates.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListNodeTemplatesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12287,7 +12725,7 @@ pub struct ListNodeTemplatesRequest {
 /// A request message for NodeTypes.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListNodeTypesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12312,7 +12750,7 @@ pub struct ListNodeTypesRequest {
 /// A request message for NodeGroups.ListNodes. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListNodesNodeGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12340,7 +12778,7 @@ pub struct ListNodesNodeGroupsRequest {
 /// A request message for PacketMirrorings.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListPacketMirroringsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12369,7 +12807,7 @@ pub struct ListPeeringRoutesNetworksRequest {
     /// Check the Direction enum for the list of possible values.
     #[prost(string, optional, tag = "111150975")]
     pub direction: ::core::option::Option<::prost::alloc::string::String>,
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12414,7 +12852,7 @@ pub mod list_peering_routes_networks_request {
 /// A request message for InstanceGroupManagers.ListPerInstanceConfigs. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListPerInstanceConfigsInstanceGroupManagersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The name of the managed instance group. It should conform to RFC1035.
@@ -12442,7 +12880,7 @@ pub struct ListPerInstanceConfigsInstanceGroupManagersRequest {
 /// A request message for RegionInstanceGroupManagers.ListPerInstanceConfigs. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListPerInstanceConfigsRegionInstanceGroupManagersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The name of the managed instance group. It should conform to RFC1035.
@@ -12470,7 +12908,7 @@ pub struct ListPerInstanceConfigsRegionInstanceGroupManagersRequest {
 /// A request message for SecurityPolicies.ListPreconfiguredExpressionSets. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListPreconfiguredExpressionSetsSecurityPoliciesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12492,7 +12930,7 @@ pub struct ListPreconfiguredExpressionSetsSecurityPoliciesRequest {
 /// A request message for PublicAdvertisedPrefixes.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListPublicAdvertisedPrefixesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12514,7 +12952,7 @@ pub struct ListPublicAdvertisedPrefixesRequest {
 /// A request message for PublicDelegatedPrefixes.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListPublicDelegatedPrefixesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12539,7 +12977,7 @@ pub struct ListPublicDelegatedPrefixesRequest {
 /// A request message for Instances.ListReferrers. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListReferrersInstancesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the target instance scoping this request, or '-' if the request should span over all instances in the container.
@@ -12567,7 +13005,7 @@ pub struct ListReferrersInstancesRequest {
 /// A request message for RegionAutoscalers.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionAutoscalersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12592,7 +13030,7 @@ pub struct ListRegionAutoscalersRequest {
 /// A request message for RegionBackendServices.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionBackendServicesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12617,7 +13055,7 @@ pub struct ListRegionBackendServicesRequest {
 /// A request message for RegionCommitments.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionCommitmentsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12642,7 +13080,7 @@ pub struct ListRegionCommitmentsRequest {
 /// A request message for RegionDiskTypes.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionDiskTypesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12667,7 +13105,7 @@ pub struct ListRegionDiskTypesRequest {
 /// A request message for RegionDisks.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionDisksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12692,7 +13130,7 @@ pub struct ListRegionDisksRequest {
 /// A request message for RegionHealthCheckServices.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionHealthCheckServicesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12717,7 +13155,7 @@ pub struct ListRegionHealthCheckServicesRequest {
 /// A request message for RegionHealthChecks.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionHealthChecksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12742,7 +13180,7 @@ pub struct ListRegionHealthChecksRequest {
 /// A request message for RegionInstanceGroupManagers.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionInstanceGroupManagersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12767,7 +13205,7 @@ pub struct ListRegionInstanceGroupManagersRequest {
 /// A request message for RegionInstanceGroups.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionInstanceGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12792,7 +13230,7 @@ pub struct ListRegionInstanceGroupsRequest {
 /// A request message for RegionNetworkEndpointGroups.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionNetworkEndpointGroupsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12817,7 +13255,7 @@ pub struct ListRegionNetworkEndpointGroupsRequest {
 /// A request message for RegionNotificationEndpoints.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionNotificationEndpointsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12842,7 +13280,7 @@ pub struct ListRegionNotificationEndpointsRequest {
 /// A request message for RegionOperations.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionOperationsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12867,7 +13305,7 @@ pub struct ListRegionOperationsRequest {
 /// A request message for RegionSslCertificates.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionSslCertificatesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12892,7 +13330,7 @@ pub struct ListRegionSslCertificatesRequest {
 /// A request message for RegionTargetHttpProxies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionTargetHttpProxiesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12917,7 +13355,7 @@ pub struct ListRegionTargetHttpProxiesRequest {
 /// A request message for RegionTargetHttpsProxies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionTargetHttpsProxiesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12942,7 +13380,7 @@ pub struct ListRegionTargetHttpsProxiesRequest {
 /// A request message for RegionUrlMaps.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionUrlMapsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12967,7 +13405,7 @@ pub struct ListRegionUrlMapsRequest {
 /// A request message for Regions.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRegionsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -12989,7 +13427,7 @@ pub struct ListRegionsRequest {
 /// A request message for Reservations.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListReservationsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13014,7 +13452,7 @@ pub struct ListReservationsRequest {
 /// A request message for ResourcePolicies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListResourcePoliciesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13039,7 +13477,7 @@ pub struct ListResourcePoliciesRequest {
 /// A request message for Routers.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRoutersRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13064,7 +13502,7 @@ pub struct ListRoutersRequest {
 /// A request message for Routes.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRoutesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13086,7 +13524,7 @@ pub struct ListRoutesRequest {
 /// A request message for SecurityPolicies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSecurityPoliciesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13108,7 +13546,7 @@ pub struct ListSecurityPoliciesRequest {
 /// A request message for ServiceAttachments.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListServiceAttachmentsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13133,7 +13571,7 @@ pub struct ListServiceAttachmentsRequest {
 /// A request message for Snapshots.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSnapshotsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13155,7 +13593,7 @@ pub struct ListSnapshotsRequest {
 /// A request message for SslCertificates.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSslCertificatesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13177,7 +13615,7 @@ pub struct ListSslCertificatesRequest {
 /// A request message for SslPolicies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSslPoliciesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13199,7 +13637,7 @@ pub struct ListSslPoliciesRequest {
 /// A request message for Subnetworks.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSubnetworksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13224,7 +13662,7 @@ pub struct ListSubnetworksRequest {
 /// A request message for TargetGrpcProxies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTargetGrpcProxiesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13246,7 +13684,7 @@ pub struct ListTargetGrpcProxiesRequest {
 /// A request message for TargetHttpProxies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTargetHttpProxiesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13268,7 +13706,7 @@ pub struct ListTargetHttpProxiesRequest {
 /// A request message for TargetHttpsProxies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTargetHttpsProxiesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13290,7 +13728,7 @@ pub struct ListTargetHttpsProxiesRequest {
 /// A request message for TargetInstances.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTargetInstancesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13315,7 +13753,7 @@ pub struct ListTargetInstancesRequest {
 /// A request message for TargetPools.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTargetPoolsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13340,7 +13778,7 @@ pub struct ListTargetPoolsRequest {
 /// A request message for TargetSslProxies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTargetSslProxiesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13362,7 +13800,7 @@ pub struct ListTargetSslProxiesRequest {
 /// A request message for TargetTcpProxies.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTargetTcpProxiesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13384,7 +13822,7 @@ pub struct ListTargetTcpProxiesRequest {
 /// A request message for TargetVpnGateways.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTargetVpnGatewaysRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13409,7 +13847,7 @@ pub struct ListTargetVpnGatewaysRequest {
 /// A request message for UrlMaps.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListUrlMapsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13431,7 +13869,7 @@ pub struct ListUrlMapsRequest {
 /// A request message for Subnetworks.ListUsable. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListUsableSubnetworksRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13453,7 +13891,7 @@ pub struct ListUsableSubnetworksRequest {
 /// A request message for VpnGateways.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListVpnGatewaysRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13478,7 +13916,7 @@ pub struct ListVpnGatewaysRequest {
 /// A request message for VpnTunnels.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListVpnTunnelsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13503,7 +13941,7 @@ pub struct ListVpnTunnelsRequest {
 /// A request message for Projects.ListXpnHosts. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListXpnHostsProjectsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13529,7 +13967,7 @@ pub struct ListXpnHostsProjectsRequest {
 /// A request message for ZoneOperations.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListZoneOperationsRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13554,7 +13992,7 @@ pub struct ListZoneOperationsRequest {
 /// A request message for Zones.List. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListZonesRequest {
-    /// A filter expression that filters resources listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either `=`, `!=`, `>`, or `<`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
+    /// A filter expression that filters resources listed in the response. The expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:` operator can be used with string fields to match substrings. For non-string fields it is equivalent to the `=` operator. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ```
     #[prost(string, optional, tag = "336120696")]
     pub filter: ::core::option::Option<::prost::alloc::string::String>,
     /// The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`)
@@ -13599,14 +14037,14 @@ pub struct LocationPolicy {
 ///
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LocationPolicyLocation {
-    /// Preference for a given location: ALLOW or DENY.
+    /// Preference for a given location.
     /// Check the Preference enum for the list of possible values.
     #[prost(string, optional, tag = "150781147")]
     pub preference: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `LocationPolicyLocation`.
 pub mod location_policy_location {
-    /// Preference for a given location: ALLOW or DENY.
+    /// Preference for a given location.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Preference {
@@ -13704,6 +14142,99 @@ pub mod log_config_data_access_options {
         /// This is deprecated and has no effect. Do not use.
         Unspecified = 88160822,
     }
+}
+/// Represents a machine image resource. A machine image is a Compute Engine resource that stores all the configuration, metadata, permissions, and data from one or more disks required to create a Virtual machine (VM) instance. For more information, see Machine images.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MachineImage {
+    /// [Output Only] The creation timestamp for this machine image in RFC3339 text format.
+    #[prost(string, optional, tag = "30525366")]
+    pub creation_timestamp: ::core::option::Option<::prost::alloc::string::String>,
+    /// An optional description of this resource. Provide this property when you create the resource.
+    #[prost(string, optional, tag = "422937596")]
+    pub description: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Input Only] Whether to attempt an application consistent machine image by informing the OS to prepare for the snapshot process. Currently only supported on Windows instances using the Volume Shadow Copy Service (VSS).
+    #[prost(bool, optional, tag = "385550813")]
+    pub guest_flush: ::core::option::Option<bool>,
+    /// [Output Only] A unique identifier for this machine image. The server defines this identifier.
+    #[prost(uint64, optional, tag = "3355")]
+    pub id: ::core::option::Option<u64>,
+    /// [Output Only] Properties of source instance
+    #[prost(message, optional, tag = "215355165")]
+    pub instance_properties: ::core::option::Option<InstanceProperties>,
+    /// [Output Only] The resource type, which is always compute#machineImage for machine image.
+    #[prost(string, optional, tag = "3292052")]
+    pub kind: ::core::option::Option<::prost::alloc::string::String>,
+    /// Encrypts the machine image using a customer-supplied encryption key. After you encrypt a machine image using a customer-supplied key, you must provide the same key if you use the machine image later. For example, you must provide the encryption key when you create an instance from the encrypted machine image in a future request. Customer-supplied encryption keys do not protect access to metadata of the machine image. If you do not provide an encryption key when creating the machine image, then the machine image will be encrypted using an automatically generated key and you do not need to provide a key to use the machine image later.
+    #[prost(message, optional, tag = "528089087")]
+    pub machine_image_encryption_key: ::core::option::Option<CustomerEncryptionKey>,
+    /// Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `\[a-z]([-a-z0-9]*[a-z0-9\])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
+    #[prost(string, optional, tag = "3373707")]
+    pub name: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] Reserved for future use.
+    #[prost(bool, optional, tag = "480964267")]
+    pub satisfies_pzs: ::core::option::Option<bool>,
+    /// An array of Machine Image specific properties for disks attached to the source instance
+    #[prost(message, repeated, tag = "397424318")]
+    pub saved_disks: ::prost::alloc::vec::Vec<SavedDisk>,
+    /// [Output Only] The URL for this machine image. The server defines this URL.
+    #[prost(string, optional, tag = "456214797")]
+    pub self_link: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Input Only] The customer-supplied encryption key of the disks attached to the source instance. Required if the source disk is protected by a customer-supplied encryption key.
+    #[prost(message, repeated, tag = "370408498")]
+    pub source_disk_encryption_keys: ::prost::alloc::vec::Vec<SourceDiskEncryptionKey>,
+    /// The source instance used to create the machine image. You can provide this as a partial or full URL to the resource. For example, the following are valid values: - <https://www.googleapis.com/compute/v1/projects/project/zones/zone> /instances/instance - projects/project/zones/zone/instances/instance
+    #[prost(string, optional, tag = "396315705")]
+    pub source_instance: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] DEPRECATED: Please use instance_properties instead for source instance related properties. New properties will not be added to this field.
+    #[prost(message, optional, tag = "475195641")]
+    pub source_instance_properties: ::core::option::Option<SourceInstanceProperties>,
+    /// [Output Only] The status of the machine image. One of the following values: INVALID, CREATING, READY, DELETING, and UPLOADING.
+    /// Check the Status enum for the list of possible values.
+    #[prost(string, optional, tag = "181260274")]
+    pub status: ::core::option::Option<::prost::alloc::string::String>,
+    /// The regional or multi-regional Cloud Storage bucket location where the machine image is stored.
+    #[prost(string, repeated, tag = "328005274")]
+    pub storage_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// [Output Only] Total size of the storage used by the machine image.
+    #[prost(int64, optional, tag = "81855468")]
+    pub total_storage_bytes: ::core::option::Option<i64>,
+}
+/// Nested message and enum types in `MachineImage`.
+pub mod machine_image {
+    /// [Output Only] The status of the machine image. One of the following values: INVALID, CREATING, READY, DELETING, and UPLOADING.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Status {
+        /// A value indicating that the enum field is not set.
+        UndefinedStatus = 0,
+        Creating = 455564985,
+        Deleting = 528602024,
+        Invalid = 530283991,
+        Ready = 77848963,
+        Uploading = 267603489,
+    }
+}
+/// A list of machine images.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MachineImageList {
+    /// [Output Only] Unique identifier for the resource; defined by the server.
+    #[prost(string, optional, tag = "3355")]
+    pub id: ::core::option::Option<::prost::alloc::string::String>,
+    /// A list of MachineImage resources.
+    #[prost(message, repeated, tag = "100526016")]
+    pub items: ::prost::alloc::vec::Vec<MachineImage>,
+    /// [Output Only] The resource type, which is always compute#machineImagesListResponse for machine image lists.
+    #[prost(string, optional, tag = "3292052")]
+    pub kind: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] This token allows you to get the next page of results for list requests. If the number of results is larger than maxResults, use the nextPageToken as a value for the query parameter pageToken in the next list request. Subsequent list requests will have their own nextPageToken to continue paging through the results.
+    #[prost(string, optional, tag = "79797525")]
+    pub next_page_token: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] Server-defined URL for this resource.
+    #[prost(string, optional, tag = "456214797")]
+    pub self_link: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] Informational warning message.
+    #[prost(message, optional, tag = "50704284")]
+    pub warning: ::core::option::Option<Warning>,
 }
 /// Represents a Machine Type resource. You can use specific machine types for your VM instances based on performance and pricing requirements. For more information, read Machine Types.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -13821,7 +14352,6 @@ pub struct MachineTypesScopedList {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ManagedInstance {
     /// [Output Only] The current action that the managed instance group has scheduled for the instance. Possible values: - NONE The instance is running, and the managed instance group does not have any scheduled actions for this instance. - CREATING The managed instance group is creating this instance. If the group fails to create this instance, it will try again until it is successful. - CREATING_WITHOUT_RETRIES The managed instance group is attempting to create this instance only once. If the group fails to create this instance, it does not try again and the group's targetSize value is decreased instead. - RECREATING The managed instance group is recreating this instance. - DELETING The managed instance group is permanently deleting this instance. - ABANDONING The managed instance group is abandoning this instance. The instance will be removed from the instance group and from any target pools that are associated with this group. - RESTARTING The managed instance group is restarting the instance. - REFRESHING The managed instance group is applying configuration changes to the instance without stopping it. For example, the group can update the target pool list for an instance without stopping that instance. - VERIFYING The managed instance group has created the instance and it is in the process of being verified.
-    /// Check the CurrentAction enum for the list of possible values.
     #[prost(string, optional, tag = "178475964")]
     pub current_action: ::core::option::Option<::prost::alloc::string::String>,
     /// [Output only] The unique identifier for this resource. This field is empty when instance does not exist.
@@ -13834,7 +14364,6 @@ pub struct ManagedInstance {
     #[prost(message, repeated, tag = "382667078")]
     pub instance_health: ::prost::alloc::vec::Vec<ManagedInstanceInstanceHealth>,
     /// [Output Only] The status of the instance. This field is empty when the instance does not exist.
-    /// Check the InstanceStatus enum for the list of possible values.
     #[prost(string, optional, tag = "174577372")]
     pub instance_status: ::core::option::Option<::prost::alloc::string::String>,
     /// [Output Only] Information about the last attempt to create or delete the instance.
@@ -13849,61 +14378,6 @@ pub struct ManagedInstance {
     /// [Output Only] Intended version of this instance.
     #[prost(message, optional, tag = "351608024")]
     pub version: ::core::option::Option<ManagedInstanceVersion>,
-}
-/// Nested message and enum types in `ManagedInstance`.
-pub mod managed_instance {
-    /// [Output Only] The current action that the managed instance group has scheduled for the instance. Possible values: - NONE The instance is running, and the managed instance group does not have any scheduled actions for this instance. - CREATING The managed instance group is creating this instance. If the group fails to create this instance, it will try again until it is successful. - CREATING_WITHOUT_RETRIES The managed instance group is attempting to create this instance only once. If the group fails to create this instance, it does not try again and the group's targetSize value is decreased instead. - RECREATING The managed instance group is recreating this instance. - DELETING The managed instance group is permanently deleting this instance. - ABANDONING The managed instance group is abandoning this instance. The instance will be removed from the instance group and from any target pools that are associated with this group. - RESTARTING The managed instance group is restarting the instance. - REFRESHING The managed instance group is applying configuration changes to the instance without stopping it. For example, the group can update the target pool list for an instance without stopping that instance. - VERIFYING The managed instance group has created the instance and it is in the process of being verified.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CurrentAction {
-        /// A value indicating that the enum field is not set.
-        UndefinedCurrentAction = 0,
-        /// The managed instance group is abandoning this instance. The instance will be removed from the instance group and from any target pools that are associated with this group.
-        Abandoning = 388244813,
-        /// The managed instance group is creating this instance. If the group fails to create this instance, it will try again until it is successful.
-        Creating = 455564985,
-        /// The managed instance group is attempting to create this instance only once. If the group fails to create this instance, it does not try again and the group's targetSize value is decreased.
-        CreatingWithoutRetries = 428843785,
-        /// The managed instance group is permanently deleting this instance.
-        Deleting = 528602024,
-        /// The managed instance group has not scheduled any actions for this instance.
-        None = 2402104,
-        /// The managed instance group is recreating this instance.
-        Recreating = 287278572,
-        /// The managed instance group is applying configuration changes to the instance without stopping it. For example, the group can update the target pool list for an instance without stopping that instance.
-        Refreshing = 163266343,
-        /// The managed instance group is restarting this instance.
-        Restarting = 320534387,
-        /// The managed instance group is verifying this already created instance. Verification happens every time the instance is (re)created or restarted and consists of: 1. Waiting until health check specified as part of this managed instance group's autohealing policy reports HEALTHY. Note: Applies only if autohealing policy has a health check specified 2. Waiting for addition verification steps performed as post-instance creation (subject to future extensions).
-        Verifying = 16982185,
-    }
-    /// [Output Only] The status of the instance. This field is empty when the instance does not exist.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum InstanceStatus {
-        /// A value indicating that the enum field is not set.
-        UndefinedInstanceStatus = 0,
-        /// The Nanny is halted and we are performing tear down tasks like network deprogramming, releasing quota, IP, tearing down disks etc.
-        Deprovisioning = 428935662,
-        /// Resources are being allocated for the instance.
-        Provisioning = 290896621,
-        /// The instance is in repair.
-        Repairing = 413483285,
-        /// The instance is running.
-        Running = 121282975,
-        /// All required resources have been allocated and the instance is being started.
-        Staging = 431072283,
-        /// The instance has stopped successfully.
-        Stopped = 444276141,
-        /// The instance is currently stopping (either being deleted or killed).
-        Stopping = 350791796,
-        /// The instance has suspended.
-        Suspended = 51223995,
-        /// The instance is suspending.
-        Suspending = 514206246,
-        /// The instance has stopped (either by explicit action or underlying failure).
-        Terminated = 250018339,
-    }
 }
 ///
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -13966,20 +14440,20 @@ pub struct Metadata {
     #[prost(string, optional, tag = "3292052")]
     pub kind: ::core::option::Option<::prost::alloc::string::String>,
 }
-/// Opaque filter criteria used by loadbalancers to restrict routing configuration to a limited set of loadbalancing proxies. Proxies and sidecars involved in loadbalancing would typically present metadata to the loadbalancers which need to match criteria specified here. If a match takes place, the relevant configuration is made available to those proxies. For each metadataFilter in this list, if its filterMatchCriteria is set to MATCH_ANY, at least one of the filterLabels must match the corresponding label provided in the metadata. If its filterMatchCriteria is set to MATCH_ALL, then all of its filterLabels must match with corresponding labels provided in the metadata. An example for using metadataFilters would be: if loadbalancing involves Envoys, they will only receive routing configuration when values in metadataFilters match values supplied in of their XDS requests to loadbalancers.
+/// Opaque filter criteria used by load balancers to restrict routing configuration to a limited set of load balancing proxies. Proxies and sidecars involved in load balancing would typically present metadata to the load balancers that need to match criteria specified here. If a match takes place, the relevant configuration is made available to those proxies. For each metadataFilter in this list, if its filterMatchCriteria is set to MATCH_ANY, at least one of the filterLabels must match the corresponding label provided in the metadata. If its filterMatchCriteria is set to MATCH_ALL, then all of its filterLabels must match with corresponding labels provided in the metadata. An example for using metadataFilters would be: if load balancing involves Envoys, they receive routing configuration when values in metadataFilters match values supplied in of their XDS requests to loadbalancers.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MetadataFilter {
     /// The list of label value pairs that must match labels in the provided metadata based on filterMatchCriteria This list must not be empty and can have at the most 64 entries.
     #[prost(message, repeated, tag = "307903142")]
     pub filter_labels: ::prost::alloc::vec::Vec<MetadataFilterLabelMatch>,
-    /// Specifies how individual filterLabel matches within the list of filterLabels contribute towards the overall metadataFilter match. Supported values are: - MATCH_ANY: At least one of the filterLabels must have a matching label in the provided metadata. - MATCH_ALL: All filterLabels must have matching labels in the provided metadata.
+    /// Specifies how individual filter label matches within the list of filterLabels and contributes toward the overall metadataFilter match. Supported values are: - MATCH_ANY: at least one of the filterLabels must have a matching label in the provided metadata. - MATCH_ALL: all filterLabels must have matching labels in the provided metadata.
     /// Check the FilterMatchCriteria enum for the list of possible values.
     #[prost(string, optional, tag = "239970368")]
     pub filter_match_criteria: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `MetadataFilter`.
 pub mod metadata_filter {
-    /// Specifies how individual filterLabel matches within the list of filterLabels contribute towards the overall metadataFilter match. Supported values are: - MATCH_ANY: At least one of the filterLabels must have a matching label in the provided metadata. - MATCH_ALL: All filterLabels must have matching labels in the provided metadata.
+    /// Specifies how individual filter label matches within the list of filterLabels and contributes toward the overall metadataFilter match. Supported values are: - MATCH_ANY: at least one of the filterLabels must have a matching label in the provided metadata. - MATCH_ALL: all filterLabels must have matching labels in the provided metadata.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum FilterMatchCriteria {
@@ -13993,7 +14467,7 @@ pub mod metadata_filter {
         NotSet = 163646646,
     }
 }
-/// MetadataFilter label name value pairs that are expected to match corresponding labels presented as metadata to the loadbalancer.
+/// MetadataFilter label name value pairs that are expected to match corresponding labels presented as metadata to the load balancer.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MetadataFilterLabelMatch {
     /// Name of metadata label. The name can have a maximum length of 1024 characters and must be at least 1 character long.
@@ -14023,8 +14497,8 @@ pub struct MoveFirewallPolicyRequest {
     #[prost(string, tag = "498173265")]
     pub firewall_policy: ::prost::alloc::string::String,
     /// The new parent of the firewall policy.
-    #[prost(string, tag = "459714768")]
-    pub parent_id: ::prost::alloc::string::String,
+    #[prost(string, optional, tag = "459714768")]
+    pub parent_id: ::core::option::Option<::prost::alloc::string::String>,
     /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
@@ -14160,6 +14634,9 @@ pub struct NetworkEndpointGroup {
     /// Check the NetworkEndpointType enum for the list of possible values.
     #[prost(string, optional, tag = "118301523")]
     pub network_endpoint_type: ::core::option::Option<::prost::alloc::string::String>,
+    /// The target service url used to set up private service connection to a Google API. An example value is: "asia-northeast3-cloudkms.googleapis.com"
+    #[prost(string, optional, tag = "269132134")]
+    pub psc_target_service: ::core::option::Option<::prost::alloc::string::String>,
     /// [Output Only] The URL of the region where the network endpoint group is located.
     #[prost(string, optional, tag = "138946292")]
     pub region: ::core::option::Option<::prost::alloc::string::String>,
@@ -14194,6 +14671,8 @@ pub mod network_endpoint_group {
         InternetIpPort = 477719963,
         /// The network endpoint is represented by an IP address and port. The endpoint belongs to a VM or pod running in a customer's on-premises.
         NonGcpPrivateIpPort = 336447968,
+        /// The network endpoint is either public Google APIs or services exposed by other GCP Project with a Service Attachment. The connection is set up by private service connect
+        PrivateServiceConnect = 48134724,
         /// The network endpoint is handled by specified serverless infrastructure.
         Serverless = 270492508,
     }
@@ -14378,7 +14857,7 @@ pub struct NetworkInterface {
     /// Check the Ipv6AccessType enum for the list of possible values.
     #[prost(string, optional, tag = "504658653")]
     pub ipv6_access_type: ::core::option::Option<::prost::alloc::string::String>,
-    /// [Output Only] An IPv6 internal network address for this network interface.
+    /// An IPv6 internal network address for this network interface.
     #[prost(string, optional, tag = "341563804")]
     pub ipv6_address: ::core::option::Option<::prost::alloc::string::String>,
     /// [Output Only] Type of the resource. Always compute#networkInterface for network interfaces.
@@ -14387,7 +14866,7 @@ pub struct NetworkInterface {
     /// [Output Only] The name of the network interface, which is generated by the server. For network devices, these are eth0, eth1, etc.
     #[prost(string, optional, tag = "3373707")]
     pub name: ::core::option::Option<::prost::alloc::string::String>,
-    /// URL of the network resource for this instance. When creating an instance, if neither the network nor the subnetwork is specified, the default network global/networks/default is used; if the network is not specified but the subnetwork is specified, the network is inferred. If you specify this property, you can specify the network as a full or partial URL. For example, the following are all valid URLs: - <https://www.googleapis.com/compute/v1/projects/project/global/networks/> network - projects/project/global/networks/network - global/networks/default
+    /// URL of the VPC network resource for this instance. When creating an instance, if neither the network nor the subnetwork is specified, the default network global/networks/default is used. If the selected project doesn't have the default network, you must specify a network or subnet. If the network is not specified but the subnetwork is specified, the network is inferred. If you specify this property, you can specify the network as a full or partial URL. For example, the following are all valid URLs: - <https://www.googleapis.com/compute/v1/projects/project/global/networks/> network - projects/project/global/networks/network - global/networks/default
     #[prost(string, optional, tag = "232872494")]
     pub network: ::core::option::Option<::prost::alloc::string::String>,
     /// An IPv4 internal IP address to assign to the instance for this network interface. If not specified by the user, an unused internal IP is assigned by the system.
@@ -14478,13 +14957,13 @@ pub struct NetworkPeering {
     /// Indicates whether full mesh connectivity is created and managed automatically between peered networks. Currently this field should always be true since Google Compute Engine will automatically create and manage subnetwork routes between two networks when peering state is ACTIVE.
     #[prost(bool, optional, tag = "26322256")]
     pub exchange_subnet_routes: ::core::option::Option<bool>,
-    /// Whether to export the custom routes to peer network.
+    /// Whether to export the custom routes to peer network. The default value is false.
     #[prost(bool, optional, tag = "60281485")]
     pub export_custom_routes: ::core::option::Option<bool>,
     /// Whether subnet routes with public IP range are exported. The default value is true, all subnet routes are exported. IPv4 special-use ranges are always exported to peers and are not controlled by this field.
     #[prost(bool, optional, tag = "97940834")]
     pub export_subnet_routes_with_public_ip: ::core::option::Option<bool>,
-    /// Whether to import the custom routes from peer network.
+    /// Whether to import the custom routes from peer network. The default value is false.
     #[prost(bool, optional, tag = "197982398")]
     pub import_custom_routes: ::core::option::Option<bool>,
     /// Whether subnet routes with public IP range are imported. The default value is false. IPv4 special-use ranges are always imported from peers and are not controlled by this field.
@@ -14519,6 +14998,26 @@ pub mod network_peering {
         Active = 314733318,
         /// There is no matching configuration on the peer, including the case when peer does not exist.
         Inactive = 270421099,
+    }
+}
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NetworkPerformanceConfig {
+    ///
+    /// Check the TotalEgressBandwidthTier enum for the list of possible values.
+    #[prost(string, optional, tag = "130109439")]
+    pub total_egress_bandwidth_tier: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `NetworkPerformanceConfig`.
+pub mod network_performance_config {
+    ///
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum TotalEgressBandwidthTier {
+        /// A value indicating that the enum field is not set.
+        UndefinedTotalEgressBandwidthTier = 0,
+        Default = 115302945,
+        Tier1 = 326919444,
     }
 }
 /// A routing configuration attached to a network resource. The message includes the list of routers associated with the network, and a flag indicating the type of routing behavior to enforce network-wide.
@@ -15398,6 +15897,59 @@ pub struct OutlierDetection {
     #[prost(int32, optional, tag = "174735773")]
     pub success_rate_stdev_factor: ::core::option::Option<i32>,
 }
+/// Next free: 7
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PacketIntervals {
+    /// Average observed inter-packet interval in milliseconds.
+    #[prost(int64, optional, tag = "204811827")]
+    pub avg_ms: ::core::option::Option<i64>,
+    /// From how long ago in the past these intervals were observed.
+    /// Check the Duration enum for the list of possible values.
+    #[prost(string, optional, tag = "155471252")]
+    pub duration: ::core::option::Option<::prost::alloc::string::String>,
+    /// Maximum observed inter-packet interval in milliseconds.
+    #[prost(int64, optional, tag = "529474145")]
+    pub max_ms: ::core::option::Option<i64>,
+    /// Minimum observed inter-packet interval in milliseconds.
+    #[prost(int64, optional, tag = "536564403")]
+    pub min_ms: ::core::option::Option<i64>,
+    /// Number of inter-packet intervals from which these statistics were derived.
+    #[prost(int64, optional, tag = "186329813")]
+    pub num_intervals: ::core::option::Option<i64>,
+    /// The type of packets for which inter-packet intervals were computed.
+    /// Check the Type enum for the list of possible values.
+    #[prost(string, optional, tag = "3575610")]
+    pub r#type: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `PacketIntervals`.
+pub mod packet_intervals {
+    /// From how long ago in the past these intervals were observed.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Duration {
+        /// A value indicating that the enum field is not set.
+        UndefinedDuration = 0,
+        Unspecified = 529071340,
+        Hour = 2223588,
+        /// From BfdSession object creation time.
+        Max = 76100,
+        Minute = 126786068,
+    }
+    /// The type of packets for which inter-packet intervals were computed.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// A value indicating that the enum field is not set.
+        UndefinedType = 0,
+        /// Only applies to Echo packets. This shows the intervals between sending and receiving the same packet.
+        Loopback = 356174219,
+        /// Intervals between received packets.
+        Receive = 189660867,
+        /// Intervals between transmitted packets.
+        Transmit = 452903600,
+        Unspecified = 437714322,
+    }
+}
 /// Represents a Packet Mirroring resource. Packet Mirroring clones the traffic of specified instances in your Virtual Private Cloud (VPC) network and forwards it to a collector destination, such as an instance group of an internal TCP/UDP load balancer, for analysis or examination. For more information about setting up Packet Mirroring, see Using Packet Mirroring.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PacketMirroring {
@@ -15724,7 +16276,7 @@ pub struct PatchGlobalPublicDelegatedPrefixeRequest {
     /// The body resource for this request
     #[prost(message, optional, tag = "47594501")]
     pub public_delegated_prefix_resource: ::core::option::Option<PublicDelegatedPrefix>,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -15920,7 +16472,7 @@ pub struct PatchPublicAdvertisedPrefixeRequest {
     /// The body resource for this request
     #[prost(message, optional, tag = "233614223")]
     pub public_advertised_prefix_resource: ::core::option::Option<PublicAdvertisedPrefix>,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -15939,7 +16491,7 @@ pub struct PatchPublicDelegatedPrefixeRequest {
     /// Name of the region for this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -16133,7 +16685,7 @@ pub struct PatchServiceAttachmentRequest {
     /// The region scoping this request and should conform to RFC1035.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// The resource id of the ServiceAttachment to patch. It should conform to RFC1035 resource name or be a string form on an unsigned long number.
@@ -16187,7 +16739,7 @@ pub struct PatchTargetGrpcProxyRequest {
     /// Project ID for this request.
     #[prost(string, tag = "227560217")]
     pub project: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the TargetGrpcProxy resource to patch.
@@ -16203,7 +16755,7 @@ pub struct PatchTargetHttpProxyRequest {
     /// Project ID for this request.
     #[prost(string, tag = "227560217")]
     pub project: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the TargetHttpProxy resource to patch.
@@ -16219,7 +16771,7 @@ pub struct PatchTargetHttpsProxyRequest {
     /// Project ID for this request.
     #[prost(string, tag = "227560217")]
     pub project: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the TargetHttpsProxy resource to patch.
@@ -16245,22 +16797,22 @@ pub struct PatchUrlMapRequest {
     #[prost(message, optional, tag = "168675425")]
     pub url_map_resource: ::core::option::Option<UrlMap>,
 }
-/// A matcher for the path portion of the URL. The BackendService from the longest-matched rule will serve the URL. If no rule was matched, the default service will be used.
+/// A matcher for the path portion of the URL. The BackendService from the longest-matched rule will serve the URL. If no rule was matched, the default service is used.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PathMatcher {
-    /// defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs advanced routing actions like URL rewrites, header transformations, etc. prior to forwarding the request to the selected backend. If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set. Conversely if defaultService is set, defaultRouteAction cannot contain any weightedBackendServices. Only one of defaultRouteAction or defaultUrlRedirect must be set. UrlMaps for external HTTP(S) load balancers support only the urlRewrite action within a pathMatcher's defaultRouteAction.
+    /// defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs advanced routing actions, such as URL rewrites and header transformations, before forwarding the request to the selected backend. If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set. Conversely if defaultService is set, defaultRouteAction cannot contain any weightedBackendServices. Only one of defaultRouteAction or defaultUrlRedirect must be set. UrlMaps for external HTTP(S) load balancers support only the urlRewrite action within a path matcher's defaultRouteAction.
     #[prost(message, optional, tag = "378919466")]
     pub default_route_action: ::core::option::Option<HttpRouteAction>,
-    /// The full or partial URL to the BackendService resource. This will be used if none of the pathRules or routeRules defined by this PathMatcher are matched. For example, the following are all valid URLs to a BackendService resource: - <https://www.googleapis.com/compute/v1/projects/project> /global/backendServices/backendService - compute/v1/projects/project/global/backendServices/backendService - global/backendServices/backendService If defaultRouteAction is additionally specified, advanced routing actions like URL Rewrites, etc. take effect prior to sending the request to the backend. However, if defaultService is specified, defaultRouteAction cannot contain any weightedBackendServices. Conversely, if defaultRouteAction specifies any weightedBackendServices, defaultService must not be specified. Only one of defaultService, defaultUrlRedirect or defaultRouteAction.weightedBackendService must be set. Authorization requires one or more of the following Google IAM permissions on the specified resource default_service: - compute.backendBuckets.use - compute.backendServices.use
+    /// The full or partial URL to the BackendService resource. This URL is used if none of the pathRules or routeRules defined by this PathMatcher are matched. For example, the following are all valid URLs to a BackendService resource: - <https://www.googleapis.com/compute/v1/projects/project> /global/backendServices/backendService - compute/v1/projects/project/global/backendServices/backendService - global/backendServices/backendService If defaultRouteAction is also specified, advanced routing actions, such as URL rewrites, take effect before sending the request to the backend. However, if defaultService is specified, defaultRouteAction cannot contain any weightedBackendServices. Conversely, if defaultRouteAction specifies any weightedBackendServices, defaultService must not be specified. Only one of defaultService, defaultUrlRedirect , or defaultRouteAction.weightedBackendService must be set. Authorization requires one or more of the following Google IAM permissions on the specified resource default_service: - compute.backendBuckets.use - compute.backendServices.use
     #[prost(string, optional, tag = "370242231")]
     pub default_service: ::core::option::Option<::prost::alloc::string::String>,
-    /// When none of the specified pathRules or routeRules match, the request is redirected to a URL specified by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or defaultRouteAction must not be set. Not supported when the URL map is bound to target gRPC proxy.
+    /// When none of the specified pathRules or routeRules match, the request is redirected to a URL specified by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or defaultRouteAction must not be set. Not supported when the URL map is bound to a target gRPC proxy.
     #[prost(message, optional, tag = "359503338")]
     pub default_url_redirect: ::core::option::Option<HttpRedirectAction>,
     /// An optional description of this resource. Provide this property when you create the resource.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies changes to request and response headers that need to take effect for the selected backendService. HeaderAction specified here are applied after the matching HttpRouteRule HeaderAction and before the HeaderAction in the UrlMap Note that headerAction is not supported for Loadbalancers that have their loadBalancingScheme set to EXTERNAL. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Specifies changes to request and response headers that need to take effect for the selected backend service. HeaderAction specified here are applied after the matching HttpRouteRule HeaderAction and before the HeaderAction in the UrlMap HeaderAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL. Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
     #[prost(message, optional, tag = "328077352")]
     pub header_action: ::core::option::Option<HttpHeaderAction>,
     /// The name to which this PathMatcher is referred by the HostRule.
@@ -16279,13 +16831,13 @@ pub struct PathRule {
     /// The list of path patterns to match. Each must start with / and the only place a * is allowed is at the end following a /. The string fed to the path matcher does not include any text after the first ? or #, and those chars are not allowed here.
     #[prost(string, repeated, tag = "106438894")]
     pub paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// In response to a matching path, the load balancer performs advanced routing actions like URL rewrites, header transformations, etc. prior to forwarding the request to the selected backend. If routeAction specifies any weightedBackendServices, service must not be set. Conversely if service is set, routeAction cannot contain any weightedBackendServices. Only one of routeAction or urlRedirect must be set. UrlMaps for external HTTP(S) load balancers support only the urlRewrite action within a pathRule's routeAction.
+    /// In response to a matching path, the load balancer performs advanced routing actions, such as URL rewrites and header transformations, before forwarding the request to the selected backend. If routeAction specifies any weightedBackendServices, service must not be set. Conversely if service is set, routeAction cannot contain any weightedBackendServices. Only one of routeAction or urlRedirect must be set. URL maps for external HTTP(S) load balancers support only the urlRewrite action within a path rule's routeAction.
     #[prost(message, optional, tag = "424563948")]
     pub route_action: ::core::option::Option<HttpRouteAction>,
-    /// The full or partial URL of the backend service resource to which traffic is directed if this rule is matched. If routeAction is additionally specified, advanced routing actions like URL Rewrites, etc. take effect prior to sending the request to the backend. However, if service is specified, routeAction cannot contain any weightedBackendService s. Conversely, if routeAction specifies any weightedBackendServices, service must not be specified. Only one of urlRedirect, service or routeAction.weightedBackendService must be set.
+    /// The full or partial URL of the backend service resource to which traffic is directed if this rule is matched. If routeAction is also specified, advanced routing actions, such as URL rewrites, take effect before sending the request to the backend. However, if service is specified, routeAction cannot contain any weightedBackendServices. Conversely, if routeAction specifies any weightedBackendServices, service must not be specified. Only one of urlRedirect, service or routeAction.weightedBackendService must be set.
     #[prost(string, optional, tag = "373540533")]
     pub service: ::core::option::Option<::prost::alloc::string::String>,
-    /// When a path pattern is matched, the request is redirected to a URL specified by urlRedirect. If urlRedirect is specified, service or routeAction must not be set. Not supported when the URL map is bound to target gRPC proxy.
+    /// When a path pattern is matched, the request is redirected to a URL specified by urlRedirect. If urlRedirect is specified, service or routeAction must not be set. Not supported when the URL map is bound to a target gRPC proxy.
     #[prost(message, optional, tag = "405147820")]
     pub url_redirect: ::core::option::Option<HttpRedirectAction>,
 }
@@ -16328,21 +16880,18 @@ pub mod per_instance_config {
         UnappliedDeletion = 313956873,
     }
 }
-/// An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members` to a single `role`. Members can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](<https://cloud.google.com/iam/help/conditions/resource-policies>). **JSON example:** { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } **YAML example:** bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 For a description of IAM and its features, see the [IAM documentation](<https://cloud.google.com/iam/docs/>).
+/// An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](<https://cloud.google.com/iam/help/conditions/resource-policies>). **JSON example:** { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } **YAML example:** bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 For a description of IAM and its features, see the [IAM documentation](<https://cloud.google.com/iam/docs/>).
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Policy {
     /// Specifies cloud audit logging configuration for this policy.
     #[prost(message, repeated, tag = "328080653")]
     pub audit_configs: ::prost::alloc::vec::Vec<AuditConfig>,
-    /// Associates a list of `members` to a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one member.
+    /// Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`.
     #[prost(message, repeated, tag = "403251854")]
     pub bindings: ::prost::alloc::vec::Vec<Binding>,
     /// `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost.
     #[prost(string, optional, tag = "3123477")]
     pub etag: ::core::option::Option<::prost::alloc::string::String>,
-    /// This is deprecated and has no effect. Do not use.
-    #[prost(bool, optional, tag = "450566203")]
-    pub iam_owned: ::core::option::Option<bool>,
     /// This is deprecated and has no effect. Do not use.
     #[prost(message, repeated, tag = "108873975")]
     pub rules: ::prost::alloc::vec::Vec<Rule>,
@@ -16480,10 +17029,14 @@ pub mod project {
     pub enum DefaultNetworkTier {
         /// A value indicating that the enum field is not set.
         UndefinedDefaultNetworkTier = 0,
+        /// Public internet quality with fixed bandwidth.
+        FixedStandard = 310464328,
         /// High quality, Google-grade network tier, support for all networking products.
         Premium = 399530551,
         /// Public internet quality, only limited support for other networking products.
         Standard = 484642493,
+        /// (Output only) Temporary tier for FIXED_STANDARD when fixed standard tier is expired or not configured.
+        StandardOverridesFixedStandard = 465847234,
     }
     /// [Output Only] The role this project has in a shared VPC configuration. Currently, only projects with the host role, which is specified by the value HOST, are differentiated.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -16545,10 +17098,14 @@ pub mod projects_set_default_network_tier_request {
     pub enum NetworkTier {
         /// A value indicating that the enum field is not set.
         UndefinedNetworkTier = 0,
+        /// Public internet quality with fixed bandwidth.
+        FixedStandard = 310464328,
         /// High quality, Google-grade network tier, support for all networking products.
         Premium = 399530551,
         /// Public internet quality, only limited support for other networking products.
         Standard = 484642493,
+        /// (Output only) Temporary tier for FIXED_STANDARD when fixed standard tier is expired or not configured.
+        StandardOverridesFixedStandard = 465847234,
     }
 }
 /// A public advertised prefix represents an aggregated IP prefix or netblock which customers bring to cloud. The IP prefix is a single unit of route advertisement and is announced globally to the internet.
@@ -16588,25 +17145,32 @@ pub struct PublicAdvertisedPrefix {
     /// [Output Only] The shared secret to be used for reverse DNS verification.
     #[prost(string, optional, tag = "381932490")]
     pub shared_secret: ::core::option::Option<::prost::alloc::string::String>,
-    /// The status of the public advertised prefix.
+    /// The status of the public advertised prefix. Possible values include: - `INITIAL`: RPKI validation is complete. - `PTR_CONFIGURED`: User has configured the PTR. - `VALIDATED`: Reverse DNS lookup is successful. - `REVERSE_DNS_LOOKUP_FAILED`: Reverse DNS lookup failed. - `PREFIX_CONFIGURATION_IN_PROGRESS`: The prefix is being configured. - `PREFIX_CONFIGURATION_COMPLETE`: The prefix is fully configured. - `PREFIX_REMOVAL_IN_PROGRESS`: The prefix is being removed.
     /// Check the Status enum for the list of possible values.
     #[prost(string, optional, tag = "181260274")]
     pub status: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `PublicAdvertisedPrefix`.
 pub mod public_advertised_prefix {
-    /// The status of the public advertised prefix.
+    /// The status of the public advertised prefix. Possible values include: - `INITIAL`: RPKI validation is complete. - `PTR_CONFIGURED`: User has configured the PTR. - `VALIDATED`: Reverse DNS lookup is successful. - `REVERSE_DNS_LOOKUP_FAILED`: Reverse DNS lookup failed. - `PREFIX_CONFIGURATION_IN_PROGRESS`: The prefix is being configured. - `PREFIX_CONFIGURATION_COMPLETE`: The prefix is fully configured. - `PREFIX_REMOVAL_IN_PROGRESS`: The prefix is being removed.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Status {
         /// A value indicating that the enum field is not set.
         UndefinedStatus = 0,
+        /// RPKI validation is complete.
         Initial = 518841124,
+        /// The prefix is fully configured.
         PrefixConfigurationComplete = 480889551,
+        /// The prefix is being configured.
         PrefixConfigurationInProgress = 378550961,
+        /// The prefix is being removed.
         PrefixRemovalInProgress = 284375783,
+        /// User has configured the PTR.
         PtrConfigured = 513497167,
+        /// Reverse DNS lookup failed.
         ReverseDnsLookupFailed = 295755183,
+        /// Reverse DNS lookup is successful.
         Validated = 66197998,
     }
 }
@@ -16691,22 +17255,26 @@ pub struct PublicDelegatedPrefix {
     /// [Output Only] Server-defined URL for the resource.
     #[prost(string, optional, tag = "456214797")]
     pub self_link: ::core::option::Option<::prost::alloc::string::String>,
-    /// [Output Only] The status of the public delegated prefix.
+    /// [Output Only] The status of the public delegated prefix, which can be one of following values: - `INITIALIZING` The public delegated prefix is being initialized and addresses cannot be created yet. - `READY_TO_ANNOUNCE` The public delegated prefix is a live migration prefix and is active. - `ANNOUNCED` The public delegated prefix is active. - `DELETING` The public delegated prefix is being deprovsioned.
     /// Check the Status enum for the list of possible values.
     #[prost(string, optional, tag = "181260274")]
     pub status: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `PublicDelegatedPrefix`.
 pub mod public_delegated_prefix {
-    /// [Output Only] The status of the public delegated prefix.
+    /// [Output Only] The status of the public delegated prefix, which can be one of following values: - `INITIALIZING` The public delegated prefix is being initialized and addresses cannot be created yet. - `READY_TO_ANNOUNCE` The public delegated prefix is a live migration prefix and is active. - `ANNOUNCED` The public delegated prefix is active. - `DELETING` The public delegated prefix is being deprovsioned.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Status {
         /// A value indicating that the enum field is not set.
         UndefinedStatus = 0,
+        /// The public delegated prefix is active.
         Announced = 365103355,
+        /// The public delegated prefix is being deprovsioned.
         Deleting = 528602024,
+        /// The public delegated prefix is being initialized and addresses cannot be created yet.
         Initializing = 306588749,
+        /// The public delegated prefix is currently withdrawn but ready to be announced.
         ReadyToAnnounce = 64641265,
     }
 }
@@ -16850,6 +17418,7 @@ pub mod quota {
         CommittedE2Cpus = 388120154,
         CommittedLicenses = 357606869,
         CommittedLocalSsdTotalGb = 308393480,
+        CommittedM3Cpus = 585985,
         CommittedMemoryOptimizedCpus = 489057886,
         CommittedN2aCpus = 40064304,
         CommittedN2dCpus = 125951757,
@@ -16860,6 +17429,7 @@ pub mod quota {
         CommittedNvidiaP4Gpus = 347952897,
         CommittedNvidiaT4Gpus = 139871237,
         CommittedNvidiaV100Gpus = 219562,
+        CommittedT2aCpus = 296378986,
         CommittedT2dCpus = 382266439,
         /// Guest CPUs
         Cpus = 2075595,
@@ -16871,6 +17441,7 @@ pub mod quota {
         ExternalVpnGateways = 272457134,
         Firewalls = 374485843,
         ForwardingRules = 432668949,
+        GlobalExternalManagedForwardingRules = 327611949,
         GlobalInternalAddresses = 42738332,
         GpusAllRegions = 39387177,
         HealthChecks = 289347502,
@@ -16892,6 +17463,7 @@ pub mod quota {
         LocalSsdTotalGb = 330878021,
         M1Cpus = 37203366,
         M2Cpus = 65832517,
+        M3Cpus = 94461668,
         MachineImages = 446986640,
         N2aCpus = 265855917,
         N2dCpus = 351743370,
@@ -16946,6 +17518,7 @@ pub mod quota {
         StaticAddresses = 93624049,
         StaticByoipAddresses = 275809649,
         Subnetworks = 421330469,
+        T2aCpus = 522170599,
         T2dCpus = 71187140,
         TargetHttpsProxies = 219522506,
         TargetHttpProxies = 164117155,
@@ -17231,7 +17804,7 @@ pub struct RegionInstanceGroupManagersAbandonInstancesRequest {
 /// RegionInstanceGroupManagers.applyUpdatesToInstances
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RegionInstanceGroupManagersApplyUpdatesRequest {
-    /// Flag to update all instances instead of specified list of “instances”. If the flag is set to true then the instances may not be specified in the request.
+    /// Flag to update all instances instead of specified list of ���instances���. If the flag is set to true then the instances may not be specified in the request.
     #[prost(bool, optional, tag = "403676512")]
     pub all_instances: ::core::option::Option<bool>,
     /// The list of URLs of one or more instances for which you want to apply updates. Each URL can be a full URL or a partial URL, such as zones/\[ZONE]/instances/[INSTANCE_NAME\].
@@ -17613,7 +18186,7 @@ pub struct RemoveRuleSecurityPolicyRequest {
     #[prost(string, tag = "171082513")]
     pub security_policy: ::prost::alloc::string::String,
 }
-/// A policy that specifies how requests intended for the route's backends are shadowed to a separate mirrored backend service. Loadbalancer does not wait for responses from the shadow service. Prior to sending traffic to the shadow service, the host / authority header is suffixed with -shadow.
+/// A policy that specifies how requests intended for the route's backends are shadowed to a separate mirrored backend service. The load balancer doesn't wait for responses from the shadow service. Before sending traffic to the shadow service, the host or authority header is suffixed with -shadow.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestMirrorPolicy {
     /// The full or partial URL to the BackendService resource being mirrored to.
@@ -17647,6 +18220,9 @@ pub struct Reservation {
     /// [Output Only] Server-defined fully-qualified URL for this resource.
     #[prost(string, optional, tag = "456214797")]
     pub self_link: ::core::option::Option<::prost::alloc::string::String>,
+    /// Share-settings for shared-reservation
+    #[prost(message, optional, tag = "266668163")]
+    pub share_settings: ::core::option::Option<ShareSettings>,
     /// Reservation for instances with specific machine shapes.
     #[prost(message, optional, tag = "404901951")]
     pub specific_reservation: ::core::option::Option<AllocationSpecificSkuReservation>,
@@ -18250,6 +18826,22 @@ pub mod resource_policy_weekly_cycle_day_of_week {
         Wednesday = 422029110,
     }
 }
+/// A request message for Instances.Resume. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResumeInstanceRequest {
+    /// Name of the instance resource to resume.
+    #[prost(string, tag = "18257045")]
+    pub instance: ::prost::alloc::string::String,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
+    #[prost(string, optional, tag = "37109963")]
+    pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// The name of the zone for this request.
+    #[prost(string, tag = "3744684")]
+    pub zone: ::prost::alloc::string::String,
+}
 /// Represents a Route resource. A route defines a path from VM instances in the VPC network to a specific destination. This destination can be inside or outside the VPC network. For more information, read the Routes overview.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Route {
@@ -18521,12 +19113,18 @@ pub struct RouterBgpPeer {
     /// Check the Enable enum for the list of possible values.
     #[prost(string, optional, tag = "311764355")]
     pub enable: ::core::option::Option<::prost::alloc::string::String>,
+    /// Enable IPv6 traffic over BGP Peer. If not specified, it is disabled by default.
+    #[prost(bool, optional, tag = "181467939")]
+    pub enable_ipv6: ::core::option::Option<bool>,
     /// Name of the interface the BGP peer is associated with.
     #[prost(string, optional, tag = "437854673")]
     pub interface_name: ::core::option::Option<::prost::alloc::string::String>,
     /// IP address of the interface inside Google Cloud Platform. Only IPv4 is supported.
     #[prost(string, optional, tag = "406272220")]
     pub ip_address: ::core::option::Option<::prost::alloc::string::String>,
+    /// IPv6 address of the interface inside Google Cloud Platform.
+    #[prost(string, optional, tag = "27968211")]
+    pub ipv6_nexthop_address: ::core::option::Option<::prost::alloc::string::String>,
     /// [Output Only] The resource that configures and manages this BGP peer. - MANAGED_BY_USER is the default value and can be managed by you or other users - MANAGED_BY_ATTACHMENT is a BGP peer that is configured and managed by Cloud Interconnect, specifically by an InterconnectAttachment of type PARTNER. Google automatically creates, updates, and deletes this type of BGP peer when the PARTNER InterconnectAttachment is created, updated, or deleted.
     /// Check the ManagementType enum for the list of possible values.
     #[prost(string, optional, tag = "173703606")]
@@ -18540,6 +19138,9 @@ pub struct RouterBgpPeer {
     /// IP address of the BGP interface outside Google Cloud Platform. Only IPv4 is supported.
     #[prost(string, optional, tag = "207735769")]
     pub peer_ip_address: ::core::option::Option<::prost::alloc::string::String>,
+    /// IPv6 address of the BGP interface outside Google Cloud Platform.
+    #[prost(string, optional, tag = "491486608")]
+    pub peer_ipv6_nexthop_address: ::core::option::Option<::prost::alloc::string::String>,
     /// URI of the VM instance that is used as third-party router appliances such as Next Gen Firewalls, Virtual Routers, or Router Appliances. The VM instance must be located in zones contained in the same region as this Cloud Router. The VM instance is the peer side of the BGP session.
     #[prost(string, optional, tag = "468312989")]
     pub router_appliance_instance: ::core::option::Option<::prost::alloc::string::String>,
@@ -18686,6 +19287,9 @@ pub struct RouterNat {
     /// A list of URLs of the IP resources to be drained. These IPs must be valid static external IPs that have been assigned to the NAT. These IPs should be used for updating/patching a NAT only.
     #[prost(string, repeated, tag = "504078535")]
     pub drain_nat_ips: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Enable Dynamic Port Allocation. If not specified, it is disabled by default. If set to true, - Dynamic Port Allocation will be enabled on this NAT config. - enableEndpointIndependentMapping cannot be set to true. - If minPorts is set, minPortsPerVm must be set to a power of two greater than or equal to 32. If minPortsPerVm is not set, a minimum of 32 ports will be allocated to a VM from this NAT config.
+    #[prost(bool, optional, tag = "532106402")]
+    pub enable_dynamic_port_allocation: ::core::option::Option<bool>,
     #[prost(bool, optional, tag = "259441819")]
     pub enable_endpoint_independent_mapping: ::core::option::Option<bool>,
     /// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
@@ -18694,6 +19298,9 @@ pub struct RouterNat {
     /// Configure logging on this NAT.
     #[prost(message, optional, tag = "351299741")]
     pub log_config: ::core::option::Option<RouterNatLogConfig>,
+    /// Maximum number of ports allocated to a VM from this NAT config when Dynamic Port Allocation is enabled. If Dynamic Port Allocation is not enabled, this field has no effect. If Dynamic Port Allocation is enabled, and this field is set, it must be set to a power of two greater than minPortsPerVm, or 64 if minPortsPerVm is not set. If Dynamic Port Allocation is enabled and this field is not set, a maximum of 65536 ports will be allocated to a VM from this NAT config.
+    #[prost(int32, optional, tag = "250062049")]
+    pub max_ports_per_vm: ::core::option::Option<i32>,
     /// Minimum number of ports allocated to a VM from this NAT config. If not set, a default number of ports is allocated to a VM. This is rounded up to the nearest power of 2. For example, if the value of this field is 50, at least 64 ports are allocated to a VM.
     #[prost(int32, optional, tag = "186193587")]
     pub min_ports_per_vm: ::core::option::Option<i32>,
@@ -18793,7 +19400,7 @@ pub struct RouterNatRule {
     /// An optional description of this rule.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
-    /// CEL expression that specifies the match condition that egress traffic from a VM is evaluated against. If it evaluates to true, the corresponding `action` is enforced. The following examples are valid match expressions for public NAT: "inIpRange(destination.ip, '1.1.0.0/16') || inIpRange(destination.ip, '2.2.0.0/16')" "destination.ip == '1.1.0.1' || destination.ip == '8.8.8.8'" The following example is a valid match expression for private NAT: "nexthop.hub == '/projects/my-project/global/hub/hub-1'"
+    /// CEL expression that specifies the match condition that egress traffic from a VM is evaluated against. If it evaluates to true, the corresponding `action` is enforced. The following examples are valid match expressions for public NAT: "inIpRange(destination.ip, '1.1.0.0/16') || inIpRange(destination.ip, '2.2.0.0/16')" "destination.ip == '1.1.0.1' || destination.ip == '8.8.8.8'" The following example is a valid match expression for private NAT: "nexthop.hub == '<https://networkconnectivity.googleapis.com/v1alpha1/projects/my-project/global/hub/hub-1'">
     #[prost(string, optional, tag = "103668165")]
     pub r#match: ::core::option::Option<::prost::alloc::string::String>,
     /// An integer uniquely identifying a rule in the list. The rule number must be a positive value between 0 and 65000, and must be unique among rules within a NAT.
@@ -18863,6 +19470,8 @@ pub struct RouterStatusBgpPeerStatus {
     /// Routes that were advertised to the remote BGP peer
     #[prost(message, repeated, tag = "333393068")]
     pub advertised_routes: ::prost::alloc::vec::Vec<Route>,
+    #[prost(message, optional, tag = "395631729")]
+    pub bfd_status: ::core::option::Option<BfdStatus>,
     /// IP address of the local BGP interface.
     #[prost(string, optional, tag = "406272220")]
     pub ip_address: ::core::option::Option<::prost::alloc::string::String>,
@@ -19081,6 +19690,132 @@ pub mod ssl_health_check {
         ProxyV1 = 334352940,
     }
 }
+/// DEPRECATED: Please use compute#savedDisk instead. An instance-attached disk resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SavedAttachedDisk {
+    /// Specifies whether the disk will be auto-deleted when the instance is deleted (but not when the disk is detached from the instance).
+    #[prost(bool, optional, tag = "464761403")]
+    pub auto_delete: ::core::option::Option<bool>,
+    /// Indicates that this is a boot disk. The virtual machine will use the first partition of the disk for its root filesystem.
+    #[prost(bool, optional, tag = "3029746")]
+    pub boot: ::core::option::Option<bool>,
+    /// Specifies the name of the disk attached to the source instance.
+    #[prost(string, optional, tag = "67541716")]
+    pub device_name: ::core::option::Option<::prost::alloc::string::String>,
+    /// The encryption key for the disk.
+    #[prost(message, optional, tag = "271660677")]
+    pub disk_encryption_key: ::core::option::Option<CustomerEncryptionKey>,
+    /// The size of the disk in base-2 GB.
+    #[prost(int64, optional, tag = "316263735")]
+    pub disk_size_gb: ::core::option::Option<i64>,
+    /// [Output Only] URL of the disk type resource. For example: projects/project /zones/zone/diskTypes/pd-standard or pd-ssd
+    #[prost(string, optional, tag = "93009052")]
+    pub disk_type: ::core::option::Option<::prost::alloc::string::String>,
+    /// A list of features to enable on the guest operating system. Applicable only for bootable images. Read Enabling guest operating system features to see a list of available options.
+    #[prost(message, repeated, tag = "79294545")]
+    pub guest_os_features: ::prost::alloc::vec::Vec<GuestOsFeature>,
+    /// Specifies zero-based index of the disk that is attached to the source instance.
+    #[prost(int32, optional, tag = "100346066")]
+    pub index: ::core::option::Option<i32>,
+    /// Specifies the disk interface to use for attaching this disk, which is either SCSI or NVME.
+    /// Check the Interface enum for the list of possible values.
+    #[prost(string, optional, tag = "502623545")]
+    pub interface: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] Type of the resource. Always compute#attachedDisk for attached disks.
+    #[prost(string, optional, tag = "3292052")]
+    pub kind: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] Any valid publicly visible licenses.
+    #[prost(string, repeated, tag = "337642578")]
+    pub licenses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The mode in which this disk is attached to the source instance, either READ_WRITE or READ_ONLY.
+    /// Check the Mode enum for the list of possible values.
+    #[prost(string, optional, tag = "3357091")]
+    pub mode: ::core::option::Option<::prost::alloc::string::String>,
+    /// Specifies a URL of the disk attached to the source instance.
+    #[prost(string, optional, tag = "177235995")]
+    pub source: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] A size of the storage used by the disk's snapshot by this machine image.
+    #[prost(int64, optional, tag = "424631719")]
+    pub storage_bytes: ::core::option::Option<i64>,
+    /// [Output Only] An indicator whether storageBytes is in a stable state or it is being adjusted as a result of shared storage reallocation. This status can either be UPDATING, meaning the size of the snapshot is being updated, or UP_TO_DATE, meaning the size of the snapshot is up-to-date.
+    /// Check the StorageBytesStatus enum for the list of possible values.
+    #[prost(string, optional, tag = "490739082")]
+    pub storage_bytes_status: ::core::option::Option<::prost::alloc::string::String>,
+    /// Specifies the type of the attached disk, either SCRATCH or PERSISTENT.
+    /// Check the Type enum for the list of possible values.
+    #[prost(string, optional, tag = "3575610")]
+    pub r#type: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `SavedAttachedDisk`.
+pub mod saved_attached_disk {
+    /// Specifies the disk interface to use for attaching this disk, which is either SCSI or NVME.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Interface {
+        /// A value indicating that the enum field is not set.
+        UndefinedInterface = 0,
+        Nvme = 2408800,
+        Scsi = 2539686,
+    }
+    /// The mode in which this disk is attached to the source instance, either READ_WRITE or READ_ONLY.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Mode {
+        /// A value indicating that the enum field is not set.
+        UndefinedMode = 0,
+        /// Attaches this disk in read-only mode. Multiple virtual machines can use a disk in read-only mode at a time.
+        ReadOnly = 91950261,
+        /// *\[Default\]* Attaches this disk in read-write mode. Only one virtual machine at a time can be attached to a disk in read-write mode.
+        ReadWrite = 173607894,
+    }
+    /// [Output Only] An indicator whether storageBytes is in a stable state or it is being adjusted as a result of shared storage reallocation. This status can either be UPDATING, meaning the size of the snapshot is being updated, or UP_TO_DATE, meaning the size of the snapshot is up-to-date.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum StorageBytesStatus {
+        /// A value indicating that the enum field is not set.
+        UndefinedStorageBytesStatus = 0,
+        Updating = 494614342,
+        UpToDate = 101306702,
+    }
+    /// Specifies the type of the attached disk, either SCRATCH or PERSISTENT.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// A value indicating that the enum field is not set.
+        UndefinedType = 0,
+        Persistent = 460683927,
+        Scratch = 496778970,
+    }
+}
+/// An instance-attached disk resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SavedDisk {
+    /// [Output Only] Type of the resource. Always compute#savedDisk for attached disks.
+    #[prost(string, optional, tag = "3292052")]
+    pub kind: ::core::option::Option<::prost::alloc::string::String>,
+    /// Specifies a URL of the disk attached to the source instance.
+    #[prost(string, optional, tag = "451753793")]
+    pub source_disk: ::core::option::Option<::prost::alloc::string::String>,
+    /// [Output Only] Size of the individual disk snapshot used by this machine image.
+    #[prost(int64, optional, tag = "424631719")]
+    pub storage_bytes: ::core::option::Option<i64>,
+    /// [Output Only] An indicator whether storageBytes is in a stable state or it is being adjusted as a result of shared storage reallocation. This status can either be UPDATING, meaning the size of the snapshot is being updated, or UP_TO_DATE, meaning the size of the snapshot is up-to-date.
+    /// Check the StorageBytesStatus enum for the list of possible values.
+    #[prost(string, optional, tag = "490739082")]
+    pub storage_bytes_status: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `SavedDisk`.
+pub mod saved_disk {
+    /// [Output Only] An indicator whether storageBytes is in a stable state or it is being adjusted as a result of shared storage reallocation. This status can either be UPDATING, meaning the size of the snapshot is being updated, or UP_TO_DATE, meaning the size of the snapshot is up-to-date.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum StorageBytesStatus {
+        /// A value indicating that the enum field is not set.
+        UndefinedStorageBytesStatus = 0,
+        Updating = 494614342,
+        UpToDate = 101306702,
+    }
+}
 ///
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ScalingScheduleStatus {
@@ -19119,6 +19854,10 @@ pub struct Scheduling {
     /// Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted. By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
     #[prost(bool, optional, tag = "350821371")]
     pub automatic_restart: ::core::option::Option<bool>,
+    /// Specifies the termination action for the instance.
+    /// Check the InstanceTerminationAction enum for the list of possible values.
+    #[prost(string, optional, tag = "107380667")]
+    pub instance_termination_action: ::core::option::Option<::prost::alloc::string::String>,
     /// An opaque location hint used to place the instance close to other resources. This field is for use by internal tools that use the public API.
     #[prost(string, optional, tag = "350519505")]
     pub location_hint: ::core::option::Option<::prost::alloc::string::String>,
@@ -19128,17 +19867,34 @@ pub struct Scheduling {
     /// A set of node affinity and anti-affinity configurations. Refer to Configuring node affinity for more information. Overrides reservationAffinity.
     #[prost(message, repeated, tag = "461799971")]
     pub node_affinities: ::prost::alloc::vec::Vec<SchedulingNodeAffinity>,
-    /// Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.
+    /// Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Set VM availability policies.
     /// Check the OnHostMaintenance enum for the list of possible values.
     #[prost(string, optional, tag = "64616796")]
     pub on_host_maintenance: ::core::option::Option<::prost::alloc::string::String>,
     /// Defines whether the instance is preemptible. This can only be set during instance creation or while the instance is stopped and therefore, in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states.
     #[prost(bool, optional, tag = "324203169")]
     pub preemptible: ::core::option::Option<bool>,
+    /// Specifies the provisioning model of the instance.
+    /// Check the ProvisioningModel enum for the list of possible values.
+    #[prost(string, optional, tag = "494423")]
+    pub provisioning_model: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `Scheduling`.
 pub mod scheduling {
-    /// Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Setting Instance Scheduling Options.
+    /// Specifies the termination action for the instance.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum InstanceTerminationAction {
+        /// A value indicating that the enum field is not set.
+        UndefinedInstanceTerminationAction = 0,
+        /// Delete the VM.
+        Delete = 402225579,
+        /// Default value. This value is unused.
+        Unspecified = 92954803,
+        /// Stop the VM without storing in-memory content. default action.
+        Stop = 2555906,
+    }
+    /// Defines the maintenance behavior for this instance. For standard instances, the default behavior is MIGRATE. For preemptible instances, the default and only possible behavior is TERMINATE. For more information, see Set VM availability policies.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum OnHostMaintenance {
@@ -19148,6 +19904,17 @@ pub mod scheduling {
         Migrate = 165699979,
         /// Tells Compute Engine to terminate and (optionally) restart the instance away from the maintenance activity. If you would like your instance to be restarted, set the automaticRestart flag to true. Your instance may be restarted more than once, and it may be restarted outside the window of maintenance events.
         Terminate = 527617601,
+    }
+    /// Specifies the provisioning model of the instance.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ProvisioningModel {
+        /// A value indicating that the enum field is not set.
+        UndefinedProvisioningModel = 0,
+        /// Heavily discounted, no guaranteed runtime.
+        Spot = 2552066,
+        /// Standard provisioning with user controlled runtime, no discounts.
+        Standard = 484642493,
     }
 }
 /// Node Affinity: the configuration of desired nodes onto which this Instance could be scheduled.
@@ -19233,12 +20000,30 @@ pub struct SecurityPolicy {
     /// Name of the resource. Provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `\[a-z]([-a-z0-9]*[a-z0-9\])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
     #[prost(string, optional, tag = "3373707")]
     pub name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(message, optional, tag = "519006811")]
+    pub recaptcha_options_config: ::core::option::Option<SecurityPolicyRecaptchaOptionsConfig>,
     /// A list of rules that belong to this policy. There must always be a default rule (rule with priority 2147483647 and match "*"). If no rules are provided when creating a security policy, a default rule with action "allow" will be added.
     #[prost(message, repeated, tag = "108873975")]
     pub rules: ::prost::alloc::vec::Vec<SecurityPolicyRule>,
     /// [Output Only] Server-defined URL for the resource.
     #[prost(string, optional, tag = "456214797")]
     pub self_link: ::core::option::Option<::prost::alloc::string::String>,
+    /// The type indicates the intended use of the security policy. CLOUD_ARMOR - Cloud Armor backend security policies can be configured to filter incoming HTTP requests targeting backend services. They filter requests before they hit the origin servers. CLOUD_ARMOR_EDGE - Cloud Armor edge security policies can be configured to filter incoming HTTP requests targeting backend services (including Cloud CDN-enabled) as well as backend buckets (Cloud Storage). They filter requests before the request is served from Google's cache.
+    /// Check the Type enum for the list of possible values.
+    #[prost(string, optional, tag = "3575610")]
+    pub r#type: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `SecurityPolicy`.
+pub mod security_policy {
+    /// The type indicates the intended use of the security policy. CLOUD_ARMOR - Cloud Armor backend security policies can be configured to filter incoming HTTP requests targeting backend services. They filter requests before they hit the origin servers. CLOUD_ARMOR_EDGE - Cloud Armor edge security policies can be configured to filter incoming HTTP requests targeting backend services (including Cloud CDN-enabled) as well as backend buckets (Cloud Storage). They filter requests before the request is served from Google's cache.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// A value indicating that the enum field is not set.
+        UndefinedType = 0,
+        CloudArmor = 260640373,
+        CloudArmorEdge = 250728775,
+    }
 }
 /// Configuration options for Cloud Armor Adaptive Protection (CAAP).
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -19325,6 +20110,13 @@ pub struct SecurityPolicyList {
 }
 ///
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SecurityPolicyRecaptchaOptionsConfig {
+    /// An optional field to supply a reCAPTCHA site key to be used for all the rules using the redirect action with the type of GOOGLE_RECAPTCHA under the security policy. The specified site key needs to be created from the reCAPTCHA API. The user is responsible for the validity of the specified site key. If not specified, a Google-managed site key is used.
+    #[prost(string, optional, tag = "447677034")]
+    pub redirect_site_key: ::core::option::Option<::prost::alloc::string::String>,
+}
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SecurityPolicyReference {
     #[prost(string, optional, tag = "171082513")]
     pub security_policy: ::core::option::Option<::prost::alloc::string::String>,
@@ -19332,12 +20124,15 @@ pub struct SecurityPolicyReference {
 /// Represents a rule that describes one or more match conditions along with the action to be taken when traffic matches this condition (allow or deny).
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SecurityPolicyRule {
-    /// The Action to perform when the client connection triggers the rule. Can currently be either "allow" or "deny()" where valid values for status are 403, 404, and 502.
+    /// The Action to perform when the rule is matched. The following are the valid actions: - allow: allow access to target. - deny(): deny access to target, returns the HTTP response code specified (valid values are 403, 404, and 502). - rate_based_ban: limit client traffic to the configured threshold and ban the client if the traffic exceeds the threshold. Configure parameters for this action in RateLimitOptions. Requires rate_limit_options to be set. - redirect: redirect to a different target. This can either be an internal reCAPTCHA redirect, or an external URL-based redirect via a 302 response. Parameters for this action can be configured via redirectOptions. - throttle: limit client traffic to the configured threshold. Configure parameters for this action in rateLimitOptions. Requires rate_limit_options to be set for this.
     #[prost(string, optional, tag = "187661878")]
     pub action: ::core::option::Option<::prost::alloc::string::String>,
     /// An optional description of this resource. Provide this property when you create the resource.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
+    /// Optional, additional actions that are performed on headers.
+    #[prost(message, optional, tag = "328077352")]
+    pub header_action: ::core::option::Option<SecurityPolicyRuleHttpHeaderAction>,
     /// [Output only] Type of the resource. Always compute#securityPolicyRule for security policy rules
     #[prost(string, optional, tag = "3292052")]
     pub kind: ::core::option::Option<::prost::alloc::string::String>,
@@ -19350,6 +20145,30 @@ pub struct SecurityPolicyRule {
     /// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
     #[prost(int32, optional, tag = "445151652")]
     pub priority: ::core::option::Option<i32>,
+    /// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for any other actions.
+    #[prost(message, optional, tag = "67544315")]
+    pub rate_limit_options: ::core::option::Option<SecurityPolicyRuleRateLimitOptions>,
+    /// Parameters defining the redirect action. Cannot be specified for any other actions.
+    #[prost(message, optional, tag = "163285307")]
+    pub redirect_options: ::core::option::Option<SecurityPolicyRuleRedirectOptions>,
+}
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SecurityPolicyRuleHttpHeaderAction {
+    /// The list of request headers to add or overwrite if they're already present.
+    #[prost(message, repeated, tag = "87987661")]
+    pub request_headers_to_adds:
+        ::prost::alloc::vec::Vec<SecurityPolicyRuleHttpHeaderActionHttpHeaderOption>,
+}
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SecurityPolicyRuleHttpHeaderActionHttpHeaderOption {
+    /// The name of the header to set.
+    #[prost(string, optional, tag = "110223613")]
+    pub header_name: ::core::option::Option<::prost::alloc::string::String>,
+    /// The value to set the named header to.
+    #[prost(string, optional, tag = "203094335")]
+    pub header_value: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// Represents a match condition that incoming traffic is evaluated against. Exactly one field must be specified.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -19383,6 +20202,83 @@ pub struct SecurityPolicyRuleMatcherConfig {
     /// CIDR IP address range. Maximum number of src_ip_ranges allowed is 10.
     #[prost(string, repeated, tag = "432128083")]
     pub src_ip_ranges: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SecurityPolicyRuleRateLimitOptions {
+    /// Can only be specified if the action for the rule is "rate_based_ban". If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+    #[prost(int32, optional, tag = "42896726")]
+    pub ban_duration_sec: ::core::option::Option<i32>,
+    /// Can only be specified if the action for the rule is "rate_based_ban". If specified, the key will be banned for the configured 'ban_duration_sec' when the number of requests that exceed the 'rate_limit_threshold' also exceed this 'ban_threshold'.
+    #[prost(message, optional, tag = "501208123")]
+    pub ban_threshold: ::core::option::Option<SecurityPolicyRuleRateLimitOptionsThreshold>,
+    /// Action to take for requests that are under the configured rate limit threshold. Valid option is "allow" only.
+    #[prost(string, optional, tag = "517612367")]
+    pub conform_action: ::core::option::Option<::prost::alloc::string::String>,
+    /// Determines the key to enforce the rate_limit_threshold on. Possible values are: - ALL: A single rate limit threshold is applied to all the requests matching this rule. This is the default value if this field 'enforce_on_key' is not configured. - IP: The source IP address of the request is the key. Each IP has this limit enforced separately. - HTTP_HEADER: The value of the HTTP header whose name is configured under "enforce_on_key_name". The key value is truncated to the first 128 bytes of the header value. If no such header is present in the request, the key type defaults to ALL. - XFF_IP: The first IP address (i.e. the originating client IP address) specified in the list of IPs under X-Forwarded-For HTTP header. If no such header is present or the value is not a valid IP, the key type defaults to ALL. - HTTP_COOKIE: The value of the HTTP cookie whose name is configured under "enforce_on_key_name". The key value is truncated to the first 128 bytes of the cookie value. If no such cookie is present in the request, the key type defaults to ALL.
+    /// Check the EnforceOnKey enum for the list of possible values.
+    #[prost(string, optional, tag = "416648956")]
+    pub enforce_on_key: ::core::option::Option<::prost::alloc::string::String>,
+    /// Rate limit key name applicable only for the following key types: HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value. HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
+    #[prost(string, optional, tag = "132555246")]
+    pub enforce_on_key_name: ::core::option::Option<::prost::alloc::string::String>,
+    /// Action to take for requests that are above the configured rate limit threshold, to either deny with a specified HTTP response code, or redirect to a different endpoint. Valid options are "deny()" where valid values for status are 403, 404, 429, and 502, and "redirect" where the redirect parameters come from exceed_redirect_options below.
+    #[prost(string, optional, tag = "167159073")]
+    pub exceed_action: ::core::option::Option<::prost::alloc::string::String>,
+    /// Parameters defining the redirect action that is used as the exceed action. Cannot be specified if the exceed action is not redirect.
+    #[prost(message, optional, tag = "473646694")]
+    pub exceed_redirect_options: ::core::option::Option<SecurityPolicyRuleRedirectOptions>,
+    /// Threshold at which to begin ratelimiting.
+    #[prost(message, optional, tag = "315875208")]
+    pub rate_limit_threshold: ::core::option::Option<SecurityPolicyRuleRateLimitOptionsThreshold>,
+}
+/// Nested message and enum types in `SecurityPolicyRuleRateLimitOptions`.
+pub mod security_policy_rule_rate_limit_options {
+    /// Determines the key to enforce the rate_limit_threshold on. Possible values are: - ALL: A single rate limit threshold is applied to all the requests matching this rule. This is the default value if this field 'enforce_on_key' is not configured. - IP: The source IP address of the request is the key. Each IP has this limit enforced separately. - HTTP_HEADER: The value of the HTTP header whose name is configured under "enforce_on_key_name". The key value is truncated to the first 128 bytes of the header value. If no such header is present in the request, the key type defaults to ALL. - XFF_IP: The first IP address (i.e. the originating client IP address) specified in the list of IPs under X-Forwarded-For HTTP header. If no such header is present or the value is not a valid IP, the key type defaults to ALL. - HTTP_COOKIE: The value of the HTTP cookie whose name is configured under "enforce_on_key_name". The key value is truncated to the first 128 bytes of the cookie value. If no such cookie is present in the request, the key type defaults to ALL.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EnforceOnKey {
+        /// A value indicating that the enum field is not set.
+        UndefinedEnforceOnKey = 0,
+        All = 64897,
+        HttpCookie = 494981627,
+        HttpHeader = 91597348,
+        Ip = 2343,
+        XffIp = 438707118,
+    }
+}
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SecurityPolicyRuleRateLimitOptionsThreshold {
+    /// Number of HTTP(S) requests for calculating the threshold.
+    #[prost(int32, optional, tag = "94851343")]
+    pub count: ::core::option::Option<i32>,
+    /// Interval over which the threshold is computed.
+    #[prost(int32, optional, tag = "41084375")]
+    pub interval_sec: ::core::option::Option<i32>,
+}
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SecurityPolicyRuleRedirectOptions {
+    /// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+    #[prost(string, optional, tag = "192835985")]
+    pub target: ::core::option::Option<::prost::alloc::string::String>,
+    /// Type of the redirect action.
+    /// Check the Type enum for the list of possible values.
+    #[prost(string, optional, tag = "3575610")]
+    pub r#type: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `SecurityPolicyRuleRedirectOptions`.
+pub mod security_policy_rule_redirect_options {
+    /// Type of the redirect action.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// A value indicating that the enum field is not set.
+        UndefinedType = 0,
+        External302 = 395733761,
+        GoogleRecaptcha = 518803009,
+    }
 }
 /// The authentication and authorization settings for a BackendService.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -19484,6 +20380,9 @@ pub struct ServiceAttachment {
     /// An optional description of this resource. Provide this property when you create the resource.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
+    /// If specified, the domain name will be used during the integration between the PSC connected endpoints and the Cloud DNS. For example, this is a valid domain name: "p.mycompany.com.". Current max number of domain names supported is 1.
+    #[prost(string, repeated, tag = "6450189")]
+    pub domain_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// If true, enable the proxy protocol which is for supplying client TCP/IP address data in TCP connections that traverse proxies on their way to destination servers.
     #[prost(bool, optional, tag = "363791237")]
     pub enable_proxy_protocol: ::core::option::Option<bool>,
@@ -19758,6 +20657,38 @@ pub struct SetDiskAutoDeleteInstanceRequest {
     #[prost(string, tag = "3744684")]
     pub zone: ::prost::alloc::string::String,
 }
+/// A request message for BackendBuckets.SetEdgeSecurityPolicy. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SetEdgeSecurityPolicyBackendBucketRequest {
+    /// Name of the BackendService resource to which the security policy should be set. The name should conform to RFC1035.
+    #[prost(string, tag = "91714037")]
+    pub backend_bucket: ::prost::alloc::string::String,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
+    #[prost(string, optional, tag = "37109963")]
+    pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// The body resource for this request
+    #[prost(message, optional, tag = "204135024")]
+    pub security_policy_reference_resource: ::core::option::Option<SecurityPolicyReference>,
+}
+/// A request message for BackendServices.SetEdgeSecurityPolicy. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SetEdgeSecurityPolicyBackendServiceRequest {
+    /// Name of the BackendService resource to which the edge security policy should be set. The name should conform to RFC1035.
+    #[prost(string, tag = "306946058")]
+    pub backend_service: ::prost::alloc::string::String,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
+    #[prost(string, optional, tag = "37109963")]
+    pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// The body resource for this request
+    #[prost(message, optional, tag = "204135024")]
+    pub security_policy_reference_resource: ::core::option::Option<SecurityPolicyReference>,
+}
 /// A request message for Disks.SetIamPolicy. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetIamPolicyDiskRequest {
@@ -19830,6 +20761,19 @@ pub struct SetIamPolicyInstanceTemplateRequest {
 /// A request message for Licenses.SetIamPolicy. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetIamPolicyLicenseRequest {
+    /// The body resource for this request
+    #[prost(message, optional, tag = "337048498")]
+    pub global_set_policy_request_resource: ::core::option::Option<GlobalSetPolicyRequest>,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// Name or id of the resource for this request.
+    #[prost(string, tag = "195806222")]
+    pub resource: ::prost::alloc::string::String,
+}
+/// A request message for MachineImages.SetIamPolicy. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SetIamPolicyMachineImageRequest {
     /// The body resource for this request
     #[prost(message, optional, tag = "337048498")]
     pub global_set_policy_request_resource: ::core::option::Option<GlobalSetPolicyRequest>,
@@ -20450,7 +21394,7 @@ pub struct SetSslCertificatesRegionTargetHttpsProxyRequest {
     #[prost(message, optional, tag = "390693383")]
     pub region_target_https_proxies_set_ssl_certificates_request_resource:
         ::core::option::Option<RegionTargetHttpsProxiesSetSslCertificatesRequest>,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the TargetHttpsProxy resource to set an SslCertificates resource for.
@@ -20645,7 +21589,7 @@ pub struct SetUrlMapRegionTargetHttpsProxyRequest {
     /// Name of the region scoping this request.
     #[prost(string, tag = "138946292")]
     pub region: ::prost::alloc::string::String,
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
     /// Name of the TargetHttpsProxy to set a URL map for.
@@ -20699,6 +21643,43 @@ pub struct SetUsageExportBucketProjectRequest {
     /// The body resource for this request
     #[prost(message, optional, tag = "20260459")]
     pub usage_export_location_resource: ::core::option::Option<UsageExportLocation>,
+}
+/// The share setting for reservations and sole tenancy node groups.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ShareSettings {
+    /// A map of project id and project config. This is only valid when share_type's value is SPECIFIC_PROJECTS.
+    #[prost(btree_map = "string, message", tag = "134212406")]
+    pub project_map: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ShareSettingsProjectConfig,
+    >,
+    /// Type of sharing for this shared-reservation
+    /// Check the ShareType enum for the list of possible values.
+    #[prost(string, optional, tag = "359533466")]
+    pub share_type: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `ShareSettings`.
+pub mod share_settings {
+    /// Type of sharing for this shared-reservation
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ShareType {
+        /// A value indicating that the enum field is not set.
+        UndefinedShareType = 0,
+        /// Default value.
+        Local = 72607563,
+        /// Default value. This value is unused.
+        Unspecified = 494771730,
+        /// Shared-reservation is open to specific projects
+        SpecificProjects = 347838695,
+    }
+}
+/// Config for each project in the share settings.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ShareSettingsProjectConfig {
+    /// The project ID, should be same as the key of this project config in the parent map.
+    #[prost(string, optional, tag = "177513473")]
+    pub project_id: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// A set of Shielded Instance options.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -20898,12 +21879,68 @@ pub struct SnapshotList {
     #[prost(message, optional, tag = "50704284")]
     pub warning: ::core::option::Option<Warning>,
 }
+///
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SourceDiskEncryptionKey {
+    /// The customer-supplied encryption key of the source disk. Required if the source disk is protected by a customer-supplied encryption key.
+    #[prost(message, optional, tag = "271660677")]
+    pub disk_encryption_key: ::core::option::Option<CustomerEncryptionKey>,
+    /// URL of the disk attached to the source instance. This can be a full or valid partial URL. For example, the following are valid values: - <https://www.googleapis.com/compute/v1/projects/project/zones/zone> /disks/disk - projects/project/zones/zone/disks/disk - zones/zone/disks/disk
+    #[prost(string, optional, tag = "451753793")]
+    pub source_disk: ::core::option::Option<::prost::alloc::string::String>,
+}
 /// A specification of the parameters to use when creating the instance template from a source instance.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SourceInstanceParams {
     /// Attached disks configuration. If not provided, defaults are applied: For boot disk and any other R/W disks, new custom images will be created from each disk. For read-only disks, they will be attached in read-only mode. Local SSD disks will be created as blank volumes.
     #[prost(message, repeated, tag = "235580623")]
     pub disk_configs: ::prost::alloc::vec::Vec<DiskInstantiationConfig>,
+}
+/// DEPRECATED: Please use compute#instanceProperties instead. New properties will not be added to this field.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SourceInstanceProperties {
+    /// Enables instances created based on this machine image to send packets with source IP addresses other than their own and receive packets with destination IP addresses other than their own. If these instances will be used as an IP gateway or it will be set as the next-hop in a Route resource, specify true. If unsure, leave this set to false. See the Enable IP forwarding documentation for more information.
+    #[prost(bool, optional, tag = "467731324")]
+    pub can_ip_forward: ::core::option::Option<bool>,
+    /// Whether the instance created from this machine image should be protected against deletion.
+    #[prost(bool, optional, tag = "458014698")]
+    pub deletion_protection: ::core::option::Option<bool>,
+    /// An optional text description for the instances that are created from this machine image.
+    #[prost(string, optional, tag = "422937596")]
+    pub description: ::core::option::Option<::prost::alloc::string::String>,
+    /// An array of disks that are associated with the instances that are created from this machine image.
+    #[prost(message, repeated, tag = "95594102")]
+    pub disks: ::prost::alloc::vec::Vec<SavedAttachedDisk>,
+    /// A list of guest accelerator cards' type and count to use for instances created from this machine image.
+    #[prost(message, repeated, tag = "463595119")]
+    pub guest_accelerators: ::prost::alloc::vec::Vec<AcceleratorConfig>,
+    /// Labels to apply to instances that are created from this machine image.
+    #[prost(btree_map = "string, string", tag = "500195327")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// The machine type to use for instances that are created from this machine image.
+    #[prost(string, optional, tag = "227711026")]
+    pub machine_type: ::core::option::Option<::prost::alloc::string::String>,
+    /// The metadata key/value pairs to assign to instances that are created from this machine image. These pairs can consist of custom metadata or predefined keys. See Project and instance metadata for more information.
+    #[prost(message, optional, tag = "86866735")]
+    pub metadata: ::core::option::Option<Metadata>,
+    /// Minimum cpu/platform to be used by instances created from this machine image. The instance may be scheduled on the specified or newer cpu/platform. Applicable values are the friendly names of CPU platforms, such as minCpuPlatform: "Intel Haswell" or minCpuPlatform: "Intel Sandy Bridge". For more information, read Specifying a Minimum CPU Platform.
+    #[prost(string, optional, tag = "242912759")]
+    pub min_cpu_platform: ::core::option::Option<::prost::alloc::string::String>,
+    /// An array of network access configurations for this interface.
+    #[prost(message, repeated, tag = "52735243")]
+    pub network_interfaces: ::prost::alloc::vec::Vec<NetworkInterface>,
+    /// Specifies the scheduling options for the instances that are created from this machine image.
+    #[prost(message, optional, tag = "386688404")]
+    pub scheduling: ::core::option::Option<Scheduling>,
+    /// A list of service accounts with specified scopes. Access tokens for these service accounts are available to the instances that are created from this machine image. Use metadata queries to obtain the access tokens for these instances.
+    #[prost(message, repeated, tag = "277537328")]
+    pub service_accounts: ::prost::alloc::vec::Vec<ServiceAccount>,
+    /// A list of tags to apply to the instances that are created from this machine image. The tags identify valid sources or targets for network firewalls. The setTags method can modify this list of tags. Each tag within the list must comply with RFC1035.
+    #[prost(message, optional, tag = "3552281")]
+    pub tags: ::core::option::Option<Tags>,
 }
 /// Represents an SSL Certificate resource. Google Compute Engine has two SSL Certificate resources: * \[Global\](/compute/docs/reference/rest/v1/sslCertificates) * \[Regional\](/compute/docs/reference/rest/v1/regionSslCertificates) The sslCertificates are used by: - external HTTPS load balancers - SSL proxy load balancers The regionSslCertificates are used by internal HTTPS load balancers. Optionally, certificate file contents that you upload can contain a set of up to five PEM-encoded certificates. The API call creates an object (sslCertificate) that holds this data. You can use SSL keys and certificates to secure connections to a load balancer. For more information, read Creating and using SSL certificates, SSL certificates quotas and limits, and Troubleshooting SSL certificates.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -21280,7 +22317,7 @@ pub struct Subnetwork {
     /// An optional description of this resource. Provide this property when you create the resource. This field can be set only at resource creation time.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
-    /// Whether to enable flow logging for this subnetwork. If this field is not explicitly set, it will not appear in get listings. If not set the default behavior is to disable flow logging. This field isn't supported with the purpose field set to INTERNAL_HTTPS_LOAD_BALANCER.
+    /// Whether to enable flow logging for this subnetwork. If this field is not explicitly set, it will not appear in get listings. If not set the default behavior is determined by the org policy, if there is no org policy specified, then it will default to disabled. This field isn't supported with the purpose field set to INTERNAL_HTTPS_LOAD_BALANCER.
     #[prost(bool, optional, tag = "151544420")]
     pub enable_flow_logs: ::core::option::Option<bool>,
     /// [Output Only] The range of external IPv6 addresses that are owned by this subnetwork.
@@ -21302,7 +22339,7 @@ pub struct Subnetwork {
     /// Check the Ipv6AccessType enum for the list of possible values.
     #[prost(string, optional, tag = "504658653")]
     pub ipv6_access_type: ::core::option::Option<::prost::alloc::string::String>,
-    /// [Output Only] The range of internal IPv6 addresses that are owned by this subnetwork.
+    /// [Output Only] The range of internal IPv6 addresses that are owned by this subnetwork. Note this will be for private google access only eventually.
     #[prost(string, optional, tag = "273141258")]
     pub ipv6_cidr_range: ::core::option::Option<::prost::alloc::string::String>,
     /// [Output Only] Type of the resource. Always compute#subnetwork for Subnetwork resources.
@@ -21390,6 +22427,8 @@ pub mod subnetwork {
         PrivateRfc1918 = 254902107,
         /// Subnetworks created for Private Service Connect in the producer network.
         PrivateServiceConnect = 48134724,
+        /// Subnetwork used for Regional Internal/External HTTP(S) Load Balancing.
+        RegionalManagedProxy = 153049966,
     }
     /// The role of subnetwork. Currently, this field is only used when purpose = INTERNAL_HTTPS_LOAD_BALANCER. The value can be set to ACTIVE or BACKUP. An ACTIVE subnetwork is one that is currently being used for Internal HTTP(S) Load Balancing. A BACKUP subnetwork is one that is ready to be promoted to ACTIVE or is currently draining. This field can be updated with a patch request.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -21483,13 +22522,13 @@ pub struct SubnetworkLogConfig {
     /// Check the AggregationInterval enum for the list of possible values.
     #[prost(string, optional, tag = "174919042")]
     pub aggregation_interval: ::core::option::Option<::prost::alloc::string::String>,
-    /// Whether to enable flow logging for this subnetwork. If this field is not explicitly set, it will not appear in get listings. If not set the default behavior is to disable flow logging.
+    /// Whether to enable flow logging for this subnetwork. If this field is not explicitly set, it will not appear in get listings. If not set the default behavior is determined by the org policy, if there is no org policy specified, then it will default to disabled.
     #[prost(bool, optional, tag = "311764355")]
     pub enable: ::core::option::Option<bool>,
     /// Can only be specified if VPC flow logs for this subnetwork is enabled. Export filter used to define which VPC flow logs should be logged.
     #[prost(string, optional, tag = "183374428")]
     pub filter_expr: ::core::option::Option<::prost::alloc::string::String>,
-    /// Can only be specified if VPC flow logging for this subnetwork is enabled. The value of the field must be in [0, 1]. Set the sampling rate of VPC flow logs within the subnetwork where 1.0 means all collected logs are reported and 0.0 means no logs are reported. Default is 0.5, which means half of all collected logs are reported.
+    /// Can only be specified if VPC flow logging for this subnetwork is enabled. The value of the field must be in [0, 1]. Set the sampling rate of VPC flow logs within the subnetwork where 1.0 means all collected logs are reported and 0.0 means no logs are reported. Default is 0.5 unless otherwise specified by the org policy, which means half of all collected logs are reported.
     #[prost(float, optional, tag = "530150360")]
     pub flow_sampling: ::core::option::Option<f32>,
     /// Can only be specified if VPC flow logs for this subnetwork is enabled. Configures whether all, none or a subset of metadata fields should be added to the reported VPC flow logs. Default is EXCLUDE_ALL_METADATA.
@@ -21580,6 +22619,22 @@ pub mod subsetting {
         /// No Subsetting. Clients may open connections and send traffic to all backends of this backend service. This can lead to performance issues if there is substantial imbalance in the count of clients and backends.
         None = 2402104,
     }
+}
+/// A request message for Instances.Suspend. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SuspendInstanceRequest {
+    /// Name of the instance resource to suspend.
+    #[prost(string, tag = "18257045")]
+    pub instance: ::prost::alloc::string::String,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
+    #[prost(string, optional, tag = "37109963")]
+    pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// The name of the zone for this request.
+    #[prost(string, tag = "3744684")]
+    pub zone: ::prost::alloc::string::String,
 }
 /// A request message for Networks.SwitchToCustomMode. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -22545,7 +23600,7 @@ pub struct TargetVpnGatewaysScopedList {
 ///
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TestFailure {
-    /// The actual output URL evaluated by load balancer containing the scheme, host, path and query parameters.
+    /// The actual output URL evaluated by a load balancer containing the scheme, host, path and query parameters.
     #[prost(string, optional, tag = "287075458")]
     pub actual_output_url: ::core::option::Option<::prost::alloc::string::String>,
     /// Actual HTTP status code for rule with `urlRedirect` calculated by load balancer
@@ -22554,7 +23609,7 @@ pub struct TestFailure {
     /// BackendService or BackendBucket returned by load balancer.
     #[prost(string, optional, tag = "440379652")]
     pub actual_service: ::core::option::Option<::prost::alloc::string::String>,
-    /// The expected output URL evaluated by load balancer containing the scheme, host, path and query parameters.
+    /// The expected output URL evaluated by a load balancer containing the scheme, host, path and query parameters.
     #[prost(string, optional, tag = "433967384")]
     pub expected_output_url: ::core::option::Option<::prost::alloc::string::String>,
     /// Expected HTTP status code for rule with `urlRedirect` calculated by load balancer
@@ -22670,6 +23725,19 @@ pub struct TestIamPermissionsLicenseCodeRequest {
 /// A request message for Licenses.TestIamPermissions. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TestIamPermissionsLicenseRequest {
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// Name or id of the resource for this request.
+    #[prost(string, tag = "195806222")]
+    pub resource: ::prost::alloc::string::String,
+    /// The body resource for this request
+    #[prost(message, optional, tag = "439214758")]
+    pub test_permissions_request_resource: ::core::option::Option<TestPermissionsRequest>,
+}
+/// A request message for MachineImages.TestIamPermissions. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TestIamPermissionsMachineImageRequest {
     /// Project ID for this request.
     #[prost(string, tag = "227560217")]
     pub project: ::prost::alloc::string::String,
@@ -23141,6 +24209,30 @@ pub struct UpdateRegionBackendServiceRequest {
     #[prost(string, optional, tag = "37109963")]
     pub request_id: ::core::option::Option<::prost::alloc::string::String>,
 }
+/// A request message for RegionCommitments.Update. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateRegionCommitmentRequest {
+    /// Name of the commitment for which auto renew is being updated.
+    #[prost(string, tag = "482134805")]
+    pub commitment: ::prost::alloc::string::String,
+    /// The body resource for this request
+    #[prost(message, optional, tag = "244240888")]
+    pub commitment_resource: ::core::option::Option<Commitment>,
+    #[prost(string, optional, tag = "106438894")]
+    pub paths: ::core::option::Option<::prost::alloc::string::String>,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// Name of the region for this request.
+    #[prost(string, tag = "138946292")]
+    pub region: ::prost::alloc::string::String,
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
+    #[prost(string, optional, tag = "37109963")]
+    pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// update_mask indicates fields to be updated as part of this request.
+    #[prost(string, optional, tag = "500079778")]
+    pub update_mask: ::core::option::Option<::prost::alloc::string::String>,
+}
 /// A request message for RegionHealthChecks.Update. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateRegionHealthCheckRequest {
@@ -23178,6 +24270,30 @@ pub struct UpdateRegionUrlMapRequest {
     /// The body resource for this request
     #[prost(message, optional, tag = "168675425")]
     pub url_map_resource: ::core::option::Option<UrlMap>,
+}
+/// A request message for Reservations.Update. See the method description for details.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateReservationRequest {
+    #[prost(string, optional, tag = "106438894")]
+    pub paths: ::core::option::Option<::prost::alloc::string::String>,
+    /// Project ID for this request.
+    #[prost(string, tag = "227560217")]
+    pub project: ::prost::alloc::string::String,
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported ( 00000000-0000-0000-0000-000000000000).
+    #[prost(string, optional, tag = "37109963")]
+    pub request_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// Name of the reservation to update.
+    #[prost(string, tag = "47530956")]
+    pub reservation: ::prost::alloc::string::String,
+    /// The body resource for this request
+    #[prost(message, optional, tag = "285030177")]
+    pub reservation_resource: ::core::option::Option<Reservation>,
+    /// Update_mask indicates fields to be updated as part of this request.
+    #[prost(string, optional, tag = "500079778")]
+    pub update_mask: ::core::option::Option<::prost::alloc::string::String>,
+    /// Name of the zone for this request.
+    #[prost(string, tag = "3744684")]
+    pub zone: ::prost::alloc::string::String,
 }
 /// A request message for Routers.Update. See the method description for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -23233,31 +24349,31 @@ pub struct UpdateUrlMapRequest {
     #[prost(message, optional, tag = "168675425")]
     pub url_map_resource: ::core::option::Option<UrlMap>,
 }
-/// Represents a URL Map resource. Google Compute Engine has two URL Map resources: * \[Global\](/compute/docs/reference/rest/v1/urlMaps) * \[Regional\](/compute/docs/reference/rest/v1/regionUrlMaps) A URL map resource is a component of certain types of GCP load balancers and Traffic Director. * urlMaps are used by external HTTP(S) load balancers and Traffic Director. * regionUrlMaps are used by internal HTTP(S) load balancers. For a list of supported URL map features by load balancer type, see the Load balancing features: Routing and traffic management table. For a list of supported URL map features for Traffic Director, see the Traffic Director features: Routing and traffic management table. This resource defines mappings from host names and URL paths to either a backend service or a backend bucket. To use the global urlMaps resource, the backend service must have a loadBalancingScheme of either EXTERNAL or INTERNAL_SELF_MANAGED. To use the regionUrlMaps resource, the backend service must have a loadBalancingScheme of INTERNAL_MANAGED. For more information, read URL Map Concepts.
+/// Represents a URL Map resource. Compute Engine has two URL Map resources: * \[Global\](/compute/docs/reference/rest/v1/urlMaps) * \[Regional\](/compute/docs/reference/rest/v1/regionUrlMaps) A URL map resource is a component of certain types of cloud load balancers and Traffic Director: * urlMaps are used by external HTTP(S) load balancers and Traffic Director. * regionUrlMaps are used by internal HTTP(S) load balancers. For a list of supported URL map features by the load balancer type, see the Load balancing features: Routing and traffic management table. For a list of supported URL map features for Traffic Director, see the Traffic Director features: Routing and traffic management table. This resource defines mappings from hostnames and URL paths to either a backend service or a backend bucket. To use the global urlMaps resource, the backend service must have a loadBalancingScheme of either EXTERNAL or INTERNAL_SELF_MANAGED. To use the regionUrlMaps resource, the backend service must have a loadBalancingScheme of INTERNAL_MANAGED. For more information, read URL Map Concepts.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UrlMap {
     /// [Output Only] Creation timestamp in RFC3339 text format.
     #[prost(string, optional, tag = "30525366")]
     pub creation_timestamp: ::core::option::Option<::prost::alloc::string::String>,
-    /// defaultRouteAction takes effect when none of the hostRules match. The load balancer performs advanced routing actions like URL rewrites, header transformations, etc. prior to forwarding the request to the selected backend. If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set. Conversely if defaultService is set, defaultRouteAction cannot contain any weightedBackendServices. Only one of defaultRouteAction or defaultUrlRedirect must be set. UrlMaps for external HTTP(S) load balancers support only the urlRewrite action within defaultRouteAction. defaultRouteAction has no effect when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// defaultRouteAction takes effect when none of the hostRules match. The load balancer performs advanced routing actions, such as URL rewrites and header transformations, before forwarding the request to the selected backend. If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set. Conversely if defaultService is set, defaultRouteAction cannot contain any weightedBackendServices. Only one of defaultRouteAction or defaultUrlRedirect must be set. UrlMaps for external HTTP(S) load balancers support only the urlRewrite action within defaultRouteAction. defaultRouteAction has no effect when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
     #[prost(message, optional, tag = "378919466")]
     pub default_route_action: ::core::option::Option<HttpRouteAction>,
-    /// The full or partial URL of the defaultService resource to which traffic is directed if none of the hostRules match. If defaultRouteAction is additionally specified, advanced routing actions like URL Rewrites, etc. take effect prior to sending the request to the backend. However, if defaultService is specified, defaultRouteAction cannot contain any weightedBackendServices. Conversely, if routeAction specifies any weightedBackendServices, service must not be specified. Only one of defaultService, defaultUrlRedirect or defaultRouteAction.weightedBackendService must be set. defaultService has no effect when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// The full or partial URL of the defaultService resource to which traffic is directed if none of the hostRules match. If defaultRouteAction is also specified, advanced routing actions, such as URL rewrites, take effect before sending the request to the backend. However, if defaultService is specified, defaultRouteAction cannot contain any weightedBackendServices. Conversely, if routeAction specifies any weightedBackendServices, service must not be specified. Only one of defaultService, defaultUrlRedirect , or defaultRouteAction.weightedBackendService must be set. defaultService has no effect when the URL map is bound to a target gRPC proxy that has the validateForProxyless field set to true.
     #[prost(string, optional, tag = "370242231")]
     pub default_service: ::core::option::Option<::prost::alloc::string::String>,
-    /// When none of the specified hostRules match, the request is redirected to a URL specified by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or defaultRouteAction must not be set. Not supported when the URL map is bound to target gRPC proxy.
+    /// When none of the specified hostRules match, the request is redirected to a URL specified by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or defaultRouteAction must not be set. Not supported when the URL map is bound to a target gRPC proxy.
     #[prost(message, optional, tag = "359503338")]
     pub default_url_redirect: ::core::option::Option<HttpRedirectAction>,
     /// An optional description of this resource. Provide this property when you create the resource.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
-    /// Fingerprint of this resource. A hash of the contents stored in this object. This field is used in optimistic locking. This field will be ignored when inserting a UrlMap. An up-to-date fingerprint must be provided in order to update the UrlMap, otherwise the request will fail with error 412 conditionNotMet. To see the latest fingerprint, make a get() request to retrieve a UrlMap.
+    /// Fingerprint of this resource. A hash of the contents stored in this object. This field is used in optimistic locking. This field is ignored when inserting a UrlMap. An up-to-date fingerprint must be provided in order to update the UrlMap, otherwise the request will fail with error 412 conditionNotMet. To see the latest fingerprint, make a get() request to retrieve a UrlMap.
     #[prost(string, optional, tag = "234678500")]
     pub fingerprint: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies changes to request and response headers that need to take effect for the selected backendService. The headerAction specified here take effect after headerAction specified under pathMatcher. Note that headerAction is not supported for Loadbalancers that have their loadBalancingScheme set to EXTERNAL. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Specifies changes to request and response headers that need to take effect for the selected backendService. The headerAction specified here take effect after headerAction specified under pathMatcher. headerAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL. Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
     #[prost(message, optional, tag = "328077352")]
     pub header_action: ::core::option::Option<HttpHeaderAction>,
-    /// The list of HostRules to use against the URL.
+    /// The list of host rules to use against the URL.
     #[prost(message, repeated, tag = "311804832")]
     pub host_rules: ::prost::alloc::vec::Vec<HostRule>,
     /// [Output Only] The unique identifier for the resource. This identifier is defined by the server.
@@ -23278,7 +24394,7 @@ pub struct UrlMap {
     /// [Output Only] Server-defined URL for the resource.
     #[prost(string, optional, tag = "456214797")]
     pub self_link: ::core::option::Option<::prost::alloc::string::String>,
-    /// The list of expected URL mapping tests. Request to update this UrlMap will succeed only if all of the test cases pass. You can specify a maximum of 100 tests per UrlMap. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// The list of expected URL mapping tests. Request to update the UrlMap succeeds only if all test cases pass. You can specify a maximum of 100 tests per UrlMap. Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
     #[prost(message, repeated, tag = "110251553")]
     pub tests: ::prost::alloc::vec::Vec<UrlMapTest>,
 }
@@ -23316,7 +24432,7 @@ pub struct UrlMapTest {
     /// Description of this test case.
     #[prost(string, optional, tag = "422937596")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,
-    /// The expected output URL evaluated by load balancer containing the scheme, host, path and query parameters. For rules that forward requests to backends, the test passes only when expectedOutputUrl matches the request forwarded by load balancer to backends. For rules with urlRewrite, the test verifies that the forwarded request matches hostRewrite and pathPrefixRewrite in the urlRewrite action. When service is specified, expectedOutputUrl`s scheme is ignored. For rules with urlRedirect, the test passes only if expectedOutputUrl matches the URL in the load balancer's redirect response. If urlRedirect specifies https_redirect, the test passes only if the scheme in expectedOutputUrl is also set to https. If urlRedirect specifies strip_query, the test passes only if expectedOutputUrl does not contain any query parameters. expectedOutputUrl is optional when service is specified.
+    /// The expected output URL evaluated by the load balancer containing the scheme, host, path and query parameters. For rules that forward requests to backends, the test passes only when expectedOutputUrl matches the request forwarded by the load balancer to backends. For rules with urlRewrite, the test verifies that the forwarded request matches hostRewrite and pathPrefixRewrite in the urlRewrite action. When service is specified, expectedOutputUrl`s scheme is ignored. For rules with urlRedirect, the test passes only if expectedOutputUrl matches the URL in the load balancer's redirect response. If urlRedirect specifies https_redirect, the test passes only if the scheme in expectedOutputUrl is also set to HTTPS. If urlRedirect specifies strip_query, the test passes only if expectedOutputUrl does not contain any query parameters. expectedOutputUrl is optional when service is specified.
     #[prost(string, optional, tag = "433967384")]
     pub expected_output_url: ::core::option::Option<::prost::alloc::string::String>,
     /// For rules with urlRedirect, the test passes only if expectedRedirectResponseCode matches the HTTP status code in load balancer's redirect response. expectedRedirectResponseCode cannot be set when service is set.
@@ -23331,7 +24447,7 @@ pub struct UrlMapTest {
     /// Path portion of the URL.
     #[prost(string, optional, tag = "3433509")]
     pub path: ::core::option::Option<::prost::alloc::string::String>,
-    /// Expected BackendService or BackendBucket resource the given URL should be mapped to. service cannot be set if expectedRedirectResponseCode is set.
+    /// Expected BackendService or BackendBucket resource the given URL should be mapped to. The service field cannot be set if expectedRedirectResponseCode is set.
     #[prost(string, optional, tag = "373540533")]
     pub service: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -23411,10 +24527,10 @@ pub struct UrlMapsValidateResponse {
 /// The spec for modifying the path before sending the request to the matched backend service.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UrlRewrite {
-    /// Prior to forwarding the request to the selected service, the request's host header is replaced with contents of hostRewrite. The value must be between 1 and 255 characters.
+    /// Before forwarding the request to the selected service, the request's host header is replaced with contents of hostRewrite. The value must be from 1 to 255 characters.
     #[prost(string, optional, tag = "159819253")]
     pub host_rewrite: ::core::option::Option<::prost::alloc::string::String>,
-    /// Prior to forwarding the request to the selected backend service, the matching portion of the request's path is replaced by pathPrefixRewrite. The value must be between 1 and 1024 characters.
+    /// Before forwarding the request to the selected backend service, the matching portion of the request's path is replaced by pathPrefixRewrite. The value must be from 1 to 1024 characters.
     #[prost(string, optional, tag = "41186361")]
     pub path_prefix_rewrite: ::core::option::Option<::prost::alloc::string::String>,
 }
@@ -23595,9 +24711,27 @@ pub struct VpnGateway {
     /// [Output Only] Server-defined URL for the resource.
     #[prost(string, optional, tag = "456214797")]
     pub self_link: ::core::option::Option<::prost::alloc::string::String>,
+    /// The stack type for this VPN gateway to identify the IP protocols that are enabled. If not specified, IPV4_ONLY will be used.
+    /// Check the StackType enum for the list of possible values.
+    #[prost(string, optional, tag = "425908881")]
+    pub stack_type: ::core::option::Option<::prost::alloc::string::String>,
     /// The list of VPN interfaces associated with this VPN gateway.
     #[prost(message, repeated, tag = "91842181")]
     pub vpn_interfaces: ::prost::alloc::vec::Vec<VpnGatewayVpnGatewayInterface>,
+}
+/// Nested message and enum types in `VpnGateway`.
+pub mod vpn_gateway {
+    /// The stack type for this VPN gateway to identify the IP protocols that are enabled. If not specified, IPV4_ONLY will be used.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum StackType {
+        /// A value indicating that the enum field is not set.
+        UndefinedStackType = 0,
+        /// Enable VPN gateway with both IPv4 and IPv6 protocols.
+        Ipv4Ipv6 = 22197249,
+        /// Enable VPN gateway with only IPv4 protocol.
+        Ipv4Only = 22373798,
+    }
 }
 ///
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -24117,16 +25251,16 @@ pub mod warnings {
         Unreachable = 13328052,
     }
 }
-/// In contrast to a single BackendService in HttpRouteAction to which all matching traffic is directed to, WeightedBackendService allows traffic to be split across multiple BackendServices. The volume of traffic for each BackendService is proportional to the weight specified in each WeightedBackendService
+/// In contrast to a single BackendService in HttpRouteAction to which all matching traffic is directed to, WeightedBackendService allows traffic to be split across multiple backend services. The volume of traffic for each backend service is proportional to the weight specified in each WeightedBackendService
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WeightedBackendService {
-    /// The full or partial URL to the default BackendService resource. Before forwarding the request to backendService, the loadbalancer applies any relevant headerActions specified as part of this backendServiceWeight.
+    /// The full or partial URL to the default BackendService resource. Before forwarding the request to backendService, the load balancer applies any relevant headerActions specified as part of this backendServiceWeight.
     #[prost(string, optional, tag = "306946058")]
     pub backend_service: ::core::option::Option<::prost::alloc::string::String>,
-    /// Specifies changes to request and response headers that need to take effect for the selected backendService. headerAction specified here take effect before headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap. Note that headerAction is not supported for Loadbalancers that have their loadBalancingScheme set to EXTERNAL. Not supported when the URL map is bound to target gRPC proxy that has validateForProxyless field set to true.
+    /// Specifies changes to request and response headers that need to take effect for the selected backendService. headerAction specified here take effect before headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap. headerAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL. Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
     #[prost(message, optional, tag = "328077352")]
     pub header_action: ::core::option::Option<HttpHeaderAction>,
-    /// Specifies the fraction of traffic sent to backendService, computed as weight / (sum of all weightedBackendService weights in routeAction) . The selection of a backend service is determined only for new traffic. Once a user's request has been directed to a backendService, subsequent requests will be sent to the same backendService as determined by the BackendService's session affinity policy. The value must be between 0 and 1000
+    /// Specifies the fraction of traffic sent to a backend service, computed as weight / (sum of all weightedBackendService weights in routeAction) . The selection of a backend service is determined only for new traffic. Once a user's request has been directed to a backend service, subsequent requests are sent to the same backend service as determined by the backend service's session affinity policy. The value must be from 0 to 1000.
     #[prost(uint32, optional, tag = "282149496")]
     pub weight: ::core::option::Option<u32>,
 }
@@ -24845,6 +25979,23 @@ pub mod backend_buckets_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = " Sets the edge security policy for the specified backend bucket."]
+        pub async fn set_edge_security_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SetEdgeSecurityPolicyBackendBucketRequest>,
+        ) -> Result<tonic::Response<super::Operation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.compute.v1.BackendBuckets/SetEdgeSecurityPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
         #[doc = " Updates the specified BackendBucket resource with the data included in the request."]
         pub async fn update(
             &mut self,
@@ -25064,6 +26215,23 @@ pub mod backend_services_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.compute.v1.BackendServices/Patch",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Sets the edge security policy for the specified backend service."]
+        pub async fn set_edge_security_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SetEdgeSecurityPolicyBackendServiceRequest>,
+        ) -> Result<tonic::Response<super::Operation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.compute.v1.BackendServices/SetEdgeSecurityPolicy",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -25288,7 +26456,7 @@ pub mod disks_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Creates a snapshot of a specified persistent disk."]
+        #[doc = " Creates a snapshot of a specified persistent disk. For regular snapshot creation, consider using snapshots.insert instead, as that method supports more features, such as creating snapshots in a project different from the source disk project."]
         pub async fn create_snapshot(
             &mut self,
             request: impl tonic::IntoRequest<super::CreateSnapshotDiskRequest>,
@@ -28791,6 +29959,22 @@ pub mod instances_client {
                 http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.Instances/Reset");
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = " Resumes an instance that was suspended using the instances().suspend method."]
+        pub async fn resume(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ResumeInstanceRequest>,
+        ) -> Result<tonic::Response<super::Operation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.Instances/Resume");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
         #[doc = " Sends diagnostic interrupt to the instance."]
         pub async fn send_diagnostic_interrupt(
             &mut self,
@@ -28945,7 +30129,7 @@ pub mod instances_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Sets an instance's scheduling options. You can only call this method on a stopped instance, that is, a VM instance that is in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states."]
+        #[doc = " Sets an instance's scheduling options. You can only call this method on a stopped instance, that is, a VM instance that is in a `TERMINATED` state. See Instance Life Cycle for more information on the possible instance states. For more information about setting scheduling options for a VM, see Set VM availability policies."]
         pub async fn set_scheduling(
             &mut self,
             request: impl tonic::IntoRequest<super::SetSchedulingInstanceRequest>,
@@ -29012,7 +30196,7 @@ pub mod instances_client {
                 http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.Instances/SetTags");
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Simulates a maintenance event on the instance."]
+        #[doc = " Simulates a host maintenance event on a VM. For more information, see Simulate a host maintenance event."]
         pub async fn simulate_maintenance_event(
             &mut self,
             request: impl tonic::IntoRequest<super::SimulateMaintenanceEventInstanceRequest>,
@@ -29076,6 +30260,22 @@ pub mod instances_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.Instances/Stop");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " This method suspends a running instance, saving its state to persistent storage, and allows you to resume the instance at a later time. Suspended instances have no compute costs (cores or RAM), and incur only storage charges for the saved VM memory and localSSD data. Any charged resources the virtual machine was using, such as persistent disks and static IP addresses, will continue to be charged while the instance is suspended. For more information, see Suspending and resuming an instance."]
+        pub async fn suspend(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SuspendInstanceRequest>,
+        ) -> Result<tonic::Response<super::Operation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.Instances/Suspend");
             self.inner.unary(request.into_request(), path, codec).await
         }
         #[doc = " Returns permissions that a caller has on the specified resource."]
@@ -29822,6 +31022,175 @@ pub mod licenses_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.compute.v1.Licenses/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod machine_images_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " The MachineImages API."]
+    #[derive(Debug, Clone)]
+    pub struct MachineImagesClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> MachineImagesClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> MachineImagesClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            MachineImagesClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Deletes the specified machine image. Deleting a machine image is permanent and cannot be undone."]
+        pub async fn delete(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteMachineImageRequest>,
+        ) -> Result<tonic::Response<super::Operation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.compute.v1.MachineImages/Delete",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Returns the specified machine image. Gets a list of available machine images by making a list() request."]
+        pub async fn get(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetMachineImageRequest>,
+        ) -> Result<tonic::Response<super::MachineImage>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.MachineImages/Get");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets the access control policy for a resource. May be empty if no such policy or resource exists."]
+        pub async fn get_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetIamPolicyMachineImageRequest>,
+        ) -> Result<tonic::Response<super::Policy>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.compute.v1.MachineImages/GetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a machine image in the specified project using the data that is included in the request. If you are creating a new machine image to update an existing instance, your new machine image should use the same network or, if applicable, the same subnetwork as the original instance."]
+        pub async fn insert(
+            &mut self,
+            request: impl tonic::IntoRequest<super::InsertMachineImageRequest>,
+        ) -> Result<tonic::Response<super::Operation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.compute.v1.MachineImages/Insert",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves a list of machine images that are contained within the specified project."]
+        pub async fn list(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListMachineImagesRequest>,
+        ) -> Result<tonic::Response<super::MachineImageList>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.MachineImages/List");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Sets the access control policy on the specified resource. Replaces any existing policy."]
+        pub async fn set_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SetIamPolicyMachineImageRequest>,
+        ) -> Result<tonic::Response<super::Policy>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.compute.v1.MachineImages/SetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Returns permissions that a caller has on the specified resource."]
+        pub async fn test_iam_permissions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::TestIamPermissionsMachineImageRequest>,
+        ) -> Result<tonic::Response<super::TestPermissionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.compute.v1.MachineImages/TestIamPermissions",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -31214,7 +32583,7 @@ pub mod projects_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Returns the specified Project resource."]
+        #[doc = " Returns the specified Project resource. To decrease latency for this method, you can optionally omit any unneeded information from the response by using a field mask. This practice is especially recommended for unused quota information (the `quotas` field). To exclude one or more fields, set your request's `fields` query parameter to only include the fields you need. For example, to only include the `id` and `selfLink` fields, add the query parameter `?fields=id,selfLink` to your request."]
         pub async fn get(
             &mut self,
             request: impl tonic::IntoRequest<super::GetProjectRequest>,
@@ -31297,7 +32666,7 @@ pub mod projects_client {
                 http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.Projects/MoveDisk");
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Moves an instance and its attached persistent disks from one zone to another."]
+        #[doc = " Moves an instance and its attached persistent disks from one zone to another. *Note*: Moving VMs or disks by using this method might cause unexpected behavior. For more information, see the [known issue](/compute/docs/troubleshooting/known-issues#moving_vms_or_disks_using_the_moveinstance_api_or_the_causes_unexpected_behavior)."]
         pub async fn move_instance(
             &mut self,
             request: impl tonic::IntoRequest<super::MoveInstanceProjectRequest>,
@@ -32102,6 +33471,23 @@ pub mod region_commitments_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = " Updates the specified commitment with the data included in the request. Update is performed only on selected fields included as part of update-mask. Only the following fields can be modified: auto_renew."]
+        pub async fn update(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateRegionCommitmentRequest>,
+        ) -> Result<tonic::Response<super::Operation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.compute.v1.RegionCommitments/Update",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
     }
 }
 #[doc = r" Generated client implementations."]
@@ -32257,7 +33643,7 @@ pub mod region_disks_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Creates a snapshot of this regional disk."]
+        #[doc = " Creates a snapshot of a specified persistent disk. For regular snapshot creation, consider using snapshots.insert instead, as that method supports more features, such as creating snapshots in a project different from the source disk project."]
         pub async fn create_snapshot(
             &mut self,
             request: impl tonic::IntoRequest<super::CreateSnapshotRegionDiskRequest>,
@@ -34310,7 +35696,7 @@ pub mod regions_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        #[doc = " Returns the specified Region resource. Gets a list of available regions by making a list() request."]
+        #[doc = " Returns the specified Region resource. Gets a list of available regions by making a list() request. To decrease latency for this method, you can optionally omit any unneeded information from the response by using a field mask. This practice is especially recommended for unused quota information (the `quotas` field). To exclude one or more fields, set your request's `fields` query parameter to only include the fields you need. For example, to only include the `id` and `selfLink` fields, add the query parameter `?fields=id,selfLink` to your request."]
         pub async fn get(
             &mut self,
             request: impl tonic::IntoRequest<super::GetRegionRequest>,
@@ -34325,7 +35711,7 @@ pub mod regions_client {
             let path = http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.Regions/Get");
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Retrieves the list of region resources available to the specified project."]
+        #[doc = " Retrieves the list of region resources available to the specified project. To decrease latency for this method, you can optionally omit any unneeded information from the response by using a field mask. This practice is especially recommended for unused quota information (the `items.quotas` field). To exclude one or more fields, set your request's `fields` query parameter to only include the fields you need. For example, to only include the `id` and `selfLink` fields, add the query parameter `?fields=id,selfLink` to your request."]
         pub async fn list(
             &mut self,
             request: impl tonic::IntoRequest<super::ListRegionsRequest>,
@@ -34541,6 +35927,23 @@ pub mod reservations_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.compute.v1.Reservations/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Update share settings of the reservation."]
+        pub async fn update(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateReservationRequest>,
+        ) -> Result<tonic::Response<super::Operation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.compute.v1.Reservations/Update",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -35592,6 +36995,22 @@ pub mod snapshots_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.compute.v1.Snapshots/GetIamPolicy",
             );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a snapshot in the specified project using the data included in the request. For regular snapshot creation, consider using this method instead of disks.createSnapshot, as this method supports more features, such as creating snapshots in a project different from the source disk project."]
+        pub async fn insert(
+            &mut self,
+            request: impl tonic::IntoRequest<super::InsertSnapshotRequest>,
+        ) -> Result<tonic::Response<super::Operation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.cloud.compute.v1.Snapshots/Insert");
             self.inner.unary(request.into_request(), path, codec).await
         }
         #[doc = " Retrieves the list of Snapshot resources contained within the specified project."]
