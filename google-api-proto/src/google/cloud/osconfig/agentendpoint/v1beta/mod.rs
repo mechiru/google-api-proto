@@ -630,6 +630,9 @@ pub struct PatchConfig {
     /// The ExecStep to run after the patch update.
     #[prost(message, optional, tag = "9")]
     pub post_step: ::core::option::Option<ExecStep>,
+    /// Allows the patch job to run on Managed instance groups (MIGs).
+    #[prost(bool, tag = "10")]
+    pub mig_instances_allowed: bool,
 }
 /// Nested message and enum types in `PatchConfig`.
 pub mod patch_config {
@@ -844,10 +847,12 @@ pub mod exec_step_config {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Interpreter {
+        /// Deprecated, defaults to NONE for compatibility reasons.
+        Unspecified = 0,
         /// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the
         /// interpreter will be parsed from the shebang line of the script if
         /// unspecified.
-        Unspecified = 0,
+        None = 3,
         /// Indicates that the script will be run with /bin/sh on Linux and cmd
         /// on windows.
         Shell = 1,
@@ -1010,8 +1015,7 @@ pub struct ExecStepTaskOutput {
     /// Required. The final state of the exec step.
     #[prost(enumeration = "exec_step_task_output::State", tag = "1")]
     pub state: i32,
-    /// Required. The exit code received from the script which ran as part of the
-    /// exec step.
+    /// Required. The exit code received from the script which ran as part of the exec step.
     #[prost(int32, tag = "2")]
     pub exit_code: i32,
 }
@@ -1105,6 +1109,7 @@ pub struct ReportTaskProgressRequest {
     /// specified below:
     /// APPLY_PATCHES = ApplyPatchesTaskProgress
     /// EXEC_STEP = Progress not supported for this type.
+    /// APPLY_CONFIG_TASK = ApplyConfigTaskProgress
     #[prost(enumeration = "TaskType", tag = "3")]
     pub task_type: i32,
     /// Intermediate progress of the current task.
@@ -1148,6 +1153,7 @@ pub struct ReportTaskCompleteRequest {
     /// enum values:
     /// APPLY_PATCHES = ApplyPatchesTaskOutput
     /// EXEC_STEP = ExecStepTaskOutput
+    /// APPLY_CONFIG_TASK = ApplyConfigTaskOutput
     #[prost(enumeration = "TaskType", tag = "3")]
     pub task_type: i32,
     /// Descriptive error message if the task execution ended in error.
@@ -1187,8 +1193,24 @@ pub struct RegisterAgentRequest {
     /// Required. The capabilities supported by the agent. Supported values are:
     /// PATCH_GA
     /// GUEST_POLICY_BETA
+    /// CONFIG_V1
     #[prost(string, repeated, tag = "3")]
     pub supported_capabilities: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The operating system long name.
+    /// For example 'Debian GNU/Linux 9' or 'Microsoft Window Server 2019
+    /// Datacenter'.
+    #[prost(string, tag = "4")]
+    pub os_long_name: ::prost::alloc::string::String,
+    /// The operating system short name.
+    /// For example, 'windows' or 'debian'.
+    #[prost(string, tag = "5")]
+    pub os_short_name: ::prost::alloc::string::String,
+    /// The version of the operating system.
+    #[prost(string, tag = "6")]
+    pub os_version: ::prost::alloc::string::String,
+    /// The system architecture of the operating system.
+    #[prost(string, tag = "7")]
+    pub os_architecture: ::prost::alloc::string::String,
 }
 /// The response message after the agent registered.
 #[derive(Clone, PartialEq, ::prost::Message)]

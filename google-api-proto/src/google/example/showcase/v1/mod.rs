@@ -921,7 +921,7 @@ pub mod compliance_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
     #[doc = " This service is used to test that GAPICs can transcode proto3 requests to"]
-    #[doc = " REST format correctly for various types of HTTP annotations......"]
+    #[doc = " REST format correctly for various types of HTTP annotations........"]
     #[derive(Debug, Clone)]
     pub struct ComplianceClient<T> {
         inner: tonic::client::Grpc<T>,

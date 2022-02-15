@@ -864,6 +864,21 @@ pub struct CheckAndMutateRowResponse {
     #[prost(bool, tag = "1")]
     pub predicate_matched: bool,
 }
+/// Request message for client connection keep-alive and warming.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PingAndWarmRequest {
+    /// Required. The unique name of the instance to check permissions for as well as
+    /// respond. Values are of the form `projects/<project>/instances/<instance>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// This value specifies routing for replication. If not specified, the
+    /// "default" application profile will be used.
+    #[prost(string, tag = "2")]
+    pub app_profile_id: ::prost::alloc::string::String,
+}
+/// Response message for Bigtable.PingAndWarm connection keepalive and warming.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PingAndWarmResponse {}
 /// Request message for Bigtable.ReadModifyWriteRow.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ReadModifyWriteRowRequest {
@@ -1045,6 +1060,23 @@ pub mod bigtable_client {
             let path = http::uri::PathAndQuery::from_static(
                 "/google.bigtable.v2.Bigtable/CheckAndMutateRow",
             );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Warm up associated instance metadata for this connection."]
+        #[doc = " This call is not required but may be useful for connection keep-alive."]
+        pub async fn ping_and_warm(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PingAndWarmRequest>,
+        ) -> Result<tonic::Response<super::PingAndWarmResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/google.bigtable.v2.Bigtable/PingAndWarm");
             self.inner.unary(request.into_request(), path, codec).await
         }
         #[doc = " Modifies a row atomically on the server. The method reads the latest"]
