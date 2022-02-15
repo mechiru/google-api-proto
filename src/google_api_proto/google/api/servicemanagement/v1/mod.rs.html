@@ -890,101 +890,11 @@
 <span id="889">889</span>
 <span id="890">890</span>
 <span id="891">891</span>
-<span id="892">892</span>
-<span id="893">893</span>
-<span id="894">894</span>
-<span id="895">895</span>
-<span id="896">896</span>
-<span id="897">897</span>
-<span id="898">898</span>
-<span id="899">899</span>
-<span id="900">900</span>
-<span id="901">901</span>
-<span id="902">902</span>
-<span id="903">903</span>
-<span id="904">904</span>
-<span id="905">905</span>
-<span id="906">906</span>
-<span id="907">907</span>
-<span id="908">908</span>
-<span id="909">909</span>
-<span id="910">910</span>
-<span id="911">911</span>
-<span id="912">912</span>
-<span id="913">913</span>
-<span id="914">914</span>
-<span id="915">915</span>
-<span id="916">916</span>
-<span id="917">917</span>
-<span id="918">918</span>
-<span id="919">919</span>
-<span id="920">920</span>
-<span id="921">921</span>
-<span id="922">922</span>
-<span id="923">923</span>
-<span id="924">924</span>
-<span id="925">925</span>
-<span id="926">926</span>
-<span id="927">927</span>
-<span id="928">928</span>
-<span id="929">929</span>
-<span id="930">930</span>
-<span id="931">931</span>
-<span id="932">932</span>
-<span id="933">933</span>
-<span id="934">934</span>
-<span id="935">935</span>
-<span id="936">936</span>
-<span id="937">937</span>
-<span id="938">938</span>
-<span id="939">939</span>
-<span id="940">940</span>
-<span id="941">941</span>
-<span id="942">942</span>
-<span id="943">943</span>
-<span id="944">944</span>
-<span id="945">945</span>
-<span id="946">946</span>
-<span id="947">947</span>
-<span id="948">948</span>
-<span id="949">949</span>
-<span id="950">950</span>
-<span id="951">951</span>
-<span id="952">952</span>
-<span id="953">953</span>
-<span id="954">954</span>
-<span id="955">955</span>
-<span id="956">956</span>
-<span id="957">957</span>
-<span id="958">958</span>
-<span id="959">959</span>
-<span id="960">960</span>
-<span id="961">961</span>
-<span id="962">962</span>
-<span id="963">963</span>
-<span id="964">964</span>
-<span id="965">965</span>
-<span id="966">966</span>
-<span id="967">967</span>
-<span id="968">968</span>
-<span id="969">969</span>
-<span id="970">970</span>
-<span id="971">971</span>
-<span id="972">972</span>
-<span id="973">973</span>
-<span id="974">974</span>
-<span id="975">975</span>
-<span id="976">976</span>
-<span id="977">977</span>
-<span id="978">978</span>
-<span id="979">979</span>
-<span id="980">980</span>
-<span id="981">981</span>
 </pre><pre class="rust"><code><span class="doccomment">/// The full representation of a Service that is managed by</span>
 <span class="doccomment">/// Google Service Management.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ManagedService</span> {
-    <span class="doccomment">/// The name of the service. See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// The name of the service. See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1309,7 +1219,7 @@
 <span class="doccomment">/// Request message for DeleteService method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteServiceRequest</span> {
-    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements.  For example: `example.googleapis.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1317,7 +1227,7 @@
 <span class="doccomment">/// Request message for UndeleteService method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UndeleteServiceRequest</span> {
-    <span class="doccomment">/// Required. The name of the service. See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// Required. The name of the service. See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements. For example: `example.googleapis.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1332,7 +1242,7 @@
 <span class="doccomment">/// Request message for GetServiceConfig method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetServiceConfigRequest</span> {
-    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements.  For example: `example.googleapis.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1364,7 +1274,7 @@
 <span class="doccomment">/// Request message for ListServiceConfigs method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListServiceConfigsRequest</span> {
-    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements.  For example: `example.googleapis.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1389,7 +1299,7 @@
 <span class="doccomment">/// Request message for CreateServiceConfig method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateServiceConfigRequest</span> {
-    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements.  For example: `example.googleapis.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1400,7 +1310,7 @@
 <span class="doccomment">/// Request message for SubmitConfigSource method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SubmitConfigSourceRequest</span> {
-    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements.  For example: `example.googleapis.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1423,7 +1333,7 @@
 <span class="doccomment">/// Request message for &#39;CreateServiceRollout&#39;</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateServiceRolloutRequest</span> {
-    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements.  For example: `example.googleapis.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1434,7 +1344,7 @@
 <span class="doccomment">/// Request message for &#39;ListServiceRollouts&#39;</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListServiceRolloutsRequest</span> {
-    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements.  For example: `example.googleapis.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1448,10 +1358,10 @@
     <span class="doccomment">/// Required. Use `filter` to return subset of rollouts.</span>
     <span class="doccomment">/// The following filters are supported:</span>
     <span class="doccomment">///   -- To limit the results to only those in</span>
-    <span class="doccomment">///      status (google.api.servicemanagement.v1.RolloutStatus) &#39;SUCCESS&#39;,</span>
+    <span class="doccomment">///      \[status\](google.api.servicemanagement.v1.RolloutStatus) &#39;SUCCESS&#39;,</span>
     <span class="doccomment">///      use filter=&#39;status=SUCCESS&#39;</span>
     <span class="doccomment">///   -- To limit the results to those in</span>
-    <span class="doccomment">///      status (google.api.servicemanagement.v1.RolloutStatus) &#39;CANCELLED&#39;</span>
+    <span class="doccomment">///      \[status\](google.api.servicemanagement.v1.RolloutStatus) &#39;CANCELLED&#39;</span>
     <span class="doccomment">///      or &#39;FAILED&#39;, use filter=&#39;status=CANCELLED OR status=FAILED&#39;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1469,7 +1379,7 @@
 <span class="doccomment">/// Request message for GetServiceRollout method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetServiceRolloutRequest</span> {
-    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](&lt;https://cloud.google.com/service-management/overview&gt;)</span>
+    <span class="doccomment">/// Required. The name of the service.  See the \[overview\](/service-management/overview)</span>
     <span class="doccomment">/// for naming requirements.  For example: `example.googleapis.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1477,50 +1387,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">rollout_id</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Request message for EnableService method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EnableServiceRequest</span> {
-    <span class="doccomment">/// Required. Name of the service to enable. Specifying an unknown service name will</span>
-    <span class="doccomment">/// cause the request to fail.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The identity of consumer resource which service enablement will be</span>
-    <span class="doccomment">/// applied to.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The Google Service Management implementation accepts the following</span>
-    <span class="doccomment">/// forms:</span>
-    <span class="doccomment">/// - &quot;project:&lt;project_id&gt;&quot;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note: this is made compatible with</span>
-    <span class="doccomment">/// google.api.servicecontrol.v1.Operation.consumer_id.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">consumer_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Operation payload for EnableService method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EnableServiceResponse</span> {}
-<span class="doccomment">/// Request message for DisableService method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DisableServiceRequest</span> {
-    <span class="doccomment">/// Required. Name of the service to disable. Specifying an unknown service name</span>
-    <span class="doccomment">/// will cause the request to fail.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The identity of consumer resource which service disablement will be</span>
-    <span class="doccomment">/// applied to.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The Google Service Management implementation accepts the following</span>
-    <span class="doccomment">/// forms:</span>
-    <span class="doccomment">/// - &quot;project:&lt;project_id&gt;&quot;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note: this is made compatible with</span>
-    <span class="doccomment">/// google.api.servicecontrol.v1.Operation.consumer_id.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">consumer_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Operation payload for DisableService method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DisableServiceResponse</span> {}
 <span class="doccomment">/// Request message for GenerateConfigReport method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GenerateConfigReportRequest</span> {
@@ -1562,7 +1428,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">service_manager_client</span> {
     <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
     <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [Google Service Management API](https://cloud.google.com/service-management/overview)&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [Google Service Management API](/service-management/overview)&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ServiceManagerClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
@@ -1613,10 +1479,6 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Returns all public services. For authenticated users, also returns all&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; services the calling user has \&quot;servicemanagement.services.get\&quot; permission&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; for.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; **BETA:** If the caller specifies the `consumer_id`, it returns only the&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; services enabled on the consumer. The `consumer_id` must have the format&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; of \&quot;project:{PROJECT-ID}\&quot;.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_services</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListServicesRequest</span><span class="op">&gt;</span>,
@@ -1652,7 +1514,14 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates a new managed service.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please note one producer project can own no more than 20 services.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; A managed service is immutable, and is subject to mandatory 30-day&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; data retention. You cannot move a service or recreate it within 30 days&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; after deletion.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; One producer project can own no more than 500 services. For security and&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; reliability purposes, a production service should be hosted in a&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; dedicated producer project.&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Operation&lt;response: ManagedService&gt;&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_service</span>(
@@ -1907,55 +1776,6 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.api.servicemanagement.v1.ServiceManager/GenerateConfigReport&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Enables a [service][google.api.servicemanagement.v1.ManagedService] for a project, so it can be used&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; for the project. See&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [Cloud Auth Guide](https://cloud.google.com/docs/authentication) for&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; more information.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Operation&lt;response: EnableServiceResponse&gt;&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">enable_service</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EnableServiceRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.api.servicemanagement.v1.ServiceManager/EnableService&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Disables a [service][google.api.servicemanagement.v1.ManagedService] for a project, so it can no longer be&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; be used for the project. It prevents accidental usage that may cause&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; unexpected billing charges or security leaks.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Operation&lt;response: DisableServiceResponse&gt;&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">disable_service</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DisableServiceRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.api.servicemanagement.v1.ServiceManager/DisableService&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
