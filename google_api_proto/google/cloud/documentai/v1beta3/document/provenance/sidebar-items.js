@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["OperationType","If a processor or agent does an explicit operation on existing elements."]],"struct":[["Parent","Structure for referencing parent provenances.  When an element replaces one of more other elements parent references identify the elements that are replaced."]]});
+initSidebarItems({"enum":[["OperationType","If a processor or agent does an explicit operation on existing elements."]],"struct":[["Parent","The parent element the current element is based on. Used for referencing/aligning, removal and replacement operations."]]});

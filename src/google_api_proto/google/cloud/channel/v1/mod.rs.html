@@ -4042,8 +4042,8 @@
 <span class="doccomment">/// Service provisioned for an entitlement.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProvisionedService</span> {
-    <span class="doccomment">/// Output only. Provisioning ID of the entitlement. For Google Workspace, this would be the</span>
-    <span class="doccomment">/// underlying Subscription ID. For Google Cloud Platform, this would be the</span>
+    <span class="doccomment">/// Output only. Provisioning ID of the entitlement. For Google Workspace, this is the</span>
+    <span class="doccomment">/// underlying Subscription ID. For Google Cloud Platform, this is the</span>
     <span class="doccomment">/// Billing Account ID of the billing subaccount.&quot;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">provisioning_id</span>: <span class="ident">::prost::alloc::string::String</span>,

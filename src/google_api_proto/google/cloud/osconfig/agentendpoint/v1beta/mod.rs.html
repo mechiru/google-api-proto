@@ -1347,6 +1347,28 @@
 <span id="1346">1346</span>
 <span id="1347">1347</span>
 <span id="1348">1348</span>
+<span id="1349">1349</span>
+<span id="1350">1350</span>
+<span id="1351">1351</span>
+<span id="1352">1352</span>
+<span id="1353">1353</span>
+<span id="1354">1354</span>
+<span id="1355">1355</span>
+<span id="1356">1356</span>
+<span id="1357">1357</span>
+<span id="1358">1358</span>
+<span id="1359">1359</span>
+<span id="1360">1360</span>
+<span id="1361">1361</span>
+<span id="1362">1362</span>
+<span id="1363">1363</span>
+<span id="1364">1364</span>
+<span id="1365">1365</span>
+<span id="1366">1366</span>
+<span id="1367">1367</span>
+<span id="1368">1368</span>
+<span id="1369">1369</span>
+<span id="1370">1370</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Package is a reference to the software package to be installed or removed.</span>
 <span class="doccomment">/// The agent on the VM instance uses the system package manager to apply the</span>
 <span class="doccomment">/// config.</span>
@@ -1979,6 +2001,9 @@
     <span class="doccomment">/// The ExecStep to run after the patch update.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">post_step</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecStep</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Allows the patch job to run on Managed instance groups (MIGs).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mig_instances_allowed</span>: <span class="ident">bool</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `PatchConfig`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">patch_config</span> {
@@ -2193,10 +2218,12 @@
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
     <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Interpreter</span> {
+        <span class="doccomment">/// Deprecated, defaults to NONE for compatibility reasons.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
         <span class="doccomment">/// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the</span>
         <span class="doccomment">/// interpreter will be parsed from the shebang line of the script if</span>
         <span class="doccomment">/// unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
         <span class="doccomment">/// Indicates that the script will be run with /bin/sh on Linux and cmd</span>
         <span class="doccomment">/// on windows.</span>
         <span class="ident">Shell</span> <span class="op">=</span> <span class="number">1</span>,
@@ -2359,8 +2386,7 @@
     <span class="doccomment">/// Required. The final state of the exec step.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;exec_step_task_output::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Required. The exit code received from the script which ran as part of the</span>
-    <span class="doccomment">/// exec step.</span>
+    <span class="doccomment">/// Required. The exit code received from the script which ran as part of the exec step.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">exit_code</span>: <span class="ident">i32</span>,
 }
@@ -2454,6 +2480,7 @@
     <span class="doccomment">/// specified below:</span>
     <span class="doccomment">/// APPLY_PATCHES = ApplyPatchesTaskProgress</span>
     <span class="doccomment">/// EXEC_STEP = Progress not supported for this type.</span>
+    <span class="doccomment">/// APPLY_CONFIG_TASK = ApplyConfigTaskProgress</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;TaskType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">task_type</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Intermediate progress of the current task.</span>
@@ -2497,6 +2524,7 @@
     <span class="doccomment">/// enum values:</span>
     <span class="doccomment">/// APPLY_PATCHES = ApplyPatchesTaskOutput</span>
     <span class="doccomment">/// EXEC_STEP = ExecStepTaskOutput</span>
+    <span class="doccomment">/// APPLY_CONFIG_TASK = ApplyConfigTaskOutput</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;TaskType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">task_type</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Descriptive error message if the task execution ended in error.</span>
@@ -2536,8 +2564,24 @@
     <span class="doccomment">/// Required. The capabilities supported by the agent. Supported values are:</span>
     <span class="doccomment">/// PATCH_GA</span>
     <span class="doccomment">/// GUEST_POLICY_BETA</span>
+    <span class="doccomment">/// CONFIG_V1</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">supported_capabilities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The operating system long name.</span>
+    <span class="doccomment">/// For example &#39;Debian GNU/Linux 9&#39; or &#39;Microsoft Window Server 2019</span>
+    <span class="doccomment">/// Datacenter&#39;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_long_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The operating system short name.</span>
+    <span class="doccomment">/// For example, &#39;windows&#39; or &#39;debian&#39;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_short_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The version of the operating system.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The system architecture of the operating system.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_architecture</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// The response message after the agent registered.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
