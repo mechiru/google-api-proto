@@ -7,8 +7,7 @@
 }</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Represents a single yum package repository. These are added to a
 repo file that is managed at
 <code>/etc/yum.repos.d/google_osconfig.repo</code>.</p>
-</div></details><h2 id="fields" class="fields small-section-header">Fields<a href="#fields" class="anchor"></a></h2><span id="structfield.id" class="structfield small-section-header"><a href="#structfield.id" class="anchor field"></a><code>id: <a class="struct" href="https://doc.rust-lang.org/1.58.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span><div class="docblock"><p>Required. A one word, unique name for this repository. This is  the
-<code>repo id</code> in the yum config file and also the <code>display_name</code> if
+</div></details><h2 id="fields" class="fields small-section-header">Fields<a href="#fields" class="anchor"></a></h2><span id="structfield.id" class="structfield small-section-header"><a href="#structfield.id" class="anchor field"></a><code>id: <a class="struct" href="https://doc.rust-lang.org/1.58.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span><div class="docblock"><p>Required. A one word, unique name for this repository. This is  the <code>repo id</code> in the yum config file and also the <code>display_name</code> if
 <code>display_name</code> is omitted. This id is also used as the unique
 identifier when checking for resource conflicts.</p>
 </div><span id="structfield.display_name" class="structfield small-section-header"><a href="#structfield.display_name" class="anchor field"></a><code>display_name: <a class="struct" href="https://doc.rust-lang.org/1.58.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span><div class="docblock"><p>The display name of the repository.</p>

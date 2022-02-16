@@ -3679,24 +3679,7 @@
 <span id="3678">3678</span>
 <span id="3679">3679</span>
 <span id="3680">3680</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A definition of an annotation spec.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationSpec</span> {
-    <span class="doccomment">/// Output only. Resource name of the annotation spec.</span>
-    <span class="doccomment">/// Form:</span>
-    <span class="doccomment">/// &#39;projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/annotationSpecs/{annotation_spec_id}&#39;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The name of the annotation spec to show in the interface. The name can be</span>
-    <span class="doccomment">/// up to 32 characters long and must match the regexp `\[a-zA-Z0-9_\]+`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The number of examples in the parent dataset</span>
-    <span class="doccomment">/// labeled by the annotation spec.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">example_count</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Contains annotation details specific to classification.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Contains annotation details specific to classification.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClassificationAnnotation</span> {
     <span class="doccomment">/// Output only. A confidence estimate between 0.0 and 1.0. A higher value</span>
@@ -6050,6 +6033,23 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
         <span class="ident">TextSentiment</span>(<span class="ident"><span class="kw">super</span>::TextSentimentAnnotation</span>),
     }
+}
+<span class="doccomment">/// A definition of an annotation spec.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationSpec</span> {
+    <span class="doccomment">/// Output only. Resource name of the annotation spec.</span>
+    <span class="doccomment">/// Form:</span>
+    <span class="doccomment">/// &#39;projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/annotationSpecs/{annotation_spec_id}&#39;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The name of the annotation spec to show in the interface. The name can be</span>
+    <span class="doccomment">/// up to 32 characters long and must match the regexp `\[a-zA-Z0-9_\]+`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The number of examples in the parent dataset</span>
+    <span class="doccomment">/// labeled by the annotation spec.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">example_count</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// API proto representing a trained machine learning model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
