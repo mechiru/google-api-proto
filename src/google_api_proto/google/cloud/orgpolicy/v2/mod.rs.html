@@ -591,15 +591,16 @@
 <span id="590">590</span>
 <span id="591">591</span>
 <span id="592">592</span>
+<span id="593">593</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A `constraint` describes a way to restrict resource&#39;s configuration. For</span>
 <span class="doccomment">/// example, you could enforce a constraint that controls which cloud services</span>
 <span class="doccomment">/// can be activated across an organization, or whether a Compute Engine instance</span>
 <span class="doccomment">/// can have serial port connections established. `Constraints` can be configured</span>
-<span class="doccomment">/// by the organization&#39;s policy adminstrator to fit the needs of the organzation</span>
-<span class="doccomment">/// by setting a `policy` that includes `constraints` at different locations in</span>
-<span class="doccomment">/// the organization&#39;s resource hierarchy. Policies are inherited down the</span>
-<span class="doccomment">/// resource hierarchy from higher levels, but can also be overridden. For</span>
-<span class="doccomment">/// details about the inheritance rules please read about</span>
+<span class="doccomment">/// by the organization&#39;s policy administrator to fit the needs of the</span>
+<span class="doccomment">/// organization by setting a `policy` that includes `constraints` at different</span>
+<span class="doccomment">/// locations in the organization&#39;s resource hierarchy. Policies are inherited</span>
+<span class="doccomment">/// down the resource hierarchy from higher levels, but can also be overridden.</span>
+<span class="doccomment">/// For details about the inheritance rules please read about</span>
 <span class="doccomment">/// \[`policies`][google.cloud.OrgPolicy.v2.Policy\].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// `Constraints` have a default behavior determined by the `constraint_default`</span>
@@ -712,10 +713,8 @@
     <span class="doccomment">/// Basic information about the Organization Policy.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PolicySpec</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// An alternate policy configuration that will be used instead of the baseline</span>
-    <span class="doccomment">/// policy configurations as determined by the launch.</span>
-    <span class="doccomment">/// Currently the only way the launch can trigger the alternate configuration</span>
-    <span class="doccomment">/// is via dry-run/darklaunch.</span>
+    <span class="doccomment">/// Deprecated.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">alternate</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AlternatePolicySpec</span><span class="op">&gt;</span>,
 }
@@ -791,11 +790,14 @@
         <span class="doccomment">/// in the evaluation of the policy. When set, the `expression` field in</span>
         <span class="doccomment">/// the `Expr&#39; must include from 1 to 10 subexpressions, joined by the &quot;||&quot;</span>
         <span class="doccomment">/// or &quot;&amp;&amp;&quot; operators. Each subexpression must be of the form</span>
-        <span class="doccomment">/// &quot;resource.matchLabels(key_name, value_name)&quot;,</span>
-        <span class="doccomment">/// where key_name and value_name are the resource names for Label Keys</span>
-        <span class="doccomment">/// and Values. These names are available from the Label Manager Service. An</span>
-        <span class="doccomment">/// example expression is:</span>
-        <span class="doccomment">/// &quot;resource.matchLabels(&#39;labelKeys/123, &#39;labelValues/456&#39;)&quot;.</span>
+        <span class="doccomment">/// &quot;resource.matchTag(&#39;&lt;ORG_ID&gt;/tag_key_short_name,</span>
+        <span class="doccomment">/// &#39;tag_value_short_name&#39;)&quot;. or &quot;resource.matchTagId(&#39;tagKeys/key_id&#39;,</span>
+        <span class="doccomment">/// &#39;tagValues/value_id&#39;)&quot;. where key_name and value_name are the resource</span>
+        <span class="doccomment">/// names for Label Keys and Values. These names are available from the Tag</span>
+        <span class="doccomment">/// Manager Service. An example expression is:</span>
+        <span class="doccomment">/// &quot;resource.matchTag(&#39;123456789/environment,</span>
+        <span class="doccomment">/// &#39;prod&#39;)&quot;. or &quot;resource.matchTagId(&#39;tagKeys/123&#39;,</span>
+        <span class="doccomment">/// &#39;tagValues/456&#39;)&quot;.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">condition</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Expr</span><span class="op">&gt;</span>,
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;policy_rule::Kind&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4&quot;</span>)]</span>

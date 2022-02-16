@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Result","The topline state of the report."]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Attempt","Contains metrics on individual RPC Attempts in a sequence."]]});

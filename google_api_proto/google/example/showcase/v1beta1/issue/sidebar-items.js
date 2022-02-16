@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Severity","Severity levels."],["Type","The different potential types of issues."]]});
