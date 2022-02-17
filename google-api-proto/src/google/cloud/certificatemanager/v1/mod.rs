@@ -674,10 +674,9 @@ pub mod certificate_map_entry {
     }
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Match {
-        /// A Hostname (FQDN, e.g. example.com)
-        /// or a wildcard hostname expression (*.example.com) for a set of hostnames
-        /// with common suffix. Used as Server Name Indication (SNI) for selecting
-        /// a proper certificate.
+        /// A Hostname (FQDN, e.g. `example.com`) or a wildcard hostname expression
+        /// (`*.example.com`) for a set of hostnames with common suffix. Used as
+        /// Server Name Indication (SNI) for selecting a proper certificate.
         #[prost(string, tag = "5")]
         Hostname(::prost::alloc::string::String),
         /// A predefined matcher for particular cases, other than SNI selection.
@@ -710,8 +709,8 @@ pub struct DnsAuthorization {
     #[prost(string, tag = "5")]
     pub description: ::prost::alloc::string::String,
     /// Required. Immutable. A domain which is being authorized. A DnsAuthorization resource covers a
-    /// single domain and its wildcard, e.g. authorization for "example.com" can
-    /// be used to issue certificates for "example.com" and "*.example.com".
+    /// single domain and its wildcard, e.g. authorization for `example.com` can
+    /// be used to issue certificates for `example.com` and `*.example.com`.
     #[prost(string, tag = "6")]
     pub domain: ::prost::alloc::string::String,
     /// Output only. DNS Resource Record that needs to be added to DNS configuration.
@@ -726,7 +725,7 @@ pub mod dns_authorization {
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct DnsResourceRecord {
         /// Output only. Fully qualified name of the DNS Resource Record.
-        /// e.g. "_acme-challenge.example.com."
+        /// e.g. `_acme-challenge.example.com`
         #[prost(string, tag = "1")]
         pub name: ::prost::alloc::string::String,
         /// Output only. Type of the DNS Resource Record.
