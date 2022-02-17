@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["KernelType","Kernel Type of the Jupyter notebook."]]});

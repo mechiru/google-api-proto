@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Role","`Role` specifies whose tasks will run on the NodePool. The roles can be specific to workloads. Exactly one GkeNodePoolTarget within the VirtualCluster must have ‘default’ role, which is used to run all workloads that are not associated with a NodePool."]]});

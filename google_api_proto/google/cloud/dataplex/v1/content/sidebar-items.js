@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Content",""],["Data","Only returned in `GetContent` requests and not in `ListContent` request."]],"mod":[["notebook","Nested message and enum types in `Notebook`."],["sql_script","Nested message and enum types in `SqlScript`."]],"struct":[["Notebook","Configuration for Notebook content."],["SqlScript","Configuration for the Sql Script content."]]});

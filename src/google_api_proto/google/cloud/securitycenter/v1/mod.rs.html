@@ -2692,6 +2692,8 @@
 <span id="2691">2691</span>
 <span id="2692">2692</span>
 <span id="2693">2693</span>
+<span id="2694">2694</span>
+<span id="2695">2695</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Message that contains the resource name and display name of a folder</span>
 <span class="doccomment">/// resource.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2714,7 +2716,7 @@
     <span class="doccomment">/// The full resource name of project that the resource belongs to.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">project</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The human readable name of project that the resource belongs to.</span>
+    <span class="doccomment">/// The project id that the resource belongs to.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">project_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The full resource name of resource&#39;s parent.</span>
@@ -3209,7 +3211,8 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Indicates the mute state of a finding (either unspecified, muted, unmuted</span>
-    <span class="doccomment">/// or undefined).</span>
+    <span class="doccomment">/// or undefined). Unlike other attributes of a finding, a finding provider</span>
+    <span class="doccomment">/// shouldn&#39;t set the value of mute.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;finding::Mute&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mute</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// The class of the finding.</span>
@@ -3241,7 +3244,8 @@
     <span class="kw">pub</span> <span class="ident">access</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Access</span><span class="op">&gt;</span>,
     <span class="doccomment">/// First known as mute_annotation. Records additional information about the</span>
     <span class="doccomment">/// mute operation e.g. mute config that muted the finding, user who muted the</span>
-    <span class="doccomment">/// finding, etc.</span>
+    <span class="doccomment">/// finding, etc. Unlike other attributes of a finding, a finding provider</span>
+    <span class="doccomment">/// shouldn&#39;t set the value of mute.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mute_initiator</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -4558,7 +4562,7 @@
             <span class="doccomment">/// The full resource name of project that the resource belongs to.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">project_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The human readable name of project that the resource belongs to.</span>
+            <span class="doccomment">/// The project id that the resource belongs to.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">project_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
             <span class="doccomment">/// The full resource name of resource&#39;s parent.</span>

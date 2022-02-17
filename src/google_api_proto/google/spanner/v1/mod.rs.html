@@ -3377,7 +3377,7 @@
     <span class="doccomment">/// Required. The database in which the new session is created.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">database</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The session to create.</span>
+    <span class="doccomment">/// Required. The session to create.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">session</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&gt;</span>,
 }
