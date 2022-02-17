@@ -496,6 +496,203 @@ pub struct RuntimeInfo {
     #[prost(string, tag = "3")]
     pub diagnostic_output_uri: ::prost::alloc::string::String,
 }
+/// The cluster's GKE config.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GkeClusterConfig {
+    /// Optional. A target GKE cluster to deploy to. It must be in the same project and
+    /// region as the Dataproc cluster (the GKE cluster can be zonal or regional).
+    /// Format: 'projects/{project}/locations/{location}/clusters/{cluster_id}'
+    #[prost(string, tag = "2")]
+    pub gke_cluster_target: ::prost::alloc::string::String,
+    /// Optional. GKE NodePools where workloads will be scheduled. At least one node pool
+    /// must be assigned the 'default' role. Each role can be given to only a
+    /// single NodePoolTarget. All NodePools must have the same location settings.
+    /// If a nodePoolTarget is not specified, Dataproc constructs a default
+    /// nodePoolTarget.
+    #[prost(message, repeated, tag = "3")]
+    pub node_pool_target: ::prost::alloc::vec::Vec<GkeNodePoolTarget>,
+}
+/// The configuration for running the Dataproc cluster on Kubernetes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KubernetesClusterConfig {
+    /// Optional. A namespace within the Kubernetes cluster to deploy into. If this namespace
+    /// does not exist, it is created. If it exists, Dataproc
+    /// verifies that another Dataproc VirtualCluster is not installed
+    /// into it. If not specified, the name of the Dataproc Cluster is used.
+    #[prost(string, tag = "1")]
+    pub kubernetes_namespace: ::prost::alloc::string::String,
+    /// Optional. The software configuration for this Dataproc cluster running on Kubernetes.
+    #[prost(message, optional, tag = "3")]
+    pub kubernetes_software_config: ::core::option::Option<KubernetesSoftwareConfig>,
+    #[prost(oneof = "kubernetes_cluster_config::Config", tags = "2")]
+    pub config: ::core::option::Option<kubernetes_cluster_config::Config>,
+}
+/// Nested message and enum types in `KubernetesClusterConfig`.
+pub mod kubernetes_cluster_config {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Config {
+        /// Required. The configuration for running the Dataproc cluster on GKE.
+        #[prost(message, tag = "2")]
+        GkeClusterConfig(super::GkeClusterConfig),
+    }
+}
+/// The software configuration for this Dataproc cluster running on Kubernetes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KubernetesSoftwareConfig {
+    /// The components that should be installed in this Dataproc cluster. The key
+    /// must be a string from the KubernetesComponent enumeration. The value is
+    /// the version of the software to be installed.
+    /// At least one entry must be specified.
+    #[prost(btree_map = "string, string", tag = "1")]
+    pub component_version: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// The properties to set on daemon config files.
+    ///
+    /// Property keys are specified in `prefix:property` format, for example
+    /// `spark:spark.kubernetes.container.image`. The following are supported
+    /// prefixes and their mappings:
+    ///
+    /// * spark:  `spark-defaults.conf`
+    ///
+    /// For more information, see [Cluster
+    /// properties](<https://cloud.google.com/dataproc/docs/concepts/cluster-properties>).
+    #[prost(btree_map = "string, string", tag = "2")]
+    pub properties: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+}
+/// GKE NodePools that Dataproc workloads run on.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GkeNodePoolTarget {
+    /// Required. The target GKE NodePool.
+    /// Format:
+    /// 'projects/{project}/locations/{location}/clusters/{cluster}/nodePools/{node_pool}'
+    #[prost(string, tag = "1")]
+    pub node_pool: ::prost::alloc::string::String,
+    /// Required. The types of role for a GKE NodePool
+    #[prost(
+        enumeration = "gke_node_pool_target::Role",
+        repeated,
+        packed = "false",
+        tag = "2"
+    )]
+    pub roles: ::prost::alloc::vec::Vec<i32>,
+    /// Optional. The configuration for the GKE NodePool.
+    ///
+    /// If specified, Dataproc attempts to create a NodePool with the
+    /// specified shape. If one with the same name already exists, it is
+    /// verified against all specified fields. If a field differs, the
+    /// virtual cluster creation will fail.
+    ///
+    /// If omitted, any NodePool with the specified name is used. If a
+    /// NodePool with the specified name does not exist, Dataproc create a NodePool
+    /// with default values.
+    #[prost(message, optional, tag = "3")]
+    pub node_pool_config: ::core::option::Option<GkeNodePoolConfig>,
+}
+/// Nested message and enum types in `GkeNodePoolTarget`.
+pub mod gke_node_pool_target {
+    /// `Role` specifies whose tasks will run on the NodePool. The roles can be
+    /// specific to workloads. Exactly one GkeNodePoolTarget within the
+    /// VirtualCluster must have 'default' role, which is used to run all workloads
+    /// that are not associated with a NodePool.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Role {
+        /// Role is unspecified.
+        Unspecified = 0,
+        /// Any roles that are not directly assigned to a NodePool run on the
+        /// `default` role's NodePool.
+        Default = 1,
+        /// Run controllers and webhooks.
+        Controller = 2,
+        /// Run spark driver.
+        SparkDriver = 3,
+        /// Run spark executors.
+        SparkExecutor = 4,
+    }
+}
+/// The configuration of a GKE NodePool used by a [Dataproc-on-GKE
+/// cluster](<https://cloud.google.com/dataproc/docs/concepts/jobs/dataproc-gke#create-a-dataproc-on-gke-cluster>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GkeNodePoolConfig {
+    /// Optional. The node pool configuration.
+    #[prost(message, optional, tag = "2")]
+    pub config: ::core::option::Option<gke_node_pool_config::GkeNodeConfig>,
+    /// Optional. The list of Compute Engine
+    /// \[zones\](<https://cloud.google.com/compute/docs/zones#available>) where
+    /// NodePool's nodes will be located.
+    ///
+    /// **Note:** Currently, only one zone may be specified.
+    ///
+    /// If a location is not specified during NodePool creation, Dataproc will
+    /// choose a location.
+    #[prost(string, repeated, tag = "13")]
+    pub locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. The autoscaler configuration for this NodePool. The autoscaler is enabled
+    /// only when a valid configuration is present.
+    #[prost(message, optional, tag = "4")]
+    pub autoscaling: ::core::option::Option<gke_node_pool_config::GkeNodePoolAutoscalingConfig>,
+}
+/// Nested message and enum types in `GkeNodePoolConfig`.
+pub mod gke_node_pool_config {
+    /// Parameters that describe cluster nodes.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct GkeNodeConfig {
+        /// Optional. The name of a Compute Engine [machine
+        /// type](<https://cloud.google.com/compute/docs/machine-types>).
+        #[prost(string, tag = "1")]
+        pub machine_type: ::prost::alloc::string::String,
+        /// Optional. Whether the nodes are created as [preemptible VM
+        /// instances](<https://cloud.google.com/compute/docs/instances/preemptible>).
+        #[prost(bool, tag = "10")]
+        pub preemptible: bool,
+        /// Optional. The number of local SSD disks to attach to the node, which is limited by
+        /// the maximum number of disks allowable per zone (see [Adding Local
+        /// SSDs](<https://cloud.google.com/compute/docs/disks/local-ssd>)).
+        #[prost(int32, tag = "7")]
+        pub local_ssd_count: i32,
+        /// Optional. A list of [hardware
+        /// accelerators](<https://cloud.google.com/compute/docs/gpus>) to attach to
+        /// each node.
+        #[prost(message, repeated, tag = "11")]
+        pub accelerators: ::prost::alloc::vec::Vec<GkeNodePoolAcceleratorConfig>,
+        /// Optional. [Minimum CPU
+        /// platform](<https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform>)
+        /// to be used by this instance. The instance may be scheduled on the
+        /// specified or a newer CPU platform. Specify the friendly names of CPU
+        /// platforms, such as "Intel Haswell"` or Intel Sandy Bridge".
+        #[prost(string, tag = "13")]
+        pub min_cpu_platform: ::prost::alloc::string::String,
+    }
+    /// A GkeNodeConfigAcceleratorConfig represents a Hardware Accelerator request
+    /// for a NodePool.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct GkeNodePoolAcceleratorConfig {
+        /// The number of accelerator cards exposed to an instance.
+        #[prost(int64, tag = "1")]
+        pub accelerator_count: i64,
+        /// The accelerator type resource namename (see GPUs on Compute Engine).
+        #[prost(string, tag = "2")]
+        pub accelerator_type: ::prost::alloc::string::String,
+    }
+    /// GkeNodePoolAutoscaling contains information the cluster autoscaler needs to
+    /// adjust the size of the node pool to the current cluster usage.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct GkeNodePoolAutoscalingConfig {
+        /// The minimum number of nodes in the NodePool. Must be >= 0 and <=
+        /// max_node_count.
+        #[prost(int32, tag = "2")]
+        pub min_node_count: i32,
+        /// The maximum number of nodes in the NodePool. Must be >= min_node_count.
+        /// **Note:** Quota must be sufficient to scale up the cluster.
+        #[prost(int32, tag = "3")]
+        pub max_node_count: i32,
+    }
+}
 /// Cluster components that can be activated.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -985,6 +1182,15 @@ pub struct Cluster {
     /// when clusters are updated.
     #[prost(message, optional, tag = "3")]
     pub config: ::core::option::Option<ClusterConfig>,
+    /// Optional. The virtual cluster config, used when creating a Dataproc cluster that
+    /// does not directly control the underlying compute resources, for example,
+    /// when creating a [Dataproc-on-GKE
+    /// cluster](<https://cloud.google.com/dataproc/docs/concepts/jobs/dataproc-gke#create-a-dataproc-on-gke-cluster>).
+    /// Note that Dataproc may set default values, and values may change when
+    /// clusters are updated. Exactly one of config or virtualClusterConfig must be
+    /// specified.
+    #[prost(message, optional, tag = "10")]
+    pub virtual_cluster_config: ::core::option::Option<VirtualClusterConfig>,
     /// Optional. The labels to associate with this cluster.
     /// Label **keys** must contain 1 to 63 characters, and must conform to
     /// [RFC 1035](<https://www.ietf.org/rfc/rfc1035.txt>).
@@ -1098,34 +1304,64 @@ pub struct ClusterConfig {
     /// Optional. Metastore configuration.
     #[prost(message, optional, tag = "20")]
     pub metastore_config: ::core::option::Option<MetastoreConfig>,
-    /// Optional. BETA. The Kubernetes Engine config for Dataproc clusters deployed to
-    /// Kubernetes. Setting this is considered mutually exclusive with Compute
-    /// Engine-based options such as `gce_cluster_config`, `master_config`,
-    /// `worker_config`, `secondary_worker_config`, and `autoscaling_config`.
-    #[prost(message, optional, tag = "21")]
-    pub gke_cluster_config: ::core::option::Option<GkeClusterConfig>,
 }
-/// The GKE config for this cluster.
+/// Dataproc cluster config for a cluster that does not directly control the
+/// underlying compute resources, such as a [Dataproc-on-GKE
+/// cluster](<https://cloud.google.com/dataproc/docs/concepts/jobs/dataproc-gke#create-a-dataproc-on-gke-cluster>).
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GkeClusterConfig {
-    /// Optional. A target for the deployment.
-    #[prost(message, optional, tag = "1")]
-    pub namespaced_gke_deployment_target:
-        ::core::option::Option<gke_cluster_config::NamespacedGkeDeploymentTarget>,
+pub struct VirtualClusterConfig {
+    /// Optional. A Storage bucket used to stage job
+    /// dependencies, config files, and job driver console output.
+    /// If you do not specify a staging bucket, Cloud
+    /// Dataproc will determine a Cloud Storage location (US,
+    /// ASIA, or EU) for your cluster's staging bucket according to the
+    /// Compute Engine zone where your cluster is deployed, and then create
+    /// and manage this project-level, per-location bucket (see
+    /// [Dataproc staging and temp
+    /// buckets](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket>)).
+    /// **This field requires a Cloud Storage bucket name, not a `gs://...` URI to
+    /// a Cloud Storage bucket.**
+    #[prost(string, tag = "1")]
+    pub staging_bucket: ::prost::alloc::string::String,
+    /// Optional. A Cloud Storage bucket used to store ephemeral cluster and jobs data,
+    /// such as Spark and MapReduce history files.
+    /// If you do not specify a temp bucket,
+    /// Dataproc will determine a Cloud Storage location (US,
+    /// ASIA, or EU) for your cluster's temp bucket according to the
+    /// Compute Engine zone where your cluster is deployed, and then create
+    /// and manage this project-level, per-location bucket. The default bucket has
+    /// a TTL of 90 days, but you can use any TTL (or none) if you specify a
+    /// bucket (see
+    /// [Dataproc staging and temp
+    /// buckets](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket>)).
+    /// **This field requires a Cloud Storage bucket name, not a `gs://...` URI to
+    /// a Cloud Storage bucket.**
+    #[prost(string, tag = "2")]
+    pub temp_bucket: ::prost::alloc::string::String,
+    /// Optional. Configuration of auxiliary services used by this cluster.
+    #[prost(message, optional, tag = "7")]
+    pub auxiliary_services_config: ::core::option::Option<AuxiliaryServicesConfig>,
+    #[prost(oneof = "virtual_cluster_config::InfrastructureConfig", tags = "6")]
+    pub infrastructure_config: ::core::option::Option<virtual_cluster_config::InfrastructureConfig>,
 }
-/// Nested message and enum types in `GkeClusterConfig`.
-pub mod gke_cluster_config {
-    /// A full, namespace-isolated deployment target for an existing GKE cluster.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct NamespacedGkeDeploymentTarget {
-        /// Optional. The target GKE cluster to deploy to.
-        /// Format: 'projects/{project}/locations/{location}/clusters/{cluster_id}'
-        #[prost(string, tag = "1")]
-        pub target_gke_cluster: ::prost::alloc::string::String,
-        /// Optional. A namespace within the GKE cluster to deploy into.
-        #[prost(string, tag = "2")]
-        pub cluster_namespace: ::prost::alloc::string::String,
+/// Nested message and enum types in `VirtualClusterConfig`.
+pub mod virtual_cluster_config {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum InfrastructureConfig {
+        /// Required. The configuration for running the Dataproc cluster on Kubernetes.
+        #[prost(message, tag = "6")]
+        KubernetesClusterConfig(super::KubernetesClusterConfig),
     }
+}
+/// Auxiliary services configuration for a Cluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AuxiliaryServicesConfig {
+    /// Optional. The Hive Metastore configuration for this workload.
+    #[prost(message, optional, tag = "1")]
+    pub metastore_config: ::core::option::Option<MetastoreConfig>,
+    /// Optional. The Spark History Server configuration for the workload.
+    #[prost(message, optional, tag = "2")]
+    pub spark_history_server_config: ::core::option::Option<SparkHistoryServerConfig>,
 }
 /// Endpoint config for this cluster
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1506,8 +1742,8 @@ pub struct DiskConfig {
     /// Optional. Interface type of local SSDs (default is "scsi").
     /// Valid values: "scsi" (Small Computer System Interface),
     /// "nvme" (Non-Volatile Memory Express).
-    /// See [SSD Interface
-    /// types](<https://cloud.google.com/compute/docs/disks/local-ssd#performance>).
+    /// See [local SSD
+    /// performance](<https://cloud.google.com/compute/docs/disks/local-ssd#performance>).
     #[prost(string, tag = "4")]
     pub local_ssd_interface: ::prost::alloc::string::String,
 }
@@ -1557,6 +1793,10 @@ pub mod cluster_status {
         /// The cluster is being created and set up. It is not ready for use.
         Creating = 1,
         /// The cluster is currently running and healthy. It is ready for use.
+        ///
+        /// **Note:** The cluster state changes from "creating" to "running" status
+        /// after the master node(s), first two primary worker nodes (and the last
+        /// primary worker node if primary workers > 2) are running.
         Running = 2,
         /// The cluster encountered an error. It is not ready for use.
         Error = 3,

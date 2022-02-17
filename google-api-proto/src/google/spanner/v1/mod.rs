@@ -1133,7 +1133,7 @@ pub struct CreateSessionRequest {
     /// Required. The database in which the new session is created.
     #[prost(string, tag = "1")]
     pub database: ::prost::alloc::string::String,
-    /// The session to create.
+    /// Required. The session to create.
     #[prost(message, optional, tag = "2")]
     pub session: ::core::option::Option<Session>,
 }

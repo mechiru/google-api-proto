@@ -20,7 +20,7 @@ pub struct Resource {
     /// The full resource name of project that the resource belongs to.
     #[prost(string, tag = "2")]
     pub project: ::prost::alloc::string::String,
-    /// The human readable name of project that the resource belongs to.
+    /// The project id that the resource belongs to.
     #[prost(string, tag = "3")]
     pub project_display_name: ::prost::alloc::string::String,
     /// The full resource name of resource's parent.
@@ -515,7 +515,8 @@ pub struct Finding {
     #[prost(string, tag = "14")]
     pub canonical_name: ::prost::alloc::string::String,
     /// Indicates the mute state of a finding (either unspecified, muted, unmuted
-    /// or undefined).
+    /// or undefined). Unlike other attributes of a finding, a finding provider
+    /// shouldn't set the value of mute.
     #[prost(enumeration = "finding::Mute", tag = "15")]
     pub mute: i32,
     /// The class of the finding.
@@ -547,7 +548,8 @@ pub struct Finding {
     pub access: ::core::option::Option<Access>,
     /// First known as mute_annotation. Records additional information about the
     /// mute operation e.g. mute config that muted the finding, user who muted the
-    /// finding, etc.
+    /// finding, etc. Unlike other attributes of a finding, a finding provider
+    /// shouldn't set the value of mute.
     #[prost(string, tag = "28")]
     pub mute_initiator: ::prost::alloc::string::String,
 }
@@ -1864,7 +1866,7 @@ pub mod list_findings_response {
             /// The full resource name of project that the resource belongs to.
             #[prost(string, tag = "2")]
             pub project_name: ::prost::alloc::string::String,
-            /// The human readable name of project that the resource belongs to.
+            /// The project id that the resource belongs to.
             #[prost(string, tag = "3")]
             pub project_display_name: ::prost::alloc::string::String,
             /// The full resource name of resource's parent.

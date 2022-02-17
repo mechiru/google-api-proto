@@ -1,3 +1,43 @@
+/// Create a metadata entity request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateEntityRequest {
+    /// Required. The resource name of the parent zone:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Entity resource.
+    #[prost(message, optional, tag = "3")]
+    pub entity: ::core::option::Option<Entity>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "4")]
+    pub validate_only: bool,
+}
+/// Update a metadata entity request.
+/// The exiting entity will be fully replaced by the entity in the request.
+/// The entity ID is mutable. To modify the ID, use the current entity ID in the
+/// request URL and specify the new ID in the request body.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateEntityRequest {
+    /// Required. Update description.
+    #[prost(message, optional, tag = "2")]
+    pub entity: ::core::option::Option<Entity>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "3")]
+    pub validate_only: bool,
+}
+/// Delete a metadata entity request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteEntityRequest {
+    /// Required. The resource name of the entity:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The etag associated with the partition if it was previously retrieved.
+    #[prost(string, tag = "2")]
+    pub etag: ::prost::alloc::string::String,
+}
 /// List metadata entities request.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListEntitiesRequest {
@@ -9,8 +49,8 @@ pub struct ListEntitiesRequest {
     #[prost(enumeration = "list_entities_request::EntityView", tag = "2")]
     pub view: i32,
     /// Optional. Maximum number of entities to return. The service may return fewer than
-    /// this value. If unspecified, at most 10 entities will be returned. The
-    /// maximum value is 1000; values above 1000 are set to 1000.
+    /// this value. If unspecified, 100 entities will be returned by default. The
+    /// maximum value is 500; larger values will will be truncated to 500.
     #[prost(int32, tag = "3")]
     pub page_size: i32,
     /// Optional. Page token received from a previous `ListEntities` call. Provide
@@ -19,7 +59,14 @@ pub struct ListEntitiesRequest {
     /// page token.
     #[prost(string, tag = "4")]
     pub page_token: ::prost::alloc::string::String,
-    /// Optional. Filter request by name prefix.
+    /// Optional. The following filter parameters can be added to the URL to limit the
+    /// entities returned by the API:
+    ///
+    /// - Entity ID: ?filter="id=entityID"
+    /// - Asset ID: ?filter="asset=assetID"
+    /// - Data path ?filter="data_path=gs://my-bucket"
+    /// - Is HIVE compatible: ?filter=”hive_compatible=true”
+    /// - Is BigQuery compatible: ?filter=”bigquery_compatible=true”
     #[prost(string, tag = "5")]
     pub filter: ::prost::alloc::string::String,
 }
@@ -72,7 +119,7 @@ pub mod get_entity_request {
         Basic = 1,
         /// Include basic information and schema.
         Schema = 2,
-        /// Include everything.
+        /// Include everything. Currently, this is the same as the SCHEMA view.
         Full = 4,
     }
 }
@@ -84,8 +131,8 @@ pub struct ListPartitionsRequest {
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
     /// Optional. Maximum number of partitions to return. The service may return fewer than
-    /// this value. If unspecified, at most 10 partitions will be returned. The
-    /// maximum value is 1000; values above 1000 will be coerced to 1000.
+    /// this value. If unspecified, 100 partitions will be returned by default. The
+    /// maximum page size is 500; larger values will will be truncated to 500.
     #[prost(int32, tag = "2")]
     pub page_size: i32,
     /// Optional. Page token received from a previous `ListPartitions` call. Provide
@@ -94,9 +141,57 @@ pub struct ListPartitionsRequest {
     /// page token.
     #[prost(string, tag = "3")]
     pub page_token: ::prost::alloc::string::String,
-    /// Optional. Filter request.
+    /// Optional. Filter the partitions returned to the caller using a key vslue pair
+    /// expression. The filter expression supports:
+    ///
+    /// - logical operators: AND, OR
+    /// - comparison operators: <, >, >=, <= ,=, !=
+    /// - LIKE operators:
+    ///     - The right hand of a LIKE operator supports “.” and
+    ///       “*” for wildcard searches, for example "value1 LIKE ".*oo.*"
+    /// - parenthetical grouping: ( )
+    ///
+    /// Sample filter expression: `?filter="key1 < value1 OR key2 > value2"
+    ///
+    /// **Notes:**
+    ///
+    /// - Keys to the left of operators are case insensitive.
+    /// - Partition results are sorted first by creation time, then by
+    ///   lexicographic order.
+    /// - Up to 20 key value filter pairs are allowed, but due to performance
+    ///   considerations, only the first 10 will be used as a filter.
     #[prost(string, tag = "4")]
     pub filter: ::prost::alloc::string::String,
+}
+/// Create metadata partition request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreatePartitionRequest {
+    /// Required. The resource name of the parent zone:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Partition resource.
+    #[prost(message, optional, tag = "3")]
+    pub partition: ::core::option::Option<Partition>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "4")]
+    pub validate_only: bool,
+}
+/// Delete metadata partition request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePartitionRequest {
+    /// Required. The resource name of the partition.
+    /// format:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}/partitions/{partition_value_path}`.
+    /// The {partition_value_path} segment consists of an ordered sequence of
+    /// partition values separated by "/". All values must be provided.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The etag associated with the partition if it was previously retrieved.
+    #[deprecated]
+    #[prost(string, tag = "2")]
+    pub etag: ::prost::alloc::string::String,
 }
 /// List metadata partitions response.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -113,7 +208,9 @@ pub struct ListPartitionsResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetPartitionRequest {
     /// Required. The resource name of the partition:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}/partitions/{partition_id}`.
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}/partitions/{partition_value_path}`.
+    /// The {partition_value_path} segment consists of an ordered sequence of
+    /// partition values separated by "/". All values must be provided.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
@@ -124,10 +221,11 @@ pub struct Entity {
     /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{id}`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// Optional. User friendly display name.
+    /// Optional. Display name must be shorter than or equal to 63 characters.
     #[prost(string, tag = "2")]
     pub display_name: ::prost::alloc::string::String,
-    /// Optional. User friendly longer description text.
+    /// Optional. User friendly longer description text. Must be shorter than or equal to
+    /// 1024 characters.
     #[prost(string, tag = "3")]
     pub description: ::prost::alloc::string::String,
     /// Output only. The time when the entity was created.
@@ -139,17 +237,19 @@ pub struct Entity {
     /// Required. A user-provided entity ID. It is mutable, and will be used as the
     /// published table name. Specifying a new ID in an update entity
     /// request will override the existing value.
+    /// The ID must contain only letters (a-z, A-Z), numbers (0-9), and
+    /// underscores. Must begin with a letter.
     #[prost(string, tag = "7")]
     pub id: ::prost::alloc::string::String,
-    /// Optional. The etag for this entity.
-    /// Required for update requests. It must match the server's etag.
+    /// Optional. The etag for this entity. Required for update and delete requests. Must
+    /// match the server's etag.
     #[prost(string, tag = "8")]
     pub etag: ::prost::alloc::string::String,
-    /// Required. The type of entity.
+    /// Required. Immutable. The type of entity.
     #[prost(enumeration = "entity::Type", tag = "10")]
     pub r#type: i32,
-    /// Required. The name of the asset associated with the storage location containing the
-    /// entity data.
+    /// Required. Immutable. The ID of the asset associated with the storage location containing the
+    /// entity data. The entity must be with in the same zone with the asset.
     #[prost(string, tag = "11")]
     pub asset: ::prost::alloc::string::String,
     /// Required. Immutable. The storage path of the entity data.
@@ -167,7 +267,7 @@ pub struct Entity {
     /// Output only. The name of the associated Data Catalog entry.
     #[prost(string, tag = "14")]
     pub catalog_entry: ::prost::alloc::string::String,
-    /// Required. Identifies the storage system of the entity data.
+    /// Required. Immutable. Identifies the storage system of the entity data.
     #[prost(enumeration = "StorageSystem", tag = "15")]
     pub system: i32,
     /// Required. Identifies the storage format of the entity data.
@@ -225,9 +325,13 @@ pub mod entity {
 /// Represents partition metadata contained within entity instances.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Partition {
-    /// Output only. The resource name of the partition, of the form:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}/partitions/{partition_id}`.
-    /// {partition_id} is a generated unique ID.
+    /// Output only. The values must be HTML URL encoded two times before constructing the path.
+    /// For example, if you have a value of "US:CA", encoded it two times and you
+    /// get "US%253ACA". Then if you have the 2nd value is "CA#Sunnyvale", encoded
+    /// two times and you get "CA%2523Sunnyvale". The partition values path is
+    /// "US%253ACA/CA%2523Sunnyvale". The final URL will be
+    /// "<https://.../partitions/US%253ACA/CA%2523Sunnyvale".> The name field in the
+    /// responses will always have the encoded format.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     /// Required. Immutable. The set of values representing the partition, which correspond to the
@@ -236,18 +340,34 @@ pub struct Partition {
     pub values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Required. Immutable. The location of the entity data within the partition, for example,
     /// `gs://bucket/path/to/entity/key1=value1/key2=value2`.
+    /// Or `projects/<project_id>/datasets/<dataset_id>/tables/<table_id>`
     #[prost(string, tag = "3")]
     pub location: ::prost::alloc::string::String,
     /// Optional. The etag for this partition.
-    /// Required for update requests. It must match the server's etag.
+    #[deprecated]
     #[prost(string, tag = "4")]
     pub etag: ::prost::alloc::string::String,
 }
 /// Schema information describing the structure and layout of the data.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Schema {
-    /// Required. Whether the schema is user-managed or managed by the service. User-managed
-    /// schemas are not automatically updated by discovery jobs.
+    /// Required. Whether the schema is user-managed or managed by the service.
+    /// - Set user_manage to false if you would like Dataplex to help you manage
+    /// the schema. You will get the full service provided by Dataplex discovery,
+    /// including new data discovery, schema inference and schema evolution. You
+    /// can still provide input the schema of the entities, for example renaming a
+    /// schema field, changing CSV or Json options if you think the discovered
+    /// values are not as accurate. Dataplex will consider your input as the
+    /// initial schema (as if they were produced by the previous discovery run),
+    /// and will evolve schema or flag actions based on that.
+    /// - Set user_manage to true if you would like to fully manage the entity
+    /// schema by yourself. This is useful when you would like to manually specify
+    /// the schema for a table. In this case, the schema defined by the user is
+    /// guaranteed to be kept unchanged and would not be overwritten. But this also
+    /// means Dataplex will not provide schema evolution management for you.
+    /// Dataplex will still be able to manage partition registration (i.e., keeping
+    /// the list of partitions up to date) when Dataplex discovery is turned on and
+    /// user_managed is set to true.
     #[prost(bool, tag = "1")]
     pub user_managed: bool,
     /// Optional. The sequence of fields describing data in table entities.
@@ -266,10 +386,12 @@ pub mod schema {
     /// Represents a column field within a table schema.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct SchemaField {
-        /// Required. The name of the field.
+        /// Required. The name of the field. The maximum length is 767 characters. The name
+        /// must begins with a letter and not contains `:` and `.`.
         #[prost(string, tag = "1")]
         pub name: ::prost::alloc::string::String,
-        /// Optional. User friendly field description.
+        /// Optional. User friendly field description. Must be less than or equal to 1024
+        /// characters.
         #[prost(string, tag = "2")]
         pub description: ::prost::alloc::string::String,
         /// Required. The type of field.
@@ -282,13 +404,16 @@ pub mod schema {
         #[prost(message, repeated, tag = "10")]
         pub fields: ::prost::alloc::vec::Vec<SchemaField>,
     }
-    /// Represents a key field within the entity's partition structure.
+    /// Represents a key field within the entity's partition structure. You could
+    /// have up to 20 partition fields, but only the first 10 partitions have the
+    /// filtering ability due to performance consideration.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct PartitionField {
-        /// Required. The name of the field.
+        /// Required. Partition name is editable if only the partition style is not HIVE
+        /// compatible. The maximum length allowed is 767 characters.
         #[prost(string, tag = "1")]
         pub name: ::prost::alloc::string::String,
-        /// Required. The type of field.
+        /// Required. Immutable. The type of field.
         #[prost(enumeration = "Type", tag = "2")]
         pub r#type: i32,
     }
@@ -359,15 +484,26 @@ pub mod schema {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct StorageFormat {
     /// Output only. The data format associated with the stored data, which represents
-    /// content type values.
+    /// content type values. The value is inferred from mime type.
     #[prost(enumeration = "storage_format::Format", tag = "1")]
     pub format: i32,
     /// Optional. The compression type associated with the stored data.
     /// If unspecified, the data is uncompressed.
     #[prost(enumeration = "storage_format::CompressionFormat", tag = "2")]
     pub compression_format: i32,
-    /// Required. The mime type descriptor for the data. This field is valid for formats
-    /// other than `UNKNOWN` and `MIXED`.
+    /// Required. The mime type descriptor for the data. Must match the pattern
+    /// {type}/{subtype}. Supported values:
+    /// - application/x-parquet
+    /// - application/x-avro
+    /// - application/x-orc
+    /// - application/x-tfrecord
+    /// - application/json
+    /// - application/{subtypes}
+    /// - text/csv
+    /// - text/<subtypes>
+    /// - image/{image subtype}
+    /// - video/{video subtype}
+    /// - audio/{audio subtype}
     #[prost(string, tag = "3")]
     pub mime_type: ::prost::alloc::string::String,
     /// Additional format-specific options.
@@ -379,25 +515,27 @@ pub mod storage_format {
     /// Describes CSV and similar semi-structured data formats.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct CsvOptions {
-        /// Optional. The character encoding of the data. The default is UTF-8.
+        /// Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8", and
+        /// "ISO-8859-1". Defaults to UTF-8 if unspecified.
         #[prost(string, tag = "1")]
         pub encoding: ::prost::alloc::string::String,
         /// Optional. The number of rows to interpret as header rows that should be skipped
-        /// when reading data rows.
+        /// when reading data rows. Defaults to 0.
         #[prost(int32, tag = "2")]
         pub header_rows: i32,
         /// Optional. The delimiter used to separate values. Defaults to ','.
         #[prost(string, tag = "3")]
         pub delimiter: ::prost::alloc::string::String,
-        /// Optional. The character used to quote column values. Defaults to empty,
-        /// implying unquoted data.
+        /// Optional. The character used to quote column values. Accepts '"' and '''.
+        /// Defaults to '"' if unspecified.
         #[prost(string, tag = "4")]
         pub quote: ::prost::alloc::string::String,
     }
     /// Describes JSON data format.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct JsonOptions {
-        /// Optional. The character encoding of the data. The default is UTF-8.
+        /// Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8" and
+        /// "ISO-8859-1". Defaults to UTF-8 if not specified.
         #[prost(string, tag = "1")]
         pub encoding: ::prost::alloc::string::String,
     }
@@ -419,7 +557,7 @@ pub mod storage_format {
         Json = 101,
         /// Image data formats (such as jpg and png).
         Image = 200,
-        /// Audio data formats (such as mp3 and wav).
+        /// Audio data formats (such as mp3, and wav).
         Audio = 201,
         /// Video data formats (such as mp4 and mpg).
         Video = 202,
@@ -516,6 +654,57 @@ pub mod metadata_service_client {
             self.inner = self.inner.accept_gzip();
             self
         }
+        #[doc = " Create a metadata entity."]
+        pub async fn create_entity(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateEntityRequest>,
+        ) -> Result<tonic::Response<super::Entity>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/CreateEntity",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Update a metadata entity. Only supports full resource update."]
+        pub async fn update_entity(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateEntityRequest>,
+        ) -> Result<tonic::Response<super::Entity>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/UpdateEntity",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete a metadata entity."]
+        pub async fn delete_entity(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteEntityRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/DeleteEntity",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
         #[doc = " Get a metadata entity."]
         pub async fn get_entity(
             &mut self,
@@ -547,6 +736,40 @@ pub mod metadata_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dataplex.v1.MetadataService/ListEntities",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Create a metadata partition."]
+        pub async fn create_partition(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreatePartitionRequest>,
+        ) -> Result<tonic::Response<super::Partition>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/CreatePartition",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete a metadata partition."]
+        pub async fn delete_partition(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeletePartitionRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/DeletePartition",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -1232,13 +1455,6 @@ pub mod asset {
         /// being managed within a lake. For example:
         ///   `projects/{project_number}/buckets/{bucket_id}`
         ///   `projects/{project_number}/datasets/{dataset_id}`
-        /// If the creation policy indicates ATTACH behavior, then an existing
-        /// resource must be provided.
-        /// If the policy indicates CREATE behavior, new resource will be created
-        /// with the given name.However if it is empty, then the resource will be
-        /// created using {asset_id}-{UUID} template for name.
-        /// The location of the referenced resource must always match that of the
-        /// asset.
         #[prost(string, tag = "1")]
         pub name: ::prost::alloc::string::String,
         /// Required. Immutable. Type of resource.
@@ -1364,6 +1580,266 @@ pub enum State {
     Deleting = 3,
     /// Resource is active but has unresolved actions.
     ActionRequired = 4,
+}
+/// Environment represents a user-visible compute infrastructure for analytics
+/// within a lake.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Environment {
+    /// Output only. The relative resource name of the environment, of the form:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environment/{environment_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. User friendly display name.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. System generated globally unique ID for the environment. This ID will be
+    /// different if the environment is deleted and re-created with the same name.
+    #[prost(string, tag = "3")]
+    pub uid: ::prost::alloc::string::String,
+    /// Output only. Environment creation time.
+    #[prost(message, optional, tag = "4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time when the environment was last updated.
+    #[prost(message, optional, tag = "5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. User defined labels for the environment.
+    #[prost(btree_map = "string, string", tag = "6")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Optional. Description of the environment.
+    #[prost(string, tag = "7")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Current state of the environment.
+    #[prost(enumeration = "State", tag = "8")]
+    pub state: i32,
+    /// Required. Infrastructure specification for the Environment.
+    #[prost(message, optional, tag = "100")]
+    pub infrastructure_spec: ::core::option::Option<environment::InfrastructureSpec>,
+    /// Optional. Configuration for sessions created for this environment.
+    #[prost(message, optional, tag = "101")]
+    pub session_spec: ::core::option::Option<environment::SessionSpec>,
+    /// Output only. Status of sessions created for this environment.
+    #[prost(message, optional, tag = "102")]
+    pub session_status: ::core::option::Option<environment::SessionStatus>,
+    /// Output only. URI Endpoints to access sessions associated with the Environment.
+    #[prost(message, optional, tag = "200")]
+    pub endpoints: ::core::option::Option<environment::Endpoints>,
+}
+/// Nested message and enum types in `Environment`.
+pub mod environment {
+    /// Configuration for the underlying infrastructure used to run workloads.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct InfrastructureSpec {
+        /// Hardware config
+        #[prost(oneof = "infrastructure_spec::Resources", tags = "50")]
+        pub resources: ::core::option::Option<infrastructure_spec::Resources>,
+        /// Software config
+        #[prost(oneof = "infrastructure_spec::Runtime", tags = "100")]
+        pub runtime: ::core::option::Option<infrastructure_spec::Runtime>,
+    }
+    /// Nested message and enum types in `InfrastructureSpec`.
+    pub mod infrastructure_spec {
+        /// Compute resources associated with the analyze interactive workloads.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct ComputeResources {
+            /// Optional. Size in GB of the disk. Default is 100 GB.
+            #[prost(int32, tag = "1")]
+            pub disk_size_gb: i32,
+            /// Optional. Total number of nodes in the sessions created for this environment.
+            #[prost(int32, tag = "2")]
+            pub node_count: i32,
+            /// Optional. Max configurable nodes.
+            /// If max_node_count > node_count, then auto-scaling is enabled.
+            #[prost(int32, tag = "3")]
+            pub max_node_count: i32,
+        }
+        /// Software Runtime Configuration to run Analyze.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct OsImageRuntime {
+            /// Required. Dataplex Image version.
+            #[prost(string, tag = "1")]
+            pub image_version: ::prost::alloc::string::String,
+            /// Optional. List of Java jars to be included in the runtime environment.
+            /// Valid input includes Cloud Storage URIs to Jar binaries.
+            /// For example, gs://bucket-name/my/path/to/file.jar
+            #[prost(string, repeated, tag = "2")]
+            pub java_libraries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Optional. A list of python packages to be installed.
+            /// Valid formats include Cloud Storage URI to a PIP installable library.
+            /// For example, gs://bucket-name/my/path/to/lib.tar.gz
+            #[prost(string, repeated, tag = "3")]
+            pub python_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Optional. Spark properties to provide configuration for use in sessions created
+            /// for this environment. The properties to set on daemon config files.
+            /// Property keys are specified in `prefix:property` format.
+            /// The prefix must be "spark".
+            #[prost(btree_map = "string, string", tag = "4")]
+            pub properties: ::prost::alloc::collections::BTreeMap<
+                ::prost::alloc::string::String,
+                ::prost::alloc::string::String,
+            >,
+        }
+        /// Hardware config
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Resources {
+            /// Optional. Compute resources needed for analyze interactive workloads.
+            #[prost(message, tag = "50")]
+            Compute(ComputeResources),
+        }
+        /// Software config
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Runtime {
+            /// Required. Software Runtime Configuration for analyze interactive workloads.
+            #[prost(message, tag = "100")]
+            OsImage(OsImageRuntime),
+        }
+    }
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SessionSpec {
+        /// Optional. The idle time configuration of the session. The session will be
+        /// auto-terminated at the end of this period.
+        #[prost(message, optional, tag = "1")]
+        pub max_idle_duration: ::core::option::Option<::prost_types::Duration>,
+        /// Optional. If True, this causes sessions to be pre-created and available for faster
+        /// startup to enable interactive exploration use-cases. This defaults to
+        /// False to avoid additional billed charges.
+        /// These can only be set to True for the environment with name set to
+        /// "default", and with default configuration.
+        #[prost(bool, tag = "2")]
+        pub enable_fast_startup: bool,
+    }
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SessionStatus {
+        /// Output only. Queries over sessions to mark whether the environment is currently
+        /// active or not
+        #[prost(bool, tag = "1")]
+        pub active: bool,
+    }
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Endpoints {
+        /// Output only. URI to serve notebook APIs
+        #[prost(string, tag = "1")]
+        pub notebooks: ::prost::alloc::string::String,
+        /// Output only. URI to serve SQL APIs
+        #[prost(string, tag = "2")]
+        pub sql: ::prost::alloc::string::String,
+    }
+}
+/// Content represents a user-visible notebook or a sql script
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Content {
+    /// Output only. The relative resource name of the content, of the form:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. System generated globally unique ID for the content. This ID will be
+    /// different if the content is deleted and re-created with the same name.
+    #[prost(string, tag = "2")]
+    pub uid: ::prost::alloc::string::String,
+    /// Required. The path for the Content file, represented as directory structure.
+    /// Unique within a lake.
+    /// Limited to alphanumerics, hyphens, underscores, dots and slashes.
+    #[prost(string, tag = "3")]
+    pub path: ::prost::alloc::string::String,
+    /// Output only. Content creation time.
+    #[prost(message, optional, tag = "4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time when the content was last updated.
+    #[prost(message, optional, tag = "5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. User defined labels for the content.
+    #[prost(btree_map = "string, string", tag = "6")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Optional. Description of the content.
+    #[prost(string, tag = "7")]
+    pub description: ::prost::alloc::string::String,
+    /// Only returned in `GetContent` requests and not in `ListContent` request.
+    #[prost(oneof = "content::Data", tags = "9")]
+    pub data: ::core::option::Option<content::Data>,
+    #[prost(oneof = "content::Content", tags = "100, 101")]
+    pub content: ::core::option::Option<content::Content>,
+}
+/// Nested message and enum types in `Content`.
+pub mod content {
+    /// Configuration for the Sql Script content.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SqlScript {
+        /// Required. Query Engine to be used for the Sql Query.
+        #[prost(enumeration = "sql_script::QueryEngine", tag = "1")]
+        pub engine: i32,
+    }
+    /// Nested message and enum types in `SqlScript`.
+    pub mod sql_script {
+        /// Query Engine Type of the SQL Script.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum QueryEngine {
+            /// Value was unspecified.
+            Unspecified = 0,
+            /// Spark SQL Query.
+            Spark = 2,
+        }
+    }
+    /// Configuration for Notebook content.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Notebook {
+        /// Required. Kernel Type of the notebook.
+        #[prost(enumeration = "notebook::KernelType", tag = "1")]
+        pub kernel_type: i32,
+    }
+    /// Nested message and enum types in `Notebook`.
+    pub mod notebook {
+        /// Kernel Type of the Jupyter notebook.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum KernelType {
+            /// Kernel Type unspecified.
+            Unspecified = 0,
+            /// Python 3 Kernel.
+            Python3 = 1,
+        }
+    }
+    /// Only returned in `GetContent` requests and not in `ListContent` request.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Data {
+        /// Required. Content data in string format.
+        #[prost(string, tag = "9")]
+        DataText(::prost::alloc::string::String),
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Content {
+        /// Sql Script related configurations.
+        #[prost(message, tag = "100")]
+        SqlScript(SqlScript),
+        /// Notebook related configurations.
+        #[prost(message, tag = "101")]
+        Notebook(Notebook),
+    }
+}
+/// Represents an active analyze session running for a user.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Session {
+    /// Output only. The relative resource name of the content, of the form:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environment/{environment_id}/sessions/{session_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Email of user running the session.
+    #[prost(string, tag = "2")]
+    pub user_id: ::prost::alloc::string::String,
+    /// Output only. Session start time.
+    #[prost(message, optional, tag = "3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    #[prost(enumeration = "State", tag = "4")]
+    pub state: i32,
 }
 /// A task represents a user-visible job.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1723,7 +2199,7 @@ pub mod job {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateLakeRequest {
     /// Required. The resource name of the lake location, of the form:
-    /// `projects/{project_number}/locations/{location_id}`
+    /// projects/{project_number}/locations/{location_id}
     /// where `location_id` refers to a GCP region.
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
@@ -2227,6 +2703,126 @@ pub struct CancelJobRequest {
     /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/task/{task_id}/job/{job_id}`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
+}
+/// Create environment request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateEnvironmentRequest {
+    /// Required. The resource name of the parent lake:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Environment identifier.
+    /// * Must contain only lowercase letters, numbers and hyphens.
+    /// * Must start with a letter.
+    /// * Must be between 1-63 characters.
+    /// * Must end with a number or a letter.
+    /// * Must be unique within the lake.
+    #[prost(string, tag = "2")]
+    pub environment_id: ::prost::alloc::string::String,
+    /// Required. Environment resource.
+    #[prost(message, optional, tag = "3")]
+    pub environment: ::core::option::Option<Environment>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "4")]
+    pub validate_only: bool,
+}
+/// Update environment request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateEnvironmentRequest {
+    /// Required. Mask of fields to update.
+    #[prost(message, optional, tag = "1")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Required. Update description.
+    /// Only fields specified in `update_mask` are updated.
+    #[prost(message, optional, tag = "2")]
+    pub environment: ::core::option::Option<Environment>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "3")]
+    pub validate_only: bool,
+}
+/// Delete environment request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteEnvironmentRequest {
+    /// Required. The resource name of the environment:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environments/{environment_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// List environments request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEnvironmentsRequest {
+    /// Required. The resource name of the parent lake:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of environments to return. The service may return fewer than
+    /// this value. If unspecified, at most 10 environments will be returned. The
+    /// maximum value is 1000; values above 1000 will be coerced to 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. Page token received from a previous `ListEnvironments` call. Provide this
+    /// to retrieve the subsequent page. When paginating, all other parameters
+    /// provided to `ListEnvironments` must match the call that provided the page
+    /// token.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. Filter request.
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+    /// Optional. Order by fields for the result.
+    #[prost(string, tag = "5")]
+    pub order_by: ::prost::alloc::string::String,
+}
+/// List environments response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEnvironmentsResponse {
+    /// Environments under the given parent lake.
+    #[prost(message, repeated, tag = "1")]
+    pub environments: ::prost::alloc::vec::Vec<Environment>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Get environment request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetEnvironmentRequest {
+    /// Required. The resource name of the environment:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environments/{environment_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// List sessions request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSessionsRequest {
+    /// Required. The resource name of the parent environment:
+    /// projects/{project_number}/locations/{location_id}/lakes/{lake_id}/environment/{environment_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of sessions to return. The service may return fewer than
+    /// this value. If unspecified, at most 10 sessions will be returned. The
+    /// maximum value is 1000; values above 1000 will be coerced to 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. Page token received from a previous `ListSessions` call. Provide this to
+    /// retrieve the subsequent page. When paginating, all other parameters
+    /// provided to `ListSessions` must match the call that provided the page
+    /// token.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// List sessions response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSessionsResponse {
+    /// Sessions under a given environment.
+    #[prost(message, repeated, tag = "1")]
+    pub sessions: ::prost::alloc::vec::Vec<Session>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
 }
 #[doc = r" Generated client implementations."]
 pub mod dataplex_service_client {
@@ -2760,6 +3356,361 @@ pub mod dataplex_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dataplex.v1.DataplexService/CancelJob",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Create an environment resource."]
+        pub async fn create_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateEnvironmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.DataplexService/CreateEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Update the environment resource."]
+        pub async fn update_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateEnvironmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.DataplexService/UpdateEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete the environment resource. All the child resources must have been"]
+        #[doc = " deleted before environment deletion can be initiated."]
+        pub async fn delete_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteEnvironmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.DataplexService/DeleteEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists environments under the given lake."]
+        pub async fn list_environments(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListEnvironmentsRequest>,
+        ) -> Result<tonic::Response<super::ListEnvironmentsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.DataplexService/ListEnvironments",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get environment resource."]
+        pub async fn get_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetEnvironmentRequest>,
+        ) -> Result<tonic::Response<super::Environment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.DataplexService/GetEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists session resources in an environment."]
+        pub async fn list_sessions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListSessionsRequest>,
+        ) -> Result<tonic::Response<super::ListSessionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.DataplexService/ListSessions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Create content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateContentRequest {
+    /// Required. The resource name of the parent lake:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Content resource.
+    #[prost(message, optional, tag = "2")]
+    pub content: ::core::option::Option<Content>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "3")]
+    pub validate_only: bool,
+}
+/// Update content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateContentRequest {
+    /// Required. Mask of fields to update.
+    #[prost(message, optional, tag = "1")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Required. Update description.
+    /// Only fields specified in `update_mask` are updated.
+    #[prost(message, optional, tag = "2")]
+    pub content: ::core::option::Option<Content>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "3")]
+    pub validate_only: bool,
+}
+/// Delete content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteContentRequest {
+    /// Required. The resource name of the content:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// List content request. Returns the BASIC Content view.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListContentRequest {
+    /// Required. The resource name of the parent lake:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of content to return. The service may return fewer than
+    /// this value. If unspecified, at most 10 content will be returned. The
+    /// maximum value is 1000; values above 1000 will be coerced to 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. Page token received from a previous `ListContent` call. Provide this
+    /// to retrieve the subsequent page. When paginating, all other parameters
+    /// provided to `ListContent` must match the call that provided the page
+    /// token.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. Filter request. Filters are case-sensitive.
+    /// The following formats are supported:
+    ///
+    /// labels.key1 = "value1"
+    /// labels:key1
+    /// type = "NOTEBOOK"
+    /// type = "SQL_SCRIPT"
+    ///
+    /// These restrictions can be coinjoined with AND, OR and NOT conjunctions.
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// List content response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListContentResponse {
+    /// Content under the given parent lake.
+    #[prost(message, repeated, tag = "1")]
+    pub content: ::prost::alloc::vec::Vec<Content>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Get content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetContentRequest {
+    /// Required. The resource name of the content:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Specify content view to make a partial request.
+    #[prost(enumeration = "get_content_request::ContentView", tag = "2")]
+    pub view: i32,
+}
+/// Nested message and enum types in `GetContentRequest`.
+pub mod get_content_request {
+    /// Specifies whether the request should return the full or the partial
+    /// representation.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ContentView {
+        /// Content view not specified. Defaults to BASIC.
+        /// The API will default to the BASIC view.
+        Unspecified = 0,
+        /// Will not return the `data_text` field.
+        Basic = 1,
+        /// Returns the complete proto.
+        Full = 2,
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod content_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " ContentService manages Notebook and SQL Scripts for Dataplex."]
+    #[derive(Debug, Clone)]
+    pub struct ContentServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ContentServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ContentServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ContentServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Create a content."]
+        pub async fn create_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateContentRequest>,
+        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/CreateContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Update a content. Only supports full resource update."]
+        pub async fn update_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateContentRequest>,
+        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/UpdateContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete a content."]
+        pub async fn delete_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteContentRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/DeleteContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get a content resource."]
+        pub async fn get_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetContentRequest>,
+        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/GetContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List content."]
+        pub async fn list_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListContentRequest>,
+        ) -> Result<tonic::Response<super::ListContentResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/ListContent",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
