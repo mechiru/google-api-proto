@@ -1205,7 +1205,6 @@
 <span id="1204">1204</span>
 <span id="1205">1205</span>
 <span id="1206">1206</span>
-<span id="1207">1207</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Request for the `ListCertificates` method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListCertificatesRequest</span> {
@@ -1882,10 +1881,9 @@
     }
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Match</span> {
-        <span class="doccomment">/// A Hostname (FQDN, e.g. example.com)</span>
-        <span class="doccomment">/// or a wildcard hostname expression (*.example.com) for a set of hostnames</span>
-        <span class="doccomment">/// with common suffix. Used as Server Name Indication (SNI) for selecting</span>
-        <span class="doccomment">/// a proper certificate.</span>
+        <span class="doccomment">/// A Hostname (FQDN, e.g. `example.com`) or a wildcard hostname expression</span>
+        <span class="doccomment">/// (`*.example.com`) for a set of hostnames with common suffix. Used as</span>
+        <span class="doccomment">/// Server Name Indication (SNI) for selecting a proper certificate.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
         <span class="ident">Hostname</span>(<span class="ident">::prost::alloc::string::String</span>),
         <span class="doccomment">/// A predefined matcher for particular cases, other than SNI selection.</span>
@@ -1918,8 +1916,8 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Required. Immutable. A domain which is being authorized. A DnsAuthorization resource covers a</span>
-    <span class="doccomment">/// single domain and its wildcard, e.g. authorization for &quot;example.com&quot; can</span>
-    <span class="doccomment">/// be used to issue certificates for &quot;example.com&quot; and &quot;*.example.com&quot;.</span>
+    <span class="doccomment">/// single domain and its wildcard, e.g. authorization for `example.com` can</span>
+    <span class="doccomment">/// be used to issue certificates for `example.com` and `*.example.com`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">domain</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Output only. DNS Resource Record that needs to be added to DNS configuration.</span>
@@ -1934,7 +1932,7 @@
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DnsResourceRecord</span> {
         <span class="doccomment">/// Output only. Fully qualified name of the DNS Resource Record.</span>
-        <span class="doccomment">/// e.g. &quot;_acme-challenge.example.com.&quot;</span>
+        <span class="doccomment">/// e.g. `_acme-challenge.example.com`</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
         <span class="doccomment">/// Output only. Type of the DNS Resource Record.</span>
