@@ -1144,6 +1144,14 @@
 <span id="1143">1143</span>
 <span id="1144">1144</span>
 <span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Schema of a table.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableSchema</span> {
@@ -1374,6 +1382,14 @@
     <span class="doccomment">/// metadata from the table which might be incomplete or stale.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">estimated_total_bytes_scanned</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Optional. ID set by client to annotate a session identity.  This does not need</span>
+    <span class="doccomment">/// to be strictly unique, but instead the same ID should be used to group</span>
+    <span class="doccomment">/// logically connected sessions (e.g. All using the same ID for all sessions</span>
+    <span class="doccomment">/// needed to complete a Spark SQL query is reasonable).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Maximum length is 256 bytes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">trace_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The schema for the read. If read_options.selected_fields is set, the</span>
     <span class="doccomment">/// schema may be different from the table schema as it will only contain</span>
     <span class="doccomment">/// the selected fields.</span>
