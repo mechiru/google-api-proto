@@ -228,6 +228,14 @@ pub struct ReadSession {
     /// metadata from the table which might be incomplete or stale.
     #[prost(int64, tag = "12")]
     pub estimated_total_bytes_scanned: i64,
+    /// Optional. ID set by client to annotate a session identity.  This does not need
+    /// to be strictly unique, but instead the same ID should be used to group
+    /// logically connected sessions (e.g. All using the same ID for all sessions
+    /// needed to complete a Spark SQL query is reasonable).
+    ///
+    /// Maximum length is 256 bytes.
+    #[prost(string, tag = "13")]
+    pub trace_id: ::prost::alloc::string::String,
     /// The schema for the read. If read_options.selected_fields is set, the
     /// schema may be different from the table schema as it will only contain
     /// the selected fields.
