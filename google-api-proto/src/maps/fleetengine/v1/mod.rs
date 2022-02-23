@@ -340,7 +340,7 @@ pub struct Vehicle {
     #[prost(int32, tag = "6")]
     pub maximum_capacity: i32,
     /// List of vehicle attributes. A vehicle can have at most 50
-    /// attributes, and each attribute has a unique key.
+    /// attributes, and each attribute must have a unique key.
     #[prost(message, repeated, tag = "8")]
     pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
     /// The type of this vehicle.  Can be used to filter vehicles in
@@ -1207,10 +1207,12 @@ pub struct SearchVehiclesRequest {
     /// ```
     /// (required_attributes\[0\] AND required_attributes\[1\] AND ...)
     /// AND
-    /// (required_one_of_attributes\[0][0\] AND required_one_of_attributes\[0][1\] AND
+    /// (required_one_of_attribute_sets\[0][0\] AND
+    /// required_one_of_attribute_sets\[0][1\] AND
     /// ...)
     /// OR
-    /// (required_one_of_attributes\[1][0\] AND required_one_of_attributes\[1][1\] AND
+    /// (required_one_of_attribute_sets\[1][0\] AND
+    /// required_one_of_attribute_sets\[1][1\] AND
     /// ...)
     /// ```
     ///

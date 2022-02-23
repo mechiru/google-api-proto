@@ -1,245 +1,471 @@
-/// DeliveryVehicle metadata.
+/// Describes a vehicle attribute as a key-value pair. The "key:value" string
+/// length cannot exceed 256 characters.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeliveryVehicleAttribute {
+    /// The attribute's key. Keys may not contain the colon character (:).
+    #[prost(string, tag = "1")]
+    pub key: ::prost::alloc::string::String,
+    /// The attribute's value.
+    #[prost(string, tag = "2")]
+    pub value: ::prost::alloc::string::String,
+}
+/// The location, speed, and heading of a vehicle at a point in time.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeliveryVehicleLocation {
+    /// The location of the vehicle.
+    /// When it is sent to Fleet Engine, the vehicle's location is a GPS location.
+    /// When you receive it in a response, the vehicle's location can be either a
+    /// GPS location, a supplemental location, or some other estimated location.
+    /// The source is specified in `location_sensor`.
+    #[prost(message, optional, tag = "1")]
+    pub location: ::core::option::Option<super::super::super::super::google::r#type::LatLng>,
+    /// Deprecated: Use `latlng_accuracy` instead.
+    #[deprecated]
+    #[prost(message, optional, tag = "8")]
+    pub horizontal_accuracy: ::core::option::Option<f64>,
+    /// Accuracy of `location` in meters as a radius.
+    #[prost(message, optional, tag = "22")]
+    pub latlng_accuracy: ::core::option::Option<f64>,
+    /// Direction the vehicle is moving in degrees.  0 represents North.
+    /// The valid range is [0,360).
+    #[prost(message, optional, tag = "2")]
+    pub heading: ::core::option::Option<i32>,
+    /// Deprecated: Use `heading_accuracy` instead.
+    #[deprecated]
+    #[prost(message, optional, tag = "10")]
+    pub bearing_accuracy: ::core::option::Option<f64>,
+    /// Accuracy of `heading` in degrees.
+    #[prost(message, optional, tag = "23")]
+    pub heading_accuracy: ::core::option::Option<f64>,
+    /// Altitude in meters above WGS84.
+    #[prost(message, optional, tag = "5")]
+    pub altitude: ::core::option::Option<f64>,
+    /// Deprecated: Use `altitude_accuracy` instead.
+    #[deprecated]
+    #[prost(message, optional, tag = "9")]
+    pub vertical_accuracy: ::core::option::Option<f64>,
+    /// Accuracy of `altitude` in meters.
+    #[prost(message, optional, tag = "24")]
+    pub altitude_accuracy: ::core::option::Option<f64>,
+    /// Speed of the vehicle in kilometers per hour.
+    /// Deprecated: Use `speed` instead.
+    #[deprecated]
+    #[prost(message, optional, tag = "3")]
+    pub speed_kmph: ::core::option::Option<i32>,
+    /// Speed of the vehicle in meters/second
+    #[prost(message, optional, tag = "6")]
+    pub speed: ::core::option::Option<f64>,
+    /// Accuracy of `speed` in meters/second.
+    #[prost(message, optional, tag = "7")]
+    pub speed_accuracy: ::core::option::Option<f64>,
+    /// The time when `location` was reported by the sensor.
+    #[prost(message, optional, tag = "4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time when the server received the location information.
+    #[prost(message, optional, tag = "13")]
+    pub server_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Provider of location data (for example, `GPS`).
+    #[prost(enumeration = "DeliveryVehicleLocationSensor", tag = "11")]
+    pub location_sensor: i32,
+    /// Whether `location` is snapped to a road.
+    #[prost(message, optional, tag = "27")]
+    pub is_road_snapped: ::core::option::Option<bool>,
+    /// Input only. Indicates whether the GPS sensor is enabled on the mobile device.
+    #[prost(message, optional, tag = "12")]
+    pub is_gps_sensor_enabled: ::core::option::Option<bool>,
+    /// Input only. Time (in seconds) since this location was first sent to the server.
+    /// This will be zero for the first update. If the time is unknown
+    /// (for example, when the app restarts), this value resets to zero.
+    #[prost(message, optional, tag = "14")]
+    pub time_since_update: ::core::option::Option<i32>,
+    /// Input only. Number of additional attempts to send this location to the server.
+    /// If this value is zero, then it is not stale.
+    #[prost(message, optional, tag = "15")]
+    pub num_stale_updates: ::core::option::Option<i32>,
+    /// Raw vehicle location (unprocessed by road-snapper).
+    #[prost(message, optional, tag = "16")]
+    pub raw_location: ::core::option::Option<super::super::super::super::google::r#type::LatLng>,
+    /// Input only. Timestamp associated with the raw location.
+    #[prost(message, optional, tag = "17")]
+    pub raw_location_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Input only. Source of the raw location.
+    #[prost(enumeration = "DeliveryVehicleLocationSensor", tag = "28")]
+    pub raw_location_sensor: i32,
+    /// Input only. Accuracy of `raw_location` as a radius, in meters.
+    #[prost(message, optional, tag = "25")]
+    pub raw_location_accuracy: ::core::option::Option<f64>,
+    /// Input only. Supplemental location provided by the integrating app, such as the location
+    /// provided by Fused Location Provider.
+    #[prost(message, optional, tag = "18")]
+    pub supplemental_location:
+        ::core::option::Option<super::super::super::super::google::r#type::LatLng>,
+    /// Input only. Timestamp associated with the supplemental location.
+    #[prost(message, optional, tag = "19")]
+    pub supplemental_location_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Input only. Source of the supplemental location.
+    #[prost(enumeration = "DeliveryVehicleLocationSensor", tag = "20")]
+    pub supplemental_location_sensor: i32,
+    /// Input only. Accuracy of `supplemental_location` as a radius, in meters.
+    #[prost(message, optional, tag = "21")]
+    pub supplemental_location_accuracy: ::core::option::Option<f64>,
+    /// Deprecated: Use `is_road_snapped` instead.
+    #[deprecated]
+    #[prost(bool, tag = "26")]
+    pub road_snapped: bool,
+}
+/// The sensor or methodology used to determine the location.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum DeliveryVehicleLocationSensor {
+    /// The sensor is unspecified or unknown.
+    UnknownSensor = 0,
+    /// GPS or Assisted GPS.
+    Gps = 1,
+    /// Assisted GPS, cell tower ID, or WiFi access point.
+    Network = 2,
+    /// Cell tower ID or WiFi access point.
+    Passive = 3,
+    /// A location signal snapped to the best road position.
+    RoadSnappedLocationProvider = 4,
+    /// The fused location provider in Google Play services.
+    FusedLocationProvider = 100,
+}
+/// The vehicle's navigation status.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum DeliveryVehicleNavigationStatus {
+    /// Unspecified navigation status.
+    UnknownNavigationStatus = 0,
+    /// The Driver app's navigation is in `FREE_NAV` mode.
+    NoGuidance = 1,
+    /// Turn-by-turn navigation is available and the Driver app navigation has
+    /// entered `GUIDED_NAV` mode.
+    EnrouteToDestination = 2,
+    /// The vehicle has gone off the suggested route.
+    OffRoute = 3,
+    /// The vehicle is within approximately 50m of the destination.
+    ArrivedAtDestination = 4,
+}
+/// The `DeliveryVehicle` message. A delivery vehicle transports shipments from a
+/// depot to a delivery location, and from a pickup location to the depot. In
+/// some cases, delivery vehicles also transport shipments directly from the
+/// pickup location to the delivery location.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeliveryVehicle {
-    /// The unique name for this vehicle.
-    /// The format is providers/{provider}/deliveryVehicles/{vehicle}
+    /// The unique name of this Delivery Vehicle.
+    /// The format is `providers/{provider}/deliveryVehicles/{vehicle}`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The last reported location of the vehicle.
+    /// The last reported location of the Delivery Vehicle.
     #[prost(message, optional, tag = "2")]
-    pub last_location: ::core::option::Option<super::super::v1::VehicleLocation>,
-    /// The Vehicle's navigation status.
-    #[prost(enumeration = "super::super::v1::NavigationStatus", tag = "3")]
+    pub last_location: ::core::option::Option<DeliveryVehicleLocation>,
+    /// The Delivery Vehicle's navigation status.
+    #[prost(enumeration = "DeliveryVehicleNavigationStatus", tag = "3")]
     pub navigation_status: i32,
-    /// The encoded polyline specifying the route the navigation recommends taking
-    /// to the next waypoint. Your driver app updates this every time a stop is
-    /// reached or passed, or the navigation reroutes. These LatLngs are returned
-    /// in `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].path`
-    /// for all active tasks assigned to the vehicle.
+    /// The encoded polyline specifying the route that the navigation recommends
+    /// taking to the next waypoint. Your driver app updates this every time a
+    /// stop is reached or passed, and when the navigation reroutes. These LatLngs
+    /// are returned in
+    /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].path`
+    /// for all active Tasks assigned to the Vehicle.
     ///
-    /// There are a few cases where this field may not be used to populate
+    /// There are a few cases where this field might not be used to populate
     /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].path`:
     ///
-    /// 1. The endpoint of the `current_route_segment` does not match
+    /// * The endpoint of the `current_route_segment` does not match
     /// `DeliveryVehicle.remaining_vehicle_journey_segments\[0\].stop`.
     ///
-    /// 2. The driver app has not updated its location recently, so the last
-    /// updated value for this field may be stale.
+    /// * The driver app has not updated its location recently, so the last
+    /// updated value for this field might be stale.
     ///
-    /// 3. The driver app has recently updated its location, but the
-    /// `current_route_segment` is stale and points to a previous vehicle stop.
+    /// * The driver app has recently updated its location, but the
+    /// `current_route_segment` is stale, and points to a previous vehicle stop.
     ///
-    /// In these cases, Fleet Engine will populate this field with a
-    /// route from the most recently passed VehicleStop to the upcoming VehicleStop
-    /// to ensure the consumer of this field has the best available information on
-    /// the current path of the delivery vehicle.
+    /// In these cases, Fleet Engine populates this field with a route from the
+    /// most recently passed VehicleStop to the upcoming VehicleStop to ensure that
+    /// the consumer of this field has the best available information on the
+    /// current path of the Delivery Vehicle.
     #[prost(bytes = "bytes", tag = "4")]
     pub current_route_segment: ::prost::bytes::Bytes,
     /// The location where the `current_route_segment` ends. This is not currently
-    /// populated by the driver app, but it can be supplied on
-    /// UpdateDeliveryVehicle calls as the latlng from the upcoming vehicle stop or
-    /// the last latlng of the `current_route_segment`. Fleet Engine will then do
-    /// its best to interpolate to an actual VehicleStop.
+    /// populated by the driver app. But you can supply it on
+    /// `UpdateDeliveryVehicle` calls. It's either the LatLng from the upcoming
+    /// vehicle stop, or it's the last LatLng of the `current_route_segment`. Fleet
+    /// Engine will then do its best to interpolate to an actual `VehicleStop`.
     ///
-    /// This field is ignored in UpdateDeliveryVehicle calls if the
+    /// This field is ignored in `UpdateDeliveryVehicle` calls if the
     /// `DeliveryVehicle.current_route_segment` field is empty.
     #[prost(message, optional, tag = "5")]
     pub current_route_segment_end_point:
         ::core::option::Option<super::super::super::super::google::r#type::LatLng>,
     /// The remaining driving distance for the `current_route_segment`.
-    /// This value is usually updated by the driver app because it is considered to
+    /// This value is usually updated by the driver app because it's considered to
     /// have more accurate information about the current route than Fleet Engine.
-    /// However, it may be populated by Fleet Engine. For more information, see the
-    /// documentation for `DeliveyVehicle.current_route_segment'. This field is
-    /// returned in
+    /// However, it might be populated by Fleet Engine. For more information, see
+    /// \[`DeliveyVehicle.current_route_segment`][\]. This field is returned in
     /// `Task.remaining_vehicle_journey_segment\[0\].driving_distance_meters` for all
-    /// active tasks assigned to the vehicle.
+    /// active Tasks assigned to the Delivery Vehicle.
     ///
-    /// This field is ignored in UpdateDeliveryVehicle calls if the
+    /// This field is ignored in `UpdateDeliveryVehicle` calls if the
     /// `DeliveryVehicle.current_route_segment` field is empty.
     #[prost(message, optional, tag = "6")]
     pub remaining_distance_meters: ::core::option::Option<i32>,
     /// The remaining driving time for the `current_route_segment`.
-    /// This value is usually updated by the driver app because it is considered to
+    /// This value is usually updated by the driver app because it's considered to
     /// have more accurate information about the current route than Fleet Engine.
-    /// However, it may be populated by Fleet Engine. For more information, see the
-    /// documentation for `DeliveyVehicle.current_route_segment'. This field is
+    /// However, it might be populated by Fleet Engine. For more information, see
+    /// \[`DeliveyVehicle.current_route_segment'][\]. This field is
     /// returned in `Task.remaining_vehicle_journey_segment\[0\].driving_duration`
-    /// for all active tasks assigned to the vehicle.
+    /// for all active tasks assigned to the Delivery Vehicle.
     ///
-    /// This field is ignored in UpdateDeliveryVehicle calls if the
+    /// This field is ignored in `UpdateDeliveryVehicle` calls if the
     /// `DeliveryVehicle.current_route_segment` field is empty.
     #[prost(message, optional, tag = "7")]
     pub remaining_duration: ::core::option::Option<::prost_types::Duration>,
-    /// The journey segments assigned to this vehicle, starting from the vehicle's
-    /// most recently reported location.
+    /// The journey segments assigned to this Delivery Vehicle, starting from the
+    /// Vehicle's most recently reported location.
     #[prost(message, repeated, tag = "8")]
     pub remaining_vehicle_journey_segments: ::prost::alloc::vec::Vec<VehicleJourneySegment>,
-    /// List of custom delivery vehicle attributes.
-    /// Each attribute has a unique key.
+    /// A list of custom Delivery Vehicle attributes. Each attribute must have a
+    /// unique key.
     #[prost(message, repeated, tag = "9")]
-    pub attributes: ::prost::alloc::vec::Vec<super::super::v1::VehicleAttribute>,
+    pub attributes: ::prost::alloc::vec::Vec<DeliveryVehicleAttribute>,
 }
 /// A location with any additional identifiers.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LocationInfo {
-    /// The lat/lng of the location.
+    /// The location's coordinates.
     #[prost(message, optional, tag = "1")]
     pub point: ::core::option::Option<super::super::super::super::google::r#type::LatLng>,
 }
-/// Represents a vehicle’s travel segment from its previous stop to the
-/// current stop. If it is the first active stop, then it is from
+/// Represents a Vehicle’s travel segment - from its previous stop to the
+/// current stop. If it's the first active stop, then it's from the
 /// Vehicle’s current location to this stop.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VehicleJourneySegment {
-    /// Specifies the actual stop location and the tasks associated with
-    /// the stop. Some fields of the VehicleStop may not be present if this journey
-    /// segment is part of JourneySharingInfo.
+    /// Specifies the stop location, along with the Tasks associated with
+    /// the stop. Some fields of the VehicleStop might not be present if this
+    /// journey segment is part of `JourneySharingInfo`.
     #[prost(message, optional, tag = "1")]
     pub stop: ::core::option::Option<VehicleStop>,
     /// Output only. The travel distance from the previous stop to this stop.
     /// If the current stop is the first stop in the list of journey
     /// segments, then the starting point is the vehicle's location recorded
-    /// at the time that this stop was added to the list. This field may not be
-    /// present if this journey segment is part of JourneySharingInfo.
+    /// at the time that this stop was added to the list. This field might not be
+    /// present if this journey segment is part of `JourneySharingInfo`.
     #[prost(message, optional, tag = "2")]
     pub driving_distance_meters: ::core::option::Option<i32>,
     /// Output only. The travel time from the previous stop to this stop.
     /// If the current stop is the first stop in the list of journey
-    /// segments, then the starting point is the vehicle's location recorded
+    /// segments, then the starting point is the Vehicle's location recorded
     /// at the time that this stop was added to the list.
     ///
     /// If this field is defined in the path
     /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].driving_duration`,
     /// then it may be populated with the value from
-    /// `DeliveryVehicle.remaining_duration` so it provides the remaining driving
-    /// duration from the driver app's latest known location, not the driving time
-    /// from the previous stop.
+    /// `DeliveryVehicle.remaining_duration` so that it provides the remaining
+    /// driving duration from the driver app's latest known location, and not the
+    /// driving time from the previous stop.
     #[prost(message, optional, tag = "3")]
     pub driving_duration: ::core::option::Option<::prost_types::Duration>,
-    /// The path from the previous stop to this stop. If the current stop is the
+    /// Output only. The path from the previous stop to this stop. If the current stop is the
     /// first stop in the list of journey segments, then this is the path from the
     /// vehicle's current location to this stop at the time that the stop was
-    /// added to the list. This field may not be present if this journey segment is
-    /// part of JourneySharingInfo.
+    /// added to the list. This field might not be present if this journey segment
+    /// is part of `JourneySharingInfo`.
     ///
     /// If this field is defined in the path
     /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].path`,
     /// then it may be populated with the LatLngs decoded from
-    /// `DeliveryVehicle.current_route_segment` so it provides the driving
+    /// `DeliveryVehicle.current_route_segment`. Note that it provides the driving
     /// path from the driver app's latest known location, not the path from
     /// the previous stop.
     #[prost(message, repeated, tag = "5")]
     pub path: ::prost::alloc::vec::Vec<super::super::super::super::google::r#type::LatLng>,
 }
-/// Describes a point where a vehicle will stop on its journey to perform
-/// one or more tasks.
+/// Describes a point where a Vehicle stops to perform one or more Tasks.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VehicleStop {
-    /// Required. The location of the stop. Note that the locations in the tasks may not
-    /// exactly match this location, but will be within a short distance.
-    /// This field will not be present when returned as part of GetTaskResponse and
-    /// SearchTasksResponse.
+    /// Required. The location of the stop. Note that the locations in the Tasks might not
+    /// exactly match this location, but will be within a short distance of it.
+    /// This field won't be populated in the response of either a `GetTask`, or a
+    /// `SearchTasks` call.
     #[prost(message, optional, tag = "1")]
     pub planned_location: ::core::option::Option<LocationInfo>,
-    /// The list of tasks to be performed at this stop. Some fields of TaskInfo
-    /// will not be present when returned as part of GetTaskResponse or
-    /// SearchTasksResponse.
+    /// The list of Tasks to be performed at this stop. This field won't be
+    /// populated in the response of either a `GetTask`, or a `SearchTasks` call.
     #[prost(message, repeated, tag = "2")]
     pub tasks: ::prost::alloc::vec::Vec<vehicle_stop::TaskInfo>,
-    /// The state of the VehicleStop. This field will not be present when returned
-    /// as part of GetTaskResponse or SearchTasksResponse.
+    /// The state of the `VehicleStop`. This field won't be populated in the
+    /// response of either a `GetTask`, or a `SearchTasks` call.
     #[prost(enumeration = "vehicle_stop::State", tag = "3")]
     pub state: i32,
 }
 /// Nested message and enum types in `VehicleStop`.
 pub mod vehicle_stop {
-    /// Additional information about the task performed at this stop.
+    /// Additional information about the Task performed at this stop.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct TaskInfo {
-        /// The task ID. This field will not be present when returned as part
-        /// of GetTaskResponse or SearchTasksResponse.
+        /// The Task ID. This field won't be populated in the response of either a
+        /// `GetTask`, or a `SearchTasks` call.
         #[prost(string, tag = "1")]
         pub task_id: ::prost::alloc::string::String,
-        /// The time required to perform the task.
+        /// The time required to perform the Task.
         #[prost(message, optional, tag = "2")]
         pub task_duration: ::core::option::Option<::prost_types::Duration>,
     }
-    /// The current state of a VehicleStop.
+    /// The current state of a `VehicleStop`.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum State {
         /// Unknown.
         Unspecified = 0,
-        /// Created but not actively routing to.
+        /// Created, but not actively routing.
         New = 1,
-        /// Assigned and actively routing to.
+        /// Assigned and actively routing.
         Enroute = 2,
-        /// Arrived at stop. Assumes that when the vehicle is routing to the next
-        /// stop, all previous stops are completed.
+        /// Arrived at stop. Assumes that when the Vehicle is routing to the next
+        /// stop, that all previous stops have been completed.
         Arrived = 3,
     }
 }
-/// A task in the Delivery API represents a single action to track.
-/// In general there is a distinction between shipment-related tasks and break
-/// tasks. A shipment can have multiple tasks associated with it; for
-/// example, one task for the pickup and one for the dropoff or transfer.
-/// Different tasks for a given shipment can be handled by different vehicles;
-/// for example, one vehicle handles the pickup and drives the shipment to the
-/// hub, while another drives the same shipment from the hub to the dropoff.
+/// A RequestHeader contains fields common to all Delivery RPC requests.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeliveryRequestHeader {
+    /// The BCP-47 language code, such as en-US or sr-Latn. For more information,
+    /// see <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.> If none
+    /// is specified, the response may be in any language, with a preference for
+    /// English if such a name exists. Field value example: `en-US`.
+    #[prost(string, tag = "1")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Required. CLDR region code of the region where the request originates.
+    /// Field value example: `US`.
+    #[prost(string, tag = "2")]
+    pub region_code: ::prost::alloc::string::String,
+    /// Version of the calling SDK, if applicable.
+    /// The version format is "major.minor.patch", example: `1.1.2`.
+    #[prost(string, tag = "3")]
+    pub sdk_version: ::prost::alloc::string::String,
+    /// Version of the operating system on which the calling SDK is running.
+    /// Field value examples: `4.4.1`, `12.1`.
+    #[prost(string, tag = "4")]
+    pub os_version: ::prost::alloc::string::String,
+    /// Model of the device on which the calling SDK is running.
+    /// Field value examples: `iPhone12,1`, `SM-G920F`.
+    #[prost(string, tag = "5")]
+    pub device_model: ::prost::alloc::string::String,
+    /// The type of SDK sending the request.
+    #[prost(enumeration = "delivery_request_header::SdkType", tag = "6")]
+    pub sdk_type: i32,
+    /// Version of the MapSDK which the calling SDK depends on, if applicable.
+    /// The version format is "major.minor.patch", example: `5.2.1`.
+    #[prost(string, tag = "7")]
+    pub maps_sdk_version: ::prost::alloc::string::String,
+    /// Version of the NavSDK which the calling SDK depends on, if applicable.
+    /// The version format is "major.minor.patch", example: `2.1.0`.
+    #[prost(string, tag = "8")]
+    pub nav_sdk_version: ::prost::alloc::string::String,
+    /// Platform of the calling SDK.
+    #[prost(enumeration = "delivery_request_header::Platform", tag = "9")]
+    pub platform: i32,
+    /// Manufacturer of the Android device from the calling SDK, only applicable
+    /// for the Android SDKs.
+    /// Field value example: `Samsung`.
+    #[prost(string, tag = "10")]
+    pub manufacturer: ::prost::alloc::string::String,
+    /// Android API level of the calling SDK, only applicable for the Android SDKs.
+    /// Field value example: `23`.
+    #[prost(int32, tag = "11")]
+    pub android_api_level: i32,
+}
+/// Nested message and enum types in `DeliveryRequestHeader`.
+pub mod delivery_request_header {
+    /// Possible types of SDK.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SdkType {
+        /// The default value. This value is used if the `sdk_type` is omitted.
+        Unspecified = 0,
+        /// The calling SDK is Consumer.
+        Consumer = 1,
+        /// The calling SDK is Driver.
+        Driver = 2,
+        /// The calling SDK is JavaScript.
+        Javascript = 3,
+    }
+    /// The platform of the calling SDK.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Platform {
+        /// The default value. This value is used if the platform is omitted.
+        Unspecified = 0,
+        /// The request is coming from Android.
+        Android = 1,
+        /// The request is coming from iOS.
+        Ios = 2,
+        /// The request is coming from the web.
+        Web = 3,
+    }
+}
+/// A Task in the Delivery API represents a single action to track. In general,
+/// there's a distinction between shipment-related Tasks, and break Tasks. A
+/// shipment can have multiple Tasks associated with it. For example, there could
+/// be one Task for the pickup, and one for the dropoff or transfer. And
+/// different Tasks for a given shipment can be handled by different vehicles.
+/// For example, one vehicle could handle the pickup, driving the shipment to the
+/// hub, while another vehicle drives the same shipment from the hub to the
+/// dropoff location.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Task {
-    /// In the format `providers/{provider_id}/tasks/{task_id}`. The task_id must
-    /// be a unique identifier and not a `tracking_id`. To store a `tracking_id` of
-    /// a shipment use the `tracking_id` field. Multiple tasks can have the same
-    /// `tracking_id`.
+    /// Must be in the format `providers/{provider}/tasks/{task}`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. Immutable. Defines the type of the task; for example, a break or shipment.
+    /// Required. Immutable. Defines the type of the Task. For example, a break or shipment.
     #[prost(enumeration = "task::Type", tag = "2")]
     pub r#type: i32,
-    /// Required. The current execution state of the task.
+    /// Required. The current execution state of the Task.
     #[prost(enumeration = "task::State", tag = "3")]
     pub state: i32,
-    /// The outcome of the task.
+    /// The outcome of the Task.
     #[prost(enumeration = "task::TaskOutcome", tag = "9")]
     pub task_outcome: i32,
-    /// The timestamp of when the task's outcome was set (from provider).
+    /// The timestamp that indicates when the Task's outcome was set by the
+    /// provider.
     #[prost(message, optional, tag = "10")]
     pub task_outcome_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Location where the task's outcome was set. Updated as part of UpdateTask.
-    /// redacted as part of SearchTasks requests. If not explicitly updated by
-    /// provider then Fleet Engine will populate it by default with the last known
-    /// vehicle location (raw location).
+    /// The location where the Task's outcome was set. This value is updated as
+    /// part of `UpdateTask`. If this value isn't explicitly updated by the
+    /// provider, then Fleet Engine populates it by default with the last known
+    /// vehicle location (the *raw* location).
     #[prost(message, optional, tag = "11")]
     pub task_outcome_location: ::core::option::Option<LocationInfo>,
     /// Indicates where the value of the `task_outcome_location` came from.
     #[prost(enumeration = "task::TaskOutcomeLocationSource", tag = "12")]
     pub task_outcome_location_source: i32,
-    /// Immutable. This field facilitates the storing of an ID for the customer to avoid
-    /// unnecessary or complicated mapping. Cannot be set for Tasks of type
-    /// `UNAVAILABLE` or `SCHEDULED_STOP`. IDs are subject to the
-    /// following normalization and restrictions:
+    /// Immutable. This field facilitates the storing of an ID so you can avoid using a
+    /// complicated mapping. You cannot set `tracking_id` for Tasks of type
+    /// `UNAVAILABLE` and `SCHEDULED_STOP`. These IDs are subject to the
+    /// following restrictions:
     ///
-    /// 1. IDs must be valid Unicode strings.
-    /// 2. IDs are limited to a maximum length of 64 characters.
-    /// 3. IDs will be normalized according to Unicode Normalization Form C
+    /// * Tracking IDs must be valid Unicode strings.
+    /// * Tracking IDs are limited to a maximum length of 64 characters.
+    /// * Tracking IDs will be normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
-    /// 4. IDs may not contain any of the following ASCII characters: '/', ':',
-    /// '\\', '?', or '#'.
+    /// * Tracking IDs may not contain any of the following ASCII characters: '/',
+    /// ':', '\\', '?', or '#'.
     #[prost(string, tag = "4")]
     pub tracking_id: ::prost::alloc::string::String,
-    /// Output only. The ID of the vehicle making this Task.
+    /// Output only. The ID of the vehicle that is executing this Task.
     #[prost(string, tag = "5")]
     pub delivery_vehicle_id: ::prost::alloc::string::String,
-    /// Immutable. The location where the task is to be completed.
-    /// Optional for `UNAVAILABLE` Tasks, required for all others.
+    /// Immutable. The location where the Task will be completed.
+    /// Optional for `UNAVAILABLE` Tasks, but required for all other Tasks.
     #[prost(message, optional, tag = "6")]
     pub planned_location: ::core::option::Option<LocationInfo>,
-    /// Required. Immutable. Additional time to perform an action at this location.
+    /// Required. Immutable. The time needed to execute a Task at this location.
     #[prost(message, optional, tag = "7")]
     pub task_duration: ::core::option::Option<::prost_types::Duration>,
-    /// Output only. Journey sharing specific fields. Not populated when state is `CLOSED`.
+    /// Output only. Journey sharing-specific fields. Not populated when state is `CLOSED`.
     #[prost(message, optional, tag = "8")]
     pub journey_sharing_info: ::core::option::Option<task::JourneySharingInfo>,
 }
@@ -248,372 +474,377 @@ pub mod task {
     /// Journey sharing specific fields.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct JourneySharingInfo {
-        /// Tracking information for each stop that the assigned vehicle will
-        /// travel to before completing this task. This list may contain stops
+        /// Tracking information for the stops that the assigned vehicle will make
+        /// before it completes this Task. Note that this list can contain stops
         /// from other tasks.
         ///
         /// The first segment,
         /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\]`,
-        /// contains route information from the driver's last known location to the
-        /// upcoming VehicleStop. This current route information usually comes from
-        /// the driver app except for some cases noted in the documentation for
-        /// `DeliveyVehicle.current_route_segment`. The other segments in
+        /// contains route information from the driver's last known location, to the
+        /// upcoming `VehicleStop`. Current route information usually comes from
+        /// the driver app, except for some cases noted in the documentation for
+        /// \[`DeliveyVehicle.current_route_segment'][\]. The other segments in
         /// `Task.journey_sharing_info.remaining_vehicle_journey_segments` are
-        /// populated by Fleet Engine and provide route information between the
-        /// remaining VehicleStops.
+        /// populated by Fleet Engine. They provide route information between the
+        /// remaining `VehicleStops`.
         #[prost(message, repeated, tag = "1")]
         pub remaining_vehicle_journey_segments:
             ::prost::alloc::vec::Vec<super::VehicleJourneySegment>,
-        /// Indicates the last reported location of the assigned vehicle
-        /// along the route.
+        /// Indicates the vehicle's last reported location of the assigned vehicle.
         #[prost(message, optional, tag = "2")]
-        pub last_location: ::core::option::Option<super::super::super::v1::VehicleLocation>,
+        pub last_location: ::core::option::Option<super::DeliveryVehicleLocation>,
         /// Indicates whether the vehicle's lastLocation can be snapped to
-        /// the `current_route_segment`. False if `last_location` or
-        /// `current_route_segment` do not exist. This value is computed by
-        /// Fleet Engine. Any update from clients will be ignored.
+        /// the `current_route_segment`. This value is False if either
+        /// `last_location` or `current_route_segment` don't exist. This value is
+        /// computed by Fleet Engine. Updates from clients are ignored.
         #[prost(bool, tag = "3")]
         pub last_location_snappable: bool,
     }
-    /// The type of a Task.
+    /// The type of Task.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Type {
-        /// Default, the task type is not known.
+        /// Default, the Task type is unknown.
         Unspecified = 0,
-        /// A pickup task is the action taken for picking up a shipment from an end
+        /// A pickup Task is the action taken for picking up a shipment from a
         /// customer. Depot or feeder vehicle pickups should use the `SCHEDULED_STOP`
         /// type.
         Pickup = 1,
-        /// A delivery task is the action taken for delivering a shipment to an end
+        /// A delivery Task is the action taken for delivering a shipment to an end
         /// customer. Depot or feeder vehicle dropoffs should use the
         /// `SCHEDULED_STOP` type.
         Delivery = 2,
-        /// A scheduled stop task is used for planning purposes. For example, it may
-        /// represent picking up or dropping off shipments at feeder vehicles or
-        /// depots. It should not be used for any shipments that are picked up or
+        /// A scheduled stop Task is used for planning purposes. For example, it
+        /// could represent picking up or dropping off shipments from feeder vehicles
+        /// or depots. It shouldn't be used for any shipments that are picked up or
         /// dropped off from an end customer.
         ScheduledStop = 3,
-        /// A task that indicates unavailability (e.g. driver breaks or vehicle
-        /// refueling).
+        /// A Task that means the Vehicle is not available for service. For example,
+        /// this can happen when the driver takes a break, or when the vehicle
+        /// is being refueled.
         Unavailable = 4,
     }
-    /// The state of a Task indicating its progression.
+    /// The state of a Task. This indicates the Tasks's progress.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum State {
-        /// Default, used for an unspecified or unrecognized Task state.
+        /// Default. Used for an unspecified or unrecognized Task state.
         Unspecified = 0,
-        /// The task has not yet been assigned a delivery vehicle, or the delivery
-        /// vehicle has not yet passed the task's assigned vehicle stop.
+        /// Either the Task has not yet been assigned to a delivery vehicle, or the
+        /// delivery vehicle has not yet passed the Task's assigned vehicle stop.
         Open = 1,
-        /// When the vehicle this task was assigned to passes the vehicle stop of
-        /// this task.
+        /// When the vehicle passes the vehicle stop for this Task.
         Closed = 2,
     }
-    /// The outcome of attempting to execute a task. When TaskState is closed,
-    /// this indicates whether it was completed successfully or not.
+    /// The outcome of attempting to execute a Task. When `TaskState` is closed,
+    /// `TaskOutcome` indicates whether it was completed successfully.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum TaskOutcome {
-        /// Task outcome before being set.
+        /// The Task outcome before its value is set.
         Unspecified = 0,
-        /// Task was completed successfully.
+        /// The Task completed successfully.
         Succeeded = 1,
-        /// Task could not be completed or was cancelled.
+        /// Either the Task couldn't be completed, or it was cancelled.
         Failed = 2,
     }
-    /// The identity of the source which populated the task_outcome_location.
+    /// The identity of the source that populated the `task_outcome_location`.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum TaskOutcomeLocationSource {
-        /// Task outcome before being set.
+        /// The Task outcome before it is set.
         Unspecified = 0,
-        /// The provider specified the task_outcome_location.
+        /// The provider-specified the `task_outcome_location`.
         Provider = 2,
-        /// The provider did not specify the task_outcome_location so Fleet Engine
+        /// The provider didn't specify the `task_outcome_location`, so Fleet Engine
         /// used the last known vehicle location.
         LastVehicleLocation = 3,
     }
 }
-/// CreateDeliveryVehicle request message.
+/// The `CreateDeliveryVehicle` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateDeliveryVehicleRequest {
-    /// Optional. The standard Fleet Engine request header.
+    /// Optional. The standard Delivery API request header.
     #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<super::super::v1::RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
+    pub header: ::core::option::Option<DeliveryRequestHeader>,
+    /// Required. Must be in the format `providers/{provider}`. The provider must be the
+    /// Google Cloud Project ID. For example, `sample-cloud-project`.
     #[prost(string, tag = "3")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. The DeliveryVehicle ID must be unique for each provider. IDs are
-    /// subject to the following normalization and restrictions:
+    /// Required. The Delivery Vehicle ID must be unique for each provider. Delivery Vehicle
+    /// IDs are subject to the following restrictions:
     ///
-    /// 1. IDs must be valid Unicode strings.
-    /// 2. IDs are limited to a maximum length of 64 characters.
-    /// 3. IDs will be normalized according to Unicode Normalization Form C
+    /// * IDs must be valid Unicode strings.
+    /// * IDs are limited to a maximum length of 64 characters.
+    /// * IDs will be normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
-    /// 4. IDs may not contain any of the following ASCII characters: '/', ':',
+    /// * IDs may not contain any of the following ASCII characters: '/', ':',
     /// '\\', '?', or '#'.
     #[prost(string, tag = "4")]
     pub delivery_vehicle_id: ::prost::alloc::string::String,
-    /// Required. The DeliveryVehicle entity to create.
-    /// When creating a DeliveryVehicle, the following fields may optionally be
-    /// set:
-    ///   * last_location
-    ///   * attributes
-    /// All other DeliveryVehicle fields are ignored.
+    /// Required. The `DeliveryVehicle` entity to create. When creating a new delivery
+    /// vehicle, you may set the following optional fields:
+    ///
+    /// * last_location
+    /// * attributes
+    ///
+    /// Note: The DeliveryVehicle's `name` field is ignored. All other
+    /// DeliveryVehicle fields must not be set; otherwise, an error is returned.
     #[prost(message, optional, tag = "5")]
     pub delivery_vehicle: ::core::option::Option<DeliveryVehicle>,
 }
-/// GetDeliveryVehicle request message.
+/// The `GetDeliveryVehicle` request message.
 /// Next id: 4
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetDeliveryVehicleRequest {
-    /// Optional. The standard Fleet Engine request header.
+    /// Optional. The standard Delivery API request header.
     #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<super::super::v1::RequestHeader>,
+    pub header: ::core::option::Option<DeliveryRequestHeader>,
     /// Required. Must be in the format
     /// `providers/{provider}/deliveryVehicles/{delivery_vehicle}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
+    /// The `provider` must be the Google Cloud Project ID. For example,
+    /// `sample-cloud-project`.
     #[prost(string, tag = "3")]
     pub name: ::prost::alloc::string::String,
 }
-/// ListDeliveryVehicles request message.
+/// The `ListDeliveryVehicles` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListDeliveryVehiclesRequest {
-    /// Optional.
+    /// Optional. The standard Delivery API request header.
     #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<super::super::v1::RequestHeader>,
+    pub header: ::core::option::Option<DeliveryRequestHeader>,
     /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
+    /// The `provider` must be the Google Cloud Project ID.
+    /// For example, `sample-cloud-project`.
     #[prost(string, tag = "3")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of Vehicles to return. The service may return
-    /// fewer than this value. If unspecified, the server will decide the number of
-    /// results to return.
+    /// Optional. The maximum number of vehicles to return. The service may return fewer than
+    /// this number. If you don't specify this number, then the server determines
+    /// the number of results to return.
     #[prost(int32, tag = "4")]
     pub page_size: i32,
-    /// Optional. A page token, received from a previous `ListDeliveryVehicles`
-    /// call. Provide this to retrieve the subsequent page.
+    /// Optional. A page token, received from a previous `ListDeliveryVehicles` call. You
+    /// must provide this in order to retrieve the subsequent page.
     ///
     /// When paginating, all other parameters provided to `ListDeliveryVehicles`
     /// must match the call that provided the page token.
     #[prost(string, tag = "5")]
     pub page_token: ::prost::alloc::string::String,
-    /// Optional. A filter query to apply when listing delivery vehicles.
-    /// See <http://aip.dev/160> for examples of filter syntax.
-    /// If no value is specified or filter is an empty string, all delivery
-    /// vehicles will be returned.
+    /// Optional. A filter query to apply when listing delivery vehicles. See
+    /// <http://aip.dev/160> for examples of the filter syntax. If you don't specify
+    /// a value, or if you specify an empty string for the filter, then all
+    /// delivery vehicles are returned.
+    ///
+    /// Note that the only queries supported for `ListDeliveryVehicles` are
+    /// equality comparisons on vehicle attributes (`attributes.<key> = <value>`).
+    /// Comparison operators besides `=` (like `!=`, `>`, `<`, etc.) aren't
+    /// supported. Queries that include them are rejected. You can combine
+    /// attribute equality queries with **AND**, but not with any other boolean
+    /// operator.
     #[prost(string, tag = "6")]
     pub filter: ::prost::alloc::string::String,
-    /// Optional. A filter to limit the search area to a rectangle defined by the
+    /// Optional. A filter that limits the search area to a rectangle defined by the
     /// northeast and southwest corner points.
     ///
-    /// When defined, only vehicles located within the area range will be returned.
+    /// When defined, only vehicles located within the search area are returned.
     #[prost(message, optional, tag = "7")]
     pub viewport: ::core::option::Option<super::super::super::super::google::geo::r#type::Viewport>,
 }
-/// ListDeliveryVehicles response message.
+/// The `ListDeliveryVehicles` response message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListDeliveryVehiclesResponse {
-    /// The list of delivery vehicles that meet the requested filtering criteria.
+    /// The set of delivery vehicles that meet the requested filtering criteria.
     #[prost(message, repeated, tag = "1")]
     pub delivery_vehicles: ::prost::alloc::vec::Vec<DeliveryVehicle>,
-    /// Pass this token in the ListDeliveryVehiclesRequest to continue to list
-    /// results. If all results have been returned, this field is an empty string
-    /// or not present in the response.
+    /// You can pass this token in the `ListDeliveryVehiclesRequest` to continue to
+    /// list results. When all of the results are returned, this field won't be in
+    /// the response, or it will be an empty string.
     #[prost(string, tag = "2")]
     pub next_page_token: ::prost::alloc::string::String,
-    /// Total number of delivery vehicles matching request criteria across all
-    /// pages.
+    /// The total number of delivery vehicles that match the request criteria,
+    /// across all pages.
     #[prost(int64, tag = "3")]
     pub total_size: i64,
 }
-/// UpdateDeliveryVehicle request message.
+/// The `UpdateDeliveryVehicle` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateDeliveryVehicleRequest {
-    /// Optional. The standard Fleet Engine request header.
+    /// Optional. The standard Delivery API request header.
     #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<super::super::v1::RequestHeader>,
-    /// Required. The DeliveryVehicle entity update to apply.
-    /// The name of the DeliveryVehicle cannot be updated.
+    pub header: ::core::option::Option<DeliveryRequestHeader>,
+    /// Required. The `DeliveryVehicle` entity update to apply.
+    /// Note: You cannot update the name of the `DeliveryVehicle`.
     #[prost(message, optional, tag = "3")]
     pub delivery_vehicle: ::core::option::Option<DeliveryVehicle>,
-    /// Required. A field mask indicating which fields of the DeliveryVehicle to
-    /// update. The update_mask must contain at least one field.
+    /// Required. A field mask that indicates which `DeliveryVehicle` fields to
+    /// update. Note that the update_mask must contain at least one field.
     #[prost(message, optional, tag = "4")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
-/// CreateTask request message.
+/// The `CreateTask` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateTaskRequest {
-    /// Optional. The standard Fleet Engine request header.
+    /// Optional. The standard Delivery API request header.
     #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<super::super::v1::RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (e.g. `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
+    pub header: ::core::option::Option<DeliveryRequestHeader>,
+    /// Required. Must be in the format `providers/{provider}`. The `provider` must be the
+    /// Google Cloud Project ID. For example, `sample-cloud-project`.
     #[prost(string, tag = "3")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. The Task ID must be unique for each provider. IDs are subject to
-    /// the following normalization and restrictions:
+    /// Required. The Task ID must be unique for each provider, but it should be not a
+    /// shipment tracking ID. To store a shipment tracking ID, use the
+    /// `tracking_id` field. Note that multiple tasks can have the same
+    /// `tracking_id`. Task IDs are subject to the following restrictions:
     ///
-    /// 1. IDs must be valid Unicode strings.
-    /// 2. IDs are limited to a maximum length of 64 characters.
-    /// 3. IDs will be normalized according to Unicode Normalization Form C
+    /// * Task IDs must be valid Unicode strings.
+    /// * Task IDs are limited to a maximum length of 64 characters.
+    /// * Task IDs will be normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
-    /// 4. IDs may not contain any of the following ASCII characters: '/', ':',
-    /// '\\', '?', or '#'.
+    /// * Task IDs may not contain any of the following ASCII characters: '/',
+    /// ':', '\\', '?', or '#'.
     #[prost(string, tag = "5")]
     pub task_id: ::prost::alloc::string::String,
-    /// Required. Task entity to create.
+    /// Required. The Task entity to create.
     /// When creating a Task, the following fields are required:
     ///
-    ///   * type
-    ///   * state (must be set to 'OPEN' or request will fail)
-    ///   * tracking_id (must not be set for UNAVAILABLE or SCHEDULED_STOP tasks
-    ///       but required for all other task types.)
-    ///   * planned_location (optional for UNAVAILABLE tasks)
-    ///   * task_duration
+    /// * `type`
+    /// * `state` (must be set to `OPEN`)
+    /// * `tracking_id` (must not be set for `UNAVAILABLE` or `SCHEDULED_STOP`
+    /// tasks, but required for all other task types)
+    /// * `planned_location` (optional for `UNAVAILABLE` tasks)
+    /// * `task_duration`
     ///
-    /// All other Task fields are ignored.
+    /// Note: The Task's `name` field is ignored. All other Task fields must not be
+    /// set; otherwise, an error is returned.
     #[prost(message, optional, tag = "4")]
     pub task: ::core::option::Option<Task>,
 }
-/// GetTask request message.
+/// The `GetTask` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetTaskRequest {
-    /// Optional. The standard Fleet Engine request header.
+    /// Optional. The standard Delivery API request header.
     #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<super::super::v1::RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}/tasks/{task}`.
-    /// The provider must be the Project ID (e.g. `sample-cloud-project`) of the
-    /// Google Cloud Project of which the service account making this call is a
-    /// member.
+    pub header: ::core::option::Option<DeliveryRequestHeader>,
+    /// Required. Must be in the format `providers/{provider}/tasks/{task}`. The `provider`
+    /// must be the Google Cloud Project ID. For example, `sample-cloud-project`.
     #[prost(string, tag = "3")]
     pub name: ::prost::alloc::string::String,
 }
-/// SearchTasks request message containing the tracking_id used to search Tasks.
+/// The `SearchTasks` request message that contains the `tracking_id`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SearchTasksRequest {
-    /// Optional. The standard Fleet Engine request header.
+    /// Optional. The standard Delivery API request header.
     #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<super::super::v1::RequestHeader>,
+    pub header: ::core::option::Option<DeliveryRequestHeader>,
     /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
+    /// The provider must be the Google Cloud Project ID. For example,
+    /// `sample-cloud-project`.
     #[prost(string, tag = "3")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. Identifier for the related set of tasks that are being requested.
+    /// Required. The identifier of the set of related Tasks being requested.
     #[prost(string, tag = "4")]
     pub tracking_id: ::prost::alloc::string::String,
-    /// Optional. The maximum number of Tasks to return. The service may return
-    /// fewer than this value. If unspecified, the server will decide the number of
-    /// results to return.
+    /// Optional. The maximum number of Tasks to return. The service may return fewer than
+    /// this value. If you don't specify this value, then the server determines the
+    /// number of results to return.
     #[prost(int32, tag = "5")]
     pub page_size: i32,
-    /// Optional. A page token, received from a previous `SearchTasks` call.
-    /// Provide this to retrieve the subsequent page.
+    /// Optional. A page token, received from a previous `SearchTasks` call. You must
+    /// provide this value to retrieve the subsequent page.
     ///
     /// When paginating, all other parameters provided to `SearchTasks` must match
     /// the call that provided the page token.
     #[prost(string, tag = "6")]
     pub page_token: ::prost::alloc::string::String,
 }
-/// SearchTasks response containing list of Tasks which met the search criteria
-/// in the SearchTasksRequest.
+/// The `SearchTasks` response. It contains the set of Tasks that meet the search
+/// criteria in the `SearchTasksRequest`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SearchTasksResponse {
-    /// The list of tasks for the requested tracking_id.
+    /// The set of Tasks for the requested `tracking_id`.
     #[prost(message, repeated, tag = "1")]
     pub tasks: ::prost::alloc::vec::Vec<Task>,
-    /// Pass this token in the SearchTasksRequest to continue to
-    /// list results. If all results have been returned, this field is an empty
-    /// string or not present in the response.
+    /// Pass this token in the `SearchTasksRequest` to continue to
+    /// list results. If all results have been returned, then this field is either
+    /// an empty string, or it doesn't appear in the response.
     #[prost(string, tag = "2")]
     pub next_page_token: ::prost::alloc::string::String,
 }
-/// UpdateTask request message.
+/// The `UpdateTask` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateTaskRequest {
-    /// Optional. The standard Fleet Engine request header.
+    /// Optional. The standard Delivery API request header.
     #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<super::super::v1::RequestHeader>,
+    pub header: ::core::option::Option<DeliveryRequestHeader>,
     /// Required. The Task associated with the update.
-    /// The following fields are maintained by the Fleet Engine. Do not update
-    /// them using Task.update.
-    ///   * last_location
-    ///   * last_location_snappable
-    ///   * name
-    ///   * remaining_vehicle_journey_segments
-    ///   * task_outcome_location_source
+    /// The following fields are maintained by Fleet Engine. Do not update
+    /// them using `Task.update`.
     ///
-    /// The task_outcome cannot be changed once it has been set.
+    ///   * `last_location`.
+    ///   * `last_location_snappable`.
+    ///   * `name`.
+    ///   * `remaining_vehicle_journey_segments`.
+    ///   * `task_outcome_location_source`.
     ///
-    /// If the Task has been assigned a delivery vehicle, do not set the Task state
-    /// to CLOSED using Task.update. Instead, remove the VehicleStop containing
-    /// the Task from the delivery vehicle, which automatically sets the Task
-    /// state to CLOSED.
+    /// Note: You cannot change the value of `task_outcome` once you set it.
+    ///
+    /// If the Task has been assigned to a delivery vehicle, then don't set the
+    /// Task state to CLOSED using `Task.update`. Instead, remove the `VehicleStop`
+    /// that contains the Task from the delivery vehicle, which automatically sets
+    /// the Task state to CLOSED.
     #[prost(message, optional, tag = "3")]
     pub task: ::core::option::Option<Task>,
-    /// Required. The field mask indicating which fields in Task to
-    /// update. The update_mask must contain at least one field.
+    /// Required. The field mask that indicates which Task fields to update.
+    /// Note: The `update_mask` must contain at least one field.
     #[prost(message, optional, tag = "4")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
-/// ListTasks request message.
+/// The `ListTasks` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTasksRequest {
-    /// Optional. The standard Fleet Engine request header.
+    /// Optional. The standard Delivery API request header.
     #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<super::super::v1::RequestHeader>,
+    pub header: ::core::option::Option<DeliveryRequestHeader>,
     /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
+    /// The `provider` must be the Google Cloud Project ID. For example,
+    /// `sample-cloud-project`.
     #[prost(string, tag = "3")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of Tasks to return. The service may return
-    /// fewer than this value. If unspecified, the server will decide the number of
-    /// results to return.
+    /// Optional. The maximum number of Tasks to return. The service may return fewer than
+    /// this value. If you don't specify this value, then the server determines the
+    /// number of results to return.
     #[prost(int32, tag = "4")]
     pub page_size: i32,
-    /// Optional. A page token, received from a previous `ListTasks` call.
-    /// Provide this to retrieve the subsequent page.
+    /// Optional. A page token received from a previous `ListTasks` call.
+    /// You can provide this to retrieve the subsequent page.
     ///
     /// When paginating, all other parameters provided to `ListTasks` must match
     /// the call that provided the page token.
     #[prost(string, tag = "5")]
     pub page_token: ::prost::alloc::string::String,
-    /// Optional. A filter query to apply when listing tasks.
-    /// See <http://aip.dev/160> for examples of filter syntax.
-    /// If no value is specified or filter is an empty string, all tasks will be
-    /// returned.
+    /// Optional. A filter query to apply when listing Tasks. See <http://aip.dev/160> for
+    /// examples of filter syntax. If you don't specify a value, or if you filter
+    /// on an empty string, then all Tasks are returned. For information about the
+    /// Task properties that you can filter on, see
+    /// [Task
+    /// list](/maps/documentation/transportation-logistics/last-mile-fleet-solution/fleet-engine/deliveries_api#list_tasks).
     #[prost(string, tag = "6")]
     pub filter: ::prost::alloc::string::String,
 }
-/// ListTasks response containing list of Tasks which met the filter criteria
-/// in the ListTasksRequest.
+/// The `ListTasks` response that contains the set of Tasks that meet the filter
+/// criteria in the `ListTasksRequest`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTasksResponse {
-    /// The list of tasks that meet the requested filtering criteria.
+    /// The set of Tasks that meet the requested filtering criteria.
     #[prost(message, repeated, tag = "1")]
     pub tasks: ::prost::alloc::vec::Vec<Task>,
-    /// Pass this token in the ListTasksRequest to continue to list results.
-    /// If all results have been returned, this field is an empty string or not
-    /// present in the response.
+    /// Pass this token in the `ListTasksRequest` to continue to list results.
+    /// If all results have been returned, then this field is either an empty
+    /// string, or it doesn't appear in the response.
     #[prost(string, tag = "2")]
     pub next_page_token: ::prost::alloc::string::String,
-    /// Total number of tasks matching request criteria across all pages.
+    /// The total number of Tasks that match the request criteria, across all
+    /// pages.
     #[prost(int64, tag = "3")]
     pub total_size: i64,
 }
@@ -621,7 +852,7 @@ pub struct ListTasksResponse {
 pub mod delivery_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    #[doc = " Last Mile Delivery service."]
+    #[doc = " The Last Mile Delivery service."]
     #[derive(Debug, Clone)]
     pub struct DeliveryServiceClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -667,8 +898,7 @@ pub mod delivery_service_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        #[doc = " Creates a DeliveryVehicle in the Fleet Engine and returns the new"]
-        #[doc = " DeliveryVehicle."]
+        #[doc = " Creates and returns a new `DeliveryVehicle`."]
         pub async fn create_delivery_vehicle(
             &mut self,
             request: impl tonic::IntoRequest<super::CreateDeliveryVehicleRequest>,
@@ -685,7 +915,7 @@ pub mod delivery_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " GetDeliveryVehicle returns a DeliveryVehicle from the Fleet Engine."]
+        #[doc = " Returns the specified `DeliveryVehicle` instance."]
         pub async fn get_delivery_vehicle(
             &mut self,
             request: impl tonic::IntoRequest<super::GetDeliveryVehicleRequest>,
@@ -702,14 +932,13 @@ pub mod delivery_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " UpdateDeliveryVehicle writes updated DeliveryVehicle data to the Fleet"]
-        #[doc = " Engine and assigns Tasks to the DeliveryVehicle. The name of the"]
-        #[doc = " DeliveryVehicle cannot be updated. remaining_vehicle_journey_segments can"]
-        #[doc = " be updated, but must contain all the VehicleJourneySegments currently on"]
-        #[doc = " the DeliveryVehicle. The task_id's are retrieved from"]
-        #[doc = " remaining_vehicle_journey_segments and their corresponding Tasks are"]
-        #[doc = " assigned to the DeliveryVehicle if they have not yet been assigned to the"]
-        #[doc = " vehicle."]
+        #[doc = " Writes updated `DeliveryVehicle` data to Fleet Engine, and assigns"]
+        #[doc = " `Tasks` to the `DeliveryVehicle`. You cannot update the name of the"]
+        #[doc = " `DeliveryVehicle`. You *can* update `remaining_vehicle_journey_segments`"]
+        #[doc = " though, but it must contain all of the `VehicleJourneySegment`s currently"]
+        #[doc = " on the `DeliveryVehicle`. The `task_id`s are retrieved from"]
+        #[doc = " `remaining_vehicle_journey_segments, and their corresponding `Tasks` are"]
+        #[doc = " assigned to the `DeliveryVehicle` if they have not yet been assigned."]
         pub async fn update_delivery_vehicle(
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateDeliveryVehicleRequest>,
@@ -726,7 +955,7 @@ pub mod delivery_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Creates a Task in the Fleet Engine and returns the new Task."]
+        #[doc = " Creates and returns a new `Task` object."]
         pub async fn create_task(
             &mut self,
             request: impl tonic::IntoRequest<super::CreateTaskRequest>,
@@ -743,7 +972,7 @@ pub mod delivery_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Gets information about a single Task."]
+        #[doc = " Gets information about a `Task`."]
         pub async fn get_task(
             &mut self,
             request: impl tonic::IntoRequest<super::GetTaskRequest>,
@@ -760,7 +989,7 @@ pub mod delivery_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Get all tasks with a specific tracking_id."]
+        #[doc = " Gets all `Task`s with a particular `tracking_id`."]
         pub async fn search_tasks(
             &mut self,
             request: impl tonic::IntoRequest<super::SearchTasksRequest>,
@@ -777,7 +1006,7 @@ pub mod delivery_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Updates Task data."]
+        #[doc = " Updates `Task` data."]
         pub async fn update_task(
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateTaskRequest>,
@@ -794,7 +1023,7 @@ pub mod delivery_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Gets all tasks that meet specified filtering criteria."]
+        #[doc = " Gets all `Task`s that meet the specified filtering criteria."]
         pub async fn list_tasks(
             &mut self,
             request: impl tonic::IntoRequest<super::ListTasksRequest>,
@@ -811,7 +1040,7 @@ pub mod delivery_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Gets all delivery vehicles that meet specified filtering criteria."]
+        #[doc = " Gets all `DeliveryVehicle`s that meet the specified filtering criteria."]
         pub async fn list_delivery_vehicles(
             &mut self,
             request: impl tonic::IntoRequest<super::ListDeliveryVehiclesRequest>,
