@@ -2666,6 +2666,10 @@ pub enum AcceleratorType {
     NvidiaTeslaT4 = 5,
     /// Nvidia Tesla A100 GPU.
     NvidiaTeslaA100 = 8,
+    /// TPU v2.
+    TpuV2 = 6,
+    /// TPU v3.
+    TpuV3 = 7,
 }
 /// Specification of a single machine.
 #[derive(Clone, PartialEq, ::prost::Message)]
