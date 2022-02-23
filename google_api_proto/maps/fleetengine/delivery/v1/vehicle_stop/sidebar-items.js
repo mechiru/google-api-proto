@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["State","The current state of a VehicleStop."]],"struct":[["TaskInfo","Additional information about the task performed at this stop."]]});
+initSidebarItems({"enum":[["State","The current state of a `VehicleStop`."]],"struct":[["TaskInfo","Additional information about the Task performed at this stop."]]});

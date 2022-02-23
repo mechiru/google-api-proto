@@ -2138,6 +2138,8 @@
 <span id="2137">2137</span>
 <span id="2138">2138</span>
 <span id="2139">2139</span>
+<span id="2140">2140</span>
+<span id="2141">2141</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Traffic density indicator on a contiguous segment of a path. Given a path</span>
 <span class="doccomment">/// with points P_0, P_1, ... , P_N (zero-based index), the SpeedReadingInterval</span>
 <span class="doccomment">/// defines an interval and describes its traffic using the following categories.</span>
@@ -2480,7 +2482,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">maximum_capacity</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// List of vehicle attributes. A vehicle can have at most 50</span>
-    <span class="doccomment">/// attributes, and each attribute has a unique key.</span>
+    <span class="doccomment">/// attributes, and each attribute must have a unique key.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">attributes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">VehicleAttribute</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The type of this vehicle.  Can be used to filter vehicles in</span>
@@ -3347,10 +3349,12 @@
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// (required_attributes\[0\] AND required_attributes\[1\] AND ...)</span>
     <span class="doccomment">/// AND</span>
-    <span class="doccomment">/// (required_one_of_attributes\[0][0\] AND required_one_of_attributes\[0][1\] AND</span>
+    <span class="doccomment">/// (required_one_of_attribute_sets\[0][0\] AND</span>
+    <span class="doccomment">/// required_one_of_attribute_sets\[0][1\] AND</span>
     <span class="doccomment">/// ...)</span>
     <span class="doccomment">/// OR</span>
-    <span class="doccomment">/// (required_one_of_attributes\[1][0\] AND required_one_of_attributes\[1][1\] AND</span>
+    <span class="doccomment">/// (required_one_of_attribute_sets\[1][0\] AND</span>
+    <span class="doccomment">/// required_one_of_attribute_sets\[1][1\] AND</span>
     <span class="doccomment">/// ...)</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>

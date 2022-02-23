@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Platform","The platform of the calling SDK."],["SdkType","Possible types of SDK."]]});
