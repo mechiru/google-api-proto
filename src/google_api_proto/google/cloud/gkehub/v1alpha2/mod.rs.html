@@ -792,6 +792,11 @@
 <span id="791">791</span>
 <span id="792">792</span>
 <span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Membership contains information about a member cluster.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Membership</span> {
@@ -981,6 +986,11 @@
     <span class="doccomment">/// &lt;1.16.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">v1beta1_crd</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Major version of the Kubernetes cluster. This is only used to determine</span>
+    <span class="doccomment">/// which version to use for the CustomResourceDefinition resources,</span>
+    <span class="doccomment">/// `apiextensions/v1beta1` or`apiextensions/v1`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">k8s_version</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// GkeCluster contains information specific to GKE clusters.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
