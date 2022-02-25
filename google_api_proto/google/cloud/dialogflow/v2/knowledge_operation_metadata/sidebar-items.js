@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["State","States of the operation."]]});
+initSidebarItems({"enum":[["OperationMetadata","Additional metadata for the Knowledge operation."],["State","States of the operation."]]});
