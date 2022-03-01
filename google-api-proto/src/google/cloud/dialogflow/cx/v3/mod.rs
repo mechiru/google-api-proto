@@ -1,31 +1,3 @@
-/// Hierarchical advanced settings for agent/flow/page/fulfillment/parameter.
-/// Settings exposed at lower level overrides the settings exposed at higher
-/// level.
-///
-/// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdvancedSettings {
-    /// Settings for logging.
-    /// Settings for Dialogflow History, Contact Center messages, StackDriver logs,
-    /// and speech logging.
-    /// Exposed at the following levels:
-    /// - Agent level.
-    #[prost(message, optional, tag = "6")]
-    pub logging_settings: ::core::option::Option<advanced_settings::LoggingSettings>,
-}
-/// Nested message and enum types in `AdvancedSettings`.
-pub mod advanced_settings {
-    /// Define behaviors on logging.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct LoggingSettings {
-        /// If true, StackDriver logging is currently enabled.
-        #[prost(bool, tag = "2")]
-        pub enable_stackdriver_logging: bool,
-        /// If true, DF Interaction logging is currently enabled.
-        #[prost(bool, tag = "3")]
-        pub enable_interaction_logging: bool,
-    }
-}
 /// Represents a response message that can be returned by a conversational agent.
 ///
 /// Response messages are also used for output audio synthesis. The approach is
@@ -5364,6 +5336,1105 @@ pub mod test_cases_client {
         }
     }
 }
+/// Represents an environment for an agent. You can create multiple versions
+/// of your agent and publish them to separate environments. When you edit an
+/// agent, you are editing the draft agent. At any point, you can save the draft
+/// agent as an agent version, which is an immutable snapshot of your agent. When
+/// you save the draft agent, it is published to the default environment. When
+/// you create agent versions, you can publish them to custom environments. You
+/// can create a variety of custom environments for testing, development,
+/// production, etc.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Environment {
+    /// The name of the environment.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/environments/<Environment ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The human-readable name of the environment (unique in an agent). Limit of
+    /// 64 characters.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The human-readable description of the environment. The maximum length is
+    /// 500 characters. If exceeded, the request is rejected.
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+    /// Required. A list of configurations for flow versions. You should include version
+    /// configs for all flows that are reachable from [`Start
+    /// Flow`]\[Agent.start_flow\] in the agent. Otherwise, an error will be
+    /// returned.
+    #[prost(message, repeated, tag = "6")]
+    pub version_configs: ::prost::alloc::vec::Vec<environment::VersionConfig>,
+    /// Output only. Update time of this environment.
+    #[prost(message, optional, tag = "5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The test cases config for continuous tests of this environment.
+    #[prost(message, optional, tag = "7")]
+    pub test_cases_config: ::core::option::Option<environment::TestCasesConfig>,
+}
+/// Nested message and enum types in `Environment`.
+pub mod environment {
+    /// Configuration for the version.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct VersionConfig {
+        /// Required. Format: projects/<Project ID>/locations/<Location ID>/agents/<Agent
+        /// ID>/flows/<Flow ID>/versions/<Version ID>.
+        #[prost(string, tag = "1")]
+        pub version: ::prost::alloc::string::String,
+    }
+    /// The configuration for continuous tests.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TestCasesConfig {
+        /// A list of test case names to run. They should be under the same agent.
+        /// Format of each test case name: `projects/<Project ID>/locations/
+        /// <Location ID>/agents/<AgentID>/testCases/<TestCase ID>`
+        #[prost(string, repeated, tag = "1")]
+        pub test_cases: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Whether to run test cases in \[TestCasesConfig.test_cases][google.cloud.dialogflow.cx.v3.Environment.TestCasesConfig.test_cases\] periodically.
+        /// Default false. If set to true, run once a day.
+        #[prost(bool, tag = "2")]
+        pub enable_continuous_run: bool,
+        /// Whether to run test cases in \[TestCasesConfig.test_cases][google.cloud.dialogflow.cx.v3.Environment.TestCasesConfig.test_cases\] before
+        /// deploying a flow version to the environment. Default false.
+        #[prost(bool, tag = "3")]
+        pub enable_predeployment_run: bool,
+    }
+}
+/// The request message for \[Environments.ListEnvironments][google.cloud.dialogflow.cx.v3.Environments.ListEnvironments\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEnvironmentsRequest {
+    /// Required. The \[Agent][google.cloud.dialogflow.cx.v3.Agent\] to list all environments for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return in a single page. By default 20 and
+    /// at most 100.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[Environments.ListEnvironments][google.cloud.dialogflow.cx.v3.Environments.ListEnvironments\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEnvironmentsResponse {
+    /// The list of environments. There will be a maximum number of items
+    /// returned based on the page_size field in the request. The list may in some
+    /// cases be empty or contain fewer entries than page_size even if this isn't
+    /// the last page.
+    #[prost(message, repeated, tag = "1")]
+    pub environments: ::prost::alloc::vec::Vec<Environment>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for \[Environments.GetEnvironment][google.cloud.dialogflow.cx.v3.Environments.GetEnvironment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetEnvironmentRequest {
+    /// Required. The name of the \[Environment][google.cloud.dialogflow.cx.v3.Environment\].
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/environments/<Environment ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[Environments.CreateEnvironment][google.cloud.dialogflow.cx.v3.Environments.CreateEnvironment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateEnvironmentRequest {
+    /// Required. The \[Agent][google.cloud.dialogflow.cx.v3.Agent\] to create an \[Environment][google.cloud.dialogflow.cx.v3.Environment\] for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The environment to create.
+    #[prost(message, optional, tag = "2")]
+    pub environment: ::core::option::Option<Environment>,
+}
+/// The request message for \[Environments.UpdateEnvironment][google.cloud.dialogflow.cx.v3.Environments.UpdateEnvironment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateEnvironmentRequest {
+    /// Required. The environment to update.
+    #[prost(message, optional, tag = "1")]
+    pub environment: ::core::option::Option<Environment>,
+    /// Required. The mask to control which fields get updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request message for \[Environments.DeleteEnvironment][google.cloud.dialogflow.cx.v3.Environments.DeleteEnvironment\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteEnvironmentRequest {
+    /// Required. The name of the \[Environment][google.cloud.dialogflow.cx.v3.Environment\] to delete.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/environments/<Environment ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[Environments.LookupEnvironmentHistory][google.cloud.dialogflow.cx.v3.Environments.LookupEnvironmentHistory\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LookupEnvironmentHistoryRequest {
+    /// Required. Resource name of the environment to look up the history for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/environments/<Environment ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The maximum number of items to return in a single page. By default 100 and
+    /// at most 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[Environments.LookupEnvironmentHistory][google.cloud.dialogflow.cx.v3.Environments.LookupEnvironmentHistory\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LookupEnvironmentHistoryResponse {
+    /// Represents a list of snapshots for an environment. Time of the snapshots is
+    /// stored in \[`update_time`][google.cloud.dialogflow.cx.v3.Environment.update_time\].
+    #[prost(message, repeated, tag = "1")]
+    pub environments: ::prost::alloc::vec::Vec<Environment>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Represents a result from running a test case in an agent environment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ContinuousTestResult {
+    /// The resource name for the continuous test result. Format:
+    /// `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/environments/<Environment
+    /// ID>/continuousTestResults/<ContinuousTestResult ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The result of this continuous test run, i.e. whether all the tests in this
+    /// continuous test run pass or not.
+    #[prost(
+        enumeration = "continuous_test_result::AggregatedTestResult",
+        tag = "2"
+    )]
+    pub result: i32,
+    /// A list of individual test case results names in this continuous test run.
+    #[prost(string, repeated, tag = "3")]
+    pub test_case_results: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Time when the continuous testing run starts.
+    #[prost(message, optional, tag = "4")]
+    pub run_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `ContinuousTestResult`.
+pub mod continuous_test_result {
+    /// The overall result for a continuous test run in an agent environment.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AggregatedTestResult {
+        /// Not specified. Should never be used.
+        Unspecified = 0,
+        /// All the tests passed.
+        Passed = 1,
+        /// At least one test did not pass.
+        Failed = 2,
+    }
+}
+/// The request message for \[Environments.RunContinuousTest][google.cloud.dialogflow.cx.v3.Environments.RunContinuousTest\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RunContinuousTestRequest {
+    /// Required. Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/environments/<Environment ID>`.
+    #[prost(string, tag = "1")]
+    pub environment: ::prost::alloc::string::String,
+}
+/// The response message for \[Environments.RunContinuousTest][google.cloud.dialogflow.cx.v3.Environments.RunContinuousTest\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RunContinuousTestResponse {
+    /// The result for a continuous test run.
+    #[prost(message, optional, tag = "1")]
+    pub continuous_test_result: ::core::option::Option<ContinuousTestResult>,
+}
+/// Metadata returned for the \[Environments.RunContinuousTest][google.cloud.dialogflow.cx.v3.Environments.RunContinuousTest\] long running
+/// operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RunContinuousTestMetadata {
+    /// The test errors.
+    #[prost(message, repeated, tag = "1")]
+    pub errors: ::prost::alloc::vec::Vec<TestError>,
+}
+/// The request message for \[Environments.ListContinuousTestResults][google.cloud.dialogflow.cx.v3.Environments.ListContinuousTestResults\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListContinuousTestResultsRequest {
+    /// Required. The environment to list results for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>/
+    /// environments/<Environment ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return in a single page. By default 100 and
+    /// at most 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[Environments.ListTestCaseResults][\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListContinuousTestResultsResponse {
+    /// The list of continuous test results.
+    #[prost(message, repeated, tag = "1")]
+    pub continuous_test_results: ::prost::alloc::vec::Vec<ContinuousTestResult>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for \[Environments.DeployFlow][google.cloud.dialogflow.cx.v3.Environments.DeployFlow\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeployFlowRequest {
+    /// Required. The environment to deploy the flow to.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>/
+    /// environments/<Environment ID>`.
+    #[prost(string, tag = "1")]
+    pub environment: ::prost::alloc::string::String,
+    /// Required. The flow version to deploy.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>/
+    /// flows/<Flow ID>/versions/<Version ID>`.
+    #[prost(string, tag = "2")]
+    pub flow_version: ::prost::alloc::string::String,
+}
+/// The response message for \[Environments.DeployFlow][google.cloud.dialogflow.cx.v3.Environments.DeployFlow\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeployFlowResponse {
+    /// The updated environment where the flow is deployed.
+    #[prost(message, optional, tag = "1")]
+    pub environment: ::core::option::Option<Environment>,
+    /// The name of the flow version \[Deployment][google.cloud.dialogflow.cx.v3.Deployment\].
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>/
+    /// environments/<Environment ID>/deployments/<Deployment ID>`.
+    #[prost(string, tag = "2")]
+    pub deployment: ::prost::alloc::string::String,
+}
+/// Metadata returned for the \[Environments.DeployFlow][google.cloud.dialogflow.cx.v3.Environments.DeployFlow\] long running
+/// operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeployFlowMetadata {
+    /// Errors of running deployment tests.
+    #[prost(message, repeated, tag = "1")]
+    pub test_errors: ::prost::alloc::vec::Vec<TestError>,
+}
+#[doc = r" Generated client implementations."]
+pub mod environments_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [Environments][google.cloud.dialogflow.cx.v3.Environment]."]
+    #[derive(Debug, Clone)]
+    pub struct EnvironmentsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> EnvironmentsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> EnvironmentsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            EnvironmentsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of all environments in the specified [Agent][google.cloud.dialogflow.cx.v3.Agent]."]
+        pub async fn list_environments(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListEnvironmentsRequest>,
+        ) -> Result<tonic::Response<super::ListEnvironmentsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Environments/ListEnvironments",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
+        pub async fn get_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetEnvironmentRequest>,
+        ) -> Result<tonic::Response<super::Environment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Environments/GetEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates an [Environment][google.cloud.dialogflow.cx.v3.Environment] in the specified [Agent][google.cloud.dialogflow.cx.v3.Agent]."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: An empty [Struct"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
+        #[doc = " - `response`: [Environment][google.cloud.dialogflow.cx.v3.Environment]"]
+        pub async fn create_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateEnvironmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Environments/CreateEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: An empty [Struct"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
+        #[doc = " - `response`: [Environment][google.cloud.dialogflow.cx.v3.Environment]"]
+        pub async fn update_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateEnvironmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Environments/UpdateEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
+        pub async fn delete_environment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteEnvironmentRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Environments/DeleteEnvironment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Looks up the history of the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
+        pub async fn lookup_environment_history(
+            &mut self,
+            request: impl tonic::IntoRequest<super::LookupEnvironmentHistoryRequest>,
+        ) -> Result<tonic::Response<super::LookupEnvironmentHistoryResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Environments/LookupEnvironmentHistory",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Kicks off a continuous test under the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: [RunContinuousTestMetadata][google.cloud.dialogflow.cx.v3.RunContinuousTestMetadata]"]
+        #[doc = " - `response`: [RunContinuousTestResponse][google.cloud.dialogflow.cx.v3.RunContinuousTestResponse]"]
+        pub async fn run_continuous_test(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RunContinuousTestRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Environments/RunContinuousTest",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Fetches a list of continuous test results for a given environment."]
+        pub async fn list_continuous_test_results(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListContinuousTestResultsRequest>,
+        ) -> Result<tonic::Response<super::ListContinuousTestResultsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Environments/ListContinuousTestResults",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deploys a flow to the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: [DeployFlowMetadata][google.cloud.dialogflow.cx.v3.DeployFlowMetadata]"]
+        #[doc = " - `response`: [DeployFlowResponse][google.cloud.dialogflow.cx.v3.DeployFlowResponse]"]
+        pub async fn deploy_flow(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeployFlowRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Environments/DeployFlow",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Hierarchical advanced settings for agent/flow/page/fulfillment/parameter.
+/// Settings exposed at lower level overrides the settings exposed at higher
+/// level.
+///
+/// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AdvancedSettings {
+    /// Settings for logging.
+    /// Settings for Dialogflow History, Contact Center messages, StackDriver logs,
+    /// and speech logging.
+    /// Exposed at the following levels:
+    /// - Agent level.
+    #[prost(message, optional, tag = "6")]
+    pub logging_settings: ::core::option::Option<advanced_settings::LoggingSettings>,
+}
+/// Nested message and enum types in `AdvancedSettings`.
+pub mod advanced_settings {
+    /// Define behaviors on logging.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct LoggingSettings {
+        /// If true, StackDriver logging is currently enabled.
+        #[prost(bool, tag = "2")]
+        pub enable_stackdriver_logging: bool,
+        /// If true, DF Interaction logging is currently enabled.
+        #[prost(bool, tag = "3")]
+        pub enable_interaction_logging: bool,
+    }
+}
+/// The request message for \[Changelogs.ListChangelogs][google.cloud.dialogflow.cx.v3.Changelogs.ListChangelogs\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListChangelogsRequest {
+    /// Required. The agent containing the changelogs.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The filter string. Supports filter by user_email, resource, type and
+    /// create_time. Some examples:
+    ///   1. By user email:
+    ///        user_email = "someone@google.com"
+    ///   2. By resource name:
+    ///        resource = "projects/123/locations/global/agents/456/flows/789"
+    ///   3. By resource display name:
+    ///        display_name = "my agent"
+    ///   4. By action:
+    ///        action = "Create"
+    ///   5. By type:
+    ///        type = "flows"
+    ///   6. By create time. Currently predicates on `create_time` and
+    ///      `create_time_epoch_seconds` are supported:
+    ///        create_time_epoch_seconds > 1551790877 AND create_time <=
+    ///        2017-01-15T01:30:15.01Z
+    ///   7. Combination of above filters:
+    ///        resource = "projects/123/locations/global/agents/456/flows/789"
+    ///          AND user_email = "someone@google.com"
+    ///          AND create_time <= 2017-01-15T01:30:15.01Z
+    #[prost(string, tag = "2")]
+    pub filter: ::prost::alloc::string::String,
+    /// The maximum number of items to return in a single page. By default 100 and
+    /// at most 1000.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[Changelogs.ListChangelogs][google.cloud.dialogflow.cx.v3.Changelogs.ListChangelogs\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListChangelogsResponse {
+    /// The list of changelogs. There will be a maximum number of items returned
+    /// based on the page_size field in the request. The changelogs will be ordered
+    /// by timestamp.
+    #[prost(message, repeated, tag = "1")]
+    pub changelogs: ::prost::alloc::vec::Vec<Changelog>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for \[Changelogs.GetChangelog][google.cloud.dialogflow.cx.v3.Changelogs.GetChangelog\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetChangelogRequest {
+    /// Required. The name of the changelog to get.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/changelogs/<Changelog ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Changelogs represents a change made to a given agent.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Changelog {
+    /// The unique identifier of the changelog.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/changelogs/<Changelog ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Email address of the authenticated user.
+    #[prost(string, tag = "2")]
+    pub user_email: ::prost::alloc::string::String,
+    /// The affected resource display name of the change.
+    #[prost(string, tag = "7")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The action of the change.
+    #[prost(string, tag = "11")]
+    pub action: ::prost::alloc::string::String,
+    /// The affected resource type.
+    #[prost(string, tag = "8")]
+    pub r#type: ::prost::alloc::string::String,
+    /// The affected resource name of the change.
+    #[prost(string, tag = "3")]
+    pub resource: ::prost::alloc::string::String,
+    /// The timestamp of the change.
+    #[prost(message, optional, tag = "4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+#[doc = r" Generated client implementations."]
+pub mod changelogs_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [Changelogs][google.cloud.dialogflow.cx.v3.Changelog]."]
+    #[derive(Debug, Clone)]
+    pub struct ChangelogsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ChangelogsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ChangelogsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ChangelogsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of Changelogs."]
+        pub async fn list_changelogs(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListChangelogsRequest>,
+        ) -> Result<tonic::Response<super::ListChangelogsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Changelogs/ListChangelogs",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified Changelog."]
+        pub async fn get_changelog(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetChangelogRequest>,
+        ) -> Result<tonic::Response<super::Changelog>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Changelogs/GetChangelog",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Metadata associated with the long running operation for
+/// \[Versions.CreateVersion][google.cloud.dialogflow.cx.v3.Versions.CreateVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateVersionOperationMetadata {
+    /// Name of the created version.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/flows/<Flow ID>/versions/<Version ID>`.
+    #[prost(string, tag = "1")]
+    pub version: ::prost::alloc::string::String,
+}
+/// Represents a version of a flow.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Version {
+    /// Format: projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/flows/<Flow ID>/versions/<Version ID>. Version ID is a self-increasing
+    /// number generated by Dialogflow upon version creation.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The human-readable name of the version. Limit of 64 characters.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The description of the version. The maximum length is 500 characters. If
+    /// exceeded, the request is rejected.
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. The NLU settings of the flow at version creation.
+    #[prost(message, optional, tag = "4")]
+    pub nlu_settings: ::core::option::Option<NluSettings>,
+    /// Output only. Create time of the version.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The state of this version. This field is read-only and cannot be set by
+    /// create and update methods.
+    #[prost(enumeration = "version::State", tag = "6")]
+    pub state: i32,
+}
+/// Nested message and enum types in `Version`.
+pub mod version {
+    /// The state of the version.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Not specified. This value is not used.
+        Unspecified = 0,
+        /// Version is not ready to serve (e.g. training is running).
+        Running = 1,
+        /// Training has succeeded and this version is ready to serve.
+        Succeeded = 2,
+        /// Version training failed.
+        Failed = 3,
+    }
+}
+/// The request message for \[Versions.ListVersions][google.cloud.dialogflow.cx.v3.Versions.ListVersions\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVersionsRequest {
+    /// Required. The \[Flow][google.cloud.dialogflow.cx.v3.Flow\] to list all versions for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/flows/<Flow ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return in a single page. By default 20 and
+    /// at most 100.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[Versions.ListVersions][google.cloud.dialogflow.cx.v3.Versions.ListVersions\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVersionsResponse {
+    /// A list of versions. There will be a maximum number of items returned based
+    /// on the page_size field in the request. The list may in some cases be empty
+    /// or contain fewer entries than page_size even if this isn't the last page.
+    #[prost(message, repeated, tag = "1")]
+    pub versions: ::prost::alloc::vec::Vec<Version>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for \[Versions.GetVersion][google.cloud.dialogflow.cx.v3.Versions.GetVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetVersionRequest {
+    /// Required. The name of the \[Version][google.cloud.dialogflow.cx.v3.Version\].
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/flows/<Flow ID>/versions/<Version ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[Versions.CreateVersion][google.cloud.dialogflow.cx.v3.Versions.CreateVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateVersionRequest {
+    /// Required. The \[Flow][google.cloud.dialogflow.cx.v3.Flow\] to create an \[Version][google.cloud.dialogflow.cx.v3.Version\] for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/flows/<Flow ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The version to create.
+    #[prost(message, optional, tag = "2")]
+    pub version: ::core::option::Option<Version>,
+}
+/// The request message for \[Versions.UpdateVersion][google.cloud.dialogflow.cx.v3.Versions.UpdateVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateVersionRequest {
+    /// Required. The version to update.
+    #[prost(message, optional, tag = "1")]
+    pub version: ::core::option::Option<Version>,
+    /// Required. The mask to control which fields get updated. Currently only `description`
+    /// and `display_name` can be updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request message for \[Versions.DeleteVersion][google.cloud.dialogflow.cx.v3.Versions.DeleteVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteVersionRequest {
+    /// Required. The name of the \[Version][google.cloud.dialogflow.cx.v3.Version\] to delete.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/flows/<Flow ID>/versions/<Version ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[Versions.LoadVersion][google.cloud.dialogflow.cx.v3.Versions.LoadVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LoadVersionRequest {
+    /// Required. The \[Version][google.cloud.dialogflow.cx.v3.Version\] to be loaded to draft flow.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/flows/<Flow ID>/versions/<Version ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// This field is used to prevent accidental overwrite of other agent
+    /// resources, which can potentially impact other flow's behavior. If
+    /// `allow_override_agent_resources` is false, conflicted agent-level resources
+    /// will not be overridden (i.e. intents, entities, webhooks).
+    #[prost(bool, tag = "2")]
+    pub allow_override_agent_resources: bool,
+}
+/// The request message for \[Versions.CompareVersions][google.cloud.dialogflow.cx.v3.Versions.CompareVersions\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CompareVersionsRequest {
+    /// Required. Name of the base flow version to compare with the target version. Use
+    /// version ID `0` to indicate the draft version of the specified flow.
+    ///
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/
+    /// <Agent ID>/flows/<Flow ID>/versions/<Version ID>`.
+    #[prost(string, tag = "1")]
+    pub base_version: ::prost::alloc::string::String,
+    /// Required. Name of the target flow version to compare with the
+    /// base version. Use version ID `0` to indicate the draft version of the
+    /// specified flow. Format: `projects/<Project ID>/locations/<Location
+    /// ID>/agents/<Agent ID>/flows/<Flow ID>/versions/<Version ID>`.
+    #[prost(string, tag = "2")]
+    pub target_version: ::prost::alloc::string::String,
+    /// The language to compare the flow versions for.
+    ///
+    /// If not specified, the agent's default language is used.
+    /// [Many
+    /// languages](<https://cloud.google.com/dialogflow/docs/reference/language>) are
+    /// supported. Note: languages must be enabled in the agent before they can be
+    /// used.
+    #[prost(string, tag = "3")]
+    pub language_code: ::prost::alloc::string::String,
+}
+/// The response message for \[Versions.CompareVersions][google.cloud.dialogflow.cx.v3.Versions.CompareVersions\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CompareVersionsResponse {
+    /// JSON representation of the base version content.
+    #[prost(string, tag = "1")]
+    pub base_version_content_json: ::prost::alloc::string::String,
+    /// JSON representation of the target version content.
+    #[prost(string, tag = "2")]
+    pub target_version_content_json: ::prost::alloc::string::String,
+    /// The timestamp when the two version compares.
+    #[prost(message, optional, tag = "3")]
+    pub compare_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+#[doc = r" Generated client implementations."]
+pub mod versions_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing [Versions][google.cloud.dialogflow.cx.v3.Version]."]
+    #[derive(Debug, Clone)]
+    pub struct VersionsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> VersionsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> VersionsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            VersionsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Returns the list of all versions in the specified [Flow][google.cloud.dialogflow.cx.v3.Flow]."]
+        pub async fn list_versions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListVersionsRequest>,
+        ) -> Result<tonic::Response<super::ListVersionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Versions/ListVersions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified [Version][google.cloud.dialogflow.cx.v3.Version]."]
+        pub async fn get_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetVersionRequest>,
+        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Versions/GetVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a [Version][google.cloud.dialogflow.cx.v3.Version] in the specified [Flow][google.cloud.dialogflow.cx.v3.Flow]."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: [CreateVersionOperationMetadata][google.cloud.dialogflow.cx.v3.CreateVersionOperationMetadata]"]
+        #[doc = " - `response`: [Version][google.cloud.dialogflow.cx.v3.Version]"]
+        pub async fn create_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateVersionRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Versions/CreateVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified [Version][google.cloud.dialogflow.cx.v3.Version]."]
+        pub async fn update_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateVersionRequest>,
+        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Versions/UpdateVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the specified [Version][google.cloud.dialogflow.cx.v3.Version]."]
+        pub async fn delete_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteVersionRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Versions/DeleteVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Loads resources in the specified version to the draft flow."]
+        #[doc = ""]
+        #[doc = " This method is a [long-running"]
+        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
+        #[doc = " The returned `Operation` type has the following method-specific fields:"]
+        #[doc = ""]
+        #[doc = " - `metadata`: An empty [Struct"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
+        #[doc = " - `response`: An [Empty"]
+        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
+        pub async fn load_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::LoadVersionRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Versions/LoadVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Compares the specified base version with target version."]
+        pub async fn compare_versions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CompareVersionsRequest>,
+        ) -> Result<tonic::Response<super::CompareVersionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.Versions/CompareVersions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Webhooks host the developer's business logic. During a session, webhooks
 /// allow the developer to use the data extracted by Dialogflow's natural
 /// language processing to generate dynamic responses, validate collected data,
@@ -5973,1420 +7044,6 @@ pub mod webhooks_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dialogflow.cx.v3.Webhooks/DeleteWebhook",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Represents an environment for an agent. You can create multiple versions
-/// of your agent and publish them to separate environments. When you edit an
-/// agent, you are editing the draft agent. At any point, you can save the draft
-/// agent as an agent version, which is an immutable snapshot of your agent. When
-/// you save the draft agent, it is published to the default environment. When
-/// you create agent versions, you can publish them to custom environments. You
-/// can create a variety of custom environments for testing, development,
-/// production, etc.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Environment {
-    /// The name of the environment.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/environments/<Environment ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The human-readable name of the environment (unique in an agent). Limit of
-    /// 64 characters.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The human-readable description of the environment. The maximum length is
-    /// 500 characters. If exceeded, the request is rejected.
-    #[prost(string, tag = "3")]
-    pub description: ::prost::alloc::string::String,
-    /// Required. A list of configurations for flow versions. You should include version
-    /// configs for all flows that are reachable from [`Start
-    /// Flow`]\[Agent.start_flow\] in the agent. Otherwise, an error will be
-    /// returned.
-    #[prost(message, repeated, tag = "6")]
-    pub version_configs: ::prost::alloc::vec::Vec<environment::VersionConfig>,
-    /// Output only. Update time of this environment.
-    #[prost(message, optional, tag = "5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The test cases config for continuous tests of this environment.
-    #[prost(message, optional, tag = "7")]
-    pub test_cases_config: ::core::option::Option<environment::TestCasesConfig>,
-}
-/// Nested message and enum types in `Environment`.
-pub mod environment {
-    /// Configuration for the version.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct VersionConfig {
-        /// Required. Format: projects/<Project ID>/locations/<Location ID>/agents/<Agent
-        /// ID>/flows/<Flow ID>/versions/<Version ID>.
-        #[prost(string, tag = "1")]
-        pub version: ::prost::alloc::string::String,
-    }
-    /// The configuration for continuous tests.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct TestCasesConfig {
-        /// A list of test case names to run. They should be under the same agent.
-        /// Format of each test case name: `projects/<Project ID>/locations/
-        /// <Location ID>/agents/<AgentID>/testCases/<TestCase ID>`
-        #[prost(string, repeated, tag = "1")]
-        pub test_cases: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Whether to run test cases in \[TestCasesConfig.test_cases][google.cloud.dialogflow.cx.v3.Environment.TestCasesConfig.test_cases\] periodically.
-        /// Default false. If set to true, run once a day.
-        #[prost(bool, tag = "2")]
-        pub enable_continuous_run: bool,
-        /// Whether to run test cases in \[TestCasesConfig.test_cases][google.cloud.dialogflow.cx.v3.Environment.TestCasesConfig.test_cases\] before
-        /// deploying a flow version to the environment. Default false.
-        #[prost(bool, tag = "3")]
-        pub enable_predeployment_run: bool,
-    }
-}
-/// The request message for \[Environments.ListEnvironments][google.cloud.dialogflow.cx.v3.Environments.ListEnvironments\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEnvironmentsRequest {
-    /// Required. The \[Agent][google.cloud.dialogflow.cx.v3.Agent\] to list all environments for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return in a single page. By default 20 and
-    /// at most 100.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[Environments.ListEnvironments][google.cloud.dialogflow.cx.v3.Environments.ListEnvironments\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEnvironmentsResponse {
-    /// The list of environments. There will be a maximum number of items
-    /// returned based on the page_size field in the request. The list may in some
-    /// cases be empty or contain fewer entries than page_size even if this isn't
-    /// the last page.
-    #[prost(message, repeated, tag = "1")]
-    pub environments: ::prost::alloc::vec::Vec<Environment>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for \[Environments.GetEnvironment][google.cloud.dialogflow.cx.v3.Environments.GetEnvironment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetEnvironmentRequest {
-    /// Required. The name of the \[Environment][google.cloud.dialogflow.cx.v3.Environment\].
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/environments/<Environment ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[Environments.CreateEnvironment][google.cloud.dialogflow.cx.v3.Environments.CreateEnvironment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateEnvironmentRequest {
-    /// Required. The \[Agent][google.cloud.dialogflow.cx.v3.Agent\] to create an \[Environment][google.cloud.dialogflow.cx.v3.Environment\] for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The environment to create.
-    #[prost(message, optional, tag = "2")]
-    pub environment: ::core::option::Option<Environment>,
-}
-/// The request message for \[Environments.UpdateEnvironment][google.cloud.dialogflow.cx.v3.Environments.UpdateEnvironment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateEnvironmentRequest {
-    /// Required. The environment to update.
-    #[prost(message, optional, tag = "1")]
-    pub environment: ::core::option::Option<Environment>,
-    /// Required. The mask to control which fields get updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request message for \[Environments.DeleteEnvironment][google.cloud.dialogflow.cx.v3.Environments.DeleteEnvironment\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteEnvironmentRequest {
-    /// Required. The name of the \[Environment][google.cloud.dialogflow.cx.v3.Environment\] to delete.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/environments/<Environment ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[Environments.LookupEnvironmentHistory][google.cloud.dialogflow.cx.v3.Environments.LookupEnvironmentHistory\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LookupEnvironmentHistoryRequest {
-    /// Required. Resource name of the environment to look up the history for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/environments/<Environment ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The maximum number of items to return in a single page. By default 100 and
-    /// at most 1000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[Environments.LookupEnvironmentHistory][google.cloud.dialogflow.cx.v3.Environments.LookupEnvironmentHistory\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LookupEnvironmentHistoryResponse {
-    /// Represents a list of snapshots for an environment. Time of the snapshots is
-    /// stored in \[`update_time`][google.cloud.dialogflow.cx.v3.Environment.update_time\].
-    #[prost(message, repeated, tag = "1")]
-    pub environments: ::prost::alloc::vec::Vec<Environment>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Represents a result from running a test case in an agent environment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ContinuousTestResult {
-    /// The resource name for the continuous test result. Format:
-    /// `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/environments/<Environment
-    /// ID>/continuousTestResults/<ContinuousTestResult ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The result of this continuous test run, i.e. whether all the tests in this
-    /// continuous test run pass or not.
-    #[prost(
-        enumeration = "continuous_test_result::AggregatedTestResult",
-        tag = "2"
-    )]
-    pub result: i32,
-    /// A list of individual test case results names in this continuous test run.
-    #[prost(string, repeated, tag = "3")]
-    pub test_case_results: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Time when the continuous testing run starts.
-    #[prost(message, optional, tag = "4")]
-    pub run_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `ContinuousTestResult`.
-pub mod continuous_test_result {
-    /// The overall result for a continuous test run in an agent environment.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AggregatedTestResult {
-        /// Not specified. Should never be used.
-        Unspecified = 0,
-        /// All the tests passed.
-        Passed = 1,
-        /// At least one test did not pass.
-        Failed = 2,
-    }
-}
-/// The request message for \[Environments.RunContinuousTest][google.cloud.dialogflow.cx.v3.Environments.RunContinuousTest\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RunContinuousTestRequest {
-    /// Required. Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/environments/<Environment ID>`.
-    #[prost(string, tag = "1")]
-    pub environment: ::prost::alloc::string::String,
-}
-/// The response message for \[Environments.RunContinuousTest][google.cloud.dialogflow.cx.v3.Environments.RunContinuousTest\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RunContinuousTestResponse {
-    /// The result for a continuous test run.
-    #[prost(message, optional, tag = "1")]
-    pub continuous_test_result: ::core::option::Option<ContinuousTestResult>,
-}
-/// Metadata returned for the \[Environments.RunContinuousTest][google.cloud.dialogflow.cx.v3.Environments.RunContinuousTest\] long running
-/// operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RunContinuousTestMetadata {
-    /// The test errors.
-    #[prost(message, repeated, tag = "1")]
-    pub errors: ::prost::alloc::vec::Vec<TestError>,
-}
-/// The request message for \[Environments.ListContinuousTestResults][google.cloud.dialogflow.cx.v3.Environments.ListContinuousTestResults\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListContinuousTestResultsRequest {
-    /// Required. The environment to list results for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>/
-    /// environments/<Environment ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return in a single page. By default 100 and
-    /// at most 1000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[Environments.ListTestCaseResults][\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListContinuousTestResultsResponse {
-    /// The list of continuous test results.
-    #[prost(message, repeated, tag = "1")]
-    pub continuous_test_results: ::prost::alloc::vec::Vec<ContinuousTestResult>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for \[Environments.DeployFlow][google.cloud.dialogflow.cx.v3.Environments.DeployFlow\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeployFlowRequest {
-    /// Required. The environment to deploy the flow to.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>/
-    /// environments/<Environment ID>`.
-    #[prost(string, tag = "1")]
-    pub environment: ::prost::alloc::string::String,
-    /// Required. The flow version to deploy.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>/
-    /// flows/<Flow ID>/versions/<Version ID>`.
-    #[prost(string, tag = "2")]
-    pub flow_version: ::prost::alloc::string::String,
-}
-/// The response message for \[Environments.DeployFlow][google.cloud.dialogflow.cx.v3.Environments.DeployFlow\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeployFlowResponse {
-    /// The updated environment where the flow is deployed.
-    #[prost(message, optional, tag = "1")]
-    pub environment: ::core::option::Option<Environment>,
-    /// The name of the flow version \[Deployment][google.cloud.dialogflow.cx.v3.Deployment\].
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>/
-    /// environments/<Environment ID>/deployments/<Deployment ID>`.
-    #[prost(string, tag = "2")]
-    pub deployment: ::prost::alloc::string::String,
-}
-/// Metadata returned for the \[Environments.DeployFlow][google.cloud.dialogflow.cx.v3.Environments.DeployFlow\] long running
-/// operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeployFlowMetadata {
-    /// Errors of running deployment tests.
-    #[prost(message, repeated, tag = "1")]
-    pub test_errors: ::prost::alloc::vec::Vec<TestError>,
-}
-#[doc = r" Generated client implementations."]
-pub mod environments_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [Environments][google.cloud.dialogflow.cx.v3.Environment]."]
-    #[derive(Debug, Clone)]
-    pub struct EnvironmentsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> EnvironmentsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> EnvironmentsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            EnvironmentsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of all environments in the specified [Agent][google.cloud.dialogflow.cx.v3.Agent]."]
-        pub async fn list_environments(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListEnvironmentsRequest>,
-        ) -> Result<tonic::Response<super::ListEnvironmentsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Environments/ListEnvironments",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
-        pub async fn get_environment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetEnvironmentRequest>,
-        ) -> Result<tonic::Response<super::Environment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Environments/GetEnvironment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates an [Environment][google.cloud.dialogflow.cx.v3.Environment] in the specified [Agent][google.cloud.dialogflow.cx.v3.Agent]."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: An empty [Struct"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
-        #[doc = " - `response`: [Environment][google.cloud.dialogflow.cx.v3.Environment]"]
-        pub async fn create_environment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateEnvironmentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Environments/CreateEnvironment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: An empty [Struct"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
-        #[doc = " - `response`: [Environment][google.cloud.dialogflow.cx.v3.Environment]"]
-        pub async fn update_environment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateEnvironmentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Environments/UpdateEnvironment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
-        pub async fn delete_environment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteEnvironmentRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Environments/DeleteEnvironment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Looks up the history of the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
-        pub async fn lookup_environment_history(
-            &mut self,
-            request: impl tonic::IntoRequest<super::LookupEnvironmentHistoryRequest>,
-        ) -> Result<tonic::Response<super::LookupEnvironmentHistoryResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Environments/LookupEnvironmentHistory",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Kicks off a continuous test under the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: [RunContinuousTestMetadata][google.cloud.dialogflow.cx.v3.RunContinuousTestMetadata]"]
-        #[doc = " - `response`: [RunContinuousTestResponse][google.cloud.dialogflow.cx.v3.RunContinuousTestResponse]"]
-        pub async fn run_continuous_test(
-            &mut self,
-            request: impl tonic::IntoRequest<super::RunContinuousTestRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Environments/RunContinuousTest",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Fetches a list of continuous test results for a given environment."]
-        pub async fn list_continuous_test_results(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListContinuousTestResultsRequest>,
-        ) -> Result<tonic::Response<super::ListContinuousTestResultsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Environments/ListContinuousTestResults",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deploys a flow to the specified [Environment][google.cloud.dialogflow.cx.v3.Environment]."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: [DeployFlowMetadata][google.cloud.dialogflow.cx.v3.DeployFlowMetadata]"]
-        #[doc = " - `response`: [DeployFlowResponse][google.cloud.dialogflow.cx.v3.DeployFlowResponse]"]
-        pub async fn deploy_flow(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeployFlowRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Environments/DeployFlow",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// The request message for \[Changelogs.ListChangelogs][google.cloud.dialogflow.cx.v3.Changelogs.ListChangelogs\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListChangelogsRequest {
-    /// Required. The agent containing the changelogs.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The filter string. Supports filter by user_email, resource, type and
-    /// create_time. Some examples:
-    ///   1. By user email:
-    ///        user_email = "someone@google.com"
-    ///   2. By resource name:
-    ///        resource = "projects/123/locations/global/agents/456/flows/789"
-    ///   3. By resource display name:
-    ///        display_name = "my agent"
-    ///   4. By action:
-    ///        action = "Create"
-    ///   5. By type:
-    ///        type = "flows"
-    ///   6. By create time. Currently predicates on `create_time` and
-    ///      `create_time_epoch_seconds` are supported:
-    ///        create_time_epoch_seconds > 1551790877 AND create_time <=
-    ///        2017-01-15T01:30:15.01Z
-    ///   7. Combination of above filters:
-    ///        resource = "projects/123/locations/global/agents/456/flows/789"
-    ///          AND user_email = "someone@google.com"
-    ///          AND create_time <= 2017-01-15T01:30:15.01Z
-    #[prost(string, tag = "2")]
-    pub filter: ::prost::alloc::string::String,
-    /// The maximum number of items to return in a single page. By default 100 and
-    /// at most 1000.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[Changelogs.ListChangelogs][google.cloud.dialogflow.cx.v3.Changelogs.ListChangelogs\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListChangelogsResponse {
-    /// The list of changelogs. There will be a maximum number of items returned
-    /// based on the page_size field in the request. The changelogs will be ordered
-    /// by timestamp.
-    #[prost(message, repeated, tag = "1")]
-    pub changelogs: ::prost::alloc::vec::Vec<Changelog>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for \[Changelogs.GetChangelog][google.cloud.dialogflow.cx.v3.Changelogs.GetChangelog\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetChangelogRequest {
-    /// Required. The name of the changelog to get.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/changelogs/<Changelog ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Changelogs represents a change made to a given agent.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Changelog {
-    /// The unique identifier of the changelog.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/changelogs/<Changelog ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Email address of the authenticated user.
-    #[prost(string, tag = "2")]
-    pub user_email: ::prost::alloc::string::String,
-    /// The affected resource display name of the change.
-    #[prost(string, tag = "7")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The action of the change.
-    #[prost(string, tag = "11")]
-    pub action: ::prost::alloc::string::String,
-    /// The affected resource type.
-    #[prost(string, tag = "8")]
-    pub r#type: ::prost::alloc::string::String,
-    /// The affected resource name of the change.
-    #[prost(string, tag = "3")]
-    pub resource: ::prost::alloc::string::String,
-    /// The timestamp of the change.
-    #[prost(message, optional, tag = "4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-#[doc = r" Generated client implementations."]
-pub mod changelogs_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [Changelogs][google.cloud.dialogflow.cx.v3.Changelog]."]
-    #[derive(Debug, Clone)]
-    pub struct ChangelogsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ChangelogsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ChangelogsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ChangelogsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of Changelogs."]
-        pub async fn list_changelogs(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListChangelogsRequest>,
-        ) -> Result<tonic::Response<super::ListChangelogsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Changelogs/ListChangelogs",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified Changelog."]
-        pub async fn get_changelog(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetChangelogRequest>,
-        ) -> Result<tonic::Response<super::Changelog>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Changelogs/GetChangelog",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Metadata associated with the long running operation for
-/// \[Versions.CreateVersion][google.cloud.dialogflow.cx.v3.Versions.CreateVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateVersionOperationMetadata {
-    /// Name of the created version.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/flows/<Flow ID>/versions/<Version ID>`.
-    #[prost(string, tag = "1")]
-    pub version: ::prost::alloc::string::String,
-}
-/// Represents a version of a flow.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Version {
-    /// Format: projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/flows/<Flow ID>/versions/<Version ID>. Version ID is a self-increasing
-    /// number generated by Dialogflow upon version creation.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The human-readable name of the version. Limit of 64 characters.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The description of the version. The maximum length is 500 characters. If
-    /// exceeded, the request is rejected.
-    #[prost(string, tag = "3")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. The NLU settings of the flow at version creation.
-    #[prost(message, optional, tag = "4")]
-    pub nlu_settings: ::core::option::Option<NluSettings>,
-    /// Output only. Create time of the version.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The state of this version. This field is read-only and cannot be set by
-    /// create and update methods.
-    #[prost(enumeration = "version::State", tag = "6")]
-    pub state: i32,
-}
-/// Nested message and enum types in `Version`.
-pub mod version {
-    /// The state of the version.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Not specified. This value is not used.
-        Unspecified = 0,
-        /// Version is not ready to serve (e.g. training is running).
-        Running = 1,
-        /// Training has succeeded and this version is ready to serve.
-        Succeeded = 2,
-        /// Version training failed.
-        Failed = 3,
-    }
-}
-/// The request message for \[Versions.ListVersions][google.cloud.dialogflow.cx.v3.Versions.ListVersions\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVersionsRequest {
-    /// Required. The \[Flow][google.cloud.dialogflow.cx.v3.Flow\] to list all versions for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/flows/<Flow ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return in a single page. By default 20 and
-    /// at most 100.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[Versions.ListVersions][google.cloud.dialogflow.cx.v3.Versions.ListVersions\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVersionsResponse {
-    /// A list of versions. There will be a maximum number of items returned based
-    /// on the page_size field in the request. The list may in some cases be empty
-    /// or contain fewer entries than page_size even if this isn't the last page.
-    #[prost(message, repeated, tag = "1")]
-    pub versions: ::prost::alloc::vec::Vec<Version>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for \[Versions.GetVersion][google.cloud.dialogflow.cx.v3.Versions.GetVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetVersionRequest {
-    /// Required. The name of the \[Version][google.cloud.dialogflow.cx.v3.Version\].
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/flows/<Flow ID>/versions/<Version ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[Versions.CreateVersion][google.cloud.dialogflow.cx.v3.Versions.CreateVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateVersionRequest {
-    /// Required. The \[Flow][google.cloud.dialogflow.cx.v3.Flow\] to create an \[Version][google.cloud.dialogflow.cx.v3.Version\] for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/flows/<Flow ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The version to create.
-    #[prost(message, optional, tag = "2")]
-    pub version: ::core::option::Option<Version>,
-}
-/// The request message for \[Versions.UpdateVersion][google.cloud.dialogflow.cx.v3.Versions.UpdateVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateVersionRequest {
-    /// Required. The version to update.
-    #[prost(message, optional, tag = "1")]
-    pub version: ::core::option::Option<Version>,
-    /// Required. The mask to control which fields get updated. Currently only `description`
-    /// and `display_name` can be updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request message for \[Versions.DeleteVersion][google.cloud.dialogflow.cx.v3.Versions.DeleteVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteVersionRequest {
-    /// Required. The name of the \[Version][google.cloud.dialogflow.cx.v3.Version\] to delete.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/flows/<Flow ID>/versions/<Version ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[Versions.LoadVersion][google.cloud.dialogflow.cx.v3.Versions.LoadVersion\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LoadVersionRequest {
-    /// Required. The \[Version][google.cloud.dialogflow.cx.v3.Version\] to be loaded to draft flow.
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
-    /// ID>/flows/<Flow ID>/versions/<Version ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// This field is used to prevent accidental overwrite of other agent
-    /// resources, which can potentially impact other flow's behavior. If
-    /// `allow_override_agent_resources` is false, conflicted agent-level resources
-    /// will not be overridden (i.e. intents, entities, webhooks).
-    #[prost(bool, tag = "2")]
-    pub allow_override_agent_resources: bool,
-}
-/// The request message for \[Versions.CompareVersions][google.cloud.dialogflow.cx.v3.Versions.CompareVersions\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CompareVersionsRequest {
-    /// Required. Name of the base flow version to compare with the target version. Use
-    /// version ID `0` to indicate the draft version of the specified flow.
-    ///
-    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/
-    /// <Agent ID>/flows/<Flow ID>/versions/<Version ID>`.
-    #[prost(string, tag = "1")]
-    pub base_version: ::prost::alloc::string::String,
-    /// Required. Name of the target flow version to compare with the
-    /// base version. Use version ID `0` to indicate the draft version of the
-    /// specified flow. Format: `projects/<Project ID>/locations/<Location
-    /// ID>/agents/<Agent ID>/flows/<Flow ID>/versions/<Version ID>`.
-    #[prost(string, tag = "2")]
-    pub target_version: ::prost::alloc::string::String,
-    /// The language to compare the flow versions for.
-    ///
-    /// If not specified, the agent's default language is used.
-    /// [Many
-    /// languages](<https://cloud.google.com/dialogflow/docs/reference/language>) are
-    /// supported. Note: languages must be enabled in the agent before they can be
-    /// used.
-    #[prost(string, tag = "3")]
-    pub language_code: ::prost::alloc::string::String,
-}
-/// The response message for \[Versions.CompareVersions][google.cloud.dialogflow.cx.v3.Versions.CompareVersions\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CompareVersionsResponse {
-    /// JSON representation of the base version content.
-    #[prost(string, tag = "1")]
-    pub base_version_content_json: ::prost::alloc::string::String,
-    /// JSON representation of the target version content.
-    #[prost(string, tag = "2")]
-    pub target_version_content_json: ::prost::alloc::string::String,
-    /// The timestamp when the two version compares.
-    #[prost(message, optional, tag = "3")]
-    pub compare_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-#[doc = r" Generated client implementations."]
-pub mod versions_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing [Versions][google.cloud.dialogflow.cx.v3.Version]."]
-    #[derive(Debug, Clone)]
-    pub struct VersionsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> VersionsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> VersionsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            VersionsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Returns the list of all versions in the specified [Flow][google.cloud.dialogflow.cx.v3.Flow]."]
-        pub async fn list_versions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListVersionsRequest>,
-        ) -> Result<tonic::Response<super::ListVersionsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Versions/ListVersions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified [Version][google.cloud.dialogflow.cx.v3.Version]."]
-        pub async fn get_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetVersionRequest>,
-        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Versions/GetVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a [Version][google.cloud.dialogflow.cx.v3.Version] in the specified [Flow][google.cloud.dialogflow.cx.v3.Flow]."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: [CreateVersionOperationMetadata][google.cloud.dialogflow.cx.v3.CreateVersionOperationMetadata]"]
-        #[doc = " - `response`: [Version][google.cloud.dialogflow.cx.v3.Version]"]
-        pub async fn create_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateVersionRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Versions/CreateVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified [Version][google.cloud.dialogflow.cx.v3.Version]."]
-        pub async fn update_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateVersionRequest>,
-        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Versions/UpdateVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes the specified [Version][google.cloud.dialogflow.cx.v3.Version]."]
-        pub async fn delete_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteVersionRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Versions/DeleteVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Loads resources in the specified version to the draft flow."]
-        #[doc = ""]
-        #[doc = " This method is a [long-running"]
-        #[doc = " operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation)."]
-        #[doc = " The returned `Operation` type has the following method-specific fields:"]
-        #[doc = ""]
-        #[doc = " - `metadata`: An empty [Struct"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)"]
-        #[doc = " - `response`: An [Empty"]
-        #[doc = "   message](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#empty)"]
-        pub async fn load_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::LoadVersionRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Versions/LoadVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Compares the specified base version with target version."]
-        pub async fn compare_versions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CompareVersionsRequest>,
-        ) -> Result<tonic::Response<super::CompareVersionsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.Versions/CompareVersions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// The request message for \[SecuritySettingsService.GetSecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettingsService.GetSecuritySettings\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetSecuritySettingsRequest {
-    /// Required. Resource name of the settings.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/securitySettings/<security settings ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for \[SecuritySettingsService.UpdateSecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettingsService.UpdateSecuritySettings\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateSecuritySettingsRequest {
-    /// Required. \[SecuritySettings\] object that contains values for each of the
-    /// fields to update.
-    #[prost(message, optional, tag = "1")]
-    pub security_settings: ::core::option::Option<SecuritySettings>,
-    /// Required. The mask to control which fields get updated. If the mask is not present,
-    /// all fields will be updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request message for \[SecuritySettings.ListSecuritySettings][\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSecuritySettingsRequest {
-    /// Required. The location to list all security settings for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return in a single page. By default 20 and
-    /// at most 100.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response message for \[SecuritySettings.ListSecuritySettings][\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSecuritySettingsResponse {
-    /// The list of security settings.
-    #[prost(message, repeated, tag = "1")]
-    pub security_settings: ::prost::alloc::vec::Vec<SecuritySettings>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for \[SecuritySettings.CreateSecuritySettings][\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateSecuritySettingsRequest {
-    /// Required. The location to create an \[SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings\] for.
-    /// Format: `projects/<Project ID>/locations/<Location ID>`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The security settings to create.
-    #[prost(message, optional, tag = "2")]
-    pub security_settings: ::core::option::Option<SecuritySettings>,
-}
-/// The request message for \[SecuritySettings.DeleteSecuritySettings][\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteSecuritySettingsRequest {
-    /// Required. The name of the \[SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings\] to delete.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/securitySettings/<Security Settings ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Represents the settings related to security issues, such as data redaction
-/// and data retention. It may take hours for updates on the settings to
-/// propagate to all the related components and take effect.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SecuritySettings {
-    /// Resource name of the settings.
-    /// Required for the \[SecuritySettingsService.UpdateSecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettingsService.UpdateSecuritySettings\] method.
-    /// \[SecuritySettingsService.CreateSecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettingsService.CreateSecuritySettings\] populates the name
-    /// automatically.
-    /// Format: `projects/<Project ID>/locations/<Location
-    /// ID>/securitySettings/<Security Settings ID>`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The human-readable name of the security settings, unique within the
-    /// location.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Strategy that defines how we do redaction.
-    #[prost(enumeration = "security_settings::RedactionStrategy", tag = "3")]
-    pub redaction_strategy: i32,
-    /// Defines the data for which Dialogflow applies redaction. Dialogflow does
-    /// not redact data that it does not have access to – for example, Cloud
-    /// logging.
-    #[prost(enumeration = "security_settings::RedactionScope", tag = "4")]
-    pub redaction_scope: i32,
-    /// \[DLP\](<https://cloud.google.com/dlp/docs>) inspect template name. Use this
-    /// template to define inspect base settings.
-    ///
-    /// The `DLP Inspect Templates Reader` role is needed on the Dialogflow
-    /// service identity service account (has the form
-    /// `service-PROJECT_NUMBER@gcp-sa-dialogflow.iam.gserviceaccount.com`)
-    /// for your agent's project.
-    ///
-    /// If empty, we use the default DLP inspect config.
-    ///
-    /// The template name will have one of the following formats:
-    /// `projects/<Project ID>/locations/<Location ID>/inspectTemplates/<Template
-    /// ID>` OR `organizations/<Organization ID>/locations/<Location
-    /// ID>/inspectTemplates/<Template ID>`
-    ///
-    /// Note: `inspect_template` must be located in the same region as the
-    /// `SecuritySettings`.
-    #[prost(string, tag = "9")]
-    pub inspect_template: ::prost::alloc::string::String,
-    /// \[DLP\](<https://cloud.google.com/dlp/docs>) deidentify template name. Use this
-    /// template to define de-identification configuration for the content.
-    ///
-    /// The `DLP De-identify Templates Reader` role is needed on the Dialogflow
-    /// service identity service account (has the form
-    /// `service-PROJECT_NUMBER@gcp-sa-dialogflow.iam.gserviceaccount.com`)
-    /// for your agent's project.
-    ///
-    /// If empty, Dialogflow replaces sensitive info with `\[redacted\]` text.
-    ///
-    /// The template name will have one of the following formats:
-    /// `projects/<Project ID>/locations/<Location
-    /// ID>/deidentifyTemplates/<Template ID>` OR `organizations/<Organization
-    /// ID>/locations/<Location ID>/deidentifyTemplates/<Template ID>`
-    ///
-    /// Note: `deidentify_template` must be located in the same region as the
-    /// `SecuritySettings`.
-    #[prost(string, tag = "17")]
-    pub deidentify_template: ::prost::alloc::string::String,
-    /// List of types of data to remove when retention settings triggers purge.
-    #[prost(enumeration = "security_settings::PurgeDataType", repeated, tag = "8")]
-    pub purge_data_types: ::prost::alloc::vec::Vec<i32>,
-    /// Controls conversation exporting settings to Insights after conversation is
-    /// completed.
-    ///
-    /// If \[retention_strategy][google.cloud.dialogflow.cx.v3.SecuritySettings.retention_strategy\] is set to REMOVE_AFTER_CONVERSATION,
-    /// Insights export is disabled no matter what you configure here.
-    #[prost(message, optional, tag = "13")]
-    pub insights_export_settings: ::core::option::Option<security_settings::InsightsExportSettings>,
-    /// Specifies how data is retained. Note that even if the data is
-    /// purged due to retention policy, we may still hold it in backup storage for
-    /// a few days without allowing direct readings.
-    #[prost(oneof = "security_settings::DataRetention", tags = "6")]
-    pub data_retention: ::core::option::Option<security_settings::DataRetention>,
-}
-/// Nested message and enum types in `SecuritySettings`.
-pub mod security_settings {
-    /// Settings for exporting conversations to
-    /// \[Insights\](<https://cloud.google.com/contact-center/insights/docs>).
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct InsightsExportSettings {
-        /// If enabled, we will automatically exports
-        /// conversations to Insights and Insights runs its analyzers.
-        #[prost(bool, tag = "1")]
-        pub enable_insights_export: bool,
-    }
-    /// Defines how we redact data.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RedactionStrategy {
-        /// Do not redact.
-        Unspecified = 0,
-        /// Call redaction service to clean up the data to be persisted.
-        RedactWithService = 1,
-    }
-    /// Defines what types of data to redact.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RedactionScope {
-        /// Don't redact any kind of data.
-        Unspecified = 0,
-        /// On data to be written to disk or similar devices that are capable of
-        /// holding data even if power is disconnected. This includes data that are
-        /// temporarily saved on disk.
-        RedactDiskStorage = 2,
-    }
-    /// Type of data we purge after retention settings triggers purge.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PurgeDataType {
-        /// Unspecified. Do not use.
-        Unspecified = 0,
-        /// Dialogflow history. This does not include Cloud logging, which is
-        /// owned by the user - not Dialogflow.
-        DialogflowHistory = 1,
-    }
-    /// Specifies how data is retained. Note that even if the data is
-    /// purged due to retention policy, we may still hold it in backup storage for
-    /// a few days without allowing direct readings.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum DataRetention {
-        /// Retains data in interaction logging for the specified number of days.
-        /// This does not apply to Cloud logging, which is owned by the user - not
-        /// Dialogflow.
-        /// User must set a value lower than Dialogflow's default 365d TTL. Setting a
-        /// value higher than that has no effect.
-        /// A missing value or setting to 0 also means we use Dialogflow's default
-        /// TTL.
-        /// Note: Interaction logging is a limited access feature. Talk to your
-        /// Google representative to check availability for you.
-        #[prost(int32, tag = "6")]
-        RetentionWindowDays(i32),
-    }
-}
-#[doc = r" Generated client implementations."]
-pub mod security_settings_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Service for managing security settings for Dialogflow."]
-    #[derive(Debug, Clone)]
-    pub struct SecuritySettingsServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> SecuritySettingsServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> SecuritySettingsServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            SecuritySettingsServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Create security settings in the specified location."]
-        pub async fn create_security_settings(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateSecuritySettingsRequest>,
-        ) -> Result<tonic::Response<super::SecuritySettings>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/CreateSecuritySettings",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves the specified [SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings]."]
-        #[doc = " The returned settings may be stale by up to 1 minute."]
-        pub async fn get_security_settings(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetSecuritySettingsRequest>,
-        ) -> Result<tonic::Response<super::SecuritySettings>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/GetSecuritySettings",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the specified [SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings]."]
-        pub async fn update_security_settings(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateSecuritySettingsRequest>,
-        ) -> Result<tonic::Response<super::SecuritySettings>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/UpdateSecuritySettings",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Returns the list of all security settings in the specified location."]
-        pub async fn list_security_settings(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListSecuritySettingsRequest>,
-        ) -> Result<tonic::Response<super::ListSecuritySettingsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/ListSecuritySettings",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes the specified [SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings]."]
-        pub async fn delete_security_settings(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteSecuritySettingsRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/DeleteSecuritySettings",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -8666,6 +8323,349 @@ pub mod deployments_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dialogflow.cx.v3.Deployments/GetDeployment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// The request message for \[SecuritySettingsService.GetSecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettingsService.GetSecuritySettings\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetSecuritySettingsRequest {
+    /// Required. Resource name of the settings.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/securitySettings/<security settings ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for \[SecuritySettingsService.UpdateSecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettingsService.UpdateSecuritySettings\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateSecuritySettingsRequest {
+    /// Required. \[SecuritySettings\] object that contains values for each of the
+    /// fields to update.
+    #[prost(message, optional, tag = "1")]
+    pub security_settings: ::core::option::Option<SecuritySettings>,
+    /// Required. The mask to control which fields get updated. If the mask is not present,
+    /// all fields will be updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request message for \[SecuritySettings.ListSecuritySettings][\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSecuritySettingsRequest {
+    /// Required. The location to list all security settings for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return in a single page. By default 20 and
+    /// at most 100.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response message for \[SecuritySettings.ListSecuritySettings][\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSecuritySettingsResponse {
+    /// The list of security settings.
+    #[prost(message, repeated, tag = "1")]
+    pub security_settings: ::prost::alloc::vec::Vec<SecuritySettings>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for \[SecuritySettings.CreateSecuritySettings][\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateSecuritySettingsRequest {
+    /// Required. The location to create an \[SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings\] for.
+    /// Format: `projects/<Project ID>/locations/<Location ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The security settings to create.
+    #[prost(message, optional, tag = "2")]
+    pub security_settings: ::core::option::Option<SecuritySettings>,
+}
+/// The request message for \[SecuritySettings.DeleteSecuritySettings][\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteSecuritySettingsRequest {
+    /// Required. The name of the \[SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings\] to delete.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/securitySettings/<Security Settings ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Represents the settings related to security issues, such as data redaction
+/// and data retention. It may take hours for updates on the settings to
+/// propagate to all the related components and take effect.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SecuritySettings {
+    /// Resource name of the settings.
+    /// Required for the \[SecuritySettingsService.UpdateSecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettingsService.UpdateSecuritySettings\] method.
+    /// \[SecuritySettingsService.CreateSecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettingsService.CreateSecuritySettings\] populates the name
+    /// automatically.
+    /// Format: `projects/<Project ID>/locations/<Location
+    /// ID>/securitySettings/<Security Settings ID>`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The human-readable name of the security settings, unique within the
+    /// location.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Strategy that defines how we do redaction.
+    #[prost(enumeration = "security_settings::RedactionStrategy", tag = "3")]
+    pub redaction_strategy: i32,
+    /// Defines the data for which Dialogflow applies redaction. Dialogflow does
+    /// not redact data that it does not have access to – for example, Cloud
+    /// logging.
+    #[prost(enumeration = "security_settings::RedactionScope", tag = "4")]
+    pub redaction_scope: i32,
+    /// \[DLP\](<https://cloud.google.com/dlp/docs>) inspect template name. Use this
+    /// template to define inspect base settings.
+    ///
+    /// The `DLP Inspect Templates Reader` role is needed on the Dialogflow
+    /// service identity service account (has the form
+    /// `service-PROJECT_NUMBER@gcp-sa-dialogflow.iam.gserviceaccount.com`)
+    /// for your agent's project.
+    ///
+    /// If empty, we use the default DLP inspect config.
+    ///
+    /// The template name will have one of the following formats:
+    /// `projects/<Project ID>/locations/<Location ID>/inspectTemplates/<Template
+    /// ID>` OR `organizations/<Organization ID>/locations/<Location
+    /// ID>/inspectTemplates/<Template ID>`
+    ///
+    /// Note: `inspect_template` must be located in the same region as the
+    /// `SecuritySettings`.
+    #[prost(string, tag = "9")]
+    pub inspect_template: ::prost::alloc::string::String,
+    /// \[DLP\](<https://cloud.google.com/dlp/docs>) deidentify template name. Use this
+    /// template to define de-identification configuration for the content.
+    ///
+    /// The `DLP De-identify Templates Reader` role is needed on the Dialogflow
+    /// service identity service account (has the form
+    /// `service-PROJECT_NUMBER@gcp-sa-dialogflow.iam.gserviceaccount.com`)
+    /// for your agent's project.
+    ///
+    /// If empty, Dialogflow replaces sensitive info with `\[redacted\]` text.
+    ///
+    /// The template name will have one of the following formats:
+    /// `projects/<Project ID>/locations/<Location
+    /// ID>/deidentifyTemplates/<Template ID>` OR `organizations/<Organization
+    /// ID>/locations/<Location ID>/deidentifyTemplates/<Template ID>`
+    ///
+    /// Note: `deidentify_template` must be located in the same region as the
+    /// `SecuritySettings`.
+    #[prost(string, tag = "17")]
+    pub deidentify_template: ::prost::alloc::string::String,
+    /// List of types of data to remove when retention settings triggers purge.
+    #[prost(enumeration = "security_settings::PurgeDataType", repeated, tag = "8")]
+    pub purge_data_types: ::prost::alloc::vec::Vec<i32>,
+    /// Controls conversation exporting settings to Insights after conversation is
+    /// completed.
+    ///
+    /// If \[retention_strategy][google.cloud.dialogflow.cx.v3.SecuritySettings.retention_strategy\] is set to REMOVE_AFTER_CONVERSATION,
+    /// Insights export is disabled no matter what you configure here.
+    #[prost(message, optional, tag = "13")]
+    pub insights_export_settings: ::core::option::Option<security_settings::InsightsExportSettings>,
+    /// Specifies how data is retained. Note that even if the data is
+    /// purged due to retention policy, we may still hold it in backup storage for
+    /// a few days without allowing direct readings.
+    #[prost(oneof = "security_settings::DataRetention", tags = "6")]
+    pub data_retention: ::core::option::Option<security_settings::DataRetention>,
+}
+/// Nested message and enum types in `SecuritySettings`.
+pub mod security_settings {
+    /// Settings for exporting conversations to
+    /// \[Insights\](<https://cloud.google.com/contact-center/insights/docs>).
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct InsightsExportSettings {
+        /// If enabled, we will automatically exports
+        /// conversations to Insights and Insights runs its analyzers.
+        #[prost(bool, tag = "1")]
+        pub enable_insights_export: bool,
+    }
+    /// Defines how we redact data.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RedactionStrategy {
+        /// Do not redact.
+        Unspecified = 0,
+        /// Call redaction service to clean up the data to be persisted.
+        RedactWithService = 1,
+    }
+    /// Defines what types of data to redact.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RedactionScope {
+        /// Don't redact any kind of data.
+        Unspecified = 0,
+        /// On data to be written to disk or similar devices that are capable of
+        /// holding data even if power is disconnected. This includes data that are
+        /// temporarily saved on disk.
+        RedactDiskStorage = 2,
+    }
+    /// Type of data we purge after retention settings triggers purge.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PurgeDataType {
+        /// Unspecified. Do not use.
+        Unspecified = 0,
+        /// Dialogflow history. This does not include Cloud logging, which is
+        /// owned by the user - not Dialogflow.
+        DialogflowHistory = 1,
+    }
+    /// Specifies how data is retained. Note that even if the data is
+    /// purged due to retention policy, we may still hold it in backup storage for
+    /// a few days without allowing direct readings.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum DataRetention {
+        /// Retains data in interaction logging for the specified number of days.
+        /// This does not apply to Cloud logging, which is owned by the user - not
+        /// Dialogflow.
+        /// User must set a value lower than Dialogflow's default 365d TTL. Setting a
+        /// value higher than that has no effect.
+        /// A missing value or setting to 0 also means we use Dialogflow's default
+        /// TTL.
+        /// Note: Interaction logging is a limited access feature. Talk to your
+        /// Google representative to check availability for you.
+        #[prost(int32, tag = "6")]
+        RetentionWindowDays(i32),
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod security_settings_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Service for managing security settings for Dialogflow."]
+    #[derive(Debug, Clone)]
+    pub struct SecuritySettingsServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> SecuritySettingsServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> SecuritySettingsServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            SecuritySettingsServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Create security settings in the specified location."]
+        pub async fn create_security_settings(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateSecuritySettingsRequest>,
+        ) -> Result<tonic::Response<super::SecuritySettings>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/CreateSecuritySettings",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves the specified [SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings]."]
+        #[doc = " The returned settings may be stale by up to 1 minute."]
+        pub async fn get_security_settings(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetSecuritySettingsRequest>,
+        ) -> Result<tonic::Response<super::SecuritySettings>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/GetSecuritySettings",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the specified [SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings]."]
+        pub async fn update_security_settings(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateSecuritySettingsRequest>,
+        ) -> Result<tonic::Response<super::SecuritySettings>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/UpdateSecuritySettings",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Returns the list of all security settings in the specified location."]
+        pub async fn list_security_settings(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListSecuritySettingsRequest>,
+        ) -> Result<tonic::Response<super::ListSecuritySettingsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/ListSecuritySettings",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the specified [SecuritySettings][google.cloud.dialogflow.cx.v3.SecuritySettings]."]
+        pub async fn delete_security_settings(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteSecuritySettingsRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3.SecuritySettingsService/DeleteSecuritySettings",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

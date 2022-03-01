@@ -5,7 +5,10 @@
 ))]
 pub mod expr;
 
-#[cfg(any(feature = "google-api-servicecontrol-v1",))]
+#[cfg(any(
+    feature = "google-api-servicecontrol-v1",
+    feature = "google-api-servicecontrol-v2",
+))]
 pub mod servicecontrol;
 
 #[cfg(any(feature = "google-api-servicemanagement-v1",))]

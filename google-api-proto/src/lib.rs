@@ -36,6 +36,7 @@ pub mod ccc;
     feature = "google-api-expr-v1alpha1",
     feature = "google-api-expr-v1beta1",
     feature = "google-api-servicecontrol-v1",
+    feature = "google-api-servicecontrol-v2",
     feature = "google-api-servicemanagement-v1",
     feature = "google-api-serviceusage-v1",
     feature = "google-api-serviceusage-v1beta1",
