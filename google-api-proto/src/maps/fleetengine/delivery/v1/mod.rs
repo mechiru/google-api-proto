@@ -449,10 +449,10 @@ pub struct Task {
     ///
     /// * Tracking IDs must be valid Unicode strings.
     /// * Tracking IDs are limited to a maximum length of 64 characters.
-    /// * Tracking IDs will be normalized according to Unicode Normalization Form C
+    /// * Tracking IDs must be normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
     /// * Tracking IDs may not contain any of the following ASCII characters: '/',
-    /// ':', '\\', '?', or '#'.
+    /// ':', '?', ',', or '#'.
     #[prost(string, tag = "4")]
     pub tracking_id: ::prost::alloc::string::String,
     /// Output only. The ID of the vehicle that is executing this Task.
@@ -576,10 +576,10 @@ pub struct CreateDeliveryVehicleRequest {
     ///
     /// * IDs must be valid Unicode strings.
     /// * IDs are limited to a maximum length of 64 characters.
-    /// * IDs will be normalized according to Unicode Normalization Form C
+    /// * IDs must be normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
     /// * IDs may not contain any of the following ASCII characters: '/', ':',
-    /// '\\', '?', or '#'.
+    /// '?', ',', or '#'.
     #[prost(string, tag = "4")]
     pub delivery_vehicle_id: ::prost::alloc::string::String,
     /// Required. The `DeliveryVehicle` entity to create. When creating a new delivery
@@ -698,10 +698,10 @@ pub struct CreateTaskRequest {
     ///
     /// * Task IDs must be valid Unicode strings.
     /// * Task IDs are limited to a maximum length of 64 characters.
-    /// * Task IDs will be normalized according to Unicode Normalization Form C
+    /// * Task IDs must be normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
     /// * Task IDs may not contain any of the following ASCII characters: '/',
-    /// ':', '\\', '?', or '#'.
+    /// ':', '?', ',', or '#'.
     #[prost(string, tag = "5")]
     pub task_id: ::prost::alloc::string::String,
     /// Required. The Task entity to create.

@@ -213,6 +213,97 @@ pub mod asset {
         pub policy_blob: ::prost::alloc::string::String,
     }
 }
+/// Response of asset discovery run
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RunAssetDiscoveryResponse {
+    /// The state of an asset discovery run.
+    #[prost(enumeration = "run_asset_discovery_response::State", tag = "1")]
+    pub state: i32,
+    /// The duration between asset discovery run start and end
+    #[prost(message, optional, tag = "2")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
+}
+/// Nested message and enum types in `RunAssetDiscoveryResponse`.
+pub mod run_asset_discovery_response {
+    /// The state of an asset discovery run.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Asset discovery run state was unspecified.
+        Unspecified = 0,
+        /// Asset discovery run completed successfully.
+        Completed = 1,
+        /// Asset discovery run was cancelled with tasks still pending, as another
+        /// run for the same organization was started with a higher priority.
+        Superseded = 2,
+        /// Asset discovery run was killed and terminated.
+        Terminated = 3,
+    }
+}
+/// Configures how to deliver Findings to BigQuery Instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryExport {
+    /// The relative resource name of this export. See:
+    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name.>
+    /// Example format:
+    /// "organizations/{organization_id}/bigQueryExports/{export_id}" Example
+    /// format: "folders/{folder_id}/bigQueryExports/{export_id}" Example format:
+    /// "projects/{project_id}/bigQueryExports/{export_id}"
+    /// This field is provided in responses, and is ignored when provided in create
+    /// requests.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The description of the export (max of 1024 characters).
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// Expression that defines the filter to apply across create/update events
+    /// of findings. The expression is a list of zero or more restrictions combined
+    /// via logical operators `AND` and `OR`. Parentheses are supported, and `OR`
+    /// has higher precedence than `AND`.
+    ///
+    /// Restrictions have the form `<field> <operator> <value>` and may have a
+    /// `-` character in front of them to indicate negation. The fields map to
+    /// those defined in the corresponding resource.
+    ///
+    /// The supported operators are:
+    ///
+    /// * `=` for all value types.
+    /// * `>`, `<`, `>=`, `<=` for integer values.
+    /// * `:`, meaning substring matching, for strings.
+    ///
+    /// The supported value types are:
+    ///
+    /// * string literals in quotes.
+    /// * integer literals without quotes.
+    /// * boolean literals `true` and `false` without quotes.
+    #[prost(string, tag = "3")]
+    pub filter: ::prost::alloc::string::String,
+    /// The dataset to write findings' updates to. Its format is
+    /// "projects/\[project_id]/datasets/[bigquery_dataset_id\]".
+    /// BigQuery Dataset unique ID  must contain only letters (a-z, A-Z), numbers
+    /// (0-9), or underscores (_).
+    #[prost(string, tag = "4")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. The time at which the big query export was created.
+    /// This field is set by the server and will be ignored if provided on export
+    /// on creation.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The most recent time at which the big export was updated.
+    /// This field is set by the server and will be ignored if provided on export
+    /// creation or update.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Email address of the user who last edited the big query
+    /// export. This field is set by the server and will be ignored if provided on
+    /// export creation or update.
+    #[prost(string, tag = "7")]
+    pub most_recent_editor: ::prost::alloc::string::String,
+    /// Output only. The service account that needs permission to create table,
+    /// upload data to the big query dataset.
+    #[prost(string, tag = "8")]
+    pub principal: ::prost::alloc::string::String,
+}
 /// Representation of third party SIEM/SOAR fields within SCC.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExternalSystem {
@@ -250,6 +341,135 @@ pub struct Indicator {
     #[prost(string, repeated, tag = "2")]
     pub domains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
+/// MITRE ATT&CK tactics and techniques related to this finding.
+/// See: <https://attack.mitre.org>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MitreAttack {
+    /// The MITRE ATT&CK tactic most closely represented by this finding, if any.
+    #[prost(enumeration = "mitre_attack::Tactic", tag = "1")]
+    pub primary_tactic: i32,
+    /// The MITRE ATT&CK technique most closely represented by this finding, if
+    /// any. primary_techniques is a repeated field because there are multiple
+    /// levels of MITRE ATT&CK techniques.  If the technique most closely
+    /// represented by this finding is a sub-technique (e.g. `SCANNING_IP_BLOCKS`),
+    /// both the sub-technique and its parent technique(s) will be listed (e.g.
+    /// `SCANNING_IP_BLOCKS`, `ACTIVE_SCANNING`).
+    #[prost(enumeration = "mitre_attack::Technique", repeated, tag = "2")]
+    pub primary_techniques: ::prost::alloc::vec::Vec<i32>,
+    /// Additional MITRE ATT&CK tactics related to this finding, if any.
+    #[prost(enumeration = "mitre_attack::Tactic", repeated, tag = "3")]
+    pub additional_tactics: ::prost::alloc::vec::Vec<i32>,
+    /// Additional MITRE ATT&CK techniques related to this finding, if any, along
+    /// with any of their respective parent techniques.
+    #[prost(enumeration = "mitre_attack::Technique", repeated, tag = "4")]
+    pub additional_techniques: ::prost::alloc::vec::Vec<i32>,
+    /// The MITRE ATT&CK version referenced by the above fields. E.g. "8".
+    #[prost(string, tag = "5")]
+    pub version: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `MitreAttack`.
+pub mod mitre_attack {
+    /// MITRE ATT&CK tactics that can be referenced by SCC findings.
+    /// See: <https://attack.mitre.org/tactics/enterprise/>
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Tactic {
+        /// Unspecified value.
+        Unspecified = 0,
+        /// TA0043
+        Reconnaissance = 1,
+        /// TA0042
+        ResourceDevelopment = 2,
+        /// TA0001
+        InitialAccess = 5,
+        /// TA0002
+        Execution = 3,
+        /// TA0003
+        Persistence = 6,
+        /// TA0004
+        PrivilegeEscalation = 8,
+        /// TA0005
+        DefenseEvasion = 7,
+        /// TA0006
+        CredentialAccess = 9,
+        /// TA0007
+        Discovery = 10,
+        /// TA0008
+        LateralMovement = 11,
+        /// TA0009
+        Collection = 12,
+        /// TA0011
+        CommandAndControl = 4,
+        /// TA0010
+        Exfiltration = 13,
+        /// TA0040
+        Impact = 14,
+    }
+    /// MITRE ATT&CK techniques that can be referenced by SCC findings.
+    /// See: <https://attack.mitre.org/techniques/enterprise/>
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Technique {
+        /// Unspecified value.
+        Unspecified = 0,
+        /// T1595
+        ActiveScanning = 1,
+        /// T1595.001
+        ScanningIpBlocks = 2,
+        /// T1105
+        IngressToolTransfer = 3,
+        /// T1106
+        NativeApi = 4,
+        /// T1129
+        SharedModules = 5,
+        /// T1059
+        CommandAndScriptingInterpreter = 6,
+        /// T1059.004
+        UnixShell = 7,
+        /// T1496
+        ResourceHijacking = 8,
+        /// T1090
+        Proxy = 9,
+        /// T1090.002
+        ExternalProxy = 10,
+        /// T1090.003
+        MultiHopProxy = 11,
+        /// T1568
+        DynamicResolution = 12,
+        /// T1552
+        UnsecuredCredentials = 13,
+        /// T1078
+        ValidAccounts = 14,
+        /// T1078.003
+        LocalAccounts = 15,
+        /// T1078.004
+        CloudAccounts = 16,
+        /// T1498
+        NetworkDenialOfService = 17,
+        /// T1069
+        PermissionGroupsDiscovery = 18,
+        /// T1069.003
+        CloudGroups = 19,
+        /// T1567
+        ExfiltrationOverWebService = 20,
+        /// T1567.002
+        ExfiltrationToCloudStorage = 21,
+        /// T1098
+        AccountManipulation = 22,
+        /// T1098.004
+        SshAuthorizedKeys = 23,
+        /// T1543
+        CreateOrModifySystemProcess = 24,
+        /// T1539
+        StealWebSessionCookie = 25,
+        /// T1578
+        ModifyCloudComputeInfrastructure = 26,
+        /// T1190
+        ExploitPublicFacingApplication = 27,
+        /// T1556
+        ModifyAuthenticationProcess = 28,
+    }
+}
 /// Refers to common vulnerability fields e.g. cve, cvss, cwe etc.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Vulnerability {
@@ -273,6 +493,9 @@ pub struct Cve {
     /// <https://www.first.org/cvss/v3.1/specification-document>
     #[prost(message, optional, tag = "3")]
     pub cvssv3: ::core::option::Option<Cvssv3>,
+    /// Whether upstream fix is available for the CVE.
+    #[prost(bool, tag = "4")]
+    pub upstream_fix_available: bool,
 }
 /// Additional Links
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -537,11 +760,15 @@ pub struct Finding {
     /// Output only. The most recent time this finding was muted or unmuted.
     #[prost(message, optional, tag = "21")]
     pub mute_update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Third party SIEM/SOAR fields within SCC, contains external system
-    /// information and external system finding fields.
+    /// Output only. Third party SIEM/SOAR fields within SCC, contains external
+    /// system information and external system finding fields.
     #[prost(btree_map = "string, message", tag = "22")]
     pub external_systems:
         ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ExternalSystem>,
+    /// MITRE ATT&CK tactics and techniques related to this finding.
+    /// See: <https://attack.mitre.org>
+    #[prost(message, optional, tag = "25")]
+    pub mitre_attack: ::core::option::Option<MitreAttack>,
     /// Access details associated to the Finding, such as more information on the
     /// caller, which method was accessed, from where, etc.
     #[prost(message, optional, tag = "26")]
@@ -652,6 +879,8 @@ pub mod finding {
         Misconfiguration = 3,
         /// Describes a security observation that is for informational purposes.
         Observation = 4,
+        /// Describes an error that prevents some SCC functionality.
+        SccError = 5,
     }
 }
 /// A mute config is a Cloud SCC resource that contains the configuration
@@ -837,33 +1066,6 @@ pub mod organization_settings {
         }
     }
 }
-/// Response of asset discovery run
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RunAssetDiscoveryResponse {
-    /// The state of an asset discovery run.
-    #[prost(enumeration = "run_asset_discovery_response::State", tag = "1")]
-    pub state: i32,
-    /// The duration between asset discovery run start and end
-    #[prost(message, optional, tag = "2")]
-    pub duration: ::core::option::Option<::prost_types::Duration>,
-}
-/// Nested message and enum types in `RunAssetDiscoveryResponse`.
-pub mod run_asset_discovery_response {
-    /// The state of an asset discovery run.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Asset discovery run state was unspecified.
-        Unspecified = 0,
-        /// Asset discovery run completed successfully.
-        Completed = 1,
-        /// Asset discovery run was cancelled with tasks still pending, as another
-        /// run for the same organization was started with a higher priority.
-        Superseded = 2,
-        /// Asset discovery run was killed and terminated.
-        Terminated = 3,
-    }
-}
 /// Security Command Center finding source. A finding source
 /// is an entity or a mechanism that can produce a finding. A source is like a
 /// container of findings that come from the same scanner, logger, monitor, and
@@ -909,8 +1111,8 @@ pub struct Source {
 /// 2. Once a bulk operation is started, there is no way to stop it.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BulkMuteFindingsRequest {
-    /// Required. The parent, at which bulk action needs to be applied. Its format is
-    /// "organizations/\[organization_id\]", "folders/\[folder_id\]",
+    /// Required. The parent, at which bulk action needs to be applied. Its format
+    /// is "organizations/\[organization_id\]", "folders/\[folder_id\]",
     /// "projects/\[project_id\]".
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
@@ -957,8 +1159,8 @@ pub struct CreateFindingRequest {
     /// greater than 0 characters in length.
     #[prost(string, tag = "2")]
     pub finding_id: ::prost::alloc::string::String,
-    /// Required. The Finding being created. The name and security_marks will be ignored as
-    /// they are both output only fields on this resource.
+    /// Required. The Finding being created. The name and security_marks will be
+    /// ignored as they are both output only fields on this resource.
     #[prost(message, optional, tag = "3")]
     pub finding: ::core::option::Option<Finding>,
 }
@@ -983,8 +1185,8 @@ pub struct CreateMuteConfigRequest {
 /// Request message for creating a notification config.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateNotificationConfigRequest {
-    /// Required. Resource name of the new notification config's parent. Its format is
-    /// "organizations/\[organization_id\]".
+    /// Required. Resource name of the new notification config's parent. Its format
+    /// is "organizations/\[organization_id\]".
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
     /// Required.
@@ -993,8 +1195,9 @@ pub struct CreateNotificationConfigRequest {
     /// characters, underscores or hyphens only.
     #[prost(string, tag = "2")]
     pub config_id: ::prost::alloc::string::String,
-    /// Required. The notification config being created. The name and the service account
-    /// will be ignored as they are both output only fields on this resource.
+    /// Required. The notification config being created. The name and the service
+    /// account will be ignored as they are both output only fields on this
+    /// resource.
     #[prost(message, optional, tag = "3")]
     pub notification_config: ::core::option::Option<NotificationConfig>,
 }
@@ -1005,8 +1208,8 @@ pub struct CreateSourceRequest {
     /// "organizations/\[organization_id\]".
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. The Source being created, only the display_name and description will be
-    /// used. All other fields will be ignored.
+    /// Required. The Source being created, only the display_name and description
+    /// will be used. All other fields will be ignored.
     #[prost(message, optional, tag = "2")]
     pub source: ::core::option::Option<Source>,
 }
@@ -1025,6 +1228,16 @@ pub struct DeleteMuteConfigRequest {
 pub struct DeleteNotificationConfigRequest {
     /// Required. Name of the notification config to delete. Its format is
     /// "organizations/\[organization_id]/notificationConfigs/[config_id\]".
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for retrieving a big query export.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetBigQueryExportRequest {
+    /// Required. Name of the big query export to retrieve. Its format is
+    /// organizations/{organization}/bigQueryExports/{export_id},
+    /// folders/{folder}/bigQueryExports/{export_id}, or
+    /// projects/{project}/bigQueryExports/{export_id}
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
@@ -1049,8 +1262,8 @@ pub struct GetNotificationConfigRequest {
 /// Request message for getting organization settings.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOrganizationSettingsRequest {
-    /// Required. Name of the organization to get organization settings for. Its format is
-    /// "organizations/\[organization_id\]/organizationSettings".
+    /// Required. Name of the organization to get organization settings for. Its
+    /// format is "organizations/\[organization_id\]/organizationSettings".
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
@@ -1134,9 +1347,9 @@ pub struct GroupAssetsRequest {
     /// property not existing: `-resource_properties.my_property : ""`
     #[prost(string, tag = "2")]
     pub filter: ::prost::alloc::string::String,
-    /// Required. Expression that defines what assets fields to use for grouping. The string
-    /// value should follow SQL syntax: comma separated list of fields. For
-    /// example:
+    /// Required. Expression that defines what assets fields to use for grouping.
+    /// The string value should follow SQL syntax: comma separated list of fields.
+    /// For example:
     /// "security_center_properties.resource_project,security_center_properties.project".
     ///
     /// The following fields are supported when compare_duration is not set:
@@ -1291,9 +1504,9 @@ pub struct GroupFindingsRequest {
     ///   * resource.type: `=`, `:`
     #[prost(string, tag = "2")]
     pub filter: ::prost::alloc::string::String,
-    /// Required. Expression that defines what assets fields to use for grouping (including
-    /// `state_change`). The string value should follow SQL syntax: comma separated
-    /// list of fields. For example: "parent,resource_name".
+    /// Required. Expression that defines what assets fields to use for grouping
+    /// (including `state_change`). The string value should follow SQL syntax:
+    /// comma separated list of fields. For example: "parent,resource_name".
     ///
     /// The following fields are supported:
     ///
@@ -1392,8 +1605,8 @@ pub struct GroupResult {
 /// folder or project.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListMuteConfigsRequest {
-    /// Required. The parent, which owns the collection of mute configs. Its format is
-    /// "organizations/\[organization_id\]", "folders/\[folder_id\]",
+    /// Required. The parent, which owns the collection of mute configs. Its format
+    /// is "organizations/\[organization_id\]", "folders/\[folder_id\]",
     /// "projects/\[project_id\]".
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
@@ -1453,8 +1666,8 @@ pub struct ListNotificationConfigsResponse {
 /// Request message for listing sources.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSourcesRequest {
-    /// Required. Resource name of the parent of sources to list. Its format should be
-    /// "organizations/\[organization_id\], folders/\[folder_id\], or
+    /// Required. Resource name of the parent of sources to list. Its format should
+    /// be "organizations/\[organization_id\], folders/\[folder_id\], or
     /// projects/\[project_id\]".
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
@@ -1950,8 +2163,8 @@ pub struct SetMuteRequest {
 /// Request message for running asset discovery for an organization.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RunAssetDiscoveryRequest {
-    /// Required. Name of the organization to run asset discovery for. Its format is
-    /// "organizations/\[organization_id\]".
+    /// Required. Name of the organization to run asset discovery for. Its format
+    /// is "organizations/\[organization_id\]".
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
 }
@@ -1970,8 +2183,8 @@ pub struct UpdateExternalSystemRequest {
 /// Request message for updating or creating a finding.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateFindingRequest {
-    /// Required. The finding resource to update or create if it does not already exist.
-    /// parent, security_marks, and update_time will be ignored.
+    /// Required. The finding resource to update or create if it does not already
+    /// exist. parent, security_marks, and update_time will be ignored.
     ///
     /// In the case of creation, the finding id portion of the name must be
     /// alphanumeric and less than or equal to 32 characters and greater than 0
@@ -2054,6 +2267,78 @@ pub struct UpdateSecurityMarksRequest {
     /// smaller or equal to the server time.
     #[prost(message, optional, tag = "3")]
     pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Request message for creating a big query export.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateBigQueryExportRequest {
+    /// Required. Resource name of the new big query export's parent. Its format is
+    /// "organizations/\[organization_id\]", "folders/\[folder_id\]", or
+    /// "projects/\[project_id\]".
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The big query export being created.
+    #[prost(message, optional, tag = "2")]
+    pub big_query_export: ::core::option::Option<BigQueryExport>,
+    /// Required. Unique identifier provided by the client within the parent scope.
+    /// It must consist of lower case letters, numbers, and hyphen, with the first
+    /// character a letter, the last a letter or a number, and a 63 character
+    /// maximum.
+    #[prost(string, tag = "3")]
+    pub big_query_export_id: ::prost::alloc::string::String,
+}
+/// Request message for updating a BigQuery export.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateBigQueryExportRequest {
+    /// Required. The BigQuery export being updated.
+    #[prost(message, optional, tag = "1")]
+    pub big_query_export: ::core::option::Option<BigQueryExport>,
+    /// The list of fields to be updated.
+    /// If empty all mutable fields will be updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for listing  BigQuery exports at a given scope e.g.
+/// organization, folder or project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListBigQueryExportsRequest {
+    /// Required. The parent, which owns the collection of BigQuery exports. Its
+    /// format is "organizations/\[organization_id\]", "folders/\[folder_id\]",
+    /// "projects/\[project_id\]".
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of configs to return. The service may return fewer than
+    /// this value.
+    /// If unspecified, at most 10 configs will be returned.
+    /// The maximum value is 1000; values above 1000 will be coerced to 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `ListBigQueryExports` call.
+    /// Provide this to retrieve the subsequent page.
+    /// When paginating, all other parameters provided to `ListBigQueryExports`
+    /// must match the call that provided the page token.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for listing BigQuery exports.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListBigQueryExportsResponse {
+    /// The BigQuery exports from the specified parent.
+    #[prost(message, repeated, tag = "1")]
+    pub big_query_exports: ::prost::alloc::vec::Vec<BigQueryExport>,
+    /// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for deleting a big query export.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteBigQueryExportRequest {
+    /// Required. Name of the big query export to delete. Its format is
+    /// organizations/{organization}/bigQueryExports/{export_id},
+    /// folders/{folder}/bigQueryExports/{export_id}, or
+    /// projects/{project}/bigQueryExports/{export_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
 }
 #[doc = r" Generated client implementations."]
 pub mod security_center_client {
@@ -2227,6 +2512,23 @@ pub mod security_center_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.securitycenter.v1.SecurityCenter/DeleteNotificationConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets a big query export."]
+        pub async fn get_big_query_export(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetBigQueryExportRequest>,
+        ) -> Result<tonic::Response<super::BigQueryExport>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.securitycenter.v1.SecurityCenter/GetBigQueryExport",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -2664,6 +2966,78 @@ pub mod security_center_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.securitycenter.v1.SecurityCenter/UpdateSecurityMarks",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a big query export."]
+        pub async fn create_big_query_export(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateBigQueryExportRequest>,
+        ) -> Result<tonic::Response<super::BigQueryExport>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.securitycenter.v1.SecurityCenter/CreateBigQueryExport",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes an existing big query export."]
+        pub async fn delete_big_query_export(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteBigQueryExportRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.securitycenter.v1.SecurityCenter/DeleteBigQueryExport",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates a BigQuery export."]
+        pub async fn update_big_query_export(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateBigQueryExportRequest>,
+        ) -> Result<tonic::Response<super::BigQueryExport>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.securitycenter.v1.SecurityCenter/UpdateBigQueryExport",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists BigQuery exports. Note that when requesting BigQuery exports at a"]
+        #[doc = " given level all exports under that level are also returned e.g. if"]
+        #[doc = " requesting BigQuery exports under a folder, then all BigQuery exports"]
+        #[doc = " immediately under the folder plus the ones created under the projects"]
+        #[doc = " within the folder are returned."]
+        pub async fn list_big_query_exports(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListBigQueryExportsRequest>,
+        ) -> Result<tonic::Response<super::ListBigQueryExportsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.securitycenter.v1.SecurityCenter/ListBigQueryExports",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
