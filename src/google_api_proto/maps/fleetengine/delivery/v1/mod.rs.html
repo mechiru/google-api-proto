@@ -1512,10 +1512,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// * Tracking IDs must be valid Unicode strings.</span>
     <span class="doccomment">/// * Tracking IDs are limited to a maximum length of 64 characters.</span>
-    <span class="doccomment">/// * Tracking IDs will be normalized according to Unicode Normalization Form C</span>
+    <span class="doccomment">/// * Tracking IDs must be normalized according to Unicode Normalization Form C</span>
     <span class="doccomment">/// (&lt;http://www.unicode.org/reports/tr15/&gt;).</span>
     <span class="doccomment">/// * Tracking IDs may not contain any of the following ASCII characters: &#39;/&#39;,</span>
-    <span class="doccomment">/// &#39;:&#39;, &#39;\\&#39;, &#39;?&#39;, or &#39;#&#39;.</span>
+    <span class="doccomment">/// &#39;:&#39;, &#39;?&#39;, &#39;,&#39;, or &#39;#&#39;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">tracking_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Output only. The ID of the vehicle that is executing this Task.</span>
@@ -1639,10 +1639,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// * IDs must be valid Unicode strings.</span>
     <span class="doccomment">/// * IDs are limited to a maximum length of 64 characters.</span>
-    <span class="doccomment">/// * IDs will be normalized according to Unicode Normalization Form C</span>
+    <span class="doccomment">/// * IDs must be normalized according to Unicode Normalization Form C</span>
     <span class="doccomment">/// (&lt;http://www.unicode.org/reports/tr15/&gt;).</span>
     <span class="doccomment">/// * IDs may not contain any of the following ASCII characters: &#39;/&#39;, &#39;:&#39;,</span>
-    <span class="doccomment">/// &#39;\\&#39;, &#39;?&#39;, or &#39;#&#39;.</span>
+    <span class="doccomment">/// &#39;?&#39;, &#39;,&#39;, or &#39;#&#39;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">delivery_vehicle_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Required. The `DeliveryVehicle` entity to create. When creating a new delivery</span>
@@ -1761,10 +1761,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// * Task IDs must be valid Unicode strings.</span>
     <span class="doccomment">/// * Task IDs are limited to a maximum length of 64 characters.</span>
-    <span class="doccomment">/// * Task IDs will be normalized according to Unicode Normalization Form C</span>
+    <span class="doccomment">/// * Task IDs must be normalized according to Unicode Normalization Form C</span>
     <span class="doccomment">/// (&lt;http://www.unicode.org/reports/tr15/&gt;).</span>
     <span class="doccomment">/// * Task IDs may not contain any of the following ASCII characters: &#39;/&#39;,</span>
-    <span class="doccomment">/// &#39;:&#39;, &#39;\\&#39;, &#39;?&#39;, or &#39;#&#39;.</span>
+    <span class="doccomment">/// &#39;:&#39;, &#39;?&#39;, &#39;,&#39;, or &#39;#&#39;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">task_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Required. The Task entity to create.</span>

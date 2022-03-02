@@ -3612,6 +3612,9 @@
 <span id="3610">3610</span>
 <span id="3611">3611</span>
 <span id="3612">3612</span>
+<span id="3613">3613</span>
+<span id="3614">3614</span>
+<span id="3615">3615</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-api-expr-conformance-v1alpha1&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-api-expr-v1alpha1&quot;</span>,
@@ -3619,7 +3622,10 @@
 ))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">expr</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-api-servicecontrol-v1&quot;</span>,))]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-api-servicecontrol-v1&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-api-servicecontrol-v2&quot;</span>,
+))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">servicecontrol</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-api-servicemanagement-v1&quot;</span>,))]</span>

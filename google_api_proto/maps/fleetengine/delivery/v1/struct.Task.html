@@ -39,10 +39,10 @@ following restrictions:</p>
 <ul>
 <li>Tracking IDs must be valid Unicode strings.</li>
 <li>Tracking IDs are limited to a maximum length of 64 characters.</li>
-<li>Tracking IDs will be normalized according to Unicode Normalization Form C
+<li>Tracking IDs must be normalized according to Unicode Normalization Form C
 (<a href="http://www.unicode.org/reports/tr15/">http://www.unicode.org/reports/tr15/</a>).</li>
 <li>Tracking IDs may not contain any of the following ASCII characters: ‘/’,
-‘:’, ‘\’, ‘?’, or ‘#’.</li>
+‘:’, ‘?’, ‘,’, or ‘#’.</li>
 </ul>
 </div><span id="structfield.delivery_vehicle_id" class="structfield small-section-header"><a href="#structfield.delivery_vehicle_id" class="anchor field"></a><code>delivery_vehicle_id: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span><div class="docblock"><p>Output only. The ID of the vehicle that is executing this Task.</p>
 </div><span id="structfield.planned_location" class="structfield small-section-header"><a href="#structfield.planned_location" class="anchor field"></a><code>planned_location: <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="struct.LocationInfo.html" title="struct google_api_proto::maps::fleetengine::delivery::v1::LocationInfo">LocationInfo</a>&gt;</code></span><div class="docblock"><p>Immutable. The location where the Task will be completed.

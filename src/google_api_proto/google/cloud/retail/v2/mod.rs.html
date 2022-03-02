@@ -5886,58 +5886,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Metadata related to the progress of the Purge operation.</span>
-<span class="doccomment">/// This will be returned by the google.longrunning.Operation.metadata field.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeMetadata</span> {}
-<span class="doccomment">/// Request message for PurgeUserEvents method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeUserEventsRequest</span> {
-    <span class="doccomment">/// Required. The resource name of the catalog under which the events are</span>
-    <span class="doccomment">/// created. The format is</span>
-    <span class="doccomment">/// `projects/${projectId}/locations/global/catalogs/${catalogId}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The filter string to specify the events to be deleted with a</span>
-    <span class="doccomment">/// length limit of 5,000 characters. Empty string filter is not allowed. The</span>
-    <span class="doccomment">/// eligible fields for filtering are:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `eventType`: Double quoted</span>
-    <span class="doccomment">/// \[UserEvent.event_type][google.cloud.retail.v2.UserEvent.event_type\] string.</span>
-    <span class="doccomment">/// * `eventTime`: in ISO 8601 &quot;zulu&quot; format.</span>
-    <span class="doccomment">/// * `visitorId`: Double quoted string. Specifying this will delete all</span>
-    <span class="doccomment">///   events associated with a visitor.</span>
-    <span class="doccomment">/// * `userId`: Double quoted string. Specifying this will delete all events</span>
-    <span class="doccomment">///   associated with a user.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * Deleting all events in a time range:</span>
-    <span class="doccomment">///   `eventTime &gt; &quot;2012-04-23T18:25:43.511Z&quot;</span>
-    <span class="doccomment">///   eventTime &lt; &quot;2012-04-23T18:30:43.511Z&quot;`</span>
-    <span class="doccomment">/// * Deleting specific eventType in time range:</span>
-    <span class="doccomment">///   `eventTime &gt; &quot;2012-04-23T18:25:43.511Z&quot; eventType = &quot;detail-page-view&quot;`</span>
-    <span class="doccomment">/// * Deleting all events for a specific visitor:</span>
-    <span class="doccomment">///   `visitorId = &quot;visitor1024&quot;`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The filtering fields are assumed to have an implicit AND.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Actually perform the purge.</span>
-    <span class="doccomment">/// If `force` is set to false, the method will return the expected purge count</span>
-    <span class="doccomment">/// without deleting any user events.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">force</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Response of the PurgeUserEventsRequest. If the long running operation is</span>
-<span class="doccomment">/// successfully done, then this message is returned by the</span>
-<span class="doccomment">/// google.longrunning.Operations.response field.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeUserEventsResponse</span> {
-    <span class="doccomment">/// The total count of events purged as a result of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">purged_events_count</span>: <span class="ident">i64</span>,
-}
 <span class="doccomment">/// Request message for \[CreateProduct][\] method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateProductRequest</span> {
@@ -7451,6 +7399,58 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
+}
+<span class="doccomment">/// Metadata related to the progress of the Purge operation.</span>
+<span class="doccomment">/// This will be returned by the google.longrunning.Operation.metadata field.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeMetadata</span> {}
+<span class="doccomment">/// Request message for PurgeUserEvents method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeUserEventsRequest</span> {
+    <span class="doccomment">/// Required. The resource name of the catalog under which the events are</span>
+    <span class="doccomment">/// created. The format is</span>
+    <span class="doccomment">/// `projects/${projectId}/locations/global/catalogs/${catalogId}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The filter string to specify the events to be deleted with a</span>
+    <span class="doccomment">/// length limit of 5,000 characters. Empty string filter is not allowed. The</span>
+    <span class="doccomment">/// eligible fields for filtering are:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `eventType`: Double quoted</span>
+    <span class="doccomment">/// \[UserEvent.event_type][google.cloud.retail.v2.UserEvent.event_type\] string.</span>
+    <span class="doccomment">/// * `eventTime`: in ISO 8601 &quot;zulu&quot; format.</span>
+    <span class="doccomment">/// * `visitorId`: Double quoted string. Specifying this will delete all</span>
+    <span class="doccomment">///   events associated with a visitor.</span>
+    <span class="doccomment">/// * `userId`: Double quoted string. Specifying this will delete all events</span>
+    <span class="doccomment">///   associated with a user.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Deleting all events in a time range:</span>
+    <span class="doccomment">///   `eventTime &gt; &quot;2012-04-23T18:25:43.511Z&quot;</span>
+    <span class="doccomment">///   eventTime &lt; &quot;2012-04-23T18:30:43.511Z&quot;`</span>
+    <span class="doccomment">/// * Deleting specific eventType in time range:</span>
+    <span class="doccomment">///   `eventTime &gt; &quot;2012-04-23T18:25:43.511Z&quot; eventType = &quot;detail-page-view&quot;`</span>
+    <span class="doccomment">/// * Deleting all events for a specific visitor:</span>
+    <span class="doccomment">///   `visitorId = &quot;visitor1024&quot;`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The filtering fields are assumed to have an implicit AND.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Actually perform the purge.</span>
+    <span class="doccomment">/// If `force` is set to false, the method will return the expected purge count</span>
+    <span class="doccomment">/// without deleting any user events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">force</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Response of the PurgeUserEventsRequest. If the long running operation is</span>
+<span class="doccomment">/// successfully done, then this message is returned by the</span>
+<span class="doccomment">/// google.longrunning.Operations.response field.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeUserEventsResponse</span> {
+    <span class="doccomment">/// The total count of events purged as a result of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">purged_events_count</span>: <span class="ident">i64</span>,
 }
 <span class="doccomment">/// Request message for WriteUserEvent method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

@@ -14,12 +14,12 @@ this call is a member.</p>
 </div><span id="structfield.trip_id" class="structfield small-section-header"><a href="#structfield.trip_id" class="anchor field"></a><code>trip_id: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span><div class="docblock"><p>Required. Unique Trip ID; must be unique per provider.
 Subject to the following restrictions:</p>
 <ol>
-<li>IDs must not contain any of the following ASCII characters: ‘/’, ‘:’,
-‘?’, or ‘#’.</li>
-<li>IDs are limited to a maximum length of 64 characters.</li>
 <li>IDs must be valid Unicode strings.</li>
+<li>IDs are limited to a maximum length of 64 characters.</li>
 <li>IDs must be normalized according to Unicode Normalization Form C
 (<a href="http://www.unicode.org/reports/tr15/">http://www.unicode.org/reports/tr15/</a>).</li>
+<li>IDs must not contain any of the following ASCII characters: ‘/’, ‘:’,
+‘?’, ‘,’, or ‘#’.</li>
 </ol>
 </div><span id="structfield.trip" class="structfield small-section-header"><a href="#structfield.trip" class="anchor field"></a><code>trip: <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="struct.Trip.html" title="struct google_api_proto::maps::fleetengine::v1::Trip">Trip</a>&gt;</code></span><div class="docblock"><p>Required. Trip entity to create.</p>
 <p>When creating a Trip, the following fields are required:</p>
