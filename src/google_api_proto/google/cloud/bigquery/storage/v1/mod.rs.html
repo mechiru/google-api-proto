@@ -1153,6 +1153,19 @@
 <span id="1151">1151</span>
 <span id="1152">1152</span>
 <span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Schema of a table.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableSchema</span> {
@@ -1736,10 +1749,12 @@
     <span class="doccomment">/// request.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// For explicitly created write streams, the format is:</span>
-    <span class="doccomment">/// `projects/{project}/datasets/{dataset}/tables/{table}/streams/{id}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `projects/{project}/datasets/{dataset}/tables/{table}/streams/{id}`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// For the special default stream, the format is:</span>
-    <span class="doccomment">/// `projects/{project}/datasets/{dataset}/tables/{table}/_default`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `projects/{project}/datasets/{dataset}/tables/{table}/streams/_default`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">write_stream</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// If present, the write is only performed if the next append offset is same</span>
@@ -1948,6 +1963,10 @@
         <span class="doccomment">/// There is a schema mismatch and it is caused by user schema has extra</span>
         <span class="doccomment">/// field than bigquery schema.</span>
         <span class="ident">SchemaMismatchExtraFields</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// Offset already exists.</span>
+        <span class="ident">OffsetAlreadyExists</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// Offset out of range.</span>
+        <span class="ident">OffsetOutOfRange</span> <span class="op">=</span> <span class="number">9</span>,
     }
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
@@ -2201,6 +2220,13 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * For PENDING streams, data is not made visible until the stream itself is&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; finalized (via the `FinalizeWriteStream` rpc), and the stream is explicitly&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; committed via the `BatchCommitWriteStreams` rpc.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Note: For users coding against the gRPC api directly, it may be&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; necessary to supply the x-goog-request-params system parameter&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; with `write_stream=&lt;full_write_stream_name&gt;`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; More information about system parameters:&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; https://cloud.google.com/apis/docs/system-parameters&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">append_rows</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoStreamingRequest</span><span class="op">&lt;</span><span class="ident">Message</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::AppendRowsRequest</span><span class="op">&gt;</span>,

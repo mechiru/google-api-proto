@@ -1271,6 +1271,7 @@
 <span id="1269">1269</span>
 <span id="1270">1270</span>
 <span id="1271">1271</span>
+<span id="1272">1272</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Tags point to a version and represent an alternative name that can be used</span>
 <span class="doccomment">/// to access the version.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1463,7 +1464,8 @@
 <span class="doccomment">/// The request to list files.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListFilesRequest</span> {
-    <span class="doccomment">/// The name of the parent resource whose files will be listed.</span>
+    <span class="doccomment">/// The name of the repository whose files will be listed. For example:</span>
+    <span class="doccomment">/// &quot;projects/p1/locations/us-central1/repositories/repo1</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// An expression for filtering the results of the request. Filter rules are</span>

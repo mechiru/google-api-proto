@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["allocationendpoint",""],["v1",""],["v1beta",""]]});
+initSidebarItems({"mod":[["v1",""],["v1beta",""]]});

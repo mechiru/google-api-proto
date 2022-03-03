@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["GameServerStatusPort","The game server port info that is allocated."]]});
