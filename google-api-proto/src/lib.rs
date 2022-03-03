@@ -142,7 +142,6 @@ pub mod ccc;
     feature = "google-cloud-filestore-v1",
     feature = "google-cloud-filestore-v1beta1",
     feature = "google-cloud-functions-v1",
-    feature = "google-cloud-gaming-allocationendpoint-v1alpha",
     feature = "google-cloud-gaming-v1",
     feature = "google-cloud-gaming-v1beta",
     feature = "google-cloud-gkebackup-logging-v1",

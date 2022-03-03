@@ -190,7 +190,8 @@ pub struct File {
 /// The request to list files.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListFilesRequest {
-    /// The name of the parent resource whose files will be listed.
+    /// The name of the repository whose files will be listed. For example:
+    /// "projects/p1/locations/us-central1/repositories/repo1
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
     /// An expression for filtering the results of the request. Filter rules are

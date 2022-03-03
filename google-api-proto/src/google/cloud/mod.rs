@@ -181,7 +181,6 @@ pub mod filestore;
 pub mod functions;
 
 #[cfg(any(
-    feature = "google-cloud-gaming-allocationendpoint-v1alpha",
     feature = "google-cloud-gaming-v1",
     feature = "google-cloud-gaming-v1beta",
 ))]

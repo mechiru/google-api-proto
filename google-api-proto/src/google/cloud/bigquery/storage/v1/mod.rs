@@ -581,10 +581,12 @@ pub struct AppendRowsRequest {
     /// request.
     ///
     /// For explicitly created write streams, the format is:
-    /// `projects/{project}/datasets/{dataset}/tables/{table}/streams/{id}`
+    ///
+    /// * `projects/{project}/datasets/{dataset}/tables/{table}/streams/{id}`
     ///
     /// For the special default stream, the format is:
-    /// `projects/{project}/datasets/{dataset}/tables/{table}/_default`.
+    ///
+    /// * `projects/{project}/datasets/{dataset}/tables/{table}/streams/_default`.
     #[prost(string, tag = "1")]
     pub write_stream: ::prost::alloc::string::String,
     /// If present, the write is only performed if the next append offset is same
@@ -793,6 +795,10 @@ pub mod storage_error {
         /// There is a schema mismatch and it is caused by user schema has extra
         /// field than bigquery schema.
         SchemaMismatchExtraFields = 7,
+        /// Offset already exists.
+        OffsetAlreadyExists = 8,
+        /// Offset out of range.
+        OffsetOutOfRange = 9,
     }
 }
 #[doc = r" Generated client implementations."]
@@ -1046,6 +1052,13 @@ pub mod big_query_write_client {
         #[doc = " * For PENDING streams, data is not made visible until the stream itself is"]
         #[doc = " finalized (via the `FinalizeWriteStream` rpc), and the stream is explicitly"]
         #[doc = " committed via the `BatchCommitWriteStreams` rpc."]
+        #[doc = ""]
+        #[doc = " Note: For users coding against the gRPC api directly, it may be"]
+        #[doc = " necessary to supply the x-goog-request-params system parameter"]
+        #[doc = " with `write_stream=<full_write_stream_name>`."]
+        #[doc = ""]
+        #[doc = " More information about system parameters:"]
+        #[doc = " https://cloud.google.com/apis/docs/system-parameters"]
         pub async fn append_rows(
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::AppendRowsRequest>,
