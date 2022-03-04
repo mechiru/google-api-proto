@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["MeasurementUnit","Possible types of representing the custom metric’s value."],["MetricScope","The scope of this metric."]]});
+initSidebarItems({"enum":[["MeasurementUnit","Possible types of representing the custom metric’s value."],["MetricScope","The scope of this metric."],["RestrictedMetricType","Labels that mark the data in this custom metric as data that should be restricted to specific users."]]});
