@@ -1925,6 +1925,7 @@
 <span id="1923">1923</span>
 <span id="1924">1924</span>
 <span id="1925">1925</span>
+<span id="1926">1926</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A Firestore document.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Must not exceed 1 MiB - 4 bytes.</span>
@@ -2384,7 +2385,7 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="ident">Exists</span>(<span class="ident">bool</span>),
         <span class="doccomment">/// When set, the target document must exist and have been last updated at</span>
-        <span class="doccomment">/// that time.</span>
+        <span class="doccomment">/// that time. Timestamp must be microsecond aligned.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">UpdateTime</span>(<span class="ident">::prost_types::Timestamp</span>),
     }
@@ -3033,7 +3034,9 @@
     <span class="doccomment">/// If not set, defaults to strong consistency.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConsistencySelector</span> {
-        <span class="doccomment">/// Reads documents in a transaction.</span>
+        <span class="doccomment">/// Run the query within an already active transaction.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// The value here is the opaque transaction ID to execute the query in.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
         <span class="ident">Transaction</span>(<span class="ident">::prost::bytes::Bytes</span>),
         <span class="doccomment">/// Starts a new transaction and reads the documents.</span>
@@ -3057,8 +3060,7 @@
     <span class="doccomment">/// If set, no other fields will be set in this response.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">transaction</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// A query result.</span>
-    <span class="doccomment">/// Not set when reporting partial progress.</span>
+    <span class="doccomment">/// A query result, not set when reporting partial progress.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">document</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Document</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The time at which the document was read. This may be monotonically</span>
