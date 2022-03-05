@@ -457,7 +457,7 @@ pub mod precondition {
         #[prost(bool, tag = "1")]
         Exists(bool),
         /// When set, the target document must exist and have been last updated at
-        /// that time.
+        /// that time. Timestamp must be microsecond aligned.
         #[prost(message, tag = "2")]
         UpdateTime(::prost_types::Timestamp),
     }
@@ -1106,7 +1106,9 @@ pub mod run_query_request {
     /// If not set, defaults to strong consistency.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum ConsistencySelector {
-        /// Reads documents in a transaction.
+        /// Run the query within an already active transaction.
+        ///
+        /// The value here is the opaque transaction ID to execute the query in.
         #[prost(bytes, tag = "5")]
         Transaction(::prost::bytes::Bytes),
         /// Starts a new transaction and reads the documents.
@@ -1130,8 +1132,7 @@ pub struct RunQueryResponse {
     /// If set, no other fields will be set in this response.
     #[prost(bytes = "bytes", tag = "2")]
     pub transaction: ::prost::bytes::Bytes,
-    /// A query result.
-    /// Not set when reporting partial progress.
+    /// A query result, not set when reporting partial progress.
     #[prost(message, optional, tag = "1")]
     pub document: ::core::option::Option<Document>,
     /// The time at which the document was read. This may be monotonically
