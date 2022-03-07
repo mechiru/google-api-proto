@@ -4030,6 +4030,11 @@ pub struct EventInput {
     /// Support](<https://cloud.google.com/dialogflow/docs/reference/language>)
     /// for a list of the currently supported language codes. Note that queries in
     /// the same session do not necessarily need to specify the same language.
+    ///
+    /// This field is ignored when used in the context of a
+    /// \[WebhookResponse.followup_event_input][google.cloud.dialogflow.v2.WebhookResponse.followup_event_input\] field,
+    /// because the language was already defined in the originating detect
+    /// intent request.
     #[prost(string, tag = "3")]
     pub language_code: ::prost::alloc::string::String,
 }
@@ -6635,6 +6640,12 @@ pub struct ExportAgentRequest {
     /// URI to export the agent to.
     /// The format of this URI must be `gs://<bucket-name>/<object-name>`.
     /// If left unspecified, the serialized agent is returned inline.
+    ///
+    /// Dialogflow performs a write operation for the Cloud Storage object
+    /// on the caller's behalf, so your request authentication must
+    /// have write permissions for the object. For more information, see
+    /// [Dialogflow access
+    /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
     #[prost(string, tag = "2")]
     pub agent_uri: ::prost::alloc::string::String,
 }
@@ -6677,6 +6688,12 @@ pub mod import_agent_request {
     pub enum Agent {
         /// The URI to a Google Cloud Storage file containing the agent to import.
         /// Note: The URI must start with "gs://".
+        ///
+        /// Dialogflow performs a read operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have read permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         AgentUri(::prost::alloc::string::String),
         /// Zip compressed raw byte content for agent.
@@ -6702,6 +6719,12 @@ pub mod restore_agent_request {
     pub enum Agent {
         /// The URI to a Google Cloud Storage file containing the agent to restore.
         /// Note: The URI must start with "gs://".
+        ///
+        /// Dialogflow performs a read operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have read permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         AgentUri(::prost::alloc::string::String),
         /// Zip compressed raw byte content for agent.
