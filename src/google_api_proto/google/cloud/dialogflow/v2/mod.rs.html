@@ -9581,6 +9581,29 @@
 <span id="9579">9579</span>
 <span id="9580">9580</span>
 <span id="9581">9581</span>
+<span id="9582">9582</span>
+<span id="9583">9583</span>
+<span id="9584">9584</span>
+<span id="9585">9585</span>
+<span id="9586">9586</span>
+<span id="9587">9587</span>
+<span id="9588">9588</span>
+<span id="9589">9589</span>
+<span id="9590">9590</span>
+<span id="9591">9591</span>
+<span id="9592">9592</span>
+<span id="9593">9593</span>
+<span id="9594">9594</span>
+<span id="9595">9595</span>
+<span id="9596">9596</span>
+<span id="9597">9597</span>
+<span id="9598">9598</span>
+<span id="9599">9599</span>
+<span id="9600">9600</span>
+<span id="9601">9601</span>
+<span id="9602">9602</span>
+<span id="9603">9603</span>
+<span id="9604">9604</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Hints for the speech recognizer to help with recognition in a specific</span>
 <span class="doccomment">/// conversation state.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -13613,6 +13636,11 @@
     <span class="doccomment">/// Support](&lt;https://cloud.google.com/dialogflow/docs/reference/language&gt;)</span>
     <span class="doccomment">/// for a list of the currently supported language codes. Note that queries in</span>
     <span class="doccomment">/// the same session do not necessarily need to specify the same language.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field is ignored when used in the context of a</span>
+    <span class="doccomment">/// \[WebhookResponse.followup_event_input][google.cloud.dialogflow.v2.WebhookResponse.followup_event_input\] field,</span>
+    <span class="doccomment">/// because the language was already defined in the originating detect</span>
+    <span class="doccomment">/// intent request.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -16218,6 +16246,12 @@
     <span class="doccomment">/// URI to export the agent to.</span>
     <span class="doccomment">/// The format of this URI must be `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
     <span class="doccomment">/// If left unspecified, the serialized agent is returned inline.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Dialogflow performs a write operation for the Cloud Storage object</span>
+    <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+    <span class="doccomment">/// have write permissions for the object. For more information, see</span>
+    <span class="doccomment">/// [Dialogflow access</span>
+    <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">agent_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -16260,6 +16294,12 @@
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Agent</span> {
         <span class="doccomment">/// The URI to a Google Cloud Storage file containing the agent to import.</span>
         <span class="doccomment">/// Note: The URI must start with &quot;gs://&quot;.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a read operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have read permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">AgentUri</span>(<span class="ident">::prost::alloc::string::String</span>),
         <span class="doccomment">/// Zip compressed raw byte content for agent.</span>
@@ -16285,6 +16325,12 @@
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Agent</span> {
         <span class="doccomment">/// The URI to a Google Cloud Storage file containing the agent to restore.</span>
         <span class="doccomment">/// Note: The URI must start with &quot;gs://&quot;.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a read operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have read permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">AgentUri</span>(<span class="ident">::prost::alloc::string::String</span>),
         <span class="doccomment">/// Zip compressed raw byte content for agent.</span>
