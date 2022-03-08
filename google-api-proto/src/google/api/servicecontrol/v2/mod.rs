@@ -57,8 +57,8 @@ pub struct ResourceInfo {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckResponse {
     /// Operation is allowed when this field is not set. Any non-'OK' status
-    /// indicates a denial; \[google.rpc.Status.details\]() would contain additional
-    /// details about the denial.
+    /// indicates a denial; \[google.rpc.Status.details][google.rpc.Status.details\]
+    /// would contain additional details about the denial.
     #[prost(message, optional, tag = "1")]
     pub status: ::core::option::Option<super::super::super::rpc::Status>,
     /// Returns a set of request contexts generated from the `CheckRequest`.
