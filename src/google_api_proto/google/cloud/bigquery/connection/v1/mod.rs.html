@@ -428,6 +428,26 @@
 <span id="426">426</span>
 <span id="427">427</span>
 <span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
 </pre><pre class="rust"><code><span class="doccomment">/// The request for \[ConnectionService.CreateConnection][google.cloud.bigquery.connection.v1.ConnectionService.CreateConnection\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateConnectionRequest</span> {
@@ -520,7 +540,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">has_credential</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Properties specific to the underlying data source.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;connection::Properties&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4, 8, 21&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;connection::Properties&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4, 8, 21, 22&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">connection::Properties</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Connection`.</span>
@@ -537,6 +557,9 @@
         <span class="doccomment">/// Cloud Spanner properties.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>)]</span>
         <span class="ident">CloudSpanner</span>(<span class="ident"><span class="kw">super</span>::CloudSpannerProperties</span>),
+        <span class="doccomment">/// Cloud Resource properties.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
+        <span class="ident">CloudResource</span>(<span class="ident"><span class="kw">super</span>::CloudResourceProperties</span>),
     }
 }
 <span class="doccomment">/// Connection properties specific to the Cloud SQL.</span>
@@ -640,6 +663,23 @@
     <span class="doccomment">/// This identity will be used to access the user&#39;s AWS IAM Role.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">identity</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Container for connection properties for delegation of access to GCP</span>
+<span class="doccomment">/// resources.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CloudResourceProperties</span> {
+    <span class="doccomment">/// Output only. The account ID of the service created for the purpose of this connection.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The service account does not have any permissions associated with it</span>
+    <span class="doccomment">/// when it is created. After creation, customers delegate permissions</span>
+    <span class="doccomment">/// to the service account. When the connection is used in the context of an</span>
+    <span class="doccomment">/// operation in BigQuery, the service account will be used to connect to the</span>
+    <span class="doccomment">/// desired resources in GCP.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The account ID is in the form of:</span>
+    <span class="doccomment">///   &lt;service-1234&gt;@gcp-sa-bigquery-cloudresource.iam.gserviceaccount.com</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service_account_id</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">connection_service_client</span> {
