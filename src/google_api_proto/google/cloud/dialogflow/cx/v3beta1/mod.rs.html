@@ -8641,6 +8641,21 @@
 <span id="8639">8639</span>
 <span id="8640">8640</span>
 <span id="8641">8641</span>
+<span id="8642">8642</span>
+<span id="8643">8643</span>
+<span id="8644">8644</span>
+<span id="8645">8645</span>
+<span id="8646">8646</span>
+<span id="8647">8647</span>
+<span id="8648">8648</span>
+<span id="8649">8649</span>
+<span id="8650">8650</span>
+<span id="8651">8651</span>
+<span id="8652">8652</span>
+<span id="8653">8653</span>
+<span id="8654">8654</span>
+<span id="8655">8655</span>
+<span id="8656">8656</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Represents a response message that can be returned by a conversational agent.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Response messages are also used for output audio synthesis. The approach is</span>
@@ -12993,11 +13008,26 @@
     <span class="doccomment">/// Session parameters to be compared when calculating differences.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">tracking_parameters</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Flow name. If not set, default start flow is assumed.</span>
+    <span class="doccomment">/// Flow name to start the test case with.</span>
     <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;/agents/&lt;Agent</span>
     <span class="doccomment">/// ID&gt;/flows/&lt;Flow ID&gt;`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only one of `flow` and `page` should be set to indicate the starting point</span>
+    <span class="doccomment">/// of the test case. If both are set, `page` takes precedence over `flow`. If</span>
+    <span class="doccomment">/// neither is set, the test case will start with start page on the default</span>
+    <span class="doccomment">/// start flow.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">flow</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The \[page][google.cloud.dialogflow.cx.v3beta1.Page\] to start the test case with.</span>
+    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;/agents/&lt;Agent</span>
+    <span class="doccomment">/// ID&gt;/flows/&lt;Flow ID&gt;/pages/&lt;Page ID&gt;`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only one of `flow` and `page` should be set to indicate the starting point</span>
+    <span class="doccomment">/// of the test case. If both are set, `page` takes precedence over `flow`. If</span>
+    <span class="doccomment">/// neither is set, the test case will start with start page on the default</span>
+    <span class="doccomment">/// start flow.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// One interaction between a human and virtual agent. The human provides some</span>
 <span class="doccomment">/// input and the virtual agent provides a response.</span>
