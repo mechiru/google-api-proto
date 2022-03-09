@@ -4350,11 +4350,26 @@ pub struct TestConfig {
     /// Session parameters to be compared when calculating differences.
     #[prost(string, repeated, tag = "1")]
     pub tracking_parameters: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Flow name. If not set, default start flow is assumed.
+    /// Flow name to start the test case with.
     /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
     /// ID>/flows/<Flow ID>`.
+    ///
+    /// Only one of `flow` and `page` should be set to indicate the starting point
+    /// of the test case. If both are set, `page` takes precedence over `flow`. If
+    /// neither is set, the test case will start with start page on the default
+    /// start flow.
     #[prost(string, tag = "2")]
     pub flow: ::prost::alloc::string::String,
+    /// The \[page][google.cloud.dialogflow.cx.v3beta1.Page\] to start the test case with.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/flows/<Flow ID>/pages/<Page ID>`.
+    ///
+    /// Only one of `flow` and `page` should be set to indicate the starting point
+    /// of the test case. If both are set, `page` takes precedence over `flow`. If
+    /// neither is set, the test case will start with start page on the default
+    /// start flow.
+    #[prost(string, tag = "3")]
+    pub page: ::prost::alloc::string::String,
 }
 /// One interaction between a human and virtual agent. The human provides some
 /// input and the virtual agent provides a response.
