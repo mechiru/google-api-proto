@@ -1364,6 +1364,12 @@ pub mod import_flow_request {
         /// The [Google Cloud Storage](<https://cloud.google.com/storage/docs/>) URI
         /// to import flow from. The format of this URI must be
         /// `gs://<bucket-name>/<object-name>`.
+        ///
+        /// Dialogflow performs a read operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have read permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         FlowUri(::prost::alloc::string::String),
         /// Uncompressed raw byte content for flow.
@@ -1392,6 +1398,12 @@ pub struct ExportFlowRequest {
     /// export the flow to. The format of this URI must be
     /// `gs://<bucket-name>/<object-name>`.
     /// If left unspecified, the serialized flow is returned inline.
+    ///
+    /// Dialogflow performs a write operation for the Cloud Storage object
+    /// on the caller's behalf, so your request authentication must
+    /// have write permissions for the object. For more information, see
+    /// [Dialogflow access
+    /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
     #[prost(string, tag = "2")]
     pub flow_uri: ::prost::alloc::string::String,
     /// Optional. Whether to export flows referenced by the specified flow.
@@ -4376,11 +4388,26 @@ pub struct TestConfig {
     /// Session parameters to be compared when calculating differences.
     #[prost(string, repeated, tag = "1")]
     pub tracking_parameters: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Flow name. If not set, default start flow is assumed.
+    /// Flow name to start the test case with.
     /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
     /// ID>/flows/<Flow ID>`.
+    ///
+    /// Only one of `flow` and `page` should be set to indicate the starting point
+    /// of the test case. If both are set, `page` takes precedence over `flow`. If
+    /// neither is set, the test case will start with start page on the default
+    /// start flow.
     #[prost(string, tag = "2")]
     pub flow: ::prost::alloc::string::String,
+    /// The \[page][google.cloud.dialogflow.cx.v3.Page\] to start the test case with.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/flows/<Flow ID>/pages/<Page ID>`.
+    ///
+    /// Only one of `flow` and `page` should be set to indicate the starting point
+    /// of the test case. If both are set, `page` takes precedence over `flow`. If
+    /// neither is set, the test case will start with start page on the default
+    /// start flow.
+    #[prost(string, tag = "3")]
+    pub page: ::prost::alloc::string::String,
 }
 /// One interaction between a human and virtual agent. The human provides some
 /// input and the virtual agent provides a response.
@@ -4850,6 +4877,12 @@ pub mod import_test_cases_request {
         /// The [Google Cloud Storage](<https://cloud.google.com/storage/docs/>) URI
         /// to import test cases from. The format of this URI must be
         /// `gs://<bucket-name>/<object-name>`.
+        ///
+        /// Dialogflow performs a read operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have read permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         GcsUri(::prost::alloc::string::String),
         /// Uncompressed raw byte content for test cases.
@@ -4931,6 +4964,12 @@ pub mod export_test_cases_request {
         /// export the test cases to. The format of this URI must be
         /// `gs://<bucket-name>/<object-name>`. If unspecified, the serialized test
         /// cases is returned inline.
+        ///
+        /// Dialogflow performs a write operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have write permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         GcsUri(::prost::alloc::string::String),
     }
@@ -7207,6 +7246,12 @@ pub struct ExportAgentRequest {
     /// export the agent to. The format of this URI must be
     /// `gs://<bucket-name>/<object-name>`.
     /// If left unspecified, the serialized agent is returned inline.
+    ///
+    /// Dialogflow performs a write operation for the Cloud Storage object
+    /// on the caller's behalf, so your request authentication must
+    /// have write permissions for the object. For more information, see
+    /// [Dialogflow access
+    /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
     #[prost(string, tag = "2")]
     pub agent_uri: ::prost::alloc::string::String,
     /// Optional. Environment name. If not set, draft environment is assumed.
@@ -7272,6 +7317,12 @@ pub mod restore_agent_request {
         /// The [Google Cloud Storage](<https://cloud.google.com/storage/docs/>) URI
         /// to restore agent from. The format of this URI must be
         /// `gs://<bucket-name>/<object-name>`.
+        ///
+        /// Dialogflow performs a read operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have read permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         AgentUri(::prost::alloc::string::String),
         /// Uncompressed raw byte content for agent.

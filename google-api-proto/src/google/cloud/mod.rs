@@ -308,6 +308,9 @@ pub mod networkservices;
 ))]
 pub mod notebooks;
 
+#[cfg(any(feature = "google-cloud-optimization-v1",))]
+pub mod optimization;
+
 #[cfg(any(
     feature = "google-cloud-orchestration-airflow-service-v1",
     feature = "google-cloud-orchestration-airflow-service-v1beta1",

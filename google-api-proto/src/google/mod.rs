@@ -231,6 +231,7 @@ pub mod chromeos;
     feature = "google-cloud-networkservices-v1beta1",
     feature = "google-cloud-notebooks-v1",
     feature = "google-cloud-notebooks-v1beta1",
+    feature = "google-cloud-optimization-v1",
     feature = "google-cloud-orchestration-airflow-service-v1",
     feature = "google-cloud-orchestration-airflow-service-v1beta1",
     feature = "google-cloud-orgpolicy-v1",

@@ -225,6 +225,7 @@ google-cloud-networkservices-v1 = ["google-api", "google-cloud", "google-longrun
 google-cloud-networkservices-v1beta1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-notebooks-v1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-notebooks-v1beta1 = ["google-api", "google-cloud", "google-longrunning"]
+google-cloud-optimization-v1 = ["google-api", "google-cloud", "google-longrunning", "google-type"]
 google-cloud-orchestration-airflow-service-v1 = ["google-api", "google-cloud", "google-longrunning", "google-type"]
 google-cloud-orchestration-airflow-service-v1beta1 = ["google-api", "google-cloud", "google-longrunning", "google-type"]
 google-cloud-orgpolicy-v1 = ["google-api", "google-cloud"]
