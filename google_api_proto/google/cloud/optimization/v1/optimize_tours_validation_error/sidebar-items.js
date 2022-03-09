@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["field_reference","Nested message and enum types in `FieldReference`."]],"struct":[["FieldReference","Specifies a context for the validation error. A `FieldReference` always refers to a given field in this file and follows the same hierarchical structure. For example, we may specify element #2 of `start_time_windows` of vehicle #5 using:"]]});

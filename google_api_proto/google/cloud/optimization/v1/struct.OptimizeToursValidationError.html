@@ -1,0 +1,372 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Describes an error encountered when validating an `OptimizeToursRequest`."><meta name="keywords" content="rust, rustlang, rust-lang, OptimizeToursValidationError"><title>OptimizeToursValidationError in google_api_proto::google::cloud::optimization::v1 - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../../storage.js"></script><script src="../../../../../crates.js"></script><script defer src="../../../../../main.js"></script>
+    <noscript><link rel="stylesheet" href="../../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg"></head><body class="rustdoc struct"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a class="sidebar-logo" href="../../../../../google_api_proto/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../../rust-logo.png" alt="logo"></div>
+        </a><h2 class="location">Struct OptimizeToursValidationError</h2><div class="sidebar-elems"><div class="block items"><h3 class="sidebar-title"><a href="#fields">Fields</a></h3><div class="sidebar-links"><a href="#structfield.code">code</a><a href="#structfield.display_name">display_name</a><a href="#structfield.error_message">error_message</a><a href="#structfield.fields">fields</a><a href="#structfield.offending_values">offending_values</a></div><h3 class="sidebar-title"><a href="#trait-implementations">Trait Implementations</a></h3><div class="sidebar-links"><a href="#impl-Clone">Clone</a><a href="#impl-Debug">Debug</a><a href="#impl-Default">Default</a><a href="#impl-Message">Message</a><a href="#impl-PartialEq%3COptimizeToursValidationError%3E">PartialEq&lt;OptimizeToursValidationError&gt;</a><a href="#impl-StructuralPartialEq">StructuralPartialEq</a></div><h3 class="sidebar-title"><a href="#synthetic-implementations">Auto Trait Implementations</a></h3><div class="sidebar-links"><a href="#impl-RefUnwindSafe">RefUnwindSafe</a><a href="#impl-Send">Send</a><a href="#impl-Sync">Sync</a><a href="#impl-Unpin">Unpin</a><a href="#impl-UnwindSafe">UnwindSafe</a></div><h3 class="sidebar-title"><a href="#blanket-implementations">Blanket Implementations</a></h3><div class="sidebar-links"><a href="#impl-Any">Any</a><a href="#impl-Borrow%3CT%3E">Borrow&lt;T&gt;</a><a href="#impl-BorrowMut%3CT%3E">BorrowMut&lt;T&gt;</a><a href="#impl-From%3CT%3E">From&lt;T&gt;</a><a href="#impl-Instrument">Instrument</a><a href="#impl-Into%3CU%3E">Into&lt;U&gt;</a><a href="#impl-IntoRequest%3CT%3E">IntoRequest&lt;T&gt;</a><a href="#impl-ToOwned">ToOwned</a><a href="#impl-TryFrom%3CU%3E">TryFrom&lt;U&gt;</a><a href="#impl-TryInto%3CU%3E">TryInto&lt;U&gt;</a><a href="#impl-VZip%3CV%3E">VZip&lt;V&gt;</a><a href="#impl-WithSubscriber">WithSubscriber</a></div></div><h2 class="location">Other items in<br><a href="../../../../index.html">google_api_proto</a>::<wbr><a href="../../../index.html">google</a>::<wbr><a href="../../index.html">cloud</a>::<wbr><a href="../index.html">optimization</a>::<wbr><a href="index.html">v1</a></h2><div id="sidebar-vars" data-name="OptimizeToursValidationError" data-ty="struct" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../../google_api_proto/index.html"><img class="rust-logo" src="../../../../../rust-logo.png" alt="logo"></a><nav class="sub"><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><h1 class="fqn"><span class="in-band">Struct <a href="../../../../index.html">google_api_proto</a>::<wbr><a href="../../../index.html">google</a>::<wbr><a href="../../index.html">cloud</a>::<wbr><a href="../index.html">optimization</a>::<wbr><a href="index.html">v1</a>::<wbr><a class="struct" href="#">OptimizeToursValidationError</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../../../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2457-2714" title="goto source code">[src]</a></span></h1><div class="docblock item-decl"><pre class="rust struct"><code>pub struct OptimizeToursValidationError {
+    pub code: <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.i32.html">i32</a>,
+    pub display_name: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
+    pub fields: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="optimize_tours_validation_error/struct.FieldReference.html" title="struct google_api_proto::google::cloud::optimization::v1::optimize_tours_validation_error::FieldReference">FieldReference</a>&gt;,
+    pub error_message: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
+    pub offending_values: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
+}</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Describes an error encountered when validating an <code>OptimizeToursRequest</code>.</p>
+</div></details><h2 id="fields" class="fields small-section-header">Fields<a href="#fields" class="anchor"></a></h2><span id="structfield.code" class="structfield small-section-header"><a href="#structfield.code" class="anchor field"></a><code>code: <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.i32.html">i32</a></code></span><div class="docblock"><p>A validation error is defined by the pair (<code>code</code>, <code>display_name</code>) which
+are always present.</p>
+<p>Other fields (below) provide more context about the error.</p>
+<p><em>MULTIPLE ERRORS</em>:
+When there are multiple errors, the validation process tries to output
+several of them. Much like a compiler, this is an imperfect process. Some
+validation errors will be “fatal”, meaning that they stop the entire
+validation process. This is the case for <code>display_name=&quot;UNSPECIFIED&quot;</code>
+errors, among others. Some may cause the validation process to skip other
+errors.</p>
+<p><em>STABILITY</em>:
+<code>code</code> and <code>display_name</code> should be very stable. But new codes and
+display names may appear over time, which may cause a given (invalid)
+request to yield a different (<code>code</code>, <code>display_name</code>) pair because the new
+error hid the old one (see “MULTIPLE ERRORS”).</p>
+<p><em>REFERENCE</em>: A list of all (code, name) pairs:</p>
+<ul>
+<li>
+<p>UNSPECIFIED = 0;</p>
+</li>
+<li>
+<p>VALIDATION_TIMEOUT_ERROR = 10; Validation couldn’t be completed within
+the deadline.</p>
+</li>
+<li>
+<p>REQUEST_OPTIONS_ERROR = 12;</p>
+<ul>
+<li>REQUEST_OPTIONS_INVALID_SOLVING_MODE = 1201;</li>
+<li>REQUEST_OPTIONS_INVALID_MAX_VALIDATION_ERRORS = 1203;</li>
+<li>REQUEST_OPTIONS_INVALID_GEODESIC_METERS_PER_SECOND = 1204;</li>
+<li>REQUEST_OPTIONS_GEODESIC_METERS_PER_SECOND_TOO_SMALL = 1205;</li>
+<li>REQUEST_OPTIONS_MISSING_GEODESIC_METERS_PER_SECOND = 1206;</li>
+<li>REQUEST_OPTIONS_POPULATE_PATHFINDER_TRIPS_AND_GEODESIC_DISTANCE
+= 1207;</li>
+<li>REQUEST_OPTIONS_COST_MODEL_OPTIONS_AND_GEODESIC_DISTANCE = 1208;</li>
+<li>REQUEST_OPTIONS_TRAVEL_MODE_INCOMPATIBLE_WITH_TRAFFIC = 1211;</li>
+<li>REQUEST_OPTIONS_MULTIPLE_TRAFFIC_FLAVORS = 1212;</li>
+<li>REQUEST_OPTIONS_INVALID_TRAFFIC_FLAVOR = 1213;</li>
+<li>REQUEST_OPTIONS_TRAFFIC_ENABLED_WITHOUT_GLOBAL_START_TIME = 1214;</li>
+<li>REQUEST_OPTIONS_TRAFFIC_ENABLED_WITH_PRECEDENCES = 1215;</li>
+<li>REQUEST_OPTIONS_TRAFFIC_PREFILL_MODE_INVALID = 1216;</li>
+<li>REQUEST_OPTIONS_TRAFFIC_PREFILL_ENABLED_WITHOUT_TRAFFIC = 1217;</li>
+</ul>
+</li>
+<li>
+<p>INJECTED_SOLUTION_ERROR = 20;</p>
+<ul>
+<li>INJECTED_SOLUTION_MISSING_LABEL = 2000;</li>
+<li>INJECTED_SOLUTION_DUPLICATE_LABEL = 2001;</li>
+<li>INJECTED_SOLUTION_AMBIGUOUS_INDEX = 2002;</li>
+</ul>
+</li>
+<li>
+<p>SHIPMENT_MODEL_ERROR = 22;</p>
+<ul>
+<li>SHIPMENT_MODEL_TOO_LARGE = 2200;</li>
+<li>SHIPMENT_MODEL_TOO_MANY_CAPACITY_TYPES = 2201;</li>
+<li>SHIPMENT_MODEL_GLOBAL_START_TIME_NEGATIVE_OR_NAN = 2202;</li>
+<li>SHIPMENT_MODEL_GLOBAL_END_TIME_TOO_LARGE_OR_NAN = 2203;</li>
+<li>SHIPMENT_MODEL_GLOBAL_START_TIME_AFTER_GLOBAL_END_TIME = 2204;</li>
+<li>SHIPMENT_MODEL_GLOBAL_DURATION_TOO_LONG = 2205;</li>
+</ul>
+</li>
+<li>
+<p>INDEX_ERROR = 24;</p>
+</li>
+<li>
+<p>TAG_ERROR = 26;</p>
+</li>
+<li>
+<p>TIME_WINDOW_ERROR = 28;</p>
+<ul>
+<li>TIME_WINDOW_INVALID_START_TIME = 2800;</li>
+<li>TIME_WINDOW_INVALID_END_TIME = 2801;</li>
+<li>TIME_WINDOW_INVALID_SOFT_START_TIME = 2802;</li>
+<li>TIME_WINDOW_INVALID_SOFT_END_TIME = 2803;</li>
+<li>TIME_WINDOW_OUTSIDE_GLOBAL_TIME_WINDOW = 2804;</li>
+<li>TIME_WINDOW_START_TIME_AFTER_END_TIME = 2805;</li>
+<li>TIME_WINDOW_INVALID_COST_PER_HOUR_BEFORE_SOFT_START_TIME = 2806;</li>
+<li>TIME_WINDOW_INVALID_COST_PER_HOUR_AFTER_SOFT_END_TIME = 2807;</li>
+<li>TIME_WINDOW_COST_BEFORE_SOFT_START_TIME_WITHOUT_SOFT_START_TIME
+= 2808;</li>
+<li>TIME_WINDOW_COST_AFTER_SOFT_END_TIME_WITHOUT_SOFT_END_TIME = 2809;</li>
+<li>TIME_WINDOW_SOFT_START_TIME_WITHOUT_COST_BEFORE_SOFT_START_TIME
+= 2810;</li>
+<li>TIME_WINDOW_SOFT_END_TIME_WITHOUT_COST_AFTER_SOFT_END_TIME = 2811;</li>
+<li>TIME_WINDOW_OVERLAPPING_ADJACENT_OR_EARLIER_THAN_PREVIOUS = 2812;</li>
+<li>TIME_WINDOW_START_TIME_AFTER_SOFT_START_TIME = 2813;</li>
+<li>TIME_WINDOW_SOFT_START_TIME_AFTER_END_TIME = 2814;</li>
+<li>TIME_WINDOW_START_TIME_AFTER_SOFT_END_TIME = 2815;</li>
+<li>TIME_WINDOW_SOFT_END_TIME_AFTER_END_TIME = 2816;</li>
+<li>TIME_WINDOW_COST_BEFORE_SOFT_START_TIME_SET_AND_MULTIPLE_WINDOWS
+= 2817;</li>
+<li>TIME_WINDOW_COST_AFTER_SOFT_END_TIME_SET_AND_MULTIPLE_WINDOWS = 2818;</li>
+<li>TRANSITION_ATTRIBUTES_ERROR = 30;</li>
+<li>TRANSITION_ATTRIBUTES_INVALID_COST = 3000;</li>
+<li>TRANSITION_ATTRIBUTES_INVALID_COST_PER_KILOMETER = 3001;</li>
+<li>TRANSITION_ATTRIBUTES_DUPLICATE_TAG_PAIR = 3002;</li>
+<li>TRANSITION_ATTRIBUTES_DISTANCE_LIMIT_MAX_METERS_UNSUPPORTED = 3003;</li>
+<li>TRANSITION_ATTRIBUTES_UNSPECIFIED_SOURCE_TAGS = 3004;</li>
+<li>TRANSITION_ATTRIBUTES_CONFLICTING_SOURCE_TAGS_FIELDS = 3005;</li>
+<li>TRANSITION_ATTRIBUTES_UNSPECIFIED_DESTINATION_TAGS = 3006;</li>
+<li>TRANSITION_ATTRIBUTES_CONFLICTING_DESTINATION_TAGS_FIELDS = 3007;</li>
+<li>TRANSITION_ATTRIBUTES_DELAY_DURATION_NEGATIVE_OR_NAN = 3008;</li>
+<li>TRANSITION_ATTRIBUTES_DELAY_DURATION_EXCEEDS_GLOBAL_DURATION = 3009;</li>
+</ul>
+</li>
+<li>
+<p>AMOUNT_ERROR = 31;</p>
+<ul>
+<li>AMOUNT_NEGATIVE_VALUE = 3100;</li>
+</ul>
+</li>
+<li>
+<p>LOAD_LIMIT_ERROR = 33;</p>
+<ul>
+<li>LOAD_LIMIT_INVALID_COST_ABOVE_SOFT_MAX = 3303;</li>
+<li>LOAD_LIMIT_SOFT_MAX_WITHOUT_COST_ABOVE_SOFT_MAX = 3304;</li>
+<li>LOAD_LIMIT_COST_ABOVE_SOFT_MAX_WITHOUT_SOFT_MAX = 3305;</li>
+<li>LOAD_LIMIT_NEGATIVE_SOFT_MAX = 3306;</li>
+<li>LOAD_LIMIT_MIXED_DEMAND_TYPE = 3307;</li>
+<li>LOAD_LIMIT_MAX_LOAD_NEGATIVE_VALUE = 3308;</li>
+<li>LOAD_LIMIT_SOFT_MAX_ABOVE_MAX = 3309;</li>
+</ul>
+</li>
+<li>
+<p>INTERVAL_ERROR = 34;</p>
+<ul>
+<li>INTERVAL_MIN_EXCEEDS_MAX = 3401;</li>
+<li>INTERVAL_NEGATIVE_MIN = 3402;</li>
+<li>INTERVAL_NEGATIVE_MAX = 3403;</li>
+<li>INTERVAL_MIN_EXCEEDS_CAPACITY = 3404;</li>
+<li>INTERVAL_MAX_EXCEEDS_CAPACITY = 3405;</li>
+</ul>
+</li>
+<li>
+<p>DISTANCE_LIMIT_ERROR = 36;</p>
+<ul>
+<li>DISTANCE_LIMIT_INVALID_COST_AFTER_SOFT_MAX = 3601;</li>
+<li>DISTANCE_LIMIT_SOFT_MAX_WITHOUT_COST_AFTER_SOFT_MAX = 3602;</li>
+<li>DISTANCE_LIMIT_COST_AFTER_SOFT_MAX_WITHOUT_SOFT_MAX = 3603;</li>
+<li>DISTANCE_LIMIT_NEGATIVE_MAX = 3604;</li>
+<li>DISTANCE_LIMIT_NEGATIVE_SOFT_MAX = 3605;</li>
+<li>DISTANCE_LIMIT_SOFT_MAX_LARGER_THAN_MAX = 3606;</li>
+</ul>
+</li>
+<li>
+<p>DURATION_LIMIT_ERROR = 38;</p>
+<ul>
+<li>DURATION_LIMIT_MAX_DURATION_NEGATIVE_OR_NAN = 3800;</li>
+<li>DURATION_LIMIT_SOFT_MAX_DURATION_NEGATIVE_OR_NAN = 3801;</li>
+<li>DURATION_LIMIT_INVALID_COST_PER_HOUR_AFTER_SOFT_MAX = 3802;</li>
+<li>DURATION_LIMIT_SOFT_MAX_WITHOUT_COST_AFTER_SOFT_MAX = 3803;</li>
+<li>DURATION_LIMIT_COST_AFTER_SOFT_MAX_WITHOUT_SOFT_MAX = 3804;</li>
+<li>DURATION_LIMIT_QUADRATIC_SOFT_MAX_DURATION_NEGATIVE_OR_NAN = 3805;</li>
+<li>DURATION_LIMIT_INVALID_COST_AFTER_QUADRATIC_SOFT_MAX = 3806;</li>
+<li>DURATION_LIMIT_QUADRATIC_SOFT_MAX_WITHOUT_COST_PER_SQUARE_HOUR
+= 3807;</li>
+<li>DURATION_LIMIT_COST_PER_SQUARE_HOUR_WITHOUT_QUADRATIC_SOFT_MAX
+= 3808;</li>
+<li>DURATION_LIMIT_QUADRATIC_SOFT_MAX_WITHOUT_MAX = 3809;</li>
+<li>DURATION_LIMIT_SOFT_MAX_LARGER_THAN_MAX = 3810;</li>
+<li>DURATION_LIMIT_QUADRATIC_SOFT_MAX_LARGER_THAN_MAX = 3811;</li>
+<li>DURATION_LIMIT_DIFF_BETWEEN_MAX_AND_QUADRATIC_SOFT_MAX_TOO_LARGE
+= 3812;</li>
+<li>DURATION_LIMIT_MAX_DURATION_EXCEEDS_GLOBAL_DURATION = 3813;</li>
+<li>DURATION_LIMIT_SOFT_MAX_DURATION_EXCEEDS_GLOBAL_DURATION = 3814;</li>
+<li>DURATION_LIMIT_QUADRATIC_SOFT_MAX_DURATION_EXCEEDS_GLOBAL_DURATION
+= 3815;</li>
+</ul>
+</li>
+<li>
+<p>SHIPMENT_ERROR = 40;</p>
+<ul>
+<li>SHIPMENT_PD_ABSOLUTE_DETOUR_LIMIT_DURATION_NEGATIVE_OR_NAN = 4000;</li>
+<li>SHIPMENT_PD_ABSOLUTE_DETOUR_LIMIT_DURATION_EXCEEDS_GLOBAL_DURATION
+= 4001;</li>
+<li>SHIPMENT_PD_TIME_LIMIT_DURATION_NEGATIVE_OR_NAN = 4002;</li>
+<li>SHIPMENT_PD_TIME_LIMIT_DURATION_EXCEEDS_GLOBAL_DURATION = 4003;</li>
+<li>SHIPMENT_EMPTY_SHIPMENT_TYPE = 4004;</li>
+<li>SHIPMENT_NO_PICKUP_NO_DELIVERY = 4005;</li>
+<li>SHIPMENT_INVALID_PENALTY_COST = 4006;</li>
+<li>SHIPMENT_ALLOWED_VEHICLE_INDEX_OUT_OF_BOUNDS = 4007;</li>
+<li>SHIPMENT_DUPLICATE_ALLOWED_VEHICLE_INDEX = 4008;</li>
+<li>SHIPMENT_INCONSISTENT_COST_FOR_VEHICLE_SIZE_WITHOUT_INDEX = 4009;</li>
+<li>SHIPMENT_INCONSISTENT_COST_FOR_VEHICLE_SIZE_WITH_INDEX = 4010;</li>
+<li>SHIPMENT_INVALID_COST_FOR_VEHICLE = 4011;</li>
+<li>SHIPMENT_COST_FOR_VEHICLE_INDEX_OUT_OF_BOUNDS = 4012;</li>
+<li>SHIPMENT_DUPLICATE_COST_FOR_VEHICLE_INDEX = 4013;</li>
+<li>SHIPMENT_DETOUR_WITHOUT_PICKUP_AND_DELIVERY = 4014;</li>
+</ul>
+</li>
+<li>
+<p>VEHICLE_ERROR = 42;</p>
+<ul>
+<li>VEHICLE_EMPTY_REQUIRED_OPERATOR_TYPE = 4200;</li>
+<li>VEHICLE_DUPLICATE_REQUIRED_OPERATOR_TYPE = 4201;</li>
+<li>VEHICLE_NO_OPERATOR_WITH_REQUIRED_OPERATOR_TYPE = 4202;</li>
+<li>VEHICLE_EMPTY_START_TAG = 4203;</li>
+<li>VEHICLE_DUPLICATE_START_TAG = 4204;</li>
+<li>VEHICLE_EMPTY_END_TAG = 4205;</li>
+<li>VEHICLE_DUPLICATE_END_TAG = 4206;</li>
+<li>VEHICLE_EXTRA_VISIT_DURATION_NEGATIVE_OR_NAN = 4207;</li>
+<li>VEHICLE_EXTRA_VISIT_DURATION_EXCEEDS_GLOBAL_DURATION = 4208;</li>
+<li>VEHICLE_EXTRA_VISIT_DURATION_EMPTY_KEY = 4209;</li>
+<li>VEHICLE_FIRST_SHIPMENT_INDEX_OUT_OF_BOUNDS = 4210;</li>
+<li>VEHICLE_FIRST_SHIPMENT_IGNORED = 4211;</li>
+<li>VEHICLE_FIRST_SHIPMENT_NOT_BOUND = 4212;</li>
+<li>VEHICLE_LAST_SHIPMENT_INDEX_OUT_OF_BOUNDS = 4213;</li>
+<li>VEHICLE_LAST_SHIPMENT_IGNORED = 4214;</li>
+<li>VEHICLE_LAST_SHIPMENT_NOT_BOUND = 4215;</li>
+<li>VEHICLE_IGNORED_WITH_USED_IF_ROUTE_IS_EMPTY = 4216;</li>
+<li>VEHICLE_INVALID_COST_PER_KILOMETER = 4217;</li>
+<li>VEHICLE_INVALID_COST_PER_HOUR = 4218;</li>
+<li>VEHICLE_INVALID_COST_PER_TRAVELED_HOUR = 4219;</li>
+<li>VEHICLE_INVALID_FIXED_COST = 4220;</li>
+<li>VEHICLE_INVALID_TRAVEL_DURATION_MULTIPLE = 4221;</li>
+<li>VEHICLE_MINIMUM_DURATION_LONGER_THAN_DURATION_LIMIT = 4222;</li>
+</ul>
+</li>
+<li>
+<p>VISIT_REQUEST_ERROR = 44;</p>
+<ul>
+<li>VISIT_REQUEST_EMPTY_TAG = 4400;</li>
+<li>VISIT_REQUEST_DUPLICATE_TAG = 4401;</li>
+<li>VISIT_REQUEST_DURATION_NEGATIVE_OR_NAN = 4404;</li>
+<li>VISIT_REQUEST_DURATION_EXCEEDS_GLOBAL_DURATION = 4405;</li>
+</ul>
+</li>
+<li>
+<p>PRECEDENCE_ERROR = 46;</p>
+</li>
+<li>
+<p>BREAK_ERROR = 48;</p>
+<ul>
+<li>BREAK_RULE_EMPTY = 4800;</li>
+<li>BREAK_REQUEST_UNSPECIFIED_DURATION = 4801;</li>
+<li>BREAK_REQUEST_UNSPECIFIED_EARLIEST_START_TIME = 4802;</li>
+<li>BREAK_REQUEST_UNSPECIFIED_LATEST_START_TIME = 4803;</li>
+<li>BREAK_REQUEST_DURATION_NEGATIVE_OR_NAN = 4804; = 4804;</li>
+<li>BREAK_REQUEST_LATEST_START_TIME_BEFORE_EARLIEST_START_TIME = 4805;</li>
+<li>BREAK_REQUEST_EARLIEST_START_TIME_BEFORE_GLOBAL_START_TIME = 4806;</li>
+<li>BREAK_REQUEST_LATEST_END_TIME_AFTER_GLOBAL_END_TIME = 4807;</li>
+<li>BREAK_REQUEST_NON_SCHEDULABLE = 4808;</li>
+<li>BREAK_FREQUENCY_MAX_INTER_BREAK_DURATION_NEGATIVE_OR_NAN = 4809;</li>
+<li>BREAK_FREQUENCY_MIN_BREAK_DURATION_NEGATIVE_OR_NAN = 4810;</li>
+<li>BREAK_FREQUENCY_MIN_BREAK_DURATION_EXCEEDS_GLOBAL_DURATION = 4811;</li>
+<li>BREAK_FREQUENCY_MAX_INTER_BREAK_DURATION_EXCEEDS_GLOBAL_DURATION
+= 4812;</li>
+<li>BREAK_REQUEST_DURATION_EXCEEDS_GLOBAL_DURATION = 4813;</li>
+<li>BREAK_FREQUENCY_MISSING_MAX_INTER_BREAK_DURATION = 4814;</li>
+<li>BREAK_FREQUENCY_MISSING_MIN_BREAK_DURATION = 4815;</li>
+</ul>
+</li>
+<li>
+<p>SHIPMENT_TYPE_INCOMPATIBILITY_ERROR = 50;</p>
+<ul>
+<li>SHIPMENT_TYPE_INCOMPATIBILITY_EMPTY_TYPE = 5001;</li>
+<li>SHIPMENT_TYPE_INCOMPATIBILITY_LESS_THAN_TWO_TYPES = 5002;</li>
+<li>SHIPMENT_TYPE_INCOMPATIBILITY_DUPLICATE_TYPE = 5003;</li>
+<li>SHIPMENT_TYPE_INCOMPATIBILITY_INVALID_INCOMPATIBILITY_MODE = 5004;</li>
+<li>SHIPMENT_TYPE_INCOMPATIBILITY_TOO_MANY_INCOMPATIBILITIES = 5005;</li>
+</ul>
+</li>
+<li>
+<p>SHIPMENT_TYPE_REQUIREMENT_ERROR = 52;</p>
+<ul>
+<li>SHIPMENT_TYPE_REQUIREMENT_NO_REQUIRED_TYPE = 52001;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_NO_DEPENDENT_TYPE = 52002;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_INVALID_REQUIREMENT_MODE = 52003;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_TOO_MANY_REQUIREMENTS = 52004;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_EMPTY_REQUIRED_TYPE = 52005;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_DUPLICATE_REQUIRED_TYPE = 52006;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_NO_REQUIRED_TYPE_FOUND = 52007;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_EMPTY_DEPENDENT_TYPE = 52008;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_DUPLICATE_DEPENDENT_TYPE = 52009;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_SELF_DEPENDENT_TYPE = 52010;</li>
+<li>SHIPMENT_TYPE_REQUIREMENT_GRAPH_HAS_CYCLES = 52011;</li>
+</ul>
+</li>
+<li>
+<p>VEHICLE_OPERATOR_ERROR = 54;</p>
+<ul>
+<li>VEHICLE_OPERATOR_EMPTY_TYPE = 5400;</li>
+<li>VEHICLE_OPERATOR_MULTIPLE_START_TIME_WINDOWS = 5401;</li>
+<li>VEHICLE_OPERATOR_SOFT_START_TIME_WINDOW = 5402;</li>
+<li>VEHICLE_OPERATOR_MULTIPLE_END_TIME_WINDOWS = 5403;</li>
+<li>VEHICLE_OPERATOR_SOFT_END_TIME_WINDOW = 5404;</li>
+</ul>
+</li>
+<li>
+<p>DURATION_SECONDS_MATRIX_ERROR = 56;</p>
+<ul>
+<li>DURATION_SECONDS_MATRIX_DURATION_NEGATIVE_OR_NAN = 5600;</li>
+<li>DURATION_SECONDS_MATRIX_DURATION_EXCEEDS_GLOBAL_DURATION = 5601;</li>
+</ul>
+</li>
+<li>
+<p>GRAPH_ARC_ERROR = 58;</p>
+<ul>
+<li>GRAPH_ARC_DURATION_NEGATIVE_OR_NAN = 5800;</li>
+<li>GRAPH_ARC_DURATION_EXCEEDS_GLOBAL_DURATION = 5801;</li>
+</ul>
+</li>
+</ul>
+</div><span id="structfield.display_name" class="structfield small-section-header"><a href="#structfield.display_name" class="anchor field"></a><code>display_name: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span><div class="docblock"><p>The error display name.</p>
+</div><span id="structfield.fields" class="structfield small-section-header"><a href="#structfield.fields" class="anchor field"></a><code>fields: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="optimize_tours_validation_error/struct.FieldReference.html" title="struct google_api_proto::google::cloud::optimization::v1::optimize_tours_validation_error::FieldReference">FieldReference</a>&gt;</code></span><div class="docblock"><p>An error context may involve 0, 1 (most of the time) or more fields. For
+example, referring to vehicle #4 and shipment #2’s first pickup can be
+done as follows:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="ident">fields</span> { <span class="ident">name</span>: <span class="string">&quot;vehicles&quot;</span> <span class="ident">index</span>: <span class="number">4</span>}
+<span class="ident">fields</span> { <span class="ident">name</span>: <span class="string">&quot;shipments&quot;</span> <span class="ident">index</span>: <span class="number">2</span> <span class="ident">sub_field</span> {<span class="ident">name</span>: <span class="string">&quot;pickups&quot;</span> <span class="ident">index</span>: <span class="number">0</span>} }</code></pre></div>
+<p>Note, however, that the cardinality of <code>fields</code> should not change for a
+given error code.</p>
+</div><span id="structfield.error_message" class="structfield small-section-header"><a href="#structfield.error_message" class="anchor field"></a><code>error_message: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span><div class="docblock"><p>Human-readable string describing the error. There is a 1:1 mapping
+between <code>code</code> and <code>error_message</code> (when code != “UNSPECIFIED”).</p>
+<p><em>STABILITY</em>: Not stable: the error message associated to a given <code>code</code> may
+change (hopefully to clarify it) over time. Please rely on the
+<code>display_name</code> and <code>code</code> instead.</p>
+</div><span id="structfield.offending_values" class="structfield small-section-header"><a href="#structfield.offending_values" class="anchor field"></a><code>offending_values: <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span><div class="docblock"><p>May contain the value(s) of the field(s). This is not always available. You
+should absolutely not rely on it and use it only for manual model
+debugging.</p>
+</div><h2 id="trait-implementations" class="small-section-header">Trait Implementations<a href="#trait-implementations" class="anchor"></a></h2><div id="trait-implementations-list"><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-Clone" class="impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#impl-Clone" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.clone" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#method.clone" class="anchor"></a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.59.0/core/clone/trait.Clone.html#tymethod.clone" class="fnname">clone</a>(&amp;self) -&gt; <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h4></div></summary><div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/1.59.0/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.clone_from" class="method trait-impl has-srclink"><div class="rightside"><span class="since" title="Stable since Rust version 1.0.0">1.0.0</span><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/clone.rs.html#130" title="goto source code">[src]</a></div><a href="#method.clone_from" class="anchor"></a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.59.0/core/clone/trait.Clone.html#method.clone_from" class="fnname">clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.reference.html">&amp;</a>Self)</h4></div></summary><div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/1.59.0/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-Debug" class="impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#impl-Debug" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.fmt" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#method.fmt" class="anchor"></a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.59.0/core/fmt/trait.Debug.html#tymethod.fmt" class="fnname">fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.59.0/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.59.0/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></h4></div></summary><div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/1.59.0/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-Default" class="impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#impl-Default" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.default" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#method.default" class="anchor"></a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.59.0/core/default/trait.Default.html#tymethod.default" class="fnname">default</a>() -&gt; Self</h4></div></summary><div class='docblock'><p>Returns the “default value” for a type. <a href="https://doc.rust-lang.org/1.59.0/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-Message" class="impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#impl-Message" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html" title="trait prost::message::Message">Message</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.encoded_len" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#method.encoded_len" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#tymethod.encoded_len" class="fnname">encoded_len</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.usize.html">usize</a></h4></div></summary><div class='docblock'><p>Returns the encoded length of the message without a length delimiter.</p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.clear" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#method.clear" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#tymethod.clear" class="fnname">clear</a>(&amp;mut self)</h4></div></summary><div class='docblock'><p>Clears the message, resetting all fields to their default.</p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.encode" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/prost/0.9.0/src/prost/message.rs.html#47-50" title="goto source code">[src]</a></div><a href="#method.encode" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.encode" class="fnname">encode</a>&lt;B&gt;(&amp;self, buf: <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.reference.html">&amp;mut </a>B) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.unit.html">()</a>, <a class="struct" href="https://docs.rs/prost/0.9.0/prost/error/struct.EncodeError.html" title="struct prost::error::EncodeError">EncodeError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;B: BufMut,&nbsp;</span></h4></div></summary><div class='docblock'><p>Encodes the message to a buffer. <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.encode">Read more</a></p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.encode_to_vec" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/prost/0.9.0/src/prost/message.rs.html#64-66" title="goto source code">[src]</a></div><a href="#method.encode_to_vec" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.encode_to_vec" class="fnname">encode_to_vec</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.u8.html">u8</a>, <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/alloc/struct.Global.html" title="struct alloc::alloc::Global">Global</a>&gt;</h4></div></summary><div class='docblock'><p>Encodes the message to a newly allocated buffer.</p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.encode_length_delimited" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/prost/0.9.0/src/prost/message.rs.html#77-80" title="goto source code">[src]</a></div><a href="#method.encode_length_delimited" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.encode_length_delimited" class="fnname">encode_length_delimited</a>&lt;B&gt;(&amp;self, buf: <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.reference.html">&amp;mut </a>B) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.unit.html">()</a>, <a class="struct" href="https://docs.rs/prost/0.9.0/prost/error/struct.EncodeError.html" title="struct prost::error::EncodeError">EncodeError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;B: BufMut,&nbsp;</span></h4></div></summary><div class='docblock'><p>Encodes the message with a length-delimiter to a buffer. <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.encode_length_delimited">Read more</a></p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.encode_length_delimited_to_vec" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/prost/0.9.0/src/prost/message.rs.html#95-97" title="goto source code">[src]</a></div><a href="#method.encode_length_delimited_to_vec" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.encode_length_delimited_to_vec" class="fnname">encode_length_delimited_to_vec</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.u8.html">u8</a>, <a class="struct" href="https://doc.rust-lang.org/1.59.0/alloc/alloc/struct.Global.html" title="struct alloc::alloc::Global">Global</a>&gt;</h4></div></summary><div class='docblock'><p>Encodes the message with a length-delimiter to a newly allocated buffer.</p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.decode" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/prost/0.9.0/src/prost/message.rs.html#110-113" title="goto source code">[src]</a></div><a href="#method.decode" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.decode" class="fnname">decode</a>&lt;B&gt;(buf: B) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="https://docs.rs/prost/0.9.0/prost/error/struct.DecodeError.html" title="struct prost::error::DecodeError">DecodeError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;B: Buf,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/default/trait.Default.html" title="trait core::default::Default">Default</a>,&nbsp;</span></h4></div></summary><div class='docblock'><p>Decodes an instance of the message from a buffer. <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.decode">Read more</a></p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.decode_length_delimited" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/prost/0.9.0/src/prost/message.rs.html#120-123" title="goto source code">[src]</a></div><a href="#method.decode_length_delimited" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.decode_length_delimited" class="fnname">decode_length_delimited</a>&lt;B&gt;(buf: B) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="https://docs.rs/prost/0.9.0/prost/error/struct.DecodeError.html" title="struct prost::error::DecodeError">DecodeError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;B: Buf,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/default/trait.Default.html" title="trait core::default::Default">Default</a>,&nbsp;</span></h4></div></summary><div class='docblock'><p>Decodes a length-delimited instance of the message from the buffer.</p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.merge" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/prost/0.9.0/src/prost/message.rs.html#133-136" title="goto source code">[src]</a></div><a href="#method.merge" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.merge" class="fnname">merge</a>&lt;B&gt;(&amp;mut self, buf: B) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.unit.html">()</a>, <a class="struct" href="https://docs.rs/prost/0.9.0/prost/error/struct.DecodeError.html" title="struct prost::error::DecodeError">DecodeError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;B: Buf,&nbsp;</span></h4></div></summary><div class='docblock'><p>Decodes an instance of the message from a buffer, and merges it into <code>self</code>. <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.merge">Read more</a></p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.merge_length_delimited" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/prost/0.9.0/src/prost/message.rs.html#148-151" title="goto source code">[src]</a></div><a href="#method.merge_length_delimited" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.merge_length_delimited" class="fnname">merge_length_delimited</a>&lt;B&gt;(&amp;mut self, buf: B) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.unit.html">()</a>, <a class="struct" href="https://docs.rs/prost/0.9.0/prost/error/struct.DecodeError.html" title="struct prost::error::DecodeError">DecodeError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;B: Buf,&nbsp;</span></h4></div></summary><div class='docblock'><p>Decodes a length-delimited instance of the message from buffer, and
+merges it into <code>self</code>. <a href="https://docs.rs/prost/0.9.0/prost/message/trait.Message.html#method.merge_length_delimited">Read more</a></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-PartialEq%3COptimizeToursValidationError%3E" class="impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#impl-PartialEq%3COptimizeToursValidationError%3E" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>&lt;<a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a>&gt; for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.eq" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#method.eq" class="anchor"></a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.59.0/core/cmp/trait.PartialEq.html#tymethod.eq" class="fnname">eq</a>(&amp;self, other: &amp;<a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.bool.html">bool</a></h4></div></summary><div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used
+by <code>==</code>. <a href="https://doc.rust-lang.org/1.59.0/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.ne" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#method.ne" class="anchor"></a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.59.0/core/cmp/trait.PartialEq.html#method.ne" class="fnname">ne</a>(&amp;self, other: &amp;<a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.bool.html">bool</a></h4></div></summary><div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></details></div></details><div id="impl-StructuralPartialEq" class="impl has-srclink"><div class="rightside"><a class="srclink" href="../../../../../src/google_api_proto/google/cloud/optimization/v1/mod.rs.html#2456" title="goto source code">[src]</a></div><a href="#impl-StructuralPartialEq" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/marker/trait.StructuralPartialEq.html" title="trait core::marker::StructuralPartialEq">StructuralPartialEq</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div></div><h2 id="synthetic-implementations" class="small-section-header">Auto Trait Implementations<a href="#synthetic-implementations" class="anchor"></a></h2><div id="synthetic-implementations-list"><div id="impl-RefUnwindSafe" class="impl has-srclink"><div class="rightside"></div><a href="#impl-RefUnwindSafe" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/panic/unwind_safe/trait.RefUnwindSafe.html" title="trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div><div id="impl-Send" class="impl has-srclink"><div class="rightside"></div><a href="#impl-Send" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div><div id="impl-Sync" class="impl has-srclink"><div class="rightside"></div><a href="#impl-Sync" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div><div id="impl-Unpin" class="impl has-srclink"><div class="rightside"></div><a href="#impl-Unpin" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div><div id="impl-UnwindSafe" class="impl has-srclink"><div class="rightside"></div><a href="#impl-UnwindSafe" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/panic/unwind_safe/trait.UnwindSafe.html" title="trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.OptimizeToursValidationError.html" title="struct google_api_proto::google::cloud::optimization::v1::OptimizeToursValidationError">OptimizeToursValidationError</a></h3></div></div><h2 id="blanket-implementations" class="small-section-header">Blanket Implementations<a href="#blanket-implementations" class="anchor"></a></h2><div id="blanket-implementations-list"><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-Any" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/any.rs.html#132-136" title="goto source code">[src]</a></div><a href="#impl-Any" class="anchor"></a><h3 class="code-header in-band">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/any/trait.Any.html" title="trait core::any::Any">Any</a> for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: 'static + ?<a class="trait" href="https://doc.rust-lang.org/1.59.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.type_id" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/any.rs.html#133" title="goto source code">[src]</a></div><a href="#method.type_id" class="anchor"></a><h4 class="code-header">pub fn <a href="https://doc.rust-lang.org/1.59.0/core/any/trait.Any.html#tymethod.type_id" class="fnname">type_id</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.59.0/core/any/struct.TypeId.html" title="struct core::any::TypeId">TypeId</a></h4></div></summary><div class='docblock'><p>Gets the <code>TypeId</code> of <code>self</code>. <a href="https://doc.rust-lang.org/1.59.0/core/any/trait.Any.html#tymethod.type_id">Read more</a></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-Borrow%3CT%3E" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/borrow.rs.html#209-214" title="goto source code">[src]</a></div><a href="#impl-Borrow%3CT%3E" class="anchor"></a><h3 class="code-header in-band">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow">Borrow</a>&lt;T&gt; for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: ?<a class="trait" href="https://doc.rust-lang.org/1.59.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.borrow" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/borrow.rs.html#211" title="goto source code">[src]</a></div><a href="#method.borrow" class="anchor"></a><h4 class="code-header">pub fn <a href="https://doc.rust-lang.org/1.59.0/core/borrow/trait.Borrow.html#tymethod.borrow" class="fnname">borrow</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.reference.html">&amp;</a>T</h4></div></summary><div class='docblock'><p>Immutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.59.0/core/borrow/trait.Borrow.html#tymethod.borrow">Read more</a></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-BorrowMut%3CT%3E" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/borrow.rs.html#218-222" title="goto source code">[src]</a></div><a href="#impl-BorrowMut%3CT%3E" class="anchor"></a><h3 class="code-header in-band">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/borrow/trait.BorrowMut.html" title="trait core::borrow::BorrowMut">BorrowMut</a>&lt;T&gt; for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: ?<a class="trait" href="https://doc.rust-lang.org/1.59.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.borrow_mut" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/borrow.rs.html#219" title="goto source code">[src]</a></div><a href="#method.borrow_mut" class="anchor"></a><h4 class="code-header">pub fn <a href="https://doc.rust-lang.org/1.59.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fnname">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.reference.html">&amp;mut </a>T</h4></div></summary><div class='docblock'><p>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.59.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">Read more</a></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-From%3CT%3E" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/convert/mod.rs.html#550-554" title="goto source code">[src]</a></div><a href="#impl-From%3CT%3E" class="anchor"></a><h3 class="code-header in-band">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.from" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/convert/mod.rs.html#551" title="goto source code">[src]</a></div><a href="#method.from" class="anchor"></a><h4 class="code-header">pub fn <a href="https://doc.rust-lang.org/1.59.0/core/convert/trait.From.html#tymethod.from" class="fnname">from</a>(t: T) -&gt; T</h4></div></summary><div class='docblock'><p>Performs the conversion.</p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-Instrument" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#276" title="goto source code">[src]</a></div><a href="#impl-Instrument" class="anchor"></a><h3 class="code-header in-band">impl&lt;T&gt; <a class="trait" href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.Instrument.html" title="trait tracing::instrument::Instrument">Instrument</a> for T</h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.instrument" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#82" title="goto source code">[src]</a></div><a href="#method.instrument" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.Instrument.html#method.instrument" class="fnname">instrument</a>(self, span: <a class="struct" href="https://docs.rs/tracing/0.1.29/tracing/span/struct.Span.html" title="struct tracing::span::Span">Span</a>) -&gt; <a class="struct" href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.Instrumented.html" title="struct tracing::instrument::Instrumented">Instrumented</a>&lt;Self&gt;</h4></div></summary><div class='docblock'><p>Instruments this type with the provided <a href="https://docs.rs/tracing/0.1.29/tracing/span/struct.Span.html" title="Span"><code>Span</code></a>, returning an
+<code>Instrumented</code> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.Instrument.html#method.instrument">Read more</a></p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.in_current_span" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#121" title="goto source code">[src]</a></div><a href="#method.in_current_span" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.Instrument.html#method.in_current_span" class="fnname">in_current_span</a>(self) -&gt; <a class="struct" href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.Instrumented.html" title="struct tracing::instrument::Instrumented">Instrumented</a>&lt;Self&gt;</h4></div></summary><div class='docblock'><p>Instruments this type with the <a href="https://docs.rs/tracing/0.1.29/tracing/span/struct.Span.html#method.current">current</a> <a href="https://docs.rs/tracing/0.1.29/tracing/span/struct.Span.html"><code>Span</code></a>, returning an
+<code>Instrumented</code> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.Instrument.html#method.in_current_span">Read more</a></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-Into%3CU%3E" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/convert/mod.rs.html#538-545" title="goto source code">[src]</a></div><a href="#impl-Into%3CU%3E" class="anchor"></a><h3 class="code-header in-band">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,&nbsp;</span></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.into" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/convert/mod.rs.html#542" title="goto source code">[src]</a></div><a href="#method.into" class="anchor"></a><h4 class="code-header">pub fn <a href="https://doc.rust-lang.org/1.59.0/core/convert/trait.Into.html#tymethod.into" class="fnname">into</a>(self) -&gt; U</h4></div></summary><div class='docblock'><p>Performs the conversion.</p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-IntoRequest%3CT%3E" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tonic/0.6.2/src/tonic/request.rs.html#346-350" title="goto source code">[src]</a></div><a href="#impl-IntoRequest%3CT%3E" class="anchor"></a><h3 class="code-header in-band">impl&lt;T&gt; <a class="trait" href="https://docs.rs/tonic/0.6.2/tonic/request/trait.IntoRequest.html" title="trait tonic::request::IntoRequest">IntoRequest</a>&lt;T&gt; for T</h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.into_request" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tonic/0.6.2/src/tonic/request.rs.html#347" title="goto source code">[src]</a></div><a href="#method.into_request" class="anchor"></a><h4 class="code-header">pub fn <a href="https://docs.rs/tonic/0.6.2/tonic/request/trait.IntoRequest.html#tymethod.into_request" class="fnname">into_request</a>(self) -&gt; <a class="struct" href="https://docs.rs/tonic/0.6.2/tonic/request/struct.Request.html" title="struct tonic::request::Request">Request</a>&lt;T&gt;</h4></div></summary><div class='docblock'><p>Wrap the input message <code>T</code> in a <code>tonic::Request</code></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-ToOwned" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/alloc/borrow.rs.html#84-96" title="goto source code">[src]</a></div><a href="#impl-ToOwned" class="anchor"></a><h3 class="code-header in-band">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.59.0/alloc/borrow/trait.ToOwned.html" title="trait alloc::borrow::ToOwned">ToOwned</a> for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,&nbsp;</span></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle" open><summary><div id="associatedtype.Owned" class="type trait-impl has-srclink"><a href="#associatedtype.Owned" class="anchor"></a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.59.0/alloc/borrow/trait.ToOwned.html#associatedtype.Owned" class="associatedtype">Owned</a> = T</h4></div></summary><div class='docblock'><p>The resulting type after obtaining ownership.</p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.to_owned" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/alloc/borrow.rs.html#89" title="goto source code">[src]</a></div><a href="#method.to_owned" class="anchor"></a><h4 class="code-header">pub fn <a href="https://doc.rust-lang.org/1.59.0/alloc/borrow/trait.ToOwned.html#tymethod.to_owned" class="fnname">to_owned</a>(&amp;self) -&gt; T</h4></div></summary><div class='docblock'><p>Creates owned data from borrowed data, usually by cloning. <a href="https://doc.rust-lang.org/1.59.0/alloc/borrow/trait.ToOwned.html#tymethod.to_owned">Read more</a></p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.clone_into" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/alloc/borrow.rs.html#93" title="goto source code">[src]</a></div><a href="#method.clone_into" class="anchor"></a><h4 class="code-header">pub fn <a href="https://doc.rust-lang.org/1.59.0/alloc/borrow/trait.ToOwned.html#method.clone_into" class="fnname">clone_into</a>(&amp;self, target: <a class="primitive" href="https://doc.rust-lang.org/1.59.0/std/primitive.reference.html">&amp;mut </a>T)</h4></div></summary><div class="item-info"><div class="stab unstable"><span class="emoji">🔬</span> This is a nightly-only experimental API. (<code>toowned_clone_into</code>)</div></div><div class='docblock'><p>Uses borrowed data to replace owned data, usually by cloning. <a href="https://doc.rust-lang.org/1.59.0/alloc/borrow/trait.ToOwned.html#method.clone_into">Read more</a></p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-TryFrom%3CU%3E" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/convert/mod.rs.html#588-597" title="goto source code">[src]</a></div><a href="#impl-TryFrom%3CU%3E" class="anchor"></a><h3 class="code-header in-band">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,&nbsp;</span></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle" open><summary><div id="associatedtype.Error-1" class="type trait-impl has-srclink"><a href="#associatedtype.Error-1" class="anchor"></a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></div></summary><div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.try_from" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/convert/mod.rs.html#594" title="goto source code">[src]</a></div><a href="#method.try_from" class="anchor"></a><h4 class="code-header">pub fn <a href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fnname">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></div></summary><div class='docblock'><p>Performs the conversion.</p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-TryInto%3CU%3E" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/convert/mod.rs.html#574-583" title="goto source code">[src]</a></div><a href="#impl-TryInto%3CU%3E" class="anchor"></a><h3 class="code-header in-band">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;,&nbsp;</span></h3></div></summary><div class="impl-items"><details class="rustdoc-toggle" open><summary><div id="associatedtype.Error" class="type trait-impl has-srclink"><a href="#associatedtype.Error" class="anchor"></a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryInto.html#associatedtype.Error" class="associatedtype">Error</a> = &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a></h4></div></summary><div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.try_into" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://doc.rust-lang.org/1.59.0/src/core/convert/mod.rs.html#580" title="goto source code">[src]</a></div><a href="#method.try_into" class="anchor"></a><h4 class="code-header">pub fn <a href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryInto.html#tymethod.try_into" class="fnname">try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.59.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;U, &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></div></summary><div class='docblock'><p>Performs the conversion.</p>
+</div></details></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-VZip%3CV%3E" class="impl has-srclink"><div class="rightside"></div><a href="#impl-VZip%3CV%3E" class="anchor"></a><h3 class="code-header in-band">impl&lt;V, T&gt; VZip&lt;V&gt; for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;V: MultiLane&lt;T&gt;,&nbsp;</span></h3></div></summary><div class="impl-items"><div id="method.vzip" class="method trait-impl has-srclink"><div class="rightside"></div><a href="#method.vzip" class="anchor"></a><h4 class="code-header">pub fn <a  class="fnname">vzip</a>(self) -&gt; V</h4></div></div></details><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-WithSubscriber" class="impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#334" title="goto source code">[src]</a></div><a href="#impl-WithSubscriber" class="anchor"></a><h3 class="code-header in-band">impl&lt;T&gt; <a class="trait" href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html" title="trait tracing::instrument::WithSubscriber">WithSubscriber</a> for T</h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.with_subscriber" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#169-171" title="goto source code">[src]</a></div><a href="#method.with_subscriber" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_subscriber" class="fnname">with_subscriber</a>&lt;S&gt;(self, subscriber: S) -&gt; <a class="struct" href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch">WithDispatch</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="https://doc.rust-lang.org/1.59.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://docs.rs/tracing-core/0.1.21/tracing_core/dispatcher/struct.Dispatch.html" title="struct tracing_core::dispatcher::Dispatch">Dispatch</a>&gt;,&nbsp;</span></h4></div></summary><div class='docblock'><p>Attaches the provided <a href="https://docs.rs/tracing-core/0.1.21/tracing_core/subscriber/trait.Subscriber.html"><code>Subscriber</code></a> to this type, returning a
+<a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_subscriber">Read more</a></p>
+</div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.with_current_subscriber" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#221" title="goto source code">[src]</a></div><a href="#method.with_current_subscriber" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber" class="fnname">with_current_subscriber</a>(self) -&gt; <a class="struct" href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch">WithDispatch</a>&lt;Self&gt;</h4></div></summary><div class='docblock'><p>Attaches the current <a href="https://docs.rs/tracing/0.1.29/tracing/dispatcher/index.html#setting-the-default-subscriber">default</a> <a href="https://docs.rs/tracing-core/0.1.21/tracing_core/subscriber/trait.Subscriber.html"><code>Subscriber</code></a> to this type, returning a
+<a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber">Read more</a></p>
+</div></details></div></details></div></section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>
+</body></html>

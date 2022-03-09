@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Row","Specifies a row of the duration and distance matrix."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Interval","Interval of acceptable load amounts."]]});

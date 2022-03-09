@@ -8673,6 +8673,57 @@
 <span id="8671">8671</span>
 <span id="8672">8672</span>
 <span id="8673">8673</span>
+<span id="8674">8674</span>
+<span id="8675">8675</span>
+<span id="8676">8676</span>
+<span id="8677">8677</span>
+<span id="8678">8678</span>
+<span id="8679">8679</span>
+<span id="8680">8680</span>
+<span id="8681">8681</span>
+<span id="8682">8682</span>
+<span id="8683">8683</span>
+<span id="8684">8684</span>
+<span id="8685">8685</span>
+<span id="8686">8686</span>
+<span id="8687">8687</span>
+<span id="8688">8688</span>
+<span id="8689">8689</span>
+<span id="8690">8690</span>
+<span id="8691">8691</span>
+<span id="8692">8692</span>
+<span id="8693">8693</span>
+<span id="8694">8694</span>
+<span id="8695">8695</span>
+<span id="8696">8696</span>
+<span id="8697">8697</span>
+<span id="8698">8698</span>
+<span id="8699">8699</span>
+<span id="8700">8700</span>
+<span id="8701">8701</span>
+<span id="8702">8702</span>
+<span id="8703">8703</span>
+<span id="8704">8704</span>
+<span id="8705">8705</span>
+<span id="8706">8706</span>
+<span id="8707">8707</span>
+<span id="8708">8708</span>
+<span id="8709">8709</span>
+<span id="8710">8710</span>
+<span id="8711">8711</span>
+<span id="8712">8712</span>
+<span id="8713">8713</span>
+<span id="8714">8714</span>
+<span id="8715">8715</span>
+<span id="8716">8716</span>
+<span id="8717">8717</span>
+<span id="8718">8718</span>
+<span id="8719">8719</span>
+<span id="8720">8720</span>
+<span id="8721">8721</span>
+<span id="8722">8722</span>
+<span id="8723">8723</span>
+<span id="8724">8724</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Represents a response message that can be returned by a conversational agent.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Response messages are also used for output audio synthesis. The approach is</span>
@@ -10039,6 +10090,12 @@
         <span class="doccomment">/// The [Google Cloud Storage](&lt;https://cloud.google.com/storage/docs/&gt;) URI</span>
         <span class="doccomment">/// to import flow from. The format of this URI must be</span>
         <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a read operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have read permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">FlowUri</span>(<span class="ident">::prost::alloc::string::String</span>),
         <span class="doccomment">/// Uncompressed raw byte content for flow.</span>
@@ -10067,6 +10124,12 @@
     <span class="doccomment">/// export the flow to. The format of this URI must be</span>
     <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
     <span class="doccomment">/// If left unspecified, the serialized flow is returned inline.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Dialogflow performs a write operation for the Cloud Storage object</span>
+    <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+    <span class="doccomment">/// have write permissions for the object. For more information, see</span>
+    <span class="doccomment">/// [Dialogflow access</span>
+    <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">flow_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. Whether to export flows referenced by the specified flow.</span>
@@ -13051,11 +13114,26 @@
     <span class="doccomment">/// Session parameters to be compared when calculating differences.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">tracking_parameters</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Flow name. If not set, default start flow is assumed.</span>
+    <span class="doccomment">/// Flow name to start the test case with.</span>
     <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;/agents/&lt;Agent</span>
     <span class="doccomment">/// ID&gt;/flows/&lt;Flow ID&gt;`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only one of `flow` and `page` should be set to indicate the starting point</span>
+    <span class="doccomment">/// of the test case. If both are set, `page` takes precedence over `flow`. If</span>
+    <span class="doccomment">/// neither is set, the test case will start with start page on the default</span>
+    <span class="doccomment">/// start flow.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">flow</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The \[page][google.cloud.dialogflow.cx.v3.Page\] to start the test case with.</span>
+    <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;/agents/&lt;Agent</span>
+    <span class="doccomment">/// ID&gt;/flows/&lt;Flow ID&gt;/pages/&lt;Page ID&gt;`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only one of `flow` and `page` should be set to indicate the starting point</span>
+    <span class="doccomment">/// of the test case. If both are set, `page` takes precedence over `flow`. If</span>
+    <span class="doccomment">/// neither is set, the test case will start with start page on the default</span>
+    <span class="doccomment">/// start flow.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// One interaction between a human and virtual agent. The human provides some</span>
 <span class="doccomment">/// input and the virtual agent provides a response.</span>
@@ -13525,6 +13603,12 @@
         <span class="doccomment">/// The [Google Cloud Storage](&lt;https://cloud.google.com/storage/docs/&gt;) URI</span>
         <span class="doccomment">/// to import test cases from. The format of this URI must be</span>
         <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a read operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have read permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">GcsUri</span>(<span class="ident">::prost::alloc::string::String</span>),
         <span class="doccomment">/// Uncompressed raw byte content for test cases.</span>
@@ -13606,6 +13690,12 @@
         <span class="doccomment">/// export the test cases to. The format of this URI must be</span>
         <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`. If unspecified, the serialized test</span>
         <span class="doccomment">/// cases is returned inline.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a write operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have write permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">GcsUri</span>(<span class="ident">::prost::alloc::string::String</span>),
     }
@@ -15882,6 +15972,12 @@
     <span class="doccomment">/// export the agent to. The format of this URI must be</span>
     <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
     <span class="doccomment">/// If left unspecified, the serialized agent is returned inline.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Dialogflow performs a write operation for the Cloud Storage object</span>
+    <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+    <span class="doccomment">/// have write permissions for the object. For more information, see</span>
+    <span class="doccomment">/// [Dialogflow access</span>
+    <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">agent_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. Environment name. If not set, draft environment is assumed.</span>
@@ -15947,6 +16043,12 @@
         <span class="doccomment">/// The [Google Cloud Storage](&lt;https://cloud.google.com/storage/docs/&gt;) URI</span>
         <span class="doccomment">/// to restore agent from. The format of this URI must be</span>
         <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a read operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have read permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">AgentUri</span>(<span class="ident">::prost::alloc::string::String</span>),
         <span class="doccomment">/// Uncompressed raw byte content for agent.</span>

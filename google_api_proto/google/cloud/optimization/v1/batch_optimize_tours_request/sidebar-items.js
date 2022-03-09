@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["AsyncModelConfig","Information for solving one optimization model asynchronously."]]});

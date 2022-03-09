@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["constraint_relaxation","Nested message and enum types in `ConstraintRelaxation`."]],"struct":[["ConstraintRelaxation","For a group of vehicles, specifies at what threshold(s) constraints on visits will be relaxed and to which level. Shipments listed in the `skipped_shipment` field are constrained to be skipped; i.e., they cannot be performed."]]});

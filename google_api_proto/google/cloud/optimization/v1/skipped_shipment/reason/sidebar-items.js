@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Code","Code identifying the reason type. The order here is meaningless. In particular, it gives no indication of whether a given reason will appear before another in the solution, if both apply."]]});
