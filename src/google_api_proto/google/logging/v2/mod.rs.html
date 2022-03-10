@@ -2816,7 +2816,741 @@
 <span id="2814">2814</span>
 <span id="2815">2815</span>
 <span id="2816">2816</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Describes a logs-based metric. The value of the metric is the number of log</span>
+</pre><pre class="rust"><code><span class="doccomment">/// An individual entry in a log.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntry</span> {
+    <span class="doccomment">/// Required. The resource name of the log to which this log entry belongs:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     &quot;projects/\[PROJECT_ID]/logs/[LOG_ID\]&quot;</span>
+    <span class="doccomment">///     &quot;organizations/\[ORGANIZATION_ID]/logs/[LOG_ID\]&quot;</span>
+    <span class="doccomment">///     &quot;billingAccounts/\[BILLING_ACCOUNT_ID]/logs/[LOG_ID\]&quot;</span>
+    <span class="doccomment">///     &quot;folders/\[FOLDER_ID]/logs/[LOG_ID\]&quot;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// A project number may be used in place of PROJECT_ID. The project number is</span>
+    <span class="doccomment">/// translated to its corresponding PROJECT_ID internally and the `log_name`</span>
+    <span class="doccomment">/// field will contain PROJECT_ID in queries and exports.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `\[LOG_ID\]` must be URL-encoded within `log_name`. Example:</span>
+    <span class="doccomment">/// `&quot;organizations/1234567890/logs/cloudresourcemanager.googleapis.com%2Factivity&quot;`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `\[LOG_ID\]` must be less than 512 characters long and can only include the</span>
+    <span class="doccomment">/// following characters: upper and lower case alphanumeric characters,</span>
+    <span class="doccomment">/// forward-slash, underscore, hyphen, and period.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For backward compatibility, if `log_name` begins with a forward-slash, such</span>
+    <span class="doccomment">/// as `/projects/...`, then the log entry is ingested as usual, but the</span>
+    <span class="doccomment">/// forward-slash is removed. Listing the log entry will not show the leading</span>
+    <span class="doccomment">/// slash and filtering for a log name with a leading slash will never return</span>
+    <span class="doccomment">/// any results.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">log_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The monitored resource that produced this log entry.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Example: a log entry that reports a database error would be associated with</span>
+    <span class="doccomment">/// the monitored resource designating the particular database that reported</span>
+    <span class="doccomment">/// the error.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. The time the event described by the log entry occurred. This time is used</span>
+    <span class="doccomment">/// to compute the log entry&#39;s age and to enforce the logs retention period.</span>
+    <span class="doccomment">/// If this field is omitted in a new log entry, then Logging assigns it the</span>
+    <span class="doccomment">/// current time. Timestamps have nanosecond accuracy, but trailing zeros in</span>
+    <span class="doccomment">/// the fractional seconds might be omitted when the timestamp is displayed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Incoming log entries must have timestamps that don&#39;t exceed the</span>
+    <span class="doccomment">/// [logs retention</span>
+    <span class="doccomment">/// period](&lt;https://cloud.google.com/logging/quotas#logs_retention_periods&gt;) in</span>
+    <span class="doccomment">/// the past, and that don&#39;t exceed 24 hours in the future. Log entries outside</span>
+    <span class="doccomment">/// those time boundaries aren&#39;t ingested by Logging.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The time the log entry was received by Logging.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;24&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">receive_timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. The severity of the log entry. The default value is `LogSeverity.DEFAULT`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::r#type::LogSeverity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. A unique identifier for the log entry. If you provide a value, then</span>
+    <span class="doccomment">/// Logging considers other log entries in the same project, with the same</span>
+    <span class="doccomment">/// `timestamp`, and with the same `insert_id` to be duplicates which are</span>
+    <span class="doccomment">/// removed in a single query result. However, there are no guarantees of</span>
+    <span class="doccomment">/// de-duplication in the export of logs.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the `insert_id` is omitted when writing a log entry, the Logging API</span>
+    <span class="doccomment">/// assigns its own unique identifier in this field.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// In queries, the `insert_id` is also used to order log entries that have</span>
+    <span class="doccomment">/// the same `log_name` and `timestamp` values.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">insert_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Information about the HTTP request associated with this log entry, if</span>
+    <span class="doccomment">/// applicable.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">http_request</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">r#type</span><span class="ident">::HttpRequest</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. A map of key, value pairs that provides additional information about the</span>
+    <span class="doccomment">/// log entry. The labels can be user-defined or system-defined.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// User-defined labels are arbitrary key, value pairs that you can use to</span>
+    <span class="doccomment">/// classify logs.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// System-defined labels are defined by GCP services for platform logs.</span>
+    <span class="doccomment">/// They have two components - a service namespace component and the</span>
+    <span class="doccomment">/// attribute name. For example: `compute.googleapis.com/resource_name`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Cloud Logging truncates label keys that exceed 512 B and label</span>
+    <span class="doccomment">/// values that exceed 64 KB upon their associated log entry being</span>
+    <span class="doccomment">/// written. The truncation is indicated by an ellipsis at the</span>
+    <span class="doccomment">/// end of the character string.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Information about an operation associated with the log entry, if</span>
+    <span class="doccomment">/// applicable.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogEntryOperation</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Resource name of the trace associated with the log entry, if any. If it</span>
+    <span class="doccomment">/// contains a relative resource name, the name is assumed to be relative to</span>
+    <span class="doccomment">/// `//tracing.googleapis.com`. Example:</span>
+    <span class="doccomment">/// `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">trace</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The span ID within the trace associated with the log entry.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For Trace spans, this is the same format that the Trace API v2 uses: a</span>
+    <span class="doccomment">/// 16-character hexadecimal encoding of an 8-byte array, such as</span>
+    <span class="doccomment">/// `000000000000004a`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;27&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">span_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The sampling decision of the trace associated with the log entry.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// True means that the trace resource name in the `trace` field was sampled</span>
+    <span class="doccomment">/// for storage in a trace backend. False means that the trace was not sampled</span>
+    <span class="doccomment">/// for storage when this log entry was written, or the sampling decision was</span>
+    <span class="doccomment">/// unknown at the time. A non-sampled `trace` value is still useful as a</span>
+    <span class="doccomment">/// request correlation identifier. The default is False.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;30&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">trace_sampled</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Optional. Source code location information associated with the log entry, if any.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;23&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogEntrySourceLocation</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Information indicating this LogEntry is part of a sequence of multiple log</span>
+    <span class="doccomment">/// entries split from a single LogEntry.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;35&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">split</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogSplit</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The log entry payload, which can be one of multiple types.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;log_entry::Payload&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3, 6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">log_entry::Payload</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `LogEntry`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">log_entry</span> {
+    <span class="doccomment">/// The log entry payload, which can be one of multiple types.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Payload</span> {
+        <span class="doccomment">/// The log entry payload, represented as a protocol buffer. Some Google</span>
+        <span class="doccomment">/// Cloud Platform services use this field for their log entry payloads.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// The following protocol buffer types are supported; user-defined types</span>
+        <span class="doccomment">/// are not supported:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///   &quot;type.googleapis.com/google.cloud.audit.AuditLog&quot;</span>
+        <span class="doccomment">///   &quot;type.googleapis.com/google.appengine.logging.v1.RequestLog&quot;</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">ProtoPayload</span>(<span class="ident">::prost_types::Any</span>),
+        <span class="doccomment">/// The log entry payload, represented as a Unicode string (UTF-8).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">TextPayload</span>(<span class="ident">::prost::alloc::string::String</span>),
+        <span class="doccomment">/// The log entry payload, represented as a structure that is</span>
+        <span class="doccomment">/// expressed as a JSON object.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">JsonPayload</span>(<span class="ident">::prost_types::Struct</span>),
+    }
+}
+<span class="doccomment">/// Additional information about a potentially long-running operation with which</span>
+<span class="doccomment">/// a log entry is associated.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntryOperation</span> {
+    <span class="doccomment">/// Optional. An arbitrary operation identifier. Log entries with the same</span>
+    <span class="doccomment">/// identifier are assumed to be part of the same operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. An arbitrary producer identifier. The combination of `id` and</span>
+    <span class="doccomment">/// `producer` must be globally unique. Examples for `producer`:</span>
+    <span class="doccomment">/// `&quot;MyDivision.MyBigCompany.com&quot;`, `&quot;github.com/MyProject/MyApplication&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">producer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Set this to True if this is the first log entry in the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">first</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Optional. Set this to True if this is the last log entry in the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Additional information about the source code location that produced the log</span>
+<span class="doccomment">/// entry.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntrySourceLocation</span> {
+    <span class="doccomment">/// Optional. Source file name. Depending on the runtime environment, this</span>
+    <span class="doccomment">/// might be a simple name or a fully-qualified name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Line within the source file. 1-based; 0 indicates no line number</span>
+    <span class="doccomment">/// available.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">line</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Optional. Human-readable name of the function or method being invoked, with</span>
+    <span class="doccomment">/// optional context such as the class or package name. This information may be</span>
+    <span class="doccomment">/// used in contexts such as the logs viewer, where a file and line number are</span>
+    <span class="doccomment">/// less meaningful. The format can vary by language. For example:</span>
+    <span class="doccomment">/// `qual.if.ied.Class.method` (Java), `dir/package.func` (Go), `function`</span>
+    <span class="doccomment">/// (Python).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">function</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Additional information used to correlate multiple log entries. Used when a</span>
+<span class="doccomment">/// single LogEntry would exceed the Google Cloud Logging size limit and is</span>
+<span class="doccomment">/// split across multiple log entries.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogSplit</span> {
+    <span class="doccomment">/// A globally unique identifier for all log entries in a sequence of split log</span>
+    <span class="doccomment">/// entries. All log entries with the same |LogSplit.uid| are assumed to be</span>
+    <span class="doccomment">/// part of the same sequence of split log entries.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">uid</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The index of this LogEntry in the sequence of split log entries. Log</span>
+    <span class="doccomment">/// entries are given |index| values 0, 1, ..., n-1 for a sequence of n log</span>
+    <span class="doccomment">/// entries.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">index</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The total number of log entries that the original LogEntry was split into.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">total_splits</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// The parameters to DeleteLog.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteLogRequest</span> {
+    <span class="doccomment">/// Required. The resource name of the log to delete:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `projects/\[PROJECT_ID]/logs/[LOG_ID\]`</span>
+    <span class="doccomment">/// * `organizations/\[ORGANIZATION_ID]/logs/[LOG_ID\]`</span>
+    <span class="doccomment">/// * `billingAccounts/\[BILLING_ACCOUNT_ID]/logs/[LOG_ID\]`</span>
+    <span class="doccomment">/// * `folders/\[FOLDER_ID]/logs/[LOG_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `\[LOG_ID\]` must be URL-encoded. For example,</span>
+    <span class="doccomment">/// `&quot;projects/my-project-id/logs/syslog&quot;`,</span>
+    <span class="doccomment">/// `&quot;organizations/123/logs/cloudaudit.googleapis.com%2Factivity&quot;`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For more information about log names, see</span>
+    <span class="doccomment">/// \[LogEntry][google.logging.v2.LogEntry\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">log_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The parameters to WriteLogEntries.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteLogEntriesRequest</span> {
+    <span class="doccomment">/// Optional. A default log resource name that is assigned to all log entries</span>
+    <span class="doccomment">/// in `entries` that do not specify a value for `log_name`:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `projects/\[PROJECT_ID]/logs/[LOG_ID\]`</span>
+    <span class="doccomment">/// * `organizations/\[ORGANIZATION_ID]/logs/[LOG_ID\]`</span>
+    <span class="doccomment">/// * `billingAccounts/\[BILLING_ACCOUNT_ID]/logs/[LOG_ID\]`</span>
+    <span class="doccomment">/// * `folders/\[FOLDER_ID]/logs/[LOG_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `\[LOG_ID\]` must be URL-encoded. For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     &quot;projects/my-project-id/logs/syslog&quot;</span>
+    <span class="doccomment">///     &quot;organizations/123/logs/cloudaudit.googleapis.com%2Factivity&quot;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The permission `logging.logEntries.create` is needed on each project,</span>
+    <span class="doccomment">/// organization, billing account, or folder that is receiving new log</span>
+    <span class="doccomment">/// entries, whether the resource is specified in `logName` or in an</span>
+    <span class="doccomment">/// individual log entry.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">log_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. A default monitored resource object that is assigned to all log</span>
+    <span class="doccomment">/// entries in `entries` that do not specify a value for `resource`. Example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     { &quot;type&quot;: &quot;gce_instance&quot;,</span>
+    <span class="doccomment">///       &quot;labels&quot;: {</span>
+    <span class="doccomment">///         &quot;zone&quot;: &quot;us-central1-a&quot;, &quot;instance_id&quot;: &quot;00000000000000000000&quot; }}</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See \[LogEntry][google.logging.v2.LogEntry\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Default labels that are added to the `labels` field of all log</span>
+    <span class="doccomment">/// entries in `entries`. If a log entry already has a label with the same key</span>
+    <span class="doccomment">/// as a label in this parameter, then the log entry&#39;s label is not changed.</span>
+    <span class="doccomment">/// See \[LogEntry][google.logging.v2.LogEntry\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. The log entries to send to Logging. The order of log</span>
+    <span class="doccomment">/// entries in this list does not matter. Values supplied in this method&#39;s</span>
+    <span class="doccomment">/// `log_name`, `resource`, and `labels` fields are copied into those log</span>
+    <span class="doccomment">/// entries in this list that do not include values for their corresponding</span>
+    <span class="doccomment">/// fields. For more information, see the</span>
+    <span class="doccomment">/// \[LogEntry][google.logging.v2.LogEntry\] type.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the `timestamp` or `insert_id` fields are missing in log entries, then</span>
+    <span class="doccomment">/// this method supplies the current time or a unique identifier, respectively.</span>
+    <span class="doccomment">/// The supplied values are chosen so that, among the log entries that did not</span>
+    <span class="doccomment">/// supply their own values, the entries earlier in the list will sort before</span>
+    <span class="doccomment">/// the entries later in the list. See the `entries.list` method.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Log entries with timestamps that are more than the</span>
+    <span class="doccomment">/// [logs retention period](&lt;https://cloud.google.com/logging/quotas&gt;) in</span>
+    <span class="doccomment">/// the past or more than 24 hours in the future will not be available when</span>
+    <span class="doccomment">/// calling `entries.list`. However, those log entries can still be [exported</span>
+    <span class="doccomment">/// with</span>
+    <span class="doccomment">/// LogSinks](&lt;https://cloud.google.com/logging/docs/api/tasks/exporting-logs&gt;).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// To improve throughput and to avoid exceeding the</span>
+    <span class="doccomment">/// [quota limit](&lt;https://cloud.google.com/logging/quotas&gt;) for calls to</span>
+    <span class="doccomment">/// `entries.write`, you should try to include several log entries in this</span>
+    <span class="doccomment">/// list, rather than calling this method for each individual log entry.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LogEntry</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Whether valid entries should be written even if some other</span>
+    <span class="doccomment">/// entries fail due to INVALID_ARGUMENT or PERMISSION_DENIED errors. If any</span>
+    <span class="doccomment">/// entry is not written, then the response status is the error associated</span>
+    <span class="doccomment">/// with one of the failed entries and the response includes error details</span>
+    <span class="doccomment">/// keyed by the entries&#39; zero-based index in the `entries.write` method.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">partial_success</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Optional. If true, the request should expect normal response, but the</span>
+    <span class="doccomment">/// entries won&#39;t be persisted nor exported. Useful for checking whether the</span>
+    <span class="doccomment">/// logging API endpoints are working properly before sending valuable data.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dry_run</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Result returned from WriteLogEntries.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteLogEntriesResponse</span> {}
+<span class="doccomment">/// Error details for WriteLogEntries with partial success.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteLogEntriesPartialErrors</span> {
+    <span class="doccomment">/// When `WriteLogEntriesRequest.partial_success` is true, records the error</span>
+    <span class="doccomment">/// status for entries that were not written due to a permanent error, keyed</span>
+    <span class="doccomment">/// by the entry&#39;s zero-based index in `WriteLogEntriesRequest.entries`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Failed requests for which no entries are written will not include</span>
+    <span class="doccomment">/// per-entry errors.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;int32, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">log_entry_errors</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The parameters to `ListLogEntries`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListLogEntriesRequest</span> {
+    <span class="doccomment">/// Required. Names of one or more parent resources from which to</span>
+    <span class="doccomment">/// retrieve log entries:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  `projects/\[PROJECT_ID\]`</span>
+    <span class="doccomment">/// *  `organizations/\[ORGANIZATION_ID\]`</span>
+    <span class="doccomment">/// *  `billingAccounts/\[BILLING_ACCOUNT_ID\]`</span>
+    <span class="doccomment">/// *  `folders/\[FOLDER_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// May alternatively be one or more views:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * `projects/\[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///  * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///  * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///  * `folders/\[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Projects listed in the `project_ids` field are added to this list.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. A filter that chooses which log entries to return.  See [Advanced</span>
+    <span class="doccomment">/// Logs Queries](&lt;https://cloud.google.com/logging/docs/view/advanced-queries&gt;).</span>
+    <span class="doccomment">/// Only log entries that match the filter are returned.  An empty filter</span>
+    <span class="doccomment">/// matches all log entries in the resources listed in `resource_names`.</span>
+    <span class="doccomment">/// Referencing a parent resource that is not listed in `resource_names` will</span>
+    <span class="doccomment">/// cause the filter to return no results. The maximum length of the filter is</span>
+    <span class="doccomment">/// 20000 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. How the results should be sorted.  Presently, the only permitted</span>
+    <span class="doccomment">/// values are `&quot;timestamp asc&quot;` (default) and `&quot;timestamp desc&quot;`. The first</span>
+    <span class="doccomment">/// option returns entries in order of increasing values of</span>
+    <span class="doccomment">/// `LogEntry.timestamp` (oldest first), and the second option returns entries</span>
+    <span class="doccomment">/// in order of decreasing timestamps (newest first).  Entries with equal</span>
+    <span class="doccomment">/// timestamps are returned in order of their `insert_id` values.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">order_by</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The maximum number of results to return from this request. Default is 50.</span>
+    <span class="doccomment">/// If the value is negative or exceeds 1000, the request is rejected. The</span>
+    <span class="doccomment">/// presence of `next_page_token` in the response indicates that more results</span>
+    <span class="doccomment">/// might be available.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. If present, then retrieve the next batch of results from the</span>
+    <span class="doccomment">/// preceding call to this method.  `page_token` must be the value of</span>
+    <span class="doccomment">/// `next_page_token` from the previous response.  The values of other method</span>
+    <span class="doccomment">/// parameters should be identical to those in the previous call.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Result returned from `ListLogEntries`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListLogEntriesResponse</span> {
+    <span class="doccomment">/// A list of log entries.  If `entries` is empty, `nextPageToken` may still be</span>
+    <span class="doccomment">/// returned, indicating that more entries may exist.  See `nextPageToken` for</span>
+    <span class="doccomment">/// more information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LogEntry</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
+    <span class="doccomment">/// `nextPageToken` is included.  To get the next set of results, call this</span>
+    <span class="doccomment">/// method again using the value of `nextPageToken` as `pageToken`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If a value for `next_page_token` appears and the `entries` field is empty,</span>
+    <span class="doccomment">/// it means that the search found no log entries so far but it did not have</span>
+    <span class="doccomment">/// time to search all the possible log entries.  Retry the method with this</span>
+    <span class="doccomment">/// value for `page_token` to continue the search.  Alternatively, consider</span>
+    <span class="doccomment">/// speeding up the search by changing your filter to specify a single log name</span>
+    <span class="doccomment">/// or resource type, or to narrow the time range of the search.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The parameters to ListMonitoredResourceDescriptors</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListMonitoredResourceDescriptorsRequest</span> {
+    <span class="doccomment">/// Optional. The maximum number of results to return from this request.</span>
+    <span class="doccomment">/// Non-positive values are ignored.  The presence of `nextPageToken` in the</span>
+    <span class="doccomment">/// response indicates that more results might be available.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. If present, then retrieve the next batch of results from the</span>
+    <span class="doccomment">/// preceding call to this method.  `pageToken` must be the value of</span>
+    <span class="doccomment">/// `nextPageToken` from the previous response.  The values of other method</span>
+    <span class="doccomment">/// parameters should be identical to those in the previous call.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Result returned from ListMonitoredResourceDescriptors.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListMonitoredResourceDescriptorsResponse</span> {
+    <span class="doccomment">/// A list of resource descriptors.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_descriptors</span>:
+        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResourceDescriptor</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
+    <span class="doccomment">/// `nextPageToken` is included.  To get the next set of results, call this</span>
+    <span class="doccomment">/// method again using the value of `nextPageToken` as `pageToken`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The parameters to ListLogs.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListLogsRequest</span> {
+    <span class="doccomment">/// Required. The resource name that owns the logs:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  `projects/\[PROJECT_ID\]`</span>
+    <span class="doccomment">/// *  `organizations/\[ORGANIZATION_ID\]`</span>
+    <span class="doccomment">/// *  `billingAccounts/\[BILLING_ACCOUNT_ID\]`</span>
+    <span class="doccomment">/// *  `folders/\[FOLDER_ID\]`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The maximum number of results to return from this request.</span>
+    <span class="doccomment">/// Non-positive values are ignored.  The presence of `nextPageToken` in the</span>
+    <span class="doccomment">/// response indicates that more results might be available.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. If present, then retrieve the next batch of results from the</span>
+    <span class="doccomment">/// preceding call to this method.  `pageToken` must be the value of</span>
+    <span class="doccomment">/// `nextPageToken` from the previous response.  The values of other method</span>
+    <span class="doccomment">/// parameters should be identical to those in the previous call.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The resource name that owns the logs:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * `projects/\[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///  * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///  * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///  * `folders/\[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// To support legacy queries, it could also be:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  `projects/\[PROJECT_ID\]`</span>
+    <span class="doccomment">/// *  `organizations/\[ORGANIZATION_ID\]`</span>
+    <span class="doccomment">/// *  `billingAccounts/\[BILLING_ACCOUNT_ID\]`</span>
+    <span class="doccomment">/// *  `folders/\[FOLDER_ID\]`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Result returned from ListLogs.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListLogsResponse</span> {
+    <span class="doccomment">/// A list of log names. For example,</span>
+    <span class="doccomment">/// `&quot;projects/my-project/logs/syslog&quot;` or</span>
+    <span class="doccomment">/// `&quot;organizations/123/logs/cloudresourcemanager.googleapis.com%2Factivity&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">log_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
+    <span class="doccomment">/// `nextPageToken` is included.  To get the next set of results, call this</span>
+    <span class="doccomment">/// method again using the value of `nextPageToken` as `pageToken`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The parameters to `TailLogEntries`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TailLogEntriesRequest</span> {
+    <span class="doccomment">/// Required. Name of a parent resource from which to retrieve log entries:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  `projects/\[PROJECT_ID\]`</span>
+    <span class="doccomment">/// *  `organizations/\[ORGANIZATION_ID\]`</span>
+    <span class="doccomment">/// *  `billingAccounts/\[BILLING_ACCOUNT_ID\]`</span>
+    <span class="doccomment">/// *  `folders/\[FOLDER_ID\]`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// May alternatively be one or more views:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * `projects/\[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///  * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///  * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="doccomment">///  * `folders/\[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. A filter that chooses which log entries to return.  See [Advanced</span>
+    <span class="doccomment">/// Logs Filters](&lt;https://cloud.google.com/logging/docs/view/advanced_filters&gt;).</span>
+    <span class="doccomment">/// Only log entries that match the filter are returned.  An empty filter</span>
+    <span class="doccomment">/// matches all log entries in the resources listed in `resource_names`.</span>
+    <span class="doccomment">/// Referencing a parent resource that is not in `resource_names` will cause</span>
+    <span class="doccomment">/// the filter to return no results. The maximum length of the filter is 20000</span>
+    <span class="doccomment">/// characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The amount of time to buffer log entries at the server before</span>
+    <span class="doccomment">/// being returned to prevent out of order results due to late arriving log</span>
+    <span class="doccomment">/// entries. Valid values are between 0-60000 milliseconds. Defaults to 2000</span>
+    <span class="doccomment">/// milliseconds.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">buffer_window</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Result returned from `TailLogEntries`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TailLogEntriesResponse</span> {
+    <span class="doccomment">/// A list of log entries. Each response in the stream will order entries with</span>
+    <span class="doccomment">/// increasing values of `LogEntry.timestamp`. Ordering is not guaranteed</span>
+    <span class="doccomment">/// between separate responses.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LogEntry</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If entries that otherwise would have been included in the session were not</span>
+    <span class="doccomment">/// sent back to the client, counts of relevant entries omitted from the</span>
+    <span class="doccomment">/// session with the reason that they were not included. There will be at most</span>
+    <span class="doccomment">/// one of each reason per response. The counts represent the number of</span>
+    <span class="doccomment">/// suppressed entries since the last streamed response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">suppression_info</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">tail_log_entries_response::SuppressionInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `TailLogEntriesResponse`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tail_log_entries_response</span> {
+    <span class="doccomment">/// Information about entries that were omitted from the session.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SuppressionInfo</span> {
+        <span class="doccomment">/// The reason that entries were omitted from the session.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;suppression_info::Reason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">reason</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// A lower bound on the count of entries omitted due to `reason`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">suppressed_count</span>: <span class="ident">i32</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `SuppressionInfo`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">suppression_info</span> {
+        <span class="doccomment">/// An indicator of why entries were omitted.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Reason</span> {
+            <span class="doccomment">/// Unexpected default.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// Indicates suppression occurred due to relevant entries being</span>
+            <span class="doccomment">/// received in excess of rate limits. For quotas and limits, see</span>
+            <span class="doccomment">/// [Logging API quotas and</span>
+            <span class="doccomment">/// limits](&lt;https://cloud.google.com/logging/quotas#api-limits&gt;).</span>
+            <span class="ident">RateLimit</span> <span class="op">=</span> <span class="number">1</span>,
+            <span class="doccomment">/// Indicates suppression occurred due to the client not consuming</span>
+            <span class="doccomment">/// responses quickly enough.</span>
+            <span class="ident">NotConsumed</span> <span class="op">=</span> <span class="number">2</span>,
+        }
+    }
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">logging_service_v2_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for ingesting and querying logs.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LoggingServiceV2Client</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">LoggingServiceV2Client</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">LoggingServiceV2Client</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">LoggingServiceV2Client::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes all the log entries in a log for the _Default Log Bucket. The log&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; reappears if it receives new entries. Log entries written shortly before&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; the delete operation might not be deleted. Entries received after the&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; delete operation with a timestamp before the operation will be deleted.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_log</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteLogRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/DeleteLog&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Writes log entries to Logging. This API method is the&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only way to send log entries to Logging. This method&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; is used, directly or indirectly, by the Logging agent&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; (fluentd) and all logging libraries configured to use Logging.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; A single request may contain log entries for a maximum of 1000&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; different resources (projects, organizations, billing accounts or&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; folders)&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">write_log_entries</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::WriteLogEntriesRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::WriteLogEntriesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/WriteLogEntries&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists log entries.  Use this method to retrieve log entries that originated&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; from a project/folder/organization/billing account.  For ways to export log&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; entries, see [Exporting&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Logs](https://cloud.google.com/logging/docs/export).&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_log_entries</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListLogEntriesRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListLogEntriesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/ListLogEntries&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists the descriptors for monitored resource types used by Logging.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_monitored_resource_descriptors</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListMonitoredResourceDescriptorsRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListMonitoredResourceDescriptorsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+        {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/ListMonitoredResourceDescriptors&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists the logs in projects, organizations, folders, or billing accounts.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Only logs that have entries are listed.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_logs</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListLogsRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListLogsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/ListLogs&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Streaming read of log entries as they are ingested. Until the stream is&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; terminated, it will continue reading logs.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">tail_log_entries</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoStreamingRequest</span><span class="op">&lt;</span><span class="ident">Message</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::TailLogEntriesRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident">tonic::codec::Streaming</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::TailLogEntriesResponse</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/TailLogEntries&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>
+                .<span class="ident">streaming</span>(<span class="ident">request</span>.<span class="ident">into_streaming_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>)
+                .<span class="kw">await</span>
+        }
+    }
+}
+<span class="doccomment">/// Describes a logs-based metric. The value of the metric is the number of log</span>
 <span class="doccomment">/// entries that match a logs filter in a given time interval.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Logs-based metrics can also be used to extract values from logs and create a</span>
@@ -4895,740 +5629,6 @@
                 <span class="string">&quot;/google.logging.v2.ConfigServiceV2/CopyLogEntries&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
-<span class="doccomment">/// An individual entry in a log.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntry</span> {
-    <span class="doccomment">/// Required. The resource name of the log to which this log entry belongs:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     &quot;projects/\[PROJECT_ID]/logs/[LOG_ID\]&quot;</span>
-    <span class="doccomment">///     &quot;organizations/\[ORGANIZATION_ID]/logs/[LOG_ID\]&quot;</span>
-    <span class="doccomment">///     &quot;billingAccounts/\[BILLING_ACCOUNT_ID]/logs/[LOG_ID\]&quot;</span>
-    <span class="doccomment">///     &quot;folders/\[FOLDER_ID]/logs/[LOG_ID\]&quot;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A project number may be used in place of PROJECT_ID. The project number is</span>
-    <span class="doccomment">/// translated to its corresponding PROJECT_ID internally and the `log_name`</span>
-    <span class="doccomment">/// field will contain PROJECT_ID in queries and exports.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `\[LOG_ID\]` must be URL-encoded within `log_name`. Example:</span>
-    <span class="doccomment">/// `&quot;organizations/1234567890/logs/cloudresourcemanager.googleapis.com%2Factivity&quot;`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `\[LOG_ID\]` must be less than 512 characters long and can only include the</span>
-    <span class="doccomment">/// following characters: upper and lower case alphanumeric characters,</span>
-    <span class="doccomment">/// forward-slash, underscore, hyphen, and period.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For backward compatibility, if `log_name` begins with a forward-slash, such</span>
-    <span class="doccomment">/// as `/projects/...`, then the log entry is ingested as usual, but the</span>
-    <span class="doccomment">/// forward-slash is removed. Listing the log entry will not show the leading</span>
-    <span class="doccomment">/// slash and filtering for a log name with a leading slash will never return</span>
-    <span class="doccomment">/// any results.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">log_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The monitored resource that produced this log entry.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Example: a log entry that reports a database error would be associated with</span>
-    <span class="doccomment">/// the monitored resource designating the particular database that reported</span>
-    <span class="doccomment">/// the error.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. The time the event described by the log entry occurred. This time is used</span>
-    <span class="doccomment">/// to compute the log entry&#39;s age and to enforce the logs retention period.</span>
-    <span class="doccomment">/// If this field is omitted in a new log entry, then Logging assigns it the</span>
-    <span class="doccomment">/// current time. Timestamps have nanosecond accuracy, but trailing zeros in</span>
-    <span class="doccomment">/// the fractional seconds might be omitted when the timestamp is displayed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Incoming log entries must have timestamps that don&#39;t exceed the</span>
-    <span class="doccomment">/// [logs retention</span>
-    <span class="doccomment">/// period](&lt;https://cloud.google.com/logging/quotas#logs_retention_periods&gt;) in</span>
-    <span class="doccomment">/// the past, and that don&#39;t exceed 24 hours in the future. Log entries outside</span>
-    <span class="doccomment">/// those time boundaries aren&#39;t ingested by Logging.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The time the log entry was received by Logging.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;24&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">receive_timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. The severity of the log entry. The default value is `LogSeverity.DEFAULT`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::r#type::LogSeverity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. A unique identifier for the log entry. If you provide a value, then</span>
-    <span class="doccomment">/// Logging considers other log entries in the same project, with the same</span>
-    <span class="doccomment">/// `timestamp`, and with the same `insert_id` to be duplicates which are</span>
-    <span class="doccomment">/// removed in a single query result. However, there are no guarantees of</span>
-    <span class="doccomment">/// de-duplication in the export of logs.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the `insert_id` is omitted when writing a log entry, the Logging API</span>
-    <span class="doccomment">/// assigns its own unique identifier in this field.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// In queries, the `insert_id` is also used to order log entries that have</span>
-    <span class="doccomment">/// the same `log_name` and `timestamp` values.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">insert_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Information about the HTTP request associated with this log entry, if</span>
-    <span class="doccomment">/// applicable.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">http_request</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">r#type</span><span class="ident">::HttpRequest</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. A map of key, value pairs that provides additional information about the</span>
-    <span class="doccomment">/// log entry. The labels can be user-defined or system-defined.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// User-defined labels are arbitrary key, value pairs that you can use to</span>
-    <span class="doccomment">/// classify logs.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// System-defined labels are defined by GCP services for platform logs.</span>
-    <span class="doccomment">/// They have two components - a service namespace component and the</span>
-    <span class="doccomment">/// attribute name. For example: `compute.googleapis.com/resource_name`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Cloud Logging truncates label keys that exceed 512 B and label</span>
-    <span class="doccomment">/// values that exceed 64 KB upon their associated log entry being</span>
-    <span class="doccomment">/// written. The truncation is indicated by an ellipsis at the</span>
-    <span class="doccomment">/// end of the character string.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Information about an operation associated with the log entry, if</span>
-    <span class="doccomment">/// applicable.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogEntryOperation</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Resource name of the trace associated with the log entry, if any. If it</span>
-    <span class="doccomment">/// contains a relative resource name, the name is assumed to be relative to</span>
-    <span class="doccomment">/// `//tracing.googleapis.com`. Example:</span>
-    <span class="doccomment">/// `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">trace</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The span ID within the trace associated with the log entry.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For Trace spans, this is the same format that the Trace API v2 uses: a</span>
-    <span class="doccomment">/// 16-character hexadecimal encoding of an 8-byte array, such as</span>
-    <span class="doccomment">/// `000000000000004a`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;27&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">span_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The sampling decision of the trace associated with the log entry.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// True means that the trace resource name in the `trace` field was sampled</span>
-    <span class="doccomment">/// for storage in a trace backend. False means that the trace was not sampled</span>
-    <span class="doccomment">/// for storage when this log entry was written, or the sampling decision was</span>
-    <span class="doccomment">/// unknown at the time. A non-sampled `trace` value is still useful as a</span>
-    <span class="doccomment">/// request correlation identifier. The default is False.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;30&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">trace_sampled</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Optional. Source code location information associated with the log entry, if any.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;23&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">source_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogEntrySourceLocation</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Information indicating this LogEntry is part of a sequence of multiple log</span>
-    <span class="doccomment">/// entries split from a single LogEntry.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;35&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">split</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">LogSplit</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The log entry payload, which can be one of multiple types.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;log_entry::Payload&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3, 6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">log_entry::Payload</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `LogEntry`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">log_entry</span> {
-    <span class="doccomment">/// The log entry payload, which can be one of multiple types.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Payload</span> {
-        <span class="doccomment">/// The log entry payload, represented as a protocol buffer. Some Google</span>
-        <span class="doccomment">/// Cloud Platform services use this field for their log entry payloads.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// The following protocol buffer types are supported; user-defined types</span>
-        <span class="doccomment">/// are not supported:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///   &quot;type.googleapis.com/google.cloud.audit.AuditLog&quot;</span>
-        <span class="doccomment">///   &quot;type.googleapis.com/google.appengine.logging.v1.RequestLog&quot;</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">ProtoPayload</span>(<span class="ident">::prost_types::Any</span>),
-        <span class="doccomment">/// The log entry payload, represented as a Unicode string (UTF-8).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">TextPayload</span>(<span class="ident">::prost::alloc::string::String</span>),
-        <span class="doccomment">/// The log entry payload, represented as a structure that is</span>
-        <span class="doccomment">/// expressed as a JSON object.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">JsonPayload</span>(<span class="ident">::prost_types::Struct</span>),
-    }
-}
-<span class="doccomment">/// Additional information about a potentially long-running operation with which</span>
-<span class="doccomment">/// a log entry is associated.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntryOperation</span> {
-    <span class="doccomment">/// Optional. An arbitrary operation identifier. Log entries with the same</span>
-    <span class="doccomment">/// identifier are assumed to be part of the same operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. An arbitrary producer identifier. The combination of `id` and</span>
-    <span class="doccomment">/// `producer` must be globally unique. Examples for `producer`:</span>
-    <span class="doccomment">/// `&quot;MyDivision.MyBigCompany.com&quot;`, `&quot;github.com/MyProject/MyApplication&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">producer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Set this to True if this is the first log entry in the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">first</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Optional. Set this to True if this is the last log entry in the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Additional information about the source code location that produced the log</span>
-<span class="doccomment">/// entry.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogEntrySourceLocation</span> {
-    <span class="doccomment">/// Optional. Source file name. Depending on the runtime environment, this</span>
-    <span class="doccomment">/// might be a simple name or a fully-qualified name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Line within the source file. 1-based; 0 indicates no line number</span>
-    <span class="doccomment">/// available.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">line</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Optional. Human-readable name of the function or method being invoked, with</span>
-    <span class="doccomment">/// optional context such as the class or package name. This information may be</span>
-    <span class="doccomment">/// used in contexts such as the logs viewer, where a file and line number are</span>
-    <span class="doccomment">/// less meaningful. The format can vary by language. For example:</span>
-    <span class="doccomment">/// `qual.if.ied.Class.method` (Java), `dir/package.func` (Go), `function`</span>
-    <span class="doccomment">/// (Python).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">function</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Additional information used to correlate multiple log entries. Used when a</span>
-<span class="doccomment">/// single LogEntry would exceed the Google Cloud Logging size limit and is</span>
-<span class="doccomment">/// split across multiple log entries.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogSplit</span> {
-    <span class="doccomment">/// A globally unique identifier for all log entries in a sequence of split log</span>
-    <span class="doccomment">/// entries. All log entries with the same |LogSplit.uid| are assumed to be</span>
-    <span class="doccomment">/// part of the same sequence of split log entries.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">uid</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The index of this LogEntry in the sequence of split log entries. Log</span>
-    <span class="doccomment">/// entries are given |index| values 0, 1, ..., n-1 for a sequence of n log</span>
-    <span class="doccomment">/// entries.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">index</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The total number of log entries that the original LogEntry was split into.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">total_splits</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// The parameters to DeleteLog.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteLogRequest</span> {
-    <span class="doccomment">/// Required. The resource name of the log to delete:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `projects/\[PROJECT_ID]/logs/[LOG_ID\]`</span>
-    <span class="doccomment">/// * `organizations/\[ORGANIZATION_ID]/logs/[LOG_ID\]`</span>
-    <span class="doccomment">/// * `billingAccounts/\[BILLING_ACCOUNT_ID]/logs/[LOG_ID\]`</span>
-    <span class="doccomment">/// * `folders/\[FOLDER_ID]/logs/[LOG_ID\]`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `\[LOG_ID\]` must be URL-encoded. For example,</span>
-    <span class="doccomment">/// `&quot;projects/my-project-id/logs/syslog&quot;`,</span>
-    <span class="doccomment">/// `&quot;organizations/123/logs/cloudaudit.googleapis.com%2Factivity&quot;`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For more information about log names, see</span>
-    <span class="doccomment">/// \[LogEntry][google.logging.v2.LogEntry\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">log_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The parameters to WriteLogEntries.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteLogEntriesRequest</span> {
-    <span class="doccomment">/// Optional. A default log resource name that is assigned to all log entries</span>
-    <span class="doccomment">/// in `entries` that do not specify a value for `log_name`:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `projects/\[PROJECT_ID]/logs/[LOG_ID\]`</span>
-    <span class="doccomment">/// * `organizations/\[ORGANIZATION_ID]/logs/[LOG_ID\]`</span>
-    <span class="doccomment">/// * `billingAccounts/\[BILLING_ACCOUNT_ID]/logs/[LOG_ID\]`</span>
-    <span class="doccomment">/// * `folders/\[FOLDER_ID]/logs/[LOG_ID\]`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `\[LOG_ID\]` must be URL-encoded. For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     &quot;projects/my-project-id/logs/syslog&quot;</span>
-    <span class="doccomment">///     &quot;organizations/123/logs/cloudaudit.googleapis.com%2Factivity&quot;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The permission `logging.logEntries.create` is needed on each project,</span>
-    <span class="doccomment">/// organization, billing account, or folder that is receiving new log</span>
-    <span class="doccomment">/// entries, whether the resource is specified in `logName` or in an</span>
-    <span class="doccomment">/// individual log entry.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">log_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. A default monitored resource object that is assigned to all log</span>
-    <span class="doccomment">/// entries in `entries` that do not specify a value for `resource`. Example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     { &quot;type&quot;: &quot;gce_instance&quot;,</span>
-    <span class="doccomment">///       &quot;labels&quot;: {</span>
-    <span class="doccomment">///         &quot;zone&quot;: &quot;us-central1-a&quot;, &quot;instance_id&quot;: &quot;00000000000000000000&quot; }}</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See \[LogEntry][google.logging.v2.LogEntry\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Default labels that are added to the `labels` field of all log</span>
-    <span class="doccomment">/// entries in `entries`. If a log entry already has a label with the same key</span>
-    <span class="doccomment">/// as a label in this parameter, then the log entry&#39;s label is not changed.</span>
-    <span class="doccomment">/// See \[LogEntry][google.logging.v2.LogEntry\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. The log entries to send to Logging. The order of log</span>
-    <span class="doccomment">/// entries in this list does not matter. Values supplied in this method&#39;s</span>
-    <span class="doccomment">/// `log_name`, `resource`, and `labels` fields are copied into those log</span>
-    <span class="doccomment">/// entries in this list that do not include values for their corresponding</span>
-    <span class="doccomment">/// fields. For more information, see the</span>
-    <span class="doccomment">/// \[LogEntry][google.logging.v2.LogEntry\] type.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the `timestamp` or `insert_id` fields are missing in log entries, then</span>
-    <span class="doccomment">/// this method supplies the current time or a unique identifier, respectively.</span>
-    <span class="doccomment">/// The supplied values are chosen so that, among the log entries that did not</span>
-    <span class="doccomment">/// supply their own values, the entries earlier in the list will sort before</span>
-    <span class="doccomment">/// the entries later in the list. See the `entries.list` method.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Log entries with timestamps that are more than the</span>
-    <span class="doccomment">/// [logs retention period](&lt;https://cloud.google.com/logging/quotas&gt;) in</span>
-    <span class="doccomment">/// the past or more than 24 hours in the future will not be available when</span>
-    <span class="doccomment">/// calling `entries.list`. However, those log entries can still be [exported</span>
-    <span class="doccomment">/// with</span>
-    <span class="doccomment">/// LogSinks](&lt;https://cloud.google.com/logging/docs/api/tasks/exporting-logs&gt;).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// To improve throughput and to avoid exceeding the</span>
-    <span class="doccomment">/// [quota limit](&lt;https://cloud.google.com/logging/quotas&gt;) for calls to</span>
-    <span class="doccomment">/// `entries.write`, you should try to include several log entries in this</span>
-    <span class="doccomment">/// list, rather than calling this method for each individual log entry.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LogEntry</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Whether valid entries should be written even if some other</span>
-    <span class="doccomment">/// entries fail due to INVALID_ARGUMENT or PERMISSION_DENIED errors. If any</span>
-    <span class="doccomment">/// entry is not written, then the response status is the error associated</span>
-    <span class="doccomment">/// with one of the failed entries and the response includes error details</span>
-    <span class="doccomment">/// keyed by the entries&#39; zero-based index in the `entries.write` method.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">partial_success</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Optional. If true, the request should expect normal response, but the</span>
-    <span class="doccomment">/// entries won&#39;t be persisted nor exported. Useful for checking whether the</span>
-    <span class="doccomment">/// logging API endpoints are working properly before sending valuable data.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dry_run</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Result returned from WriteLogEntries.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteLogEntriesResponse</span> {}
-<span class="doccomment">/// Error details for WriteLogEntries with partial success.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteLogEntriesPartialErrors</span> {
-    <span class="doccomment">/// When `WriteLogEntriesRequest.partial_success` is true, records the error</span>
-    <span class="doccomment">/// status for entries that were not written due to a permanent error, keyed</span>
-    <span class="doccomment">/// by the entry&#39;s zero-based index in `WriteLogEntriesRequest.entries`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Failed requests for which no entries are written will not include</span>
-    <span class="doccomment">/// per-entry errors.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;int32, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">log_entry_errors</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The parameters to `ListLogEntries`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListLogEntriesRequest</span> {
-    <span class="doccomment">/// Required. Names of one or more parent resources from which to</span>
-    <span class="doccomment">/// retrieve log entries:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  `projects/\[PROJECT_ID\]`</span>
-    <span class="doccomment">/// *  `organizations/\[ORGANIZATION_ID\]`</span>
-    <span class="doccomment">/// *  `billingAccounts/\[BILLING_ACCOUNT_ID\]`</span>
-    <span class="doccomment">/// *  `folders/\[FOLDER_ID\]`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// May alternatively be one or more views:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * `projects/\[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///  * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///  * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///  * `folders/\[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Projects listed in the `project_ids` field are added to this list.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. A filter that chooses which log entries to return.  See [Advanced</span>
-    <span class="doccomment">/// Logs Queries](&lt;https://cloud.google.com/logging/docs/view/advanced-queries&gt;).</span>
-    <span class="doccomment">/// Only log entries that match the filter are returned.  An empty filter</span>
-    <span class="doccomment">/// matches all log entries in the resources listed in `resource_names`.</span>
-    <span class="doccomment">/// Referencing a parent resource that is not listed in `resource_names` will</span>
-    <span class="doccomment">/// cause the filter to return no results. The maximum length of the filter is</span>
-    <span class="doccomment">/// 20000 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. How the results should be sorted.  Presently, the only permitted</span>
-    <span class="doccomment">/// values are `&quot;timestamp asc&quot;` (default) and `&quot;timestamp desc&quot;`. The first</span>
-    <span class="doccomment">/// option returns entries in order of increasing values of</span>
-    <span class="doccomment">/// `LogEntry.timestamp` (oldest first), and the second option returns entries</span>
-    <span class="doccomment">/// in order of decreasing timestamps (newest first).  Entries with equal</span>
-    <span class="doccomment">/// timestamps are returned in order of their `insert_id` values.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">order_by</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The maximum number of results to return from this request. Default is 50.</span>
-    <span class="doccomment">/// If the value is negative or exceeds 1000, the request is rejected. The</span>
-    <span class="doccomment">/// presence of `next_page_token` in the response indicates that more results</span>
-    <span class="doccomment">/// might be available.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. If present, then retrieve the next batch of results from the</span>
-    <span class="doccomment">/// preceding call to this method.  `page_token` must be the value of</span>
-    <span class="doccomment">/// `next_page_token` from the previous response.  The values of other method</span>
-    <span class="doccomment">/// parameters should be identical to those in the previous call.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Result returned from `ListLogEntries`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListLogEntriesResponse</span> {
-    <span class="doccomment">/// A list of log entries.  If `entries` is empty, `nextPageToken` may still be</span>
-    <span class="doccomment">/// returned, indicating that more entries may exist.  See `nextPageToken` for</span>
-    <span class="doccomment">/// more information.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LogEntry</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
-    <span class="doccomment">/// `nextPageToken` is included.  To get the next set of results, call this</span>
-    <span class="doccomment">/// method again using the value of `nextPageToken` as `pageToken`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If a value for `next_page_token` appears and the `entries` field is empty,</span>
-    <span class="doccomment">/// it means that the search found no log entries so far but it did not have</span>
-    <span class="doccomment">/// time to search all the possible log entries.  Retry the method with this</span>
-    <span class="doccomment">/// value for `page_token` to continue the search.  Alternatively, consider</span>
-    <span class="doccomment">/// speeding up the search by changing your filter to specify a single log name</span>
-    <span class="doccomment">/// or resource type, or to narrow the time range of the search.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The parameters to ListMonitoredResourceDescriptors</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListMonitoredResourceDescriptorsRequest</span> {
-    <span class="doccomment">/// Optional. The maximum number of results to return from this request.</span>
-    <span class="doccomment">/// Non-positive values are ignored.  The presence of `nextPageToken` in the</span>
-    <span class="doccomment">/// response indicates that more results might be available.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. If present, then retrieve the next batch of results from the</span>
-    <span class="doccomment">/// preceding call to this method.  `pageToken` must be the value of</span>
-    <span class="doccomment">/// `nextPageToken` from the previous response.  The values of other method</span>
-    <span class="doccomment">/// parameters should be identical to those in the previous call.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Result returned from ListMonitoredResourceDescriptors.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListMonitoredResourceDescriptorsResponse</span> {
-    <span class="doccomment">/// A list of resource descriptors.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_descriptors</span>:
-        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResourceDescriptor</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
-    <span class="doccomment">/// `nextPageToken` is included.  To get the next set of results, call this</span>
-    <span class="doccomment">/// method again using the value of `nextPageToken` as `pageToken`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The parameters to ListLogs.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListLogsRequest</span> {
-    <span class="doccomment">/// Required. The resource name that owns the logs:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  `projects/\[PROJECT_ID\]`</span>
-    <span class="doccomment">/// *  `organizations/\[ORGANIZATION_ID\]`</span>
-    <span class="doccomment">/// *  `billingAccounts/\[BILLING_ACCOUNT_ID\]`</span>
-    <span class="doccomment">/// *  `folders/\[FOLDER_ID\]`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The maximum number of results to return from this request.</span>
-    <span class="doccomment">/// Non-positive values are ignored.  The presence of `nextPageToken` in the</span>
-    <span class="doccomment">/// response indicates that more results might be available.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. If present, then retrieve the next batch of results from the</span>
-    <span class="doccomment">/// preceding call to this method.  `pageToken` must be the value of</span>
-    <span class="doccomment">/// `nextPageToken` from the previous response.  The values of other method</span>
-    <span class="doccomment">/// parameters should be identical to those in the previous call.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The resource name that owns the logs:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * `projects/\[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///  * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///  * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///  * `folders/\[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// To support legacy queries, it could also be:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  `projects/\[PROJECT_ID\]`</span>
-    <span class="doccomment">/// *  `organizations/\[ORGANIZATION_ID\]`</span>
-    <span class="doccomment">/// *  `billingAccounts/\[BILLING_ACCOUNT_ID\]`</span>
-    <span class="doccomment">/// *  `folders/\[FOLDER_ID\]`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Result returned from ListLogs.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListLogsResponse</span> {
-    <span class="doccomment">/// A list of log names. For example,</span>
-    <span class="doccomment">/// `&quot;projects/my-project/logs/syslog&quot;` or</span>
-    <span class="doccomment">/// `&quot;organizations/123/logs/cloudresourcemanager.googleapis.com%2Factivity&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">log_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
-    <span class="doccomment">/// `nextPageToken` is included.  To get the next set of results, call this</span>
-    <span class="doccomment">/// method again using the value of `nextPageToken` as `pageToken`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The parameters to `TailLogEntries`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TailLogEntriesRequest</span> {
-    <span class="doccomment">/// Required. Name of a parent resource from which to retrieve log entries:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  `projects/\[PROJECT_ID\]`</span>
-    <span class="doccomment">/// *  `organizations/\[ORGANIZATION_ID\]`</span>
-    <span class="doccomment">/// *  `billingAccounts/\[BILLING_ACCOUNT_ID\]`</span>
-    <span class="doccomment">/// *  `folders/\[FOLDER_ID\]`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// May alternatively be one or more views:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * `projects/\[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///  * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///  * `billingAccounts/\[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="doccomment">///  * `folders/\[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID\]`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. A filter that chooses which log entries to return.  See [Advanced</span>
-    <span class="doccomment">/// Logs Filters](&lt;https://cloud.google.com/logging/docs/view/advanced_filters&gt;).</span>
-    <span class="doccomment">/// Only log entries that match the filter are returned.  An empty filter</span>
-    <span class="doccomment">/// matches all log entries in the resources listed in `resource_names`.</span>
-    <span class="doccomment">/// Referencing a parent resource that is not in `resource_names` will cause</span>
-    <span class="doccomment">/// the filter to return no results. The maximum length of the filter is 20000</span>
-    <span class="doccomment">/// characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The amount of time to buffer log entries at the server before</span>
-    <span class="doccomment">/// being returned to prevent out of order results due to late arriving log</span>
-    <span class="doccomment">/// entries. Valid values are between 0-60000 milliseconds. Defaults to 2000</span>
-    <span class="doccomment">/// milliseconds.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">buffer_window</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Result returned from `TailLogEntries`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TailLogEntriesResponse</span> {
-    <span class="doccomment">/// A list of log entries. Each response in the stream will order entries with</span>
-    <span class="doccomment">/// increasing values of `LogEntry.timestamp`. Ordering is not guaranteed</span>
-    <span class="doccomment">/// between separate responses.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LogEntry</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If entries that otherwise would have been included in the session were not</span>
-    <span class="doccomment">/// sent back to the client, counts of relevant entries omitted from the</span>
-    <span class="doccomment">/// session with the reason that they were not included. There will be at most</span>
-    <span class="doccomment">/// one of each reason per response. The counts represent the number of</span>
-    <span class="doccomment">/// suppressed entries since the last streamed response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">suppression_info</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">tail_log_entries_response::SuppressionInfo</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `TailLogEntriesResponse`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tail_log_entries_response</span> {
-    <span class="doccomment">/// Information about entries that were omitted from the session.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SuppressionInfo</span> {
-        <span class="doccomment">/// The reason that entries were omitted from the session.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;suppression_info::Reason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">reason</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// A lower bound on the count of entries omitted due to `reason`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">suppressed_count</span>: <span class="ident">i32</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `SuppressionInfo`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">suppression_info</span> {
-        <span class="doccomment">/// An indicator of why entries were omitted.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Reason</span> {
-            <span class="doccomment">/// Unexpected default.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// Indicates suppression occurred due to relevant entries being</span>
-            <span class="doccomment">/// received in excess of rate limits. For quotas and limits, see</span>
-            <span class="doccomment">/// [Logging API quotas and</span>
-            <span class="doccomment">/// limits](&lt;https://cloud.google.com/logging/quotas#api-limits&gt;).</span>
-            <span class="ident">RateLimit</span> <span class="op">=</span> <span class="number">1</span>,
-            <span class="doccomment">/// Indicates suppression occurred due to the client not consuming</span>
-            <span class="doccomment">/// responses quickly enough.</span>
-            <span class="ident">NotConsumed</span> <span class="op">=</span> <span class="number">2</span>,
-        }
-    }
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">logging_service_v2_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for ingesting and querying logs.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LoggingServiceV2Client</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">LoggingServiceV2Client</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">LoggingServiceV2Client</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">LoggingServiceV2Client::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes all the log entries in a log for the _Default Log Bucket. The log&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; reappears if it receives new entries. Log entries written shortly before&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; the delete operation might not be deleted. Entries received after the&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; delete operation with a timestamp before the operation will be deleted.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_log</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteLogRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/DeleteLog&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Writes log entries to Logging. This API method is the&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only way to send log entries to Logging. This method&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; is used, directly or indirectly, by the Logging agent&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; (fluentd) and all logging libraries configured to use Logging.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; A single request may contain log entries for a maximum of 1000&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; different resources (projects, organizations, billing accounts or&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; folders)&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">write_log_entries</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::WriteLogEntriesRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::WriteLogEntriesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/WriteLogEntries&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists log entries.  Use this method to retrieve log entries that originated&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; from a project/folder/organization/billing account.  For ways to export log&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; entries, see [Exporting&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Logs](https://cloud.google.com/logging/docs/export).&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_log_entries</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListLogEntriesRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListLogEntriesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/ListLogEntries&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists the descriptors for monitored resource types used by Logging.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_monitored_resource_descriptors</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListMonitoredResourceDescriptorsRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListMonitoredResourceDescriptorsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
-        {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/ListMonitoredResourceDescriptors&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists the logs in projects, organizations, folders, or billing accounts.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Only logs that have entries are listed.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_logs</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListLogsRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListLogsResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/ListLogs&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Streaming read of log entries as they are ingested. Until the stream is&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; terminated, it will continue reading logs.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">tail_log_entries</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoStreamingRequest</span><span class="op">&lt;</span><span class="ident">Message</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::TailLogEntriesRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident">tonic::codec::Streaming</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::TailLogEntriesResponse</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.logging.v2.LoggingServiceV2/TailLogEntries&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>
-                .<span class="ident">streaming</span>(<span class="ident">request</span>.<span class="ident">into_streaming_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>)
-                .<span class="kw">await</span>
         }
     }
 }

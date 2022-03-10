@@ -566,7 +566,20 @@
 <span id="564">564</span>
 <span id="565">565</span>
 <span id="566">566</span>
-</pre><pre class="rust"><code><span class="doccomment">/// The type of the parameter.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Enum Product.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Product</span> {
+    <span class="doccomment">/// Default value.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Integration Platform.</span>
+    <span class="ident">Ip</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Apigee.</span>
+    <span class="ident">Apigee</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Security Command Center.</span>
+    <span class="ident">Security</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="doccomment">/// The type of the parameter.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValueType</span> {
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;value_type::Value&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6, 7, 8, 9&quot;</span>)]</span>
@@ -633,6 +646,20 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">boolean_values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
 }
+<span class="doccomment">/// This message is used for processing and persisting (when applicable) key</span>
+<span class="doccomment">/// value pair parameters for each event in the event bus.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventParameter</span> {
+    <span class="doccomment">/// Key is used to retrieve the corresponding parameter value. This should be</span>
+    <span class="doccomment">/// unique for a given fired event. These parameters must be predefined in the</span>
+    <span class="doccomment">/// integration definition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Values for the defined keys. Each value can either be string, int, double</span>
+    <span class="doccomment">/// or any proto message.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ValueType</span><span class="op">&gt;</span>,
+}
 <span class="doccomment">/// Options for how to validate json schemas.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
@@ -650,33 +677,6 @@
     <span class="ident">PostExecution</span> <span class="op">=</span> <span class="number">3</span>,
     <span class="doccomment">/// Perform both PRE_EXECUTION and POST_EXECUTION validations.</span>
     <span class="ident">PrePostExecution</span> <span class="op">=</span> <span class="number">4</span>,
-}
-<span class="doccomment">/// Enum Product.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Product</span> {
-    <span class="doccomment">/// Default value.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Integration Platform.</span>
-    <span class="ident">Ip</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Apigee.</span>
-    <span class="ident">Apigee</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Security Command Center.</span>
-    <span class="ident">Security</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="doccomment">/// This message is used for processing and persisting (when applicable) key</span>
-<span class="doccomment">/// value pair parameters for each event in the event bus.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventParameter</span> {
-    <span class="doccomment">/// Key is used to retrieve the corresponding parameter value. This should be</span>
-    <span class="doccomment">/// unique for a given fired event. These parameters must be predefined in the</span>
-    <span class="doccomment">/// integration definition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Values for the defined keys. Each value can either be string, int, double</span>
-    <span class="doccomment">/// or any proto message.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ValueType</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// The task configuration details. This is not the implementation of Task.</span>
 <span class="doccomment">/// There might be multiple TaskConfigs for the same Task.</span>

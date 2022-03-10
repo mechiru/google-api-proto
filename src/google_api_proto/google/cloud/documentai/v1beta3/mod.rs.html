@@ -1723,142 +1723,7 @@
 <span id="1721">1721</span>
 <span id="1722">1722</span>
 <span id="1723">1723</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Payload message of raw document content (bytes).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RawDocument</span> {
-    <span class="doccomment">/// Inline document content.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// An IANA MIME type (RFC6838) indicating the nature and format of the</span>
-    <span class="doccomment">/// \[content\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Specifies a document stored on Cloud Storage.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsDocument</span> {
-    <span class="doccomment">/// The Cloud Storage object uri.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// An IANA MIME type (RFC6838) of the content.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Specifies a set of documents on Cloud Storage.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsDocuments</span> {
-    <span class="doccomment">/// The list of documents.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">documents</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">GcsDocument</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Specifies all documents on Cloud Storage with a common prefix.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsPrefix</span> {
-    <span class="doccomment">/// The URI prefix.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_uri_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The common config to specify a set of documents used as input.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchDocumentsInputConfig</span> {
-    <span class="doccomment">/// The source.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;batch_documents_input_config::Source&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">batch_documents_input_config::Source</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `BatchDocumentsInputConfig`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">batch_documents_input_config</span> {
-    <span class="doccomment">/// The source.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Source</span> {
-        <span class="doccomment">/// The set of documents that match the specified Cloud Storage \[gcs_prefix\].</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">GcsPrefix</span>(<span class="ident"><span class="kw">super</span>::GcsPrefix</span>),
-        <span class="doccomment">/// The set of documents individually specified on Cloud Storage.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">GcsDocuments</span>(<span class="ident"><span class="kw">super</span>::GcsDocuments</span>),
-    }
-}
-<span class="doccomment">/// Config that controls the output of documents. All documents will be written</span>
-<span class="doccomment">/// as a JSON file.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentOutputConfig</span> {
-    <span class="doccomment">/// The destination of the results.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;document_output_config::Destination&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">document_output_config::Destination</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `DocumentOutputConfig`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">document_output_config</span> {
-    <span class="doccomment">/// The configuration used when outputting documents.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsOutputConfig</span> {
-        <span class="doccomment">/// The Cloud Storage uri (a directory) of the output.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// The destination of the results.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Destination</span> {
-        <span class="doccomment">/// Output config to write the results to Cloud Storage.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">GcsOutputConfig</span>(<span class="ident">GcsOutputConfig</span>),
-    }
-}
-<span class="doccomment">/// The first-class citizen for DocumentAI. Each processor defines how to extract</span>
-<span class="doccomment">/// structural information from a document.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Processor</span> {
-    <span class="doccomment">/// Output only. Immutable. The resource name of the processor.</span>
-    <span class="doccomment">/// Format: projects/{project}/locations/{location}/processors/{processor}</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The processor type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The display name of the processor.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The state of the processor.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;processor::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The default processor version.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">default_processor_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Immutable. The http endpoint that can be called to invoke processing.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">process_endpoint</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The time the processor was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The KMS key used for encryption/decryption in CMEK scenarios.</span>
-    <span class="doccomment">/// See &lt;https://cloud.google.com/security-key-management.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kms_key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Processor`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">processor</span> {
-    <span class="doccomment">/// The possible states of the processor.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// The processor is in an unspecified state.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The processor is enabled.</span>
-        <span class="ident">Enabled</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The processor is disabled.</span>
-        <span class="ident">Disabled</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The processor is being enabled, will become ENABLED if successful.</span>
-        <span class="ident">Enabling</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The processor is being disabled, will become DISABLED if successful.</span>
-        <span class="ident">Disabling</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// The processor is being created.</span>
-        <span class="ident">Creating</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// The processor failed during creation.</span>
-        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">6</span>,
-        <span class="doccomment">/// The processor is being deleted, will be removed if successful.</span>
-        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">7</span>,
-    }
-}
-<span class="doccomment">/// A processor type is responsible for performing a certain document</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A processor type is responsible for performing a certain document</span>
 <span class="doccomment">/// understanding task on a certain type of document.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProcessorType</span> {
@@ -2781,6 +2646,86 @@
         <span class="ident">Content</span>(<span class="ident">::prost::bytes::Bytes</span>),
     }
 }
+<span class="doccomment">/// Payload message of raw document content (bytes).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RawDocument</span> {
+    <span class="doccomment">/// Inline document content.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// An IANA MIME type (RFC6838) indicating the nature and format of the</span>
+    <span class="doccomment">/// \[content\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Specifies a document stored on Cloud Storage.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsDocument</span> {
+    <span class="doccomment">/// The Cloud Storage object uri.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// An IANA MIME type (RFC6838) of the content.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Specifies a set of documents on Cloud Storage.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsDocuments</span> {
+    <span class="doccomment">/// The list of documents.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">documents</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">GcsDocument</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Specifies all documents on Cloud Storage with a common prefix.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsPrefix</span> {
+    <span class="doccomment">/// The URI prefix.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_uri_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The common config to specify a set of documents used as input.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchDocumentsInputConfig</span> {
+    <span class="doccomment">/// The source.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;batch_documents_input_config::Source&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">batch_documents_input_config::Source</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `BatchDocumentsInputConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">batch_documents_input_config</span> {
+    <span class="doccomment">/// The source.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Source</span> {
+        <span class="doccomment">/// The set of documents that match the specified Cloud Storage \[gcs_prefix\].</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">GcsPrefix</span>(<span class="ident"><span class="kw">super</span>::GcsPrefix</span>),
+        <span class="doccomment">/// The set of documents individually specified on Cloud Storage.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">GcsDocuments</span>(<span class="ident"><span class="kw">super</span>::GcsDocuments</span>),
+    }
+}
+<span class="doccomment">/// Config that controls the output of documents. All documents will be written</span>
+<span class="doccomment">/// as a JSON file.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentOutputConfig</span> {
+    <span class="doccomment">/// The destination of the results.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;document_output_config::Destination&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">document_output_config::Destination</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `DocumentOutputConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">document_output_config</span> {
+    <span class="doccomment">/// The configuration used when outputting documents.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsOutputConfig</span> {
+        <span class="doccomment">/// The Cloud Storage uri (a directory) of the output.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// The destination of the results.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Destination</span> {
+        <span class="doccomment">/// Output config to write the results to Cloud Storage.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">GcsOutputConfig</span>(<span class="ident">GcsOutputConfig</span>),
+    }
+}
 <span class="doccomment">/// The common metadata for long running operations.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommonOperationMetadata</span> {
@@ -2815,6 +2760,61 @@
         <span class="ident">Failed</span> <span class="op">=</span> <span class="number">4</span>,
         <span class="doccomment">/// Operation is cancelled.</span>
         <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">5</span>,
+    }
+}
+<span class="doccomment">/// The first-class citizen for DocumentAI. Each processor defines how to extract</span>
+<span class="doccomment">/// structural information from a document.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Processor</span> {
+    <span class="doccomment">/// Output only. Immutable. The resource name of the processor.</span>
+    <span class="doccomment">/// Format: projects/{project}/locations/{location}/processors/{processor}</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The processor type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The display name of the processor.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The state of the processor.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;processor::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The default processor version.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">default_processor_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Immutable. The http endpoint that can be called to invoke processing.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">process_endpoint</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The time the processor was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The KMS key used for encryption/decryption in CMEK scenarios.</span>
+    <span class="doccomment">/// See &lt;https://cloud.google.com/security-key-management.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kms_key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Processor`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">processor</span> {
+    <span class="doccomment">/// The possible states of the processor.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// The processor is in an unspecified state.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The processor is enabled.</span>
+        <span class="ident">Enabled</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The processor is disabled.</span>
+        <span class="ident">Disabled</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The processor is being enabled, will become ENABLED if successful.</span>
+        <span class="ident">Enabling</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The processor is being disabled, will become DISABLED if successful.</span>
+        <span class="ident">Disabling</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// The processor is being created.</span>
+        <span class="ident">Creating</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// The processor failed during creation.</span>
+        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// The processor is being deleted, will be removed if successful.</span>
+        <span class="ident">Deleting</span> <span class="op">=</span> <span class="number">7</span>,
     }
 }
 <span class="doccomment">/// Request message for the process document method.</span>

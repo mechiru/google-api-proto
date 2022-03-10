@@ -1758,7 +1758,30 @@
 <span id="1756">1756</span>
 <span id="1757">1757</span>
 <span id="1758">1758</span>
-</pre><pre class="rust"><code><span class="doccomment">/// An IAM service account.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Audit log information specific to Cloud IAM admin APIs. This message is</span>
+<span class="doccomment">/// serialized as an `Any` type in the `ServiceData` message of an</span>
+<span class="doccomment">/// `AuditLog` message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuditData</span> {
+    <span class="doccomment">/// The permission_delta when when creating or updating a Role.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">permission_delta</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">audit_data::PermissionDelta</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AuditData`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">audit_data</span> {
+    <span class="doccomment">/// A PermissionDelta message to record the added_permissions and</span>
+    <span class="doccomment">/// removed_permissions inside a role.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PermissionDelta</span> {
+        <span class="doccomment">/// Added permissions.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">added_permissions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Removed permissions.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">removed_permissions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    }
+}
+<span class="doccomment">/// An IAM service account.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A service account is an account for an application or a virtual machine (VM)</span>
 <span class="doccomment">/// instance, not a person. You can use a service account to call Google APIs. To</span>
@@ -3491,29 +3514,6 @@
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.iam.admin.v1.IAM/LintPolicy&quot;</span>);
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-    }
-}
-<span class="doccomment">/// Audit log information specific to Cloud IAM admin APIs. This message is</span>
-<span class="doccomment">/// serialized as an `Any` type in the `ServiceData` message of an</span>
-<span class="doccomment">/// `AuditLog` message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuditData</span> {
-    <span class="doccomment">/// The permission_delta when when creating or updating a Role.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">permission_delta</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">audit_data::PermissionDelta</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AuditData`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">audit_data</span> {
-    <span class="doccomment">/// A PermissionDelta message to record the added_permissions and</span>
-    <span class="doccomment">/// removed_permissions inside a role.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PermissionDelta</span> {
-        <span class="doccomment">/// Added permissions.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">added_permissions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Removed permissions.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">removed_permissions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     }
 }
 </code></pre></div>

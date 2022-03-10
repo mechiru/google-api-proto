@@ -1339,6 +1339,34 @@
         <span class="kw">pub</span> <span class="ident">resource_owners</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     }
 }
+<span class="doccomment">/// Security Command Center finding source. A finding source</span>
+<span class="doccomment">/// is an entity or a mechanism that can produce a finding. A source is like a</span>
+<span class="doccomment">/// container of findings that come from the same scanner, logger, monitor, etc.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
+    <span class="doccomment">/// The relative resource name of this source. See:</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The source&#39;s display name.</span>
+    <span class="doccomment">/// A source&#39;s display name must be unique amongst its siblings, for example,</span>
+    <span class="doccomment">/// two sources with the same parent can&#39;t share the same display name.</span>
+    <span class="doccomment">/// The display name must have a length between 1 and 64 characters</span>
+    <span class="doccomment">/// (inclusive).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The description of the source (max of 1024 characters).</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;Web Security Scanner is a web security scanner for common</span>
+    <span class="doccomment">/// vulnerabilities in App Engine applications. It can automatically</span>
+    <span class="doccomment">/// scan and detect four common vulnerabilities, including cross-site-scripting</span>
+    <span class="doccomment">/// (XSS), Flash injection, mixed content (HTTP in HTTPS), and</span>
+    <span class="doccomment">/// outdated/insecure libraries.&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Security Command Center finding.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A finding is a record of assessment data (security, risk, health or privacy)</span>
@@ -1478,34 +1506,6 @@
             <span class="ident">Exclude</span> <span class="op">=</span> <span class="number">2</span>,
         }
     }
-}
-<span class="doccomment">/// Security Command Center finding source. A finding source</span>
-<span class="doccomment">/// is an entity or a mechanism that can produce a finding. A source is like a</span>
-<span class="doccomment">/// container of findings that come from the same scanner, logger, monitor, etc.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
-    <span class="doccomment">/// The relative resource name of this source. See:</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The source&#39;s display name.</span>
-    <span class="doccomment">/// A source&#39;s display name must be unique amongst its siblings, for example,</span>
-    <span class="doccomment">/// two sources with the same parent can&#39;t share the same display name.</span>
-    <span class="doccomment">/// The display name must have a length between 1 and 64 characters</span>
-    <span class="doccomment">/// (inclusive).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The description of the source (max of 1024 characters).</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;Web Security Scanner is a web security scanner for common</span>
-    <span class="doccomment">/// vulnerabilities in App Engine applications. It can automatically</span>
-    <span class="doccomment">/// scan and detect four common vulnerabilities, including cross-site-scripting</span>
-    <span class="doccomment">/// (XSS), Flash injection, mixed content (HTTP in HTTPS), and</span>
-    <span class="doccomment">/// outdated/insecure libraries.&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Request message for creating a finding.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

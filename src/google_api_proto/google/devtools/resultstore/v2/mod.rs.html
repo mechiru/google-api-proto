@@ -4172,90 +4172,7 @@
 <span id="4170">4170</span>
 <span id="4171">4171</span>
 <span id="4172">4172</span>
-</pre><pre class="rust"><code><span class="doccomment">/// The metadata for a file or an archive file entry.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">File</span> {
-    <span class="doccomment">/// The identifier of the file or archive entry.</span>
-    <span class="doccomment">/// User-provided, must be unique for the repeated field it is in. When an</span>
-    <span class="doccomment">/// Append RPC is called with a Files field populated, if a File already exists</span>
-    <span class="doccomment">/// with this ID, that File will be overwritten with the new File proto.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">uid</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The URI of a file.</span>
-    <span class="doccomment">/// This could also be the URI of an entire archive.</span>
-    <span class="doccomment">/// Most log data doesn&#39;t need to be stored forever, so a ttl is suggested.</span>
-    <span class="doccomment">/// Note that if you ever move or delete the file at this URI, the link from</span>
-    <span class="doccomment">/// the server will be broken.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The length of the file in bytes.  Allows the filesize to be shown in the</span>
-    <span class="doccomment">/// UI.  Omit if file is still being written or length is not known.  This</span>
-    <span class="doccomment">/// could also be the length of an entire archive.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">length</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The content-type (aka MIME-type) of the file.  This is sent to the web</span>
-    <span class="doccomment">/// browser so it knows how to handle the file. (e.g. text/plain, image/jpeg,</span>
-    <span class="doccomment">/// text/html, etc). For zip archives, use &quot;application/zip&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// If the above path, length, and content_type are referring to an archive,</span>
-    <span class="doccomment">/// and you wish to refer to a particular entry within that archive, put the</span>
-    <span class="doccomment">/// particular archive entry data here.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">archive_entry</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ArchiveEntry</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A url to a content display app/site for this file or archive entry.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content_viewer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Whether to hide this file or archive entry in the UI.  Defaults to false.</span>
-    <span class="doccomment">/// A checkbox lets users see hidden files, but they&#39;re hidden by default.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hidden</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// A short description of what this file or archive entry contains. This</span>
-    <span class="doccomment">/// description should help someone viewing the list of these files to</span>
-    <span class="doccomment">/// understand the purpose of this file and what they would want to view it</span>
-    <span class="doccomment">/// for.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The digest of this file in hexadecimal-like string if known.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">digest</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The algorithm corresponding to the digest if known.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;file::HashType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hash_type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `File`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">file</span> {
-    <span class="doccomment">/// If known, the hash function used to compute this digest.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HashType</span> {
-        <span class="doccomment">/// Unknown</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// MD5</span>
-        <span class="ident">Md5</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// SHA-1</span>
-        <span class="ident">Sha1</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// SHA-256</span>
-        <span class="ident">Sha256</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Information specific to an entry in an archive.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArchiveEntry</span> {
-    <span class="doccomment">/// The relative path of the entry within the archive.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The uncompressed length of the archive entry in bytes.  Allows the entry</span>
-    <span class="doccomment">/// size to be shown in the UI.  Omit if the length is not known.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">length</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The content-type (aka MIME-type) of the archive entry. (e.g. text/plain,</span>
-    <span class="doccomment">/// image/jpeg, text/html, etc). This is sent to the web browser so it knows</span>
-    <span class="doccomment">/// how to handle the entry.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Describes the status of a resource in both enum and string form.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Describes the status of a resource in both enum and string form.</span>
 <span class="doccomment">/// Only use description when conveying additional info not captured in the enum</span>
 <span class="doccomment">/// name.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -4432,6 +4349,170 @@
     <span class="doccomment">/// All post-processing is complete, and the invocation is now immutable.</span>
     <span class="ident">Immutable</span> <span class="op">=</span> <span class="number">3</span>,
 }
+<span class="doccomment">/// The metadata for a file or an archive file entry.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">File</span> {
+    <span class="doccomment">/// The identifier of the file or archive entry.</span>
+    <span class="doccomment">/// User-provided, must be unique for the repeated field it is in. When an</span>
+    <span class="doccomment">/// Append RPC is called with a Files field populated, if a File already exists</span>
+    <span class="doccomment">/// with this ID, that File will be overwritten with the new File proto.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">uid</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The URI of a file.</span>
+    <span class="doccomment">/// This could also be the URI of an entire archive.</span>
+    <span class="doccomment">/// Most log data doesn&#39;t need to be stored forever, so a ttl is suggested.</span>
+    <span class="doccomment">/// Note that if you ever move or delete the file at this URI, the link from</span>
+    <span class="doccomment">/// the server will be broken.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The length of the file in bytes.  Allows the filesize to be shown in the</span>
+    <span class="doccomment">/// UI.  Omit if file is still being written or length is not known.  This</span>
+    <span class="doccomment">/// could also be the length of an entire archive.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">length</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The content-type (aka MIME-type) of the file.  This is sent to the web</span>
+    <span class="doccomment">/// browser so it knows how to handle the file. (e.g. text/plain, image/jpeg,</span>
+    <span class="doccomment">/// text/html, etc). For zip archives, use &quot;application/zip&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// If the above path, length, and content_type are referring to an archive,</span>
+    <span class="doccomment">/// and you wish to refer to a particular entry within that archive, put the</span>
+    <span class="doccomment">/// particular archive entry data here.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">archive_entry</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ArchiveEntry</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A url to a content display app/site for this file or archive entry.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content_viewer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Whether to hide this file or archive entry in the UI.  Defaults to false.</span>
+    <span class="doccomment">/// A checkbox lets users see hidden files, but they&#39;re hidden by default.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hidden</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// A short description of what this file or archive entry contains. This</span>
+    <span class="doccomment">/// description should help someone viewing the list of these files to</span>
+    <span class="doccomment">/// understand the purpose of this file and what they would want to view it</span>
+    <span class="doccomment">/// for.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The digest of this file in hexadecimal-like string if known.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">digest</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The algorithm corresponding to the digest if known.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;file::HashType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hash_type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `File`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">file</span> {
+    <span class="doccomment">/// If known, the hash function used to compute this digest.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HashType</span> {
+        <span class="doccomment">/// Unknown</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// MD5</span>
+        <span class="ident">Md5</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// SHA-1</span>
+        <span class="ident">Sha1</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// SHA-256</span>
+        <span class="ident">Sha256</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Information specific to an entry in an archive.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArchiveEntry</span> {
+    <span class="doccomment">/// The relative path of the entry within the archive.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The uncompressed length of the archive entry in bytes.  Allows the entry</span>
+    <span class="doccomment">/// size to be shown in the UI.  Omit if the length is not known.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">length</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The content-type (aka MIME-type) of the archive entry. (e.g. text/plain,</span>
+    <span class="doccomment">/// image/jpeg, text/html, etc). This is sent to the web browser so it knows</span>
+    <span class="doccomment">/// how to handle the entry.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Each ConfiguredTarget represents data for a given configuration of a given</span>
+<span class="doccomment">/// target in a given Invocation.</span>
+<span class="doccomment">/// Every ConfiguredTarget should have at least one Action as a child resource</span>
+<span class="doccomment">/// before the invocation is finalized. Refer to the Action&#39;s documentation for</span>
+<span class="doccomment">/// more info on this.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfiguredTarget</span> {
+    <span class="doccomment">/// The resource name.  Its format must be:</span>
+    <span class="doccomment">/// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${url_encode(CONFIG_ID)}</span>
+    <span class="doccomment">/// where ${CONFIG_ID} must match the ID of an existing Configuration under</span>
+    <span class="doccomment">/// this Invocation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The resource ID components that identify the ConfiguredTarget. They must</span>
+    <span class="doccomment">/// match the resource name after proper encoding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">configured_target::Id</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The aggregate status for this configuration of this target. If testing</span>
+    <span class="doccomment">/// was not requested, set this to the build status (e.g. BUILT or</span>
+    <span class="doccomment">/// FAILED_TO_BUILD).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status_attributes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">StatusAttributes</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Captures the start time and duration of this configured target.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">timing</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Timing</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Test specific attributes for this ConfiguredTarget.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">test_attributes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ConfiguredTestAttributes</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Arbitrary name-value pairs.</span>
+    <span class="doccomment">/// This is implemented as a multi-map. Multiple properties are allowed with</span>
+    <span class="doccomment">/// the same key. Properties will be returned in lexicographical order by key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Property</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A list of file references for configured target level files.</span>
+    <span class="doccomment">/// The file IDs must be unique within this list. Duplicate file IDs will</span>
+    <span class="doccomment">/// result in an error. Files will be returned in lexicographical order by ID.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ConfiguredTarget`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">configured_target</span> {
+    <span class="doccomment">/// The resource ID components that identify the ConfiguredTarget.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Id</span> {
+        <span class="doccomment">/// The Invocation ID.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">invocation_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The Target ID.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">target_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The Configuration ID.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">configuration_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
+<span class="doccomment">/// Attributes that apply only to test actions under this configured target.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfiguredTestAttributes</span> {
+    <span class="doccomment">/// Total number of test runs. For example, in bazel this is specified with</span>
+    <span class="doccomment">/// --runs_per_test. Zero if runs_per_test is not used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">total_run_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Total number of test shards. Zero if shard count was not specified.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">total_shard_count</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// How long test is allowed to run.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">timeout_duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The download metadata for an invocation</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DownloadMetadata</span> {
+    <span class="doccomment">/// The name of the download metadata.  Its format will be:</span>
+    <span class="doccomment">/// invocations/${INVOCATION_ID}/downloadMetadata</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Indicates the upload status of the invocation, whether it is</span>
+    <span class="doccomment">/// post-processing, or immutable, etc.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;UploadStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">upload_status</span>: <span class="ident">i32</span>,
+}
 <span class="doccomment">/// Each Target represents data for a given target in a given Invocation.</span>
 <span class="doccomment">/// ConfiguredTarget and Action resources under each Target contain the bulk of</span>
 <span class="doccomment">/// the data.</span>
@@ -4544,24 +4625,6 @@
     <span class="ident">Enormous</span> <span class="op">=</span> <span class="number">4</span>,
     <span class="doccomment">/// Something that doesn&#39;t fit into the above categories.</span>
     <span class="ident">OtherSize</span> <span class="op">=</span> <span class="number">5</span>,
-}
-<span class="doccomment">/// The upload metadata for an invocation</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UploadMetadata</span> {
-    <span class="doccomment">/// The name of the upload metadata.  Its format will be:</span>
-    <span class="doccomment">/// invocations/${INVOCATION_ID}/uploadMetadata</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The resume token of the last batch that was committed in the most recent</span>
-    <span class="doccomment">/// batch upload.</span>
-    <span class="doccomment">/// More information with resume_token could be found in</span>
-    <span class="doccomment">/// resultstore_upload.proto</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resume_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Client-specific data used to resume batch upload if an error occurs and</span>
-    <span class="doccomment">/// retry action is needed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">uploader_state</span>: <span class="ident">::prost::bytes::Bytes</span>,
 }
 <span class="doccomment">/// The result of running a test suite, as reported in a &lt;testsuite&gt; element of</span>
 <span class="doccomment">/// an XML log.</span>
@@ -5442,6 +5505,24 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// The upload metadata for an invocation</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UploadMetadata</span> {
+    <span class="doccomment">/// The name of the upload metadata.  Its format will be:</span>
+    <span class="doccomment">/// invocations/${INVOCATION_ID}/uploadMetadata</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The resume token of the last batch that was committed in the most recent</span>
+    <span class="doccomment">/// batch upload.</span>
+    <span class="doccomment">/// More information with resume_token could be found in</span>
+    <span class="doccomment">/// resultstore_upload.proto</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resume_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Client-specific data used to resume batch upload if an error occurs and</span>
+    <span class="doccomment">/// retry action is needed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">uploader_state</span>: <span class="ident">::prost::bytes::Bytes</span>,
+}
 <span class="doccomment">/// Represents a configuration within an Invocation associated with one or more</span>
 <span class="doccomment">/// ConfiguredTargets. It captures the environment and other settings that</span>
 <span class="doccomment">/// were used.</span>
@@ -5493,87 +5574,6 @@
     <span class="doccomment">/// The type of cpu. (e.g. &quot;x86&quot;, &quot;powerpc&quot;)</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">cpu</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Each ConfiguredTarget represents data for a given configuration of a given</span>
-<span class="doccomment">/// target in a given Invocation.</span>
-<span class="doccomment">/// Every ConfiguredTarget should have at least one Action as a child resource</span>
-<span class="doccomment">/// before the invocation is finalized. Refer to the Action&#39;s documentation for</span>
-<span class="doccomment">/// more info on this.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfiguredTarget</span> {
-    <span class="doccomment">/// The resource name.  Its format must be:</span>
-    <span class="doccomment">/// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${url_encode(CONFIG_ID)}</span>
-    <span class="doccomment">/// where ${CONFIG_ID} must match the ID of an existing Configuration under</span>
-    <span class="doccomment">/// this Invocation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The resource ID components that identify the ConfiguredTarget. They must</span>
-    <span class="doccomment">/// match the resource name after proper encoding.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">configured_target::Id</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The aggregate status for this configuration of this target. If testing</span>
-    <span class="doccomment">/// was not requested, set this to the build status (e.g. BUILT or</span>
-    <span class="doccomment">/// FAILED_TO_BUILD).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status_attributes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">StatusAttributes</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Captures the start time and duration of this configured target.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">timing</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Timing</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Test specific attributes for this ConfiguredTarget.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">test_attributes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ConfiguredTestAttributes</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Arbitrary name-value pairs.</span>
-    <span class="doccomment">/// This is implemented as a multi-map. Multiple properties are allowed with</span>
-    <span class="doccomment">/// the same key. Properties will be returned in lexicographical order by key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Property</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A list of file references for configured target level files.</span>
-    <span class="doccomment">/// The file IDs must be unique within this list. Duplicate file IDs will</span>
-    <span class="doccomment">/// result in an error. Files will be returned in lexicographical order by ID.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ConfiguredTarget`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">configured_target</span> {
-    <span class="doccomment">/// The resource ID components that identify the ConfiguredTarget.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Id</span> {
-        <span class="doccomment">/// The Invocation ID.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">invocation_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The Target ID.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">target_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The Configuration ID.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">configuration_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
-<span class="doccomment">/// Attributes that apply only to test actions under this configured target.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfiguredTestAttributes</span> {
-    <span class="doccomment">/// Total number of test runs. For example, in bazel this is specified with</span>
-    <span class="doccomment">/// --runs_per_test. Zero if runs_per_test is not used.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">total_run_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Total number of test shards. Zero if shard count was not specified.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">total_shard_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// How long test is allowed to run.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">timeout_duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The download metadata for an invocation</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DownloadMetadata</span> {
-    <span class="doccomment">/// The name of the download metadata.  Its format will be:</span>
-    <span class="doccomment">/// invocations/${INVOCATION_ID}/downloadMetadata</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Indicates the upload status of the invocation, whether it is</span>
-    <span class="doccomment">/// post-processing, or immutable, etc.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;UploadStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">upload_status</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// This resource represents a set of Files and other (nested) FileSets.</span>
 <span class="doccomment">/// A FileSet is a node in the graph, and the file_sets field represents the</span>

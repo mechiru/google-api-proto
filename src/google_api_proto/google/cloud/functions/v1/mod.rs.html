@@ -975,7 +975,54 @@
 <span id="973">973</span>
 <span id="974">974</span>
 <span id="975">975</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Describes a Cloud Function that contains user computation executed in</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Metadata describing an \[Operation][google.longrunning.Operation\]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadataV1</span> {
+    <span class="doccomment">/// Target of the operation - for example</span>
+    <span class="doccomment">/// `projects/project-1/locations/region-1/functions/function-1`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The original request that started the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Any</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Version id of the function created or updated by an API call.</span>
+    <span class="doccomment">/// This field is only populated for Create and Update operations.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">version_id</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The last update timestamp of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The Cloud Build ID of the function created or updated by an API call.</span>
+    <span class="doccomment">/// This field is only populated for Create and Update operations.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">build_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// An identifier for Firebase function sources. Disclaimer: This field is only</span>
+    <span class="doccomment">/// supported for Firebase function deployments.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The Cloud Build Name of the function deployment.</span>
+    <span class="doccomment">/// This field is only populated for Create and Update operations.</span>
+    <span class="doccomment">/// `projects/&lt;project-number&gt;/locations/&lt;region&gt;/builds/&lt;build-id&gt;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">build_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A type of an operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OperationType</span> {
+    <span class="doccomment">/// Unknown operation type.</span>
+    <span class="ident">OperationUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Triggered by CreateFunction call</span>
+    <span class="ident">CreateFunction</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Triggered by UpdateFunction call</span>
+    <span class="ident">UpdateFunction</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Triggered by DeleteFunction call.</span>
+    <span class="ident">DeleteFunction</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="doccomment">/// Describes a Cloud Function that contains user computation executed in</span>
 <span class="doccomment">/// response to an event. It encapsulate function and triggers configurations.</span>
 <span class="doccomment">/// Next tag: 36</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1902,53 +1949,6 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
-}
-<span class="doccomment">/// Metadata describing an \[Operation][google.longrunning.Operation\]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadataV1</span> {
-    <span class="doccomment">/// Target of the operation - for example</span>
-    <span class="doccomment">/// `projects/project-1/locations/region-1/functions/function-1`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Type of operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The original request that started the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Any</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Version id of the function created or updated by an API call.</span>
-    <span class="doccomment">/// This field is only populated for Create and Update operations.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">version_id</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The last update timestamp of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The Cloud Build ID of the function created or updated by an API call.</span>
-    <span class="doccomment">/// This field is only populated for Create and Update operations.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">build_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// An identifier for Firebase function sources. Disclaimer: This field is only</span>
-    <span class="doccomment">/// supported for Firebase function deployments.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">source_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The Cloud Build Name of the function deployment.</span>
-    <span class="doccomment">/// This field is only populated for Create and Update operations.</span>
-    <span class="doccomment">/// `projects/&lt;project-number&gt;/locations/&lt;region&gt;/builds/&lt;build-id&gt;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">build_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A type of an operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OperationType</span> {
-    <span class="doccomment">/// Unknown operation type.</span>
-    <span class="ident">OperationUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Triggered by CreateFunction call</span>
-    <span class="ident">CreateFunction</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Triggered by UpdateFunction call</span>
-    <span class="ident">UpdateFunction</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Triggered by DeleteFunction call.</span>
-    <span class="ident">DeleteFunction</span> <span class="op">=</span> <span class="number">3</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

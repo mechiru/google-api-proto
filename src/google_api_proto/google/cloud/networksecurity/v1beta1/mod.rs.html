@@ -1200,120 +1200,6 @@
         <span class="ident">CertificateProviderInstance</span>(<span class="ident"><span class="kw">super</span>::CertificateProviderInstance</span>),
     }
 }
-<span class="doccomment">/// ClientTlsPolicy is a resource that specifies how a client should authenticate</span>
-<span class="doccomment">/// connections to backends of a service. This resource itself does not affect</span>
-<span class="doccomment">/// configuration unless it is attached to a backend service resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClientTlsPolicy</span> {
-    <span class="doccomment">/// Required. Name of the ClientTlsPolicy resource. It matches the pattern</span>
-    <span class="doccomment">/// `projects/*/locations/{location}/clientTlsPolicies/{client_tls_policy}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Free-text description of the resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The timestamp when the resource was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The timestamp when the resource was updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Set of label tags associated with the resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Server Name Indication string to present to the server during TLS</span>
-    <span class="doccomment">/// handshake. E.g: &quot;secure.example.com&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">sni</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Defines a mechanism to provision client identity (public and private keys)</span>
-    <span class="doccomment">/// for peer to peer authentication. The presence of this dictates mTLS.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">client_certificate</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CertificateProvider</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Defines the mechanism to obtain the Certificate Authority certificate to</span>
-    <span class="doccomment">/// validate the server certificate. If empty, client does not validate the</span>
-    <span class="doccomment">/// server certificate.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">server_validation_ca</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ValidationCa</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request used by the ListClientTlsPolicies method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListClientTlsPoliciesRequest</span> {
-    <span class="doccomment">/// Required. The project and location from which the ClientTlsPolicies should</span>
-    <span class="doccomment">/// be listed, specified in the format `projects/*/locations/{location}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Maximum number of ClientTlsPolicies to return per call.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The value returned by the last `ListClientTlsPoliciesResponse`</span>
-    <span class="doccomment">/// Indicates that this is a continuation of a prior</span>
-    <span class="doccomment">/// `ListClientTlsPolicies` call, and that the system</span>
-    <span class="doccomment">/// should return the next page of data.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Response returned by the ListClientTlsPolicies method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListClientTlsPoliciesResponse</span> {
-    <span class="doccomment">/// List of ClientTlsPolicy resources.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">client_tls_policies</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ClientTlsPolicy</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
-    <span class="doccomment">/// `next_page_token` is included. To get the next set of results, call this</span>
-    <span class="doccomment">/// method again using the value of `next_page_token` as `page_token`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request used by the GetClientTlsPolicy method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetClientTlsPolicyRequest</span> {
-    <span class="doccomment">/// Required. A name of the ClientTlsPolicy to get. Must be in the format</span>
-    <span class="doccomment">/// `projects/*/locations/{location}/clientTlsPolicies/*`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request used by the CreateClientTlsPolicy method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateClientTlsPolicyRequest</span> {
-    <span class="doccomment">/// Required. The parent resource of the ClientTlsPolicy. Must be in</span>
-    <span class="doccomment">/// the format `projects/*/locations/{location}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Short name of the ClientTlsPolicy resource to be created. This value should</span>
-    <span class="doccomment">/// be 1-63 characters long, containing only letters, numbers, hyphens, and</span>
-    <span class="doccomment">/// underscores, and should not start with a number. E.g. &quot;client_mtls_policy&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">client_tls_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. ClientTlsPolicy resource to be created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">client_tls_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ClientTlsPolicy</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request used by UpdateClientTlsPolicy method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateClientTlsPolicyRequest</span> {
-    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the</span>
-    <span class="doccomment">/// ClientTlsPolicy resource by the update.  The fields</span>
-    <span class="doccomment">/// specified in the update_mask are relative to the resource, not</span>
-    <span class="doccomment">/// the full request. A field will be overwritten if it is in the</span>
-    <span class="doccomment">/// mask. If the user does not provide a mask then all fields will be</span>
-    <span class="doccomment">/// overwritten.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Updated ClientTlsPolicy resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">client_tls_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ClientTlsPolicy</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request used by the DeleteClientTlsPolicy method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteClientTlsPolicyRequest</span> {
-    <span class="doccomment">/// Required. A name of the ClientTlsPolicy to delete. Must be in</span>
-    <span class="doccomment">/// the format `projects/*/locations/{location}/clientTlsPolicies/*`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
 <span class="doccomment">/// ServerTlsPolicy is a resource that specifies how a server should authenticate</span>
 <span class="doccomment">/// incoming requests. This resource itself does not affect configuration unless</span>
 <span class="doccomment">/// it is attached to a target https proxy or endpoint config selector resource.</span>
@@ -1448,6 +1334,148 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteServerTlsPolicyRequest</span> {
     <span class="doccomment">/// Required. A name of the ServerTlsPolicy to delete. Must be in</span>
     <span class="doccomment">/// the format `projects/*/locations/{location}/serverTlsPolicies/*`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Represents the metadata of the long-running operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
+    <span class="doccomment">/// Output only. The time the operation was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The time the operation finished running.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Name of the verb executed by the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">verb</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status_message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation</span>
+    <span class="doccomment">/// of the operation. Operations that have successfully been cancelled</span>
+    <span class="doccomment">/// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,</span>
+    <span class="doccomment">/// corresponding to `Code.CANCELLED`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">requested_cancellation</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Output only. API version used to start the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">api_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// ClientTlsPolicy is a resource that specifies how a client should authenticate</span>
+<span class="doccomment">/// connections to backends of a service. This resource itself does not affect</span>
+<span class="doccomment">/// configuration unless it is attached to a backend service resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClientTlsPolicy</span> {
+    <span class="doccomment">/// Required. Name of the ClientTlsPolicy resource. It matches the pattern</span>
+    <span class="doccomment">/// `projects/*/locations/{location}/clientTlsPolicies/{client_tls_policy}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Free-text description of the resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The timestamp when the resource was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The timestamp when the resource was updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Set of label tags associated with the resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Server Name Indication string to present to the server during TLS</span>
+    <span class="doccomment">/// handshake. E.g: &quot;secure.example.com&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">sni</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Defines a mechanism to provision client identity (public and private keys)</span>
+    <span class="doccomment">/// for peer to peer authentication. The presence of this dictates mTLS.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">client_certificate</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CertificateProvider</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Defines the mechanism to obtain the Certificate Authority certificate to</span>
+    <span class="doccomment">/// validate the server certificate. If empty, client does not validate the</span>
+    <span class="doccomment">/// server certificate.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">server_validation_ca</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ValidationCa</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request used by the ListClientTlsPolicies method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListClientTlsPoliciesRequest</span> {
+    <span class="doccomment">/// Required. The project and location from which the ClientTlsPolicies should</span>
+    <span class="doccomment">/// be listed, specified in the format `projects/*/locations/{location}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Maximum number of ClientTlsPolicies to return per call.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The value returned by the last `ListClientTlsPoliciesResponse`</span>
+    <span class="doccomment">/// Indicates that this is a continuation of a prior</span>
+    <span class="doccomment">/// `ListClientTlsPolicies` call, and that the system</span>
+    <span class="doccomment">/// should return the next page of data.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Response returned by the ListClientTlsPolicies method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListClientTlsPoliciesResponse</span> {
+    <span class="doccomment">/// List of ClientTlsPolicy resources.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">client_tls_policies</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ClientTlsPolicy</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
+    <span class="doccomment">/// `next_page_token` is included. To get the next set of results, call this</span>
+    <span class="doccomment">/// method again using the value of `next_page_token` as `page_token`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request used by the GetClientTlsPolicy method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetClientTlsPolicyRequest</span> {
+    <span class="doccomment">/// Required. A name of the ClientTlsPolicy to get. Must be in the format</span>
+    <span class="doccomment">/// `projects/*/locations/{location}/clientTlsPolicies/*`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request used by the CreateClientTlsPolicy method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateClientTlsPolicyRequest</span> {
+    <span class="doccomment">/// Required. The parent resource of the ClientTlsPolicy. Must be in</span>
+    <span class="doccomment">/// the format `projects/*/locations/{location}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Short name of the ClientTlsPolicy resource to be created. This value should</span>
+    <span class="doccomment">/// be 1-63 characters long, containing only letters, numbers, hyphens, and</span>
+    <span class="doccomment">/// underscores, and should not start with a number. E.g. &quot;client_mtls_policy&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">client_tls_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. ClientTlsPolicy resource to be created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">client_tls_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ClientTlsPolicy</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request used by UpdateClientTlsPolicy method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateClientTlsPolicyRequest</span> {
+    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the</span>
+    <span class="doccomment">/// ClientTlsPolicy resource by the update.  The fields</span>
+    <span class="doccomment">/// specified in the update_mask are relative to the resource, not</span>
+    <span class="doccomment">/// the full request. A field will be overwritten if it is in the</span>
+    <span class="doccomment">/// mask. If the user does not provide a mask then all fields will be</span>
+    <span class="doccomment">/// overwritten.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Updated ClientTlsPolicy resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">client_tls_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ClientTlsPolicy</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request used by the DeleteClientTlsPolicy method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteClientTlsPolicyRequest</span> {
+    <span class="doccomment">/// Required. A name of the ClientTlsPolicy to delete. Must be in</span>
+    <span class="doccomment">/// the format `projects/*/locations/{location}/clientTlsPolicies/*`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -1787,34 +1815,6 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
-}
-<span class="doccomment">/// Represents the metadata of the long-running operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
-    <span class="doccomment">/// Output only. The time the operation was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The time the operation finished running.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Name of the verb executed by the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">verb</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status_message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation</span>
-    <span class="doccomment">/// of the operation. Operations that have successfully been cancelled</span>
-    <span class="doccomment">/// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,</span>
-    <span class="doccomment">/// corresponding to `Code.CANCELLED`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">requested_cancellation</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Output only. API version used to start the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">api_version</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

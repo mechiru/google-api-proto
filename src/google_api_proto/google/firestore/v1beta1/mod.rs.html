@@ -2144,261 +2144,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">fields</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">Value</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// A write on a document.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Write</span> {
-    <span class="doccomment">/// The fields to update in this write.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field can be set only when the operation is `update`.</span>
-    <span class="doccomment">/// If the mask is not set for an `update` and the document exists, any</span>
-    <span class="doccomment">/// existing data will be overwritten.</span>
-    <span class="doccomment">/// If the mask is set and the document on the server has fields not covered by</span>
-    <span class="doccomment">/// the mask, they are left unchanged.</span>
-    <span class="doccomment">/// Fields referenced in the mask, but not present in the input document, are</span>
-    <span class="doccomment">/// deleted from the document on the server.</span>
-    <span class="doccomment">/// The field paths in this mask must not contain a reserved field name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DocumentMask</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The transforms to perform after update.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field can be set only when the operation is `update`. If present, this</span>
-    <span class="doccomment">/// write is equivalent to performing `update` and `transform` to the same</span>
-    <span class="doccomment">/// document atomically and in order.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_transforms</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">document_transform::FieldTransform</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// An optional precondition on the document.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The write will fail if this is set and not met by the target document.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">current_document</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Precondition</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The operation to execute.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;write::Operation&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">write::Operation</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Write`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">write</span> {
-    <span class="doccomment">/// The operation to execute.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Operation</span> {
-        <span class="doccomment">/// A document to write.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">Update</span>(<span class="ident"><span class="kw">super</span>::Document</span>),
-        <span class="doccomment">/// A document name to delete. In the format:</span>
-        <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/documents/{document_path}`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Delete</span>(<span class="ident">::prost::alloc::string::String</span>),
-        <span class="doccomment">/// Applies a transformation to a document.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">Transform</span>(<span class="ident"><span class="kw">super</span>::DocumentTransform</span>),
-    }
-}
-<span class="doccomment">/// A transformation of a document.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentTransform</span> {
-    <span class="doccomment">/// The name of the document to transform.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">document</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The list of transformations to apply to the fields of the document, in</span>
-    <span class="doccomment">/// order.</span>
-    <span class="doccomment">/// This must not be empty.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">field_transforms</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">document_transform::FieldTransform</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `DocumentTransform`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">document_transform</span> {
-    <span class="doccomment">/// A transformation of a field of the document.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FieldTransform</span> {
-        <span class="doccomment">/// The path of the field. See \[Document.fields][google.firestore.v1beta1.Document.fields\] for the field path syntax</span>
-        <span class="doccomment">/// reference.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">field_path</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The transformation to apply on the field.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;field_transform::TransformType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3, 4, 5, 6, 7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">transform_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">field_transform::TransformType</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `FieldTransform`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">field_transform</span> {
-        <span class="doccomment">/// A value that is calculated by the server.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ServerValue</span> {
-            <span class="doccomment">/// Unspecified. This value must not be used.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// The time at which the server processed the request, with millisecond</span>
-            <span class="doccomment">/// precision. If used on multiple fields (same or different documents) in</span>
-            <span class="doccomment">/// a transaction, all the fields will get the same server timestamp.</span>
-            <span class="ident">RequestTime</span> <span class="op">=</span> <span class="number">1</span>,
-        }
-        <span class="doccomment">/// The transformation to apply on the field.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TransformType</span> {
-            <span class="doccomment">/// Sets the field to the given server value.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ServerValue&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">SetToServerValue</span>(<span class="ident">i32</span>),
-            <span class="doccomment">/// Adds the given value to the field&#39;s current value.</span>
-            <span class="doccomment">///</span>
-            <span class="doccomment">/// This must be an integer or a double value.</span>
-            <span class="doccomment">/// If the field is not an integer or double, or if the field does not yet</span>
-            <span class="doccomment">/// exist, the transformation will set the field to the given value.</span>
-            <span class="doccomment">/// If either of the given value or the current field value are doubles,</span>
-            <span class="doccomment">/// both values will be interpreted as doubles. Double arithmetic and</span>
-            <span class="doccomment">/// representation of double values follow IEEE 754 semantics.</span>
-            <span class="doccomment">/// If there is positive/negative integer overflow, the field is resolved</span>
-            <span class="doccomment">/// to the largest magnitude positive/negative integer.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="ident">Increment</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::Value</span>),
-            <span class="doccomment">/// Sets the field to the maximum of its current value and the given value.</span>
-            <span class="doccomment">///</span>
-            <span class="doccomment">/// This must be an integer or a double value.</span>
-            <span class="doccomment">/// If the field is not an integer or double, or if the field does not yet</span>
-            <span class="doccomment">/// exist, the transformation will set the field to the given value.</span>
-            <span class="doccomment">/// If a maximum operation is applied where the field and the input value</span>
-            <span class="doccomment">/// are of mixed types (that is - one is an integer and one is a double)</span>
-            <span class="doccomment">/// the field takes on the type of the larger operand. If the operands are</span>
-            <span class="doccomment">/// equivalent (e.g. 3 and 3.0), the field does not change.</span>
-            <span class="doccomment">/// 0, 0.0, and -0.0 are all zero. The maximum of a zero stored value and</span>
-            <span class="doccomment">/// zero input value is always the stored value.</span>
-            <span class="doccomment">/// The maximum of any numeric value x and NaN is NaN.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-            <span class="ident">Maximum</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::Value</span>),
-            <span class="doccomment">/// Sets the field to the minimum of its current value and the given value.</span>
-            <span class="doccomment">///</span>
-            <span class="doccomment">/// This must be an integer or a double value.</span>
-            <span class="doccomment">/// If the field is not an integer or double, or if the field does not yet</span>
-            <span class="doccomment">/// exist, the transformation will set the field to the input value.</span>
-            <span class="doccomment">/// If a minimum operation is applied where the field and the input value</span>
-            <span class="doccomment">/// are of mixed types (that is - one is an integer and one is a double)</span>
-            <span class="doccomment">/// the field takes on the type of the smaller operand. If the operands are</span>
-            <span class="doccomment">/// equivalent (e.g. 3 and 3.0), the field does not change.</span>
-            <span class="doccomment">/// 0, 0.0, and -0.0 are all zero. The minimum of a zero stored value and</span>
-            <span class="doccomment">/// zero input value is always the stored value.</span>
-            <span class="doccomment">/// The minimum of any numeric value x and NaN is NaN.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-            <span class="ident">Minimum</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::Value</span>),
-            <span class="doccomment">/// Append the given elements in order if they are not already present in</span>
-            <span class="doccomment">/// the current field value.</span>
-            <span class="doccomment">/// If the field is not an array, or if the field does not yet exist, it is</span>
-            <span class="doccomment">/// first set to the empty array.</span>
-            <span class="doccomment">///</span>
-            <span class="doccomment">/// Equivalent numbers of different types (e.g. 3L and 3.0) are</span>
-            <span class="doccomment">/// considered equal when checking if a value is missing.</span>
-            <span class="doccomment">/// NaN is equal to NaN, and Null is equal to Null.</span>
-            <span class="doccomment">/// If the input contains multiple equivalent values, only the first will</span>
-            <span class="doccomment">/// be considered.</span>
-            <span class="doccomment">///</span>
-            <span class="doccomment">/// The corresponding transform_result will be the null value.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-            <span class="ident">AppendMissingElements</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::ArrayValue</span>),
-            <span class="doccomment">/// Remove all of the given elements from the array in the field.</span>
-            <span class="doccomment">/// If the field is not an array, or if the field does not yet exist, it is</span>
-            <span class="doccomment">/// set to the empty array.</span>
-            <span class="doccomment">///</span>
-            <span class="doccomment">/// Equivalent numbers of the different types (e.g. 3L and 3.0) are</span>
-            <span class="doccomment">/// considered equal when deciding whether an element should be removed.</span>
-            <span class="doccomment">/// NaN is equal to NaN, and Null is equal to Null.</span>
-            <span class="doccomment">/// This will remove all equivalent values if there are duplicates.</span>
-            <span class="doccomment">///</span>
-            <span class="doccomment">/// The corresponding transform_result will be the null value.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-            <span class="ident">RemoveAllFromArray</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::ArrayValue</span>),
-        }
-    }
-}
-<span class="doccomment">/// The result of applying a write.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteResult</span> {
-    <span class="doccomment">/// The last update time of the document after applying the write. Not set</span>
-    <span class="doccomment">/// after a `delete`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the write did not actually change the document, this will be the</span>
-    <span class="doccomment">/// previous update_time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The results of applying each \[DocumentTransform.FieldTransform][google.firestore.v1beta1.DocumentTransform.FieldTransform\], in the</span>
-    <span class="doccomment">/// same order.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">transform_results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A \[Document][google.firestore.v1beta1.Document\] has changed.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// May be the result of multiple \[writes][google.firestore.v1beta1.Write\], including deletes, that</span>
-<span class="doccomment">/// ultimately resulted in a new value for the \[Document][google.firestore.v1beta1.Document\].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Multiple \[DocumentChange][google.firestore.v1beta1.DocumentChange\] messages may be returned for the same logical</span>
-<span class="doccomment">/// change, if multiple targets are affected.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentChange</span> {
-    <span class="doccomment">/// The new state of the \[Document][google.firestore.v1beta1.Document\].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If `mask` is set, contains only fields that were updated or added.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">document</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Document</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A set of target IDs of targets that match this document.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">target_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A set of target IDs for targets that no longer match this document.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">removed_target_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A \[Document][google.firestore.v1beta1.Document\] has been deleted.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// May be the result of multiple \[writes][google.firestore.v1beta1.Write\], including updates, the</span>
-<span class="doccomment">/// last of which deleted the \[Document][google.firestore.v1beta1.Document\].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Multiple \[DocumentDelete][google.firestore.v1beta1.DocumentDelete\] messages may be returned for the same logical</span>
-<span class="doccomment">/// delete, if multiple targets are affected.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentDelete</span> {
-    <span class="doccomment">/// The resource name of the \[Document][google.firestore.v1beta1.Document\] that was deleted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">document</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A set of target IDs for targets that previously matched this entity.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">removed_target_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The read timestamp at which the delete was observed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Greater or equal to the `commit_time` of the delete.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">read_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A \[Document][google.firestore.v1beta1.Document\] has been removed from the view of the targets.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Sent if the document is no longer relevant to a target and is out of view.</span>
-<span class="doccomment">/// Can be sent instead of a DocumentDelete or a DocumentChange if the server</span>
-<span class="doccomment">/// can not send the new value of the document.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Multiple \[DocumentRemove][google.firestore.v1beta1.DocumentRemove\] messages may be returned for the same logical</span>
-<span class="doccomment">/// write or delete, if multiple targets are affected.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentRemove</span> {
-    <span class="doccomment">/// The resource name of the \[Document][google.firestore.v1beta1.Document\] that has gone out of view.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">document</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A set of target IDs for targets that previously matched this document.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">removed_target_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The read timestamp at which the remove was observed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Greater or equal to the `commit_time` of the change/delete/remove.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">read_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A digest of all the documents that match a given target.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExistenceFilter</span> {
-    <span class="doccomment">/// The target ID to which this filter applies.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">target_id</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The total count of documents that match \[target_id][google.firestore.v1beta1.ExistenceFilter.target_id\].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If different from the count of documents in the client that match, the</span>
-    <span class="doccomment">/// client must manually determine which documents no longer match the target.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">count</span>: <span class="ident">i32</span>,
-}
 <span class="doccomment">/// A Firestore query.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StructuredQuery</span> {
@@ -2695,6 +2440,261 @@
     <span class="doccomment">/// to the sort order defined by the query.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">before</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// A write on a document.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Write</span> {
+    <span class="doccomment">/// The fields to update in this write.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field can be set only when the operation is `update`.</span>
+    <span class="doccomment">/// If the mask is not set for an `update` and the document exists, any</span>
+    <span class="doccomment">/// existing data will be overwritten.</span>
+    <span class="doccomment">/// If the mask is set and the document on the server has fields not covered by</span>
+    <span class="doccomment">/// the mask, they are left unchanged.</span>
+    <span class="doccomment">/// Fields referenced in the mask, but not present in the input document, are</span>
+    <span class="doccomment">/// deleted from the document on the server.</span>
+    <span class="doccomment">/// The field paths in this mask must not contain a reserved field name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DocumentMask</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The transforms to perform after update.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field can be set only when the operation is `update`. If present, this</span>
+    <span class="doccomment">/// write is equivalent to performing `update` and `transform` to the same</span>
+    <span class="doccomment">/// document atomically and in order.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_transforms</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">document_transform::FieldTransform</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// An optional precondition on the document.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The write will fail if this is set and not met by the target document.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">current_document</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Precondition</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The operation to execute.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;write::Operation&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">write::Operation</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Write`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">write</span> {
+    <span class="doccomment">/// The operation to execute.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Operation</span> {
+        <span class="doccomment">/// A document to write.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Update</span>(<span class="ident"><span class="kw">super</span>::Document</span>),
+        <span class="doccomment">/// A document name to delete. In the format:</span>
+        <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/documents/{document_path}`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Delete</span>(<span class="ident">::prost::alloc::string::String</span>),
+        <span class="doccomment">/// Applies a transformation to a document.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">Transform</span>(<span class="ident"><span class="kw">super</span>::DocumentTransform</span>),
+    }
+}
+<span class="doccomment">/// A transformation of a document.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentTransform</span> {
+    <span class="doccomment">/// The name of the document to transform.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">document</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The list of transformations to apply to the fields of the document, in</span>
+    <span class="doccomment">/// order.</span>
+    <span class="doccomment">/// This must not be empty.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">field_transforms</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">document_transform::FieldTransform</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `DocumentTransform`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">document_transform</span> {
+    <span class="doccomment">/// A transformation of a field of the document.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FieldTransform</span> {
+        <span class="doccomment">/// The path of the field. See \[Document.fields][google.firestore.v1beta1.Document.fields\] for the field path syntax</span>
+        <span class="doccomment">/// reference.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">field_path</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The transformation to apply on the field.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;field_transform::TransformType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3, 4, 5, 6, 7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">transform_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">field_transform::TransformType</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `FieldTransform`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">field_transform</span> {
+        <span class="doccomment">/// A value that is calculated by the server.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ServerValue</span> {
+            <span class="doccomment">/// Unspecified. This value must not be used.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// The time at which the server processed the request, with millisecond</span>
+            <span class="doccomment">/// precision. If used on multiple fields (same or different documents) in</span>
+            <span class="doccomment">/// a transaction, all the fields will get the same server timestamp.</span>
+            <span class="ident">RequestTime</span> <span class="op">=</span> <span class="number">1</span>,
+        }
+        <span class="doccomment">/// The transformation to apply on the field.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TransformType</span> {
+            <span class="doccomment">/// Sets the field to the given server value.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ServerValue&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">SetToServerValue</span>(<span class="ident">i32</span>),
+            <span class="doccomment">/// Adds the given value to the field&#39;s current value.</span>
+            <span class="doccomment">///</span>
+            <span class="doccomment">/// This must be an integer or a double value.</span>
+            <span class="doccomment">/// If the field is not an integer or double, or if the field does not yet</span>
+            <span class="doccomment">/// exist, the transformation will set the field to the given value.</span>
+            <span class="doccomment">/// If either of the given value or the current field value are doubles,</span>
+            <span class="doccomment">/// both values will be interpreted as doubles. Double arithmetic and</span>
+            <span class="doccomment">/// representation of double values follow IEEE 754 semantics.</span>
+            <span class="doccomment">/// If there is positive/negative integer overflow, the field is resolved</span>
+            <span class="doccomment">/// to the largest magnitude positive/negative integer.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="ident">Increment</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::Value</span>),
+            <span class="doccomment">/// Sets the field to the maximum of its current value and the given value.</span>
+            <span class="doccomment">///</span>
+            <span class="doccomment">/// This must be an integer or a double value.</span>
+            <span class="doccomment">/// If the field is not an integer or double, or if the field does not yet</span>
+            <span class="doccomment">/// exist, the transformation will set the field to the given value.</span>
+            <span class="doccomment">/// If a maximum operation is applied where the field and the input value</span>
+            <span class="doccomment">/// are of mixed types (that is - one is an integer and one is a double)</span>
+            <span class="doccomment">/// the field takes on the type of the larger operand. If the operands are</span>
+            <span class="doccomment">/// equivalent (e.g. 3 and 3.0), the field does not change.</span>
+            <span class="doccomment">/// 0, 0.0, and -0.0 are all zero. The maximum of a zero stored value and</span>
+            <span class="doccomment">/// zero input value is always the stored value.</span>
+            <span class="doccomment">/// The maximum of any numeric value x and NaN is NaN.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+            <span class="ident">Maximum</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::Value</span>),
+            <span class="doccomment">/// Sets the field to the minimum of its current value and the given value.</span>
+            <span class="doccomment">///</span>
+            <span class="doccomment">/// This must be an integer or a double value.</span>
+            <span class="doccomment">/// If the field is not an integer or double, or if the field does not yet</span>
+            <span class="doccomment">/// exist, the transformation will set the field to the input value.</span>
+            <span class="doccomment">/// If a minimum operation is applied where the field and the input value</span>
+            <span class="doccomment">/// are of mixed types (that is - one is an integer and one is a double)</span>
+            <span class="doccomment">/// the field takes on the type of the smaller operand. If the operands are</span>
+            <span class="doccomment">/// equivalent (e.g. 3 and 3.0), the field does not change.</span>
+            <span class="doccomment">/// 0, 0.0, and -0.0 are all zero. The minimum of a zero stored value and</span>
+            <span class="doccomment">/// zero input value is always the stored value.</span>
+            <span class="doccomment">/// The minimum of any numeric value x and NaN is NaN.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+            <span class="ident">Minimum</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::Value</span>),
+            <span class="doccomment">/// Append the given elements in order if they are not already present in</span>
+            <span class="doccomment">/// the current field value.</span>
+            <span class="doccomment">/// If the field is not an array, or if the field does not yet exist, it is</span>
+            <span class="doccomment">/// first set to the empty array.</span>
+            <span class="doccomment">///</span>
+            <span class="doccomment">/// Equivalent numbers of different types (e.g. 3L and 3.0) are</span>
+            <span class="doccomment">/// considered equal when checking if a value is missing.</span>
+            <span class="doccomment">/// NaN is equal to NaN, and Null is equal to Null.</span>
+            <span class="doccomment">/// If the input contains multiple equivalent values, only the first will</span>
+            <span class="doccomment">/// be considered.</span>
+            <span class="doccomment">///</span>
+            <span class="doccomment">/// The corresponding transform_result will be the null value.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+            <span class="ident">AppendMissingElements</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::ArrayValue</span>),
+            <span class="doccomment">/// Remove all of the given elements from the array in the field.</span>
+            <span class="doccomment">/// If the field is not an array, or if the field does not yet exist, it is</span>
+            <span class="doccomment">/// set to the empty array.</span>
+            <span class="doccomment">///</span>
+            <span class="doccomment">/// Equivalent numbers of the different types (e.g. 3L and 3.0) are</span>
+            <span class="doccomment">/// considered equal when deciding whether an element should be removed.</span>
+            <span class="doccomment">/// NaN is equal to NaN, and Null is equal to Null.</span>
+            <span class="doccomment">/// This will remove all equivalent values if there are duplicates.</span>
+            <span class="doccomment">///</span>
+            <span class="doccomment">/// The corresponding transform_result will be the null value.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+            <span class="ident">RemoveAllFromArray</span>(<span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::ArrayValue</span>),
+        }
+    }
+}
+<span class="doccomment">/// The result of applying a write.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteResult</span> {
+    <span class="doccomment">/// The last update time of the document after applying the write. Not set</span>
+    <span class="doccomment">/// after a `delete`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the write did not actually change the document, this will be the</span>
+    <span class="doccomment">/// previous update_time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The results of applying each \[DocumentTransform.FieldTransform][google.firestore.v1beta1.DocumentTransform.FieldTransform\], in the</span>
+    <span class="doccomment">/// same order.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">transform_results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A \[Document][google.firestore.v1beta1.Document\] has changed.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// May be the result of multiple \[writes][google.firestore.v1beta1.Write\], including deletes, that</span>
+<span class="doccomment">/// ultimately resulted in a new value for the \[Document][google.firestore.v1beta1.Document\].</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Multiple \[DocumentChange][google.firestore.v1beta1.DocumentChange\] messages may be returned for the same logical</span>
+<span class="doccomment">/// change, if multiple targets are affected.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentChange</span> {
+    <span class="doccomment">/// The new state of the \[Document][google.firestore.v1beta1.Document\].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If `mask` is set, contains only fields that were updated or added.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">document</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Document</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A set of target IDs of targets that match this document.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">target_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A set of target IDs for targets that no longer match this document.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">removed_target_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A \[Document][google.firestore.v1beta1.Document\] has been deleted.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// May be the result of multiple \[writes][google.firestore.v1beta1.Write\], including updates, the</span>
+<span class="doccomment">/// last of which deleted the \[Document][google.firestore.v1beta1.Document\].</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Multiple \[DocumentDelete][google.firestore.v1beta1.DocumentDelete\] messages may be returned for the same logical</span>
+<span class="doccomment">/// delete, if multiple targets are affected.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentDelete</span> {
+    <span class="doccomment">/// The resource name of the \[Document][google.firestore.v1beta1.Document\] that was deleted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">document</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A set of target IDs for targets that previously matched this entity.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">removed_target_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The read timestamp at which the delete was observed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Greater or equal to the `commit_time` of the delete.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">read_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A \[Document][google.firestore.v1beta1.Document\] has been removed from the view of the targets.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Sent if the document is no longer relevant to a target and is out of view.</span>
+<span class="doccomment">/// Can be sent instead of a DocumentDelete or a DocumentChange if the server</span>
+<span class="doccomment">/// can not send the new value of the document.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Multiple \[DocumentRemove][google.firestore.v1beta1.DocumentRemove\] messages may be returned for the same logical</span>
+<span class="doccomment">/// write or delete, if multiple targets are affected.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DocumentRemove</span> {
+    <span class="doccomment">/// The resource name of the \[Document][google.firestore.v1beta1.Document\] that has gone out of view.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">document</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A set of target IDs for targets that previously matched this document.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">removed_target_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The read timestamp at which the remove was observed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Greater or equal to the `commit_time` of the change/delete/remove.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">read_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A digest of all the documents that match a given target.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExistenceFilter</span> {
+    <span class="doccomment">/// The target ID to which this filter applies.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">target_id</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The total count of documents that match \[target_id][google.firestore.v1beta1.ExistenceFilter.target_id\].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If different from the count of documents in the client that match, the</span>
+    <span class="doccomment">/// client must manually determine which documents no longer match the target.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">count</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// The request for \[Firestore.GetDocument][google.firestore.v1beta1.Firestore.GetDocument\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

@@ -1272,7 +1272,64 @@
 <span id="1270">1270</span>
 <span id="1271">1271</span>
 <span id="1272">1272</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Tags point to a version and represent an alternative name that can be used</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Packages are named collections of versions.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Package</span> {
+    <span class="doccomment">/// The name of the package, for example:</span>
+    <span class="doccomment">/// &quot;projects/p1/locations/us-central1/repositories/repo1/packages/pkg1&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The display name of the package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The time when the package was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time when the package was last updated. This includes publishing a new</span>
+    <span class="doccomment">/// version of the package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The request to list packages.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPackagesRequest</span> {
+    <span class="doccomment">/// The name of the parent resource whose packages will be listed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of packages to return.</span>
+    <span class="doccomment">/// Maximum page size is 10,000.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The next_page_token value returned from a previous list request, if any.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The response from listing packages.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPackagesResponse</span> {
+    <span class="doccomment">/// The packages returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Package</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The token to retrieve the next page of packages, or empty if there are no</span>
+    <span class="doccomment">/// more packages to return.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The request to retrieve a package.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetPackageRequest</span> {
+    <span class="doccomment">/// The name of the package to retrieve.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The request to delete a package.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeletePackageRequest</span> {
+    <span class="doccomment">/// The name of the package to delete.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Tags point to a version and represent an alternative name that can be used</span>
 <span class="doccomment">/// to access the version.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Tag</span> {
@@ -1364,148 +1421,100 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// The Artifact Registry settings that apply to a Project.</span>
+<span class="doccomment">/// The body of a version resource. A version resource represents a</span>
+<span class="doccomment">/// collection of components, such as files and other data. This may correspond</span>
+<span class="doccomment">/// to a version in many package management schemes.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProjectSettings</span> {
-    <span class="doccomment">/// The name of the project&#39;s settings.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Always of the form:</span>
-    <span class="doccomment">/// projects/{project-id}/projectSettings</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// In update request: never set</span>
-    <span class="doccomment">/// In response: always set</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Version</span> {
+    <span class="doccomment">/// The name of the version, for example:</span>
+    <span class="doccomment">/// &quot;projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1&quot;.</span>
+    <span class="doccomment">/// If the package or version ID parts contain slashes, the slashes are</span>
+    <span class="doccomment">/// escaped.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The redirection state of the legacy repositories in this project.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;project_settings::RedirectionState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">legacy_redirection_state</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ProjectSettings`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">project_settings</span> {
-    <span class="doccomment">/// The possible redirection states for legacy repositories.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RedirectionState</span> {
-        <span class="doccomment">/// No redirection status has been set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Redirection is disabled.</span>
-        <span class="ident">RedirectionFromGcrIoDisabled</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Redirection is enabled.</span>
-        <span class="ident">RedirectionFromGcrIoEnabled</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Redirection is enabled, and has been finalized so cannot be reverted.</span>
-        <span class="ident">RedirectionFromGcrIoFinalized</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Gets the redirection status for a project.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetProjectSettingsRequest</span> {
-    <span class="doccomment">/// Required. The name of the projectSettings resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Sets the settings of the project.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateProjectSettingsRequest</span> {
-    <span class="doccomment">/// The project settings.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project_settings</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ProjectSettings</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Field mask to support partial updates.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A hash of file content.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hash</span> {
-    <span class="doccomment">/// The algorithm used to compute the hash value.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;hash::HashType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The hash value.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::prost::bytes::Bytes</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Hash`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hash</span> {
-    <span class="doccomment">/// The algorithm used to compute the hash.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HashType</span> {
-        <span class="doccomment">/// Unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// SHA256 hash.</span>
-        <span class="ident">Sha256</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// MD5 hash.</span>
-        <span class="ident">Md5</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Files store content that is potentially associated with Packages or Versions.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">File</span> {
-    <span class="doccomment">/// The name of the file, for example:</span>
-    <span class="doccomment">/// &quot;projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt&quot;.</span>
-    <span class="doccomment">/// If the file ID part contains slashes, they are escaped.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The size of the File in bytes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">size_bytes</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The hashes of the file content.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hashes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Hash</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time when the File was created.</span>
+    <span class="doccomment">/// Optional. Description of the version, as specified in its metadata.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The time when the version was created.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time when the File was last updated.</span>
+    <span class="doccomment">/// The time when the version was last updated.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The name of the Package or Version that owns this file, if any.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">owner</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. A list of related tags. Will contain up to 100 tags that</span>
+    <span class="doccomment">/// reference this version.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">related_tags</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Tag</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Repository-specific Metadata stored against this version.</span>
+    <span class="doccomment">/// The fields returned are defined by the underlying repository-specific</span>
+    <span class="doccomment">/// resource. Currently, the only resource in use is</span>
+    <span class="doccomment">/// \[DockerImage][google.devtools.artifactregistry.v1.DockerImage\]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// The request to list files.</span>
+<span class="doccomment">/// The request to list versions.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListFilesRequest</span> {
-    <span class="doccomment">/// The name of the repository whose files will be listed. For example:</span>
-    <span class="doccomment">/// &quot;projects/p1/locations/us-central1/repositories/repo1</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVersionsRequest</span> {
+    <span class="doccomment">/// The name of the parent resource whose versions will be listed.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// An expression for filtering the results of the request. Filter rules are</span>
-    <span class="doccomment">/// case insensitive. The fields eligible for filtering are:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///   * `name`</span>
-    <span class="doccomment">///   * `owner`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  An example of using a filter:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///   * `name=&quot;projects/p1/locations/us-central1/repositories/repo1/files/a/b/*&quot;` --&gt; Files with an</span>
-    <span class="doccomment">///   ID starting with &quot;a/b/&quot;.</span>
-    <span class="doccomment">///   * `owner=&quot;projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0&quot;` --&gt;</span>
-    <span class="doccomment">///   Files owned by the version `1.0` in package `pkg1`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of files to return.</span>
+    <span class="doccomment">/// The maximum number of versions to return. Maximum page size is 1,000.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// The next_page_token value returned from a previous list request, if any.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The view that should be returned in the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;VersionView&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. The field to order the results by.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">order_by</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// The response from listing files.</span>
+<span class="doccomment">/// The response from listing versions.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListFilesResponse</span> {
-    <span class="doccomment">/// The files returned.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVersionsResponse</span> {
+    <span class="doccomment">/// The versions returned.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The token to retrieve the next page of files, or empty if there are no</span>
-    <span class="doccomment">/// more files to return.</span>
+    <span class="kw">pub</span> <span class="ident">versions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The token to retrieve the next page of versions, or empty if there are no</span>
+    <span class="doccomment">/// more versions to return.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// The request to retrieve a file.</span>
+<span class="doccomment">/// The request to retrieve a version.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetFileRequest</span> {
-    <span class="doccomment">/// The name of the file to retrieve.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetVersionRequest</span> {
+    <span class="doccomment">/// The name of the version to retrieve.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The view that should be returned in the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;VersionView&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// The request to delete a version.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteVersionRequest</span> {
+    <span class="doccomment">/// The name of the version to delete.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// By default, a version that is tagged may not be deleted. If force=true, the</span>
+    <span class="doccomment">/// version and any tags pointing to the version are deleted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">force</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// The view, which determines what version information is returned in a</span>
+<span class="doccomment">/// response.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VersionView</span> {
+    <span class="doccomment">/// The default / unset value.</span>
+    <span class="doccomment">/// The API will default to the BASIC view.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Includes basic information about the version, but not any related tags.</span>
+    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Include everything.</span>
+    <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
 }
 <span class="doccomment">/// A detailed representation of an Apt artifact. Information in the record</span>
 <span class="doccomment">/// is derived from the archive&#39;s control file.</span>
@@ -1608,60 +1617,97 @@
 <span class="doccomment">/// The operation metadata for importing artifacts.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportAptArtifactsMetadata</span> {}
-<span class="doccomment">/// Packages are named collections of versions.</span>
+<span class="doccomment">/// A hash of file content.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Package</span> {
-    <span class="doccomment">/// The name of the package, for example:</span>
-    <span class="doccomment">/// &quot;projects/p1/locations/us-central1/repositories/repo1/packages/pkg1&quot;.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hash</span> {
+    <span class="doccomment">/// The algorithm used to compute the hash value.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;hash::HashType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The hash value.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::prost::bytes::Bytes</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Hash`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hash</span> {
+    <span class="doccomment">/// The algorithm used to compute the hash.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HashType</span> {
+        <span class="doccomment">/// Unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// SHA256 hash.</span>
+        <span class="ident">Sha256</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// MD5 hash.</span>
+        <span class="ident">Md5</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Files store content that is potentially associated with Packages or Versions.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">File</span> {
+    <span class="doccomment">/// The name of the file, for example:</span>
+    <span class="doccomment">/// &quot;projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt&quot;.</span>
+    <span class="doccomment">/// If the file ID part contains slashes, they are escaped.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The display name of the package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The time when the package was created.</span>
+    <span class="doccomment">/// The size of the File in bytes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">size_bytes</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The hashes of the file content.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hashes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Hash</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time when the File was created.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time when the package was last updated. This includes publishing a new</span>
-    <span class="doccomment">/// version of the package.</span>
+    <span class="doccomment">/// The time when the File was last updated.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The name of the Package or Version that owns this file, if any.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">owner</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// The request to list packages.</span>
+<span class="doccomment">/// The request to list files.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPackagesRequest</span> {
-    <span class="doccomment">/// The name of the parent resource whose packages will be listed.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListFilesRequest</span> {
+    <span class="doccomment">/// The name of the repository whose files will be listed. For example:</span>
+    <span class="doccomment">/// &quot;projects/p1/locations/us-central1/repositories/repo1</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of packages to return.</span>
-    <span class="doccomment">/// Maximum page size is 10,000.</span>
+    <span class="doccomment">/// An expression for filtering the results of the request. Filter rules are</span>
+    <span class="doccomment">/// case insensitive. The fields eligible for filtering are:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   * `name`</span>
+    <span class="doccomment">///   * `owner`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  An example of using a filter:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   * `name=&quot;projects/p1/locations/us-central1/repositories/repo1/files/a/b/*&quot;` --&gt; Files with an</span>
+    <span class="doccomment">///   ID starting with &quot;a/b/&quot;.</span>
+    <span class="doccomment">///   * `owner=&quot;projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0&quot;` --&gt;</span>
+    <span class="doccomment">///   Files owned by the version `1.0` in package `pkg1`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of files to return.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// The next_page_token value returned from a previous list request, if any.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// The response from listing packages.</span>
+<span class="doccomment">/// The response from listing files.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPackagesResponse</span> {
-    <span class="doccomment">/// The packages returned.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListFilesResponse</span> {
+    <span class="doccomment">/// The files returned.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Package</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The token to retrieve the next page of packages, or empty if there are no</span>
-    <span class="doccomment">/// more packages to return.</span>
+    <span class="kw">pub</span> <span class="ident">files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The token to retrieve the next page of files, or empty if there are no</span>
+    <span class="doccomment">/// more files to return.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// The request to retrieve a package.</span>
+<span class="doccomment">/// The request to retrieve a file.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetPackageRequest</span> {
-    <span class="doccomment">/// The name of the package to retrieve.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The request to delete a package.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeletePackageRequest</span> {
-    <span class="doccomment">/// The name of the package to delete.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetFileRequest</span> {
+    <span class="doccomment">/// The name of the file to retrieve.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -1828,100 +1874,54 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// The body of a version resource. A version resource represents a</span>
-<span class="doccomment">/// collection of components, such as files and other data. This may correspond</span>
-<span class="doccomment">/// to a version in many package management schemes.</span>
+<span class="doccomment">/// The Artifact Registry settings that apply to a Project.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Version</span> {
-    <span class="doccomment">/// The name of the version, for example:</span>
-    <span class="doccomment">/// &quot;projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1&quot;.</span>
-    <span class="doccomment">/// If the package or version ID parts contain slashes, the slashes are</span>
-    <span class="doccomment">/// escaped.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProjectSettings</span> {
+    <span class="doccomment">/// The name of the project&#39;s settings.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Always of the form:</span>
+    <span class="doccomment">/// projects/{project-id}/projectSettings</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// In update request: never set</span>
+    <span class="doccomment">/// In response: always set</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Description of the version, as specified in its metadata.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The time when the version was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time when the version was last updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. A list of related tags. Will contain up to 100 tags that</span>
-    <span class="doccomment">/// reference this version.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">related_tags</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Tag</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Repository-specific Metadata stored against this version.</span>
-    <span class="doccomment">/// The fields returned are defined by the underlying repository-specific</span>
-    <span class="doccomment">/// resource. Currently, the only resource in use is</span>
-    <span class="doccomment">/// \[DockerImage][google.devtools.artifactregistry.v1.DockerImage\]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The redirection state of the legacy repositories in this project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;project_settings::RedirectionState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">legacy_redirection_state</span>: <span class="ident">i32</span>,
 }
-<span class="doccomment">/// The request to list versions.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVersionsRequest</span> {
-    <span class="doccomment">/// The name of the parent resource whose versions will be listed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of versions to return. Maximum page size is 1,000.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The next_page_token value returned from a previous list request, if any.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The view that should be returned in the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;VersionView&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. The field to order the results by.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">order_by</span>: <span class="ident">::prost::alloc::string::String</span>,
+<span class="doccomment">/// Nested message and enum types in `ProjectSettings`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">project_settings</span> {
+    <span class="doccomment">/// The possible redirection states for legacy repositories.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RedirectionState</span> {
+        <span class="doccomment">/// No redirection status has been set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Redirection is disabled.</span>
+        <span class="ident">RedirectionFromGcrIoDisabled</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Redirection is enabled.</span>
+        <span class="ident">RedirectionFromGcrIoEnabled</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Redirection is enabled, and has been finalized so cannot be reverted.</span>
+        <span class="ident">RedirectionFromGcrIoFinalized</span> <span class="op">=</span> <span class="number">3</span>,
+    }
 }
-<span class="doccomment">/// The response from listing versions.</span>
+<span class="doccomment">/// Gets the redirection status for a project.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVersionsResponse</span> {
-    <span class="doccomment">/// The versions returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">versions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The token to retrieve the next page of versions, or empty if there are no</span>
-    <span class="doccomment">/// more versions to return.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The request to retrieve a version.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetVersionRequest</span> {
-    <span class="doccomment">/// The name of the version to retrieve.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetProjectSettingsRequest</span> {
+    <span class="doccomment">/// Required. The name of the projectSettings resource.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The view that should be returned in the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;VersionView&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">view</span>: <span class="ident">i32</span>,
 }
-<span class="doccomment">/// The request to delete a version.</span>
+<span class="doccomment">/// Sets the settings of the project.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteVersionRequest</span> {
-    <span class="doccomment">/// The name of the version to delete.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// By default, a version that is tagged may not be deleted. If force=true, the</span>
-    <span class="doccomment">/// version and any tags pointing to the version are deleted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">force</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// The view, which determines what version information is returned in a</span>
-<span class="doccomment">/// response.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VersionView</span> {
-    <span class="doccomment">/// The default / unset value.</span>
-    <span class="doccomment">/// The API will default to the BASIC view.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Includes basic information about the version, but not any related tags.</span>
-    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Include everything.</span>
-    <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateProjectSettingsRequest</span> {
+    <span class="doccomment">/// The project settings.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project_settings</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ProjectSettings</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Field mask to support partial updates.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// A detailed representation of a Yum artifact.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

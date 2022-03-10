@@ -580,32 +580,63 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">resolved</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Represents an Interactive Canvas response to be sent to the user.</span>
-<span class="doccomment">/// This can be used in conjunction with the &quot;first_simple&quot; field in the</span>
-<span class="doccomment">/// containing prompt to speak to the user in addition to displaying a</span>
-<span class="doccomment">/// interactive canvas response. The maximum size of the response is 50k bytes.</span>
+<span class="doccomment">/// Input suggestion to be presented to the user.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Canvas</span> {
-    <span class="doccomment">/// URL of the interactive canvas web app to load. If not set, the url from</span>
-    <span class="doccomment">/// current active canvas will be reused.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Suggestion</span> {
+    <span class="doccomment">/// Required. The text shown in the suggestion chip. When tapped, this text will be</span>
+    <span class="doccomment">/// posted back to the conversation verbatim as if the user had typed it.</span>
+    <span class="doccomment">/// Each title must be unique among the set of suggestion chips.</span>
+    <span class="doccomment">/// Max 25 chars</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Represents a simple prompt to be send to a user.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Simple</span> {
+    <span class="doccomment">/// Optional. Represents the speech to be spoken to the user. Can be SSML or</span>
+    <span class="doccomment">/// text to speech.</span>
+    <span class="doccomment">/// If the &quot;override&quot; field in the containing prompt is &quot;true&quot;, the speech</span>
+    <span class="doccomment">/// defined in this field replaces the previous Simple prompt&#39;s speech.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">speech</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional text to display in the chat bubble. If not given, a display</span>
+    <span class="doccomment">/// rendering of the speech field above will be used. Limited to 640</span>
+    <span class="doccomment">/// chars.</span>
+    <span class="doccomment">/// If the &quot;override&quot; field in the containing prompt is &quot;true&quot;, the text</span>
+    <span class="doccomment">/// defined in this field replaces to the previous Simple prompt&#39;s text.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Link content.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Link</span> {
+    <span class="doccomment">/// Name of the link</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// What happens when a user opens the link</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">open</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">OpenUrl</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Action taken when a user opens a link.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OpenUrl</span> {
+    <span class="doccomment">/// The url field which could be any of:</span>
+    <span class="doccomment">/// - http/https urls for opening an App-linked App or a webpage</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. JSON data to be passed through to the immersive experience</span>
-    <span class="doccomment">/// web page as an event.</span>
-    <span class="doccomment">/// If the &quot;override&quot; field in the containing prompt is &quot;false&quot; data values</span>
-    <span class="doccomment">/// defined in this Canvas prompt will be added after data values defined in</span>
-    <span class="doccomment">/// previous Canvas prompts.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">data</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Default value: false.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">suppress_mic</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// If `true` the canvas application occupies the full screen and won&#39;t</span>
-    <span class="doccomment">/// have a header at the top. A toast message will also be displayed on the</span>
-    <span class="doccomment">/// loading screen that includes the Action&#39;s display name, the developer&#39;s</span>
-    <span class="doccomment">/// name, and instructions for exiting the Action. Default value: `false`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">enable_full_screen</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Indicates a hint for the url type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;UrlHint&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hint</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Different types of url hints.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UrlHint</span> {
+    <span class="doccomment">/// Unspecified</span>
+    <span class="ident">LinkUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// URL that points directly to AMP content, or to a canonical URL</span>
+    <span class="doccomment">/// which refers to AMP content via &lt;link rel=&quot;amphtml&quot;&gt;.</span>
+    <span class="ident">Amp</span> <span class="op">=</span> <span class="number">1</span>,
 }
 <span class="doccomment">/// An image displayed in the card.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -651,36 +682,104 @@
         <span class="ident">Cropped</span> <span class="op">=</span> <span class="number">3</span>,
     }
 }
-<span class="doccomment">/// Link content.</span>
+<span class="doccomment">/// A table card for displaying a table of text.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Link</span> {
-    <span class="doccomment">/// Name of the link</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Table</span> {
+    <span class="doccomment">/// Overall title of the table. Optional but must be set if subtitle is set.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// What happens when a user opens the link</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">open</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">OpenUrl</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Subtitle for the table. Optional.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">subtitle</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Image associated with the table. Optional.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">image</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Image</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Headers and alignment of columns.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">columns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">TableColumn</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Row data of the table. The first 3 rows are guaranteed to be shown but</span>
+    <span class="doccomment">/// others might be cut on certain surfaces. Please test with the simulator to</span>
+    <span class="doccomment">/// see which rows will be shown for a given surface. On surfaces that support</span>
+    <span class="doccomment">/// the WEB_BROWSER capability, you can point the user to</span>
+    <span class="doccomment">/// a web page with more data.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">rows</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">TableRow</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Button.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">button</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Link</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Action taken when a user opens a link.</span>
+<span class="doccomment">/// Describes a column in a table.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OpenUrl</span> {
-    <span class="doccomment">/// The url field which could be any of:</span>
-    <span class="doccomment">/// - http/https urls for opening an App-linked App or a webpage</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableColumn</span> {
+    <span class="doccomment">/// Header text for the column.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">header</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Horizontal alignment of content w.r.t column. If unspecified, content</span>
+    <span class="doccomment">/// will be aligned to the leading edge.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;table_column::HorizontalAlignment&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">align</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `TableColumn`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">table_column</span> {
+    <span class="doccomment">/// The alignment of the content within the cell.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HorizontalAlignment</span> {
+        <span class="doccomment">/// Unspecified horizontal alignment.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Leading edge of the cell. This is the default.</span>
+        <span class="ident">Leading</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Content is aligned to the center of the column.</span>
+        <span class="ident">Center</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Content is aligned to the trailing edge of the column.</span>
+        <span class="ident">Trailing</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Describes a cell in a row.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableCell</span> {
+    <span class="doccomment">/// Text content of the cell.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Describes a row in the table.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableRow</span> {
+    <span class="doccomment">/// Cells in this row. The first 3 cells are guaranteed to be shown but</span>
+    <span class="doccomment">/// others might be cut on certain surfaces. Please test with the simulator</span>
+    <span class="doccomment">/// to see which cells will be shown for a given surface.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cells</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">TableCell</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Indicates whether there should be a divider after each row.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">divider</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Represents an Interactive Canvas response to be sent to the user.</span>
+<span class="doccomment">/// This can be used in conjunction with the &quot;first_simple&quot; field in the</span>
+<span class="doccomment">/// containing prompt to speak to the user in addition to displaying a</span>
+<span class="doccomment">/// interactive canvas response. The maximum size of the response is 50k bytes.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Canvas</span> {
+    <span class="doccomment">/// URL of the interactive canvas web app to load. If not set, the url from</span>
+    <span class="doccomment">/// current active canvas will be reused.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Indicates a hint for the url type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;UrlHint&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hint</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Different types of url hints.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UrlHint</span> {
-    <span class="doccomment">/// Unspecified</span>
-    <span class="ident">LinkUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// URL that points directly to AMP content, or to a canonical URL</span>
-    <span class="doccomment">/// which refers to AMP content via &lt;link rel=&quot;amphtml&quot;&gt;.</span>
-    <span class="ident">Amp</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Optional. JSON data to be passed through to the immersive experience</span>
+    <span class="doccomment">/// web page as an event.</span>
+    <span class="doccomment">/// If the &quot;override&quot; field in the containing prompt is &quot;false&quot; data values</span>
+    <span class="doccomment">/// defined in this Canvas prompt will be added after data values defined in</span>
+    <span class="doccomment">/// previous Canvas prompts.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Default value: false.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">suppress_mic</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// If `true` the canvas application occupies the full screen and won&#39;t</span>
+    <span class="doccomment">/// have a header at the top. A toast message will also be displayed on the</span>
+    <span class="doccomment">/// loading screen that includes the Action&#39;s display name, the developer&#39;s</span>
+    <span class="doccomment">/// name, and instructions for exiting the Action. Default value: `false`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">enable_full_screen</span>: <span class="ident">bool</span>,
 }
 <span class="doccomment">/// A basic card for displaying some information, e.g. an image and/or text.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -843,78 +942,6 @@
         <span class="ident">Icon</span>(<span class="ident"><span class="kw">super</span>::Image</span>),
     }
 }
-<span class="doccomment">/// A table card for displaying a table of text.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Table</span> {
-    <span class="doccomment">/// Overall title of the table. Optional but must be set if subtitle is set.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Subtitle for the table. Optional.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">subtitle</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Image associated with the table. Optional.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">image</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Image</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Headers and alignment of columns.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">columns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">TableColumn</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Row data of the table. The first 3 rows are guaranteed to be shown but</span>
-    <span class="doccomment">/// others might be cut on certain surfaces. Please test with the simulator to</span>
-    <span class="doccomment">/// see which rows will be shown for a given surface. On surfaces that support</span>
-    <span class="doccomment">/// the WEB_BROWSER capability, you can point the user to</span>
-    <span class="doccomment">/// a web page with more data.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">rows</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">TableRow</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Button.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">button</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Link</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Describes a column in a table.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableColumn</span> {
-    <span class="doccomment">/// Header text for the column.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">header</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Horizontal alignment of content w.r.t column. If unspecified, content</span>
-    <span class="doccomment">/// will be aligned to the leading edge.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;table_column::HorizontalAlignment&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">align</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `TableColumn`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">table_column</span> {
-    <span class="doccomment">/// The alignment of the content within the cell.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HorizontalAlignment</span> {
-        <span class="doccomment">/// Unspecified horizontal alignment.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Leading edge of the cell. This is the default.</span>
-        <span class="ident">Leading</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Content is aligned to the center of the column.</span>
-        <span class="ident">Center</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Content is aligned to the trailing edge of the column.</span>
-        <span class="ident">Trailing</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Describes a cell in a row.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableCell</span> {
-    <span class="doccomment">/// Text content of the cell.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Describes a row in the table.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableRow</span> {
-    <span class="doccomment">/// Cells in this row. The first 3 cells are guaranteed to be shown but</span>
-    <span class="doccomment">/// others might be cut on certain surfaces. Please test with the simulator</span>
-    <span class="doccomment">/// to see which cells will be shown for a given surface.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cells</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">TableCell</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Indicates whether there should be a divider after each row.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">divider</span>: <span class="ident">bool</span>,
-}
 <span class="doccomment">/// Content to be shown.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Content</span> {
@@ -949,33 +976,6 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
         <span class="ident">List</span>(<span class="ident"><span class="kw">super</span>::List</span>),
     }
-}
-<span class="doccomment">/// Represents a simple prompt to be send to a user.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Simple</span> {
-    <span class="doccomment">/// Optional. Represents the speech to be spoken to the user. Can be SSML or</span>
-    <span class="doccomment">/// text to speech.</span>
-    <span class="doccomment">/// If the &quot;override&quot; field in the containing prompt is &quot;true&quot;, the speech</span>
-    <span class="doccomment">/// defined in this field replaces the previous Simple prompt&#39;s speech.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">speech</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional text to display in the chat bubble. If not given, a display</span>
-    <span class="doccomment">/// rendering of the speech field above will be used. Limited to 640</span>
-    <span class="doccomment">/// chars.</span>
-    <span class="doccomment">/// If the &quot;override&quot; field in the containing prompt is &quot;true&quot;, the text</span>
-    <span class="doccomment">/// defined in this field replaces to the previous Simple prompt&#39;s text.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Input suggestion to be presented to the user.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Suggestion</span> {
-    <span class="doccomment">/// Required. The text shown in the suggestion chip. When tapped, this text will be</span>
-    <span class="doccomment">/// posted back to the conversation verbatim as if the user had typed it.</span>
-    <span class="doccomment">/// Each title must be unique among the set of suggestion chips.</span>
-    <span class="doccomment">/// Max 25 chars</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Represent a response to a user.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

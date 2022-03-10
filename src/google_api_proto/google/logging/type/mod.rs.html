@@ -107,7 +107,45 @@
 <span id="105">105</span>
 <span id="106">106</span>
 <span id="107">107</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A common proto for logging HTTP requests. Only contains semantics</span>
+</pre><pre class="rust"><code><span class="doccomment">/// The severity of the event described in a log entry, expressed as one of the</span>
+<span class="doccomment">/// standard severity levels listed below.  For your reference, the levels are</span>
+<span class="doccomment">/// assigned the listed numeric values. The effect of using numeric values other</span>
+<span class="doccomment">/// than those listed is undefined.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You can filter for log entries by severity.  For example, the following</span>
+<span class="doccomment">/// filter expression will match log entries with severities `INFO`, `NOTICE`,</span>
+<span class="doccomment">/// and `WARNING`:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     severity &gt; DEBUG AND severity &lt;= WARNING</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If you are writing log entries, you should map other severity encodings to</span>
+<span class="doccomment">/// one of these standard levels. For example, you might map all of Java&#39;s FINE,</span>
+<span class="doccomment">/// FINER, and FINEST levels to `LogSeverity.DEBUG`. You can preserve the</span>
+<span class="doccomment">/// original severity level in the log entry payload if you wish.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LogSeverity</span> {
+    <span class="doccomment">/// (0) The log entry has no assigned severity level.</span>
+    <span class="ident">Default</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// (100) Debug or trace information.</span>
+    <span class="ident">Debug</span> <span class="op">=</span> <span class="number">100</span>,
+    <span class="doccomment">/// (200) Routine information, such as ongoing status or performance.</span>
+    <span class="ident">Info</span> <span class="op">=</span> <span class="number">200</span>,
+    <span class="doccomment">/// (300) Normal but significant events, such as start up, shut down, or</span>
+    <span class="doccomment">/// a configuration change.</span>
+    <span class="ident">Notice</span> <span class="op">=</span> <span class="number">300</span>,
+    <span class="doccomment">/// (400) Warning events might cause problems.</span>
+    <span class="ident">Warning</span> <span class="op">=</span> <span class="number">400</span>,
+    <span class="doccomment">/// (500) Error events are likely to cause problems.</span>
+    <span class="ident">Error</span> <span class="op">=</span> <span class="number">500</span>,
+    <span class="doccomment">/// (600) Critical events cause more severe problems or outages.</span>
+    <span class="ident">Critical</span> <span class="op">=</span> <span class="number">600</span>,
+    <span class="doccomment">/// (700) A person must take an action immediately.</span>
+    <span class="ident">Alert</span> <span class="op">=</span> <span class="number">700</span>,
+    <span class="doccomment">/// (800) One or more systems are unusable.</span>
+    <span class="ident">Emergency</span> <span class="op">=</span> <span class="number">800</span>,
+}
+<span class="doccomment">/// A common proto for logging HTTP requests. Only contains semantics</span>
 <span class="doccomment">/// defined by the HTTP specification. Product-specific logging</span>
 <span class="doccomment">/// information MUST be defined in a separate message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -175,44 +213,6 @@
     <span class="doccomment">/// Protocol used for the request. Examples: &quot;HTTP/1.1&quot;, &quot;HTTP/2&quot;, &quot;websocket&quot;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">protocol</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The severity of the event described in a log entry, expressed as one of the</span>
-<span class="doccomment">/// standard severity levels listed below.  For your reference, the levels are</span>
-<span class="doccomment">/// assigned the listed numeric values. The effect of using numeric values other</span>
-<span class="doccomment">/// than those listed is undefined.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// You can filter for log entries by severity.  For example, the following</span>
-<span class="doccomment">/// filter expression will match log entries with severities `INFO`, `NOTICE`,</span>
-<span class="doccomment">/// and `WARNING`:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     severity &gt; DEBUG AND severity &lt;= WARNING</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If you are writing log entries, you should map other severity encodings to</span>
-<span class="doccomment">/// one of these standard levels. For example, you might map all of Java&#39;s FINE,</span>
-<span class="doccomment">/// FINER, and FINEST levels to `LogSeverity.DEBUG`. You can preserve the</span>
-<span class="doccomment">/// original severity level in the log entry payload if you wish.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LogSeverity</span> {
-    <span class="doccomment">/// (0) The log entry has no assigned severity level.</span>
-    <span class="ident">Default</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// (100) Debug or trace information.</span>
-    <span class="ident">Debug</span> <span class="op">=</span> <span class="number">100</span>,
-    <span class="doccomment">/// (200) Routine information, such as ongoing status or performance.</span>
-    <span class="ident">Info</span> <span class="op">=</span> <span class="number">200</span>,
-    <span class="doccomment">/// (300) Normal but significant events, such as start up, shut down, or</span>
-    <span class="doccomment">/// a configuration change.</span>
-    <span class="ident">Notice</span> <span class="op">=</span> <span class="number">300</span>,
-    <span class="doccomment">/// (400) Warning events might cause problems.</span>
-    <span class="ident">Warning</span> <span class="op">=</span> <span class="number">400</span>,
-    <span class="doccomment">/// (500) Error events are likely to cause problems.</span>
-    <span class="ident">Error</span> <span class="op">=</span> <span class="number">500</span>,
-    <span class="doccomment">/// (600) Critical events cause more severe problems or outages.</span>
-    <span class="ident">Critical</span> <span class="op">=</span> <span class="number">600</span>,
-    <span class="doccomment">/// (700) A person must take an action immediately.</span>
-    <span class="ident">Alert</span> <span class="op">=</span> <span class="number">700</span>,
-    <span class="doccomment">/// (800) One or more systems are unusable.</span>
-    <span class="ident">Emergency</span> <span class="op">=</span> <span class="number">800</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

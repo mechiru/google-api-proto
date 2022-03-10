@@ -1061,7 +1061,85 @@
 <span id="1059">1059</span>
 <span id="1060">1060</span>
 <span id="1061">1061</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Describes a vehicle attribute as a key-value pair. The &quot;key:value&quot; string</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A RequestHeader contains fields common to all Delivery RPC requests.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeliveryRequestHeader</span> {
+    <span class="doccomment">/// The BCP-47 language code, such as en-US or sr-Latn. For more information,</span>
+    <span class="doccomment">/// see &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; If none</span>
+    <span class="doccomment">/// is specified, the response may be in any language, with a preference for</span>
+    <span class="doccomment">/// English if such a name exists. Field value example: `en-US`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. CLDR region code of the region where the request originates.</span>
+    <span class="doccomment">/// Field value example: `US`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">region_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Version of the calling SDK, if applicable.</span>
+    <span class="doccomment">/// The version format is &quot;major.minor.patch&quot;, example: `1.1.2`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">sdk_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Version of the operating system on which the calling SDK is running.</span>
+    <span class="doccomment">/// Field value examples: `4.4.1`, `12.1`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Model of the device on which the calling SDK is running.</span>
+    <span class="doccomment">/// Field value examples: `iPhone12,1`, `SM-G920F`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">device_model</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type of SDK sending the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;delivery_request_header::SdkType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">sdk_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Version of the MapSDK which the calling SDK depends on, if applicable.</span>
+    <span class="doccomment">/// The version format is &quot;major.minor.patch&quot;, example: `5.2.1`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">maps_sdk_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Version of the NavSDK which the calling SDK depends on, if applicable.</span>
+    <span class="doccomment">/// The version format is &quot;major.minor.patch&quot;, example: `2.1.0`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">nav_sdk_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Platform of the calling SDK.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;delivery_request_header::Platform&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">platform</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Manufacturer of the Android device from the calling SDK, only applicable</span>
+    <span class="doccomment">/// for the Android SDKs.</span>
+    <span class="doccomment">/// Field value example: `Samsung`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">manufacturer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Android API level of the calling SDK, only applicable for the Android SDKs.</span>
+    <span class="doccomment">/// Field value example: `23`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">android_api_level</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `DeliveryRequestHeader`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">delivery_request_header</span> {
+    <span class="doccomment">/// Possible types of SDK.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SdkType</span> {
+        <span class="doccomment">/// The default value. This value is used if the `sdk_type` is omitted.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The calling SDK is Consumer.</span>
+        <span class="ident">Consumer</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The calling SDK is Driver.</span>
+        <span class="ident">Driver</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The calling SDK is JavaScript.</span>
+        <span class="ident">Javascript</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+    <span class="doccomment">/// The platform of the calling SDK.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Platform</span> {
+        <span class="doccomment">/// The default value. This value is used if the platform is omitted.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The request is coming from Android.</span>
+        <span class="ident">Android</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The request is coming from iOS.</span>
+        <span class="ident">Ios</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The request is coming from the web.</span>
+        <span class="ident">Web</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Describes a vehicle attribute as a key-value pair. The &quot;key:value&quot; string</span>
 <span class="doccomment">/// length cannot exceed 256 characters.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeliveryVehicleAttribute</span> {
@@ -1390,84 +1468,6 @@
         <span class="doccomment">/// Arrived at stop. Assumes that when the Vehicle is routing to the next</span>
         <span class="doccomment">/// stop, that all previous stops have been completed.</span>
         <span class="ident">Arrived</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// A RequestHeader contains fields common to all Delivery RPC requests.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeliveryRequestHeader</span> {
-    <span class="doccomment">/// The BCP-47 language code, such as en-US or sr-Latn. For more information,</span>
-    <span class="doccomment">/// see &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; If none</span>
-    <span class="doccomment">/// is specified, the response may be in any language, with a preference for</span>
-    <span class="doccomment">/// English if such a name exists. Field value example: `en-US`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. CLDR region code of the region where the request originates.</span>
-    <span class="doccomment">/// Field value example: `US`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">region_code</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Version of the calling SDK, if applicable.</span>
-    <span class="doccomment">/// The version format is &quot;major.minor.patch&quot;, example: `1.1.2`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">sdk_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Version of the operating system on which the calling SDK is running.</span>
-    <span class="doccomment">/// Field value examples: `4.4.1`, `12.1`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Model of the device on which the calling SDK is running.</span>
-    <span class="doccomment">/// Field value examples: `iPhone12,1`, `SM-G920F`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">device_model</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type of SDK sending the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;delivery_request_header::SdkType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">sdk_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Version of the MapSDK which the calling SDK depends on, if applicable.</span>
-    <span class="doccomment">/// The version format is &quot;major.minor.patch&quot;, example: `5.2.1`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">maps_sdk_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Version of the NavSDK which the calling SDK depends on, if applicable.</span>
-    <span class="doccomment">/// The version format is &quot;major.minor.patch&quot;, example: `2.1.0`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">nav_sdk_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Platform of the calling SDK.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;delivery_request_header::Platform&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">platform</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Manufacturer of the Android device from the calling SDK, only applicable</span>
-    <span class="doccomment">/// for the Android SDKs.</span>
-    <span class="doccomment">/// Field value example: `Samsung`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">manufacturer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Android API level of the calling SDK, only applicable for the Android SDKs.</span>
-    <span class="doccomment">/// Field value example: `23`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">android_api_level</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `DeliveryRequestHeader`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">delivery_request_header</span> {
-    <span class="doccomment">/// Possible types of SDK.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SdkType</span> {
-        <span class="doccomment">/// The default value. This value is used if the `sdk_type` is omitted.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The calling SDK is Consumer.</span>
-        <span class="ident">Consumer</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The calling SDK is Driver.</span>
-        <span class="ident">Driver</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The calling SDK is JavaScript.</span>
-        <span class="ident">Javascript</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-    <span class="doccomment">/// The platform of the calling SDK.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Platform</span> {
-        <span class="doccomment">/// The default value. This value is used if the platform is omitted.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The request is coming from Android.</span>
-        <span class="ident">Android</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The request is coming from iOS.</span>
-        <span class="ident">Ios</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The request is coming from the web.</span>
-        <span class="ident">Web</span> <span class="op">=</span> <span class="number">3</span>,
     }
 }
 <span class="doccomment">/// A Task in the Delivery API represents a single action to track. In general,</span>

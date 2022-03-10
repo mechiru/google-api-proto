@@ -489,6 +489,49 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-aiplatform-v1beta1-schema-trainingjob-definition&quot;</span>,))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">trainingjob</span>;
 
+<span class="doccomment">/// Payload of Image DataItem.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageDataItem</span> {
+    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original image in user&#39;s bucket.</span>
+    <span class="doccomment">/// The image is up to 30MB in size.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The mime type of the content of the image. Only the images in below listed</span>
+    <span class="doccomment">/// mime types are supported.</span>
+    <span class="doccomment">/// - image/jpeg</span>
+    <span class="doccomment">/// - image/gif</span>
+    <span class="doccomment">/// - image/png</span>
+    <span class="doccomment">/// - image/webp</span>
+    <span class="doccomment">/// - image/bmp</span>
+    <span class="doccomment">/// - image/tiff</span>
+    <span class="doccomment">/// - image/vnd.microsoft.icon</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Payload of Video DataItem.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoDataItem</span> {
+    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original video in user&#39;s bucket.</span>
+    <span class="doccomment">/// The video is up to 50 GB in size and up to 3 hour in duration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The mime type of the content of the video. Only the videos in below listed</span>
+    <span class="doccomment">/// mime types are supported.</span>
+    <span class="doccomment">/// Supported mime_type:</span>
+    <span class="doccomment">/// - video/mp4</span>
+    <span class="doccomment">/// - video/avi</span>
+    <span class="doccomment">/// - video/quicktime</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Payload of Text DataItem.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextDataItem</span> {
+    <span class="doccomment">/// Output only. Google Cloud Storage URI points to the original text in user&#39;s bucket.</span>
+    <span class="doccomment">/// The text file is up to 10MB in size.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// An entry of mapping between color and AnnotationSpec. The mapping is used in</span>
 <span class="doccomment">/// segmentation mask.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -505,6 +548,135 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// The metadata of Datasets that contain Image DataItems.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageDatasetMetadata</span> {
+    <span class="doccomment">/// Points to a YAML file stored on Google Cloud Storage describing payload of</span>
+    <span class="doccomment">/// the Image DataItems that belong to this Dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_item_schema_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Google Cloud Storage Bucket name that contains the blob data of this</span>
+    <span class="doccomment">/// Dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The metadata of Datasets that contain Text DataItems.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextDatasetMetadata</span> {
+    <span class="doccomment">/// Points to a YAML file stored on Google Cloud Storage describing payload of</span>
+    <span class="doccomment">/// the Text DataItems that belong to this Dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_item_schema_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Google Cloud Storage Bucket name that contains the blob data of this</span>
+    <span class="doccomment">/// Dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The metadata of Datasets that contain Video DataItems.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoDatasetMetadata</span> {
+    <span class="doccomment">/// Points to a YAML file stored on Google Cloud Storage describing payload of</span>
+    <span class="doccomment">/// the Video DataItems that belong to this Dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_item_schema_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Google Cloud Storage Bucket name that contains the blob data of this</span>
+    <span class="doccomment">/// Dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// The metadata of Datasets that contain tables data.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TablesDatasetMetadata</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">input_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">tables_dataset_metadata::InputConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `TablesDatasetMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tables_dataset_metadata</span> {
+    <span class="doccomment">/// The tables Dataset&#39;s data source. The Dataset doesn&#39;t store the data</span>
+    <span class="doccomment">/// directly, but only pointer(s) to its data.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InputConfig</span> {
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;input_config::Source&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">input_config::Source</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `InputConfig`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">input_config</span> {
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Source</span> {
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="ident">GcsSource</span>(<span class="ident"><span class="kw">super</span>::GcsSource</span>),
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">BigquerySource</span>(<span class="ident"><span class="kw">super</span>::BigQuerySource</span>),
+        }
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsSource</span> {
+        <span class="doccomment">/// Cloud Storage URI of one or more files. Only CSV files are supported.</span>
+        <span class="doccomment">/// The first line of the CSV file is used as the header.</span>
+        <span class="doccomment">/// If there are multiple files, the header is the first line of</span>
+        <span class="doccomment">/// the lexicographically first file, the other files must either</span>
+        <span class="doccomment">/// contain the exact same header or omit the header.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQuerySource</span> {
+        <span class="doccomment">/// The URI of a BigQuery table.</span>
+        <span class="doccomment">/// e.g. bq://projectId.bqDatasetId.bqTableId</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
+<span class="doccomment">/// The metadata of Datasets that contain time series data.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TimeSeriesDatasetMetadata</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">input_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">time_series_dataset_metadata::InputConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The column name of the time series identifier column that identifies the</span>
+    <span class="doccomment">/// time series.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">time_series_identifier_column</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The column name of the time column that identifies time order in the time</span>
+    <span class="doccomment">/// series.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">time_column</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `TimeSeriesDatasetMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">time_series_dataset_metadata</span> {
+    <span class="doccomment">/// The time series Dataset&#39;s data source. The Dataset doesn&#39;t store the data</span>
+    <span class="doccomment">/// directly, but only pointer(s) to its data.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InputConfig</span> {
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;input_config::Source&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">input_config::Source</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `InputConfig`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">input_config</span> {
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Source</span> {
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="ident">GcsSource</span>(<span class="ident"><span class="kw">super</span>::GcsSource</span>),
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">BigquerySource</span>(<span class="ident"><span class="kw">super</span>::BigQuerySource</span>),
+        }
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsSource</span> {
+        <span class="doccomment">/// Cloud Storage URI of one or more files. Only CSV files are supported.</span>
+        <span class="doccomment">/// The first line of the CSV file is used as the header.</span>
+        <span class="doccomment">/// If there are multiple files, the header is the first line of</span>
+        <span class="doccomment">/// the lexicographically first file, the other files must either</span>
+        <span class="doccomment">/// contain the exact same header or omit the header.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQuerySource</span> {
+        <span class="doccomment">/// The URI of a BigQuery table.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
 <span class="doccomment">/// A vertex represents a 2D point in the image.</span>
 <span class="doccomment">/// NOTE: the normalized vertex coordinates are relative to the original image</span>
 <span class="doccomment">/// and range from 0 to 1.</span>
@@ -516,6 +688,54 @@
     <span class="doccomment">/// Y coordinate.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">y</span>: <span class="ident">f64</span>,
+}
+<span class="doccomment">/// Represents a line of JSONL in the batch prediction output file.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionResult</span> {
+    <span class="doccomment">/// The prediction result.</span>
+    <span class="doccomment">/// Value is used here instead of Any so that JsonFormat does not append an</span>
+    <span class="doccomment">/// extra &quot;@type&quot; field when we convert the proto to JSON and so we can</span>
+    <span class="doccomment">/// represent array of objects.</span>
+    <span class="doccomment">/// Do not set error if this is set.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">prediction</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The error result.</span>
+    <span class="doccomment">/// Do not set prediction if this is set.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">prediction_result::Error</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Some identifier from the input so that the prediction can be mapped back to</span>
+    <span class="doccomment">/// the input instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;prediction_result::Input&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">input</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">prediction_result::Input</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PredictionResult`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prediction_result</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Error</span> {
+        <span class="doccomment">/// Error status. This will be serialized into the enum name e.g.</span>
+        <span class="doccomment">/// &quot;NOT_FOUND&quot;.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(
+            <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::super::super::super::super::rpc::Code&quot;</span>,
+            <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
+        )]</span>
+        <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// Error message with additional details.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Some identifier from the input so that the prediction can be mapped back to</span>
+    <span class="doccomment">/// the input instance.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Input</span> {
+        <span class="doccomment">/// User&#39;s input instance.</span>
+        <span class="doccomment">/// Struct is used here instead of Any so that JsonFormat does not append an</span>
+        <span class="doccomment">/// extra &quot;@type&quot; field when we convert the proto to JSON.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Instance</span>(<span class="ident">::prost_types::Struct</span>),
+        <span class="doccomment">/// Optional user-provided key from the input instance.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Key</span>(<span class="ident">::prost::alloc::string::String</span>),
+    }
 }
 <span class="doccomment">/// Annotation details specific to image classification.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -737,226 +957,6 @@
     <span class="doccomment">/// The display name of the AnnotationSpec that this Annotation pertains to.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Represents a line of JSONL in the batch prediction output file.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionResult</span> {
-    <span class="doccomment">/// The prediction result.</span>
-    <span class="doccomment">/// Value is used here instead of Any so that JsonFormat does not append an</span>
-    <span class="doccomment">/// extra &quot;@type&quot; field when we convert the proto to JSON and so we can</span>
-    <span class="doccomment">/// represent array of objects.</span>
-    <span class="doccomment">/// Do not set error if this is set.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">prediction</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The error result.</span>
-    <span class="doccomment">/// Do not set prediction if this is set.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">prediction_result::Error</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Some identifier from the input so that the prediction can be mapped back to</span>
-    <span class="doccomment">/// the input instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;prediction_result::Input&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">input</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">prediction_result::Input</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PredictionResult`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prediction_result</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Error</span> {
-        <span class="doccomment">/// Error status. This will be serialized into the enum name e.g.</span>
-        <span class="doccomment">/// &quot;NOT_FOUND&quot;.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(
-            <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::super::super::super::super::rpc::Code&quot;</span>,
-            <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
-        )]</span>
-        <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// Error message with additional details.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Some identifier from the input so that the prediction can be mapped back to</span>
-    <span class="doccomment">/// the input instance.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Input</span> {
-        <span class="doccomment">/// User&#39;s input instance.</span>
-        <span class="doccomment">/// Struct is used here instead of Any so that JsonFormat does not append an</span>
-        <span class="doccomment">/// extra &quot;@type&quot; field when we convert the proto to JSON.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">Instance</span>(<span class="ident">::prost_types::Struct</span>),
-        <span class="doccomment">/// Optional user-provided key from the input instance.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Key</span>(<span class="ident">::prost::alloc::string::String</span>),
-    }
-}
-<span class="doccomment">/// Payload of Image DataItem.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageDataItem</span> {
-    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original image in user&#39;s bucket.</span>
-    <span class="doccomment">/// The image is up to 30MB in size.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The mime type of the content of the image. Only the images in below listed</span>
-    <span class="doccomment">/// mime types are supported.</span>
-    <span class="doccomment">/// - image/jpeg</span>
-    <span class="doccomment">/// - image/gif</span>
-    <span class="doccomment">/// - image/png</span>
-    <span class="doccomment">/// - image/webp</span>
-    <span class="doccomment">/// - image/bmp</span>
-    <span class="doccomment">/// - image/tiff</span>
-    <span class="doccomment">/// - image/vnd.microsoft.icon</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Payload of Video DataItem.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoDataItem</span> {
-    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original video in user&#39;s bucket.</span>
-    <span class="doccomment">/// The video is up to 50 GB in size and up to 3 hour in duration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The mime type of the content of the video. Only the videos in below listed</span>
-    <span class="doccomment">/// mime types are supported.</span>
-    <span class="doccomment">/// Supported mime_type:</span>
-    <span class="doccomment">/// - video/mp4</span>
-    <span class="doccomment">/// - video/avi</span>
-    <span class="doccomment">/// - video/quicktime</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Payload of Text DataItem.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextDataItem</span> {
-    <span class="doccomment">/// Output only. Google Cloud Storage URI points to the original text in user&#39;s bucket.</span>
-    <span class="doccomment">/// The text file is up to 10MB in size.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The metadata of Datasets that contain Image DataItems.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageDatasetMetadata</span> {
-    <span class="doccomment">/// Points to a YAML file stored on Google Cloud Storage describing payload of</span>
-    <span class="doccomment">/// the Image DataItems that belong to this Dataset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">data_item_schema_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Google Cloud Storage Bucket name that contains the blob data of this</span>
-    <span class="doccomment">/// Dataset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The metadata of Datasets that contain Text DataItems.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextDatasetMetadata</span> {
-    <span class="doccomment">/// Points to a YAML file stored on Google Cloud Storage describing payload of</span>
-    <span class="doccomment">/// the Text DataItems that belong to this Dataset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">data_item_schema_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Google Cloud Storage Bucket name that contains the blob data of this</span>
-    <span class="doccomment">/// Dataset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The metadata of Datasets that contain Video DataItems.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoDatasetMetadata</span> {
-    <span class="doccomment">/// Points to a YAML file stored on Google Cloud Storage describing payload of</span>
-    <span class="doccomment">/// the Video DataItems that belong to this Dataset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">data_item_schema_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Google Cloud Storage Bucket name that contains the blob data of this</span>
-    <span class="doccomment">/// Dataset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// The metadata of Datasets that contain tables data.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TablesDatasetMetadata</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">input_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">tables_dataset_metadata::InputConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `TablesDatasetMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tables_dataset_metadata</span> {
-    <span class="doccomment">/// The tables Dataset&#39;s data source. The Dataset doesn&#39;t store the data</span>
-    <span class="doccomment">/// directly, but only pointer(s) to its data.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InputConfig</span> {
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;input_config::Source&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">input_config::Source</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `InputConfig`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">input_config</span> {
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Source</span> {
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="ident">GcsSource</span>(<span class="ident"><span class="kw">super</span>::GcsSource</span>),
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">BigquerySource</span>(<span class="ident"><span class="kw">super</span>::BigQuerySource</span>),
-        }
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsSource</span> {
-        <span class="doccomment">/// Cloud Storage URI of one or more files. Only CSV files are supported.</span>
-        <span class="doccomment">/// The first line of the CSV file is used as the header.</span>
-        <span class="doccomment">/// If there are multiple files, the header is the first line of</span>
-        <span class="doccomment">/// the lexicographically first file, the other files must either</span>
-        <span class="doccomment">/// contain the exact same header or omit the header.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQuerySource</span> {
-        <span class="doccomment">/// The URI of a BigQuery table.</span>
-        <span class="doccomment">/// e.g. bq://projectId.bqDatasetId.bqTableId</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
-<span class="doccomment">/// The metadata of Datasets that contain time series data.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TimeSeriesDatasetMetadata</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">input_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">time_series_dataset_metadata::InputConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The column name of the time series identifier column that identifies the</span>
-    <span class="doccomment">/// time series.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">time_series_identifier_column</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The column name of the time column that identifies time order in the time</span>
-    <span class="doccomment">/// series.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">time_column</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `TimeSeriesDatasetMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">time_series_dataset_metadata</span> {
-    <span class="doccomment">/// The time series Dataset&#39;s data source. The Dataset doesn&#39;t store the data</span>
-    <span class="doccomment">/// directly, but only pointer(s) to its data.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InputConfig</span> {
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;input_config::Source&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">input_config::Source</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `InputConfig`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">input_config</span> {
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Source</span> {
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="ident">GcsSource</span>(<span class="ident"><span class="kw">super</span>::GcsSource</span>),
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">BigquerySource</span>(<span class="ident"><span class="kw">super</span>::BigQuerySource</span>),
-        }
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsSource</span> {
-        <span class="doccomment">/// Cloud Storage URI of one or more files. Only CSV files are supported.</span>
-        <span class="doccomment">/// The first line of the CSV file is used as the header.</span>
-        <span class="doccomment">/// If there are multiple files, the header is the first line of</span>
-        <span class="doccomment">/// the lexicographically first file, the other files must either</span>
-        <span class="doccomment">/// contain the exact same header or omit the header.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQuerySource</span> {
-        <span class="doccomment">/// The URI of a BigQuery table.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

@@ -4576,7 +4576,19 @@
 <span id="4574">4574</span>
 <span id="4575">4575</span>
 <span id="4576">4576</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A definition of an annotation spec.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A time period inside of an example that has a time dimension (e.g. video).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TimeSegment</span> {
+    <span class="doccomment">/// Start of the time segment (inclusive), represented as the duration since</span>
+    <span class="doccomment">/// the example start.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_time_offset</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// End of the time segment (exclusive), represented as the duration since the</span>
+    <span class="doccomment">/// example start.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_time_offset</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A definition of an annotation spec.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationSpec</span> {
     <span class="doccomment">/// Output only. Resource name of the annotation spec.</span>
@@ -4593,18 +4605,6 @@
     <span class="doccomment">/// labeled by the annotation spec.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">example_count</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A time period inside of an example that has a time dimension (e.g. video).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TimeSegment</span> {
-    <span class="doccomment">/// Start of the time segment (inclusive), represented as the duration since</span>
-    <span class="doccomment">/// the example start.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_time_offset</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// End of the time segment (exclusive), represented as the duration since the</span>
-    <span class="doccomment">/// example start.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_time_offset</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Contains annotation details specific to classification.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -7214,6 +7214,89 @@
         <span class="ident">TablesDatasetMetadata</span>(<span class="ident"><span class="kw">super</span>::TablesDatasetMetadata</span>),
     }
 }
+<span class="doccomment">/// API proto representing a trained machine learning model.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Model</span> {
+    <span class="doccomment">/// Output only. Resource name of the model.</span>
+    <span class="doccomment">/// Format: `projects/{project_id}/locations/{location_id}/models/{model_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The name of the model to show in the interface. The name can be</span>
+    <span class="doccomment">/// up to 32 characters long and can consist only of ASCII Latin letters A-Z</span>
+    <span class="doccomment">/// and a-z, underscores</span>
+    <span class="doccomment">/// (_), and ASCII digits 0-9. It must start with a letter.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The resource ID of the dataset used to create the model. The dataset must</span>
+    <span class="doccomment">/// come from the same ancestor project and location.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Timestamp when the model training finished  and can be used for prediction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp when this model was last updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Deployment state of the model. A model can only serve</span>
+    <span class="doccomment">/// prediction requests after it gets deployed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;model::DeploymentState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">deployment_state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Required.</span>
+    <span class="doccomment">/// The model metadata that is specific to the problem type.</span>
+    <span class="doccomment">/// Must match the metadata type of the dataset used to train the model.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;model::ModelMetadata&quot;</span>,
+        <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;15, 13, 14, 20, 23, 21, 19, 24, 22&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">model_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">model::ModelMetadata</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Model`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">model</span> {
+    <span class="doccomment">/// Deployment state of the model.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DeploymentState</span> {
+        <span class="doccomment">/// Should not be used, an un-set enum has this value by default.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Model is deployed.</span>
+        <span class="ident">Deployed</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Model is not deployed.</span>
+        <span class="ident">Undeployed</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// Required.</span>
+    <span class="doccomment">/// The model metadata that is specific to the problem type.</span>
+    <span class="doccomment">/// Must match the metadata type of the dataset used to train the model.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelMetadata</span> {
+        <span class="doccomment">/// Metadata for translation models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+        <span class="ident">TranslationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TranslationModelMetadata</span>),
+        <span class="doccomment">/// Metadata for image classification models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+        <span class="ident">ImageClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::ImageClassificationModelMetadata</span>),
+        <span class="doccomment">/// Metadata for text classification models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+        <span class="ident">TextClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextClassificationModelMetadata</span>),
+        <span class="doccomment">/// Metadata for image object detection models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
+        <span class="ident">ImageObjectDetectionModelMetadata</span>(<span class="ident"><span class="kw">super</span>::ImageObjectDetectionModelMetadata</span>),
+        <span class="doccomment">/// Metadata for video classification models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;23&quot;</span>)]</span>
+        <span class="ident">VideoClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::VideoClassificationModelMetadata</span>),
+        <span class="doccomment">/// Metadata for video object tracking models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>)]</span>
+        <span class="ident">VideoObjectTrackingModelMetadata</span>(<span class="ident"><span class="kw">super</span>::VideoObjectTrackingModelMetadata</span>),
+        <span class="doccomment">/// Metadata for text extraction models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;19&quot;</span>)]</span>
+        <span class="ident">TextExtractionModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextExtractionModelMetadata</span>),
+        <span class="doccomment">/// Metadata for Tables models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;24&quot;</span>)]</span>
+        <span class="ident">TablesModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TablesModelMetadata</span>),
+        <span class="doccomment">/// Metadata for text sentiment models.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
+        <span class="ident">TextSentimentModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextSentimentModelMetadata</span>),
+    }
+}
 <span class="doccomment">/// Annotation details for image object detection.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageObjectDetectionAnnotation</span> {
@@ -7447,6 +7530,60 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">annotation_spec_id</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
+<span class="doccomment">/// Contains annotation information that is relevant to AutoML.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationPayload</span> {
+    <span class="doccomment">/// Output only . The resource ID of the annotation spec that</span>
+    <span class="doccomment">/// this annotation pertains to. The annotation spec comes from either an</span>
+    <span class="doccomment">/// ancestor dataset, or the dataset that was used to train the model in use.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">annotation_spec_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The value of</span>
+    <span class="doccomment">/// \[display_name][google.cloud.automl.v1beta1.AnnotationSpec.display_name\]</span>
+    <span class="doccomment">/// when the model was trained. Because this field returns a value at model</span>
+    <span class="doccomment">/// training time, for different models trained using the same dataset, the</span>
+    <span class="doccomment">/// returned value could be different as model owner could update the</span>
+    <span class="doccomment">/// `display_name` between any two model training.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only . Additional information about the annotation</span>
+    <span class="doccomment">/// specific to the AutoML domain.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;annotation_payload::Detail&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3, 4, 9, 8, 6, 7, 10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">detail</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">annotation_payload::Detail</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AnnotationPayload`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">annotation_payload</span> {
+    <span class="doccomment">/// Output only . Additional information about the annotation</span>
+    <span class="doccomment">/// specific to the AutoML domain.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Detail</span> {
+        <span class="doccomment">/// Annotation details for translation.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Translation</span>(<span class="ident"><span class="kw">super</span>::TranslationAnnotation</span>),
+        <span class="doccomment">/// Annotation details for content or image classification.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">Classification</span>(<span class="ident"><span class="kw">super</span>::ClassificationAnnotation</span>),
+        <span class="doccomment">/// Annotation details for image object detection.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">ImageObjectDetection</span>(<span class="ident"><span class="kw">super</span>::ImageObjectDetectionAnnotation</span>),
+        <span class="doccomment">/// Annotation details for video classification.</span>
+        <span class="doccomment">/// Returned for Video Classification predictions.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="ident">VideoClassification</span>(<span class="ident"><span class="kw">super</span>::VideoClassificationAnnotation</span>),
+        <span class="doccomment">/// Annotation details for video object tracking.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="ident">VideoObjectTracking</span>(<span class="ident"><span class="kw">super</span>::VideoObjectTrackingAnnotation</span>),
+        <span class="doccomment">/// Annotation details for text extraction.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">TextExtraction</span>(<span class="ident"><span class="kw">super</span>::TextExtractionAnnotation</span>),
+        <span class="doccomment">/// Annotation details for text sentiment.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="ident">TextSentiment</span>(<span class="ident"><span class="kw">super</span>::TextSentimentAnnotation</span>),
+        <span class="doccomment">/// Annotation details for Tables.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="ident">Tables</span>(<span class="ident"><span class="kw">super</span>::TablesAnnotation</span>),
+    }
+}
 <span class="doccomment">/// Evaluation results of a model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModelEvaluation</span> {
@@ -7530,143 +7667,6 @@
         <span class="doccomment">/// Evaluation metrics for text extraction models.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
         <span class="ident">TextExtractionEvaluationMetrics</span>(<span class="ident"><span class="kw">super</span>::TextExtractionEvaluationMetrics</span>),
-    }
-}
-<span class="doccomment">/// Contains annotation information that is relevant to AutoML.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationPayload</span> {
-    <span class="doccomment">/// Output only . The resource ID of the annotation spec that</span>
-    <span class="doccomment">/// this annotation pertains to. The annotation spec comes from either an</span>
-    <span class="doccomment">/// ancestor dataset, or the dataset that was used to train the model in use.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">annotation_spec_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The value of</span>
-    <span class="doccomment">/// \[display_name][google.cloud.automl.v1beta1.AnnotationSpec.display_name\]</span>
-    <span class="doccomment">/// when the model was trained. Because this field returns a value at model</span>
-    <span class="doccomment">/// training time, for different models trained using the same dataset, the</span>
-    <span class="doccomment">/// returned value could be different as model owner could update the</span>
-    <span class="doccomment">/// `display_name` between any two model training.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only . Additional information about the annotation</span>
-    <span class="doccomment">/// specific to the AutoML domain.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;annotation_payload::Detail&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3, 4, 9, 8, 6, 7, 10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">detail</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">annotation_payload::Detail</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AnnotationPayload`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">annotation_payload</span> {
-    <span class="doccomment">/// Output only . Additional information about the annotation</span>
-    <span class="doccomment">/// specific to the AutoML domain.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Detail</span> {
-        <span class="doccomment">/// Annotation details for translation.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Translation</span>(<span class="ident"><span class="kw">super</span>::TranslationAnnotation</span>),
-        <span class="doccomment">/// Annotation details for content or image classification.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">Classification</span>(<span class="ident"><span class="kw">super</span>::ClassificationAnnotation</span>),
-        <span class="doccomment">/// Annotation details for image object detection.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">ImageObjectDetection</span>(<span class="ident"><span class="kw">super</span>::ImageObjectDetectionAnnotation</span>),
-        <span class="doccomment">/// Annotation details for video classification.</span>
-        <span class="doccomment">/// Returned for Video Classification predictions.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="ident">VideoClassification</span>(<span class="ident"><span class="kw">super</span>::VideoClassificationAnnotation</span>),
-        <span class="doccomment">/// Annotation details for video object tracking.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="ident">VideoObjectTracking</span>(<span class="ident"><span class="kw">super</span>::VideoObjectTrackingAnnotation</span>),
-        <span class="doccomment">/// Annotation details for text extraction.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">TextExtraction</span>(<span class="ident"><span class="kw">super</span>::TextExtractionAnnotation</span>),
-        <span class="doccomment">/// Annotation details for text sentiment.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="ident">TextSentiment</span>(<span class="ident"><span class="kw">super</span>::TextSentimentAnnotation</span>),
-        <span class="doccomment">/// Annotation details for Tables.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="ident">Tables</span>(<span class="ident"><span class="kw">super</span>::TablesAnnotation</span>),
-    }
-}
-<span class="doccomment">/// API proto representing a trained machine learning model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Model</span> {
-    <span class="doccomment">/// Output only. Resource name of the model.</span>
-    <span class="doccomment">/// Format: `projects/{project_id}/locations/{location_id}/models/{model_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The name of the model to show in the interface. The name can be</span>
-    <span class="doccomment">/// up to 32 characters long and can consist only of ASCII Latin letters A-Z</span>
-    <span class="doccomment">/// and a-z, underscores</span>
-    <span class="doccomment">/// (_), and ASCII digits 0-9. It must start with a letter.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The resource ID of the dataset used to create the model. The dataset must</span>
-    <span class="doccomment">/// come from the same ancestor project and location.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Timestamp when the model training finished  and can be used for prediction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp when this model was last updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Deployment state of the model. A model can only serve</span>
-    <span class="doccomment">/// prediction requests after it gets deployed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;model::DeploymentState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">deployment_state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Required.</span>
-    <span class="doccomment">/// The model metadata that is specific to the problem type.</span>
-    <span class="doccomment">/// Must match the metadata type of the dataset used to train the model.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;model::ModelMetadata&quot;</span>,
-        <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;15, 13, 14, 20, 23, 21, 19, 24, 22&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">model_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">model::ModelMetadata</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Model`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">model</span> {
-    <span class="doccomment">/// Deployment state of the model.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DeploymentState</span> {
-        <span class="doccomment">/// Should not be used, an un-set enum has this value by default.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Model is deployed.</span>
-        <span class="ident">Deployed</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Model is not deployed.</span>
-        <span class="ident">Undeployed</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// Required.</span>
-    <span class="doccomment">/// The model metadata that is specific to the problem type.</span>
-    <span class="doccomment">/// Must match the metadata type of the dataset used to train the model.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelMetadata</span> {
-        <span class="doccomment">/// Metadata for translation models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-        <span class="ident">TranslationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TranslationModelMetadata</span>),
-        <span class="doccomment">/// Metadata for image classification models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-        <span class="ident">ImageClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::ImageClassificationModelMetadata</span>),
-        <span class="doccomment">/// Metadata for text classification models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-        <span class="ident">TextClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextClassificationModelMetadata</span>),
-        <span class="doccomment">/// Metadata for image object detection models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
-        <span class="ident">ImageObjectDetectionModelMetadata</span>(<span class="ident"><span class="kw">super</span>::ImageObjectDetectionModelMetadata</span>),
-        <span class="doccomment">/// Metadata for video classification models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;23&quot;</span>)]</span>
-        <span class="ident">VideoClassificationModelMetadata</span>(<span class="ident"><span class="kw">super</span>::VideoClassificationModelMetadata</span>),
-        <span class="doccomment">/// Metadata for video object tracking models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>)]</span>
-        <span class="ident">VideoObjectTrackingModelMetadata</span>(<span class="ident"><span class="kw">super</span>::VideoObjectTrackingModelMetadata</span>),
-        <span class="doccomment">/// Metadata for text extraction models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;19&quot;</span>)]</span>
-        <span class="ident">TextExtractionModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextExtractionModelMetadata</span>),
-        <span class="doccomment">/// Metadata for Tables models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;24&quot;</span>)]</span>
-        <span class="ident">TablesModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TablesModelMetadata</span>),
-        <span class="doccomment">/// Metadata for text sentiment models.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
-        <span class="ident">TextSentimentModelMetadata</span>(<span class="ident"><span class="kw">super</span>::TextSentimentModelMetadata</span>),
     }
 }
 <span class="doccomment">/// Metadata used across all long running operations returned by AutoML API.</span>
@@ -7864,6 +7864,307 @@
         <span class="doccomment">/// format, into which the output of export evaluated examples is written.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">bigquery_output_dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
+<span class="doccomment">/// Request message for \[PredictionService.Predict][google.cloud.automl.v1beta1.PredictionService.Predict\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictRequest</span> {
+    <span class="doccomment">/// Required. Name of the model requested to serve the prediction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Payload to perform a prediction on. The payload must match the</span>
+    <span class="doccomment">/// problem type that the model was trained to solve.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExamplePayload</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Additional domain-specific parameters, any string must be up to 25000</span>
+    <span class="doccomment">/// characters long.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  For Image Classification:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///    `score_threshold` - (float) A value from 0.0 to 1.0. When the model</span>
+    <span class="doccomment">///     makes predictions for an image, it will only produce results that have</span>
+    <span class="doccomment">///     at least this confidence score. The default is 0.5.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  *  For Image Object Detection:</span>
+    <span class="doccomment">///    `score_threshold` - (float) When Model detects objects on the image,</span>
+    <span class="doccomment">///        it will only produce bounding boxes which have at least this</span>
+    <span class="doccomment">///        confidence score. Value in 0 to 1 range, default is 0.5.</span>
+    <span class="doccomment">///    `max_bounding_box_count` - (int64) No more than this number of bounding</span>
+    <span class="doccomment">///        boxes will be returned in the response. Default is 100, the</span>
+    <span class="doccomment">///        requested value may be limited by server.</span>
+    <span class="doccomment">/// *  For Tables:</span>
+    <span class="doccomment">///    feature_imp&lt;span&gt;ortan&lt;/span&gt;ce - (boolean) Whether feature importance</span>
+    <span class="doccomment">///        should be populated in the returned TablesAnnotation.</span>
+    <span class="doccomment">///        The default is false.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">params</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Response message for \[PredictionService.Predict][google.cloud.automl.v1beta1.PredictionService.Predict\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictResponse</span> {
+    <span class="doccomment">/// Prediction result.</span>
+    <span class="doccomment">/// Translation and Text Sentiment will return precisely one payload.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AnnotationPayload</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The preprocessed example that AutoML actually makes prediction on.</span>
+    <span class="doccomment">/// Empty if AutoML does not preprocess the input example.</span>
+    <span class="doccomment">/// * For Text Extraction:</span>
+    <span class="doccomment">///   If the input is a .pdf file, the OCR&#39;ed text will be provided in</span>
+    <span class="doccomment">///   \[document_text][google.cloud.automl.v1beta1.Document.document_text\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">preprocessed_input</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExamplePayload</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Additional domain-specific prediction response metadata.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For Image Object Detection:</span>
+    <span class="doccomment">///  `max_bounding_box_count` - (int64) At most that many bounding boxes per</span>
+    <span class="doccomment">///      image could have been returned.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For Text Sentiment:</span>
+    <span class="doccomment">///  `sentiment_score` - (float, deprecated) A value between -1 and 1,</span>
+    <span class="doccomment">///      -1 maps to least positive sentiment, while 1 maps to the most positive</span>
+    <span class="doccomment">///      one and the higher the score, the more positive the sentiment in the</span>
+    <span class="doccomment">///      document is. Yet these values are relative to the training data, so</span>
+    <span class="doccomment">///      e.g. if all data was positive then -1 will be also positive (though</span>
+    <span class="doccomment">///      the least).</span>
+    <span class="doccomment">///      The sentiment_score shouldn&#39;t be confused with &quot;score&quot; or &quot;magnitude&quot;</span>
+    <span class="doccomment">///      from the previous Natural Language Sentiment Analysis API.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request message for \[PredictionService.BatchPredict][google.cloud.automl.v1beta1.PredictionService.BatchPredict\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchPredictRequest</span> {
+    <span class="doccomment">/// Required. Name of the model requested to serve the batch prediction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The input configuration for batch prediction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">input_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BatchPredictInputConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. The Configuration specifying where output predictions should</span>
+    <span class="doccomment">/// be written.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">output_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BatchPredictOutputConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Additional domain-specific parameters for the predictions, any string must</span>
+    <span class="doccomment">/// be up to 25000 characters long.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  For Text Classification:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///    `score_threshold` - (float) A value from 0.0 to 1.0. When the model</span>
+    <span class="doccomment">///         makes predictions for a text snippet, it will only produce results</span>
+    <span class="doccomment">///         that have at least this confidence score. The default is 0.5.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  For Image Classification:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///    `score_threshold` - (float) A value from 0.0 to 1.0. When the model</span>
+    <span class="doccomment">///         makes predictions for an image, it will only produce results that</span>
+    <span class="doccomment">///         have at least this confidence score. The default is 0.5.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  For Image Object Detection:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///    `score_threshold` - (float) When Model detects objects on the image,</span>
+    <span class="doccomment">///        it will only produce bounding boxes which have at least this</span>
+    <span class="doccomment">///        confidence score. Value in 0 to 1 range, default is 0.5.</span>
+    <span class="doccomment">///    `max_bounding_box_count` - (int64) No more than this number of bounding</span>
+    <span class="doccomment">///        boxes will be produced per image. Default is 100, the</span>
+    <span class="doccomment">///        requested value may be limited by server.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  For Video Classification :</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///    `score_threshold` - (float) A value from 0.0 to 1.0. When the model</span>
+    <span class="doccomment">///        makes predictions for a video, it will only produce results that</span>
+    <span class="doccomment">///        have at least this confidence score. The default is 0.5.</span>
+    <span class="doccomment">///    `segment_classification` - (boolean) Set to true to request</span>
+    <span class="doccomment">///        segment-level classification. AutoML Video Intelligence returns</span>
+    <span class="doccomment">///        labels and their confidence scores for the entire segment of the</span>
+    <span class="doccomment">///        video that user specified in the request configuration.</span>
+    <span class="doccomment">///        The default is &quot;true&quot;.</span>
+    <span class="doccomment">///    `shot_classification` - (boolean) Set to true to request shot-level</span>
+    <span class="doccomment">///        classification. AutoML Video Intelligence determines the boundaries</span>
+    <span class="doccomment">///        for each camera shot in the entire segment of the video that user</span>
+    <span class="doccomment">///        specified in the request configuration. AutoML Video Intelligence</span>
+    <span class="doccomment">///        then returns labels and their confidence scores for each detected</span>
+    <span class="doccomment">///        shot, along with the start and end time of the shot.</span>
+    <span class="doccomment">///        WARNING: Model evaluation is not done for this classification type,</span>
+    <span class="doccomment">///        the quality of it depends on training data, but there are no metrics</span>
+    <span class="doccomment">///        provided to describe that quality. The default is &quot;false&quot;.</span>
+    <span class="doccomment">///    `1s_interval_classification` - (boolean) Set to true to request</span>
+    <span class="doccomment">///        classification for a video at one-second intervals. AutoML Video</span>
+    <span class="doccomment">///        Intelligence returns labels and their confidence scores for each</span>
+    <span class="doccomment">///        second of the entire segment of the video that user specified in the</span>
+    <span class="doccomment">///        request configuration.</span>
+    <span class="doccomment">///        WARNING: Model evaluation is not done for this classification</span>
+    <span class="doccomment">///        type, the quality of it depends on training data, but there are no</span>
+    <span class="doccomment">///        metrics provided to describe that quality. The default is</span>
+    <span class="doccomment">///        &quot;false&quot;.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  For Tables:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///    feature_imp&lt;span&gt;ortan&lt;/span&gt;ce - (boolean) Whether feature importance</span>
+    <span class="doccomment">///        should be populated in the returned TablesAnnotations. The</span>
+    <span class="doccomment">///        default is false.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  For Video Object Tracking:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///    `score_threshold` - (float) When Model detects objects on video frames,</span>
+    <span class="doccomment">///        it will only produce bounding boxes which have at least this</span>
+    <span class="doccomment">///        confidence score. Value in 0 to 1 range, default is 0.5.</span>
+    <span class="doccomment">///    `max_bounding_box_count` - (int64) No more than this number of bounding</span>
+    <span class="doccomment">///        boxes will be returned per frame. Default is 100, the requested</span>
+    <span class="doccomment">///        value may be limited by server.</span>
+    <span class="doccomment">///    `min_bounding_box_size` - (float) Only bounding boxes with shortest edge</span>
+    <span class="doccomment">///      at least that long as a relative value of video frame size will be</span>
+    <span class="doccomment">///      returned. Value in 0 to 1 range. Default is 0.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">params</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Result of the Batch Predict. This message is returned in</span>
+<span class="doccomment">/// \[response][google.longrunning.Operation.response\] of the operation returned</span>
+<span class="doccomment">/// by the \[PredictionService.BatchPredict][google.cloud.automl.v1beta1.PredictionService.BatchPredict\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchPredictResult</span> {
+    <span class="doccomment">/// Additional domain-specific prediction response metadata.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  For Image Object Detection:</span>
+    <span class="doccomment">///  `max_bounding_box_count` - (int64) At most that many bounding boxes per</span>
+    <span class="doccomment">///      image could have been returned.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// *  For Video Object Tracking:</span>
+    <span class="doccomment">///  `max_bounding_box_count` - (int64) At most that many bounding boxes per</span>
+    <span class="doccomment">///      frame could have been returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prediction_service_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; AutoML Prediction API.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; On any input that is documented to expect a string parameter in&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; snake_case or kebab-case, either of those cases is accepted.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">PredictionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Perform an online prediction. The prediction result will be directly&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; returned in the response.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Available for following ML problems, and their expected request payloads:&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Image Classification - Image in .JPEG, .GIF or .PNG format, image_bytes&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                          up to 30MB.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Image Object Detection - Image in .JPEG, .GIF or .PNG format, image_bytes&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                            up to 30MB.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Text Classification - TextSnippet, content up to 60,000 characters,&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                         UTF-8 encoded.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Text Extraction - TextSnippet, content up to 30,000 characters,&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                     UTF-8 NFC encoded.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Translation - TextSnippet, content up to 25,000 characters, UTF-8&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                 encoded.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Tables - Row, with column values matching the columns of the model,&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;            up to 5MB. Not available for FORECASTING&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [prediction_type][google.cloud.automl.v1beta1.TablesModelMetadata.prediction_type].&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Text Sentiment - TextSnippet, content up 500 characters, UTF-8&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                     encoded.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">predict</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.automl.v1beta1.PredictionService/Predict&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Perform a batch prediction. Unlike the online [Predict][google.cloud.automl.v1beta1.PredictionService.Predict], batch&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; prediction result won&#39;t be immediately available in the response. Instead,&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; a long running operation object is returned. User can poll the operation&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; result via [GetOperation][google.longrunning.Operations.GetOperation]&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; method. Once the operation is done, [BatchPredictResult][google.cloud.automl.v1beta1.BatchPredictResult] is returned in&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; the [response][google.longrunning.Operation.response] field.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Available for following ML problems:&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Image Classification&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Image Object Detection&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Video Classification&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Video Object Tracking * Text Extraction&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Tables&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">batch_predict</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::BatchPredictRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.automl.v1beta1.PredictionService/BatchPredict&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
     }
 }
 <span class="doccomment">/// A specification of a relational table.</span>
@@ -8846,307 +9147,6 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.cloud.automl.v1beta1.AutoMl/ListModelEvaluations&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
-<span class="doccomment">/// Request message for \[PredictionService.Predict][google.cloud.automl.v1beta1.PredictionService.Predict\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictRequest</span> {
-    <span class="doccomment">/// Required. Name of the model requested to serve the prediction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Payload to perform a prediction on. The payload must match the</span>
-    <span class="doccomment">/// problem type that the model was trained to solve.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExamplePayload</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Additional domain-specific parameters, any string must be up to 25000</span>
-    <span class="doccomment">/// characters long.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  For Image Classification:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///    `score_threshold` - (float) A value from 0.0 to 1.0. When the model</span>
-    <span class="doccomment">///     makes predictions for an image, it will only produce results that have</span>
-    <span class="doccomment">///     at least this confidence score. The default is 0.5.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  *  For Image Object Detection:</span>
-    <span class="doccomment">///    `score_threshold` - (float) When Model detects objects on the image,</span>
-    <span class="doccomment">///        it will only produce bounding boxes which have at least this</span>
-    <span class="doccomment">///        confidence score. Value in 0 to 1 range, default is 0.5.</span>
-    <span class="doccomment">///    `max_bounding_box_count` - (int64) No more than this number of bounding</span>
-    <span class="doccomment">///        boxes will be returned in the response. Default is 100, the</span>
-    <span class="doccomment">///        requested value may be limited by server.</span>
-    <span class="doccomment">/// *  For Tables:</span>
-    <span class="doccomment">///    feature_imp&lt;span&gt;ortan&lt;/span&gt;ce - (boolean) Whether feature importance</span>
-    <span class="doccomment">///        should be populated in the returned TablesAnnotation.</span>
-    <span class="doccomment">///        The default is false.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">params</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Response message for \[PredictionService.Predict][google.cloud.automl.v1beta1.PredictionService.Predict\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictResponse</span> {
-    <span class="doccomment">/// Prediction result.</span>
-    <span class="doccomment">/// Translation and Text Sentiment will return precisely one payload.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AnnotationPayload</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The preprocessed example that AutoML actually makes prediction on.</span>
-    <span class="doccomment">/// Empty if AutoML does not preprocess the input example.</span>
-    <span class="doccomment">/// * For Text Extraction:</span>
-    <span class="doccomment">///   If the input is a .pdf file, the OCR&#39;ed text will be provided in</span>
-    <span class="doccomment">///   \[document_text][google.cloud.automl.v1beta1.Document.document_text\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">preprocessed_input</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExamplePayload</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Additional domain-specific prediction response metadata.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For Image Object Detection:</span>
-    <span class="doccomment">///  `max_bounding_box_count` - (int64) At most that many bounding boxes per</span>
-    <span class="doccomment">///      image could have been returned.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For Text Sentiment:</span>
-    <span class="doccomment">///  `sentiment_score` - (float, deprecated) A value between -1 and 1,</span>
-    <span class="doccomment">///      -1 maps to least positive sentiment, while 1 maps to the most positive</span>
-    <span class="doccomment">///      one and the higher the score, the more positive the sentiment in the</span>
-    <span class="doccomment">///      document is. Yet these values are relative to the training data, so</span>
-    <span class="doccomment">///      e.g. if all data was positive then -1 will be also positive (though</span>
-    <span class="doccomment">///      the least).</span>
-    <span class="doccomment">///      The sentiment_score shouldn&#39;t be confused with &quot;score&quot; or &quot;magnitude&quot;</span>
-    <span class="doccomment">///      from the previous Natural Language Sentiment Analysis API.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request message for \[PredictionService.BatchPredict][google.cloud.automl.v1beta1.PredictionService.BatchPredict\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchPredictRequest</span> {
-    <span class="doccomment">/// Required. Name of the model requested to serve the batch prediction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The input configuration for batch prediction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">input_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BatchPredictInputConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. The Configuration specifying where output predictions should</span>
-    <span class="doccomment">/// be written.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">output_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BatchPredictOutputConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Additional domain-specific parameters for the predictions, any string must</span>
-    <span class="doccomment">/// be up to 25000 characters long.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  For Text Classification:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///    `score_threshold` - (float) A value from 0.0 to 1.0. When the model</span>
-    <span class="doccomment">///         makes predictions for a text snippet, it will only produce results</span>
-    <span class="doccomment">///         that have at least this confidence score. The default is 0.5.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  For Image Classification:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///    `score_threshold` - (float) A value from 0.0 to 1.0. When the model</span>
-    <span class="doccomment">///         makes predictions for an image, it will only produce results that</span>
-    <span class="doccomment">///         have at least this confidence score. The default is 0.5.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  For Image Object Detection:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///    `score_threshold` - (float) When Model detects objects on the image,</span>
-    <span class="doccomment">///        it will only produce bounding boxes which have at least this</span>
-    <span class="doccomment">///        confidence score. Value in 0 to 1 range, default is 0.5.</span>
-    <span class="doccomment">///    `max_bounding_box_count` - (int64) No more than this number of bounding</span>
-    <span class="doccomment">///        boxes will be produced per image. Default is 100, the</span>
-    <span class="doccomment">///        requested value may be limited by server.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  For Video Classification :</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///    `score_threshold` - (float) A value from 0.0 to 1.0. When the model</span>
-    <span class="doccomment">///        makes predictions for a video, it will only produce results that</span>
-    <span class="doccomment">///        have at least this confidence score. The default is 0.5.</span>
-    <span class="doccomment">///    `segment_classification` - (boolean) Set to true to request</span>
-    <span class="doccomment">///        segment-level classification. AutoML Video Intelligence returns</span>
-    <span class="doccomment">///        labels and their confidence scores for the entire segment of the</span>
-    <span class="doccomment">///        video that user specified in the request configuration.</span>
-    <span class="doccomment">///        The default is &quot;true&quot;.</span>
-    <span class="doccomment">///    `shot_classification` - (boolean) Set to true to request shot-level</span>
-    <span class="doccomment">///        classification. AutoML Video Intelligence determines the boundaries</span>
-    <span class="doccomment">///        for each camera shot in the entire segment of the video that user</span>
-    <span class="doccomment">///        specified in the request configuration. AutoML Video Intelligence</span>
-    <span class="doccomment">///        then returns labels and their confidence scores for each detected</span>
-    <span class="doccomment">///        shot, along with the start and end time of the shot.</span>
-    <span class="doccomment">///        WARNING: Model evaluation is not done for this classification type,</span>
-    <span class="doccomment">///        the quality of it depends on training data, but there are no metrics</span>
-    <span class="doccomment">///        provided to describe that quality. The default is &quot;false&quot;.</span>
-    <span class="doccomment">///    `1s_interval_classification` - (boolean) Set to true to request</span>
-    <span class="doccomment">///        classification for a video at one-second intervals. AutoML Video</span>
-    <span class="doccomment">///        Intelligence returns labels and their confidence scores for each</span>
-    <span class="doccomment">///        second of the entire segment of the video that user specified in the</span>
-    <span class="doccomment">///        request configuration.</span>
-    <span class="doccomment">///        WARNING: Model evaluation is not done for this classification</span>
-    <span class="doccomment">///        type, the quality of it depends on training data, but there are no</span>
-    <span class="doccomment">///        metrics provided to describe that quality. The default is</span>
-    <span class="doccomment">///        &quot;false&quot;.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  For Tables:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///    feature_imp&lt;span&gt;ortan&lt;/span&gt;ce - (boolean) Whether feature importance</span>
-    <span class="doccomment">///        should be populated in the returned TablesAnnotations. The</span>
-    <span class="doccomment">///        default is false.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  For Video Object Tracking:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///    `score_threshold` - (float) When Model detects objects on video frames,</span>
-    <span class="doccomment">///        it will only produce bounding boxes which have at least this</span>
-    <span class="doccomment">///        confidence score. Value in 0 to 1 range, default is 0.5.</span>
-    <span class="doccomment">///    `max_bounding_box_count` - (int64) No more than this number of bounding</span>
-    <span class="doccomment">///        boxes will be returned per frame. Default is 100, the requested</span>
-    <span class="doccomment">///        value may be limited by server.</span>
-    <span class="doccomment">///    `min_bounding_box_size` - (float) Only bounding boxes with shortest edge</span>
-    <span class="doccomment">///      at least that long as a relative value of video frame size will be</span>
-    <span class="doccomment">///      returned. Value in 0 to 1 range. Default is 0.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">params</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Result of the Batch Predict. This message is returned in</span>
-<span class="doccomment">/// \[response][google.longrunning.Operation.response\] of the operation returned</span>
-<span class="doccomment">/// by the \[PredictionService.BatchPredict][google.cloud.automl.v1beta1.PredictionService.BatchPredict\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchPredictResult</span> {
-    <span class="doccomment">/// Additional domain-specific prediction response metadata.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  For Image Object Detection:</span>
-    <span class="doccomment">///  `max_bounding_box_count` - (int64) At most that many bounding boxes per</span>
-    <span class="doccomment">///      image could have been returned.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *  For Video Object Tracking:</span>
-    <span class="doccomment">///  `max_bounding_box_count` - (int64) At most that many bounding boxes per</span>
-    <span class="doccomment">///      frame could have been returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prediction_service_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; AutoML Prediction API.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; On any input that is documented to expect a string parameter in&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; snake_case or kebab-case, either of those cases is accepted.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">PredictionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Perform an online prediction. The prediction result will be directly&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; returned in the response.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Available for following ML problems, and their expected request payloads:&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Image Classification - Image in .JPEG, .GIF or .PNG format, image_bytes&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                          up to 30MB.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Image Object Detection - Image in .JPEG, .GIF or .PNG format, image_bytes&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                            up to 30MB.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Text Classification - TextSnippet, content up to 60,000 characters,&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                         UTF-8 encoded.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Text Extraction - TextSnippet, content up to 30,000 characters,&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                     UTF-8 NFC encoded.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Translation - TextSnippet, content up to 25,000 characters, UTF-8&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                 encoded.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Tables - Row, with column values matching the columns of the model,&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;            up to 5MB. Not available for FORECASTING&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; [prediction_type][google.cloud.automl.v1beta1.TablesModelMetadata.prediction_type].&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Text Sentiment - TextSnippet, content up 500 characters, UTF-8&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;                     encoded.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">predict</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.automl.v1beta1.PredictionService/Predict&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Perform a batch prediction. Unlike the online [Predict][google.cloud.automl.v1beta1.PredictionService.Predict], batch&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; prediction result won&#39;t be immediately available in the response. Instead,&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; a long running operation object is returned. User can poll the operation&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; result via [GetOperation][google.longrunning.Operations.GetOperation]&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; method. Once the operation is done, [BatchPredictResult][google.cloud.automl.v1beta1.BatchPredictResult] is returned in&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; the [response][google.longrunning.Operation.response] field.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Available for following ML problems:&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Image Classification&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Image Object Detection&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Video Classification&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Video Object Tracking * Text Extraction&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; * Tables&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">batch_predict</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::BatchPredictRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.automl.v1beta1.PredictionService/BatchPredict&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }

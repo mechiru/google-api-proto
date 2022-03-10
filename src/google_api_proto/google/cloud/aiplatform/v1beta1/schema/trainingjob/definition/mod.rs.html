@@ -1053,29 +1053,30 @@
 <span id="1051">1051</span>
 <span id="1052">1052</span>
 <span id="1053">1053</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Classification Model.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Action Recognition</span>
+<span class="doccomment">/// Model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoClassification</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoActionRecognition</span> {
     <span class="doccomment">/// The input parameters of this TrainingJob.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlVideoClassificationInputs</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlVideoActionRecognitionInputs</span><span class="op">&gt;</span>,
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoClassificationInputs</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoActionRecognitionInputs</span> {
     <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_video_classification_inputs::ModelType&quot;</span>,
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_video_action_recognition_inputs::ModelType&quot;</span>,
         <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
     )]</span>
     <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
 }
-<span class="doccomment">/// Nested message and enum types in `AutoMlVideoClassificationInputs`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_video_classification_inputs</span> {
+<span class="doccomment">/// Nested message and enum types in `AutoMlVideoActionRecognitionInputs`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_video_action_recognition_inputs</span> {
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
     <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
         <span class="doccomment">/// Should not be set.</span>
         <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot</span>
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot</span>
         <span class="doccomment">/// be exported. Default.</span>
         <span class="ident">Cloud</span> <span class="op">=</span> <span class="number">1</span>,
         <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can</span>
@@ -1086,6 +1087,10 @@
         <span class="doccomment">/// also be exported (see ModelService.ExportModel) to a Jetson device</span>
         <span class="doccomment">/// afterwards.</span>
         <span class="ident">MobileJetsonVersatile1</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can</span>
+        <span class="doccomment">/// also be exported (see ModelService.ExportModel) as a TensorFlow or</span>
+        <span class="doccomment">/// TensorFlow Lite model and used on a Coral device afterwards.</span>
+        <span class="ident">MobileCoralVersatile1</span> <span class="op">=</span> <span class="number">4</span>,
     }
 }
 <span class="doccomment">/// Configuration for exporting test set predictions to a BigQuery table.</span>
@@ -1104,6 +1109,25 @@
     <span class="doccomment">/// exists, then the export operation fails.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">override_existing_table</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlTextSentiment</span> {
+    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlTextSentimentInputs</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlTextSentimentInputs</span> {
+    <span class="doccomment">/// A sentiment is expressed as an integer ordinal, where higher value</span>
+    <span class="doccomment">/// means a more positive sentiment. The range of sentiments that will be used</span>
+    <span class="doccomment">/// is between 0 and sentimentMax (inclusive on both ends), and all the values</span>
+    <span class="doccomment">/// in the range must be represented in the dataset before a model can be</span>
+    <span class="doccomment">/// created.</span>
+    <span class="doccomment">/// Only the Annotations with this sentimentMax will be used for training.</span>
+    <span class="doccomment">/// sentimentMax value must be between 1 and 10 (inclusive).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">sentiment_max</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Tables Model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1409,15 +1433,390 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">multi_label</span>: <span class="ident">bool</span>,
 }
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Extraction Model.</span>
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Classification Model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlTextExtraction</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageClassification</span> {
     <span class="doccomment">/// The input parameters of this TrainingJob.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlTextExtractionInputs</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageClassificationInputs</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The metadata information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageClassificationMetadata</span><span class="op">&gt;</span>,
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlTextExtractionInputs</span> {}
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageClassificationInputs</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_classification_inputs::ModelType&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The ID of the `base` model. If it is specified, the new model will be</span>
+    <span class="doccomment">/// trained based on the `base` model. Otherwise, the new model will be</span>
+    <span class="doccomment">/// trained from scratch. The `base` model must be in the same</span>
+    <span class="doccomment">/// Project and Location as the new Model to train, and have the same</span>
+    <span class="doccomment">/// modelType.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">base_model_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The training budget of creating this model, expressed in milli node</span>
+    <span class="doccomment">/// hours i.e. 1,000 value in this field means 1 node hour. The actual</span>
+    <span class="doccomment">/// metadata.costMilliNodeHours will be equal or less than this value.</span>
+    <span class="doccomment">/// If further model training ceases to provide any improvements, it will</span>
+    <span class="doccomment">/// stop without using the full budget and the metadata.successfulStopReason</span>
+    <span class="doccomment">/// will be `model-converged`.</span>
+    <span class="doccomment">/// Note, node_hour  = actual_hour * number_of_nodes_involved.</span>
+    <span class="doccomment">/// For modelType `cloud`(default), the budget must be between 8,000</span>
+    <span class="doccomment">/// and 800,000 milli node hours, inclusive. The default value is 192,000</span>
+    <span class="doccomment">/// which represents one day in wall time, considering 8 nodes are used.</span>
+    <span class="doccomment">/// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,</span>
+    <span class="doccomment">/// `mobile-tf-high-accuracy-1`, the training budget must be between</span>
+    <span class="doccomment">/// 1,000 and 100,000 milli node hours, inclusive.</span>
+    <span class="doccomment">/// The default value is 24,000 which represents one day in wall time on a</span>
+    <span class="doccomment">/// single node that is used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">budget_milli_node_hours</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Use the entire training budget. This disables the early stopping feature.</span>
+    <span class="doccomment">/// When false the early stopping feature is enabled, which means that</span>
+    <span class="doccomment">/// AutoML Image Classification might stop training before the entire</span>
+    <span class="doccomment">/// training budget has been used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">disable_early_stopping</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// If false, a single-label (multi-class) Model will be trained (i.e.</span>
+    <span class="doccomment">/// assuming that for each image just up to one annotation may be</span>
+    <span class="doccomment">/// applicable). If true, a multi-label Model will be trained (i.e.</span>
+    <span class="doccomment">/// assuming that for each image multiple annotations may be applicable).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">multi_label</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageClassificationInputs`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_classification_inputs</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
+        <span class="doccomment">/// Should not be set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// A Model best tailored to be used within Google Cloud, and which cannot</span>
+        <span class="doccomment">/// be exported.</span>
+        <span class="doccomment">/// Default.</span>
+        <span class="ident">Cloud</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google</span>
+        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow</span>
+        <span class="doccomment">/// or Core ML model and used on a mobile or edge device afterwards.</span>
+        <span class="doccomment">/// Expected to have low latency, but may have lower prediction</span>
+        <span class="doccomment">/// quality than other mobile models.</span>
+        <span class="ident">MobileTfLowLatency1</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google</span>
+        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow</span>
+        <span class="doccomment">/// or Core ML model and used on a mobile or edge device with afterwards.</span>
+        <span class="ident">MobileTfVersatile1</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google</span>
+        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow</span>
+        <span class="doccomment">/// or Core ML model and used on a mobile or edge device afterwards.</span>
+        <span class="doccomment">/// Expected to have a higher latency, but should also have a higher</span>
+        <span class="doccomment">/// prediction quality than other mobile models.</span>
+        <span class="ident">MobileTfHighAccuracy1</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageClassificationMetadata</span> {
+    <span class="doccomment">/// The actual training cost of creating this model, expressed in</span>
+    <span class="doccomment">/// milli node hours, i.e. 1,000 value in this field means 1 node hour.</span>
+    <span class="doccomment">/// Guaranteed to not exceed inputs.budgetMilliNodeHours.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cost_milli_node_hours</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// For successful job completions, this is the reason why the job has</span>
+    <span class="doccomment">/// finished.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_classification_metadata::SuccessfulStopReason&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">successful_stop_reason</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageClassificationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_classification_metadata</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SuccessfulStopReason</span> {
+        <span class="doccomment">/// Should not be set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.</span>
+        <span class="ident">BudgetReached</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it</span>
+        <span class="doccomment">/// already has converged.</span>
+        <span class="ident">ModelConverged</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Segmentation Model.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageSegmentation</span> {
+    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageSegmentationInputs</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The metadata information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageSegmentationMetadata</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageSegmentationInputs</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_segmentation_inputs::ModelType&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The training budget of creating this model, expressed in milli node</span>
+    <span class="doccomment">/// hours i.e. 1,000 value in this field means 1 node hour. The actual</span>
+    <span class="doccomment">/// metadata.costMilliNodeHours will be equal or less than this value.</span>
+    <span class="doccomment">/// If further model training ceases to provide any improvements, it will</span>
+    <span class="doccomment">/// stop without using the full budget and the metadata.successfulStopReason</span>
+    <span class="doccomment">/// will be `model-converged`.</span>
+    <span class="doccomment">/// Note, node_hour  = actual_hour * number_of_nodes_involved. Or</span>
+    <span class="doccomment">/// actaul_wall_clock_hours = train_budget_milli_node_hours /</span>
+    <span class="doccomment">///                           (number_of_nodes_involved * 1000)</span>
+    <span class="doccomment">/// For modelType `cloud-high-accuracy-1`(default), the budget must be between</span>
+    <span class="doccomment">/// 20,000 and 2,000,000 milli node hours, inclusive. The default value is</span>
+    <span class="doccomment">/// 192,000 which represents one day in wall time</span>
+    <span class="doccomment">/// (1000 milli * 24 hours * 8 nodes).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">budget_milli_node_hours</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The ID of the `base` model. If it is specified, the new model will be</span>
+    <span class="doccomment">/// trained based on the `base` model. Otherwise, the new model will be</span>
+    <span class="doccomment">/// trained from scratch. The `base` model must be in the same</span>
+    <span class="doccomment">/// Project and Location as the new Model to train, and have the same</span>
+    <span class="doccomment">/// modelType.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">base_model_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageSegmentationInputs`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_segmentation_inputs</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
+        <span class="doccomment">/// Should not be set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// A model to be used via prediction calls to uCAIP API. Expected</span>
+        <span class="doccomment">/// to have a higher latency, but should also have a higher prediction</span>
+        <span class="doccomment">/// quality than other models.</span>
+        <span class="ident">CloudHighAccuracy1</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A model to be used via prediction calls to uCAIP API. Expected</span>
+        <span class="doccomment">/// to have a lower latency but relatively lower prediction quality.</span>
+        <span class="ident">CloudLowAccuracy1</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google</span>
+        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow</span>
+        <span class="doccomment">/// model and used on a mobile or edge device afterwards.</span>
+        <span class="doccomment">/// Expected to have low latency, but may have lower prediction</span>
+        <span class="doccomment">/// quality than other mobile models.</span>
+        <span class="ident">MobileTfLowLatency1</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageSegmentationMetadata</span> {
+    <span class="doccomment">/// The actual training cost of creating this model, expressed in</span>
+    <span class="doccomment">/// milli node hours, i.e. 1,000 value in this field means 1 node hour.</span>
+    <span class="doccomment">/// Guaranteed to not exceed inputs.budgetMilliNodeHours.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cost_milli_node_hours</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// For successful job completions, this is the reason why the job has</span>
+    <span class="doccomment">/// finished.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_segmentation_metadata::SuccessfulStopReason&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">successful_stop_reason</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageSegmentationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_segmentation_metadata</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SuccessfulStopReason</span> {
+        <span class="doccomment">/// Should not be set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.</span>
+        <span class="ident">BudgetReached</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it</span>
+        <span class="doccomment">/// already has converged.</span>
+        <span class="ident">ModelConverged</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Classification Model.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoClassification</span> {
+    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlVideoClassificationInputs</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoClassificationInputs</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_video_classification_inputs::ModelType&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlVideoClassificationInputs`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_video_classification_inputs</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
+        <span class="doccomment">/// Should not be set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot</span>
+        <span class="doccomment">/// be exported. Default.</span>
+        <span class="ident">Cloud</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can</span>
+        <span class="doccomment">/// also be exported (see ModelService.ExportModel) as a TensorFlow or</span>
+        <span class="doccomment">/// TensorFlow Lite model and used on a mobile or edge device afterwards.</span>
+        <span class="ident">MobileVersatile1</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can</span>
+        <span class="doccomment">/// also be exported (see ModelService.ExportModel) to a Jetson device</span>
+        <span class="doccomment">/// afterwards.</span>
+        <span class="ident">MobileJetsonVersatile1</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Object Detection Model.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageObjectDetection</span> {
+    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageObjectDetectionInputs</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The metadata information</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageObjectDetectionMetadata</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageObjectDetectionInputs</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_object_detection_inputs::ModelType&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The training budget of creating this model, expressed in milli node</span>
+    <span class="doccomment">/// hours i.e. 1,000 value in this field means 1 node hour. The actual</span>
+    <span class="doccomment">/// metadata.costMilliNodeHours will be equal or less than this value.</span>
+    <span class="doccomment">/// If further model training ceases to provide any improvements, it will</span>
+    <span class="doccomment">/// stop without using the full budget and the metadata.successfulStopReason</span>
+    <span class="doccomment">/// will be `model-converged`.</span>
+    <span class="doccomment">/// Note, node_hour  = actual_hour * number_of_nodes_involved.</span>
+    <span class="doccomment">/// For modelType `cloud`(default), the budget must be between 20,000</span>
+    <span class="doccomment">/// and 900,000 milli node hours, inclusive. The default value is 216,000</span>
+    <span class="doccomment">/// which represents one day in wall time, considering 9 nodes are used.</span>
+    <span class="doccomment">/// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,</span>
+    <span class="doccomment">/// `mobile-tf-high-accuracy-1`</span>
+    <span class="doccomment">/// the training budget must be between 1,000 and 100,000 milli node hours,</span>
+    <span class="doccomment">/// inclusive. The default value is 24,000 which represents one day in</span>
+    <span class="doccomment">/// wall time on a single node that is used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">budget_milli_node_hours</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Use the entire training budget. This disables the early stopping feature.</span>
+    <span class="doccomment">/// When false the early stopping feature is enabled, which means that AutoML</span>
+    <span class="doccomment">/// Image Object Detection might stop training before the entire training</span>
+    <span class="doccomment">/// budget has been used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">disable_early_stopping</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageObjectDetectionInputs`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_object_detection_inputs</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
+        <span class="doccomment">/// Should not be set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot</span>
+        <span class="doccomment">/// be exported. Expected to have a higher latency, but should also have a</span>
+        <span class="doccomment">/// higher prediction quality than other cloud models.</span>
+        <span class="ident">CloudHighAccuracy1</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot</span>
+        <span class="doccomment">/// be exported. Expected to have a low latency, but may have lower</span>
+        <span class="doccomment">/// prediction quality than other cloud models.</span>
+        <span class="ident">CloudLowLatency1</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google</span>
+        <span class="doccomment">/// Cloud can also be exported (see ModelService.ExportModel) and</span>
+        <span class="doccomment">/// used on a mobile or edge device with TensorFlow afterwards.</span>
+        <span class="doccomment">/// Expected to have low latency, but may have lower prediction</span>
+        <span class="doccomment">/// quality than other mobile models.</span>
+        <span class="ident">MobileTfLowLatency1</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google</span>
+        <span class="doccomment">/// Cloud can also be exported (see ModelService.ExportModel) and</span>
+        <span class="doccomment">/// used on a mobile or edge device with TensorFlow afterwards.</span>
+        <span class="ident">MobileTfVersatile1</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google</span>
+        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) and</span>
+        <span class="doccomment">/// used on a mobile or edge device with TensorFlow afterwards.</span>
+        <span class="doccomment">/// Expected to have a higher latency, but should also have a higher</span>
+        <span class="doccomment">/// prediction quality than other mobile models.</span>
+        <span class="ident">MobileTfHighAccuracy1</span> <span class="op">=</span> <span class="number">5</span>,
+    }
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageObjectDetectionMetadata</span> {
+    <span class="doccomment">/// The actual training cost of creating this model, expressed in</span>
+    <span class="doccomment">/// milli node hours, i.e. 1,000 value in this field means 1 node hour.</span>
+    <span class="doccomment">/// Guaranteed to not exceed inputs.budgetMilliNodeHours.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cost_milli_node_hours</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// For successful job completions, this is the reason why the job has</span>
+    <span class="doccomment">/// finished.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_object_detection_metadata::SuccessfulStopReason&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">successful_stop_reason</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageObjectDetectionMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_object_detection_metadata</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SuccessfulStopReason</span> {
+        <span class="doccomment">/// Should not be set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.</span>
+        <span class="ident">BudgetReached</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it</span>
+        <span class="doccomment">/// already has converged.</span>
+        <span class="ident">ModelConverged</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoObjectTracking</span> {
+    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlVideoObjectTrackingInputs</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoObjectTrackingInputs</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_video_object_tracking_inputs::ModelType&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_video_object_tracking_inputs</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
+        <span class="doccomment">/// Should not be set.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot</span>
+        <span class="doccomment">/// be exported. Default.</span>
+        <span class="ident">Cloud</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can</span>
+        <span class="doccomment">/// also be exported (see ModelService.ExportModel) as a TensorFlow or</span>
+        <span class="doccomment">/// TensorFlow Lite model and used on a mobile or edge device afterwards.</span>
+        <span class="ident">MobileVersatile1</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// A versatile model that is meant to be exported (see</span>
+        <span class="doccomment">/// ModelService.ExportModel) and used on a Google Coral device.</span>
+        <span class="ident">MobileCoralVersatile1</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see</span>
+        <span class="doccomment">/// ModelService.ExportModel) and used on a Google Coral device.</span>
+        <span class="ident">MobileCoralLowLatency1</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// A versatile model that is meant to be exported (see</span>
+        <span class="doccomment">/// ModelService.ExportModel) and used on an NVIDIA Jetson device.</span>
+        <span class="ident">MobileJetsonVersatile1</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see</span>
+        <span class="doccomment">/// ModelService.ExportModel) and used on an NVIDIA Jetson device.</span>
+        <span class="ident">MobileJetsonLowLatency1</span> <span class="op">=</span> <span class="number">6</span>,
+    }
+}
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Forecasting Model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlForecasting</span> {
@@ -1698,414 +2097,15 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">train_cost_milli_node_hours</span>: <span class="ident">i64</span>,
 }
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Classification Model.</span>
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Extraction Model.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageClassification</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlTextExtraction</span> {
     <span class="doccomment">/// The input parameters of this TrainingJob.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageClassificationInputs</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The metadata information.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageClassificationMetadata</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlTextExtractionInputs</span><span class="op">&gt;</span>,
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageClassificationInputs</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_classification_inputs::ModelType&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The ID of the `base` model. If it is specified, the new model will be</span>
-    <span class="doccomment">/// trained based on the `base` model. Otherwise, the new model will be</span>
-    <span class="doccomment">/// trained from scratch. The `base` model must be in the same</span>
-    <span class="doccomment">/// Project and Location as the new Model to train, and have the same</span>
-    <span class="doccomment">/// modelType.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">base_model_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The training budget of creating this model, expressed in milli node</span>
-    <span class="doccomment">/// hours i.e. 1,000 value in this field means 1 node hour. The actual</span>
-    <span class="doccomment">/// metadata.costMilliNodeHours will be equal or less than this value.</span>
-    <span class="doccomment">/// If further model training ceases to provide any improvements, it will</span>
-    <span class="doccomment">/// stop without using the full budget and the metadata.successfulStopReason</span>
-    <span class="doccomment">/// will be `model-converged`.</span>
-    <span class="doccomment">/// Note, node_hour  = actual_hour * number_of_nodes_involved.</span>
-    <span class="doccomment">/// For modelType `cloud`(default), the budget must be between 8,000</span>
-    <span class="doccomment">/// and 800,000 milli node hours, inclusive. The default value is 192,000</span>
-    <span class="doccomment">/// which represents one day in wall time, considering 8 nodes are used.</span>
-    <span class="doccomment">/// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,</span>
-    <span class="doccomment">/// `mobile-tf-high-accuracy-1`, the training budget must be between</span>
-    <span class="doccomment">/// 1,000 and 100,000 milli node hours, inclusive.</span>
-    <span class="doccomment">/// The default value is 24,000 which represents one day in wall time on a</span>
-    <span class="doccomment">/// single node that is used.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">budget_milli_node_hours</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Use the entire training budget. This disables the early stopping feature.</span>
-    <span class="doccomment">/// When false the early stopping feature is enabled, which means that</span>
-    <span class="doccomment">/// AutoML Image Classification might stop training before the entire</span>
-    <span class="doccomment">/// training budget has been used.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">disable_early_stopping</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// If false, a single-label (multi-class) Model will be trained (i.e.</span>
-    <span class="doccomment">/// assuming that for each image just up to one annotation may be</span>
-    <span class="doccomment">/// applicable). If true, a multi-label Model will be trained (i.e.</span>
-    <span class="doccomment">/// assuming that for each image multiple annotations may be applicable).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">multi_label</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageClassificationInputs`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_classification_inputs</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
-        <span class="doccomment">/// Should not be set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A Model best tailored to be used within Google Cloud, and which cannot</span>
-        <span class="doccomment">/// be exported.</span>
-        <span class="doccomment">/// Default.</span>
-        <span class="ident">Cloud</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google</span>
-        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow</span>
-        <span class="doccomment">/// or Core ML model and used on a mobile or edge device afterwards.</span>
-        <span class="doccomment">/// Expected to have low latency, but may have lower prediction</span>
-        <span class="doccomment">/// quality than other mobile models.</span>
-        <span class="ident">MobileTfLowLatency1</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google</span>
-        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow</span>
-        <span class="doccomment">/// or Core ML model and used on a mobile or edge device with afterwards.</span>
-        <span class="ident">MobileTfVersatile1</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google</span>
-        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow</span>
-        <span class="doccomment">/// or Core ML model and used on a mobile or edge device afterwards.</span>
-        <span class="doccomment">/// Expected to have a higher latency, but should also have a higher</span>
-        <span class="doccomment">/// prediction quality than other mobile models.</span>
-        <span class="ident">MobileTfHighAccuracy1</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageClassificationMetadata</span> {
-    <span class="doccomment">/// The actual training cost of creating this model, expressed in</span>
-    <span class="doccomment">/// milli node hours, i.e. 1,000 value in this field means 1 node hour.</span>
-    <span class="doccomment">/// Guaranteed to not exceed inputs.budgetMilliNodeHours.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cost_milli_node_hours</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// For successful job completions, this is the reason why the job has</span>
-    <span class="doccomment">/// finished.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_classification_metadata::SuccessfulStopReason&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">successful_stop_reason</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageClassificationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_classification_metadata</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SuccessfulStopReason</span> {
-        <span class="doccomment">/// Should not be set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.</span>
-        <span class="ident">BudgetReached</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it</span>
-        <span class="doccomment">/// already has converged.</span>
-        <span class="ident">ModelConverged</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Segmentation Model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageSegmentation</span> {
-    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageSegmentationInputs</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The metadata information.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageSegmentationMetadata</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageSegmentationInputs</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_segmentation_inputs::ModelType&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The training budget of creating this model, expressed in milli node</span>
-    <span class="doccomment">/// hours i.e. 1,000 value in this field means 1 node hour. The actual</span>
-    <span class="doccomment">/// metadata.costMilliNodeHours will be equal or less than this value.</span>
-    <span class="doccomment">/// If further model training ceases to provide any improvements, it will</span>
-    <span class="doccomment">/// stop without using the full budget and the metadata.successfulStopReason</span>
-    <span class="doccomment">/// will be `model-converged`.</span>
-    <span class="doccomment">/// Note, node_hour  = actual_hour * number_of_nodes_involved. Or</span>
-    <span class="doccomment">/// actaul_wall_clock_hours = train_budget_milli_node_hours /</span>
-    <span class="doccomment">///                           (number_of_nodes_involved * 1000)</span>
-    <span class="doccomment">/// For modelType `cloud-high-accuracy-1`(default), the budget must be between</span>
-    <span class="doccomment">/// 20,000 and 2,000,000 milli node hours, inclusive. The default value is</span>
-    <span class="doccomment">/// 192,000 which represents one day in wall time</span>
-    <span class="doccomment">/// (1000 milli * 24 hours * 8 nodes).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">budget_milli_node_hours</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The ID of the `base` model. If it is specified, the new model will be</span>
-    <span class="doccomment">/// trained based on the `base` model. Otherwise, the new model will be</span>
-    <span class="doccomment">/// trained from scratch. The `base` model must be in the same</span>
-    <span class="doccomment">/// Project and Location as the new Model to train, and have the same</span>
-    <span class="doccomment">/// modelType.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">base_model_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageSegmentationInputs`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_segmentation_inputs</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
-        <span class="doccomment">/// Should not be set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A model to be used via prediction calls to uCAIP API. Expected</span>
-        <span class="doccomment">/// to have a higher latency, but should also have a higher prediction</span>
-        <span class="doccomment">/// quality than other models.</span>
-        <span class="ident">CloudHighAccuracy1</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A model to be used via prediction calls to uCAIP API. Expected</span>
-        <span class="doccomment">/// to have a lower latency but relatively lower prediction quality.</span>
-        <span class="ident">CloudLowAccuracy1</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google</span>
-        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow</span>
-        <span class="doccomment">/// model and used on a mobile or edge device afterwards.</span>
-        <span class="doccomment">/// Expected to have low latency, but may have lower prediction</span>
-        <span class="doccomment">/// quality than other mobile models.</span>
-        <span class="ident">MobileTfLowLatency1</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageSegmentationMetadata</span> {
-    <span class="doccomment">/// The actual training cost of creating this model, expressed in</span>
-    <span class="doccomment">/// milli node hours, i.e. 1,000 value in this field means 1 node hour.</span>
-    <span class="doccomment">/// Guaranteed to not exceed inputs.budgetMilliNodeHours.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cost_milli_node_hours</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// For successful job completions, this is the reason why the job has</span>
-    <span class="doccomment">/// finished.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_segmentation_metadata::SuccessfulStopReason&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">successful_stop_reason</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageSegmentationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_segmentation_metadata</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SuccessfulStopReason</span> {
-        <span class="doccomment">/// Should not be set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.</span>
-        <span class="ident">BudgetReached</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it</span>
-        <span class="doccomment">/// already has converged.</span>
-        <span class="ident">ModelConverged</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlTextSentiment</span> {
-    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlTextSentimentInputs</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlTextSentimentInputs</span> {
-    <span class="doccomment">/// A sentiment is expressed as an integer ordinal, where higher value</span>
-    <span class="doccomment">/// means a more positive sentiment. The range of sentiments that will be used</span>
-    <span class="doccomment">/// is between 0 and sentimentMax (inclusive on both ends), and all the values</span>
-    <span class="doccomment">/// in the range must be represented in the dataset before a model can be</span>
-    <span class="doccomment">/// created.</span>
-    <span class="doccomment">/// Only the Annotations with this sentimentMax will be used for training.</span>
-    <span class="doccomment">/// sentimentMax value must be between 1 and 10 (inclusive).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">sentiment_max</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Action Recognition</span>
-<span class="doccomment">/// Model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoActionRecognition</span> {
-    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlVideoActionRecognitionInputs</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoActionRecognitionInputs</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_video_action_recognition_inputs::ModelType&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlVideoActionRecognitionInputs`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_video_action_recognition_inputs</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
-        <span class="doccomment">/// Should not be set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot</span>
-        <span class="doccomment">/// be exported. Default.</span>
-        <span class="ident">Cloud</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can</span>
-        <span class="doccomment">/// also be exported (see ModelService.ExportModel) as a TensorFlow or</span>
-        <span class="doccomment">/// TensorFlow Lite model and used on a mobile or edge device afterwards.</span>
-        <span class="ident">MobileVersatile1</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can</span>
-        <span class="doccomment">/// also be exported (see ModelService.ExportModel) to a Jetson device</span>
-        <span class="doccomment">/// afterwards.</span>
-        <span class="ident">MobileJetsonVersatile1</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can</span>
-        <span class="doccomment">/// also be exported (see ModelService.ExportModel) as a TensorFlow or</span>
-        <span class="doccomment">/// TensorFlow Lite model and used on a Coral device afterwards.</span>
-        <span class="ident">MobileCoralVersatile1</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoObjectTracking</span> {
-    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlVideoObjectTrackingInputs</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlVideoObjectTrackingInputs</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_video_object_tracking_inputs::ModelType&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_video_object_tracking_inputs</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
-        <span class="doccomment">/// Should not be set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot</span>
-        <span class="doccomment">/// be exported. Default.</span>
-        <span class="ident">Cloud</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can</span>
-        <span class="doccomment">/// also be exported (see ModelService.ExportModel) as a TensorFlow or</span>
-        <span class="doccomment">/// TensorFlow Lite model and used on a mobile or edge device afterwards.</span>
-        <span class="ident">MobileVersatile1</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// A versatile model that is meant to be exported (see</span>
-        <span class="doccomment">/// ModelService.ExportModel) and used on a Google Coral device.</span>
-        <span class="ident">MobileCoralVersatile1</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see</span>
-        <span class="doccomment">/// ModelService.ExportModel) and used on a Google Coral device.</span>
-        <span class="ident">MobileCoralLowLatency1</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// A versatile model that is meant to be exported (see</span>
-        <span class="doccomment">/// ModelService.ExportModel) and used on an NVIDIA Jetson device.</span>
-        <span class="ident">MobileJetsonVersatile1</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see</span>
-        <span class="doccomment">/// ModelService.ExportModel) and used on an NVIDIA Jetson device.</span>
-        <span class="ident">MobileJetsonLowLatency1</span> <span class="op">=</span> <span class="number">6</span>,
-    }
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Object Detection Model.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageObjectDetection</span> {
-    <span class="doccomment">/// The input parameters of this TrainingJob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inputs</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageObjectDetectionInputs</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The metadata information</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoMlImageObjectDetectionMetadata</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageObjectDetectionInputs</span> {
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_object_detection_inputs::ModelType&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">model_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The training budget of creating this model, expressed in milli node</span>
-    <span class="doccomment">/// hours i.e. 1,000 value in this field means 1 node hour. The actual</span>
-    <span class="doccomment">/// metadata.costMilliNodeHours will be equal or less than this value.</span>
-    <span class="doccomment">/// If further model training ceases to provide any improvements, it will</span>
-    <span class="doccomment">/// stop without using the full budget and the metadata.successfulStopReason</span>
-    <span class="doccomment">/// will be `model-converged`.</span>
-    <span class="doccomment">/// Note, node_hour  = actual_hour * number_of_nodes_involved.</span>
-    <span class="doccomment">/// For modelType `cloud`(default), the budget must be between 20,000</span>
-    <span class="doccomment">/// and 900,000 milli node hours, inclusive. The default value is 216,000</span>
-    <span class="doccomment">/// which represents one day in wall time, considering 9 nodes are used.</span>
-    <span class="doccomment">/// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,</span>
-    <span class="doccomment">/// `mobile-tf-high-accuracy-1`</span>
-    <span class="doccomment">/// the training budget must be between 1,000 and 100,000 milli node hours,</span>
-    <span class="doccomment">/// inclusive. The default value is 24,000 which represents one day in</span>
-    <span class="doccomment">/// wall time on a single node that is used.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">budget_milli_node_hours</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Use the entire training budget. This disables the early stopping feature.</span>
-    <span class="doccomment">/// When false the early stopping feature is enabled, which means that AutoML</span>
-    <span class="doccomment">/// Image Object Detection might stop training before the entire training</span>
-    <span class="doccomment">/// budget has been used.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">disable_early_stopping</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageObjectDetectionInputs`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_object_detection_inputs</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ModelType</span> {
-        <span class="doccomment">/// Should not be set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot</span>
-        <span class="doccomment">/// be exported. Expected to have a higher latency, but should also have a</span>
-        <span class="doccomment">/// higher prediction quality than other cloud models.</span>
-        <span class="ident">CloudHighAccuracy1</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot</span>
-        <span class="doccomment">/// be exported. Expected to have a low latency, but may have lower</span>
-        <span class="doccomment">/// prediction quality than other cloud models.</span>
-        <span class="ident">CloudLowLatency1</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google</span>
-        <span class="doccomment">/// Cloud can also be exported (see ModelService.ExportModel) and</span>
-        <span class="doccomment">/// used on a mobile or edge device with TensorFlow afterwards.</span>
-        <span class="doccomment">/// Expected to have low latency, but may have lower prediction</span>
-        <span class="doccomment">/// quality than other mobile models.</span>
-        <span class="ident">MobileTfLowLatency1</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google</span>
-        <span class="doccomment">/// Cloud can also be exported (see ModelService.ExportModel) and</span>
-        <span class="doccomment">/// used on a mobile or edge device with TensorFlow afterwards.</span>
-        <span class="ident">MobileTfVersatile1</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google</span>
-        <span class="doccomment">/// Cloud, can also be exported (see ModelService.ExportModel) and</span>
-        <span class="doccomment">/// used on a mobile or edge device with TensorFlow afterwards.</span>
-        <span class="doccomment">/// Expected to have a higher latency, but should also have a higher</span>
-        <span class="doccomment">/// prediction quality than other mobile models.</span>
-        <span class="ident">MobileTfHighAccuracy1</span> <span class="op">=</span> <span class="number">5</span>,
-    }
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlImageObjectDetectionMetadata</span> {
-    <span class="doccomment">/// The actual training cost of creating this model, expressed in</span>
-    <span class="doccomment">/// milli node hours, i.e. 1,000 value in this field means 1 node hour.</span>
-    <span class="doccomment">/// Guaranteed to not exceed inputs.budgetMilliNodeHours.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cost_milli_node_hours</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// For successful job completions, this is the reason why the job has</span>
-    <span class="doccomment">/// finished.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;auto_ml_image_object_detection_metadata::SuccessfulStopReason&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">successful_stop_reason</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageObjectDetectionMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auto_ml_image_object_detection_metadata</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SuccessfulStopReason</span> {
-        <span class="doccomment">/// Should not be set.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.</span>
-        <span class="ident">BudgetReached</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it</span>
-        <span class="doccomment">/// already has converged.</span>
-        <span class="ident">ModelConverged</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoMlTextExtractionInputs</span> {}
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>
 </body></html>

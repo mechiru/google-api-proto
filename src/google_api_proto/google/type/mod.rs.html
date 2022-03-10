@@ -866,104 +866,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">longitude</span>: <span class="ident">f64</span>,
 }
-<span class="doccomment">/// Represents a whole or partial calendar date, such as a birthday. The time of</span>
-<span class="doccomment">/// day and time zone are either specified elsewhere or are insignificant. The</span>
-<span class="doccomment">/// date is relative to the Gregorian Calendar. This can represent one of the</span>
-<span class="doccomment">/// following:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// * A full date, with non-zero year, month, and day values</span>
-<span class="doccomment">/// * A month and day value, with a zero year, such as an anniversary</span>
-<span class="doccomment">/// * A year on its own, with zero month and day values</span>
-<span class="doccomment">/// * A year and month value, with a zero day, such as a credit card expiration</span>
-<span class="doccomment">/// date</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Related types are \[google.type.TimeOfDay][google.type.TimeOfDay\] and</span>
-<span class="doccomment">/// `google.protobuf.Timestamp`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Date</span> {
-    <span class="doccomment">/// Year of the date. Must be from 1 to 9999, or 0 to specify a date without</span>
-    <span class="doccomment">/// a year.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">year</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Month of a year. Must be from 1 to 12, or 0 to specify a year without a</span>
-    <span class="doccomment">/// month and day.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">month</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Day of a month. Must be from 1 to 31 and valid for the year and month, or 0</span>
-    <span class="doccomment">/// to specify a year by itself or a year and month where the day isn&#39;t</span>
-    <span class="doccomment">/// significant.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">day</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Represents a day of the week.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DayOfWeek</span> {
-    <span class="doccomment">/// The day of the week is unspecified.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Monday</span>
-    <span class="ident">Monday</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Tuesday</span>
-    <span class="ident">Tuesday</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Wednesday</span>
-    <span class="ident">Wednesday</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Thursday</span>
-    <span class="ident">Thursday</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// Friday</span>
-    <span class="ident">Friday</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// Saturday</span>
-    <span class="ident">Saturday</span> <span class="op">=</span> <span class="number">6</span>,
-    <span class="doccomment">/// Sunday</span>
-    <span class="ident">Sunday</span> <span class="op">=</span> <span class="number">7</span>,
-}
-<span class="doccomment">/// Represents a time of day. The date and time zone are either not significant</span>
-<span class="doccomment">/// or are specified elsewhere. An API may choose to allow leap seconds. Related</span>
-<span class="doccomment">/// types are \[google.type.Date][google.type.Date\] and</span>
-<span class="doccomment">/// `google.protobuf.Timestamp`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TimeOfDay</span> {
-    <span class="doccomment">/// Hours of day in 24 hour format. Should be from 0 to 23. An API may choose</span>
-    <span class="doccomment">/// to allow the value &quot;24:00:00&quot; for scenarios like business closing time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hours</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Minutes of hour of day. Must be from 0 to 59.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">minutes</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Seconds of minutes of the time. Must normally be from 0 to 59. An API may</span>
-    <span class="doccomment">/// allow the value 60 if it allows leap-seconds.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">seconds</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">nanos</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A `CalendarPeriod` represents the abstract concept of a time period that has</span>
-<span class="doccomment">/// a canonical start. Grammatically, &quot;the start of the current</span>
-<span class="doccomment">/// `CalendarPeriod`.&quot; All calendar times begin at midnight UTC.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CalendarPeriod</span> {
-    <span class="doccomment">/// Undefined period, raises an error.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// A day.</span>
-    <span class="ident">Day</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// A week. Weeks begin on Monday, following</span>
-    <span class="doccomment">/// [ISO 8601](&lt;https://en.wikipedia.org/wiki/ISO_week_date&gt;).</span>
-    <span class="ident">Week</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// A fortnight. The first calendar fortnight of the year begins at the start</span>
-    <span class="doccomment">/// of week 1 according to</span>
-    <span class="doccomment">/// [ISO 8601](&lt;https://en.wikipedia.org/wiki/ISO_week_date&gt;).</span>
-    <span class="ident">Fortnight</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// A month.</span>
-    <span class="ident">Month</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// A quarter. Quarters start on dates 1-Jan, 1-Apr, 1-Jul, and 1-Oct of each</span>
-    <span class="doccomment">/// year.</span>
-    <span class="ident">Quarter</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// A half-year. Half-years start on dates 1-Jan and 1-Jul.</span>
-    <span class="ident">Half</span> <span class="op">=</span> <span class="number">6</span>,
-    <span class="doccomment">/// A year.</span>
-    <span class="ident">Year</span> <span class="op">=</span> <span class="number">7</span>,
-}
 <span class="doccomment">/// Represents a textual expression in the Common Expression Language (CEL)</span>
 <span class="doccomment">/// syntax. CEL is a C-like expression language. The syntax and semantics of CEL</span>
 <span class="doccomment">/// are documented at &lt;https://github.com/google/cel-spec.&gt;</span>
@@ -1014,6 +916,25 @@
     <span class="doccomment">/// reporting, e.g. a file name and a position in the file.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">location</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Represents an amount of money with its currency type.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Money</span> {
+    <span class="doccomment">/// The three-letter currency code defined in ISO 4217.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">currency_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The whole units of the amount.</span>
+    <span class="doccomment">/// For example if `currencyCode` is `&quot;USD&quot;`, then 1 unit is one US dollar.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">units</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Number of nano (10^-9) units of the amount.</span>
+    <span class="doccomment">/// The value must be between -999,999,999 and +999,999,999 inclusive.</span>
+    <span class="doccomment">/// If `units` is positive, `nanos` must be positive or zero.</span>
+    <span class="doccomment">/// If `units` is zero, `nanos` can be positive, zero, or negative.</span>
+    <span class="doccomment">/// If `units` is negative, `nanos` must be negative or zero.</span>
+    <span class="doccomment">/// For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">nanos</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// Represents a color in the RGBA color space. This representation is designed</span>
 <span class="doccomment">/// for simplicity of conversion to/from color representations in various</span>
@@ -1164,24 +1085,34 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">alpha</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Represents an amount of money with its currency type.</span>
+<span class="doccomment">/// Represents a whole or partial calendar date, such as a birthday. The time of</span>
+<span class="doccomment">/// day and time zone are either specified elsewhere or are insignificant. The</span>
+<span class="doccomment">/// date is relative to the Gregorian Calendar. This can represent one of the</span>
+<span class="doccomment">/// following:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * A full date, with non-zero year, month, and day values</span>
+<span class="doccomment">/// * A month and day value, with a zero year, such as an anniversary</span>
+<span class="doccomment">/// * A year on its own, with zero month and day values</span>
+<span class="doccomment">/// * A year and month value, with a zero day, such as a credit card expiration</span>
+<span class="doccomment">/// date</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Related types are \[google.type.TimeOfDay][google.type.TimeOfDay\] and</span>
+<span class="doccomment">/// `google.protobuf.Timestamp`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Money</span> {
-    <span class="doccomment">/// The three-letter currency code defined in ISO 4217.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">currency_code</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The whole units of the amount.</span>
-    <span class="doccomment">/// For example if `currencyCode` is `&quot;USD&quot;`, then 1 unit is one US dollar.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">units</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Number of nano (10^-9) units of the amount.</span>
-    <span class="doccomment">/// The value must be between -999,999,999 and +999,999,999 inclusive.</span>
-    <span class="doccomment">/// If `units` is positive, `nanos` must be positive or zero.</span>
-    <span class="doccomment">/// If `units` is zero, `nanos` can be positive, zero, or negative.</span>
-    <span class="doccomment">/// If `units` is negative, `nanos` must be negative or zero.</span>
-    <span class="doccomment">/// For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Date</span> {
+    <span class="doccomment">/// Year of the date. Must be from 1 to 9999, or 0 to specify a date without</span>
+    <span class="doccomment">/// a year.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">year</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Month of a year. Must be from 1 to 12, or 0 to specify a year without a</span>
+    <span class="doccomment">/// month and day.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">month</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Day of a month. Must be from 1 to 31 and valid for the year and month, or 0</span>
+    <span class="doccomment">/// to specify a year by itself or a year and month where the day isn&#39;t</span>
+    <span class="doccomment">/// significant.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">nanos</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">day</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// Represents a postal address, e.g. for postal delivery or payments addresses.</span>
 <span class="doccomment">/// Given a postal address, a postal service can deliver items to a premise, P.O.</span>
@@ -1294,6 +1225,48 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">organization</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// Represents a time of day. The date and time zone are either not significant</span>
+<span class="doccomment">/// or are specified elsewhere. An API may choose to allow leap seconds. Related</span>
+<span class="doccomment">/// types are \[google.type.Date][google.type.Date\] and</span>
+<span class="doccomment">/// `google.protobuf.Timestamp`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TimeOfDay</span> {
+    <span class="doccomment">/// Hours of day in 24 hour format. Should be from 0 to 23. An API may choose</span>
+    <span class="doccomment">/// to allow the value &quot;24:00:00&quot; for scenarios like business closing time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hours</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Minutes of hour of day. Must be from 0 to 59.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">minutes</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Seconds of minutes of the time. Must normally be from 0 to 59. An API may</span>
+    <span class="doccomment">/// allow the value 60 if it allows leap-seconds.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">seconds</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">nanos</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Represents a day of the week.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DayOfWeek</span> {
+    <span class="doccomment">/// The day of the week is unspecified.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Monday</span>
+    <span class="ident">Monday</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Tuesday</span>
+    <span class="ident">Tuesday</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Wednesday</span>
+    <span class="ident">Wednesday</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Thursday</span>
+    <span class="ident">Thursday</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// Friday</span>
+    <span class="ident">Friday</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="doccomment">/// Saturday</span>
+    <span class="ident">Saturday</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="doccomment">/// Sunday</span>
+    <span class="ident">Sunday</span> <span class="op">=</span> <span class="number">7</span>,
+}
 <span class="doccomment">/// Represents civil time (or occasionally physical time).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This type can represent a civil time in one of a few possible ways:</span>
@@ -1385,120 +1358,104 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Represents a month in the Gregorian calendar.</span>
+<span class="doccomment">/// A `CalendarPeriod` represents the abstract concept of a time period that has</span>
+<span class="doccomment">/// a canonical start. Grammatically, &quot;the start of the current</span>
+<span class="doccomment">/// `CalendarPeriod`.&quot; All calendar times begin at midnight UTC.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Month</span> {
-    <span class="doccomment">/// The unspecified month.</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CalendarPeriod</span> {
+    <span class="doccomment">/// Undefined period, raises an error.</span>
     <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// The month of January.</span>
-    <span class="ident">January</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// The month of February.</span>
-    <span class="ident">February</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// The month of March.</span>
-    <span class="ident">March</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// The month of April.</span>
-    <span class="ident">April</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// The month of May.</span>
-    <span class="ident">May</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// The month of June.</span>
-    <span class="ident">June</span> <span class="op">=</span> <span class="number">6</span>,
-    <span class="doccomment">/// The month of July.</span>
-    <span class="ident">July</span> <span class="op">=</span> <span class="number">7</span>,
-    <span class="doccomment">/// The month of August.</span>
-    <span class="ident">August</span> <span class="op">=</span> <span class="number">8</span>,
-    <span class="doccomment">/// The month of September.</span>
-    <span class="ident">September</span> <span class="op">=</span> <span class="number">9</span>,
-    <span class="doccomment">/// The month of October.</span>
-    <span class="ident">October</span> <span class="op">=</span> <span class="number">10</span>,
-    <span class="doccomment">/// The month of November.</span>
-    <span class="ident">November</span> <span class="op">=</span> <span class="number">11</span>,
-    <span class="doccomment">/// The month of December.</span>
-    <span class="ident">December</span> <span class="op">=</span> <span class="number">12</span>,
+    <span class="doccomment">/// A day.</span>
+    <span class="ident">Day</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// A week. Weeks begin on Monday, following</span>
+    <span class="doccomment">/// [ISO 8601](&lt;https://en.wikipedia.org/wiki/ISO_week_date&gt;).</span>
+    <span class="ident">Week</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// A fortnight. The first calendar fortnight of the year begins at the start</span>
+    <span class="doccomment">/// of week 1 according to</span>
+    <span class="doccomment">/// [ISO 8601](&lt;https://en.wikipedia.org/wiki/ISO_week_date&gt;).</span>
+    <span class="ident">Fortnight</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// A month.</span>
+    <span class="ident">Month</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// A quarter. Quarters start on dates 1-Jan, 1-Apr, 1-Jul, and 1-Oct of each</span>
+    <span class="doccomment">/// year.</span>
+    <span class="ident">Quarter</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="doccomment">/// A half-year. Half-years start on dates 1-Jan and 1-Jul.</span>
+    <span class="ident">Half</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="doccomment">/// A year.</span>
+    <span class="ident">Year</span> <span class="op">=</span> <span class="number">7</span>,
 }
-<span class="doccomment">/// A quaternion is defined as the quotient of two directed lines in a</span>
-<span class="doccomment">/// three-dimensional space or equivalently as the quotient of two Euclidean</span>
-<span class="doccomment">/// vectors (&lt;https://en.wikipedia.org/wiki/Quaternion&gt;).</span>
+<span class="doccomment">/// A representation of a decimal value, such as 2.5. Clients may convert values</span>
+<span class="doccomment">/// into language-native decimal formats, such as Java&#39;s \[BigDecimal][\] or</span>
+<span class="doccomment">/// Python&#39;s \[decimal.Decimal][\].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Quaternions are often used in calculations involving three-dimensional</span>
-<span class="doccomment">/// rotations (&lt;https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation&gt;),</span>
-<span class="doccomment">/// as they provide greater mathematical robustness by avoiding the gimbal lock</span>
-<span class="doccomment">/// problems that can be encountered when using Euler angles</span>
-<span class="doccomment">/// (&lt;https://en.wikipedia.org/wiki/Gimbal_lock&gt;).</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Quaternions are generally represented in this form:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     w + xi + yj + zk</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// where x, y, z, and w are real numbers, and i, j, and k are three imaginary</span>
-<span class="doccomment">/// numbers.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Our naming choice `(x, y, z, w)` comes from the desire to avoid confusion for</span>
-<span class="doccomment">/// those interested in the geometric properties of the quaternion in the 3D</span>
-<span class="doccomment">/// Cartesian space. Other texts often use alternative names or subscripts, such</span>
-<span class="doccomment">/// as `(a, b, c, d)`, `(1, i, j, k)`, or `(0, 1, 2, 3)`, which are perhaps</span>
-<span class="doccomment">/// better suited for mathematical interpretations.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// To avoid any confusion, as well as to maintain compatibility with a large</span>
-<span class="doccomment">/// number of software libraries, the quaternions represented using the protocol</span>
-<span class="doccomment">/// buffer below *must* follow the Hamilton convention, which defines `ij = k`</span>
-<span class="doccomment">/// (i.e. a right-handed algebra), and therefore:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     i^2 = j^2 = k^2 = ijk = −1</span>
-<span class="doccomment">///     ij = −ji = k</span>
-<span class="doccomment">///     jk = −kj = i</span>
-<span class="doccomment">///     ki = −ik = j</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Please DO NOT use this to represent quaternions that follow the JPL</span>
-<span class="doccomment">/// convention, or any of the other quaternion flavors out there.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Definitions:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///   - Quaternion norm (or magnitude): `sqrt(x^2 + y^2 + z^2 + w^2)`.</span>
-<span class="doccomment">///   - Unit (or normalized) quaternion: a quaternion whose norm is 1.</span>
-<span class="doccomment">///   - Pure quaternion: a quaternion whose scalar component (`w`) is 0.</span>
-<span class="doccomment">///   - Rotation quaternion: a unit quaternion used to represent rotation.</span>
-<span class="doccomment">///   - Orientation quaternion: a unit quaternion used to represent orientation.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// A quaternion can be normalized by dividing it by its norm. The resulting</span>
-<span class="doccomment">/// quaternion maintains the same direction, but has a norm of 1, i.e. it moves</span>
-<span class="doccomment">/// on the unit sphere. This is generally necessary for rotation and orientation</span>
-<span class="doccomment">/// quaternions, to avoid rounding errors:</span>
-<span class="doccomment">/// &lt;https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions&gt;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note that `(x, y, z, w)` and `(-x, -y, -z, -w)` represent the same rotation,</span>
-<span class="doccomment">/// but normalization would be even more useful, e.g. for comparison purposes, if</span>
-<span class="doccomment">/// it would produce a unique representation. It is thus recommended that `w` be</span>
-<span class="doccomment">/// kept positive, which can be achieved by changing all the signs when `w` is</span>
-<span class="doccomment">/// negative.</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// \[BigDecimal\]:</span>
+<span class="doccomment">/// &lt;https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html&gt;</span>
+<span class="doccomment">/// \[decimal.Decimal\]: &lt;https://docs.python.org/3/library/decimal.html&gt;</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Quaternion</span> {
-    <span class="doccomment">/// The x component.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">x</span>: <span class="ident">f64</span>,
-    <span class="doccomment">/// The y component.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">y</span>: <span class="ident">f64</span>,
-    <span class="doccomment">/// The z component.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">z</span>: <span class="ident">f64</span>,
-    <span class="doccomment">/// The scalar component.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">w</span>: <span class="ident">f64</span>,
-}
-<span class="doccomment">/// Localized variant of a text in a particular language.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocalizedText</span> {
-    <span class="doccomment">/// Localized string in the language corresponding to `language_code&#39; below.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The text&#39;s BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Decimal</span> {
+    <span class="doccomment">/// The decimal value, as a string.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// For more information, see</span>
-    <span class="doccomment">/// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The string representation consists of an optional sign, `+` (`U+002B`)</span>
+    <span class="doccomment">/// or `-` (`U+002D`), followed by a sequence of zero or more decimal digits</span>
+    <span class="doccomment">/// (&quot;the integer&quot;), optionally followed by a fraction, optionally followed</span>
+    <span class="doccomment">/// by an exponent.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The fraction consists of a decimal point followed by zero or more decimal</span>
+    <span class="doccomment">/// digits. The string must contain at least one digit in either the integer</span>
+    <span class="doccomment">/// or the fraction. The number formed by the sign, the integer and the</span>
+    <span class="doccomment">/// fraction is referred to as the significand.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)</span>
+    <span class="doccomment">/// followed by one or more decimal digits.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Services **should** normalize decimal values before storing them by:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   - Removing an explicitly-provided `+` sign (`+2.5` -&gt; `2.5`).</span>
+    <span class="doccomment">///   - Replacing a zero-length integer value with `0` (`.5` -&gt; `0.5`).</span>
+    <span class="doccomment">///   - Coercing the exponent character to lower-case (`2.5E8` -&gt; `2.5e8`).</span>
+    <span class="doccomment">///   - Removing an explicitly-provided zero exponent (`2.5e0` -&gt; `2.5`).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Services **may** perform additional normalization based on its own needs</span>
+    <span class="doccomment">/// and the internal decimal implementation selected, such as shifting the</span>
+    <span class="doccomment">/// decimal point and exponent value together (example: `2.5e-1` &lt;-&gt; `0.25`).</span>
+    <span class="doccomment">/// Additionally, services **may** preserve trailing zeroes in the fraction</span>
+    <span class="doccomment">/// to indicate increased precision, but are not required to do so.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note that only the `.` character is supported to divide the integer</span>
+    <span class="doccomment">/// and the fraction; `,` **should not** be supported regardless of locale.</span>
+    <span class="doccomment">/// Additionally, thousand separators **should not** be supported. If a</span>
+    <span class="doccomment">/// service does support them, values **must** be normalized.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The ENBF grammar is:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     DecimalString =</span>
+    <span class="doccomment">///       \[Sign\] Significand \[Exponent\];</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     Sign = &#39;+&#39; | &#39;-&#39;;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     Significand =</span>
+    <span class="doccomment">///       Digits \[&#39;.&#39;\] \[Digits\] | \[Digits\] &#39;.&#39; Digits;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     Exponent = (&#39;e&#39; | &#39;E&#39;) \[Sign\] Digits;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     Digits = { &#39;0&#39; | &#39;1&#39; | &#39;2&#39; | &#39;3&#39; | &#39;4&#39; | &#39;5&#39; | &#39;6&#39; | &#39;7&#39; | &#39;8&#39; | &#39;9&#39; };</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Services **should** clearly document the range of supported values, the</span>
+    <span class="doccomment">/// maximum supported precision (total number of digits), and, if applicable,</span>
+    <span class="doccomment">/// the scale (number of digits after the decimal point), as well as how it</span>
+    <span class="doccomment">/// behaves when receiving out-of-bounds values.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Services **may** choose to accept values passed as input even when the</span>
+    <span class="doccomment">/// value has a higher precision or scale than the service supports, and</span>
+    <span class="doccomment">/// **should** round the value to fit the supported scale. Alternatively, the</span>
+    <span class="doccomment">/// service **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)</span>
+    <span class="doccomment">/// if precision would be lost.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Services **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in</span>
+    <span class="doccomment">/// gRPC) if the service receives a value outside of the supported range.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// An object representing a phone number, suitable as an API wire format.</span>
 <span class="doccomment">///</span>
@@ -1600,6 +1557,30 @@
         <span class="ident">ShortCode</span>(<span class="ident">ShortCode</span>),
     }
 }
+<span class="doccomment">/// Represents a fraction in terms of a numerator divided by a denominator.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Fraction</span> {
+    <span class="doccomment">/// The numerator in the fraction, e.g. 2 in 2/3.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">numerator</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The value by which the numerator is divided, e.g. 3 in 2/3. Must be</span>
+    <span class="doccomment">/// positive.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">denominator</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Localized variant of a text in a particular language.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocalizedText</span> {
+    <span class="doccomment">/// Localized string in the language corresponding to `language_code&#39; below.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The text&#39;s BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For more information, see</span>
+    <span class="doccomment">/// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Represents a time interval, encoded as a Timestamp start (inclusive) and a</span>
 <span class="doccomment">/// Timestamp end (exclusive).</span>
 <span class="doccomment">///</span>
@@ -1621,88 +1602,107 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Represents a fraction in terms of a numerator divided by a denominator.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Fraction</span> {
-    <span class="doccomment">/// The numerator in the fraction, e.g. 2 in 2/3.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">numerator</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The value by which the numerator is divided, e.g. 3 in 2/3. Must be</span>
-    <span class="doccomment">/// positive.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">denominator</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// A representation of a decimal value, such as 2.5. Clients may convert values</span>
-<span class="doccomment">/// into language-native decimal formats, such as Java&#39;s \[BigDecimal][\] or</span>
-<span class="doccomment">/// Python&#39;s \[decimal.Decimal][\].</span>
+<span class="doccomment">/// A quaternion is defined as the quotient of two directed lines in a</span>
+<span class="doccomment">/// three-dimensional space or equivalently as the quotient of two Euclidean</span>
+<span class="doccomment">/// vectors (&lt;https://en.wikipedia.org/wiki/Quaternion&gt;).</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// \[BigDecimal\]:</span>
-<span class="doccomment">/// &lt;https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html&gt;</span>
-<span class="doccomment">/// \[decimal.Decimal\]: &lt;https://docs.python.org/3/library/decimal.html&gt;</span>
+<span class="doccomment">/// Quaternions are often used in calculations involving three-dimensional</span>
+<span class="doccomment">/// rotations (&lt;https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation&gt;),</span>
+<span class="doccomment">/// as they provide greater mathematical robustness by avoiding the gimbal lock</span>
+<span class="doccomment">/// problems that can be encountered when using Euler angles</span>
+<span class="doccomment">/// (&lt;https://en.wikipedia.org/wiki/Gimbal_lock&gt;).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Quaternions are generally represented in this form:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     w + xi + yj + zk</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// where x, y, z, and w are real numbers, and i, j, and k are three imaginary</span>
+<span class="doccomment">/// numbers.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Our naming choice `(x, y, z, w)` comes from the desire to avoid confusion for</span>
+<span class="doccomment">/// those interested in the geometric properties of the quaternion in the 3D</span>
+<span class="doccomment">/// Cartesian space. Other texts often use alternative names or subscripts, such</span>
+<span class="doccomment">/// as `(a, b, c, d)`, `(1, i, j, k)`, or `(0, 1, 2, 3)`, which are perhaps</span>
+<span class="doccomment">/// better suited for mathematical interpretations.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// To avoid any confusion, as well as to maintain compatibility with a large</span>
+<span class="doccomment">/// number of software libraries, the quaternions represented using the protocol</span>
+<span class="doccomment">/// buffer below *must* follow the Hamilton convention, which defines `ij = k`</span>
+<span class="doccomment">/// (i.e. a right-handed algebra), and therefore:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     i^2 = j^2 = k^2 = ijk = −1</span>
+<span class="doccomment">///     ij = −ji = k</span>
+<span class="doccomment">///     jk = −kj = i</span>
+<span class="doccomment">///     ki = −ik = j</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Please DO NOT use this to represent quaternions that follow the JPL</span>
+<span class="doccomment">/// convention, or any of the other quaternion flavors out there.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Definitions:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///   - Quaternion norm (or magnitude): `sqrt(x^2 + y^2 + z^2 + w^2)`.</span>
+<span class="doccomment">///   - Unit (or normalized) quaternion: a quaternion whose norm is 1.</span>
+<span class="doccomment">///   - Pure quaternion: a quaternion whose scalar component (`w`) is 0.</span>
+<span class="doccomment">///   - Rotation quaternion: a unit quaternion used to represent rotation.</span>
+<span class="doccomment">///   - Orientation quaternion: a unit quaternion used to represent orientation.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A quaternion can be normalized by dividing it by its norm. The resulting</span>
+<span class="doccomment">/// quaternion maintains the same direction, but has a norm of 1, i.e. it moves</span>
+<span class="doccomment">/// on the unit sphere. This is generally necessary for rotation and orientation</span>
+<span class="doccomment">/// quaternions, to avoid rounding errors:</span>
+<span class="doccomment">/// &lt;https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions&gt;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note that `(x, y, z, w)` and `(-x, -y, -z, -w)` represent the same rotation,</span>
+<span class="doccomment">/// but normalization would be even more useful, e.g. for comparison purposes, if</span>
+<span class="doccomment">/// it would produce a unique representation. It is thus recommended that `w` be</span>
+<span class="doccomment">/// kept positive, which can be achieved by changing all the signs when `w` is</span>
+<span class="doccomment">/// negative.</span>
+<span class="doccomment">///</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Decimal</span> {
-    <span class="doccomment">/// The decimal value, as a string.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The string representation consists of an optional sign, `+` (`U+002B`)</span>
-    <span class="doccomment">/// or `-` (`U+002D`), followed by a sequence of zero or more decimal digits</span>
-    <span class="doccomment">/// (&quot;the integer&quot;), optionally followed by a fraction, optionally followed</span>
-    <span class="doccomment">/// by an exponent.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The fraction consists of a decimal point followed by zero or more decimal</span>
-    <span class="doccomment">/// digits. The string must contain at least one digit in either the integer</span>
-    <span class="doccomment">/// or the fraction. The number formed by the sign, the integer and the</span>
-    <span class="doccomment">/// fraction is referred to as the significand.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)</span>
-    <span class="doccomment">/// followed by one or more decimal digits.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Services **should** normalize decimal values before storing them by:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///   - Removing an explicitly-provided `+` sign (`+2.5` -&gt; `2.5`).</span>
-    <span class="doccomment">///   - Replacing a zero-length integer value with `0` (`.5` -&gt; `0.5`).</span>
-    <span class="doccomment">///   - Coercing the exponent character to lower-case (`2.5E8` -&gt; `2.5e8`).</span>
-    <span class="doccomment">///   - Removing an explicitly-provided zero exponent (`2.5e0` -&gt; `2.5`).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Services **may** perform additional normalization based on its own needs</span>
-    <span class="doccomment">/// and the internal decimal implementation selected, such as shifting the</span>
-    <span class="doccomment">/// decimal point and exponent value together (example: `2.5e-1` &lt;-&gt; `0.25`).</span>
-    <span class="doccomment">/// Additionally, services **may** preserve trailing zeroes in the fraction</span>
-    <span class="doccomment">/// to indicate increased precision, but are not required to do so.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that only the `.` character is supported to divide the integer</span>
-    <span class="doccomment">/// and the fraction; `,` **should not** be supported regardless of locale.</span>
-    <span class="doccomment">/// Additionally, thousand separators **should not** be supported. If a</span>
-    <span class="doccomment">/// service does support them, values **must** be normalized.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The ENBF grammar is:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     DecimalString =</span>
-    <span class="doccomment">///       \[Sign\] Significand \[Exponent\];</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     Sign = &#39;+&#39; | &#39;-&#39;;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     Significand =</span>
-    <span class="doccomment">///       Digits \[&#39;.&#39;\] \[Digits\] | \[Digits\] &#39;.&#39; Digits;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     Exponent = (&#39;e&#39; | &#39;E&#39;) \[Sign\] Digits;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     Digits = { &#39;0&#39; | &#39;1&#39; | &#39;2&#39; | &#39;3&#39; | &#39;4&#39; | &#39;5&#39; | &#39;6&#39; | &#39;7&#39; | &#39;8&#39; | &#39;9&#39; };</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Services **should** clearly document the range of supported values, the</span>
-    <span class="doccomment">/// maximum supported precision (total number of digits), and, if applicable,</span>
-    <span class="doccomment">/// the scale (number of digits after the decimal point), as well as how it</span>
-    <span class="doccomment">/// behaves when receiving out-of-bounds values.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Services **may** choose to accept values passed as input even when the</span>
-    <span class="doccomment">/// value has a higher precision or scale than the service supports, and</span>
-    <span class="doccomment">/// **should** round the value to fit the supported scale. Alternatively, the</span>
-    <span class="doccomment">/// service **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)</span>
-    <span class="doccomment">/// if precision would be lost.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Services **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in</span>
-    <span class="doccomment">/// gRPC) if the service receives a value outside of the supported range.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::prost::alloc::string::String</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Quaternion</span> {
+    <span class="doccomment">/// The x component.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">x</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// The y component.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">y</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// The z component.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">z</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// The scalar component.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">w</span>: <span class="ident">f64</span>,
+}
+<span class="doccomment">/// Represents a month in the Gregorian calendar.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Month</span> {
+    <span class="doccomment">/// The unspecified month.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// The month of January.</span>
+    <span class="ident">January</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// The month of February.</span>
+    <span class="ident">February</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// The month of March.</span>
+    <span class="ident">March</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// The month of April.</span>
+    <span class="ident">April</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// The month of May.</span>
+    <span class="ident">May</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="doccomment">/// The month of June.</span>
+    <span class="ident">June</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="doccomment">/// The month of July.</span>
+    <span class="ident">July</span> <span class="op">=</span> <span class="number">7</span>,
+    <span class="doccomment">/// The month of August.</span>
+    <span class="ident">August</span> <span class="op">=</span> <span class="number">8</span>,
+    <span class="doccomment">/// The month of September.</span>
+    <span class="ident">September</span> <span class="op">=</span> <span class="number">9</span>,
+    <span class="doccomment">/// The month of October.</span>
+    <span class="ident">October</span> <span class="op">=</span> <span class="number">10</span>,
+    <span class="doccomment">/// The month of November.</span>
+    <span class="ident">November</span> <span class="op">=</span> <span class="number">11</span>,
+    <span class="doccomment">/// The month of December.</span>
+    <span class="ident">December</span> <span class="op">=</span> <span class="number">12</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

@@ -2513,6 +2513,11 @@
 <span id="2511">2511</span>
 <span id="2512">2512</span>
 <span id="2513">2513</span>
+<span id="2514">2514</span>
+<span id="2515">2515</span>
+<span id="2516">2516</span>
+<span id="2517">2517</span>
+<span id="2518">2518</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A \[CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority\] represents an individual Certificate Authority.</span>
 <span class="doccomment">/// A \[CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority\] can be used to create \[Certificates][google.cloud.security.privateca.v1.Certificate\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -4011,6 +4016,11 @@
     <span class="doccomment">/// active certs. Active certs include both unrevoked and unexpired certs.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">ignore_active_certificates</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Optional. If this flag is set, the Certificate Authority will be deleted as soon as</span>
+    <span class="doccomment">/// possible without a 30-day grace period where undeletion would have been</span>
+    <span class="doccomment">/// allowed. If you proceed, there will be no way to recover this CA.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">skip_grace_period</span>: <span class="ident">bool</span>,
 }
 <span class="doccomment">/// Request message for</span>
 <span class="doccomment">/// \[CertificateAuthorityService.UpdateCertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthorityService.UpdateCertificateAuthority\].</span>

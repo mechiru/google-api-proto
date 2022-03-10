@@ -164,81 +164,7 @@
 <span id="162">162</span>
 <span id="163">163</span>
 <span id="164">164</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Logged during the lifetime of Workflow Execution.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutionsSystemLog</span> {
-    <span class="doccomment">/// Human readable contents of the log in English. The size limit is 5 kB.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The absolute point in time when the activity happened.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">activity_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// State of the execution when the log was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;executions_system_log::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Detailed log information.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;executions_system_log::Details&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4, 5, 6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">executions_system_log::Details</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ExecutionsSystemLog`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">executions_system_log</span> {
-    <span class="doccomment">/// Detailed information about the start of the execution.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Start</span> {
-        <span class="doccomment">/// The execution input argument.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">argument</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Detailed information about the successful finish of the execution.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Success</span> {
-        <span class="doccomment">/// The final result of the execution.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">result</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Detailed information about the execution failure.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Failure</span> {
-        <span class="doccomment">/// The exception message, e.g. &quot;division by zero&quot;. The size limit is 1 kB.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">exception</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// The code location of the statement that has created the log. For example,</span>
-        <span class="doccomment">/// a log created in subworkflow &#39;Foo&#39; in step &#39;bar&#39; will have its source</span>
-        <span class="doccomment">/// equal to &#39;Foo.bar&#39;. The size limit is 1 kB.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Possible states of the execution. There could be more states in the future.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// Invalid state.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The Workflow Execution is in progress.</span>
-        <span class="ident">Active</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The Workflow Execution has finished successfully.</span>
-        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The Workflow Execution failed with an error.</span>
-        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The Workflow Execution has been stopped intentionally.</span>
-        <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-    <span class="doccomment">/// Detailed log information.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
-        <span class="doccomment">/// Appears only in the log created when the execution has started.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">Start</span>(<span class="ident">Start</span>),
-        <span class="doccomment">/// Appears only in the log created when the execution has finished</span>
-        <span class="doccomment">/// successfully.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">Success</span>(<span class="ident">Success</span>),
-        <span class="doccomment">/// Appears only in the log created when the execution has failed.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">Failure</span>(<span class="ident">Failure</span>),
-    }
-}
-<span class="doccomment">/// Logged during a workflow execution if the customer has requested call</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Logged during a workflow execution if the customer has requested call</span>
 <span class="doccomment">/// logging.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EngineCallLog</span> {
@@ -326,6 +252,80 @@
         <span class="doccomment">/// Appears when a call returns because an exception was raised.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
         <span class="ident">ExceptionRaised</span>(<span class="ident">ExceptionRaised</span>),
+    }
+}
+<span class="doccomment">/// Logged during the lifetime of Workflow Execution.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutionsSystemLog</span> {
+    <span class="doccomment">/// Human readable contents of the log in English. The size limit is 5 kB.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The absolute point in time when the activity happened.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">activity_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// State of the execution when the log was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;executions_system_log::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Detailed log information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;executions_system_log::Details&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4, 5, 6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">executions_system_log::Details</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExecutionsSystemLog`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">executions_system_log</span> {
+    <span class="doccomment">/// Detailed information about the start of the execution.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Start</span> {
+        <span class="doccomment">/// The execution input argument.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">argument</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Detailed information about the successful finish of the execution.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Success</span> {
+        <span class="doccomment">/// The final result of the execution.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">result</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Detailed information about the execution failure.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Failure</span> {
+        <span class="doccomment">/// The exception message, e.g. &quot;division by zero&quot;. The size limit is 1 kB.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">exception</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// The code location of the statement that has created the log. For example,</span>
+        <span class="doccomment">/// a log created in subworkflow &#39;Foo&#39; in step &#39;bar&#39; will have its source</span>
+        <span class="doccomment">/// equal to &#39;Foo.bar&#39;. The size limit is 1 kB.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Possible states of the execution. There could be more states in the future.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// Invalid state.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The Workflow Execution is in progress.</span>
+        <span class="ident">Active</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The Workflow Execution has finished successfully.</span>
+        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The Workflow Execution failed with an error.</span>
+        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The Workflow Execution has been stopped intentionally.</span>
+        <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+    <span class="doccomment">/// Detailed log information.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Details</span> {
+        <span class="doccomment">/// Appears only in the log created when the execution has started.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Start</span>(<span class="ident">Start</span>),
+        <span class="doccomment">/// Appears only in the log created when the execution has finished</span>
+        <span class="doccomment">/// successfully.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">Success</span>(<span class="ident">Success</span>),
+        <span class="doccomment">/// Appears only in the log created when the execution has failed.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">Failure</span>(<span class="ident">Failure</span>),
     }
 }
 </code></pre></div>

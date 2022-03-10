@@ -1969,31 +1969,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">resource_folder_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Information related to the Google Cloud resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Resource</span> {
-    <span class="doccomment">/// The full resource name of the resource. See:</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The full resource name of project that the resource belongs to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The human readable name of project that the resource belongs to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The full resource name of resource&#39;s parent.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The human readable name of resource&#39;s parent.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Contains a Folder message for each folder in the assets ancestry.</span>
-    <span class="doccomment">/// The first folder is the deepest nested folder, and the last folder is the</span>
-    <span class="doccomment">/// folder directly under the Organization.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">folders</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Folder</span><span class="op">&gt;</span>,
-}
 <span class="doccomment">/// User specified security marks that are attached to the parent Security</span>
 <span class="doccomment">/// Command Center resource. Security marks are scoped within a Security Command</span>
 <span class="doccomment">/// Center organization -- they can be modified and viewed by all users who have</span>
@@ -2135,6 +2110,42 @@
         <span class="kw">pub</span> <span class="ident">policy_blob</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
 }
+<span class="doccomment">/// Security Command Center finding source. A finding source</span>
+<span class="doccomment">/// is an entity or a mechanism that can produce a finding. A source is like a</span>
+<span class="doccomment">/// container of findings that come from the same scanner, logger, monitor, etc.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
+    <span class="doccomment">/// The relative resource name of this source. See:</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The source&#39;s display name.</span>
+    <span class="doccomment">/// A source&#39;s display name must be unique amongst its siblings, for example,</span>
+    <span class="doccomment">/// two sources with the same parent can&#39;t share the same display name.</span>
+    <span class="doccomment">/// The display name must have a length between 1 and 64 characters</span>
+    <span class="doccomment">/// (inclusive).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The description of the source (max of 1024 characters).</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">/// &quot;Web Security Scanner is a web security scanner for common</span>
+    <span class="doccomment">/// vulnerabilities in App Engine applications. It can automatically</span>
+    <span class="doccomment">/// scan and detect four common vulnerabilities, including cross-site-scripting</span>
+    <span class="doccomment">/// (XSS), Flash injection, mixed content (HTTP in HTTPS), and</span>
+    <span class="doccomment">/// outdated/insecure libraries.&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The canonical name of the finding. It&#39;s either</span>
+    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;,</span>
+    <span class="doccomment">/// &quot;folders/{folder_id}/sources/{source_id}&quot; or</span>
+    <span class="doccomment">/// &quot;projects/{project_number}/sources/{source_id}&quot;,</span>
+    <span class="doccomment">/// depending on the closest CRM ancestor of the resource associated with the</span>
+    <span class="doccomment">/// finding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Security Command Center finding.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A finding is a record of assessment data (security, risk, health or privacy)</span>
@@ -2243,6 +2254,31 @@
         <span class="doccomment">/// Low severity.</span>
         <span class="ident">Low</span> <span class="op">=</span> <span class="number">4</span>,
     }
+}
+<span class="doccomment">/// Information related to the Google Cloud resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Resource</span> {
+    <span class="doccomment">/// The full resource name of the resource. See:</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The full resource name of project that the resource belongs to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The human readable name of project that the resource belongs to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The full resource name of resource&#39;s parent.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The human readable name of resource&#39;s parent.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Contains a Folder message for each folder in the assets ancestry.</span>
+    <span class="doccomment">/// The first folder is the deepest nested folder, and the last folder is the</span>
+    <span class="doccomment">/// folder directly under the Organization.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">folders</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Folder</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Security Command Center&#39;s Notification</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2435,42 +2471,6 @@
             <span class="ident">Exclude</span> <span class="op">=</span> <span class="number">2</span>,
         }
     }
-}
-<span class="doccomment">/// Security Command Center finding source. A finding source</span>
-<span class="doccomment">/// is an entity or a mechanism that can produce a finding. A source is like a</span>
-<span class="doccomment">/// container of findings that come from the same scanner, logger, monitor, etc.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
-    <span class="doccomment">/// The relative resource name of this source. See:</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The source&#39;s display name.</span>
-    <span class="doccomment">/// A source&#39;s display name must be unique amongst its siblings, for example,</span>
-    <span class="doccomment">/// two sources with the same parent can&#39;t share the same display name.</span>
-    <span class="doccomment">/// The display name must have a length between 1 and 64 characters</span>
-    <span class="doccomment">/// (inclusive).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The description of the source (max of 1024 characters).</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">/// &quot;Web Security Scanner is a web security scanner for common</span>
-    <span class="doccomment">/// vulnerabilities in App Engine applications. It can automatically</span>
-    <span class="doccomment">/// scan and detect four common vulnerabilities, including cross-site-scripting</span>
-    <span class="doccomment">/// (XSS), Flash injection, mixed content (HTTP in HTTPS), and</span>
-    <span class="doccomment">/// outdated/insecure libraries.&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The canonical name of the finding. It&#39;s either</span>
-    <span class="doccomment">/// &quot;organizations/{organization_id}/sources/{source_id}&quot;,</span>
-    <span class="doccomment">/// &quot;folders/{folder_id}/sources/{source_id}&quot; or</span>
-    <span class="doccomment">/// &quot;projects/{project_number}/sources/{source_id}&quot;,</span>
-    <span class="doccomment">/// depending on the closest CRM ancestor of the resource associated with the</span>
-    <span class="doccomment">/// finding.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Request message for creating a finding.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
