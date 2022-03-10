@@ -1,3 +1,64 @@
+/// A Cloud Firestore Database.
+/// Currently only one database is allowed per cloud project; this database
+/// must have a `database_id` of '(default)'.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Database {
+    /// The resource name of the Database.
+    /// Format: `projects/{project}/databases/{database}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The location of the database. Available databases are listed at
+    /// <https://cloud.google.com/firestore/docs/locations.>
+    #[prost(string, tag = "9")]
+    pub location_id: ::prost::alloc::string::String,
+    /// The type of the database.
+    /// See <https://cloud.google.com/datastore/docs/firestore-or-datastore> for
+    /// information about how to choose.
+    #[prost(enumeration = "database::DatabaseType", tag = "10")]
+    pub r#type: i32,
+    /// The concurrency control mode to use for this database.
+    #[prost(enumeration = "database::ConcurrencyMode", tag = "15")]
+    pub concurrency_mode: i32,
+    /// This checksum is computed by the server based on the value of other
+    /// fields, and may be sent on update and delete requests to ensure the
+    /// client has an up-to-date value before proceeding.
+    #[prost(string, tag = "99")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `Database`.
+pub mod database {
+    /// The type of the database.
+    /// See <https://cloud.google.com/datastore/docs/firestore-or-datastore> for
+    /// information about how to choose.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DatabaseType {
+        /// The default value. This value is used if the database type is omitted.
+        Unspecified = 0,
+        /// Firestore Native Mode
+        FirestoreNative = 1,
+        /// Firestore in Datastore Mode.
+        DatastoreMode = 2,
+    }
+    /// The type of concurrency control mode for transactions.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ConcurrencyMode {
+        /// Not used.
+        Unspecified = 0,
+        /// Use optimistic concurrency control by default. This setting is available
+        /// for Cloud Firestore customers.
+        Optimistic = 1,
+        /// Use pessimistic concurrency control by default. This setting is available
+        /// for Cloud Firestore customers.
+        /// This is the default setting for Cloud Firestore.
+        Pessimistic = 2,
+        /// Use optimistic concurrency control with entity groups by default. This is
+        /// the only available setting for Cloud Datastore customers.
+        /// This is the default setting for Cloud Datastore.
+        OptimisticWithEntityGroups = 3,
+    }
+}
 /// Cloud Firestore indexes enable simple and complex queries against
 /// documents in a database.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -202,67 +263,6 @@ pub mod field {
         pub reverting: bool,
     }
 }
-/// A Cloud Firestore Database.
-/// Currently only one database is allowed per cloud project; this database
-/// must have a `database_id` of '(default)'.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Database {
-    /// The resource name of the Database.
-    /// Format: `projects/{project}/databases/{database}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The location of the database. Available databases are listed at
-    /// <https://cloud.google.com/firestore/docs/locations.>
-    #[prost(string, tag = "9")]
-    pub location_id: ::prost::alloc::string::String,
-    /// The type of the database.
-    /// See <https://cloud.google.com/datastore/docs/firestore-or-datastore> for
-    /// information about how to choose.
-    #[prost(enumeration = "database::DatabaseType", tag = "10")]
-    pub r#type: i32,
-    /// The concurrency control mode to use for this database.
-    #[prost(enumeration = "database::ConcurrencyMode", tag = "15")]
-    pub concurrency_mode: i32,
-    /// This checksum is computed by the server based on the value of other
-    /// fields, and may be sent on update and delete requests to ensure the
-    /// client has an up-to-date value before proceeding.
-    #[prost(string, tag = "99")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `Database`.
-pub mod database {
-    /// The type of the database.
-    /// See <https://cloud.google.com/datastore/docs/firestore-or-datastore> for
-    /// information about how to choose.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DatabaseType {
-        /// The default value. This value is used if the database type is omitted.
-        Unspecified = 0,
-        /// Firestore Native Mode
-        FirestoreNative = 1,
-        /// Firestore in Datastore Mode.
-        DatastoreMode = 2,
-    }
-    /// The type of concurrency control mode for transactions.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ConcurrencyMode {
-        /// Not used.
-        Unspecified = 0,
-        /// Use optimistic concurrency control by default. This setting is available
-        /// for Cloud Firestore customers.
-        Optimistic = 1,
-        /// Use pessimistic concurrency control by default. This setting is available
-        /// for Cloud Firestore customers.
-        /// This is the default setting for Cloud Firestore.
-        Pessimistic = 2,
-        /// Use optimistic concurrency control with entity groups by default. This is
-        /// the only available setting for Cloud Datastore customers.
-        /// This is the default setting for Cloud Datastore.
-        OptimisticWithEntityGroups = 3,
-    }
-}
 /// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from
 /// \[FirestoreAdmin.CreateIndex][google.firestore.admin.v1.FirestoreAdmin.CreateIndex\].
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -444,9 +444,6 @@ pub enum OperationState {
     /// google.longrunning.Operations.CancelOperation.
     Cancelled = 7,
 }
-/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LocationMetadata {}
 /// A request to list the Firestore Databases in all locations for a project.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListDatabasesRequest {
@@ -964,3 +961,6 @@ pub mod firestore_admin_client {
         }
     }
 }
+/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LocationMetadata {}

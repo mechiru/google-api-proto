@@ -1496,6 +1496,11 @@ pub struct DeleteCertificateAuthorityRequest {
     /// active certs. Active certs include both unrevoked and unexpired certs.
     #[prost(bool, tag = "4")]
     pub ignore_active_certificates: bool,
+    /// Optional. If this flag is set, the Certificate Authority will be deleted as soon as
+    /// possible without a 30-day grace period where undeletion would have been
+    /// allowed. If you proceed, there will be no way to recover this CA.
+    #[prost(bool, tag = "5")]
+    pub skip_grace_period: bool,
 }
 /// Request message for
 /// \[CertificateAuthorityService.UpdateCertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthorityService.UpdateCertificateAuthority\].

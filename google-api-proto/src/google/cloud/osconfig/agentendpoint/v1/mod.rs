@@ -1,104 +1,3 @@
-/// Step performed by the OS Config agent for configuring an `OSPolicyResource`
-/// to its desired state.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyResourceConfigStep {
-    /// Configuration step type.
-    #[prost(enumeration = "os_policy_resource_config_step::Type", tag = "1")]
-    pub r#type: i32,
-    /// Outcome of the configuration step.
-    #[prost(enumeration = "os_policy_resource_config_step::Outcome", tag = "2")]
-    pub outcome: i32,
-    /// An error message recorded during the execution of this step.
-    /// Only populated when outcome is FAILED.
-    #[prost(string, tag = "3")]
-    pub error_message: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `OSPolicyResourceConfigStep`.
-pub mod os_policy_resource_config_step {
-    /// Supported configuration step types
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// Validation to detect resource conflicts, schema errors, etc.
-        Validation = 1,
-        /// Check the current desired state status of the resource.
-        DesiredStateCheck = 2,
-        /// Enforce the desired state for a resource that is not in desired state.
-        DesiredStateEnforcement = 3,
-        /// Re-check desired state status for a resource after enforcement of all
-        /// resources in the current configuration run.
-        ///
-        /// This step is used to determine the final desired state status for the
-        /// resource. It accounts for any resources that might have drifted from
-        /// their desired state due to side effects from configuring other resources
-        /// during the current configuration run.
-        DesiredStateCheckPostEnforcement = 4,
-    }
-    /// Supported outcomes for a configuration step.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Outcome {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// The step succeeded.
-        Succeeded = 1,
-        /// The step failed.
-        Failed = 2,
-    }
-}
-/// Compliance data for an OS policy resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyResourceCompliance {
-    /// The id of the OS policy resource.
-    #[prost(string, tag = "1")]
-    pub os_policy_resource_id: ::prost::alloc::string::String,
-    /// Ordered list of configuration steps taken by the agent for the OS policy
-    /// resource.
-    #[prost(message, repeated, tag = "2")]
-    pub config_steps: ::prost::alloc::vec::Vec<OsPolicyResourceConfigStep>,
-    /// Compliance state of the OS policy resource.
-    #[prost(enumeration = "OsPolicyComplianceState", tag = "3")]
-    pub state: i32,
-    /// Resource specific output.
-    #[prost(oneof = "os_policy_resource_compliance::Output", tags = "4")]
-    pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
-}
-/// Nested message and enum types in `OSPolicyResourceCompliance`.
-pub mod os_policy_resource_compliance {
-    /// ExecResource specific output.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExecResourceOutput {
-        /// Output from Enforcement phase output file (if run).
-        /// Output size is limited to 100K bytes.
-        #[prost(bytes = "bytes", tag = "2")]
-        pub enforcement_output: ::prost::bytes::Bytes,
-    }
-    /// Resource specific output.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Output {
-        /// ExecResource specific output.
-        #[prost(message, tag = "4")]
-        ExecResourceOutput(ExecResourceOutput),
-    }
-}
-/// Supported OSPolicy compliance states.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum OsPolicyComplianceState {
-    /// Default value. This value is unused.
-    Unspecified = 0,
-    /// Compliant state.
-    Compliant = 1,
-    /// Non-compliant state
-    NonCompliant = 2,
-    /// Unknown compliance state.
-    Unknown = 3,
-    /// No applicable OS policies were found for the instance.
-    /// This state is only applicable to the instance.
-    NoOsPoliciesApplicable = 4,
-}
 // OS Config Inventory is a service for collecting and reporting operating
 // system and package information on VM instances.
 
@@ -823,6 +722,107 @@ pub mod os_policy {
         /// their desired state, and if not, enforces the desired state.
         Enforcement = 2,
     }
+}
+/// Step performed by the OS Config agent for configuring an `OSPolicyResource`
+/// to its desired state.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyResourceConfigStep {
+    /// Configuration step type.
+    #[prost(enumeration = "os_policy_resource_config_step::Type", tag = "1")]
+    pub r#type: i32,
+    /// Outcome of the configuration step.
+    #[prost(enumeration = "os_policy_resource_config_step::Outcome", tag = "2")]
+    pub outcome: i32,
+    /// An error message recorded during the execution of this step.
+    /// Only populated when outcome is FAILED.
+    #[prost(string, tag = "3")]
+    pub error_message: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `OSPolicyResourceConfigStep`.
+pub mod os_policy_resource_config_step {
+    /// Supported configuration step types
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// Validation to detect resource conflicts, schema errors, etc.
+        Validation = 1,
+        /// Check the current desired state status of the resource.
+        DesiredStateCheck = 2,
+        /// Enforce the desired state for a resource that is not in desired state.
+        DesiredStateEnforcement = 3,
+        /// Re-check desired state status for a resource after enforcement of all
+        /// resources in the current configuration run.
+        ///
+        /// This step is used to determine the final desired state status for the
+        /// resource. It accounts for any resources that might have drifted from
+        /// their desired state due to side effects from configuring other resources
+        /// during the current configuration run.
+        DesiredStateCheckPostEnforcement = 4,
+    }
+    /// Supported outcomes for a configuration step.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Outcome {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// The step succeeded.
+        Succeeded = 1,
+        /// The step failed.
+        Failed = 2,
+    }
+}
+/// Compliance data for an OS policy resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyResourceCompliance {
+    /// The id of the OS policy resource.
+    #[prost(string, tag = "1")]
+    pub os_policy_resource_id: ::prost::alloc::string::String,
+    /// Ordered list of configuration steps taken by the agent for the OS policy
+    /// resource.
+    #[prost(message, repeated, tag = "2")]
+    pub config_steps: ::prost::alloc::vec::Vec<OsPolicyResourceConfigStep>,
+    /// Compliance state of the OS policy resource.
+    #[prost(enumeration = "OsPolicyComplianceState", tag = "3")]
+    pub state: i32,
+    /// Resource specific output.
+    #[prost(oneof = "os_policy_resource_compliance::Output", tags = "4")]
+    pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
+}
+/// Nested message and enum types in `OSPolicyResourceCompliance`.
+pub mod os_policy_resource_compliance {
+    /// ExecResource specific output.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ExecResourceOutput {
+        /// Output from Enforcement phase output file (if run).
+        /// Output size is limited to 100K bytes.
+        #[prost(bytes = "bytes", tag = "2")]
+        pub enforcement_output: ::prost::bytes::Bytes,
+    }
+    /// Resource specific output.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Output {
+        /// ExecResource specific output.
+        #[prost(message, tag = "4")]
+        ExecResourceOutput(ExecResourceOutput),
+    }
+}
+/// Supported OSPolicy compliance states.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum OsPolicyComplianceState {
+    /// Default value. This value is unused.
+    Unspecified = 0,
+    /// Compliant state.
+    Compliant = 1,
+    /// Non-compliant state
+    NonCompliant = 2,
+    /// Unknown compliance state.
+    Unknown = 3,
+    /// No applicable OS policies were found for the instance.
+    /// This state is only applicable to the instance.
+    NoOsPoliciesApplicable = 4,
 }
 /// Patch configuration specifications. Contains details on how to
 /// apply patches to a VM instance.

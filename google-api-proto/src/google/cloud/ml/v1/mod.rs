@@ -269,97 +269,6 @@ pub mod online_prediction_service_client {
         }
     }
 }
-/// Requests service account information associated with a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetConfigRequest {
-    /// Required. The project name.
-    ///
-    /// Authorization: requires `Viewer` role on the specified project.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Returns service account information associated with a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetConfigResponse {
-    /// The service account Cloud ML uses to access resources in the project.
-    #[prost(string, tag = "1")]
-    pub service_account: ::prost::alloc::string::String,
-    /// The project number for `service_account`.
-    #[prost(int64, tag = "2")]
-    pub service_account_project: i64,
-}
-#[doc = r" Generated client implementations."]
-pub mod project_management_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Allows retrieving project related information."]
-    #[derive(Debug, Clone)]
-    pub struct ProjectManagementServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ProjectManagementServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ProjectManagementServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ProjectManagementServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Get the service account information associated with your project. You need"]
-        #[doc = " this information in order to grant the service account persmissions for"]
-        #[doc = " the Google Cloud Storage location where you put your model training code"]
-        #[doc = " for training the model with Google Cloud Machine Learning."]
-        pub async fn get_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetConfigRequest>,
-        ) -> Result<tonic::Response<super::GetConfigResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ProjectManagementService/GetConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// Represents a machine learning solution.
 ///
 /// A model can have multiple versions, each of which is a deployed, trained
@@ -1563,6 +1472,97 @@ pub mod job_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path =
                 http::uri::PathAndQuery::from_static("/google.cloud.ml.v1.JobService/CancelJob");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Requests service account information associated with a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetConfigRequest {
+    /// Required. The project name.
+    ///
+    /// Authorization: requires `Viewer` role on the specified project.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Returns service account information associated with a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetConfigResponse {
+    /// The service account Cloud ML uses to access resources in the project.
+    #[prost(string, tag = "1")]
+    pub service_account: ::prost::alloc::string::String,
+    /// The project number for `service_account`.
+    #[prost(int64, tag = "2")]
+    pub service_account_project: i64,
+}
+#[doc = r" Generated client implementations."]
+pub mod project_management_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Allows retrieving project related information."]
+    #[derive(Debug, Clone)]
+    pub struct ProjectManagementServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ProjectManagementServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ProjectManagementServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ProjectManagementServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Get the service account information associated with your project. You need"]
+        #[doc = " this information in order to grant the service account persmissions for"]
+        #[doc = " the Google Cloud Storage location where you put your model training code"]
+        #[doc = " for training the model with Google Cloud Machine Learning."]
+        pub async fn get_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetConfigRequest>,
+        ) -> Result<tonic::Response<super::GetConfigResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ProjectManagementService/GetConfig",
+            );
             self.inner.unary(request.into_request(), path, codec).await
         }
     }

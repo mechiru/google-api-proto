@@ -106,72 +106,80 @@ pub enum NoteKind {
     /// This represents a DSSE attestation Note
     DsseAttestation = 10,
 }
-/// A note that indicates a type of analysis a provider would perform. This note
-/// exists in a provider's project. A `Discovery` occurrence is created in a
-/// consumer's project at the start of analysis.
+// An attestation wrapper with a PGP-compatible signature. This message only
+// supports `ATTACHED` signatures, where the payload that is signed is included
+// alongside the signature itself in the same file.
+
+/// Note kind that represents a logical attestation "role" or "authority". For
+/// example, an organization might have one `Authority` for "QA" and one for
+/// "build". This note is intended to act strictly as a grouping mechanism for
+/// the attached occurrences (Attestations). This grouping mechanism also
+/// provides a security boundary, since IAM ACLs gate the ability for a principle
+/// to attach an occurrence to a given note. It also provides a single point of
+/// lookup to find all attached attestation occurrences, even if they don't all
+/// live in the same project.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DiscoveryNote {
-    /// Required. Immutable. The kind of analysis that is handled by this
-    /// discovery.
-    #[prost(enumeration = "NoteKind", tag = "1")]
-    pub analysis_kind: i32,
+pub struct AttestationNote {
+    /// Hint hints at the purpose of the attestation authority.
+    #[prost(message, optional, tag = "1")]
+    pub hint: ::core::option::Option<attestation_note::Hint>,
 }
-/// Provides information about the analysis status of a discovered resource.
+/// Nested message and enum types in `AttestationNote`.
+pub mod attestation_note {
+    /// This submessage provides human-readable hints about the purpose of the
+    /// authority. Because the name of a note acts as its resource reference, it is
+    /// important to disambiguate the canonical name of the Note (which might be a
+    /// UUID for security purposes) from "readable" names more suitable for debug
+    /// output. Note that these hints should not be used to look up authorities in
+    /// security sensitive contexts, such as when looking up attestations to
+    /// verify.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Hint {
+        /// Required. The human readable name of this attestation authority, for
+        /// example "qa".
+        #[prost(string, tag = "1")]
+        pub human_readable_name: ::prost::alloc::string::String,
+    }
+}
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DiscoveryOccurrence {
-    /// Whether the resource is continuously analyzed.
-    #[prost(enumeration = "discovery_occurrence::ContinuousAnalysis", tag = "1")]
-    pub continuous_analysis: i32,
-    /// The status of discovery for the resource.
-    #[prost(enumeration = "discovery_occurrence::AnalysisStatus", tag = "2")]
-    pub analysis_status: i32,
-    /// When an error is encountered this will contain a LocalizedMessage under
-    /// details to show to the user. The LocalizedMessage is output only and
-    /// populated by the API.
-    #[prost(message, optional, tag = "3")]
-    pub analysis_status_error: ::core::option::Option<super::super::google::rpc::Status>,
-    /// The CPE of the resource being scanned.
-    #[prost(string, tag = "4")]
-    pub cpe: ::prost::alloc::string::String,
-    /// The last time this resource was scanned.
-    #[prost(message, optional, tag = "5")]
-    pub last_scan_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time occurrences related to this discovery occurrence were archived.
-    #[prost(message, optional, tag = "6")]
-    pub archive_time: ::core::option::Option<::prost_types::Timestamp>,
+pub struct Jwt {
+    /// The compact encoding of a JWS, which is always three base64 encoded strings
+    /// joined by periods. For details, see:
+    /// <https://tools.ietf.org/html/rfc7515.html#section-3.1>
+    #[prost(string, tag = "1")]
+    pub compact_jwt: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `DiscoveryOccurrence`.
-pub mod discovery_occurrence {
-    /// Whether the resource is continuously analyzed.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ContinuousAnalysis {
-        /// Unknown.
-        Unspecified = 0,
-        /// The resource is continuously analyzed.
-        Active = 1,
-        /// The resource is ignored for continuous analysis.
-        Inactive = 2,
-    }
-    /// Analysis status for a resource. Currently for initial analysis only (not
-    /// updated in continuous analysis).
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AnalysisStatus {
-        /// Unknown.
-        Unspecified = 0,
-        /// Resource is known but no action has been taken yet.
-        Pending = 1,
-        /// Resource is being analyzed.
-        Scanning = 2,
-        /// Analysis has finished successfully.
-        FinishedSuccess = 3,
-        /// Analysis has finished unsuccessfully, the analysis itself is in a bad
-        /// state.
-        FinishedFailed = 4,
-        /// The resource is known not to be supported
-        FinishedUnsupported = 5,
-    }
+/// Occurrence that represents a single "attestation". The authenticity of an
+/// attestation can be verified using the attached signature. If the verifier
+/// trusts the public key of the signer, then verifying the signature is
+/// sufficient to establish trust. In this circumstance, the authority to which
+/// this attestation is attached is primarily useful for lookup (how to find
+/// this attestation if you already know the authority and artifact to be
+/// verified) and intent (for which authority this attestation was intended to
+/// sign.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AttestationOccurrence {
+    /// Required. The serialized payload that is verified by one or more
+    /// `signatures`.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub serialized_payload: ::prost::bytes::Bytes,
+    /// One or more signatures over `serialized_payload`.  Verifier implementations
+    /// should consider this attestation message verified if at least one
+    /// `signature` verifies `serialized_payload`.  See `Signature` in common.proto
+    /// for more details on signature structure and verification.
+    #[prost(message, repeated, tag = "2")]
+    pub signatures: ::prost::alloc::vec::Vec<Signature>,
+    /// One or more JWTs encoding a self-contained attestation.
+    /// Each JWT encodes the payload that it verifies within the JWT itself.
+    /// Verifier implementation SHOULD ignore the `serialized_payload` field
+    /// when verifying these JWTs.
+    /// If only JWTs are present on this AttestationOccurrence, then the
+    /// `serialized_payload` SHOULD be left empty.
+    /// Each JWT SHOULD encode a claim specific to the `resource_uri` of this
+    /// Occurrence, but this is not validated by Grafeas metadata API
+    /// implementations.  The JWT itself is opaque to Grafeas.
+    #[prost(message, repeated, tag = "3")]
+    pub jwts: ::prost::alloc::vec::Vec<Jwt>,
 }
 // Spec defined at
 // <https://github.com/in-toto/attestation/blob/main/spec/predicates/provenance.md>
@@ -280,81 +288,6 @@ pub struct InTotoProvenance {
     /// equivalent to empty.
     #[prost(string, repeated, tag = "4")]
     pub materials: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-// An attestation wrapper with a PGP-compatible signature. This message only
-// supports `ATTACHED` signatures, where the payload that is signed is included
-// alongside the signature itself in the same file.
-
-/// Note kind that represents a logical attestation "role" or "authority". For
-/// example, an organization might have one `Authority` for "QA" and one for
-/// "build". This note is intended to act strictly as a grouping mechanism for
-/// the attached occurrences (Attestations). This grouping mechanism also
-/// provides a security boundary, since IAM ACLs gate the ability for a principle
-/// to attach an occurrence to a given note. It also provides a single point of
-/// lookup to find all attached attestation occurrences, even if they don't all
-/// live in the same project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AttestationNote {
-    /// Hint hints at the purpose of the attestation authority.
-    #[prost(message, optional, tag = "1")]
-    pub hint: ::core::option::Option<attestation_note::Hint>,
-}
-/// Nested message and enum types in `AttestationNote`.
-pub mod attestation_note {
-    /// This submessage provides human-readable hints about the purpose of the
-    /// authority. Because the name of a note acts as its resource reference, it is
-    /// important to disambiguate the canonical name of the Note (which might be a
-    /// UUID for security purposes) from "readable" names more suitable for debug
-    /// output. Note that these hints should not be used to look up authorities in
-    /// security sensitive contexts, such as when looking up attestations to
-    /// verify.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Hint {
-        /// Required. The human readable name of this attestation authority, for
-        /// example "qa".
-        #[prost(string, tag = "1")]
-        pub human_readable_name: ::prost::alloc::string::String,
-    }
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Jwt {
-    /// The compact encoding of a JWS, which is always three base64 encoded strings
-    /// joined by periods. For details, see:
-    /// <https://tools.ietf.org/html/rfc7515.html#section-3.1>
-    #[prost(string, tag = "1")]
-    pub compact_jwt: ::prost::alloc::string::String,
-}
-/// Occurrence that represents a single "attestation". The authenticity of an
-/// attestation can be verified using the attached signature. If the verifier
-/// trusts the public key of the signer, then verifying the signature is
-/// sufficient to establish trust. In this circumstance, the authority to which
-/// this attestation is attached is primarily useful for lookup (how to find
-/// this attestation if you already know the authority and artifact to be
-/// verified) and intent (for which authority this attestation was intended to
-/// sign.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AttestationOccurrence {
-    /// Required. The serialized payload that is verified by one or more
-    /// `signatures`.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub serialized_payload: ::prost::bytes::Bytes,
-    /// One or more signatures over `serialized_payload`.  Verifier implementations
-    /// should consider this attestation message verified if at least one
-    /// `signature` verifies `serialized_payload`.  See `Signature` in common.proto
-    /// for more details on signature structure and verification.
-    #[prost(message, repeated, tag = "2")]
-    pub signatures: ::prost::alloc::vec::Vec<Signature>,
-    /// One or more JWTs encoding a self-contained attestation.
-    /// Each JWT encodes the payload that it verifies within the JWT itself.
-    /// Verifier implementation SHOULD ignore the `serialized_payload` field
-    /// when verifying these JWTs.
-    /// If only JWTs are present on this AttestationOccurrence, then the
-    /// `serialized_payload` SHOULD be left empty.
-    /// Each JWT SHOULD encode a claim specific to the `resource_uri` of this
-    /// Occurrence, but this is not validated by Grafeas metadata API
-    /// implementations.  The JWT itself is opaque to Grafeas.
-    #[prost(message, repeated, tag = "3")]
-    pub jwts: ::prost::alloc::vec::Vec<Jwt>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SlsaProvenance {
@@ -992,6 +925,73 @@ pub mod deployment_occurrence {
         Flex = 2,
         /// Custom user-defined platform.
         Custom = 3,
+    }
+}
+/// A note that indicates a type of analysis a provider would perform. This note
+/// exists in a provider's project. A `Discovery` occurrence is created in a
+/// consumer's project at the start of analysis.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DiscoveryNote {
+    /// Required. Immutable. The kind of analysis that is handled by this
+    /// discovery.
+    #[prost(enumeration = "NoteKind", tag = "1")]
+    pub analysis_kind: i32,
+}
+/// Provides information about the analysis status of a discovered resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DiscoveryOccurrence {
+    /// Whether the resource is continuously analyzed.
+    #[prost(enumeration = "discovery_occurrence::ContinuousAnalysis", tag = "1")]
+    pub continuous_analysis: i32,
+    /// The status of discovery for the resource.
+    #[prost(enumeration = "discovery_occurrence::AnalysisStatus", tag = "2")]
+    pub analysis_status: i32,
+    /// When an error is encountered this will contain a LocalizedMessage under
+    /// details to show to the user. The LocalizedMessage is output only and
+    /// populated by the API.
+    #[prost(message, optional, tag = "3")]
+    pub analysis_status_error: ::core::option::Option<super::super::google::rpc::Status>,
+    /// The CPE of the resource being scanned.
+    #[prost(string, tag = "4")]
+    pub cpe: ::prost::alloc::string::String,
+    /// The last time this resource was scanned.
+    #[prost(message, optional, tag = "5")]
+    pub last_scan_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time occurrences related to this discovery occurrence were archived.
+    #[prost(message, optional, tag = "6")]
+    pub archive_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `DiscoveryOccurrence`.
+pub mod discovery_occurrence {
+    /// Whether the resource is continuously analyzed.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ContinuousAnalysis {
+        /// Unknown.
+        Unspecified = 0,
+        /// The resource is continuously analyzed.
+        Active = 1,
+        /// The resource is ignored for continuous analysis.
+        Inactive = 2,
+    }
+    /// Analysis status for a resource. Currently for initial analysis only (not
+    /// updated in continuous analysis).
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AnalysisStatus {
+        /// Unknown.
+        Unspecified = 0,
+        /// Resource is known but no action has been taken yet.
+        Pending = 1,
+        /// Resource is being analyzed.
+        Scanning = 2,
+        /// Analysis has finished successfully.
+        FinishedSuccess = 3,
+        /// Analysis has finished unsuccessfully, the analysis itself is in a bad
+        /// state.
+        FinishedFailed = 4,
+        /// The resource is known not to be supported
+        FinishedUnsupported = 5,
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]

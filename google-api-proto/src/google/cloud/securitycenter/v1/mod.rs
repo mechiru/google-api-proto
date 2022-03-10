@@ -1,3 +1,91 @@
+/// Representation of third party SIEM/SOAR fields within SCC.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExternalSystem {
+    /// External System Name e.g. jira, demisto, etc.
+    ///  e.g.: `organizations/1234/sources/5678/findings/123456/externalSystems/jira`
+    /// `folders/1234/sources/5678/findings/123456/externalSystems/jira`
+    /// `projects/1234/sources/5678/findings/123456/externalSystems/jira`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// References primary/secondary etc assignees in the external system.
+    #[prost(string, repeated, tag = "2")]
+    pub assignees: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Identifier that's used to track the given finding in the external system.
+    #[prost(string, tag = "3")]
+    pub external_uid: ::prost::alloc::string::String,
+    /// Most recent status of the corresponding finding's ticket/tracker in the
+    /// external system.
+    #[prost(string, tag = "4")]
+    pub status: ::prost::alloc::string::String,
+    /// The most recent time when the corresponding finding's ticket/tracker was
+    /// updated in the external system.
+    #[prost(message, optional, tag = "5")]
+    pub external_system_update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Configures how to deliver Findings to BigQuery Instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryExport {
+    /// The relative resource name of this export. See:
+    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name.>
+    /// Example format:
+    /// "organizations/{organization_id}/bigQueryExports/{export_id}" Example
+    /// format: "folders/{folder_id}/bigQueryExports/{export_id}" Example format:
+    /// "projects/{project_id}/bigQueryExports/{export_id}"
+    /// This field is provided in responses, and is ignored when provided in create
+    /// requests.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The description of the export (max of 1024 characters).
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// Expression that defines the filter to apply across create/update events
+    /// of findings. The expression is a list of zero or more restrictions combined
+    /// via logical operators `AND` and `OR`. Parentheses are supported, and `OR`
+    /// has higher precedence than `AND`.
+    ///
+    /// Restrictions have the form `<field> <operator> <value>` and may have a
+    /// `-` character in front of them to indicate negation. The fields map to
+    /// those defined in the corresponding resource.
+    ///
+    /// The supported operators are:
+    ///
+    /// * `=` for all value types.
+    /// * `>`, `<`, `>=`, `<=` for integer values.
+    /// * `:`, meaning substring matching, for strings.
+    ///
+    /// The supported value types are:
+    ///
+    /// * string literals in quotes.
+    /// * integer literals without quotes.
+    /// * boolean literals `true` and `false` without quotes.
+    #[prost(string, tag = "3")]
+    pub filter: ::prost::alloc::string::String,
+    /// The dataset to write findings' updates to. Its format is
+    /// "projects/\[project_id]/datasets/[bigquery_dataset_id\]".
+    /// BigQuery Dataset unique ID  must contain only letters (a-z, A-Z), numbers
+    /// (0-9), or underscores (_).
+    #[prost(string, tag = "4")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. The time at which the big query export was created.
+    /// This field is set by the server and will be ignored if provided on export
+    /// on creation.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The most recent time at which the big export was updated.
+    /// This field is set by the server and will be ignored if provided on export
+    /// creation or update.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Email address of the user who last edited the big query
+    /// export. This field is set by the server and will be ignored if provided on
+    /// export creation or update.
+    #[prost(string, tag = "7")]
+    pub most_recent_editor: ::prost::alloc::string::String,
+    /// Output only. The service account that needs permission to create table,
+    /// upload data to the big query dataset.
+    #[prost(string, tag = "8")]
+    pub principal: ::prost::alloc::string::String,
+}
 /// Message that contains the resource name and display name of a folder
 /// resource.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9,68 +97,6 @@ pub struct Folder {
     /// The user defined display name for this folder.
     #[prost(string, tag = "2")]
     pub resource_folder_display_name: ::prost::alloc::string::String,
-}
-/// Information related to the Google Cloud resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Resource {
-    /// The full resource name of the resource. See:
-    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The full resource name of project that the resource belongs to.
-    #[prost(string, tag = "2")]
-    pub project: ::prost::alloc::string::String,
-    /// The project id that the resource belongs to.
-    #[prost(string, tag = "3")]
-    pub project_display_name: ::prost::alloc::string::String,
-    /// The full resource name of resource's parent.
-    #[prost(string, tag = "4")]
-    pub parent: ::prost::alloc::string::String,
-    /// The human readable name of resource's parent.
-    #[prost(string, tag = "5")]
-    pub parent_display_name: ::prost::alloc::string::String,
-    /// The full resource type of the resource.
-    #[prost(string, tag = "6")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Output only. Contains a Folder message for each folder in the assets ancestry.
-    /// The first folder is the deepest nested folder, and the last folder is the
-    /// folder directly under the Organization.
-    #[prost(message, repeated, tag = "7")]
-    pub folders: ::prost::alloc::vec::Vec<Folder>,
-    /// The human readable name of the resource.
-    #[prost(string, tag = "8")]
-    pub display_name: ::prost::alloc::string::String,
-}
-/// Represents an access event.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Access {
-    /// Associated email, such as "foo@google.com".
-    #[prost(string, tag = "1")]
-    pub principal_email: ::prost::alloc::string::String,
-    /// Caller's IP address, such as "1.1.1.1".
-    #[prost(string, tag = "2")]
-    pub caller_ip: ::prost::alloc::string::String,
-    /// The caller IP's geolocation, which identifies where the call came from.
-    #[prost(message, optional, tag = "3")]
-    pub caller_ip_geo: ::core::option::Option<Geolocation>,
-    /// What kind of user agent is associated, e.g. operating system shells,
-    /// embedded or stand-alone applications, etc.
-    #[prost(string, tag = "4")]
-    pub user_agent_family: ::prost::alloc::string::String,
-    /// This is the API service that the service account made a call to, e.g.
-    /// "iam.googleapis.com"
-    #[prost(string, tag = "5")]
-    pub service_name: ::prost::alloc::string::String,
-    /// The method that the service account called, e.g. "SetIamPolicy".
-    #[prost(string, tag = "6")]
-    pub method_name: ::prost::alloc::string::String,
-}
-/// Represents a geographical location for a given access.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Geolocation {
-    /// A CLDR.
-    #[prost(string, tag = "1")]
-    pub region_code: ::prost::alloc::string::String,
 }
 /// User specified security marks that are attached to the parent Security
 /// Command Center resource. Security marks are scoped within a Security Command
@@ -213,6 +239,56 @@ pub mod asset {
         pub policy_blob: ::prost::alloc::string::String,
     }
 }
+/// Represents what's commonly known as an Indicator of compromise (IoC) in
+/// computer forensics. This is an artifact observed on a network or in an
+/// operating system that, with high confidence, indicates a computer intrusion.
+/// Reference: <https://en.wikipedia.org/wiki/Indicator_of_compromise>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Indicator {
+    /// List of ip addresses associated to the Finding.
+    #[prost(string, repeated, tag = "1")]
+    pub ip_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// List of domains associated to the Finding.
+    #[prost(string, repeated, tag = "2")]
+    pub domains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Security Command Center finding source. A finding source
+/// is an entity or a mechanism that can produce a finding. A source is like a
+/// container of findings that come from the same scanner, logger, monitor, and
+/// other tools.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Source {
+    /// The relative resource name of this source. See:
+    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
+    /// Example:
+    /// "organizations/{organization_id}/sources/{source_id}"
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The source's display name.
+    /// A source's display name must be unique amongst its siblings, for example,
+    /// two sources with the same parent can't share the same display name.
+    /// The display name must have a length between 1 and 64 characters
+    /// (inclusive).
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The description of the source (max of 1024 characters).
+    /// Example:
+    /// "Web Security Scanner is a web security scanner for common
+    /// vulnerabilities in App Engine applications. It can automatically
+    /// scan and detect four common vulnerabilities, including cross-site-scripting
+    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
+    /// outdated or insecure libraries."
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+    /// The canonical name of the finding. It's either
+    /// "organizations/{organization_id}/sources/{source_id}",
+    /// "folders/{folder_id}/sources/{source_id}" or
+    /// "projects/{project_number}/sources/{source_id}",
+    /// depending on the closest CRM ancestor of the resource associated with the
+    /// finding.
+    #[prost(string, tag = "14")]
+    pub canonical_name: ::prost::alloc::string::String,
+}
 /// Response of asset discovery run
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RunAssetDiscoveryResponse {
@@ -240,106 +316,36 @@ pub mod run_asset_discovery_response {
         Terminated = 3,
     }
 }
-/// Configures how to deliver Findings to BigQuery Instance.
+/// Represents an access event.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryExport {
-    /// The relative resource name of this export. See:
-    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name.>
-    /// Example format:
-    /// "organizations/{organization_id}/bigQueryExports/{export_id}" Example
-    /// format: "folders/{folder_id}/bigQueryExports/{export_id}" Example format:
-    /// "projects/{project_id}/bigQueryExports/{export_id}"
-    /// This field is provided in responses, and is ignored when provided in create
-    /// requests.
+pub struct Access {
+    /// Associated email, such as "foo@google.com".
     #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The description of the export (max of 1024 characters).
+    pub principal_email: ::prost::alloc::string::String,
+    /// Caller's IP address, such as "1.1.1.1".
     #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// Expression that defines the filter to apply across create/update events
-    /// of findings. The expression is a list of zero or more restrictions combined
-    /// via logical operators `AND` and `OR`. Parentheses are supported, and `OR`
-    /// has higher precedence than `AND`.
-    ///
-    /// Restrictions have the form `<field> <operator> <value>` and may have a
-    /// `-` character in front of them to indicate negation. The fields map to
-    /// those defined in the corresponding resource.
-    ///
-    /// The supported operators are:
-    ///
-    /// * `=` for all value types.
-    /// * `>`, `<`, `>=`, `<=` for integer values.
-    /// * `:`, meaning substring matching, for strings.
-    ///
-    /// The supported value types are:
-    ///
-    /// * string literals in quotes.
-    /// * integer literals without quotes.
-    /// * boolean literals `true` and `false` without quotes.
-    #[prost(string, tag = "3")]
-    pub filter: ::prost::alloc::string::String,
-    /// The dataset to write findings' updates to. Its format is
-    /// "projects/\[project_id]/datasets/[bigquery_dataset_id\]".
-    /// BigQuery Dataset unique ID  must contain only letters (a-z, A-Z), numbers
-    /// (0-9), or underscores (_).
+    pub caller_ip: ::prost::alloc::string::String,
+    /// The caller IP's geolocation, which identifies where the call came from.
+    #[prost(message, optional, tag = "3")]
+    pub caller_ip_geo: ::core::option::Option<Geolocation>,
+    /// What kind of user agent is associated, e.g. operating system shells,
+    /// embedded or stand-alone applications, etc.
     #[prost(string, tag = "4")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. The time at which the big query export was created.
-    /// This field is set by the server and will be ignored if provided on export
-    /// on creation.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The most recent time at which the big export was updated.
-    /// This field is set by the server and will be ignored if provided on export
-    /// creation or update.
-    #[prost(message, optional, tag = "6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Email address of the user who last edited the big query
-    /// export. This field is set by the server and will be ignored if provided on
-    /// export creation or update.
-    #[prost(string, tag = "7")]
-    pub most_recent_editor: ::prost::alloc::string::String,
-    /// Output only. The service account that needs permission to create table,
-    /// upload data to the big query dataset.
-    #[prost(string, tag = "8")]
-    pub principal: ::prost::alloc::string::String,
+    pub user_agent_family: ::prost::alloc::string::String,
+    /// This is the API service that the service account made a call to, e.g.
+    /// "iam.googleapis.com"
+    #[prost(string, tag = "5")]
+    pub service_name: ::prost::alloc::string::String,
+    /// The method that the service account called, e.g. "SetIamPolicy".
+    #[prost(string, tag = "6")]
+    pub method_name: ::prost::alloc::string::String,
 }
-/// Representation of third party SIEM/SOAR fields within SCC.
+/// Represents a geographical location for a given access.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExternalSystem {
-    /// External System Name e.g. jira, demisto, etc.
-    ///  e.g.: `organizations/1234/sources/5678/findings/123456/externalSystems/jira`
-    /// `folders/1234/sources/5678/findings/123456/externalSystems/jira`
-    /// `projects/1234/sources/5678/findings/123456/externalSystems/jira`
+pub struct Geolocation {
+    /// A CLDR.
     #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// References primary/secondary etc assignees in the external system.
-    #[prost(string, repeated, tag = "2")]
-    pub assignees: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Identifier that's used to track the given finding in the external system.
-    #[prost(string, tag = "3")]
-    pub external_uid: ::prost::alloc::string::String,
-    /// Most recent status of the corresponding finding's ticket/tracker in the
-    /// external system.
-    #[prost(string, tag = "4")]
-    pub status: ::prost::alloc::string::String,
-    /// The most recent time when the corresponding finding's ticket/tracker was
-    /// updated in the external system.
-    #[prost(message, optional, tag = "5")]
-    pub external_system_update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Represents what's commonly known as an Indicator of compromise (IoC) in
-/// computer forensics. This is an artifact observed on a network or in an
-/// operating system that, with high confidence, indicates a computer intrusion.
-/// Reference: <https://en.wikipedia.org/wiki/Indicator_of_compromise>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Indicator {
-    /// List of ip addresses associated to the Finding.
-    #[prost(string, repeated, tag = "1")]
-    pub ip_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// List of domains associated to the Finding.
-    #[prost(string, repeated, tag = "2")]
-    pub domains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    pub region_code: ::prost::alloc::string::String,
 }
 /// MITRE ATT&CK tactics and techniques related to this finding.
 /// See: <https://attack.mitre.org>
@@ -1065,43 +1071,6 @@ pub mod organization_settings {
             Exclude = 2,
         }
     }
-}
-/// Security Command Center finding source. A finding source
-/// is an entity or a mechanism that can produce a finding. A source is like a
-/// container of findings that come from the same scanner, logger, monitor, and
-/// other tools.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Source {
-    /// The relative resource name of this source. See:
-    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
-    /// Example:
-    /// "organizations/{organization_id}/sources/{source_id}"
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The source's display name.
-    /// A source's display name must be unique amongst its siblings, for example,
-    /// two sources with the same parent can't share the same display name.
-    /// The display name must have a length between 1 and 64 characters
-    /// (inclusive).
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The description of the source (max of 1024 characters).
-    /// Example:
-    /// "Web Security Scanner is a web security scanner for common
-    /// vulnerabilities in App Engine applications. It can automatically
-    /// scan and detect four common vulnerabilities, including cross-site-scripting
-    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
-    /// outdated or insecure libraries."
-    #[prost(string, tag = "3")]
-    pub description: ::prost::alloc::string::String,
-    /// The canonical name of the finding. It's either
-    /// "organizations/{organization_id}/sources/{source_id}",
-    /// "folders/{folder_id}/sources/{source_id}" or
-    /// "projects/{project_number}/sources/{source_id}",
-    /// depending on the closest CRM ancestor of the resource associated with the
-    /// finding.
-    #[prost(string, tag = "14")]
-    pub canonical_name: ::prost::alloc::string::String,
 }
 /// Request message for bulk findings update.
 ///
@@ -3042,6 +3011,37 @@ pub mod security_center_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// Information related to the Google Cloud resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Resource {
+    /// The full resource name of the resource. See:
+    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The full resource name of project that the resource belongs to.
+    #[prost(string, tag = "2")]
+    pub project: ::prost::alloc::string::String,
+    /// The project id that the resource belongs to.
+    #[prost(string, tag = "3")]
+    pub project_display_name: ::prost::alloc::string::String,
+    /// The full resource name of resource's parent.
+    #[prost(string, tag = "4")]
+    pub parent: ::prost::alloc::string::String,
+    /// The human readable name of resource's parent.
+    #[prost(string, tag = "5")]
+    pub parent_display_name: ::prost::alloc::string::String,
+    /// The full resource type of the resource.
+    #[prost(string, tag = "6")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Output only. Contains a Folder message for each folder in the assets ancestry.
+    /// The first folder is the deepest nested folder, and the last folder is the
+    /// folder directly under the Organization.
+    #[prost(message, repeated, tag = "7")]
+    pub folders: ::prost::alloc::vec::Vec<Folder>,
+    /// The human readable name of the resource.
+    #[prost(string, tag = "8")]
+    pub display_name: ::prost::alloc::string::String,
 }
 /// Cloud SCC's Notification
 #[derive(Clone, PartialEq, ::prost::Message)]

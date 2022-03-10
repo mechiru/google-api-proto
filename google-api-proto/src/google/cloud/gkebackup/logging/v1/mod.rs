@@ -262,6 +262,58 @@ pub mod restore_config {
         SelectedApplications(super::NamespacedNames),
     }
 }
+/// Backup as stored in Platform log. It's used to log the details of
+/// a createBackup/updateBackup request, so only fields that can be taken
+/// from API calls are included here.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LoggedBackup {
+    /// A set of custom labels supplied by user.
+    #[prost(btree_map = "string, string", tag = "1")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// delete_lock_days specifies the number of days from the create_time of this
+    /// Backup before which deletion will be blocked.
+    #[prost(int32, tag = "2")]
+    pub delete_lock_days: i32,
+    /// retain_days specifies the desired number of days from the create_time of
+    /// this Backup after which it will be automatically deleted.
+    #[prost(int32, tag = "3")]
+    pub retain_days: i32,
+    /// User specified descriptive string for this Backup.
+    #[prost(string, tag = "4")]
+    pub description: ::prost::alloc::string::String,
+    /// Current state of the Backup
+    #[prost(enumeration = "logged_backup::State", tag = "5")]
+    pub state: i32,
+    /// Human-readable description of why the backup is in the current `state`.
+    #[prost(string, tag = "6")]
+    pub state_reason: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `LoggedBackup`.
+pub mod logged_backup {
+    /// State
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The Backup resource is in the process of being created.
+        Unspecified = 0,
+        /// The Backup resource has been created and the associated BackupJob
+        /// Kubernetes resource has been injected into the source cluster.
+        Creating = 1,
+        /// The gkebackup agent in the cluster has begun executing the backup
+        /// operation.
+        InProgress = 2,
+        /// The backup operation has completed successfully.
+        Succeeded = 3,
+        /// The backup operation has failed.
+        Failed = 4,
+        /// This Backup resource (and its associated artifacts) is in the process
+        /// of being deleted.
+        Deleting = 5,
+    }
+}
 /// BackupPlan as stored in Platform log. It's used to log the details of
 /// a createBackupPlan/updateBackupPlan request, so only fields that can be taken
 /// from user input are included here.
@@ -358,58 +410,6 @@ pub mod logged_backup_plan {
             #[prost(message, tag = "3")]
             SelectedApplications(super::super::NamespacedNames),
         }
-    }
-}
-/// Backup as stored in Platform log. It's used to log the details of
-/// a createBackup/updateBackup request, so only fields that can be taken
-/// from API calls are included here.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LoggedBackup {
-    /// A set of custom labels supplied by user.
-    #[prost(btree_map = "string, string", tag = "1")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// delete_lock_days specifies the number of days from the create_time of this
-    /// Backup before which deletion will be blocked.
-    #[prost(int32, tag = "2")]
-    pub delete_lock_days: i32,
-    /// retain_days specifies the desired number of days from the create_time of
-    /// this Backup after which it will be automatically deleted.
-    #[prost(int32, tag = "3")]
-    pub retain_days: i32,
-    /// User specified descriptive string for this Backup.
-    #[prost(string, tag = "4")]
-    pub description: ::prost::alloc::string::String,
-    /// Current state of the Backup
-    #[prost(enumeration = "logged_backup::State", tag = "5")]
-    pub state: i32,
-    /// Human-readable description of why the backup is in the current `state`.
-    #[prost(string, tag = "6")]
-    pub state_reason: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `LoggedBackup`.
-pub mod logged_backup {
-    /// State
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The Backup resource is in the process of being created.
-        Unspecified = 0,
-        /// The Backup resource has been created and the associated BackupJob
-        /// Kubernetes resource has been injected into the source cluster.
-        Creating = 1,
-        /// The gkebackup agent in the cluster has begun executing the backup
-        /// operation.
-        InProgress = 2,
-        /// The backup operation has completed successfully.
-        Succeeded = 3,
-        /// The backup operation has failed.
-        Failed = 4,
-        /// This Backup resource (and its associated artifacts) is in the process
-        /// of being deleted.
-        Deleting = 5,
     }
 }
 /// Restore as stored in Platform log. It's used to log the update details of a

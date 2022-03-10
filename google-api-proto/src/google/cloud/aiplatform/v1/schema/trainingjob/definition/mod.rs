@@ -1,26 +1,27 @@
-/// A TrainingJob that trains and uploads an AutoML Video Classification Model.
+/// A TrainingJob that trains and uploads an AutoML Video Action Recognition
+/// Model.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoClassification {
+pub struct AutoMlVideoActionRecognition {
     /// The input parameters of this TrainingJob.
     #[prost(message, optional, tag = "1")]
-    pub inputs: ::core::option::Option<AutoMlVideoClassificationInputs>,
+    pub inputs: ::core::option::Option<AutoMlVideoActionRecognitionInputs>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoClassificationInputs {
+pub struct AutoMlVideoActionRecognitionInputs {
     #[prost(
-        enumeration = "auto_ml_video_classification_inputs::ModelType",
+        enumeration = "auto_ml_video_action_recognition_inputs::ModelType",
         tag = "1"
     )]
     pub model_type: i32,
 }
-/// Nested message and enum types in `AutoMlVideoClassificationInputs`.
-pub mod auto_ml_video_classification_inputs {
+/// Nested message and enum types in `AutoMlVideoActionRecognitionInputs`.
+pub mod auto_ml_video_action_recognition_inputs {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum ModelType {
         /// Should not be set.
         Unspecified = 0,
-        /// A model best tailored to be used within Google Cloud, and which cannot
+        /// A model best tailored to be used within Google Cloud, and which c annot
         /// be exported. Default.
         Cloud = 1,
         /// A model that, in addition to being available within Google Cloud, can
@@ -31,6 +32,10 @@ pub mod auto_ml_video_classification_inputs {
         /// also be exported (see ModelService.ExportModel) to a Jetson device
         /// afterwards.
         MobileJetsonVersatile1 = 3,
+        /// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a Coral device afterwards.
+        MobileCoralVersatile1 = 4,
     }
 }
 /// Configuration for exporting test set predictions to a BigQuery table.
@@ -49,6 +54,25 @@ pub struct ExportEvaluatedDataItemsConfig {
     /// exists, then the export operation fails.
     #[prost(bool, tag = "2")]
     pub override_existing_table: bool,
+}
+/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlTextSentiment {
+    /// The input parameters of this TrainingJob.
+    #[prost(message, optional, tag = "1")]
+    pub inputs: ::core::option::Option<AutoMlTextSentimentInputs>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlTextSentimentInputs {
+    /// A sentiment is expressed as an integer ordinal, where higher value
+    /// means a more positive sentiment. The range of sentiments that will be used
+    /// is between 0 and sentimentMax (inclusive on both ends), and all the values
+    /// in the range must be represented in the dataset before a model can be
+    /// created.
+    /// Only the Annotations with this sentimentMax will be used for training.
+    /// sentimentMax value must be between 1 and 10 (inclusive).
+    #[prost(int32, tag = "1")]
+    pub sentiment_max: i32,
 }
 /// A TrainingJob that trains and uploads an AutoML Tables Model.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -354,15 +378,6 @@ pub struct AutoMlTextClassificationInputs {
     #[prost(bool, tag = "1")]
     pub multi_label: bool,
 }
-/// A TrainingJob that trains and uploads an AutoML Text Extraction Model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlTextExtraction {
-    /// The input parameters of this TrainingJob.
-    #[prost(message, optional, tag = "1")]
-    pub inputs: ::core::option::Option<AutoMlTextExtractionInputs>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlTextExtractionInputs {}
 /// A TrainingJob that trains and uploads an AutoML Image Classification Model.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AutoMlImageClassification {
@@ -566,49 +581,29 @@ pub mod auto_ml_image_segmentation_metadata {
         ModelConverged = 2,
     }
 }
-/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.
+/// A TrainingJob that trains and uploads an AutoML Video Classification Model.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlTextSentiment {
+pub struct AutoMlVideoClassification {
     /// The input parameters of this TrainingJob.
     #[prost(message, optional, tag = "1")]
-    pub inputs: ::core::option::Option<AutoMlTextSentimentInputs>,
+    pub inputs: ::core::option::Option<AutoMlVideoClassificationInputs>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlTextSentimentInputs {
-    /// A sentiment is expressed as an integer ordinal, where higher value
-    /// means a more positive sentiment. The range of sentiments that will be used
-    /// is between 0 and sentimentMax (inclusive on both ends), and all the values
-    /// in the range must be represented in the dataset before a model can be
-    /// created.
-    /// Only the Annotations with this sentimentMax will be used for training.
-    /// sentimentMax value must be between 1 and 10 (inclusive).
-    #[prost(int32, tag = "1")]
-    pub sentiment_max: i32,
-}
-/// A TrainingJob that trains and uploads an AutoML Video Action Recognition
-/// Model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoActionRecognition {
-    /// The input parameters of this TrainingJob.
-    #[prost(message, optional, tag = "1")]
-    pub inputs: ::core::option::Option<AutoMlVideoActionRecognitionInputs>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoActionRecognitionInputs {
+pub struct AutoMlVideoClassificationInputs {
     #[prost(
-        enumeration = "auto_ml_video_action_recognition_inputs::ModelType",
+        enumeration = "auto_ml_video_classification_inputs::ModelType",
         tag = "1"
     )]
     pub model_type: i32,
 }
-/// Nested message and enum types in `AutoMlVideoActionRecognitionInputs`.
-pub mod auto_ml_video_action_recognition_inputs {
+/// Nested message and enum types in `AutoMlVideoClassificationInputs`.
+pub mod auto_ml_video_classification_inputs {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum ModelType {
         /// Should not be set.
         Unspecified = 0,
-        /// A model best tailored to be used within Google Cloud, and which c annot
+        /// A model best tailored to be used within Google Cloud, and which cannot
         /// be exported. Default.
         Cloud = 1,
         /// A model that, in addition to being available within Google Cloud, can
@@ -619,53 +614,6 @@ pub mod auto_ml_video_action_recognition_inputs {
         /// also be exported (see ModelService.ExportModel) to a Jetson device
         /// afterwards.
         MobileJetsonVersatile1 = 3,
-        /// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a Coral device afterwards.
-        MobileCoralVersatile1 = 4,
-    }
-}
-/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoObjectTracking {
-    /// The input parameters of this TrainingJob.
-    #[prost(message, optional, tag = "1")]
-    pub inputs: ::core::option::Option<AutoMlVideoObjectTrackingInputs>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoObjectTrackingInputs {
-    #[prost(
-        enumeration = "auto_ml_video_object_tracking_inputs::ModelType",
-        tag = "1"
-    )]
-    pub model_type: i32,
-}
-/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.
-pub mod auto_ml_video_object_tracking_inputs {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ModelType {
-        /// Should not be set.
-        Unspecified = 0,
-        /// A model best tailored to be used within Google Cloud, and which c annot
-        /// be exported. Default.
-        Cloud = 1,
-        /// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
-        MobileVersatile1 = 2,
-        /// A versatile model that is meant to be exported (see
-        /// ModelService.ExportModel) and used on a Google Coral device.
-        MobileCoralVersatile1 = 3,
-        /// A model that trades off quality for low latency, to be exported (see
-        /// ModelService.ExportModel) and used on a Google Coral device.
-        MobileCoralLowLatency1 = 4,
-        /// A versatile model that is meant to be exported (see
-        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
-        MobileJetsonVersatile1 = 5,
-        /// A model that trades off quality for low latency, to be exported (see
-        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
-        MobileJetsonLowLatency1 = 6,
     }
 }
 /// A TrainingJob that trains and uploads an AutoML Image Object Detection Model.
@@ -771,3 +719,55 @@ pub mod auto_ml_image_object_detection_metadata {
         ModelConverged = 2,
     }
 }
+/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlVideoObjectTracking {
+    /// The input parameters of this TrainingJob.
+    #[prost(message, optional, tag = "1")]
+    pub inputs: ::core::option::Option<AutoMlVideoObjectTrackingInputs>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlVideoObjectTrackingInputs {
+    #[prost(
+        enumeration = "auto_ml_video_object_tracking_inputs::ModelType",
+        tag = "1"
+    )]
+    pub model_type: i32,
+}
+/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.
+pub mod auto_ml_video_object_tracking_inputs {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ModelType {
+        /// Should not be set.
+        Unspecified = 0,
+        /// A model best tailored to be used within Google Cloud, and which c annot
+        /// be exported. Default.
+        Cloud = 1,
+        /// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
+        MobileVersatile1 = 2,
+        /// A versatile model that is meant to be exported (see
+        /// ModelService.ExportModel) and used on a Google Coral device.
+        MobileCoralVersatile1 = 3,
+        /// A model that trades off quality for low latency, to be exported (see
+        /// ModelService.ExportModel) and used on a Google Coral device.
+        MobileCoralLowLatency1 = 4,
+        /// A versatile model that is meant to be exported (see
+        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
+        MobileJetsonVersatile1 = 5,
+        /// A model that trades off quality for low latency, to be exported (see
+        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
+        MobileJetsonLowLatency1 = 6,
+    }
+}
+/// A TrainingJob that trains and uploads an AutoML Text Extraction Model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlTextExtraction {
+    /// The input parameters of this TrainingJob.
+    #[prost(message, optional, tag = "1")]
+    pub inputs: ::core::option::Option<AutoMlTextExtractionInputs>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlTextExtractionInputs {}

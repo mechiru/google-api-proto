@@ -1,3 +1,14 @@
+/// A FindingTypeStats resource represents stats regarding a specific FindingType
+/// of Findings under a given ScanRun.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FindingTypeStats {
+    /// Output only. The finding type associated with the stats.
+    #[prost(string, tag = "1")]
+    pub finding_type: ::prost::alloc::string::String,
+    /// Output only. The count of findings belonging to this finding type.
+    #[prost(int32, tag = "2")]
+    pub finding_count: i32,
+}
 /// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
 /// Security Scanner Service crawls the web applications, following all links
 /// within the scope of sites, to find the URLs to test against.
@@ -220,17 +231,6 @@ pub mod finding {
         /// Low severity.
         Low = 4,
     }
-}
-/// A FindingTypeStats resource represents stats regarding a specific FindingType
-/// of Findings under a given ScanRun.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FindingTypeStats {
-    /// Output only. The finding type associated with the stats.
-    #[prost(string, tag = "1")]
-    pub finding_type: ::prost::alloc::string::String,
-    /// Output only. The count of findings belonging to this finding type.
-    #[prost(int32, tag = "2")]
-    pub finding_count: i32,
 }
 /// A ScanConfig resource contains the configurations to launch a scan.
 #[derive(Clone, PartialEq, ::prost::Message)]

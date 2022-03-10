@@ -1,3 +1,99 @@
+/// Represents Pub/Sub message content describing customer update.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CustomerEvent {
+    /// Resource name of the customer.
+    /// Format: accounts/{account_id}/customers/{customer_id}
+    #[prost(string, tag = "1")]
+    pub customer: ::prost::alloc::string::String,
+    /// Type of event which happened on the customer.
+    #[prost(enumeration = "customer_event::Type", tag = "2")]
+    pub event_type: i32,
+}
+/// Nested message and enum types in `CustomerEvent`.
+pub mod customer_event {
+    /// Type of customer event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Not used.
+        Unspecified = 0,
+        /// Primary domain for customer was changed.
+        PrimaryDomainChanged = 1,
+        /// Primary domain of the customer has been verified.
+        PrimaryDomainVerified = 2,
+    }
+}
+/// Represents Pub/Sub message content describing entitlement update.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EntitlementEvent {
+    /// Resource name of an entitlement of the form:
+    /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
+    #[prost(string, tag = "1")]
+    pub entitlement: ::prost::alloc::string::String,
+    /// Type of event which happened on the entitlement.
+    #[prost(enumeration = "entitlement_event::Type", tag = "2")]
+    pub event_type: i32,
+}
+/// Nested message and enum types in `EntitlementEvent`.
+pub mod entitlement_event {
+    /// Type of entitlement event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Not used.
+        Unspecified = 0,
+        /// A new entitlement was created.
+        Created = 1,
+        /// The offer type associated with an entitlement was changed.
+        /// This is not triggered if an entitlement converts from a commit offer to a
+        /// flexible offer as part of a renewal.
+        PricePlanSwitched = 3,
+        /// Annual commitment for a commit plan was changed.
+        CommitmentChanged = 4,
+        /// An annual entitlement was renewed.
+        Renewed = 5,
+        /// Entitlement was suspended.
+        Suspended = 6,
+        /// Entitlement was unsuspended.
+        Activated = 7,
+        /// Entitlement was cancelled.
+        Cancelled = 8,
+        /// Entitlement was upgraded or downgraded (e.g. from Google Workspace
+        /// Business Standard to Google Workspace Business Plus).
+        SkuChanged = 9,
+        /// The renewal settings of an entitlement has changed.
+        RenewalSettingChanged = 10,
+        /// Paid service has started on trial entitlement.
+        PaidServiceStarted = 11,
+        /// License was assigned to or revoked from a user.
+        LicenseAssignmentChanged = 12,
+        /// License cap was changed for the entitlement.
+        LicenseCapChanged = 13,
+    }
+}
+/// Represents information which resellers will get as part of notification from
+/// Cloud Pub/Sub.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SubscriberEvent {
+    /// Specifies the Pub/Sub event provided to the partners.
+    /// This is a required field.
+    #[prost(oneof = "subscriber_event::Event", tags = "1, 2")]
+    pub event: ::core::option::Option<subscriber_event::Event>,
+}
+/// Nested message and enum types in `SubscriberEvent`.
+pub mod subscriber_event {
+    /// Specifies the Pub/Sub event provided to the partners.
+    /// This is a required field.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Event {
+        /// Customer event send as part of Pub/Sub event to partners.
+        #[prost(message, tag = "1")]
+        CustomerEvent(super::CustomerEvent),
+        /// Entitlement event send as part of Pub/Sub event to partners.
+        #[prost(message, tag = "2")]
+        EntitlementEvent(super::EntitlementEvent),
+    }
+}
 /// Required Edu Attributes
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EduData {
@@ -134,66 +230,6 @@ pub struct AdminUser {
     #[prost(string, tag = "3")]
     pub family_name: ::prost::alloc::string::String,
 }
-/// Entity representing a link between distributors and their indirect
-/// resellers in an n-tier resale channel.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ChannelPartnerLink {
-    /// Output only. Resource name for the channel partner link, in the format
-    /// accounts/{account_id}/channelPartnerLinks/{id}.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Cloud Identity ID of the linked reseller.
-    #[prost(string, tag = "2")]
-    pub reseller_cloud_identity_id: ::prost::alloc::string::String,
-    /// Required. State of the channel partner link.
-    #[prost(enumeration = "ChannelPartnerLinkState", tag = "3")]
-    pub link_state: i32,
-    /// Output only. URI of the web page where partner accepts the link invitation.
-    #[prost(string, tag = "4")]
-    pub invite_link_uri: ::prost::alloc::string::String,
-    /// Output only. Timestamp of when the channel partner link is created.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp of when the channel partner link is updated.
-    #[prost(message, optional, tag = "6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Public identifier that a customer must use to generate a transfer token
-    /// to move to this distributor-reseller combination.
-    #[prost(string, tag = "7")]
-    pub public_id: ::prost::alloc::string::String,
-    /// Output only. Cloud Identity info of the channel partner (IR).
-    #[prost(message, optional, tag = "8")]
-    pub channel_partner_cloud_identity_info: ::core::option::Option<CloudIdentityInfo>,
-}
-/// The level of granularity the \[ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink\] will display.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ChannelPartnerLinkView {
-    /// The default / unset value.
-    /// The API will default to the BASIC view.
-    Unspecified = 0,
-    /// Includes all fields except the
-    /// \[ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info\].
-    Basic = 1,
-    /// Includes all fields.
-    Full = 2,
-}
-/// ChannelPartnerLinkState represents state of a channel partner link.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ChannelPartnerLinkState {
-    /// Not used.
-    Unspecified = 0,
-    /// An invitation has been sent to the reseller to create a channel partner
-    /// link.
-    Invited = 1,
-    /// Status when the reseller is active.
-    Active = 2,
-    /// Status when the reseller has been revoked by the distributor.
-    Revoked = 3,
-    /// Status when the reseller is suspended by Google or distributor.
-    Suspended = 4,
-}
 /// A Product is the entity a customer uses when placing an order. For example,
 /// Google Workspace, Google Voice, etc.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -257,6 +293,66 @@ pub enum MediaType {
     Unspecified = 0,
     /// Type of image.
     Image = 1,
+}
+/// Entity representing a link between distributors and their indirect
+/// resellers in an n-tier resale channel.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ChannelPartnerLink {
+    /// Output only. Resource name for the channel partner link, in the format
+    /// accounts/{account_id}/channelPartnerLinks/{id}.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Cloud Identity ID of the linked reseller.
+    #[prost(string, tag = "2")]
+    pub reseller_cloud_identity_id: ::prost::alloc::string::String,
+    /// Required. State of the channel partner link.
+    #[prost(enumeration = "ChannelPartnerLinkState", tag = "3")]
+    pub link_state: i32,
+    /// Output only. URI of the web page where partner accepts the link invitation.
+    #[prost(string, tag = "4")]
+    pub invite_link_uri: ::prost::alloc::string::String,
+    /// Output only. Timestamp of when the channel partner link is created.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp of when the channel partner link is updated.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Public identifier that a customer must use to generate a transfer token
+    /// to move to this distributor-reseller combination.
+    #[prost(string, tag = "7")]
+    pub public_id: ::prost::alloc::string::String,
+    /// Output only. Cloud Identity info of the channel partner (IR).
+    #[prost(message, optional, tag = "8")]
+    pub channel_partner_cloud_identity_info: ::core::option::Option<CloudIdentityInfo>,
+}
+/// The level of granularity the \[ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink\] will display.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ChannelPartnerLinkView {
+    /// The default / unset value.
+    /// The API will default to the BASIC view.
+    Unspecified = 0,
+    /// Includes all fields except the
+    /// \[ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info\].
+    Basic = 1,
+    /// Includes all fields.
+    Full = 2,
+}
+/// ChannelPartnerLinkState represents state of a channel partner link.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ChannelPartnerLinkState {
+    /// Not used.
+    Unspecified = 0,
+    /// An invitation has been sent to the reseller to create a channel partner
+    /// link.
+    Invited = 1,
+    /// Status when the reseller is active.
+    Active = 2,
+    /// Status when the reseller has been revoked by the distributor.
+    Revoked = 3,
+    /// Status when the reseller is suspended by Google or distributor.
+    Suspended = 4,
 }
 /// Entity representing a customer of a reseller or distributor.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3159,102 +3255,6 @@ pub mod cloud_channel_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-    }
-}
-/// Represents Pub/Sub message content describing customer update.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CustomerEvent {
-    /// Resource name of the customer.
-    /// Format: accounts/{account_id}/customers/{customer_id}
-    #[prost(string, tag = "1")]
-    pub customer: ::prost::alloc::string::String,
-    /// Type of event which happened on the customer.
-    #[prost(enumeration = "customer_event::Type", tag = "2")]
-    pub event_type: i32,
-}
-/// Nested message and enum types in `CustomerEvent`.
-pub mod customer_event {
-    /// Type of customer event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Not used.
-        Unspecified = 0,
-        /// Primary domain for customer was changed.
-        PrimaryDomainChanged = 1,
-        /// Primary domain of the customer has been verified.
-        PrimaryDomainVerified = 2,
-    }
-}
-/// Represents Pub/Sub message content describing entitlement update.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EntitlementEvent {
-    /// Resource name of an entitlement of the form:
-    /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
-    #[prost(string, tag = "1")]
-    pub entitlement: ::prost::alloc::string::String,
-    /// Type of event which happened on the entitlement.
-    #[prost(enumeration = "entitlement_event::Type", tag = "2")]
-    pub event_type: i32,
-}
-/// Nested message and enum types in `EntitlementEvent`.
-pub mod entitlement_event {
-    /// Type of entitlement event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Not used.
-        Unspecified = 0,
-        /// A new entitlement was created.
-        Created = 1,
-        /// The offer type associated with an entitlement was changed.
-        /// This is not triggered if an entitlement converts from a commit offer to a
-        /// flexible offer as part of a renewal.
-        PricePlanSwitched = 3,
-        /// Annual commitment for a commit plan was changed.
-        CommitmentChanged = 4,
-        /// An annual entitlement was renewed.
-        Renewed = 5,
-        /// Entitlement was suspended.
-        Suspended = 6,
-        /// Entitlement was unsuspended.
-        Activated = 7,
-        /// Entitlement was cancelled.
-        Cancelled = 8,
-        /// Entitlement was upgraded or downgraded (e.g. from Google Workspace
-        /// Business Standard to Google Workspace Business Plus).
-        SkuChanged = 9,
-        /// The renewal settings of an entitlement has changed.
-        RenewalSettingChanged = 10,
-        /// Paid service has started on trial entitlement.
-        PaidServiceStarted = 11,
-        /// License was assigned to or revoked from a user.
-        LicenseAssignmentChanged = 12,
-        /// License cap was changed for the entitlement.
-        LicenseCapChanged = 13,
-    }
-}
-/// Represents information which resellers will get as part of notification from
-/// Cloud Pub/Sub.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SubscriberEvent {
-    /// Specifies the Pub/Sub event provided to the partners.
-    /// This is a required field.
-    #[prost(oneof = "subscriber_event::Event", tags = "1, 2")]
-    pub event: ::core::option::Option<subscriber_event::Event>,
-}
-/// Nested message and enum types in `SubscriberEvent`.
-pub mod subscriber_event {
-    /// Specifies the Pub/Sub event provided to the partners.
-    /// This is a required field.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Event {
-        /// Customer event send as part of Pub/Sub event to partners.
-        #[prost(message, tag = "1")]
-        CustomerEvent(super::CustomerEvent),
-        /// Entitlement event send as part of Pub/Sub event to partners.
-        #[prost(message, tag = "2")]
-        EntitlementEvent(super::EntitlementEvent),
     }
 }
 /// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].
