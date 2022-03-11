@@ -881,82 +881,7 @@
 <span id="879">879</span>
 <span id="880">880</span>
 <span id="881">881</span>
-</pre><pre class="rust"><code><span class="comment">// If this field is populated and billing_tier is STANDARD, this is</span>
-<span class="comment">// indication of a point in the _past_ when a PREMIUM access ended.</span>
-
-<span class="doccomment">/// Billing settings</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BillingSettings</span> {
-    <span class="doccomment">/// Output only. Billing tier selected by customer</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;BillingTier&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">billing_tier</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Type of billing method</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;BillingType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">billing_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. The absolute point in time when the subscription became effective.</span>
-    <span class="doccomment">/// Can be compared to expire_time value to determine full contract duration</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The absolute point in time when the subscription expires.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If this field is populated and billing_tier is STANDARD, this is</span>
-    <span class="doccomment">/// indication of a point in the _past_ when a PREMIUM access ended.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">expire_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Billing tier options</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BillingTier</span> {
-    <span class="doccomment">/// Default value. This value is unused.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// The standard billing tier.</span>
-    <span class="ident">Standard</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// The premium billing tier.</span>
-    <span class="ident">Premium</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// Billing type</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BillingType</span> {
-    <span class="doccomment">/// Default billing type</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Subscription for Premium billing tier</span>
-    <span class="ident">Subscription</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Trial subscription for Premium billing tier</span>
-    <span class="ident">TrialSubscription</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Alpha customer for Premium billing tier</span>
-    <span class="ident">Alpha</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="doccomment">/// Detector is a set of detectors or scanners act as individual checks done</span>
-<span class="doccomment">/// within a component e.g. bad IP, bad domains, IAM anomaly, cryptomining, open</span>
-<span class="doccomment">/// firewall, etc. Detector is independent of Organization, meaning each detector</span>
-<span class="doccomment">/// must be defined for a given Security Center component under a specified</span>
-<span class="doccomment">/// billing tier. Organizations can configure the list of detectors based on</span>
-<span class="doccomment">/// their subscribed billing tier.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Defines a detector, its billing tier and any applicable labels.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Detector</span> {
-    <span class="doccomment">/// Output only. Detector Identifier</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">detector</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Component that supports detector type.  Multiple components may support the</span>
-    <span class="doccomment">/// same detector.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">component</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The billing tier may be different for a detector of the same name in</span>
-    <span class="doccomment">/// another component.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;BillingTier&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">billing_tier</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Google curated detector labels. These are alphanumeric tags that are not</span>
-    <span class="doccomment">/// necessarily human readable. Labels can be used to group detectors together</span>
-    <span class="doccomment">/// in the future. An example might be tagging all detectors “PCI” that help</span>
-    <span class="doccomment">/// with PCI compliance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">detector_labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Component Settings for Security Command Center</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Component Settings for Security Command Center</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComponentSettings</span> {
     <span class="doccomment">/// The relative resource name of the component settings.</span>
@@ -1100,6 +1025,81 @@
     <span class="ident">Enable</span> <span class="op">=</span> <span class="number">2</span>,
     <span class="doccomment">/// Inherit the state from resources parent folder or organization.</span>
     <span class="ident">Inherit</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="comment">// If this field is populated and billing_tier is STANDARD, this is</span>
+<span class="comment">// indication of a point in the _past_ when a PREMIUM access ended.</span>
+
+<span class="doccomment">/// Billing settings</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BillingSettings</span> {
+    <span class="doccomment">/// Output only. Billing tier selected by customer</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;BillingTier&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">billing_tier</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Type of billing method</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;BillingType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">billing_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. The absolute point in time when the subscription became effective.</span>
+    <span class="doccomment">/// Can be compared to expire_time value to determine full contract duration</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The absolute point in time when the subscription expires.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this field is populated and billing_tier is STANDARD, this is</span>
+    <span class="doccomment">/// indication of a point in the _past_ when a PREMIUM access ended.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">expire_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Billing tier options</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BillingTier</span> {
+    <span class="doccomment">/// Default value. This value is unused.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// The standard billing tier.</span>
+    <span class="ident">Standard</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// The premium billing tier.</span>
+    <span class="ident">Premium</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// Billing type</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BillingType</span> {
+    <span class="doccomment">/// Default billing type</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Subscription for Premium billing tier</span>
+    <span class="ident">Subscription</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Trial subscription for Premium billing tier</span>
+    <span class="ident">TrialSubscription</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Alpha customer for Premium billing tier</span>
+    <span class="ident">Alpha</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="doccomment">/// Detector is a set of detectors or scanners act as individual checks done</span>
+<span class="doccomment">/// within a component e.g. bad IP, bad domains, IAM anomaly, cryptomining, open</span>
+<span class="doccomment">/// firewall, etc. Detector is independent of Organization, meaning each detector</span>
+<span class="doccomment">/// must be defined for a given Security Center component under a specified</span>
+<span class="doccomment">/// billing tier. Organizations can configure the list of detectors based on</span>
+<span class="doccomment">/// their subscribed billing tier.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Defines a detector, its billing tier and any applicable labels.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Detector</span> {
+    <span class="doccomment">/// Output only. Detector Identifier</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">detector</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Component that supports detector type.  Multiple components may support the</span>
+    <span class="doccomment">/// same detector.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">component</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The billing tier may be different for a detector of the same name in</span>
+    <span class="doccomment">/// another component.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;BillingTier&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">billing_tier</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Google curated detector labels. These are alphanumeric tags that are not</span>
+    <span class="doccomment">/// necessarily human readable. Labels can be used to group detectors together</span>
+    <span class="doccomment">/// in the future. An example might be tagging all detectors “PCI” that help</span>
+    <span class="doccomment">/// with PCI compliance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">detector_labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Sink Settings for Security Command Center</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

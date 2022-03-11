@@ -564,6 +564,26 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
 }
+<span class="doccomment">/// Options dictating how we read a table.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableReadOptions</span> {
+    <span class="doccomment">/// Optional. Names of the fields in the table that should be read. If empty,</span>
+    <span class="doccomment">/// all fields will be read. If the specified field is a nested field, all the</span>
+    <span class="doccomment">/// sub-fields in the field will be selected. The output field order is</span>
+    <span class="doccomment">/// unrelated to the order of fields in selected_fields.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">selected_fields</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. SQL text filtering statement, similar to a WHERE clause in</span>
+    <span class="doccomment">/// a query. Aggregates are not supported.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples: &quot;int_field &gt; 5&quot;</span>
+    <span class="doccomment">///           &quot;date_field = CAST(&#39;2014-9-27&#39; as DATE)&quot;</span>
+    <span class="doccomment">///           &quot;nullable_field is not NULL&quot;</span>
+    <span class="doccomment">///           &quot;st_equals(geo_field, st_geofromtext(&quot;POINT(2, 2)&quot;))&quot;</span>
+    <span class="doccomment">///           &quot;numeric_field BETWEEN 1.0 AND 5.0&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">row_restriction</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Arrow schema.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowSchema</span> {
@@ -600,26 +620,6 @@
     <span class="doccomment">/// The snapshot time of the table. If not set, interpreted as now.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">snapshot_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Options dictating how we read a table.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableReadOptions</span> {
-    <span class="doccomment">/// Optional. Names of the fields in the table that should be read. If empty,</span>
-    <span class="doccomment">/// all fields will be read. If the specified field is a nested field, all the</span>
-    <span class="doccomment">/// sub-fields in the field will be selected. The output field order is</span>
-    <span class="doccomment">/// unrelated to the order of fields in selected_fields.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">selected_fields</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. SQL text filtering statement, similar to a WHERE clause in</span>
-    <span class="doccomment">/// a query. Aggregates are not supported.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples: &quot;int_field &gt; 5&quot;</span>
-    <span class="doccomment">///           &quot;date_field = CAST(&#39;2014-9-27&#39; as DATE)&quot;</span>
-    <span class="doccomment">///           &quot;nullable_field is not NULL&quot;</span>
-    <span class="doccomment">///           &quot;st_equals(geo_field, st_geofromtext(&quot;POINT(2, 2)&quot;))&quot;</span>
-    <span class="doccomment">///           &quot;numeric_field BETWEEN 1.0 AND 5.0&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">row_restriction</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Information about a single data stream within a read session.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

@@ -291,6 +291,40 @@
 <span id="289">289</span>
 <span id="290">290</span>
 <span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
 </pre><pre class="rust"><code><span class="doccomment">/// The top-level message sent by the client for the `ListVoices` method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListVoicesRequest</span> {
@@ -396,6 +430,11 @@
     <span class="doccomment">/// substitute a voice with a different gender rather than failing the request.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;SsmlVoiceGender&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">ssml_gender</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The configuration for a custom voice. If \[CustomVoiceParams.model\] is set,</span>
+    <span class="doccomment">/// the service will choose the custom voice matching the specified</span>
+    <span class="doccomment">/// configuration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">custom_voice</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomVoiceParams</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Description of audio data to be synthesized.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -441,6 +480,35 @@
     <span class="doccomment">/// current supported profile ids.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">effects_profile_id</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Description of the custom voice to be synthesized.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomVoiceParams</span> {
+    <span class="doccomment">/// Required. The name of the AutoML model that synthesizes the custom voice.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">model</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The usage of the synthesized audio to be reported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;custom_voice_params::ReportedUsage&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">reported_usage</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CustomVoiceParams`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">custom_voice_params</span> {
+    <span class="doccomment">/// The usage of the synthesized audio. You must report your honest and</span>
+    <span class="doccomment">/// correct usage of the service as it&#39;s regulated by contract and will cause</span>
+    <span class="doccomment">/// significant difference in billing.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ReportedUsage</span> {
+        <span class="doccomment">/// Request with reported usage unspecified will be rejected.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// For scenarios where the synthesized audio is not downloadable and can</span>
+        <span class="doccomment">/// only be used once. For example, real-time request in IVR system.</span>
+        <span class="ident">Realtime</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// For scenarios where the synthesized audio is downloadable and can be</span>
+        <span class="doccomment">/// reused. For example, the synthesized audio is downloaded, stored in</span>
+        <span class="doccomment">/// customer service system and played repeatedly.</span>
+        <span class="ident">Offline</span> <span class="op">=</span> <span class="number">2</span>,
+    }
 }
 <span class="doccomment">/// The message returned to the client by the `SynthesizeSpeech` method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

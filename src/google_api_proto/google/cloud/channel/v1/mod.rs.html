@@ -3298,103 +3298,7 @@
 <span id="3296">3296</span>
 <span id="3297">3297</span>
 <span id="3298">3298</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Represents Pub/Sub message content describing customer update.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomerEvent</span> {
-    <span class="doccomment">/// Resource name of the customer.</span>
-    <span class="doccomment">/// Format: accounts/{account_id}/customers/{customer_id}</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">customer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Type of event which happened on the customer.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;customer_event::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CustomerEvent`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">customer_event</span> {
-    <span class="doccomment">/// Type of customer event.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
-        <span class="doccomment">/// Not used.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Primary domain for customer was changed.</span>
-        <span class="ident">PrimaryDomainChanged</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Primary domain of the customer has been verified.</span>
-        <span class="ident">PrimaryDomainVerified</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Represents Pub/Sub message content describing entitlement update.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitlementEvent</span> {
-    <span class="doccomment">/// Resource name of an entitlement of the form:</span>
-    <span class="doccomment">/// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">entitlement</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Type of event which happened on the entitlement.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;entitlement_event::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `EntitlementEvent`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entitlement_event</span> {
-    <span class="doccomment">/// Type of entitlement event.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
-        <span class="doccomment">/// Not used.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A new entitlement was created.</span>
-        <span class="ident">Created</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The offer type associated with an entitlement was changed.</span>
-        <span class="doccomment">/// This is not triggered if an entitlement converts from a commit offer to a</span>
-        <span class="doccomment">/// flexible offer as part of a renewal.</span>
-        <span class="ident">PricePlanSwitched</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Annual commitment for a commit plan was changed.</span>
-        <span class="ident">CommitmentChanged</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// An annual entitlement was renewed.</span>
-        <span class="ident">Renewed</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// Entitlement was suspended.</span>
-        <span class="ident">Suspended</span> <span class="op">=</span> <span class="number">6</span>,
-        <span class="doccomment">/// Entitlement was unsuspended.</span>
-        <span class="ident">Activated</span> <span class="op">=</span> <span class="number">7</span>,
-        <span class="doccomment">/// Entitlement was cancelled.</span>
-        <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">8</span>,
-        <span class="doccomment">/// Entitlement was upgraded or downgraded (e.g. from Google Workspace</span>
-        <span class="doccomment">/// Business Standard to Google Workspace Business Plus).</span>
-        <span class="ident">SkuChanged</span> <span class="op">=</span> <span class="number">9</span>,
-        <span class="doccomment">/// The renewal settings of an entitlement has changed.</span>
-        <span class="ident">RenewalSettingChanged</span> <span class="op">=</span> <span class="number">10</span>,
-        <span class="doccomment">/// Paid service has started on trial entitlement.</span>
-        <span class="ident">PaidServiceStarted</span> <span class="op">=</span> <span class="number">11</span>,
-        <span class="doccomment">/// License was assigned to or revoked from a user.</span>
-        <span class="ident">LicenseAssignmentChanged</span> <span class="op">=</span> <span class="number">12</span>,
-        <span class="doccomment">/// License cap was changed for the entitlement.</span>
-        <span class="ident">LicenseCapChanged</span> <span class="op">=</span> <span class="number">13</span>,
-    }
-}
-<span class="doccomment">/// Represents information which resellers will get as part of notification from</span>
-<span class="doccomment">/// Cloud Pub/Sub.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SubscriberEvent</span> {
-    <span class="doccomment">/// Specifies the Pub/Sub event provided to the partners.</span>
-    <span class="doccomment">/// This is a required field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;subscriber_event::Event&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">subscriber_event::Event</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `SubscriberEvent`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">subscriber_event</span> {
-    <span class="doccomment">/// Specifies the Pub/Sub event provided to the partners.</span>
-    <span class="doccomment">/// This is a required field.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Event</span> {
-        <span class="doccomment">/// Customer event send as part of Pub/Sub event to partners.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">CustomerEvent</span>(<span class="ident"><span class="kw">super</span>::CustomerEvent</span>),
-        <span class="doccomment">/// Entitlement event send as part of Pub/Sub event to partners.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">EntitlementEvent</span>(<span class="ident"><span class="kw">super</span>::EntitlementEvent</span>),
-    }
-}
-<span class="doccomment">/// Required Edu Attributes</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Required Edu Attributes</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EduData</span> {
     <span class="doccomment">/// Designated institute type of customer.</span>
@@ -3530,6 +3434,66 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">family_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// Entity representing a link between distributors and their indirect</span>
+<span class="doccomment">/// resellers in an n-tier resale channel.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChannelPartnerLink</span> {
+    <span class="doccomment">/// Output only. Resource name for the channel partner link, in the format</span>
+    <span class="doccomment">/// accounts/{account_id}/channelPartnerLinks/{id}.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Cloud Identity ID of the linked reseller.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">reseller_cloud_identity_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. State of the channel partner link.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ChannelPartnerLinkState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">link_state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. URI of the web page where partner accepts the link invitation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">invite_link_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Public identifier that a customer must use to generate a transfer token</span>
+    <span class="doccomment">/// to move to this distributor-reseller combination.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">public_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Cloud Identity info of the channel partner (IR).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">channel_partner_cloud_identity_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CloudIdentityInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// The level of granularity the \[ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink\] will display.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChannelPartnerLinkView</span> {
+    <span class="doccomment">/// The default / unset value.</span>
+    <span class="doccomment">/// The API will default to the BASIC view.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Includes all fields except the</span>
+    <span class="doccomment">/// \[ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info\].</span>
+    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Includes all fields.</span>
+    <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// ChannelPartnerLinkState represents state of a channel partner link.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChannelPartnerLinkState</span> {
+    <span class="doccomment">/// Not used.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// An invitation has been sent to the reseller to create a channel partner</span>
+    <span class="doccomment">/// link.</span>
+    <span class="ident">Invited</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Status when the reseller is active.</span>
+    <span class="ident">Active</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Status when the reseller has been revoked by the distributor.</span>
+    <span class="ident">Revoked</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Status when the reseller is suspended by Google or distributor.</span>
+    <span class="ident">Suspended</span> <span class="op">=</span> <span class="number">4</span>,
+}
 <span class="doccomment">/// A Product is the entity a customer uses when placing an order. For example,</span>
 <span class="doccomment">/// Google Workspace, Google Voice, etc.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -3593,66 +3557,6 @@
     <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
     <span class="doccomment">/// Type of image.</span>
     <span class="ident">Image</span> <span class="op">=</span> <span class="number">1</span>,
-}
-<span class="doccomment">/// Entity representing a link between distributors and their indirect</span>
-<span class="doccomment">/// resellers in an n-tier resale channel.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChannelPartnerLink</span> {
-    <span class="doccomment">/// Output only. Resource name for the channel partner link, in the format</span>
-    <span class="doccomment">/// accounts/{account_id}/channelPartnerLinks/{id}.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Cloud Identity ID of the linked reseller.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">reseller_cloud_identity_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. State of the channel partner link.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ChannelPartnerLinkState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">link_state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. URI of the web page where partner accepts the link invitation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">invite_link_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Public identifier that a customer must use to generate a transfer token</span>
-    <span class="doccomment">/// to move to this distributor-reseller combination.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">public_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Cloud Identity info of the channel partner (IR).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">channel_partner_cloud_identity_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CloudIdentityInfo</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// The level of granularity the \[ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink\] will display.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChannelPartnerLinkView</span> {
-    <span class="doccomment">/// The default / unset value.</span>
-    <span class="doccomment">/// The API will default to the BASIC view.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Includes all fields except the</span>
-    <span class="doccomment">/// \[ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info\].</span>
-    <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Includes all fields.</span>
-    <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// ChannelPartnerLinkState represents state of a channel partner link.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChannelPartnerLinkState</span> {
-    <span class="doccomment">/// Not used.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// An invitation has been sent to the reseller to create a channel partner</span>
-    <span class="doccomment">/// link.</span>
-    <span class="ident">Invited</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Status when the reseller is active.</span>
-    <span class="ident">Active</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Status when the reseller has been revoked by the distributor.</span>
-    <span class="ident">Revoked</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Status when the reseller is suspended by Google or distributor.</span>
-    <span class="ident">Suspended</span> <span class="op">=</span> <span class="number">4</span>,
 }
 <span class="doccomment">/// Entity representing a customer of a reseller or distributor.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -6555,6 +6459,102 @@
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
+    }
+}
+<span class="doccomment">/// Represents Pub/Sub message content describing customer update.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomerEvent</span> {
+    <span class="doccomment">/// Resource name of the customer.</span>
+    <span class="doccomment">/// Format: accounts/{account_id}/customers/{customer_id}</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">customer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of event which happened on the customer.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;customer_event::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CustomerEvent`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">customer_event</span> {
+    <span class="doccomment">/// Type of customer event.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+        <span class="doccomment">/// Not used.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Primary domain for customer was changed.</span>
+        <span class="ident">PrimaryDomainChanged</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Primary domain of the customer has been verified.</span>
+        <span class="ident">PrimaryDomainVerified</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Represents Pub/Sub message content describing entitlement update.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitlementEvent</span> {
+    <span class="doccomment">/// Resource name of an entitlement of the form:</span>
+    <span class="doccomment">/// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">entitlement</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of event which happened on the entitlement.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;entitlement_event::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `EntitlementEvent`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entitlement_event</span> {
+    <span class="doccomment">/// Type of entitlement event.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+        <span class="doccomment">/// Not used.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// A new entitlement was created.</span>
+        <span class="ident">Created</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The offer type associated with an entitlement was changed.</span>
+        <span class="doccomment">/// This is not triggered if an entitlement converts from a commit offer to a</span>
+        <span class="doccomment">/// flexible offer as part of a renewal.</span>
+        <span class="ident">PricePlanSwitched</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Annual commitment for a commit plan was changed.</span>
+        <span class="ident">CommitmentChanged</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// An annual entitlement was renewed.</span>
+        <span class="ident">Renewed</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// Entitlement was suspended.</span>
+        <span class="ident">Suspended</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// Entitlement was unsuspended.</span>
+        <span class="ident">Activated</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// Entitlement was cancelled.</span>
+        <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// Entitlement was upgraded or downgraded (e.g. from Google Workspace</span>
+        <span class="doccomment">/// Business Standard to Google Workspace Business Plus).</span>
+        <span class="ident">SkuChanged</span> <span class="op">=</span> <span class="number">9</span>,
+        <span class="doccomment">/// The renewal settings of an entitlement has changed.</span>
+        <span class="ident">RenewalSettingChanged</span> <span class="op">=</span> <span class="number">10</span>,
+        <span class="doccomment">/// Paid service has started on trial entitlement.</span>
+        <span class="ident">PaidServiceStarted</span> <span class="op">=</span> <span class="number">11</span>,
+        <span class="doccomment">/// License was assigned to or revoked from a user.</span>
+        <span class="ident">LicenseAssignmentChanged</span> <span class="op">=</span> <span class="number">12</span>,
+        <span class="doccomment">/// License cap was changed for the entitlement.</span>
+        <span class="ident">LicenseCapChanged</span> <span class="op">=</span> <span class="number">13</span>,
+    }
+}
+<span class="doccomment">/// Represents information which resellers will get as part of notification from</span>
+<span class="doccomment">/// Cloud Pub/Sub.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SubscriberEvent</span> {
+    <span class="doccomment">/// Specifies the Pub/Sub event provided to the partners.</span>
+    <span class="doccomment">/// This is a required field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;subscriber_event::Event&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">subscriber_event::Event</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `SubscriberEvent`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">subscriber_event</span> {
+    <span class="doccomment">/// Specifies the Pub/Sub event provided to the partners.</span>
+    <span class="doccomment">/// This is a required field.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Event</span> {
+        <span class="doccomment">/// Customer event send as part of Pub/Sub event to partners.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">CustomerEvent</span>(<span class="ident"><span class="kw">super</span>::CustomerEvent</span>),
+        <span class="doccomment">/// Entitlement event send as part of Pub/Sub event to partners.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">EntitlementEvent</span>(<span class="ident"><span class="kw">super</span>::EntitlementEvent</span>),
     }
 }
 <span class="doccomment">/// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].</span>

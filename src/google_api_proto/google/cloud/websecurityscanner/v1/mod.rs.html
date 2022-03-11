@@ -1193,18 +1193,7 @@
 <span id="1191">1191</span>
 <span id="1192">1192</span>
 <span id="1193">1193</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType</span>
-<span class="doccomment">/// of Findings under a given ScanRun.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FindingTypeStats</span> {
-    <span class="doccomment">/// Output only. The finding type associated with the stats.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">finding_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The count of findings belonging to this finding type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">finding_count</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web</span>
 <span class="doccomment">/// Security Scanner Service crawls the web applications, following all links</span>
 <span class="doccomment">/// within the scope of sites, to find the URLs to test against.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1426,6 +1415,17 @@
         <span class="doccomment">/// Low severity.</span>
         <span class="ident">Low</span> <span class="op">=</span> <span class="number">4</span>,
     }
+}
+<span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType</span>
+<span class="doccomment">/// of Findings under a given ScanRun.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FindingTypeStats</span> {
+    <span class="doccomment">/// Output only. The finding type associated with the stats.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">finding_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The count of findings belonging to this finding type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">finding_count</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// A ScanConfig resource contains the configurations to launch a scan.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

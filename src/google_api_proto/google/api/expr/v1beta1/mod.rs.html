@@ -909,75 +909,6 @@
         <span class="ident">BytesValue</span>(<span class="ident">::prost::bytes::Bytes</span>),
     }
 }
-<span class="doccomment">/// A declaration.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Decl</span> {
-    <span class="doccomment">/// The id of the declaration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The name of the declaration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The documentation string for the declaration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">doc</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The kind of declaration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;decl::Kind&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4, 5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">decl::Kind</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Decl`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">decl</span> {
-    <span class="doccomment">/// The kind of declaration.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
-        <span class="doccomment">/// An identifier declaration.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">Ident</span>(<span class="ident"><span class="kw">super</span>::IdentDecl</span>),
-        <span class="doccomment">/// A function declaration.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">Function</span>(<span class="ident"><span class="kw">super</span>::FunctionDecl</span>),
-    }
-}
-<span class="doccomment">/// The declared type of a variable.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Extends runtime type values with extra information used for type checking</span>
-<span class="doccomment">/// and dispatching.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeclType</span> {
-    <span class="doccomment">/// The expression id of the declared type, if applicable.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The type name, e.g. &#39;int&#39;, &#39;my.type.Type&#39; or &#39;T&#39;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// An ordered list of type parameters, e.g. `&lt;string, int&gt;`.</span>
-    <span class="doccomment">/// Only applies to a subset of types, e.g. `map`, `list`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">type_params</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DeclType</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// An identifier declaration.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IdentDecl</span> {
-    <span class="doccomment">/// Optional type of the identifier.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DeclType</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional value of the identifier.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A function declaration.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FunctionDecl</span> {
-    <span class="doccomment">/// The function arguments.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">args</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">IdentDecl</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional declared return type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">return_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DeclType</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If the first argument of the function is the receiver.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">receiver_function</span>: <span class="ident">bool</span>,
-}
 <span class="doccomment">/// Represents a CEL value.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is similar to `google.protobuf.Value`, but can represent CEL&#39;s full</span>
@@ -1193,6 +1124,75 @@
     <span class="doccomment">/// The expression id.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// A declaration.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Decl</span> {
+    <span class="doccomment">/// The id of the declaration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The name of the declaration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The documentation string for the declaration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">doc</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The kind of declaration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;decl::Kind&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4, 5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">decl::Kind</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Decl`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">decl</span> {
+    <span class="doccomment">/// The kind of declaration.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
+        <span class="doccomment">/// An identifier declaration.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Ident</span>(<span class="ident"><span class="kw">super</span>::IdentDecl</span>),
+        <span class="doccomment">/// A function declaration.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">Function</span>(<span class="ident"><span class="kw">super</span>::FunctionDecl</span>),
+    }
+}
+<span class="doccomment">/// The declared type of a variable.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Extends runtime type values with extra information used for type checking</span>
+<span class="doccomment">/// and dispatching.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeclType</span> {
+    <span class="doccomment">/// The expression id of the declared type, if applicable.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The type name, e.g. &#39;int&#39;, &#39;my.type.Type&#39; or &#39;T&#39;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// An ordered list of type parameters, e.g. `&lt;string, int&gt;`.</span>
+    <span class="doccomment">/// Only applies to a subset of types, e.g. `map`, `list`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">type_params</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DeclType</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// An identifier declaration.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IdentDecl</span> {
+    <span class="doccomment">/// Optional type of the identifier.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DeclType</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional value of the identifier.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A function declaration.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FunctionDecl</span> {
+    <span class="doccomment">/// The function arguments.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">args</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">IdentDecl</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional declared return type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">return_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DeclType</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If the first argument of the function is the receiver.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">receiver_function</span>: <span class="ident">bool</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

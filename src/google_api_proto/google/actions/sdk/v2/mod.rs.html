@@ -1973,225 +1973,6 @@
 ))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">interactionmodel</span>;
 
-<span class="doccomment">/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataFiles</span> {
-    <span class="doccomment">/// Multiple data files.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">data_files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DataFile</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents a single file which contains unstructured data. Examples include</span>
-<span class="doccomment">/// image files, audio files, and cloud function source code.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataFile</span> {
-    <span class="doccomment">/// Relative path of the data file from the project root in the SDK file</span>
-    <span class="doccomment">/// structure.</span>
-    <span class="doccomment">/// Allowed file paths:</span>
-    <span class="doccomment">///     - Images: `resources/images/{multiple</span>
-    <span class="doccomment">///     directories}?/{ImageName}.{extension}`</span>
-    <span class="doccomment">///     - Audio: `resources/audio/{multiple</span>
-    <span class="doccomment">///     directories}?/{AudioFileName}.{extension}`</span>
-    <span class="doccomment">///     - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`</span>
-    <span class="doccomment">/// Allowed extensions:</span>
-    <span class="doccomment">///     - Images: `png`, `jpg`, `jpeg`</span>
-    <span class="doccomment">///     - Audio: `mp3`, `mpeg`</span>
-    <span class="doccomment">///     - Inline Cloud Functions: `zip`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file_path</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The content type of this asset. Example: `text/html`. The content</span>
-    <span class="doccomment">/// type must comply with the specification</span>
-    <span class="doccomment">/// (&lt;http://www.w3.org/Protocols/rfc1341/4_Content-Type.html&gt;).</span>
-    <span class="doccomment">/// Cloud functions must be in zip format and the content type should</span>
-    <span class="doccomment">/// be `application/zip;zip_type=cloud_function`. The zip_type parameter</span>
-    <span class="doccomment">/// indicates that the zip is for a cloud function.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Content of the data file. Examples would be raw bytes of images, audio</span>
-    <span class="doccomment">/// files, or cloud function zip format.</span>
-    <span class="doccomment">/// There is 10 MB strict limit on the payload size.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::prost::bytes::Bytes</span>,
-}
-<span class="doccomment">/// Definition of version resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Version</span> {
-    <span class="doccomment">/// The unique identifier of the version in the following format.</span>
-    <span class="doccomment">/// `projects/{project}/versions/{version}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The current state of the version.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">version_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">version::VersionState</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Email of the user who created this version.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">creator</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Timestamp of the last change to this version.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Version`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">version</span> {
-    <span class="doccomment">/// Represents the current state of the version.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VersionState</span> {
-        <span class="doccomment">/// The current state of the version.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;version_state::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// User-friendly message for the current state of the version.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `VersionState`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">version_state</span> {
-        <span class="doccomment">/// Enum indicating the states that a Version can take. This enum is not yet</span>
-        <span class="doccomment">/// frozen and values maybe added later.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-            <span class="doccomment">/// Default value of State.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// The version creation is in progress.</span>
-            <span class="ident">CreationInProgress</span> <span class="op">=</span> <span class="number">1</span>,
-            <span class="doccomment">/// The version creation failed.</span>
-            <span class="ident">CreationFailed</span> <span class="op">=</span> <span class="number">2</span>,
-            <span class="doccomment">/// The version has been successfully created.</span>
-            <span class="ident">Created</span> <span class="op">=</span> <span class="number">3</span>,
-            <span class="doccomment">/// The version is under policy review (aka Approval).</span>
-            <span class="ident">ReviewInProgress</span> <span class="op">=</span> <span class="number">4</span>,
-            <span class="doccomment">/// The version has been approved for policy review and can be deployed.</span>
-            <span class="ident">Approved</span> <span class="op">=</span> <span class="number">5</span>,
-            <span class="doccomment">/// The version has been conditionally approved but is pending final</span>
-            <span class="doccomment">/// review. It may be rolled back if final review is denied.</span>
-            <span class="ident">ConditionallyApproved</span> <span class="op">=</span> <span class="number">6</span>,
-            <span class="doccomment">/// The version has been denied for policy review.</span>
-            <span class="ident">Denied</span> <span class="op">=</span> <span class="number">7</span>,
-            <span class="doccomment">/// The version is taken down as entire agent and all versions are taken</span>
-            <span class="doccomment">/// down.</span>
-            <span class="ident">UnderTakedown</span> <span class="op">=</span> <span class="number">8</span>,
-            <span class="doccomment">/// The version has been deleted.</span>
-            <span class="ident">Deleted</span> <span class="op">=</span> <span class="number">9</span>,
-        }
-    }
-}
-<span class="doccomment">/// Information about the encrypted OAuth client secret used in account linking</span>
-<span class="doccomment">/// flows (for AUTH_CODE grant type).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AccountLinkingSecret</span> {
-    <span class="doccomment">/// Encrypted account linking client secret ciphertext.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">encrypted_client_secret</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// The version of the crypto key used to encrypt the account linking client</span>
-    <span class="doccomment">/// secret.</span>
-    <span class="doccomment">/// Note that this field is ignored in push, preview, and version creation</span>
-    <span class="doccomment">/// flows.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">encryption_key_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Represents the list of Actions defined in a project.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Actions</span> {
-    <span class="doccomment">/// Map from intents to custom Actions to configure invocation for the project.</span>
-    <span class="doccomment">/// The invocation intents could either be system or custom intents defined</span>
-    <span class="doccomment">/// in the &quot;custom/intents/&quot; package. All intents defined here (system</span>
-    <span class="doccomment">/// intents &amp; custom intents) must have a corresponding intent file in the</span>
-    <span class="doccomment">/// &quot;custom/global/&quot; package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">custom</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">actions::CustomAction</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Actions`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">actions</span> {
-    <span class="doccomment">/// Defines the engagement mechanisms associated with this action. This</span>
-    <span class="doccomment">/// allows end users to subscribe to push notification and daily update.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Engagement</span> {
-        <span class="doccomment">/// The title of the engagement that will be sent to end users asking for</span>
-        <span class="doccomment">/// their permission to receive updates. The prompt sent to end users for</span>
-        <span class="doccomment">/// daily updates will look like &quot;What time would you like me to send your</span>
-        <span class="doccomment">/// daily {title}&quot; and for push notifications will look like</span>
-        <span class="doccomment">/// &quot;Is it ok if I send push notifications for {title}&quot;.</span>
-        <span class="doccomment">/// **This field is localizable.**</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Push notification settings that this engagement supports.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">push_notification</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">engagement::PushNotification</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Link config for an action which determines whether sharing links is</span>
-        <span class="doccomment">/// enabled for the action and if so, contains the user friendly display name</span>
-        <span class="doccomment">/// for the link.</span>
-        <span class="doccomment">/// ActionLink is deprecated. Use AssistantLink instead.</span>
-        <span class="attribute">#[<span class="ident">deprecated</span>]</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">action_link</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">engagement::ActionLink</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Link config for an action which determines whether sharing links is</span>
-        <span class="doccomment">/// enabled for the action and if so, contains the user friendly display name</span>
-        <span class="doccomment">/// for the link.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">assistant_link</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">engagement::AssistantLink</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Recurring update settings that this engagement supports.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;engagement::RecurringUpdate&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">recurring_update</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">engagement::RecurringUpdate</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Engagement`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">engagement</span> {
-        <span class="doccomment">/// Defines push notification settings that this engagement supports.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PushNotification</span> {}
-        <span class="doccomment">/// Defines daily update settings that this engagement supports.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DailyUpdate</span> {}
-        <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the</span>
-        <span class="doccomment">/// corresponding settings. Action links are used to deep link a user into a</span>
-        <span class="doccomment">/// specific action.</span>
-        <span class="doccomment">/// ActionLink is deprecated. Use AssistantLink instead.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ActionLink</span> {
-            <span class="doccomment">/// User friendly display title for the link.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-        <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the</span>
-        <span class="doccomment">/// corresponding settings. Assistant links are used to deep link a user into</span>
-        <span class="doccomment">/// a specific action.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AssistantLink</span> {
-            <span class="doccomment">/// User friendly display title for the link.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-        <span class="doccomment">/// Recurring update settings that this engagement supports.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RecurringUpdate</span> {
-            <span class="doccomment">/// Daily update settings that this engagement supports.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="ident">DailyUpdate</span>(<span class="ident">DailyUpdate</span>),
-        }
-    }
-    <span class="doccomment">/// Details regarding a custom action.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomAction</span> {
-        <span class="doccomment">/// Engagement mechanisms associated with the action to help end users</span>
-        <span class="doccomment">/// subscribe to push notifications and daily updates.</span>
-        <span class="doccomment">/// Note that the intent name specified in daily updates/push notifications</span>
-        <span class="doccomment">/// slot config needs to match the intent corresponding to this action for</span>
-        <span class="doccomment">/// end users to subscribe to these updates.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">engagement</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Engagement</span><span class="op">&gt;</span>,
-    }
-}
-<span class="doccomment">/// Contains information that&#39;s &quot;transportable&quot; i.e. not specific to any given</span>
-<span class="doccomment">/// project and can be moved between projects.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Manifest</span> {
-    <span class="doccomment">/// Version of the file format. The current file format version is 1.0</span>
-    <span class="doccomment">/// Example: &quot;1.0&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
 <span class="doccomment">/// AccountLinking allows Google to guide the user to sign-in to the App&#39;s web</span>
 <span class="doccomment">/// services.</span>
 <span class="doccomment">///</span>
@@ -2613,6 +2394,365 @@
         <span class="ident">HomeControl</span> <span class="op">=</span> <span class="number">19</span>,
     }
 }
+<span class="doccomment">/// Definition of release channel resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReleaseChannel</span> {
+    <span class="doccomment">/// The unique name of the release channel in the following format.</span>
+    <span class="doccomment">/// `projects/{project}/releaseChannels/{release_channel}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Version currently deployed to this release channel in the following format:</span>
+    <span class="doccomment">/// `projects/{project}/versions/{version}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">current_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Version to be deployed to this release channel in the following format:</span>
+    <span class="doccomment">/// `projects/{project}/versions/{version}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">pending_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Contains information that&#39;s &quot;transportable&quot; i.e. not specific to any given</span>
+<span class="doccomment">/// project and can be moved between projects.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Manifest</span> {
+    <span class="doccomment">/// Version of the file format. The current file format version is 1.0</span>
+    <span class="doccomment">/// Example: &quot;1.0&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Wrapper for repeated validation result.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidationResults</span> {
+    <span class="doccomment">/// Multiple validation results.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ValidationResult</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Represents a validation result associated with the app content.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidationResult</span> {
+    <span class="doccomment">/// Holds the validation message.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">validation_message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Context to identify the resource the validation message relates to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">validation_context</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">validation_result::ValidationContext</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ValidationResult`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">validation_result</span> {
+    <span class="doccomment">/// Context to identify the resource the validation message relates to.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidationContext</span> {
+        <span class="doccomment">/// Language code of the lozalized resource.</span>
+        <span class="doccomment">/// Empty if the error is for non-localized resource.</span>
+        <span class="doccomment">/// See the list of supported languages in</span>
+        <span class="doccomment">/// &lt;https://developers.google.com/assistant/console/languages-locales&gt;</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
+<span class="doccomment">/// Definition of version resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Version</span> {
+    <span class="doccomment">/// The unique identifier of the version in the following format.</span>
+    <span class="doccomment">/// `projects/{project}/versions/{version}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The current state of the version.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">version_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">version::VersionState</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Email of the user who created this version.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">creator</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Timestamp of the last change to this version.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Version`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">version</span> {
+    <span class="doccomment">/// Represents the current state of the version.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VersionState</span> {
+        <span class="doccomment">/// The current state of the version.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;version_state::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// User-friendly message for the current state of the version.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `VersionState`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">version_state</span> {
+        <span class="doccomment">/// Enum indicating the states that a Version can take. This enum is not yet</span>
+        <span class="doccomment">/// frozen and values maybe added later.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+            <span class="doccomment">/// Default value of State.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// The version creation is in progress.</span>
+            <span class="ident">CreationInProgress</span> <span class="op">=</span> <span class="number">1</span>,
+            <span class="doccomment">/// The version creation failed.</span>
+            <span class="ident">CreationFailed</span> <span class="op">=</span> <span class="number">2</span>,
+            <span class="doccomment">/// The version has been successfully created.</span>
+            <span class="ident">Created</span> <span class="op">=</span> <span class="number">3</span>,
+            <span class="doccomment">/// The version is under policy review (aka Approval).</span>
+            <span class="ident">ReviewInProgress</span> <span class="op">=</span> <span class="number">4</span>,
+            <span class="doccomment">/// The version has been approved for policy review and can be deployed.</span>
+            <span class="ident">Approved</span> <span class="op">=</span> <span class="number">5</span>,
+            <span class="doccomment">/// The version has been conditionally approved but is pending final</span>
+            <span class="doccomment">/// review. It may be rolled back if final review is denied.</span>
+            <span class="ident">ConditionallyApproved</span> <span class="op">=</span> <span class="number">6</span>,
+            <span class="doccomment">/// The version has been denied for policy review.</span>
+            <span class="ident">Denied</span> <span class="op">=</span> <span class="number">7</span>,
+            <span class="doccomment">/// The version is taken down as entire agent and all versions are taken</span>
+            <span class="doccomment">/// down.</span>
+            <span class="ident">UnderTakedown</span> <span class="op">=</span> <span class="number">8</span>,
+            <span class="doccomment">/// The version has been deleted.</span>
+            <span class="ident">Deleted</span> <span class="op">=</span> <span class="number">9</span>,
+        }
+    }
+}
+<span class="doccomment">/// Contains information about execution event which happened during processing</span>
+<span class="doccomment">/// Actions Builder conversation request. For an overview of the stages involved</span>
+<span class="doccomment">/// in a conversation request, see</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/actions.&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutionEvent</span> {
+    <span class="doccomment">/// Timestamp when the event happened.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">event_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// State of the execution during this event.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">execution_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecutionState</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Resulting status of particular execution step.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of warnings generated during execution of this Event. Warnings are</span>
+    <span class="doccomment">/// tips for the developer discovered during the conversation request. These</span>
+    <span class="doccomment">/// are usually non-critical and do not halt the execution of the request. For</span>
+    <span class="doccomment">/// example, a warnings might be generated when webhook tries to override a</span>
+    <span class="doccomment">/// custom Type which does not exist. Errors are reported as a failed status</span>
+    <span class="doccomment">/// code, but warnings can be present even when the status is OK.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">warning_messages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Detailed information specific to different of events that may be involved</span>
+    <span class="doccomment">/// in processing a conversation round. The field set here defines the type of</span>
+    <span class="doccomment">/// this event.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;execution_event::EventData&quot;</span>,
+        <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">event_data</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">execution_event::EventData</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExecutionEvent`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">execution_event</span> {
+    <span class="doccomment">/// Detailed information specific to different of events that may be involved</span>
+    <span class="doccomment">/// in processing a conversation round. The field set here defines the type of</span>
+    <span class="doccomment">/// this event.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventData</span> {
+        <span class="doccomment">/// User input handling event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">UserInput</span>(<span class="ident"><span class="kw">super</span>::UserConversationInput</span>),
+        <span class="doccomment">/// Intent matching event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">IntentMatch</span>(<span class="ident"><span class="kw">super</span>::IntentMatch</span>),
+        <span class="doccomment">/// Condition evaluation event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">ConditionsEvaluated</span>(<span class="ident"><span class="kw">super</span>::ConditionsEvaluated</span>),
+        <span class="doccomment">/// OnSceneEnter execution event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="ident">OnSceneEnter</span>(<span class="ident"><span class="kw">super</span>::OnSceneEnter</span>),
+        <span class="doccomment">/// Webhook request dispatch event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="ident">WebhookRequest</span>(<span class="ident"><span class="kw">super</span>::WebhookRequest</span>),
+        <span class="doccomment">/// Webhook response receipt event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="ident">WebhookResponse</span>(<span class="ident"><span class="kw">super</span>::WebhookResponse</span>),
+        <span class="doccomment">/// Webhook-initiated transition event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="ident">WebhookInitiatedTransition</span>(<span class="ident"><span class="kw">super</span>::WebhookInitiatedTransition</span>),
+        <span class="doccomment">/// Slot matching event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="ident">SlotMatch</span>(<span class="ident"><span class="kw">super</span>::SlotMatch</span>),
+        <span class="doccomment">/// Slot requesting event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+        <span class="ident">SlotRequested</span>(<span class="ident"><span class="kw">super</span>::SlotRequested</span>),
+        <span class="doccomment">/// Slot validation event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+        <span class="ident">SlotValidated</span>(<span class="ident"><span class="kw">super</span>::SlotValidated</span>),
+        <span class="doccomment">/// Form filling event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+        <span class="ident">FormFilled</span>(<span class="ident"><span class="kw">super</span>::FormFilled</span>),
+        <span class="doccomment">/// Waiting-for-user-input event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+        <span class="ident">WaitingUserInput</span>(<span class="ident"><span class="kw">super</span>::WaitingForUserInput</span>),
+        <span class="doccomment">/// End-of-conversation event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+        <span class="ident">EndConversation</span>(<span class="ident"><span class="kw">super</span>::EndConversation</span>),
+    }
+}
+<span class="doccomment">/// Current state of the execution.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutionState</span> {
+    <span class="doccomment">/// ID of the scene which is currently  active.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">current_scene_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// State of the session storage:</span>
+    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/storage-session&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">session_storage</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// State of the slots filling, if applicable:</span>
+    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">slots</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Slots</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Prompt queue:</span>
+    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/prompts&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">prompt_queue</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">conversation::Prompt</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// State of the user storage:</span>
+    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/storage-user&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_storage</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// State of the home storage:</span>
+    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/storage-home&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">household_storage</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Represents the current state of a the scene&#39;s slots.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Slots</span> {
+    <span class="doccomment">/// The current status of slot filling.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;conversation::SlotFillingStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The slots associated with the current scene.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">slots</span>:
+        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">conversation::Slot</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Information related to user input.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UserConversationInput</span> {
+    <span class="doccomment">/// Type of user input. E.g. keyboard, voice, touch, etc.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Original text input from the user.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">original_query</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Information about triggered intent match (global or within a scene):</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/intents&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentMatch</span> {
+    <span class="doccomment">/// Intent id which triggered this interaction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">intent_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Parameters of intent which triggered this interaction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">intent_parameters</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">conversation::IntentParameterValue</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Name of the handler attached to this interaction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Scene to which this interaction leads to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_scene_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Results of conditions evaluation:</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#conditions&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConditionsEvaluated</span> {
+    <span class="doccomment">/// List of conditions which were evaluated to &#39;false&#39;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">failed_conditions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Condition</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The first condition which was evaluated to &#39;true&#39;, if any.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">success_condition</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Condition</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Evaluated condition.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Condition</span> {
+    <span class="doccomment">/// Expression specified in this condition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">expression</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Handler name specified in evaluated condition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Destination scene specified in evaluated condition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_scene_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Information about execution of onSceneEnter stage:</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#on_enter&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OnSceneEnter</span> {
+    <span class="doccomment">/// Handler name specified in onSceneEnter event.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Event triggered by destination scene returned from webhook:</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/webhooks#transition_scenes&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WebhookInitiatedTransition</span> {
+    <span class="doccomment">/// ID of the scene the transition is leading to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_scene_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Information about a request dispatched to the Action webhook:</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/webhooks#payloads&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WebhookRequest</span> {
+    <span class="doccomment">/// Payload of the webhook request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_json</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Information about a response received from the Action webhook:</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/webhooks#payloads&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WebhookResponse</span> {
+    <span class="doccomment">/// Payload of the webhook response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response_json</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Information about matched slot(s):</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SlotMatch</span> {
+    <span class="doccomment">/// Parameters extracted by NLU from user input.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">nlu_parameters</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">conversation::IntentParameterValue</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Information about currently requested slot:</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SlotRequested</span> {
+    <span class="doccomment">/// Name of the requested slot.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">slot</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Slot prompt.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">prompt</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">conversation::Prompt</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Event which happens after webhook validation was finished for slot(s):</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SlotValidated</span> {}
+<span class="doccomment">/// Event which happens when form is fully filled:</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FormFilled</span> {}
+<span class="doccomment">/// Event which happens when system needs user input:</span>
+<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#input&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WaitingForUserInput</span> {}
+<span class="doccomment">/// Event which informs that conversation with agent was ended.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EndConversation</span> {}
 <span class="doccomment">/// Metadata for different types of webhooks. If you&#39;re using</span>
 <span class="doccomment">/// `inlineCloudFunction`, your source code must be in a directory with the same</span>
 <span class="doccomment">/// name as the value for the `executeFunction` key.</span>
@@ -2683,6 +2823,114 @@
         <span class="doccomment">/// Metadata for cloud function deployed from code in the webhooks folder.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
         <span class="ident">InlineCloudFunction</span>(<span class="ident">InlineCloudFunction</span>),
+    }
+}
+<span class="doccomment">/// Information about the encrypted OAuth client secret used in account linking</span>
+<span class="doccomment">/// flows (for AUTH_CODE grant type).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AccountLinkingSecret</span> {
+    <span class="doccomment">/// Encrypted account linking client secret ciphertext.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">encrypted_client_secret</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// The version of the crypto key used to encrypt the account linking client</span>
+    <span class="doccomment">/// secret.</span>
+    <span class="doccomment">/// Note that this field is ignored in push, preview, and version creation</span>
+    <span class="doccomment">/// flows.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">encryption_key_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Represents the list of Actions defined in a project.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Actions</span> {
+    <span class="doccomment">/// Map from intents to custom Actions to configure invocation for the project.</span>
+    <span class="doccomment">/// The invocation intents could either be system or custom intents defined</span>
+    <span class="doccomment">/// in the &quot;custom/intents/&quot; package. All intents defined here (system</span>
+    <span class="doccomment">/// intents &amp; custom intents) must have a corresponding intent file in the</span>
+    <span class="doccomment">/// &quot;custom/global/&quot; package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">custom</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">actions::CustomAction</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Actions`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">actions</span> {
+    <span class="doccomment">/// Defines the engagement mechanisms associated with this action. This</span>
+    <span class="doccomment">/// allows end users to subscribe to push notification and daily update.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Engagement</span> {
+        <span class="doccomment">/// The title of the engagement that will be sent to end users asking for</span>
+        <span class="doccomment">/// their permission to receive updates. The prompt sent to end users for</span>
+        <span class="doccomment">/// daily updates will look like &quot;What time would you like me to send your</span>
+        <span class="doccomment">/// daily {title}&quot; and for push notifications will look like</span>
+        <span class="doccomment">/// &quot;Is it ok if I send push notifications for {title}&quot;.</span>
+        <span class="doccomment">/// **This field is localizable.**</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Push notification settings that this engagement supports.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">push_notification</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">engagement::PushNotification</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Link config for an action which determines whether sharing links is</span>
+        <span class="doccomment">/// enabled for the action and if so, contains the user friendly display name</span>
+        <span class="doccomment">/// for the link.</span>
+        <span class="doccomment">/// ActionLink is deprecated. Use AssistantLink instead.</span>
+        <span class="attribute">#[<span class="ident">deprecated</span>]</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">action_link</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">engagement::ActionLink</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Link config for an action which determines whether sharing links is</span>
+        <span class="doccomment">/// enabled for the action and if so, contains the user friendly display name</span>
+        <span class="doccomment">/// for the link.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">assistant_link</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">engagement::AssistantLink</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Recurring update settings that this engagement supports.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;engagement::RecurringUpdate&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">recurring_update</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">engagement::RecurringUpdate</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Engagement`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">engagement</span> {
+        <span class="doccomment">/// Defines push notification settings that this engagement supports.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PushNotification</span> {}
+        <span class="doccomment">/// Defines daily update settings that this engagement supports.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DailyUpdate</span> {}
+        <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the</span>
+        <span class="doccomment">/// corresponding settings. Action links are used to deep link a user into a</span>
+        <span class="doccomment">/// specific action.</span>
+        <span class="doccomment">/// ActionLink is deprecated. Use AssistantLink instead.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ActionLink</span> {
+            <span class="doccomment">/// User friendly display title for the link.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+        <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the</span>
+        <span class="doccomment">/// corresponding settings. Assistant links are used to deep link a user into</span>
+        <span class="doccomment">/// a specific action.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AssistantLink</span> {
+            <span class="doccomment">/// User friendly display title for the link.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+        <span class="doccomment">/// Recurring update settings that this engagement supports.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RecurringUpdate</span> {
+            <span class="doccomment">/// Daily update settings that this engagement supports.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="ident">DailyUpdate</span>(<span class="ident">DailyUpdate</span>),
+        }
+    }
+    <span class="doccomment">/// Details regarding a custom action.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomAction</span> {
+        <span class="doccomment">/// Engagement mechanisms associated with the action to help end users</span>
+        <span class="doccomment">/// subscribe to push notifications and daily updates.</span>
+        <span class="doccomment">/// Note that the intent name specified in daily updates/push notifications</span>
+        <span class="doccomment">/// slot config needs to match the intent corresponding to this action for</span>
+        <span class="doccomment">/// end users to subscribe to these updates.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">engagement</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Engagement</span><span class="op">&gt;</span>,
     }
 }
 <span class="doccomment">/// Wrapper for repeated config files. Repeated fields cannot exist in a oneof.</span>
@@ -2774,6 +3022,45 @@
         <span class="ident">ResourceBundle</span>(<span class="ident">::prost_types::Struct</span>),
     }
 }
+<span class="doccomment">/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataFiles</span> {
+    <span class="doccomment">/// Multiple data files.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_files</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DataFile</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Represents a single file which contains unstructured data. Examples include</span>
+<span class="doccomment">/// image files, audio files, and cloud function source code.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataFile</span> {
+    <span class="doccomment">/// Relative path of the data file from the project root in the SDK file</span>
+    <span class="doccomment">/// structure.</span>
+    <span class="doccomment">/// Allowed file paths:</span>
+    <span class="doccomment">///     - Images: `resources/images/{multiple</span>
+    <span class="doccomment">///     directories}?/{ImageName}.{extension}`</span>
+    <span class="doccomment">///     - Audio: `resources/audio/{multiple</span>
+    <span class="doccomment">///     directories}?/{AudioFileName}.{extension}`</span>
+    <span class="doccomment">///     - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`</span>
+    <span class="doccomment">/// Allowed extensions:</span>
+    <span class="doccomment">///     - Images: `png`, `jpg`, `jpeg`</span>
+    <span class="doccomment">///     - Audio: `mp3`, `mpeg`</span>
+    <span class="doccomment">///     - Inline Cloud Functions: `zip`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file_path</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The content type of this asset. Example: `text/html`. The content</span>
+    <span class="doccomment">/// type must comply with the specification</span>
+    <span class="doccomment">/// (&lt;http://www.w3.org/Protocols/rfc1341/4_Content-Type.html&gt;).</span>
+    <span class="doccomment">/// Cloud functions must be in zip format and the content type should</span>
+    <span class="doccomment">/// be `application/zip;zip_type=cloud_function`. The zip_type parameter</span>
+    <span class="doccomment">/// indicates that the zip is for a cloud function.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Content of the data file. Examples would be raw bytes of images, audio</span>
+    <span class="doccomment">/// files, or cloud function zip format.</span>
+    <span class="doccomment">/// There is 10 MB strict limit on the payload size.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">payload</span>: <span class="ident">::prost::bytes::Bytes</span>,
+}
 <span class="doccomment">/// Wrapper for a list of files.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Files</span> {
@@ -2796,52 +3083,6 @@
         <span class="doccomment">/// source code.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">DataFiles</span>(<span class="ident"><span class="kw">super</span>::DataFiles</span>),
-    }
-}
-<span class="doccomment">/// Definition of release channel resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReleaseChannel</span> {
-    <span class="doccomment">/// The unique name of the release channel in the following format.</span>
-    <span class="doccomment">/// `projects/{project}/releaseChannels/{release_channel}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Version currently deployed to this release channel in the following format:</span>
-    <span class="doccomment">/// `projects/{project}/versions/{version}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">current_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Version to be deployed to this release channel in the following format:</span>
-    <span class="doccomment">/// `projects/{project}/versions/{version}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">pending_version</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Wrapper for repeated validation result.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidationResults</span> {
-    <span class="doccomment">/// Multiple validation results.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ValidationResult</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents a validation result associated with the app content.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidationResult</span> {
-    <span class="doccomment">/// Holds the validation message.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">validation_message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Context to identify the resource the validation message relates to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">validation_context</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">validation_result::ValidationContext</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ValidationResult`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">validation_result</span> {
-    <span class="doccomment">/// Context to identify the resource the validation message relates to.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidationContext</span> {
-        <span class="doccomment">/// Language code of the lozalized resource.</span>
-        <span class="doccomment">/// Empty if the error is for non-localized resource.</span>
-        <span class="doccomment">/// See the list of supported languages in</span>
-        <span class="doccomment">/// &lt;https://developers.google.com/assistant/console/languages-locales&gt;</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">language_code</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
 }
 <span class="doccomment">/// Streaming RPC request for WriteDraft.</span>
@@ -3380,247 +3621,6 @@
         }
     }
 }
-<span class="doccomment">/// Contains information about execution event which happened during processing</span>
-<span class="doccomment">/// Actions Builder conversation request. For an overview of the stages involved</span>
-<span class="doccomment">/// in a conversation request, see</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/actions.&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutionEvent</span> {
-    <span class="doccomment">/// Timestamp when the event happened.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">event_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// State of the execution during this event.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">execution_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecutionState</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Resulting status of particular execution step.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of warnings generated during execution of this Event. Warnings are</span>
-    <span class="doccomment">/// tips for the developer discovered during the conversation request. These</span>
-    <span class="doccomment">/// are usually non-critical and do not halt the execution of the request. For</span>
-    <span class="doccomment">/// example, a warnings might be generated when webhook tries to override a</span>
-    <span class="doccomment">/// custom Type which does not exist. Errors are reported as a failed status</span>
-    <span class="doccomment">/// code, but warnings can be present even when the status is OK.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">warning_messages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Detailed information specific to different of events that may be involved</span>
-    <span class="doccomment">/// in processing a conversation round. The field set here defines the type of</span>
-    <span class="doccomment">/// this event.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;execution_event::EventData&quot;</span>,
-        <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">event_data</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">execution_event::EventData</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ExecutionEvent`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">execution_event</span> {
-    <span class="doccomment">/// Detailed information specific to different of events that may be involved</span>
-    <span class="doccomment">/// in processing a conversation round. The field set here defines the type of</span>
-    <span class="doccomment">/// this event.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventData</span> {
-        <span class="doccomment">/// User input handling event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">UserInput</span>(<span class="ident"><span class="kw">super</span>::UserConversationInput</span>),
-        <span class="doccomment">/// Intent matching event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">IntentMatch</span>(<span class="ident"><span class="kw">super</span>::IntentMatch</span>),
-        <span class="doccomment">/// Condition evaluation event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">ConditionsEvaluated</span>(<span class="ident"><span class="kw">super</span>::ConditionsEvaluated</span>),
-        <span class="doccomment">/// OnSceneEnter execution event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="ident">OnSceneEnter</span>(<span class="ident"><span class="kw">super</span>::OnSceneEnter</span>),
-        <span class="doccomment">/// Webhook request dispatch event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="ident">WebhookRequest</span>(<span class="ident"><span class="kw">super</span>::WebhookRequest</span>),
-        <span class="doccomment">/// Webhook response receipt event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="ident">WebhookResponse</span>(<span class="ident"><span class="kw">super</span>::WebhookResponse</span>),
-        <span class="doccomment">/// Webhook-initiated transition event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="ident">WebhookInitiatedTransition</span>(<span class="ident"><span class="kw">super</span>::WebhookInitiatedTransition</span>),
-        <span class="doccomment">/// Slot matching event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-        <span class="ident">SlotMatch</span>(<span class="ident"><span class="kw">super</span>::SlotMatch</span>),
-        <span class="doccomment">/// Slot requesting event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-        <span class="ident">SlotRequested</span>(<span class="ident"><span class="kw">super</span>::SlotRequested</span>),
-        <span class="doccomment">/// Slot validation event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-        <span class="ident">SlotValidated</span>(<span class="ident"><span class="kw">super</span>::SlotValidated</span>),
-        <span class="doccomment">/// Form filling event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-        <span class="ident">FormFilled</span>(<span class="ident"><span class="kw">super</span>::FormFilled</span>),
-        <span class="doccomment">/// Waiting-for-user-input event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-        <span class="ident">WaitingUserInput</span>(<span class="ident"><span class="kw">super</span>::WaitingForUserInput</span>),
-        <span class="doccomment">/// End-of-conversation event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
-        <span class="ident">EndConversation</span>(<span class="ident"><span class="kw">super</span>::EndConversation</span>),
-    }
-}
-<span class="doccomment">/// Current state of the execution.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutionState</span> {
-    <span class="doccomment">/// ID of the scene which is currently  active.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">current_scene_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// State of the session storage:</span>
-    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/storage-session&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">session_storage</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// State of the slots filling, if applicable:</span>
-    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">slots</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Slots</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Prompt queue:</span>
-    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/prompts&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">prompt_queue</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">conversation::Prompt</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// State of the user storage:</span>
-    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/storage-user&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_storage</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// State of the home storage:</span>
-    <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/storage-home&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">household_storage</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents the current state of a the scene&#39;s slots.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Slots</span> {
-    <span class="doccomment">/// The current status of slot filling.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;conversation::SlotFillingStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The slots associated with the current scene.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">slots</span>:
-        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">conversation::Slot</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Information related to user input.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UserConversationInput</span> {
-    <span class="doccomment">/// Type of user input. E.g. keyboard, voice, touch, etc.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Original text input from the user.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">original_query</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Information about triggered intent match (global or within a scene):</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/intents&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentMatch</span> {
-    <span class="doccomment">/// Intent id which triggered this interaction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">intent_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Parameters of intent which triggered this interaction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">intent_parameters</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">conversation::IntentParameterValue</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Name of the handler attached to this interaction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Scene to which this interaction leads to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_scene_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Results of conditions evaluation:</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#conditions&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConditionsEvaluated</span> {
-    <span class="doccomment">/// List of conditions which were evaluated to &#39;false&#39;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">failed_conditions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Condition</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The first condition which was evaluated to &#39;true&#39;, if any.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">success_condition</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Condition</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Evaluated condition.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Condition</span> {
-    <span class="doccomment">/// Expression specified in this condition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">expression</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Handler name specified in evaluated condition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Destination scene specified in evaluated condition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_scene_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Information about execution of onSceneEnter stage:</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#on_enter&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OnSceneEnter</span> {
-    <span class="doccomment">/// Handler name specified in onSceneEnter event.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Event triggered by destination scene returned from webhook:</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/webhooks#transition_scenes&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WebhookInitiatedTransition</span> {
-    <span class="doccomment">/// ID of the scene the transition is leading to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_scene_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Information about a request dispatched to the Action webhook:</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/webhooks#payloads&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WebhookRequest</span> {
-    <span class="doccomment">/// Payload of the webhook request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_json</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Information about a response received from the Action webhook:</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/webhooks#payloads&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WebhookResponse</span> {
-    <span class="doccomment">/// Payload of the webhook response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response_json</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Information about matched slot(s):</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SlotMatch</span> {
-    <span class="doccomment">/// Parameters extracted by NLU from user input.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">nlu_parameters</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">conversation::IntentParameterValue</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Information about currently requested slot:</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SlotRequested</span> {
-    <span class="doccomment">/// Name of the requested slot.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">slot</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Slot prompt.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">prompt</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">conversation::Prompt</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Event which happens after webhook validation was finished for slot(s):</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SlotValidated</span> {}
-<span class="doccomment">/// Event which happens when form is fully filled:</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FormFilled</span> {}
-<span class="doccomment">/// Event which happens when system needs user input:</span>
-<span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/scenes#input&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WaitingForUserInput</span> {}
-<span class="doccomment">/// Event which informs that conversation with agent was ended.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EndConversation</span> {}
 <span class="doccomment">/// Request for playing a round of the conversation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SendInteractionRequest</span> {

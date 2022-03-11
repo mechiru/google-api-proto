@@ -902,7 +902,23 @@
 <span id="900">900</span>
 <span id="901">901</span>
 <span id="902">902</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Information reported for an outdated library.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web</span>
+<span class="doccomment">/// Security Scanner Service crawls the web applications, following all links</span>
+<span class="doccomment">/// within the scope of sites, to find the URLs to test against.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CrawledUrl</span> {
+    <span class="doccomment">/// Output only. The http method of the request that was used to visit the URL, in</span>
+    <span class="doccomment">/// uppercase.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">http_method</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The URL that was crawled.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The body of the request that was used to visit the URL.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Information reported for an outdated library.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OutdatedLibrary</span> {
     <span class="doccomment">/// The name of the outdated library.</span>
@@ -1091,22 +1107,6 @@
     <span class="doccomment">/// The count of findings belonging to this finding type.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">finding_count</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web</span>
-<span class="doccomment">/// Security Scanner Service crawls the web applications, following all links</span>
-<span class="doccomment">/// within the scope of sites, to find the URLs to test against.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CrawledUrl</span> {
-    <span class="doccomment">/// Output only. The http method of the request that was used to visit the URL, in</span>
-    <span class="doccomment">/// uppercase.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">http_method</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The URL that was crawled.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The body of the request that was used to visit the URL.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// A ScanRun is a output-only resource representing an actual run of the scan.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

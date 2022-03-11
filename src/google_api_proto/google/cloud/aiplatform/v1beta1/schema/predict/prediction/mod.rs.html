@@ -251,25 +251,81 @@
 <span id="249">249</span>
 <span id="250">250</span>
 <span id="251">251</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Prediction output format for Video Action Recognition.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Prediction output format for Image Segmentation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoActionRecognitionPredictionResult</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageSegmentationPredictionResult</span> {
+    <span class="doccomment">/// A PNG image where each pixel in the mask represents the category in which</span>
+    <span class="doccomment">/// the pixel in the original image was predicted to belong to. The size of</span>
+    <span class="doccomment">/// this image will be the same as the original image. The mapping between the</span>
+    <span class="doccomment">/// AnntoationSpec and the color can be found in model&#39;s metadata. The model</span>
+    <span class="doccomment">/// will choose the most likely category and if none of the categories reach</span>
+    <span class="doccomment">/// the confidence threshold, the pixel will be marked as background.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">category_mask</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A one channel image which is encoded as an 8bit lossless PNG. The size of</span>
+    <span class="doccomment">/// the image will be the same as the original image. For a specific pixel,</span>
+    <span class="doccomment">/// darker color means less confidence in correctness of the cateogry in the</span>
+    <span class="doccomment">/// categoryMask for the corresponding pixel. Black means no confidence and</span>
+    <span class="doccomment">/// white means complete confidence.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidence_mask</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Prediction output format for Tabular Classification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TabularClassificationPredictionResult</span> {
+    <span class="doccomment">/// The name of the classes being classified, contains all possible values of</span>
+    <span class="doccomment">/// the target column.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">classes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The model&#39;s confidence in each class being correct, higher</span>
+    <span class="doccomment">/// value means higher confidence. The N-th score corresponds to</span>
+    <span class="doccomment">/// the N-th class in classes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">scores</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Prediction output format for Text Sentiment</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextSentimentPredictionResult</span> {
+    <span class="doccomment">/// The integer sentiment labels between 0 (inclusive) and sentimentMax label</span>
+    <span class="doccomment">/// (inclusive), while 0 maps to the least positive sentiment and</span>
+    <span class="doccomment">/// sentimentMax maps to the most positive one. The higher the score is, the</span>
+    <span class="doccomment">/// more positive the sentiment in the text snippet is. Note: sentimentMax is</span>
+    <span class="doccomment">/// an integer value between 1 (inclusive) and 10 (inclusive).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">sentiment</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Prediction output format for Video Classification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoClassificationPredictionResult</span> {
     <span class="doccomment">/// The resource ID of the AnnotationSpec that had been identified.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The display name of the AnnotationSpec that had been identified.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type of the prediction. The requested types can be configured</span>
+    <span class="doccomment">/// via parameters. This will be one of</span>
+    <span class="doccomment">/// - segment-classification</span>
+    <span class="doccomment">/// - shot-classification</span>
+    <span class="doccomment">/// - one-sec-interval-classification</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The beginning, inclusive, of the video&#39;s time segment in which the</span>
     <span class="doccomment">/// AnnotationSpec has been identified. Expressed as a number of seconds as</span>
     <span class="doccomment">/// measured from the start of the video, with fractions up to a microsecond</span>
-    <span class="doccomment">/// precision, and with &quot;s&quot; appended at the end.</span>
+    <span class="doccomment">/// precision, and with &quot;s&quot; appended at the end. Note that for</span>
+    <span class="doccomment">/// &#39;segment-classification&#39; prediction type, this equals the original</span>
+    <span class="doccomment">/// &#39;timeSegmentStart&#39; from the input instance, for other types it is the</span>
+    <span class="doccomment">/// start of a shot or a 1 second interval respectively.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">time_segment_start</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The end, exclusive, of the video&#39;s time segment in which the</span>
     <span class="doccomment">/// AnnotationSpec has been identified. Expressed as a number of seconds as</span>
     <span class="doccomment">/// measured from the start of the video, with fractions up to a microsecond</span>
-    <span class="doccomment">/// precision, and with &quot;s&quot; appended at the end.</span>
+    <span class="doccomment">/// precision, and with &quot;s&quot; appended at the end. Note that for</span>
+    <span class="doccomment">/// &#39;segment-classification&#39; prediction type, this equals the original</span>
+    <span class="doccomment">/// &#39;timeSegmentEnd&#39; from the input instance, for other types it is the end</span>
+    <span class="doccomment">/// of a shot or a 1 second interval respectively.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">time_segment_end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The Model&#39;s confidence in correction of this prediction, higher</span>
@@ -334,6 +390,32 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">confidences</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
 }
+<span class="doccomment">/// Prediction output format for Video Action Recognition.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoActionRecognitionPredictionResult</span> {
+    <span class="doccomment">/// The resource ID of the AnnotationSpec that had been identified.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The display name of the AnnotationSpec that had been identified.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The beginning, inclusive, of the video&#39;s time segment in which the</span>
+    <span class="doccomment">/// AnnotationSpec has been identified. Expressed as a number of seconds as</span>
+    <span class="doccomment">/// measured from the start of the video, with fractions up to a microsecond</span>
+    <span class="doccomment">/// precision, and with &quot;s&quot; appended at the end.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">time_segment_start</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The end, exclusive, of the video&#39;s time segment in which the</span>
+    <span class="doccomment">/// AnnotationSpec has been identified. Expressed as a number of seconds as</span>
+    <span class="doccomment">/// measured from the start of the video, with fractions up to a microsecond</span>
+    <span class="doccomment">/// precision, and with &quot;s&quot; appended at the end.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">time_segment_end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The Model&#39;s confidence in correction of this prediction, higher</span>
+    <span class="doccomment">/// value means higher confidence.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidence</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
+}
 <span class="doccomment">/// Prediction output format for Tabular Regression.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TabularRegressionPredictionResult</span> {
@@ -346,103 +428,6 @@
     <span class="doccomment">/// The upper bound of the prediction interval.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">upper_bound</span>: <span class="ident">f32</span>,
-}
-<span class="doccomment">/// Prediction output format for Image and Text Classification.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClassificationPredictionResult</span> {
-    <span class="doccomment">/// The resource IDs of the AnnotationSpecs that had been identified.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The display names of the AnnotationSpecs that had been identified, order</span>
-    <span class="doccomment">/// matches the IDs.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The Model&#39;s confidences in correctness of the predicted IDs, higher value</span>
-    <span class="doccomment">/// means higher confidence. Order matches the Ids.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confidences</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Prediction output format for Image Segmentation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageSegmentationPredictionResult</span> {
-    <span class="doccomment">/// A PNG image where each pixel in the mask represents the category in which</span>
-    <span class="doccomment">/// the pixel in the original image was predicted to belong to. The size of</span>
-    <span class="doccomment">/// this image will be the same as the original image. The mapping between the</span>
-    <span class="doccomment">/// AnntoationSpec and the color can be found in model&#39;s metadata. The model</span>
-    <span class="doccomment">/// will choose the most likely category and if none of the categories reach</span>
-    <span class="doccomment">/// the confidence threshold, the pixel will be marked as background.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">category_mask</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A one channel image which is encoded as an 8bit lossless PNG. The size of</span>
-    <span class="doccomment">/// the image will be the same as the original image. For a specific pixel,</span>
-    <span class="doccomment">/// darker color means less confidence in correctness of the cateogry in the</span>
-    <span class="doccomment">/// categoryMask for the corresponding pixel. Black means no confidence and</span>
-    <span class="doccomment">/// white means complete confidence.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confidence_mask</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Prediction output format for Tabular Classification.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TabularClassificationPredictionResult</span> {
-    <span class="doccomment">/// The name of the classes being classified, contains all possible values of</span>
-    <span class="doccomment">/// the target column.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">classes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The model&#39;s confidence in each class being correct, higher</span>
-    <span class="doccomment">/// value means higher confidence. The N-th score corresponds to</span>
-    <span class="doccomment">/// the N-th class in classes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">scores</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Prediction output format for Video Classification.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoClassificationPredictionResult</span> {
-    <span class="doccomment">/// The resource ID of the AnnotationSpec that had been identified.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The display name of the AnnotationSpec that had been identified.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type of the prediction. The requested types can be configured</span>
-    <span class="doccomment">/// via parameters. This will be one of</span>
-    <span class="doccomment">/// - segment-classification</span>
-    <span class="doccomment">/// - shot-classification</span>
-    <span class="doccomment">/// - one-sec-interval-classification</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The beginning, inclusive, of the video&#39;s time segment in which the</span>
-    <span class="doccomment">/// AnnotationSpec has been identified. Expressed as a number of seconds as</span>
-    <span class="doccomment">/// measured from the start of the video, with fractions up to a microsecond</span>
-    <span class="doccomment">/// precision, and with &quot;s&quot; appended at the end. Note that for</span>
-    <span class="doccomment">/// &#39;segment-classification&#39; prediction type, this equals the original</span>
-    <span class="doccomment">/// &#39;timeSegmentStart&#39; from the input instance, for other types it is the</span>
-    <span class="doccomment">/// start of a shot or a 1 second interval respectively.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">time_segment_start</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The end, exclusive, of the video&#39;s time segment in which the</span>
-    <span class="doccomment">/// AnnotationSpec has been identified. Expressed as a number of seconds as</span>
-    <span class="doccomment">/// measured from the start of the video, with fractions up to a microsecond</span>
-    <span class="doccomment">/// precision, and with &quot;s&quot; appended at the end. Note that for</span>
-    <span class="doccomment">/// &#39;segment-classification&#39; prediction type, this equals the original</span>
-    <span class="doccomment">/// &#39;timeSegmentEnd&#39; from the input instance, for other types it is the end</span>
-    <span class="doccomment">/// of a shot or a 1 second interval respectively.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">time_segment_end</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The Model&#39;s confidence in correction of this prediction, higher</span>
-    <span class="doccomment">/// value means higher confidence.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">confidence</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Prediction output format for Text Sentiment</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextSentimentPredictionResult</span> {
-    <span class="doccomment">/// The integer sentiment labels between 0 (inclusive) and sentimentMax label</span>
-    <span class="doccomment">/// (inclusive), while 0 maps to the least positive sentiment and</span>
-    <span class="doccomment">/// sentimentMax maps to the most positive one. The higher the score is, the</span>
-    <span class="doccomment">/// more positive the sentiment in the text snippet is. Note: sentimentMax is</span>
-    <span class="doccomment">/// an integer value between 1 (inclusive) and 10 (inclusive).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">sentiment</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// Prediction output format for Video Object Tracking.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -501,6 +486,21 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">y_max</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
     }
+}
+<span class="doccomment">/// Prediction output format for Image and Text Classification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClassificationPredictionResult</span> {
+    <span class="doccomment">/// The resource IDs of the AnnotationSpecs that had been identified.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The display names of the AnnotationSpecs that had been identified, order</span>
+    <span class="doccomment">/// matches the IDs.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_names</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The Model&#39;s confidences in correctness of the predicted IDs, higher value</span>
+    <span class="doccomment">/// means higher confidence. Order matches the Ids.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">confidences</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

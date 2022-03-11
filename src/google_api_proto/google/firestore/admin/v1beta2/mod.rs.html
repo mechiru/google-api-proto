@@ -987,6 +987,187 @@
         <span class="kw">pub</span> <span class="ident">reverting</span>: <span class="ident">bool</span>,
     }
 }
+<span class="doccomment">/// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from</span>
+<span class="doccomment">/// \[FirestoreAdmin.CreateIndex][google.firestore.admin.v1beta2.FirestoreAdmin.CreateIndex\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IndexOperationMetadata</span> {
+    <span class="doccomment">/// The time this operation started.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time this operation completed. Will be unset if operation still in</span>
+    <span class="doccomment">/// progress.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The index resource that this operation is acting on. For example:</span>
+    <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{index_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">index</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The state of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The progress, in documents, of this operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">progress_documents</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The progress, in bytes, of this operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">progress_bytes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from</span>
+<span class="doccomment">/// \[FirestoreAdmin.UpdateField][google.firestore.admin.v1beta2.FirestoreAdmin.UpdateField\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FieldOperationMetadata</span> {
+    <span class="doccomment">/// The time this operation started.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time this operation completed. Will be unset if operation still in</span>
+    <span class="doccomment">/// progress.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The field resource that this operation is acting on. For example:</span>
+    <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">field</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A list of \[IndexConfigDelta][google.firestore.admin.v1beta2.FieldOperationMetadata.IndexConfigDelta\], which describe the intent of this</span>
+    <span class="doccomment">/// operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">index_config_deltas</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">field_operation_metadata::IndexConfigDelta</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The state of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The progress, in documents, of this operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">document_progress</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The progress, in bytes, of this operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">bytes_progress</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `FieldOperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">field_operation_metadata</span> {
+    <span class="doccomment">/// Information about an index configuration change.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IndexConfigDelta</span> {
+        <span class="doccomment">/// Specifies how the index is changing.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;index_config_delta::ChangeType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">change_type</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// The index being changed.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">index</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Index</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `IndexConfigDelta`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">index_config_delta</span> {
+        <span class="doccomment">/// Specifies how the index is changing.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChangeType</span> {
+            <span class="doccomment">/// The type of change is not specified or known.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// The single field index is being added.</span>
+            <span class="ident">Add</span> <span class="op">=</span> <span class="number">1</span>,
+            <span class="doccomment">/// The single field index is being removed.</span>
+            <span class="ident">Remove</span> <span class="op">=</span> <span class="number">2</span>,
+        }
+    }
+}
+<span class="doccomment">/// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from</span>
+<span class="doccomment">/// \[FirestoreAdmin.ExportDocuments][google.firestore.admin.v1beta2.FirestoreAdmin.ExportDocuments\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDocumentsMetadata</span> {
+    <span class="doccomment">/// The time this operation started.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time this operation completed. Will be unset if operation still in</span>
+    <span class="doccomment">/// progress.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The state of the export operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">operation_state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The progress, in documents, of this operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">progress_documents</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The progress, in bytes, of this operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">progress_bytes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Which collection ids are being exported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">collection_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Where the entities are being exported to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">output_uri_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from</span>
+<span class="doccomment">/// \[FirestoreAdmin.ImportDocuments][google.firestore.admin.v1beta2.FirestoreAdmin.ImportDocuments\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportDocumentsMetadata</span> {
+    <span class="doccomment">/// The time this operation started.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time this operation completed. Will be unset if operation still in</span>
+    <span class="doccomment">/// progress.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The state of the import operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">operation_state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The progress, in documents, of this operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">progress_documents</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The progress, in bytes, of this operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">progress_bytes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Which collection ids are being imported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">collection_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The location of the documents being imported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">input_uri_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Returned in the \[google.longrunning.Operation][google.longrunning.Operation\] response field.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDocumentsResponse</span> {
+    <span class="doccomment">/// Location of the output files. This can be used to begin an import</span>
+    <span class="doccomment">/// into Cloud Firestore (this project or another project) after the operation</span>
+    <span class="doccomment">/// completes successfully.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">output_uri_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Describes the progress of the operation.</span>
+<span class="doccomment">/// Unit of work is generic and must be interpreted based on where \[Progress][google.firestore.admin.v1beta2.Progress\]</span>
+<span class="doccomment">/// is used.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Progress</span> {
+    <span class="doccomment">/// The amount of work estimated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">estimated_work</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The amount of work completed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">completed_work</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Describes the state of the operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OperationState</span> {
+    <span class="doccomment">/// Unspecified.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Request is being prepared for processing.</span>
+    <span class="ident">Initializing</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Request is actively being processed.</span>
+    <span class="ident">Processing</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Request is in the process of being cancelled after user called</span>
+    <span class="doccomment">/// google.longrunning.Operations.CancelOperation on the operation.</span>
+    <span class="ident">Cancelling</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Request has been processed and is in its finalization stage.</span>
+    <span class="ident">Finalizing</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// Request has completed successfully.</span>
+    <span class="ident">Successful</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="doccomment">/// Request has finished being processed, but encountered an error.</span>
+    <span class="ident">Failed</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="doccomment">/// Request has finished being cancelled after user called</span>
+    <span class="doccomment">/// google.longrunning.Operations.CancelOperation.</span>
+    <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">7</span>,
+}
 <span class="doccomment">/// The request for \[FirestoreAdmin.CreateIndex][google.firestore.admin.v1beta2.FirestoreAdmin.CreateIndex\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateIndexRequest</span> {
@@ -1384,187 +1565,6 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
-}
-<span class="doccomment">/// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from</span>
-<span class="doccomment">/// \[FirestoreAdmin.CreateIndex][google.firestore.admin.v1beta2.FirestoreAdmin.CreateIndex\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IndexOperationMetadata</span> {
-    <span class="doccomment">/// The time this operation started.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time this operation completed. Will be unset if operation still in</span>
-    <span class="doccomment">/// progress.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The index resource that this operation is acting on. For example:</span>
-    <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{index_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">index</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The state of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The progress, in documents, of this operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">progress_documents</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The progress, in bytes, of this operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">progress_bytes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from</span>
-<span class="doccomment">/// \[FirestoreAdmin.UpdateField][google.firestore.admin.v1beta2.FirestoreAdmin.UpdateField\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FieldOperationMetadata</span> {
-    <span class="doccomment">/// The time this operation started.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time this operation completed. Will be unset if operation still in</span>
-    <span class="doccomment">/// progress.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The field resource that this operation is acting on. For example:</span>
-    <span class="doccomment">/// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">field</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A list of \[IndexConfigDelta][google.firestore.admin.v1beta2.FieldOperationMetadata.IndexConfigDelta\], which describe the intent of this</span>
-    <span class="doccomment">/// operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">index_config_deltas</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">field_operation_metadata::IndexConfigDelta</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The state of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The progress, in documents, of this operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">document_progress</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The progress, in bytes, of this operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">bytes_progress</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `FieldOperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">field_operation_metadata</span> {
-    <span class="doccomment">/// Information about an index configuration change.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IndexConfigDelta</span> {
-        <span class="doccomment">/// Specifies how the index is changing.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;index_config_delta::ChangeType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">change_type</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// The index being changed.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">index</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Index</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `IndexConfigDelta`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">index_config_delta</span> {
-        <span class="doccomment">/// Specifies how the index is changing.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChangeType</span> {
-            <span class="doccomment">/// The type of change is not specified or known.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// The single field index is being added.</span>
-            <span class="ident">Add</span> <span class="op">=</span> <span class="number">1</span>,
-            <span class="doccomment">/// The single field index is being removed.</span>
-            <span class="ident">Remove</span> <span class="op">=</span> <span class="number">2</span>,
-        }
-    }
-}
-<span class="doccomment">/// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from</span>
-<span class="doccomment">/// \[FirestoreAdmin.ExportDocuments][google.firestore.admin.v1beta2.FirestoreAdmin.ExportDocuments\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDocumentsMetadata</span> {
-    <span class="doccomment">/// The time this operation started.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time this operation completed. Will be unset if operation still in</span>
-    <span class="doccomment">/// progress.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The state of the export operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">operation_state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The progress, in documents, of this operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">progress_documents</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The progress, in bytes, of this operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">progress_bytes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Which collection ids are being exported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">collection_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Where the entities are being exported to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">output_uri_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from</span>
-<span class="doccomment">/// \[FirestoreAdmin.ImportDocuments][google.firestore.admin.v1beta2.FirestoreAdmin.ImportDocuments\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportDocumentsMetadata</span> {
-    <span class="doccomment">/// The time this operation started.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time this operation completed. Will be unset if operation still in</span>
-    <span class="doccomment">/// progress.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The state of the import operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OperationState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">operation_state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The progress, in documents, of this operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">progress_documents</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The progress, in bytes, of this operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">progress_bytes</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Progress</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Which collection ids are being imported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">collection_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The location of the documents being imported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">input_uri_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Returned in the \[google.longrunning.Operation][google.longrunning.Operation\] response field.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportDocumentsResponse</span> {
-    <span class="doccomment">/// Location of the output files. This can be used to begin an import</span>
-    <span class="doccomment">/// into Cloud Firestore (this project or another project) after the operation</span>
-    <span class="doccomment">/// completes successfully.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">output_uri_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Describes the progress of the operation.</span>
-<span class="doccomment">/// Unit of work is generic and must be interpreted based on where \[Progress][google.firestore.admin.v1beta2.Progress\]</span>
-<span class="doccomment">/// is used.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Progress</span> {
-    <span class="doccomment">/// The amount of work estimated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">estimated_work</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The amount of work completed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">completed_work</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// Describes the state of the operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OperationState</span> {
-    <span class="doccomment">/// Unspecified.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Request is being prepared for processing.</span>
-    <span class="ident">Initializing</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Request is actively being processed.</span>
-    <span class="ident">Processing</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Request is in the process of being cancelled after user called</span>
-    <span class="doccomment">/// google.longrunning.Operations.CancelOperation on the operation.</span>
-    <span class="ident">Cancelling</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Request has been processed and is in its finalization stage.</span>
-    <span class="ident">Finalizing</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// Request has completed successfully.</span>
-    <span class="ident">Successful</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// Request has finished being processed, but encountered an error.</span>
-    <span class="ident">Failed</span> <span class="op">=</span> <span class="number">6</span>,
-    <span class="doccomment">/// Request has finished being cancelled after user called</span>
-    <span class="doccomment">/// google.longrunning.Operations.CancelOperation.</span>
-    <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">7</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

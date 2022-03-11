@@ -2024,58 +2024,6 @@
         }
     }
 }
-<span class="doccomment">/// Response message for querying Drive activity.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueryDriveActivityResponse</span> {
-    <span class="doccomment">/// List of activity requested.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">activities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DriveActivity</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Token to retrieve the next page of results, or</span>
-    <span class="doccomment">/// empty if there are no more results in the list.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A single Drive activity comprising one or more Actions by one or more</span>
-<span class="doccomment">/// Actors on one or more Targets. Some Action groupings occur spontaneously,</span>
-<span class="doccomment">/// such as moving an item into a shared folder triggering a permission change.</span>
-<span class="doccomment">/// Other groupings of related Actions, such as multiple Actors editing one item</span>
-<span class="doccomment">/// or moving multiple files into a new folder, are controlled by the selection</span>
-<span class="doccomment">/// of a ConsolidationStrategy in the QueryDriveActivityRequest.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DriveActivity</span> {
-    <span class="doccomment">/// Key information about the primary action for this activity. This is either</span>
-    <span class="doccomment">/// representative, or the most important, of all actions in the activity,</span>
-    <span class="doccomment">/// according to the ConsolidationStrategy in the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">primary_action_detail</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ActionDetail</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// All actor(s) responsible for the activity.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">actors</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Actor</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Details on all actions in this activity.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">actions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Action</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// All Google Drive objects this activity is about (e.g. file, folder, drive).</span>
-    <span class="doccomment">/// This represents the state of the target immediately after the actions</span>
-    <span class="doccomment">/// occurred.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">targets</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Target</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The period of time when this activity occurred.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;drive_activity::Time&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;6, 7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">drive_activity::Time</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `DriveActivity`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">drive_activity</span> {
-    <span class="doccomment">/// The period of time when this activity occurred.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Time</span> {
-        <span class="doccomment">/// The activity occurred at this specific time.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">Timestamp</span>(<span class="ident">::prost_types::Timestamp</span>),
-        <span class="doccomment">/// The activity occurred over this time range.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="ident">TimeRange</span>(<span class="ident"><span class="kw">super</span>::TimeRange</span>),
-    }
-}
 <span class="doccomment">/// The request message for querying Drive activity.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueryDriveActivityRequest</span> {
@@ -2169,6 +2117,58 @@
         <span class="doccomment">/// The individual activities are consolidated using the legacy strategy.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">Legacy</span>(<span class="ident">Legacy</span>),
+    }
+}
+<span class="doccomment">/// Response message for querying Drive activity.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueryDriveActivityResponse</span> {
+    <span class="doccomment">/// List of activity requested.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">activities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DriveActivity</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Token to retrieve the next page of results, or</span>
+    <span class="doccomment">/// empty if there are no more results in the list.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A single Drive activity comprising one or more Actions by one or more</span>
+<span class="doccomment">/// Actors on one or more Targets. Some Action groupings occur spontaneously,</span>
+<span class="doccomment">/// such as moving an item into a shared folder triggering a permission change.</span>
+<span class="doccomment">/// Other groupings of related Actions, such as multiple Actors editing one item</span>
+<span class="doccomment">/// or moving multiple files into a new folder, are controlled by the selection</span>
+<span class="doccomment">/// of a ConsolidationStrategy in the QueryDriveActivityRequest.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DriveActivity</span> {
+    <span class="doccomment">/// Key information about the primary action for this activity. This is either</span>
+    <span class="doccomment">/// representative, or the most important, of all actions in the activity,</span>
+    <span class="doccomment">/// according to the ConsolidationStrategy in the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">primary_action_detail</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ActionDetail</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// All actor(s) responsible for the activity.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">actors</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Actor</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Details on all actions in this activity.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">actions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Action</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// All Google Drive objects this activity is about (e.g. file, folder, drive).</span>
+    <span class="doccomment">/// This represents the state of the target immediately after the actions</span>
+    <span class="doccomment">/// occurred.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">targets</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Target</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The period of time when this activity occurred.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;drive_activity::Time&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;6, 7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">drive_activity::Time</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `DriveActivity`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">drive_activity</span> {
+    <span class="doccomment">/// The period of time when this activity occurred.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Time</span> {
+        <span class="doccomment">/// The activity occurred at this specific time.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">Timestamp</span>(<span class="ident">::prost_types::Timestamp</span>),
+        <span class="doccomment">/// The activity occurred over this time range.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="ident">TimeRange</span>(<span class="ident"><span class="kw">super</span>::TimeRange</span>),
     }
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>

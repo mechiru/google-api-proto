@@ -1268,7 +1268,118 @@
 <span id="1266">1266</span>
 <span id="1267">1267</span>
 <span id="1268">1268</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Describes an event and a trigger URI.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Configuration for a CDN key. Used by the Video Stitcher</span>
+<span class="doccomment">/// to sign URIs for fetching video manifests and signing</span>
+<span class="doccomment">/// media segments for playback.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CdnKey</span> {
+    <span class="doccomment">/// The resource name of the CDN key, in the form of</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/cdnKeys/{id}`.</span>
+    <span class="doccomment">/// The name is ignored when creating a CDN key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The hostname this key applies to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Configuration associated with the CDN key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;cdn_key::CdnKeyConfig&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;5, 6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cdn_key_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">cdn_key::CdnKeyConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CdnKey`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cdn_key</span> {
+    <span class="doccomment">/// Configuration associated with the CDN key.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CdnKeyConfig</span> {
+        <span class="doccomment">/// The configuration for a Google Cloud CDN key.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">GoogleCdnKey</span>(<span class="ident"><span class="kw">super</span>::GoogleCdnKey</span>),
+        <span class="doccomment">/// The configuration for an Akamai CDN key.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">AkamaiCdnKey</span>(<span class="ident"><span class="kw">super</span>::AkamaiCdnKey</span>),
+    }
+}
+<span class="doccomment">/// Configuration for a Google Cloud CDN key.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GoogleCdnKey</span> {
+    <span class="doccomment">/// Input only. Secret for this Google Cloud CDN key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">private_key</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// The public name of the Google Cloud CDN key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Configuration for an Akamai CDN key.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AkamaiCdnKey</span> {
+    <span class="doccomment">/// Input only. Token key for the Akamai CDN edge configuration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">token_key</span>: <span class="ident">::prost::bytes::Bytes</span>,
+}
+<span class="doccomment">/// Container for a live session&#39;s ad tag detail.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LiveAdTagDetail</span> {
+    <span class="doccomment">/// The resource name in the form of</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/liveSessions/{live_session}/liveAdTagDetails/{id}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A list of ad requests.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ad_requests</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AdRequest</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Information related to the details for one ad tag.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VodAdTagDetail</span> {
+    <span class="doccomment">/// The name of the ad tag detail for the specified VOD session, in the form of</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodAdTagDetails/{id}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A list of ad requests for one ad tag.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ad_requests</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AdRequest</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of an ad request to an ad server.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AdRequest</span> {
+    <span class="doccomment">/// The ad tag URI processed with integrated macros.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The request metadata used to make the ad request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RequestMetadata</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The response metadata received from the ad request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ResponseMetadata</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Metadata for an ad request.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestMetadata</span> {
+    <span class="doccomment">/// The HTTP headers of the ad request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">headers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Metadata for the response of an ad request.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResponseMetadata</span> {
+    <span class="doccomment">/// Error message received when making the ad request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Headers from the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">headers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Status code for the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Size in bytes of the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">size_bytes</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Total time elapsed for the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The body of the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Describes an event and a trigger URI.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> {
     <span class="doccomment">/// Describes the event that occurred.</span>
@@ -1356,117 +1467,6 @@
     <span class="doccomment">/// `COMPLETE`, `PROGRESS`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">events</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Container for a live session&#39;s ad tag detail.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LiveAdTagDetail</span> {
-    <span class="doccomment">/// The resource name in the form of</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/liveSessions/{live_session}/liveAdTagDetails/{id}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A list of ad requests.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ad_requests</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AdRequest</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Information related to the details for one ad tag.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VodAdTagDetail</span> {
-    <span class="doccomment">/// The name of the ad tag detail for the specified VOD session, in the form of</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodAdTagDetails/{id}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A list of ad requests for one ad tag.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ad_requests</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AdRequest</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Details of an ad request to an ad server.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AdRequest</span> {
-    <span class="doccomment">/// The ad tag URI processed with integrated macros.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The request metadata used to make the ad request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RequestMetadata</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The response metadata received from the ad request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ResponseMetadata</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Metadata for an ad request.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestMetadata</span> {
-    <span class="doccomment">/// The HTTP headers of the ad request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">headers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Metadata for the response of an ad request.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResponseMetadata</span> {
-    <span class="doccomment">/// Error message received when making the ad request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Headers from the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">headers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Status code for the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status_code</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Size in bytes of the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">size_bytes</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Total time elapsed for the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The body of the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Configuration for a CDN key. Used by the Video Stitcher</span>
-<span class="doccomment">/// to sign URIs for fetching video manifests and signing</span>
-<span class="doccomment">/// media segments for playback.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CdnKey</span> {
-    <span class="doccomment">/// The resource name of the CDN key, in the form of</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/cdnKeys/{id}`.</span>
-    <span class="doccomment">/// The name is ignored when creating a CDN key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The hostname this key applies to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Configuration associated with the CDN key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;cdn_key::CdnKeyConfig&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;5, 6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cdn_key_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">cdn_key::CdnKeyConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CdnKey`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cdn_key</span> {
-    <span class="doccomment">/// Configuration associated with the CDN key.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CdnKeyConfig</span> {
-        <span class="doccomment">/// The configuration for a Google Cloud CDN key.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">GoogleCdnKey</span>(<span class="ident"><span class="kw">super</span>::GoogleCdnKey</span>),
-        <span class="doccomment">/// The configuration for an Akamai CDN key.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">AkamaiCdnKey</span>(<span class="ident"><span class="kw">super</span>::AkamaiCdnKey</span>),
-    }
-}
-<span class="doccomment">/// Configuration for a Google Cloud CDN key.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GoogleCdnKey</span> {
-    <span class="doccomment">/// Input only. Secret for this Google Cloud CDN key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">private_key</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// The public name of the Google Cloud CDN key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Configuration for an Akamai CDN key.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AkamaiCdnKey</span> {
-    <span class="doccomment">/// Input only. Token key for the Akamai CDN edge configuration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">token_key</span>: <span class="ident">::prost::bytes::Bytes</span>,
 }
 <span class="doccomment">/// Metadata for companion ads.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
