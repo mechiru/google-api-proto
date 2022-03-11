@@ -150,6 +150,11 @@ pub enum DeliveryVehicleNavigationStatus {
 /// depot to a delivery location, and from a pickup location to the depot. In
 /// some cases, delivery vehicles also transport shipments directly from the
 /// pickup location to the delivery location.
+///
+/// Note: gRPC and REST APIs use different field naming conventions. For example,
+/// the `DeliveryVehicle.current_route_segment` field in the gRPC API and the
+/// `DeliveryVehicle.currentRouteSegment` field in the REST API refer to the same
+/// field.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeliveryVehicle {
     /// The unique name of this Delivery Vehicle.
@@ -163,17 +168,21 @@ pub struct DeliveryVehicle {
     #[prost(enumeration = "DeliveryVehicleNavigationStatus", tag = "3")]
     pub navigation_status: i32,
     /// The encoded polyline specifying the route that the navigation recommends
-    /// taking to the next waypoint. Your driver app updates this every time a
+    /// taking to the next waypoint. Your driver app updates this when a
     /// stop is reached or passed, and when the navigation reroutes. These LatLngs
     /// are returned in
     /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].path`
-    /// for all active Tasks assigned to the Vehicle.
+    /// (gRPC) or `Task.journeySharingInfo.remainingVehicleJourneySegments\[0\].path`
+    /// (REST) for all active Tasks assigned to the Vehicle.
     ///
     /// There are a few cases where this field might not be used to populate
-    /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].path`:
+    /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].path`
+    /// (gRPC) or `Task.journeySharingInfo.remainingVehicleJourneySegments\[0\].path`
+    /// (REST):
     ///
     /// * The endpoint of the `current_route_segment` does not match
-    /// `DeliveryVehicle.remaining_vehicle_journey_segments\[0\].stop`.
+    /// `DeliveryVehicle.remaining_vehicle_journey_segments\[0\].stop` (gRPC) or
+    /// `DeliveryVehicle.remainingVehicleJourneySegments\[0\].stop` (REST).
     ///
     /// * The driver app has not updated its location recently, so the last
     /// updated value for this field might be stale.
@@ -188,38 +197,40 @@ pub struct DeliveryVehicle {
     #[prost(bytes = "bytes", tag = "4")]
     pub current_route_segment: ::prost::bytes::Bytes,
     /// The location where the `current_route_segment` ends. This is not currently
-    /// populated by the driver app. But you can supply it on
-    /// `UpdateDeliveryVehicle` calls. It's either the LatLng from the upcoming
-    /// vehicle stop, or it's the last LatLng of the `current_route_segment`. Fleet
+    /// populated by the driver app, but you can supply it on
+    /// `UpdateDeliveryVehicle` calls. It is either the LatLng from the upcoming
+    /// vehicle stop, or the last LatLng of the `current_route_segment`. Fleet
     /// Engine will then do its best to interpolate to an actual `VehicleStop`.
     ///
     /// This field is ignored in `UpdateDeliveryVehicle` calls if the
-    /// `DeliveryVehicle.current_route_segment` field is empty.
+    /// `current_route_segment` field is empty.
     #[prost(message, optional, tag = "5")]
     pub current_route_segment_end_point:
         ::core::option::Option<super::super::super::super::google::r#type::LatLng>,
     /// The remaining driving distance for the `current_route_segment`.
-    /// This value is usually updated by the driver app because it's considered to
+    /// This value is usually updated by the driver app because it is considered to
     /// have more accurate information about the current route than Fleet Engine.
     /// However, it might be populated by Fleet Engine. For more information, see
-    /// \[`DeliveyVehicle.current_route_segment`][\]. This field is returned in
-    /// `Task.remaining_vehicle_journey_segment\[0\].driving_distance_meters` for all
-    /// active Tasks assigned to the Delivery Vehicle.
+    /// \[DeliveryVehicle.current_route_segment][maps.fleetengine.delivery.v1.DeliveryVehicle.current_route_segment\]. This field is returned in
+    /// `Task.remaining_vehicle_journey_segments\[0\].driving_distance_meters` (gRPC)
+    /// or `Task.remainingVehicleJourneySegments\[0\].drivingDistanceMeters` (REST)
+    /// for all active Tasks assigned to the Delivery Vehicle.
     ///
     /// This field is ignored in `UpdateDeliveryVehicle` calls if the
-    /// `DeliveryVehicle.current_route_segment` field is empty.
+    /// `current_route_segment` field is empty.
     #[prost(message, optional, tag = "6")]
     pub remaining_distance_meters: ::core::option::Option<i32>,
     /// The remaining driving time for the `current_route_segment`.
-    /// This value is usually updated by the driver app because it's considered to
+    /// This value is usually updated by the driver app because it is considered to
     /// have more accurate information about the current route than Fleet Engine.
     /// However, it might be populated by Fleet Engine. For more information, see
-    /// \[`DeliveyVehicle.current_route_segment'][\]. This field is
-    /// returned in `Task.remaining_vehicle_journey_segment\[0\].driving_duration`
+    /// \[DeliveryVehicle.current_route_segment][maps.fleetengine.delivery.v1.DeliveryVehicle.current_route_segment\]. This field is
+    /// returned in `Task.remaining_vehicle_journey_segments\[0\].driving_duration`
+    /// (gRPC) or `Task.remainingVehicleJourneySegments\[0\].drivingDuration` (REST)
     /// for all active tasks assigned to the Delivery Vehicle.
     ///
     /// This field is ignored in `UpdateDeliveryVehicle` calls if the
-    /// `DeliveryVehicle.current_route_segment` field is empty.
+    /// `current_route_segment` field is empty.
     #[prost(message, optional, tag = "7")]
     pub remaining_duration: ::core::option::Option<::prost_types::Duration>,
     /// The journey segments assigned to this Delivery Vehicle, starting from the
@@ -239,7 +250,7 @@ pub struct LocationInfo {
     pub point: ::core::option::Option<super::super::super::super::google::r#type::LatLng>,
 }
 /// Represents a Vehicle’s travel segment - from its previous stop to the
-/// current stop. If it's the first active stop, then it's from the
+/// current stop. If it is the first active stop, then it is from the
 /// Vehicle’s current location to this stop.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VehicleJourneySegment {
@@ -261,11 +272,13 @@ pub struct VehicleJourneySegment {
     /// at the time that this stop was added to the list.
     ///
     /// If this field is defined in the path
-    /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].driving_duration`,
+    /// `Task.remaining_vehicle_journey_segments\[0\].driving_duration` (gRPC) or
+    /// `Task.remainingVehicleJourneySegments\[0\].drivingDuration` (REST),
     /// then it may be populated with the value from
-    /// `DeliveryVehicle.remaining_duration` so that it provides the remaining
-    /// driving duration from the driver app's latest known location, and not the
-    /// driving time from the previous stop.
+    /// `DeliveryVehicle.remaining_duration` (gRPC) or
+    /// `DeliveryVehicle.remainingDuration` (REST).
+    /// This provides the remaining driving duration from the driver app's latest
+    /// known location rather than the driving time from the previous stop.
     #[prost(message, optional, tag = "3")]
     pub driving_duration: ::core::option::Option<::prost_types::Duration>,
     /// Output only. The path from the previous stop to this stop. If the current stop is the
@@ -275,10 +288,12 @@ pub struct VehicleJourneySegment {
     /// is part of `JourneySharingInfo`.
     ///
     /// If this field is defined in the path
-    /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].path`,
-    /// then it may be populated with the LatLngs decoded from
-    /// `DeliveryVehicle.current_route_segment`. Note that it provides the driving
-    /// path from the driver app's latest known location, not the path from
+    /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\].path`
+    /// (gRPC) or `Task.journeySharingInfo.remainingVehicleJourneySegments\[0\].path`
+    /// (REST), then it may be populated with the LatLngs decoded from
+    /// `DeliveryVehicle.current_route_segment` (gRPC) or
+    /// `DeliveryVehicle.currentRouteSegment` (REST). This provides the driving
+    /// path from the driver app's latest known location rather than the path from
     /// the previous stop.
     #[prost(message, repeated, tag = "5")]
     pub path: ::prost::alloc::vec::Vec<super::super::super::super::google::r#type::LatLng>,
@@ -408,13 +423,18 @@ pub mod delivery_request_header {
     }
 }
 /// A Task in the Delivery API represents a single action to track. In general,
-/// there's a distinction between shipment-related Tasks, and break Tasks. A
+/// there is a distinction between shipment-related Tasks and break Tasks. A
 /// shipment can have multiple Tasks associated with it. For example, there could
-/// be one Task for the pickup, and one for the dropoff or transfer. And
+/// be one Task for the pickup, and one for the drop-off or transfer. Also,
 /// different Tasks for a given shipment can be handled by different vehicles.
 /// For example, one vehicle could handle the pickup, driving the shipment to the
 /// hub, while another vehicle drives the same shipment from the hub to the
-/// dropoff location.
+/// drop-off location.
+///
+/// Note: gRPC and REST APIs use different field naming conventions. For example,
+/// the `Task.journey_sharing_info` field in the gRPC API and the
+/// `DeliveryVehicle.journeySharingInfo` field in the REST API refer to the same
+/// field.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Task {
     /// Must be in the format `providers/{provider}/tasks/{task}`.
@@ -479,12 +499,14 @@ pub mod task {
         /// from other tasks.
         ///
         /// The first segment,
-        /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\]`,
-        /// contains route information from the driver's last known location, to the
-        /// upcoming `VehicleStop`. Current route information usually comes from
-        /// the driver app, except for some cases noted in the documentation for
-        /// \[`DeliveyVehicle.current_route_segment'][\]. The other segments in
-        /// `Task.journey_sharing_info.remaining_vehicle_journey_segments` are
+        /// `Task.journey_sharing_info.remaining_vehicle_journey_segments\[0\]` (gRPC)
+        /// or `Task.journeySharingInfo.remainingVehicleJourneySegments\[0\]` (REST),
+        /// contains route information from the driver's last known location to the
+        /// upcoming `VehicleStop`. Current route information usually comes from the
+        /// driver app, except for some cases noted in the documentation for
+        /// \[DeliveryVehicle.current_route_segment][maps.fleetengine.delivery.v1.DeliveryVehicle.current_route_segment\]. The other segments in
+        /// `Task.journey_sharing_info.remaining_vehicle_journey_segments` (gRPC) or
+        /// `Task.journeySharingInfo.remainingVehicleJourneySegments` (REST) are
         /// populated by Fleet Engine. They provide route information between the
         /// remaining `VehicleStops`.
         #[prost(message, repeated, tag = "1")]
