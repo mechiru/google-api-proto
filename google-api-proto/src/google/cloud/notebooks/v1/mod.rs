@@ -1,25 +1,3 @@
-/// The definition of an Event for a managed / semi-managed notebook instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Event {
-    /// Event report time.
-    #[prost(message, optional, tag = "1")]
-    pub report_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Event type.
-    #[prost(enumeration = "event::EventType", tag = "2")]
-    pub r#type: i32,
-}
-/// Nested message and enum types in `Event`.
-pub mod event {
-    /// The definition of the even types.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EventType {
-        /// Event is not specified.
-        Unspecified = 0,
-        /// The instance / runtime is idle
-        Idle = 1,
-    }
-}
 /// Definition of a software environment that is used to start a notebook
 /// instance.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -98,886 +76,6 @@ pub struct ContainerImage {
     /// to the latest tag.
     #[prost(string, tag = "2")]
     pub tag: ::prost::alloc::string::String,
-}
-/// The definition of a Runtime for a managed notebook instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Runtime {
-    /// Output only. The resource name of the runtime.
-    /// Format:
-    /// `projects/{project}/locations/{location}/runtimes/{runtimeId}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Runtime state.
-    #[prost(enumeration = "runtime::State", tag = "3")]
-    pub state: i32,
-    /// Output only. Runtime health_state.
-    #[prost(enumeration = "runtime::HealthState", tag = "4")]
-    pub health_state: i32,
-    /// The config settings for accessing runtime.
-    #[prost(message, optional, tag = "5")]
-    pub access_config: ::core::option::Option<RuntimeAccessConfig>,
-    /// The config settings for software inside the runtime.
-    #[prost(message, optional, tag = "6")]
-    pub software_config: ::core::option::Option<RuntimeSoftwareConfig>,
-    /// Output only. Contains Runtime daemon metrics such as Service status and JupyterLab
-    /// stats.
-    #[prost(message, optional, tag = "7")]
-    pub metrics: ::core::option::Option<RuntimeMetrics>,
-    /// Output only. Runtime creation time.
-    #[prost(message, optional, tag = "20")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Runtime update time.
-    #[prost(message, optional, tag = "21")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Type of the runtime; currently only supports Compute Engine VM.
-    #[prost(oneof = "runtime::RuntimeType", tags = "2")]
-    pub runtime_type: ::core::option::Option<runtime::RuntimeType>,
-}
-/// Nested message and enum types in `Runtime`.
-pub mod runtime {
-    /// The definition of the states of this runtime.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// State is not specified.
-        Unspecified = 0,
-        /// The compute layer is starting the runtime. It is not ready for use.
-        Starting = 1,
-        /// The compute layer is installing required frameworks and registering the
-        /// runtime with notebook proxy. It cannot be used.
-        Provisioning = 2,
-        /// The runtime is currently running. It is ready for use.
-        Active = 3,
-        /// The control logic is stopping the runtime. It cannot be used.
-        Stopping = 4,
-        /// The runtime is stopped. It cannot be used.
-        Stopped = 5,
-        /// The runtime is being deleted. It cannot be used.
-        Deleting = 6,
-        /// The runtime is upgrading. It cannot be used.
-        Upgrading = 7,
-        /// The runtime is being created and set up. It is not ready for use.
-        Initializing = 8,
-    }
-    /// The runtime substate.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum HealthState {
-        /// The runtime substate is unknown.
-        Unspecified = 0,
-        /// The runtime is known to be in an healthy state
-        /// (for example, critical daemons are running)
-        /// Applies to ACTIVE state.
-        Healthy = 1,
-        /// The runtime is known to be in an unhealthy state
-        /// (for example, critical daemons are not running)
-        /// Applies to ACTIVE state.
-        Unhealthy = 2,
-    }
-    /// Type of the runtime; currently only supports Compute Engine VM.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum RuntimeType {
-        /// Use a Compute Engine VM image to start the managed notebook instance.
-        #[prost(message, tag = "2")]
-        VirtualMachine(super::VirtualMachine),
-    }
-}
-/// Definition of the types of hardware accelerators that can be used.
-/// Definition of the types of hardware accelerators that can be used.
-/// See [Compute Engine
-/// AcceleratorTypes](<https://cloud.google.com/compute/docs/reference/beta/acceleratorTypes>).
-/// Examples:
-///
-/// * `nvidia-tesla-k80`
-/// * `nvidia-tesla-p100`
-/// * `nvidia-tesla-v100`
-/// * `nvidia-tesla-t4`
-/// * `nvidia-tesla-a100`
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RuntimeAcceleratorConfig {
-    /// Accelerator model.
-    #[prost(enumeration = "runtime_accelerator_config::AcceleratorType", tag = "1")]
-    pub r#type: i32,
-    /// Count of cores of this accelerator.
-    #[prost(int64, tag = "2")]
-    pub core_count: i64,
-}
-/// Nested message and enum types in `RuntimeAcceleratorConfig`.
-pub mod runtime_accelerator_config {
-    /// Type of this accelerator.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AcceleratorType {
-        /// Accelerator type is not specified.
-        Unspecified = 0,
-        /// Accelerator type is Nvidia Tesla K80.
-        NvidiaTeslaK80 = 1,
-        /// Accelerator type is Nvidia Tesla P100.
-        NvidiaTeslaP100 = 2,
-        /// Accelerator type is Nvidia Tesla V100.
-        NvidiaTeslaV100 = 3,
-        /// Accelerator type is Nvidia Tesla P4 GPU.
-        NvidiaTeslaP4 = 4,
-        /// Accelerator type is Nvidia Tesla T4.
-        NvidiaTeslaT4 = 5,
-        /// Accelerator type is Nvidia Tesla A100.
-        NvidiaTeslaA100 = 6,
-        /// (Coming soon) Accelerator type is TPU V2.
-        TpuV2 = 7,
-        /// (Coming soon) Accelerator type is TPU V3.
-        TpuV3 = 8,
-        /// Accelerator type is NVIDIA Tesla T4 Virtual Workstations.
-        NvidiaTeslaT4Vws = 9,
-        /// Accelerator type is NVIDIA Tesla P100 Virtual Workstations.
-        NvidiaTeslaP100Vws = 10,
-        /// Accelerator type is Nvidia Tesla P.4 GPU Virtual Workstations.
-        NvidiaTeslaP4Vws = 11,
-    }
-}
-/// Represents a custom encryption key configuration that can be applied to
-/// a resource. This will encrypt all disks in Virtual Machine.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EncryptionConfig {
-    /// The Cloud KMS resource identifier of the customer-managed encryption key
-    /// used to protect a resource, such as a disks. It has the following
-    /// format:
-    /// `projects/{PROJECT_ID}/locations/{REGION}/keyRings/{KEY_RING_NAME}/cryptoKeys/{KEY_NAME}`
-    #[prost(string, tag = "1")]
-    pub kms_key: ::prost::alloc::string::String,
-}
-/// A Local attached disk resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LocalDisk {
-    /// Optional. Output only. Specifies whether the disk will be auto-deleted when the
-    /// instance is deleted (but not when the disk is detached from the instance).
-    #[prost(bool, tag = "1")]
-    pub auto_delete: bool,
-    /// Optional. Output only. Indicates that this is a boot disk. The virtual machine
-    /// will use the first partition of the disk for its root filesystem.
-    #[prost(bool, tag = "2")]
-    pub boot: bool,
-    /// Optional. Output only. Specifies a unique device name
-    /// of your choice that is reflected into the
-    /// /dev/disk/by-id/google-* tree of a Linux operating system running within
-    /// the instance. This name can be used to reference the device for mounting,
-    /// resizing, and so on, from within the instance.
-    ///
-    /// If not specified, the server chooses a default device name to apply to this
-    /// disk, in the form persistent-disk-x, where x is a number assigned by Google
-    /// Compute Engine. This field is only applicable for persistent disks.
-    #[prost(string, tag = "3")]
-    pub device_name: ::prost::alloc::string::String,
-    /// Output only. Indicates a list of features to enable on the guest operating system.
-    /// Applicable only for bootable images. Read  Enabling guest operating
-    /// system features to see a list of available options.
-    #[prost(message, repeated, tag = "4")]
-    pub guest_os_features: ::prost::alloc::vec::Vec<local_disk::RuntimeGuestOsFeature>,
-    /// Output only. A zero-based index to this disk, where 0 is reserved for the
-    /// boot disk. If you have many disks attached to an instance, each disk would
-    /// have a unique index number.
-    #[prost(int32, tag = "5")]
-    pub index: i32,
-    /// Input only. Specifies the parameters for a new disk that will be created
-    /// alongside the new instance. Use initialization parameters to create boot
-    /// disks or local SSDs attached to the new instance.
-    ///
-    /// This property is mutually exclusive with the source property; you can only
-    /// define one or the other, but not both.
-    #[prost(message, optional, tag = "6")]
-    pub initialize_params: ::core::option::Option<LocalDiskInitializeParams>,
-    /// Specifies the disk interface to use for attaching this disk, which is
-    /// either SCSI or NVME. The default is SCSI. Persistent disks must always use
-    /// SCSI and the request will fail if you attempt to attach a persistent disk
-    /// in any other format than SCSI. Local SSDs can use either NVME or SCSI. For
-    /// performance characteristics of SCSI over NVMe, see Local SSD performance.
-    /// Valid values:
-    ///
-    /// * NVME
-    /// * SCSI
-    #[prost(string, tag = "7")]
-    pub interface: ::prost::alloc::string::String,
-    /// Output only. Type of the resource. Always compute#attachedDisk for attached disks.
-    #[prost(string, tag = "8")]
-    pub kind: ::prost::alloc::string::String,
-    /// Output only. Any valid publicly visible licenses.
-    #[prost(string, repeated, tag = "9")]
-    pub licenses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The mode in which to attach this disk, either READ_WRITE or READ_ONLY. If
-    /// not specified, the default is to attach the disk in READ_WRITE mode.
-    /// Valid values:
-    ///
-    /// * READ_ONLY
-    /// * READ_WRITE
-    #[prost(string, tag = "10")]
-    pub mode: ::prost::alloc::string::String,
-    /// Specifies a valid partial or full URL to an existing Persistent Disk
-    /// resource.
-    #[prost(string, tag = "11")]
-    pub source: ::prost::alloc::string::String,
-    /// Specifies the type of the disk, either SCRATCH or PERSISTENT. If not
-    /// specified, the default is PERSISTENT.
-    /// Valid values:
-    ///
-    /// * PERSISTENT
-    /// * SCRATCH
-    #[prost(string, tag = "12")]
-    pub r#type: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `LocalDisk`.
-pub mod local_disk {
-    /// Optional. A list of features to enable on the guest operating system.
-    /// Applicable only for bootable images.
-    /// Read [Enabling guest operating system
-    /// features](<https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features>)
-    /// to see a list of available options.
-    /// Guest OS features for boot disk.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct RuntimeGuestOsFeature {
-        /// The ID of a supported feature. Read [Enabling guest operating system
-        /// features](<https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features>)
-        /// to see a list of available options.
-        ///
-        /// Valid values:
-        ///
-        /// * FEATURE_TYPE_UNSPECIFIED
-        /// * MULTI_IP_SUBNET
-        /// * SECURE_BOOT
-        /// * UEFI_COMPATIBLE
-        /// * VIRTIO_SCSI_MULTIQUEUE
-        /// * WINDOWS
-        #[prost(string, tag = "1")]
-        pub r#type: ::prost::alloc::string::String,
-    }
-}
-/// Input only. Specifies the parameters for a new disk that will be created
-/// alongside the new instance. Use initialization parameters to create boot
-/// disks or local SSDs attached to the new runtime.
-/// This property is mutually exclusive with the source property; you can only
-/// define one or the other, but not both.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LocalDiskInitializeParams {
-    /// Optional. Provide this property when creating the disk.
-    #[prost(string, tag = "1")]
-    pub description: ::prost::alloc::string::String,
-    /// Optional. Specifies the disk name. If not specified, the default is to use the name
-    /// of the instance. If the disk with the instance name exists already in the
-    /// given zone/region, a new name will be automatically generated.
-    #[prost(string, tag = "2")]
-    pub disk_name: ::prost::alloc::string::String,
-    /// Optional. Specifies the size of the disk in base-2 GB. If not specified, the disk
-    /// will be the same size as the image (usually 10GB). If specified, the size
-    /// must be equal to or larger than 10GB. Default 100 GB.
-    #[prost(int64, tag = "3")]
-    pub disk_size_gb: i64,
-    /// Input only. The type of the boot disk attached to this instance, defaults to
-    /// standard persistent disk (`PD_STANDARD`).
-    #[prost(enumeration = "local_disk_initialize_params::DiskType", tag = "4")]
-    pub disk_type: i32,
-    /// Optional. Labels to apply to this disk. These can be later modified by the
-    /// disks.setLabels method. This field is only applicable for persistent disks.
-    #[prost(btree_map = "string, string", tag = "5")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-}
-/// Nested message and enum types in `LocalDiskInitializeParams`.
-pub mod local_disk_initialize_params {
-    /// Possible disk types.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DiskType {
-        /// Disk type not set.
-        Unspecified = 0,
-        /// Standard persistent disk type.
-        PdStandard = 1,
-        /// SSD persistent disk type.
-        PdSsd = 2,
-        /// Balanced persistent disk type.
-        PdBalanced = 3,
-    }
-}
-/// Specifies the login configuration for Runtime
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RuntimeAccessConfig {
-    /// The type of access mode this instance.
-    #[prost(enumeration = "runtime_access_config::RuntimeAccessType", tag = "1")]
-    pub access_type: i32,
-    /// The owner of this runtime after creation. Format: `alias@example.com`
-    /// Currently supports one owner only.
-    #[prost(string, tag = "2")]
-    pub runtime_owner: ::prost::alloc::string::String,
-    /// Output only. The proxy endpoint that is used to access the runtime.
-    #[prost(string, tag = "3")]
-    pub proxy_uri: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `RuntimeAccessConfig`.
-pub mod runtime_access_config {
-    /// Possible ways to access runtime. Authentication mode.
-    /// Currently supports: Single User only.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RuntimeAccessType {
-        /// Unspecified access.
-        Unspecified = 0,
-        /// Single user login.
-        SingleUser = 1,
-    }
-}
-/// Specifies the selection and configuration of software inside the runtime.
-/// The properties to set on runtime.
-/// Properties keys are specified in `key:value` format, for example:
-///
-/// * `idle_shutdown: true`
-/// * `idle_shutdown_timeout: 180`
-/// * `report-system-health: true`
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RuntimeSoftwareConfig {
-    /// Cron expression in UTC timezone, used to schedule instance auto upgrade.
-    /// Please follow the [cron format](<https://en.wikipedia.org/wiki/Cron>).
-    #[prost(string, tag = "1")]
-    pub notebook_upgrade_schedule: ::prost::alloc::string::String,
-    /// Verifies core internal services are running.
-    /// Default: True
-    #[prost(bool, optional, tag = "2")]
-    pub enable_health_monitoring: ::core::option::Option<bool>,
-    /// Runtime will automatically shutdown after idle_shutdown_time.
-    /// Default: True
-    #[prost(bool, optional, tag = "3")]
-    pub idle_shutdown: ::core::option::Option<bool>,
-    /// Time in minutes to wait before shutting down runtime. Default: 180 minutes
-    #[prost(int32, tag = "4")]
-    pub idle_shutdown_timeout: i32,
-    /// Install Nvidia Driver automatically.
-    #[prost(bool, tag = "5")]
-    pub install_gpu_driver: bool,
-    /// Specify a custom Cloud Storage path where the GPU driver is stored.
-    /// If not specified, we'll automatically choose from official GPU drivers.
-    #[prost(string, tag = "6")]
-    pub custom_gpu_driver_path: ::prost::alloc::string::String,
-    /// Path to a Bash script that automatically runs after a notebook instance
-    /// fully boots up. The path must be a URL or
-    /// Cloud Storage path (`gs://path-to-file/file-name`).
-    #[prost(string, tag = "7")]
-    pub post_startup_script: ::prost::alloc::string::String,
-}
-/// Contains runtime daemon metrics, such as OS and kernels and sessions stats.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RuntimeMetrics {
-    /// Output only. The system metrics.
-    #[prost(btree_map = "string, string", tag = "1")]
-    pub system_metrics: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-}
-/// A set of Shielded Instance options.
-/// Check [Images using supported Shielded VM
-/// features](<https://cloud.google.com/compute/docs/instances/modifying-shielded-vm>).
-/// Not all combinations are valid.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RuntimeShieldedInstanceConfig {
-    /// Defines whether the instance has Secure Boot enabled.
-    ///
-    /// Secure Boot helps ensure that the system only runs authentic software by
-    /// verifying the digital signature of all boot components, and halting the
-    /// boot process if signature verification fails. Disabled by default.
-    #[prost(bool, tag = "1")]
-    pub enable_secure_boot: bool,
-    /// Defines whether the instance has the vTPM enabled. Enabled by default.
-    #[prost(bool, tag = "2")]
-    pub enable_vtpm: bool,
-    /// Defines whether the instance has integrity monitoring enabled.
-    ///
-    /// Enables monitoring and attestation of the boot integrity of the instance.
-    /// The attestation is performed against the integrity policy baseline. This
-    /// baseline is initially derived from the implicitly trusted boot image when
-    /// the instance is created. Enabled by default.
-    #[prost(bool, tag = "3")]
-    pub enable_integrity_monitoring: bool,
-}
-/// Runtime using Virtual Machine for computing.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VirtualMachine {
-    /// Output only. The user-friendly name of the Managed Compute Engine instance.
-    #[prost(string, tag = "1")]
-    pub instance_name: ::prost::alloc::string::String,
-    /// Output only. The unique identifier of the Managed Compute Engine instance.
-    #[prost(string, tag = "2")]
-    pub instance_id: ::prost::alloc::string::String,
-    /// Virtual Machine configuration settings.
-    #[prost(message, optional, tag = "3")]
-    pub virtual_machine_config: ::core::option::Option<VirtualMachineConfig>,
-}
-/// The config settings for virtual machine.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VirtualMachineConfig {
-    /// Output only. The zone where the virtual machine is located.
-    /// If using regional request, the notebooks service will pick a location
-    /// in the corresponding runtime region.
-    /// On a get request, zone will always be present. Example:
-    /// * `us-central1-b`
-    #[prost(string, tag = "1")]
-    pub zone: ::prost::alloc::string::String,
-    /// Required. The Compute Engine machine type used for runtimes.
-    /// Short name is valid. Examples:
-    /// * `n1-standard-2`
-    /// * `e2-standard-8`
-    #[prost(string, tag = "2")]
-    pub machine_type: ::prost::alloc::string::String,
-    /// Optional. Use a list of container images to start the notebook instance.
-    #[prost(message, repeated, tag = "3")]
-    pub container_images: ::prost::alloc::vec::Vec<ContainerImage>,
-    /// Required. Data disk option configuration settings.
-    #[prost(message, optional, tag = "4")]
-    pub data_disk: ::core::option::Option<LocalDisk>,
-    /// Optional. Encryption settings for virtual machine data disk.
-    #[prost(message, optional, tag = "5")]
-    pub encryption_config: ::core::option::Option<EncryptionConfig>,
-    /// Optional. Shielded VM Instance configuration settings.
-    #[prost(message, optional, tag = "6")]
-    pub shielded_instance_config: ::core::option::Option<RuntimeShieldedInstanceConfig>,
-    /// Optional. The Compute Engine accelerator configuration for this runtime.
-    #[prost(message, optional, tag = "7")]
-    pub accelerator_config: ::core::option::Option<RuntimeAcceleratorConfig>,
-    /// Optional. The Compute Engine network to be used for machine
-    /// communications. Cannot be specified with subnetwork. If neither
-    /// `network` nor `subnet` is specified, the "default" network of
-    /// the project is used, if it exists.
-    ///
-    /// A full URL or partial URI. Examples:
-    ///
-    /// * `<https://www.googleapis.com/compute/v1/projects/\[project_id\]/regions/global/default`>
-    /// * `projects/\[project_id\]/regions/global/default`
-    ///
-    /// Runtimes are managed resources inside Google Infrastructure.
-    /// Runtimes support the following network configurations:
-    ///
-    /// * Google Managed Network (Network & subnet are empty)
-    /// * Consumer Project VPC (network & subnet are required). Requires
-    /// configuring Private Service Access.
-    /// * Shared VPC (network & subnet are required). Requires configuring Private
-    /// Service Access.
-    #[prost(string, tag = "8")]
-    pub network: ::prost::alloc::string::String,
-    /// Optional. The Compute Engine subnetwork to be used for machine
-    /// communications. Cannot be specified with network.
-    ///
-    /// A full URL or partial URI are valid. Examples:
-    ///
-    /// * `<https://www.googleapis.com/compute/v1/projects/\[project_id\]/regions/us-east1/subnetworks/sub0`>
-    /// * `projects/\[project_id\]/regions/us-east1/subnetworks/sub0`
-    #[prost(string, tag = "9")]
-    pub subnet: ::prost::alloc::string::String,
-    /// Optional. If true, runtime will only have internal IP
-    /// addresses. By default, runtimes are not restricted to internal IP
-    /// addresses, and will have ephemeral external IP addresses assigned to each
-    /// vm. This `internal_ip_only` restriction can only be enabled for
-    /// subnetwork enabled networks, and all dependencies must be
-    /// configured to be accessible without external IP addresses.
-    #[prost(bool, tag = "10")]
-    pub internal_ip_only: bool,
-    /// Optional. The Compute Engine tags to add to runtime (see [Tagging
-    /// instances](<https://cloud.google.com/compute/docs/label-or-tag-resources#tags>)).
-    #[prost(string, repeated, tag = "13")]
-    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Output only. The Compute Engine guest attributes. (see
-    /// [Project and instance
-    /// guest
-    /// attributes](<https://cloud.google.com/compute/docs/storing-retrieving-metadata#guest_attributes>)).
-    #[prost(btree_map = "string, string", tag = "14")]
-    pub guest_attributes: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Optional. The Compute Engine metadata entries to add to virtual machine. (see
-    /// [Project and instance
-    /// metadata](<https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata>)).
-    #[prost(btree_map = "string, string", tag = "15")]
-    pub metadata: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Optional. The labels to associate with this runtime.
-    /// Label **keys** must contain 1 to 63 characters, and must conform to
-    /// [RFC 1035](<https://www.ietf.org/rfc/rfc1035.txt>).
-    /// Label **values** may be empty, but, if present, must contain 1 to 63
-    /// characters, and must conform to [RFC
-    /// 1035](<https://www.ietf.org/rfc/rfc1035.txt>). No more than 32 labels can be
-    /// associated with a cluster.
-    #[prost(btree_map = "string, string", tag = "16")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Optional. The type of vNIC to be used on this interface. This may be gVNIC or
-    /// VirtioNet.
-    #[prost(enumeration = "virtual_machine_config::NicType", tag = "17")]
-    pub nic_type: i32,
-}
-/// Nested message and enum types in `VirtualMachineConfig`.
-pub mod virtual_machine_config {
-    /// The type of vNIC driver.
-    /// Default should be UNSPECIFIED_NIC_TYPE.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum NicType {
-        /// No type specified.
-        UnspecifiedNicType = 0,
-        /// VIRTIO
-        VirtioNet = 1,
-        /// GVNIC
-        Gvnic = 2,
-    }
-}
-/// Request for listing Managed Notebook Runtimes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListRuntimesRequest {
-    /// Required. Format:
-    /// `parent=projects/{project_id}/locations/{location}`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Maximum return size of the list call.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A previous returned page token that can be used to continue listing
-    /// from the last result.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response for listing Managed Notebook Runtimes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListRuntimesResponse {
-    /// A list of returned Runtimes.
-    #[prost(message, repeated, tag = "1")]
-    pub runtimes: ::prost::alloc::vec::Vec<Runtime>,
-    /// Page token that can be used to continue listing from the last result in the
-    /// next list call.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Locations that could not be reached. For example,
-    /// ['us-west1', 'us-central1'].
-    /// A ListRuntimesResponse will only contain either runtimes or unreachables,
-    #[prost(string, repeated, tag = "3")]
-    pub unreachable: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Request for getting a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for creating a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateRuntimeRequest {
-    /// Required. Format:
-    /// `parent=projects/{project_id}/locations/{location}`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. User-defined unique ID of this Runtime.
-    #[prost(string, tag = "2")]
-    pub runtime_id: ::prost::alloc::string::String,
-    /// Required. The Runtime to be created.
-    #[prost(message, optional, tag = "3")]
-    pub runtime: ::core::option::Option<Runtime>,
-}
-/// Request for deleting a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for starting a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StartRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for stopping a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StopRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for switching a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SwitchRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// machine type.
-    #[prost(string, tag = "2")]
-    pub machine_type: ::prost::alloc::string::String,
-    /// accelerator config.
-    #[prost(message, optional, tag = "3")]
-    pub accelerator_config: ::core::option::Option<RuntimeAcceleratorConfig>,
-}
-/// Request for reseting a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResetRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for reporting a Managed Notebook Event.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportRuntimeEventRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The VM hardware token for authenticating the VM.
-    /// <https://cloud.google.com/compute/docs/instances/verifying-instance-identity>
-    #[prost(string, tag = "2")]
-    pub vm_id: ::prost::alloc::string::String,
-    /// Required. The Event to be reported.
-    #[prost(message, optional, tag = "3")]
-    pub event: ::core::option::Option<Event>,
-}
-#[doc = r" Generated client implementations."]
-pub mod managed_notebook_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " API v1 service for Managed Notebooks."]
-    #[derive(Debug, Clone)]
-    pub struct ManagedNotebookServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ManagedNotebookServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ManagedNotebookServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ManagedNotebookServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Lists Runtimes in a given project and location."]
-        pub async fn list_runtimes(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListRuntimesRequest>,
-        ) -> Result<tonic::Response<super::ListRuntimesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/ListRuntimes",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets details of a single Runtime. The location must be a regional endpoint"]
-        #[doc = " rather than zonal."]
-        pub async fn get_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetRuntimeRequest>,
-        ) -> Result<tonic::Response<super::Runtime>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/GetRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a new Runtime in a given project and location."]
-        pub async fn create_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/CreateRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes a single Runtime."]
-        pub async fn delete_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/DeleteRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Starts a Managed Notebook Runtime."]
-        #[doc = " Perform \"Start\" on GPU instances; \"Resume\" on CPU instances"]
-        #[doc = " See:"]
-        #[doc = " https://cloud.google.com/compute/docs/instances/stop-start-instance"]
-        #[doc = " https://cloud.google.com/compute/docs/instances/suspend-resume-instance"]
-        pub async fn start_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::StartRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/StartRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Stops a Managed Notebook Runtime."]
-        #[doc = " Perform \"Stop\" on GPU instances; \"Suspend\" on CPU instances"]
-        #[doc = " See:"]
-        #[doc = " https://cloud.google.com/compute/docs/instances/stop-start-instance"]
-        #[doc = " https://cloud.google.com/compute/docs/instances/suspend-resume-instance"]
-        pub async fn stop_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::StopRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/StopRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Switch a Managed Notebook Runtime."]
-        pub async fn switch_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SwitchRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/SwitchRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Resets a Managed Notebook Runtime."]
-        pub async fn reset_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ResetRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/ResetRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Report and process a runtime event."]
-        pub async fn report_runtime_event(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ReportRuntimeEventRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/ReportRuntimeEvent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
 }
 /// The description a notebook execution workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3044,6 +2142,908 @@ pub mod notebook_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.notebooks.v1.NotebookService/CreateExecution",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// The definition of a Runtime for a managed notebook instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Runtime {
+    /// Output only. The resource name of the runtime.
+    /// Format:
+    /// `projects/{project}/locations/{location}/runtimes/{runtimeId}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Runtime state.
+    #[prost(enumeration = "runtime::State", tag = "3")]
+    pub state: i32,
+    /// Output only. Runtime health_state.
+    #[prost(enumeration = "runtime::HealthState", tag = "4")]
+    pub health_state: i32,
+    /// The config settings for accessing runtime.
+    #[prost(message, optional, tag = "5")]
+    pub access_config: ::core::option::Option<RuntimeAccessConfig>,
+    /// The config settings for software inside the runtime.
+    #[prost(message, optional, tag = "6")]
+    pub software_config: ::core::option::Option<RuntimeSoftwareConfig>,
+    /// Output only. Contains Runtime daemon metrics such as Service status and JupyterLab
+    /// stats.
+    #[prost(message, optional, tag = "7")]
+    pub metrics: ::core::option::Option<RuntimeMetrics>,
+    /// Output only. Runtime creation time.
+    #[prost(message, optional, tag = "20")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Runtime update time.
+    #[prost(message, optional, tag = "21")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Type of the runtime; currently only supports Compute Engine VM.
+    #[prost(oneof = "runtime::RuntimeType", tags = "2")]
+    pub runtime_type: ::core::option::Option<runtime::RuntimeType>,
+}
+/// Nested message and enum types in `Runtime`.
+pub mod runtime {
+    /// The definition of the states of this runtime.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// State is not specified.
+        Unspecified = 0,
+        /// The compute layer is starting the runtime. It is not ready for use.
+        Starting = 1,
+        /// The compute layer is installing required frameworks and registering the
+        /// runtime with notebook proxy. It cannot be used.
+        Provisioning = 2,
+        /// The runtime is currently running. It is ready for use.
+        Active = 3,
+        /// The control logic is stopping the runtime. It cannot be used.
+        Stopping = 4,
+        /// The runtime is stopped. It cannot be used.
+        Stopped = 5,
+        /// The runtime is being deleted. It cannot be used.
+        Deleting = 6,
+        /// The runtime is upgrading. It cannot be used.
+        Upgrading = 7,
+        /// The runtime is being created and set up. It is not ready for use.
+        Initializing = 8,
+    }
+    /// The runtime substate.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum HealthState {
+        /// The runtime substate is unknown.
+        Unspecified = 0,
+        /// The runtime is known to be in an healthy state
+        /// (for example, critical daemons are running)
+        /// Applies to ACTIVE state.
+        Healthy = 1,
+        /// The runtime is known to be in an unhealthy state
+        /// (for example, critical daemons are not running)
+        /// Applies to ACTIVE state.
+        Unhealthy = 2,
+    }
+    /// Type of the runtime; currently only supports Compute Engine VM.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum RuntimeType {
+        /// Use a Compute Engine VM image to start the managed notebook instance.
+        #[prost(message, tag = "2")]
+        VirtualMachine(super::VirtualMachine),
+    }
+}
+/// Definition of the types of hardware accelerators that can be used.
+/// Definition of the types of hardware accelerators that can be used.
+/// See [Compute Engine
+/// AcceleratorTypes](<https://cloud.google.com/compute/docs/reference/beta/acceleratorTypes>).
+/// Examples:
+///
+/// * `nvidia-tesla-k80`
+/// * `nvidia-tesla-p100`
+/// * `nvidia-tesla-v100`
+/// * `nvidia-tesla-t4`
+/// * `nvidia-tesla-a100`
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RuntimeAcceleratorConfig {
+    /// Accelerator model.
+    #[prost(enumeration = "runtime_accelerator_config::AcceleratorType", tag = "1")]
+    pub r#type: i32,
+    /// Count of cores of this accelerator.
+    #[prost(int64, tag = "2")]
+    pub core_count: i64,
+}
+/// Nested message and enum types in `RuntimeAcceleratorConfig`.
+pub mod runtime_accelerator_config {
+    /// Type of this accelerator.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AcceleratorType {
+        /// Accelerator type is not specified.
+        Unspecified = 0,
+        /// Accelerator type is Nvidia Tesla K80.
+        NvidiaTeslaK80 = 1,
+        /// Accelerator type is Nvidia Tesla P100.
+        NvidiaTeslaP100 = 2,
+        /// Accelerator type is Nvidia Tesla V100.
+        NvidiaTeslaV100 = 3,
+        /// Accelerator type is Nvidia Tesla P4 GPU.
+        NvidiaTeslaP4 = 4,
+        /// Accelerator type is Nvidia Tesla T4.
+        NvidiaTeslaT4 = 5,
+        /// Accelerator type is Nvidia Tesla A100.
+        NvidiaTeslaA100 = 6,
+        /// (Coming soon) Accelerator type is TPU V2.
+        TpuV2 = 7,
+        /// (Coming soon) Accelerator type is TPU V3.
+        TpuV3 = 8,
+        /// Accelerator type is NVIDIA Tesla T4 Virtual Workstations.
+        NvidiaTeslaT4Vws = 9,
+        /// Accelerator type is NVIDIA Tesla P100 Virtual Workstations.
+        NvidiaTeslaP100Vws = 10,
+        /// Accelerator type is Nvidia Tesla P.4 GPU Virtual Workstations.
+        NvidiaTeslaP4Vws = 11,
+    }
+}
+/// Represents a custom encryption key configuration that can be applied to
+/// a resource. This will encrypt all disks in Virtual Machine.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EncryptionConfig {
+    /// The Cloud KMS resource identifier of the customer-managed encryption key
+    /// used to protect a resource, such as a disks. It has the following
+    /// format:
+    /// `projects/{PROJECT_ID}/locations/{REGION}/keyRings/{KEY_RING_NAME}/cryptoKeys/{KEY_NAME}`
+    #[prost(string, tag = "1")]
+    pub kms_key: ::prost::alloc::string::String,
+}
+/// A Local attached disk resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LocalDisk {
+    /// Optional. Output only. Specifies whether the disk will be auto-deleted when the
+    /// instance is deleted (but not when the disk is detached from the instance).
+    #[prost(bool, tag = "1")]
+    pub auto_delete: bool,
+    /// Optional. Output only. Indicates that this is a boot disk. The virtual machine
+    /// will use the first partition of the disk for its root filesystem.
+    #[prost(bool, tag = "2")]
+    pub boot: bool,
+    /// Optional. Output only. Specifies a unique device name
+    /// of your choice that is reflected into the
+    /// /dev/disk/by-id/google-* tree of a Linux operating system running within
+    /// the instance. This name can be used to reference the device for mounting,
+    /// resizing, and so on, from within the instance.
+    ///
+    /// If not specified, the server chooses a default device name to apply to this
+    /// disk, in the form persistent-disk-x, where x is a number assigned by Google
+    /// Compute Engine. This field is only applicable for persistent disks.
+    #[prost(string, tag = "3")]
+    pub device_name: ::prost::alloc::string::String,
+    /// Output only. Indicates a list of features to enable on the guest operating system.
+    /// Applicable only for bootable images. Read  Enabling guest operating
+    /// system features to see a list of available options.
+    #[prost(message, repeated, tag = "4")]
+    pub guest_os_features: ::prost::alloc::vec::Vec<local_disk::RuntimeGuestOsFeature>,
+    /// Output only. A zero-based index to this disk, where 0 is reserved for the
+    /// boot disk. If you have many disks attached to an instance, each disk would
+    /// have a unique index number.
+    #[prost(int32, tag = "5")]
+    pub index: i32,
+    /// Input only. Specifies the parameters for a new disk that will be created
+    /// alongside the new instance. Use initialization parameters to create boot
+    /// disks or local SSDs attached to the new instance.
+    ///
+    /// This property is mutually exclusive with the source property; you can only
+    /// define one or the other, but not both.
+    #[prost(message, optional, tag = "6")]
+    pub initialize_params: ::core::option::Option<LocalDiskInitializeParams>,
+    /// Specifies the disk interface to use for attaching this disk, which is
+    /// either SCSI or NVME. The default is SCSI. Persistent disks must always use
+    /// SCSI and the request will fail if you attempt to attach a persistent disk
+    /// in any other format than SCSI. Local SSDs can use either NVME or SCSI. For
+    /// performance characteristics of SCSI over NVMe, see Local SSD performance.
+    /// Valid values:
+    ///
+    /// * NVME
+    /// * SCSI
+    #[prost(string, tag = "7")]
+    pub interface: ::prost::alloc::string::String,
+    /// Output only. Type of the resource. Always compute#attachedDisk for attached disks.
+    #[prost(string, tag = "8")]
+    pub kind: ::prost::alloc::string::String,
+    /// Output only. Any valid publicly visible licenses.
+    #[prost(string, repeated, tag = "9")]
+    pub licenses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The mode in which to attach this disk, either READ_WRITE or READ_ONLY. If
+    /// not specified, the default is to attach the disk in READ_WRITE mode.
+    /// Valid values:
+    ///
+    /// * READ_ONLY
+    /// * READ_WRITE
+    #[prost(string, tag = "10")]
+    pub mode: ::prost::alloc::string::String,
+    /// Specifies a valid partial or full URL to an existing Persistent Disk
+    /// resource.
+    #[prost(string, tag = "11")]
+    pub source: ::prost::alloc::string::String,
+    /// Specifies the type of the disk, either SCRATCH or PERSISTENT. If not
+    /// specified, the default is PERSISTENT.
+    /// Valid values:
+    ///
+    /// * PERSISTENT
+    /// * SCRATCH
+    #[prost(string, tag = "12")]
+    pub r#type: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `LocalDisk`.
+pub mod local_disk {
+    /// Optional. A list of features to enable on the guest operating system.
+    /// Applicable only for bootable images.
+    /// Read [Enabling guest operating system
+    /// features](<https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features>)
+    /// to see a list of available options.
+    /// Guest OS features for boot disk.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct RuntimeGuestOsFeature {
+        /// The ID of a supported feature. Read [Enabling guest operating system
+        /// features](<https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features>)
+        /// to see a list of available options.
+        ///
+        /// Valid values:
+        ///
+        /// * FEATURE_TYPE_UNSPECIFIED
+        /// * MULTI_IP_SUBNET
+        /// * SECURE_BOOT
+        /// * UEFI_COMPATIBLE
+        /// * VIRTIO_SCSI_MULTIQUEUE
+        /// * WINDOWS
+        #[prost(string, tag = "1")]
+        pub r#type: ::prost::alloc::string::String,
+    }
+}
+/// Input only. Specifies the parameters for a new disk that will be created
+/// alongside the new instance. Use initialization parameters to create boot
+/// disks or local SSDs attached to the new runtime.
+/// This property is mutually exclusive with the source property; you can only
+/// define one or the other, but not both.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LocalDiskInitializeParams {
+    /// Optional. Provide this property when creating the disk.
+    #[prost(string, tag = "1")]
+    pub description: ::prost::alloc::string::String,
+    /// Optional. Specifies the disk name. If not specified, the default is to use the name
+    /// of the instance. If the disk with the instance name exists already in the
+    /// given zone/region, a new name will be automatically generated.
+    #[prost(string, tag = "2")]
+    pub disk_name: ::prost::alloc::string::String,
+    /// Optional. Specifies the size of the disk in base-2 GB. If not specified, the disk
+    /// will be the same size as the image (usually 10GB). If specified, the size
+    /// must be equal to or larger than 10GB. Default 100 GB.
+    #[prost(int64, tag = "3")]
+    pub disk_size_gb: i64,
+    /// Input only. The type of the boot disk attached to this instance, defaults to
+    /// standard persistent disk (`PD_STANDARD`).
+    #[prost(enumeration = "local_disk_initialize_params::DiskType", tag = "4")]
+    pub disk_type: i32,
+    /// Optional. Labels to apply to this disk. These can be later modified by the
+    /// disks.setLabels method. This field is only applicable for persistent disks.
+    #[prost(btree_map = "string, string", tag = "5")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+}
+/// Nested message and enum types in `LocalDiskInitializeParams`.
+pub mod local_disk_initialize_params {
+    /// Possible disk types.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DiskType {
+        /// Disk type not set.
+        Unspecified = 0,
+        /// Standard persistent disk type.
+        PdStandard = 1,
+        /// SSD persistent disk type.
+        PdSsd = 2,
+        /// Balanced persistent disk type.
+        PdBalanced = 3,
+    }
+}
+/// Specifies the login configuration for Runtime
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RuntimeAccessConfig {
+    /// The type of access mode this instance.
+    #[prost(enumeration = "runtime_access_config::RuntimeAccessType", tag = "1")]
+    pub access_type: i32,
+    /// The owner of this runtime after creation. Format: `alias@example.com`
+    /// Currently supports one owner only.
+    #[prost(string, tag = "2")]
+    pub runtime_owner: ::prost::alloc::string::String,
+    /// Output only. The proxy endpoint that is used to access the runtime.
+    #[prost(string, tag = "3")]
+    pub proxy_uri: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `RuntimeAccessConfig`.
+pub mod runtime_access_config {
+    /// Possible ways to access runtime. Authentication mode.
+    /// Currently supports: Single User only.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RuntimeAccessType {
+        /// Unspecified access.
+        Unspecified = 0,
+        /// Single user login.
+        SingleUser = 1,
+    }
+}
+/// Specifies the selection and configuration of software inside the runtime.
+/// The properties to set on runtime.
+/// Properties keys are specified in `key:value` format, for example:
+///
+/// * `idle_shutdown: true`
+/// * `idle_shutdown_timeout: 180`
+/// * `report-system-health: true`
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RuntimeSoftwareConfig {
+    /// Cron expression in UTC timezone, used to schedule instance auto upgrade.
+    /// Please follow the [cron format](<https://en.wikipedia.org/wiki/Cron>).
+    #[prost(string, tag = "1")]
+    pub notebook_upgrade_schedule: ::prost::alloc::string::String,
+    /// Verifies core internal services are running.
+    /// Default: True
+    #[prost(bool, optional, tag = "2")]
+    pub enable_health_monitoring: ::core::option::Option<bool>,
+    /// Runtime will automatically shutdown after idle_shutdown_time.
+    /// Default: True
+    #[prost(bool, optional, tag = "3")]
+    pub idle_shutdown: ::core::option::Option<bool>,
+    /// Time in minutes to wait before shutting down runtime. Default: 180 minutes
+    #[prost(int32, tag = "4")]
+    pub idle_shutdown_timeout: i32,
+    /// Install Nvidia Driver automatically.
+    #[prost(bool, tag = "5")]
+    pub install_gpu_driver: bool,
+    /// Specify a custom Cloud Storage path where the GPU driver is stored.
+    /// If not specified, we'll automatically choose from official GPU drivers.
+    #[prost(string, tag = "6")]
+    pub custom_gpu_driver_path: ::prost::alloc::string::String,
+    /// Path to a Bash script that automatically runs after a notebook instance
+    /// fully boots up. The path must be a URL or
+    /// Cloud Storage path (`gs://path-to-file/file-name`).
+    #[prost(string, tag = "7")]
+    pub post_startup_script: ::prost::alloc::string::String,
+}
+/// Contains runtime daemon metrics, such as OS and kernels and sessions stats.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RuntimeMetrics {
+    /// Output only. The system metrics.
+    #[prost(btree_map = "string, string", tag = "1")]
+    pub system_metrics: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+}
+/// A set of Shielded Instance options.
+/// Check [Images using supported Shielded VM
+/// features](<https://cloud.google.com/compute/docs/instances/modifying-shielded-vm>).
+/// Not all combinations are valid.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RuntimeShieldedInstanceConfig {
+    /// Defines whether the instance has Secure Boot enabled.
+    ///
+    /// Secure Boot helps ensure that the system only runs authentic software by
+    /// verifying the digital signature of all boot components, and halting the
+    /// boot process if signature verification fails. Disabled by default.
+    #[prost(bool, tag = "1")]
+    pub enable_secure_boot: bool,
+    /// Defines whether the instance has the vTPM enabled. Enabled by default.
+    #[prost(bool, tag = "2")]
+    pub enable_vtpm: bool,
+    /// Defines whether the instance has integrity monitoring enabled.
+    ///
+    /// Enables monitoring and attestation of the boot integrity of the instance.
+    /// The attestation is performed against the integrity policy baseline. This
+    /// baseline is initially derived from the implicitly trusted boot image when
+    /// the instance is created. Enabled by default.
+    #[prost(bool, tag = "3")]
+    pub enable_integrity_monitoring: bool,
+}
+/// Runtime using Virtual Machine for computing.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VirtualMachine {
+    /// Output only. The user-friendly name of the Managed Compute Engine instance.
+    #[prost(string, tag = "1")]
+    pub instance_name: ::prost::alloc::string::String,
+    /// Output only. The unique identifier of the Managed Compute Engine instance.
+    #[prost(string, tag = "2")]
+    pub instance_id: ::prost::alloc::string::String,
+    /// Virtual Machine configuration settings.
+    #[prost(message, optional, tag = "3")]
+    pub virtual_machine_config: ::core::option::Option<VirtualMachineConfig>,
+}
+/// The config settings for virtual machine.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VirtualMachineConfig {
+    /// Output only. The zone where the virtual machine is located.
+    /// If using regional request, the notebooks service will pick a location
+    /// in the corresponding runtime region.
+    /// On a get request, zone will always be present. Example:
+    /// * `us-central1-b`
+    #[prost(string, tag = "1")]
+    pub zone: ::prost::alloc::string::String,
+    /// Required. The Compute Engine machine type used for runtimes.
+    /// Short name is valid. Examples:
+    /// * `n1-standard-2`
+    /// * `e2-standard-8`
+    #[prost(string, tag = "2")]
+    pub machine_type: ::prost::alloc::string::String,
+    /// Optional. Use a list of container images to start the notebook instance.
+    #[prost(message, repeated, tag = "3")]
+    pub container_images: ::prost::alloc::vec::Vec<ContainerImage>,
+    /// Required. Data disk option configuration settings.
+    #[prost(message, optional, tag = "4")]
+    pub data_disk: ::core::option::Option<LocalDisk>,
+    /// Optional. Encryption settings for virtual machine data disk.
+    #[prost(message, optional, tag = "5")]
+    pub encryption_config: ::core::option::Option<EncryptionConfig>,
+    /// Optional. Shielded VM Instance configuration settings.
+    #[prost(message, optional, tag = "6")]
+    pub shielded_instance_config: ::core::option::Option<RuntimeShieldedInstanceConfig>,
+    /// Optional. The Compute Engine accelerator configuration for this runtime.
+    #[prost(message, optional, tag = "7")]
+    pub accelerator_config: ::core::option::Option<RuntimeAcceleratorConfig>,
+    /// Optional. The Compute Engine network to be used for machine
+    /// communications. Cannot be specified with subnetwork. If neither
+    /// `network` nor `subnet` is specified, the "default" network of
+    /// the project is used, if it exists.
+    ///
+    /// A full URL or partial URI. Examples:
+    ///
+    /// * `<https://www.googleapis.com/compute/v1/projects/\[project_id\]/regions/global/default`>
+    /// * `projects/\[project_id\]/regions/global/default`
+    ///
+    /// Runtimes are managed resources inside Google Infrastructure.
+    /// Runtimes support the following network configurations:
+    ///
+    /// * Google Managed Network (Network & subnet are empty)
+    /// * Consumer Project VPC (network & subnet are required). Requires
+    /// configuring Private Service Access.
+    /// * Shared VPC (network & subnet are required). Requires configuring Private
+    /// Service Access.
+    #[prost(string, tag = "8")]
+    pub network: ::prost::alloc::string::String,
+    /// Optional. The Compute Engine subnetwork to be used for machine
+    /// communications. Cannot be specified with network.
+    ///
+    /// A full URL or partial URI are valid. Examples:
+    ///
+    /// * `<https://www.googleapis.com/compute/v1/projects/\[project_id\]/regions/us-east1/subnetworks/sub0`>
+    /// * `projects/\[project_id\]/regions/us-east1/subnetworks/sub0`
+    #[prost(string, tag = "9")]
+    pub subnet: ::prost::alloc::string::String,
+    /// Optional. If true, runtime will only have internal IP
+    /// addresses. By default, runtimes are not restricted to internal IP
+    /// addresses, and will have ephemeral external IP addresses assigned to each
+    /// vm. This `internal_ip_only` restriction can only be enabled for
+    /// subnetwork enabled networks, and all dependencies must be
+    /// configured to be accessible without external IP addresses.
+    #[prost(bool, tag = "10")]
+    pub internal_ip_only: bool,
+    /// Optional. The Compute Engine tags to add to runtime (see [Tagging
+    /// instances](<https://cloud.google.com/compute/docs/label-or-tag-resources#tags>)).
+    #[prost(string, repeated, tag = "13")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Output only. The Compute Engine guest attributes. (see
+    /// [Project and instance
+    /// guest
+    /// attributes](<https://cloud.google.com/compute/docs/storing-retrieving-metadata#guest_attributes>)).
+    #[prost(btree_map = "string, string", tag = "14")]
+    pub guest_attributes: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Optional. The Compute Engine metadata entries to add to virtual machine. (see
+    /// [Project and instance
+    /// metadata](<https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata>)).
+    #[prost(btree_map = "string, string", tag = "15")]
+    pub metadata: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Optional. The labels to associate with this runtime.
+    /// Label **keys** must contain 1 to 63 characters, and must conform to
+    /// [RFC 1035](<https://www.ietf.org/rfc/rfc1035.txt>).
+    /// Label **values** may be empty, but, if present, must contain 1 to 63
+    /// characters, and must conform to [RFC
+    /// 1035](<https://www.ietf.org/rfc/rfc1035.txt>). No more than 32 labels can be
+    /// associated with a cluster.
+    #[prost(btree_map = "string, string", tag = "16")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Optional. The type of vNIC to be used on this interface. This may be gVNIC or
+    /// VirtioNet.
+    #[prost(enumeration = "virtual_machine_config::NicType", tag = "17")]
+    pub nic_type: i32,
+}
+/// Nested message and enum types in `VirtualMachineConfig`.
+pub mod virtual_machine_config {
+    /// The type of vNIC driver.
+    /// Default should be UNSPECIFIED_NIC_TYPE.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum NicType {
+        /// No type specified.
+        UnspecifiedNicType = 0,
+        /// VIRTIO
+        VirtioNet = 1,
+        /// GVNIC
+        Gvnic = 2,
+    }
+}
+/// The definition of an Event for a managed / semi-managed notebook instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Event {
+    /// Event report time.
+    #[prost(message, optional, tag = "1")]
+    pub report_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Event type.
+    #[prost(enumeration = "event::EventType", tag = "2")]
+    pub r#type: i32,
+}
+/// Nested message and enum types in `Event`.
+pub mod event {
+    /// The definition of the even types.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// Event is not specified.
+        Unspecified = 0,
+        /// The instance / runtime is idle
+        Idle = 1,
+    }
+}
+/// Request for listing Managed Notebook Runtimes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListRuntimesRequest {
+    /// Required. Format:
+    /// `parent=projects/{project_id}/locations/{location}`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Maximum return size of the list call.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A previous returned page token that can be used to continue listing
+    /// from the last result.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for listing Managed Notebook Runtimes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListRuntimesResponse {
+    /// A list of returned Runtimes.
+    #[prost(message, repeated, tag = "1")]
+    pub runtimes: ::prost::alloc::vec::Vec<Runtime>,
+    /// Page token that can be used to continue listing from the last result in the
+    /// next list call.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Locations that could not be reached. For example,
+    /// ['us-west1', 'us-central1'].
+    /// A ListRuntimesResponse will only contain either runtimes or unreachables,
+    #[prost(string, repeated, tag = "3")]
+    pub unreachable: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Request for getting a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for creating a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateRuntimeRequest {
+    /// Required. Format:
+    /// `parent=projects/{project_id}/locations/{location}`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. User-defined unique ID of this Runtime.
+    #[prost(string, tag = "2")]
+    pub runtime_id: ::prost::alloc::string::String,
+    /// Required. The Runtime to be created.
+    #[prost(message, optional, tag = "3")]
+    pub runtime: ::core::option::Option<Runtime>,
+}
+/// Request for deleting a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for starting a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StartRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for stopping a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StopRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for switching a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SwitchRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// machine type.
+    #[prost(string, tag = "2")]
+    pub machine_type: ::prost::alloc::string::String,
+    /// accelerator config.
+    #[prost(message, optional, tag = "3")]
+    pub accelerator_config: ::core::option::Option<RuntimeAcceleratorConfig>,
+}
+/// Request for reseting a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResetRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for reporting a Managed Notebook Event.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReportRuntimeEventRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The VM hardware token for authenticating the VM.
+    /// <https://cloud.google.com/compute/docs/instances/verifying-instance-identity>
+    #[prost(string, tag = "2")]
+    pub vm_id: ::prost::alloc::string::String,
+    /// Required. The Event to be reported.
+    #[prost(message, optional, tag = "3")]
+    pub event: ::core::option::Option<Event>,
+}
+#[doc = r" Generated client implementations."]
+pub mod managed_notebook_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " API v1 service for Managed Notebooks."]
+    #[derive(Debug, Clone)]
+    pub struct ManagedNotebookServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ManagedNotebookServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ManagedNotebookServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ManagedNotebookServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Lists Runtimes in a given project and location."]
+        pub async fn list_runtimes(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListRuntimesRequest>,
+        ) -> Result<tonic::Response<super::ListRuntimesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/ListRuntimes",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets details of a single Runtime. The location must be a regional endpoint"]
+        #[doc = " rather than zonal."]
+        pub async fn get_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetRuntimeRequest>,
+        ) -> Result<tonic::Response<super::Runtime>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/GetRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a new Runtime in a given project and location."]
+        pub async fn create_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/CreateRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes a single Runtime."]
+        pub async fn delete_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/DeleteRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Starts a Managed Notebook Runtime."]
+        #[doc = " Perform \"Start\" on GPU instances; \"Resume\" on CPU instances"]
+        #[doc = " See:"]
+        #[doc = " https://cloud.google.com/compute/docs/instances/stop-start-instance"]
+        #[doc = " https://cloud.google.com/compute/docs/instances/suspend-resume-instance"]
+        pub async fn start_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::StartRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/StartRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Stops a Managed Notebook Runtime."]
+        #[doc = " Perform \"Stop\" on GPU instances; \"Suspend\" on CPU instances"]
+        #[doc = " See:"]
+        #[doc = " https://cloud.google.com/compute/docs/instances/stop-start-instance"]
+        #[doc = " https://cloud.google.com/compute/docs/instances/suspend-resume-instance"]
+        pub async fn stop_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::StopRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/StopRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Switch a Managed Notebook Runtime."]
+        pub async fn switch_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SwitchRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/SwitchRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Resets a Managed Notebook Runtime."]
+        pub async fn reset_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ResetRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/ResetRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Report and process a runtime event."]
+        pub async fn report_runtime_event(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ReportRuntimeEventRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/ReportRuntimeEvent",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

@@ -1,42 +1,3 @@
-/// Prediction model parameters for Image Classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageClassificationPredictionParams {
-    /// The Model only returns predictions with at least this confidence score.
-    /// Default value is 0.0
-    #[prost(float, tag = "1")]
-    pub confidence_threshold: f32,
-    /// The Model only returns up to that many top, by confidence score,
-    /// predictions per instance. If this number is very high, the Model may return
-    /// fewer predictions. Default value is 10.
-    #[prost(int32, tag = "2")]
-    pub max_predictions: i32,
-}
-/// Prediction model parameters for Video Action Recognition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoActionRecognitionPredictionParams {
-    /// The Model only returns predictions with at least this confidence score.
-    /// Default value is 0.0
-    #[prost(float, tag = "1")]
-    pub confidence_threshold: f32,
-    /// The model only returns up to that many top, by confidence score,
-    /// predictions per frame of the video. If this number is very high, the
-    /// Model may return fewer predictions per frame. Default value is 50.
-    #[prost(int32, tag = "2")]
-    pub max_predictions: i32,
-}
-/// Prediction model parameters for Image Object Detection.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageObjectDetectionPredictionParams {
-    /// The Model only returns predictions with at least this confidence score.
-    /// Default value is 0.0
-    #[prost(float, tag = "1")]
-    pub confidence_threshold: f32,
-    /// The Model only returns up to that many top, by confidence score,
-    /// predictions per instance. Note that number of returned predictions is also
-    /// limited by metadata's predictionsLimit. Default value is 10.
-    #[prost(int32, tag = "2")]
-    pub max_predictions: i32,
-}
 /// Prediction model parameters for Image Segmentation.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ImageSegmentationPredictionParams {
@@ -85,6 +46,32 @@ pub struct VideoClassificationPredictionParams {
     #[prost(bool, tag = "5")]
     pub one_sec_interval_classification: bool,
 }
+/// Prediction model parameters for Image Object Detection.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageObjectDetectionPredictionParams {
+    /// The Model only returns predictions with at least this confidence score.
+    /// Default value is 0.0
+    #[prost(float, tag = "1")]
+    pub confidence_threshold: f32,
+    /// The Model only returns up to that many top, by confidence score,
+    /// predictions per instance. Note that number of returned predictions is also
+    /// limited by metadata's predictionsLimit. Default value is 10.
+    #[prost(int32, tag = "2")]
+    pub max_predictions: i32,
+}
+/// Prediction model parameters for Video Action Recognition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoActionRecognitionPredictionParams {
+    /// The Model only returns predictions with at least this confidence score.
+    /// Default value is 0.0
+    #[prost(float, tag = "1")]
+    pub confidence_threshold: f32,
+    /// The model only returns up to that many top, by confidence score,
+    /// predictions per frame of the video. If this number is very high, the
+    /// Model may return fewer predictions per frame. Default value is 50.
+    #[prost(int32, tag = "2")]
+    pub max_predictions: i32,
+}
 /// Prediction model parameters for Video Object Tracking.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VideoObjectTrackingPredictionParams {
@@ -101,4 +88,17 @@ pub struct VideoObjectTrackingPredictionParams {
     /// value of video frame size are returned. Default value is 0.0.
     #[prost(float, tag = "3")]
     pub min_bounding_box_size: f32,
+}
+/// Prediction model parameters for Image Classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageClassificationPredictionParams {
+    /// The Model only returns predictions with at least this confidence score.
+    /// Default value is 0.0
+    #[prost(float, tag = "1")]
+    pub confidence_threshold: f32,
+    /// The Model only returns up to that many top, by confidence score,
+    /// predictions per instance. If this number is very high, the Model may return
+    /// fewer predictions. Default value is 10.
+    #[prost(int32, tag = "2")]
+    pub max_predictions: i32,
 }

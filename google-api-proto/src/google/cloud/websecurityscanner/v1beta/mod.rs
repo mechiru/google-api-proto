@@ -1,14 +1,3 @@
-/// A FindingTypeStats resource represents stats regarding a specific FindingType
-/// of Findings under a given ScanRun.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FindingTypeStats {
-    /// The finding type associated with the stats.
-    #[prost(string, tag = "1")]
-    pub finding_type: ::prost::alloc::string::String,
-    /// The count of findings belonging to this finding type.
-    #[prost(int32, tag = "2")]
-    pub finding_count: i32,
-}
 /// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
 /// Security Scanner Service crawls the web applications, following all links
 /// within the scope of sites, to find the URLs to test against.
@@ -163,6 +152,17 @@ pub struct Finding {
     /// An addon containing information reported for an XSS, if any.
     #[prost(message, optional, tag = "14")]
     pub xss: ::core::option::Option<Xss>,
+}
+/// A FindingTypeStats resource represents stats regarding a specific FindingType
+/// of Findings under a given ScanRun.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FindingTypeStats {
+    /// The finding type associated with the stats.
+    #[prost(string, tag = "1")]
+    pub finding_type: ::prost::alloc::string::String,
+    /// The count of findings belonging to this finding type.
+    #[prost(int32, tag = "2")]
+    pub finding_count: i32,
 }
 /// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
 /// APIs when scan configuration validation fails. It is also reported as part of

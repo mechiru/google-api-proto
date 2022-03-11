@@ -375,283 +375,6 @@ pub enum InventoryView {
     /// Returns all fields.
     Full = 2,
 }
-/// Get a report of the OS policy assignment for a VM instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetOsPolicyAssignmentReportRequest {
-    /// Required. API resource name for OS policy assignment report.
-    ///
-    /// Format:
-    /// `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance_id}`, either Compute Engine `instance-id` or `instance-name`
-    /// can be provided.
-    /// For `{assignment_id}`, the OSPolicyAssignment id must be provided.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// List the OS policy assignment reports for VM instances.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentReportsRequest {
-    /// Required. The parent resource name.
-    ///
-    /// Format:
-    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance}`, either `instance-name`, `instance-id`, or `-` can be
-    /// provided. If '-' is provided, the response will include
-    /// OSPolicyAssignmentReports for all instances in the project/location.
-    /// For `{assignment}`, either `assignment-id` or `-` can be provided. If '-'
-    /// is provided, the response will include OSPolicyAssignmentReports for all
-    /// OSPolicyAssignments in the project/location.
-    /// Either {instance} or {assignment} must be `-`.
-    ///
-    /// For example:
-    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports`
-    ///  returns all reports for the instance
-    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports`
-    ///  returns all the reports for the given assignment across all instances.
-    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports`
-    ///  returns all the reports for all assignments across all instances.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of results to return.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// If provided, this field specifies the criteria that must be met by the
-    /// `OSPolicyAssignmentReport` API resource that is included in the response.
-    #[prost(string, tag = "3")]
-    pub filter: ::prost::alloc::string::String,
-    /// A pagination token returned from a previous call to the
-    /// `ListOSPolicyAssignmentReports` method that indicates where this listing
-    /// should continue from.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// A response message for listing OS Policy assignment reports including the
-/// page of results and page token.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentReportsResponse {
-    /// List of OS policy assignment reports.
-    #[prost(message, repeated, tag = "1")]
-    pub os_policy_assignment_reports: ::prost::alloc::vec::Vec<OsPolicyAssignmentReport>,
-    /// The pagination token to retrieve the next page of OS policy assignment
-    /// report objects.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A report of the OS policy assignment status for a given instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyAssignmentReport {
-    /// The `OSPolicyAssignmentReport` API resource name.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The Compute Engine VM instance name.
-    #[prost(string, tag = "2")]
-    pub instance: ::prost::alloc::string::String,
-    /// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
-    /// belongs to.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
-    #[prost(string, tag = "3")]
-    pub os_policy_assignment: ::prost::alloc::string::String,
-    /// Compliance data for each `OSPolicy` that is applied to the VM.
-    #[prost(message, repeated, tag = "4")]
-    pub os_policy_compliances:
-        ::prost::alloc::vec::Vec<os_policy_assignment_report::OsPolicyCompliance>,
-    /// Timestamp for when the report was last generated.
-    #[prost(message, optional, tag = "5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Unique identifier of the last attempted run to apply the OS policies
-    /// associated with this assignment on the VM.
-    ///
-    /// This ID is logged by the OS Config agent while applying the OS
-    /// policies associated with this assignment on the VM.
-    /// NOTE: If the service is unable to successfully connect to the agent for
-    /// this run, then this id will not be available in the agent logs.
-    #[prost(string, tag = "6")]
-    pub last_run_id: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `OSPolicyAssignmentReport`.
-pub mod os_policy_assignment_report {
-    /// Compliance data for an OS policy
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct OsPolicyCompliance {
-        /// The OS policy id
-        #[prost(string, tag = "1")]
-        pub os_policy_id: ::prost::alloc::string::String,
-        /// The compliance state of the OS policy.
-        #[prost(enumeration = "os_policy_compliance::ComplianceState", tag = "2")]
-        pub compliance_state: i32,
-        /// The reason for the OS policy to be in an unknown compliance state.
-        /// This field is always populated when `compliance_state` is `UNKNOWN`.
-        ///
-        /// If populated, the field can contain one of the following values:
-        ///
-        /// * `vm-not-running`: The VM was not running.
-        /// * `os-policies-not-supported-by-agent`: The version of the OS Config
-        /// agent running on the VM does not support running OS policies.
-        /// * `no-agent-detected`: The OS Config agent is not detected for the VM.
-        /// * `resource-execution-errors`: The OS Config agent encountered errors
-        /// while executing one or more resources in the policy. See
-        /// `os_policy_resource_compliances` for details.
-        /// * `task-timeout`: The task sent to the agent to apply the policy timed
-        /// out.
-        /// * `unexpected-agent-state`: The OS Config agent did not report the final
-        /// status of the task that attempted to apply the policy. Instead, the agent
-        /// unexpectedly started working on a different task. This mostly happens
-        /// when the agent or VM unexpectedly restarts while applying OS policies.
-        /// * `internal-service-errors`: Internal service errors were encountered
-        /// while attempting to apply the policy.
-        #[prost(string, tag = "3")]
-        pub compliance_state_reason: ::prost::alloc::string::String,
-        /// Compliance data for each resource within the policy that is applied to
-        /// the VM.
-        #[prost(message, repeated, tag = "4")]
-        pub os_policy_resource_compliances:
-            ::prost::alloc::vec::Vec<os_policy_compliance::OsPolicyResourceCompliance>,
-    }
-    /// Nested message and enum types in `OSPolicyCompliance`.
-    pub mod os_policy_compliance {
-        /// Compliance data for an OS policy resource.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct OsPolicyResourceCompliance {
-            /// The ID of the OS policy resource.
-            #[prost(string, tag = "1")]
-            pub os_policy_resource_id: ::prost::alloc::string::String,
-            /// Ordered list of configuration completed by the agent for the OS policy
-            /// resource.
-            #[prost(message, repeated, tag = "2")]
-            pub config_steps:
-                ::prost::alloc::vec::Vec<os_policy_resource_compliance::OsPolicyResourceConfigStep>,
-            /// The compliance state of the resource.
-            #[prost(
-                enumeration = "os_policy_resource_compliance::ComplianceState",
-                tag = "3"
-            )]
-            pub compliance_state: i32,
-            /// A reason for the resource to be in the given compliance state.
-            /// This field is always populated when `compliance_state` is `UNKNOWN`.
-            ///
-            /// The following values are supported when `compliance_state == UNKNOWN`
-            ///
-            /// * `execution-errors`: Errors were encountered by the agent while
-            /// executing the resource and the compliance state couldn't be
-            /// determined.
-            /// * `execution-skipped-by-agent`: Resource execution was skipped by the
-            /// agent because errors were encountered while executing prior resources
-            /// in the OS policy.
-            /// * `os-policy-execution-attempt-failed`: The execution of the OS policy
-            /// containing this resource failed and the compliance state couldn't be
-            /// determined.
-            #[prost(string, tag = "4")]
-            pub compliance_state_reason: ::prost::alloc::string::String,
-            /// Resource specific output.
-            #[prost(oneof = "os_policy_resource_compliance::Output", tags = "5")]
-            pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
-        }
-        /// Nested message and enum types in `OSPolicyResourceCompliance`.
-        pub mod os_policy_resource_compliance {
-            /// Step performed by the OS Config agent for configuring an
-            /// `OSPolicy` resource to its desired state.
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            pub struct OsPolicyResourceConfigStep {
-                /// Configuration step type.
-                #[prost(enumeration = "os_policy_resource_config_step::Type", tag = "1")]
-                pub r#type: i32,
-                /// An error message recorded during the execution of this step.
-                /// Only populated if errors were encountered during this step execution.
-                #[prost(string, tag = "2")]
-                pub error_message: ::prost::alloc::string::String,
-            }
-            /// Nested message and enum types in `OSPolicyResourceConfigStep`.
-            pub mod os_policy_resource_config_step {
-                /// Supported configuration step types
-                #[derive(
-                    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-                )]
-                #[repr(i32)]
-                pub enum Type {
-                    /// Default value. This value is unused.
-                    Unspecified = 0,
-                    /// Checks for resource conflicts such as schema errors.
-                    Validation = 1,
-                    /// Checks the current status of the desired state for a resource.
-                    DesiredStateCheck = 2,
-                    /// Enforces the desired state for a resource that is not in desired
-                    /// state.
-                    DesiredStateEnforcement = 3,
-                    /// Re-checks the status of the desired state. This check is done
-                    /// for a resource after the enforcement of all OS policies.
-                    ///
-                    /// This step is used to determine the final desired state status for
-                    /// the resource. It accounts for any resources that might have drifted
-                    /// from their desired state due to side effects from executing other
-                    /// resources.
-                    DesiredStateCheckPostEnforcement = 4,
-                }
-            }
-            /// ExecResource specific output.
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            pub struct ExecResourceOutput {
-                /// Output from enforcement phase output file (if run).
-                /// Output size is limited to 100K bytes.
-                #[prost(bytes = "bytes", tag = "2")]
-                pub enforcement_output: ::prost::bytes::Bytes,
-            }
-            /// Possible compliance states for a resource.
-            #[derive(
-                Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-            )]
-            #[repr(i32)]
-            pub enum ComplianceState {
-                /// The resource is in an unknown compliance state.
-                ///
-                /// To get more details about why the policy is in this state, review
-                /// the output of the `compliance_state_reason` field.
-                Unknown = 0,
-                /// Resource is compliant.
-                Compliant = 1,
-                /// Resource is non-compliant.
-                NonCompliant = 2,
-            }
-            /// Resource specific output.
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
-            pub enum Output {
-                /// ExecResource specific output.
-                #[prost(message, tag = "5")]
-                ExecResourceOutput(ExecResourceOutput),
-            }
-        }
-        /// Possible compliance states for an os policy.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum ComplianceState {
-            /// The policy is in an unknown compliance state.
-            ///
-            /// Refer to the field `compliance_state_reason` to learn the exact reason
-            /// for the policy to be in this compliance state.
-            Unknown = 0,
-            /// Policy is compliant.
-            ///
-            /// The policy is compliant if all the underlying resources are also
-            /// compliant.
-            Compliant = 1,
-            /// Policy is non-compliant.
-            ///
-            /// The policy is non-compliant if one or more underlying resources are
-            /// non-compliant.
-            NonCompliant = 2,
-        }
-    }
-}
 /// An OS policy defines the desired state configuration for a VM.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OsPolicy {
@@ -2642,315 +2365,6 @@ pub mod patch_rollout {
         ConcurrentZones = 2,
     }
 }
-#[doc = r" Generated client implementations."]
-pub mod os_config_zonal_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Zonal OS Config API"]
-    #[doc = ""]
-    #[doc = " The OS Config service is the server-side component that allows users to"]
-    #[doc = " manage package installations and patch jobs for Compute Engine VM instances."]
-    #[derive(Debug, Clone)]
-    pub struct OsConfigZonalServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> OsConfigZonalServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> OsConfigZonalServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            OsConfigZonalServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Create an OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method also creates the first revision of the OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method returns a long running operation (LRO) that contains the"]
-        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
-        #[doc = ""]
-        #[doc = " For more information, see [Method:"]
-        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
-        pub async fn create_os_policy_assignment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateOsPolicyAssignmentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/CreateOSPolicyAssignment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Update an existing OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method creates a new revision of the OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method returns a long running operation (LRO) that contains the"]
-        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
-        #[doc = ""]
-        #[doc = " For more information, see [Method:"]
-        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
-        pub async fn update_os_policy_assignment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateOsPolicyAssignmentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/UpdateOSPolicyAssignment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieve an existing OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method always returns the latest revision. In order to retrieve a"]
-        #[doc = " previous revision of the assignment, also provide the revision ID in the"]
-        #[doc = " `name` parameter."]
-        pub async fn get_os_policy_assignment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetOsPolicyAssignmentRequest>,
-        ) -> Result<tonic::Response<super::OsPolicyAssignment>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/GetOSPolicyAssignment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List the OS policy assignments under the parent resource."]
-        #[doc = ""]
-        #[doc = " For each OS policy assignment, the latest revision is returned."]
-        pub async fn list_os_policy_assignments(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentsRequest>,
-        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignments",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List the OS policy assignment revisions for a given OS policy assignment."]
-        pub async fn list_os_policy_assignment_revisions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentRevisionsRequest>,
-        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentRevisionsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignmentRevisions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Delete the OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method creates a new revision of the OS policy assignment."]
-        #[doc = ""]
-        #[doc = " This method returns a long running operation (LRO) that contains the"]
-        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
-        #[doc = ""]
-        #[doc = " If the LRO completes and is not cancelled, all revisions associated with"]
-        #[doc = " the OS policy assignment are deleted."]
-        #[doc = ""]
-        #[doc = " For more information, see [Method:"]
-        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
-        pub async fn delete_os_policy_assignment(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteOsPolicyAssignmentRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/DeleteOSPolicyAssignment",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get the OS policy asssignment report for the specified Compute Engine VM"]
-        #[doc = " instance."]
-        pub async fn get_os_policy_assignment_report(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetOsPolicyAssignmentReportRequest>,
-        ) -> Result<tonic::Response<super::OsPolicyAssignmentReport>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/GetOSPolicyAssignmentReport",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List OS policy asssignment reports for all Compute Engine VM instances in"]
-        #[doc = " the specified zone."]
-        pub async fn list_os_policy_assignment_reports(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentReportsRequest>,
-        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentReportsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignmentReports",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get inventory data for the specified VM instance. If the VM has no"]
-        #[doc = " associated inventory, the message `NOT_FOUND` is returned."]
-        pub async fn get_inventory(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetInventoryRequest>,
-        ) -> Result<tonic::Response<super::Inventory>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/GetInventory",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List inventory data for all VM instances in the specified zone."]
-        pub async fn list_inventories(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListInventoriesRequest>,
-        ) -> Result<tonic::Response<super::ListInventoriesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListInventories",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets the vulnerability report for the specified VM instance. Only VMs with"]
-        #[doc = " inventory data have vulnerability reports associated with them."]
-        pub async fn get_vulnerability_report(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetVulnerabilityReportRequest>,
-        ) -> Result<tonic::Response<super::VulnerabilityReport>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/GetVulnerabilityReport",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List vulnerability reports for all VM instances in the specified zone."]
-        pub async fn list_vulnerability_reports(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListVulnerabilityReportsRequest>,
-        ) -> Result<tonic::Response<super::ListVulnerabilityReportsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.osconfig.v1.OsConfigZonalService/ListVulnerabilityReports",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// Patch deployments are configurations that individual patch jobs use to
 /// complete a patch. These configurations include instance filter, package
 /// repository settings, and a schedule. For more information about creating and
@@ -3496,6 +2910,592 @@ pub mod os_config_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.osconfig.v1.OsConfigService/ResumePatchDeployment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Get a report of the OS policy assignment for a VM instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetOsPolicyAssignmentReportRequest {
+    /// Required. API resource name for OS policy assignment report.
+    ///
+    /// Format:
+    /// `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance_id}`, either Compute Engine `instance-id` or `instance-name`
+    /// can be provided.
+    /// For `{assignment_id}`, the OSPolicyAssignment id must be provided.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// List the OS policy assignment reports for VM instances.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentReportsRequest {
+    /// Required. The parent resource name.
+    ///
+    /// Format:
+    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance}`, either `instance-name`, `instance-id`, or `-` can be
+    /// provided. If '-' is provided, the response will include
+    /// OSPolicyAssignmentReports for all instances in the project/location.
+    /// For `{assignment}`, either `assignment-id` or `-` can be provided. If '-'
+    /// is provided, the response will include OSPolicyAssignmentReports for all
+    /// OSPolicyAssignments in the project/location.
+    /// Either {instance} or {assignment} must be `-`.
+    ///
+    /// For example:
+    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports`
+    ///  returns all reports for the instance
+    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports`
+    ///  returns all the reports for the given assignment across all instances.
+    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports`
+    ///  returns all the reports for all assignments across all instances.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of results to return.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// If provided, this field specifies the criteria that must be met by the
+    /// `OSPolicyAssignmentReport` API resource that is included in the response.
+    #[prost(string, tag = "3")]
+    pub filter: ::prost::alloc::string::String,
+    /// A pagination token returned from a previous call to the
+    /// `ListOSPolicyAssignmentReports` method that indicates where this listing
+    /// should continue from.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// A response message for listing OS Policy assignment reports including the
+/// page of results and page token.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentReportsResponse {
+    /// List of OS policy assignment reports.
+    #[prost(message, repeated, tag = "1")]
+    pub os_policy_assignment_reports: ::prost::alloc::vec::Vec<OsPolicyAssignmentReport>,
+    /// The pagination token to retrieve the next page of OS policy assignment
+    /// report objects.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A report of the OS policy assignment status for a given instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyAssignmentReport {
+    /// The `OSPolicyAssignmentReport` API resource name.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The Compute Engine VM instance name.
+    #[prost(string, tag = "2")]
+    pub instance: ::prost::alloc::string::String,
+    /// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
+    /// belongs to.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
+    #[prost(string, tag = "3")]
+    pub os_policy_assignment: ::prost::alloc::string::String,
+    /// Compliance data for each `OSPolicy` that is applied to the VM.
+    #[prost(message, repeated, tag = "4")]
+    pub os_policy_compliances:
+        ::prost::alloc::vec::Vec<os_policy_assignment_report::OsPolicyCompliance>,
+    /// Timestamp for when the report was last generated.
+    #[prost(message, optional, tag = "5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Unique identifier of the last attempted run to apply the OS policies
+    /// associated with this assignment on the VM.
+    ///
+    /// This ID is logged by the OS Config agent while applying the OS
+    /// policies associated with this assignment on the VM.
+    /// NOTE: If the service is unable to successfully connect to the agent for
+    /// this run, then this id will not be available in the agent logs.
+    #[prost(string, tag = "6")]
+    pub last_run_id: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `OSPolicyAssignmentReport`.
+pub mod os_policy_assignment_report {
+    /// Compliance data for an OS policy
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct OsPolicyCompliance {
+        /// The OS policy id
+        #[prost(string, tag = "1")]
+        pub os_policy_id: ::prost::alloc::string::String,
+        /// The compliance state of the OS policy.
+        #[prost(enumeration = "os_policy_compliance::ComplianceState", tag = "2")]
+        pub compliance_state: i32,
+        /// The reason for the OS policy to be in an unknown compliance state.
+        /// This field is always populated when `compliance_state` is `UNKNOWN`.
+        ///
+        /// If populated, the field can contain one of the following values:
+        ///
+        /// * `vm-not-running`: The VM was not running.
+        /// * `os-policies-not-supported-by-agent`: The version of the OS Config
+        /// agent running on the VM does not support running OS policies.
+        /// * `no-agent-detected`: The OS Config agent is not detected for the VM.
+        /// * `resource-execution-errors`: The OS Config agent encountered errors
+        /// while executing one or more resources in the policy. See
+        /// `os_policy_resource_compliances` for details.
+        /// * `task-timeout`: The task sent to the agent to apply the policy timed
+        /// out.
+        /// * `unexpected-agent-state`: The OS Config agent did not report the final
+        /// status of the task that attempted to apply the policy. Instead, the agent
+        /// unexpectedly started working on a different task. This mostly happens
+        /// when the agent or VM unexpectedly restarts while applying OS policies.
+        /// * `internal-service-errors`: Internal service errors were encountered
+        /// while attempting to apply the policy.
+        #[prost(string, tag = "3")]
+        pub compliance_state_reason: ::prost::alloc::string::String,
+        /// Compliance data for each resource within the policy that is applied to
+        /// the VM.
+        #[prost(message, repeated, tag = "4")]
+        pub os_policy_resource_compliances:
+            ::prost::alloc::vec::Vec<os_policy_compliance::OsPolicyResourceCompliance>,
+    }
+    /// Nested message and enum types in `OSPolicyCompliance`.
+    pub mod os_policy_compliance {
+        /// Compliance data for an OS policy resource.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct OsPolicyResourceCompliance {
+            /// The ID of the OS policy resource.
+            #[prost(string, tag = "1")]
+            pub os_policy_resource_id: ::prost::alloc::string::String,
+            /// Ordered list of configuration completed by the agent for the OS policy
+            /// resource.
+            #[prost(message, repeated, tag = "2")]
+            pub config_steps:
+                ::prost::alloc::vec::Vec<os_policy_resource_compliance::OsPolicyResourceConfigStep>,
+            /// The compliance state of the resource.
+            #[prost(
+                enumeration = "os_policy_resource_compliance::ComplianceState",
+                tag = "3"
+            )]
+            pub compliance_state: i32,
+            /// A reason for the resource to be in the given compliance state.
+            /// This field is always populated when `compliance_state` is `UNKNOWN`.
+            ///
+            /// The following values are supported when `compliance_state == UNKNOWN`
+            ///
+            /// * `execution-errors`: Errors were encountered by the agent while
+            /// executing the resource and the compliance state couldn't be
+            /// determined.
+            /// * `execution-skipped-by-agent`: Resource execution was skipped by the
+            /// agent because errors were encountered while executing prior resources
+            /// in the OS policy.
+            /// * `os-policy-execution-attempt-failed`: The execution of the OS policy
+            /// containing this resource failed and the compliance state couldn't be
+            /// determined.
+            #[prost(string, tag = "4")]
+            pub compliance_state_reason: ::prost::alloc::string::String,
+            /// Resource specific output.
+            #[prost(oneof = "os_policy_resource_compliance::Output", tags = "5")]
+            pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
+        }
+        /// Nested message and enum types in `OSPolicyResourceCompliance`.
+        pub mod os_policy_resource_compliance {
+            /// Step performed by the OS Config agent for configuring an
+            /// `OSPolicy` resource to its desired state.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct OsPolicyResourceConfigStep {
+                /// Configuration step type.
+                #[prost(enumeration = "os_policy_resource_config_step::Type", tag = "1")]
+                pub r#type: i32,
+                /// An error message recorded during the execution of this step.
+                /// Only populated if errors were encountered during this step execution.
+                #[prost(string, tag = "2")]
+                pub error_message: ::prost::alloc::string::String,
+            }
+            /// Nested message and enum types in `OSPolicyResourceConfigStep`.
+            pub mod os_policy_resource_config_step {
+                /// Supported configuration step types
+                #[derive(
+                    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+                )]
+                #[repr(i32)]
+                pub enum Type {
+                    /// Default value. This value is unused.
+                    Unspecified = 0,
+                    /// Checks for resource conflicts such as schema errors.
+                    Validation = 1,
+                    /// Checks the current status of the desired state for a resource.
+                    DesiredStateCheck = 2,
+                    /// Enforces the desired state for a resource that is not in desired
+                    /// state.
+                    DesiredStateEnforcement = 3,
+                    /// Re-checks the status of the desired state. This check is done
+                    /// for a resource after the enforcement of all OS policies.
+                    ///
+                    /// This step is used to determine the final desired state status for
+                    /// the resource. It accounts for any resources that might have drifted
+                    /// from their desired state due to side effects from executing other
+                    /// resources.
+                    DesiredStateCheckPostEnforcement = 4,
+                }
+            }
+            /// ExecResource specific output.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct ExecResourceOutput {
+                /// Output from enforcement phase output file (if run).
+                /// Output size is limited to 100K bytes.
+                #[prost(bytes = "bytes", tag = "2")]
+                pub enforcement_output: ::prost::bytes::Bytes,
+            }
+            /// Possible compliance states for a resource.
+            #[derive(
+                Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+            )]
+            #[repr(i32)]
+            pub enum ComplianceState {
+                /// The resource is in an unknown compliance state.
+                ///
+                /// To get more details about why the policy is in this state, review
+                /// the output of the `compliance_state_reason` field.
+                Unknown = 0,
+                /// Resource is compliant.
+                Compliant = 1,
+                /// Resource is non-compliant.
+                NonCompliant = 2,
+            }
+            /// Resource specific output.
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            pub enum Output {
+                /// ExecResource specific output.
+                #[prost(message, tag = "5")]
+                ExecResourceOutput(ExecResourceOutput),
+            }
+        }
+        /// Possible compliance states for an os policy.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum ComplianceState {
+            /// The policy is in an unknown compliance state.
+            ///
+            /// Refer to the field `compliance_state_reason` to learn the exact reason
+            /// for the policy to be in this compliance state.
+            Unknown = 0,
+            /// Policy is compliant.
+            ///
+            /// The policy is compliant if all the underlying resources are also
+            /// compliant.
+            Compliant = 1,
+            /// Policy is non-compliant.
+            ///
+            /// The policy is non-compliant if one or more underlying resources are
+            /// non-compliant.
+            NonCompliant = 2,
+        }
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod os_config_zonal_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Zonal OS Config API"]
+    #[doc = ""]
+    #[doc = " The OS Config service is the server-side component that allows users to"]
+    #[doc = " manage package installations and patch jobs for Compute Engine VM instances."]
+    #[derive(Debug, Clone)]
+    pub struct OsConfigZonalServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> OsConfigZonalServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> OsConfigZonalServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            OsConfigZonalServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Create an OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method also creates the first revision of the OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method returns a long running operation (LRO) that contains the"]
+        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
+        #[doc = ""]
+        #[doc = " For more information, see [Method:"]
+        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
+        pub async fn create_os_policy_assignment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateOsPolicyAssignmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/CreateOSPolicyAssignment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Update an existing OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method creates a new revision of the OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method returns a long running operation (LRO) that contains the"]
+        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
+        #[doc = ""]
+        #[doc = " For more information, see [Method:"]
+        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
+        pub async fn update_os_policy_assignment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateOsPolicyAssignmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/UpdateOSPolicyAssignment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieve an existing OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method always returns the latest revision. In order to retrieve a"]
+        #[doc = " previous revision of the assignment, also provide the revision ID in the"]
+        #[doc = " `name` parameter."]
+        pub async fn get_os_policy_assignment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetOsPolicyAssignmentRequest>,
+        ) -> Result<tonic::Response<super::OsPolicyAssignment>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/GetOSPolicyAssignment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List the OS policy assignments under the parent resource."]
+        #[doc = ""]
+        #[doc = " For each OS policy assignment, the latest revision is returned."]
+        pub async fn list_os_policy_assignments(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentsRequest>,
+        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignments",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List the OS policy assignment revisions for a given OS policy assignment."]
+        pub async fn list_os_policy_assignment_revisions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentRevisionsRequest>,
+        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentRevisionsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignmentRevisions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete the OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method creates a new revision of the OS policy assignment."]
+        #[doc = ""]
+        #[doc = " This method returns a long running operation (LRO) that contains the"]
+        #[doc = " rollout details. The rollout can be cancelled by cancelling the LRO."]
+        #[doc = ""]
+        #[doc = " If the LRO completes and is not cancelled, all revisions associated with"]
+        #[doc = " the OS policy assignment are deleted."]
+        #[doc = ""]
+        #[doc = " For more information, see [Method:"]
+        #[doc = " projects.locations.osPolicyAssignments.operations.cancel](https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.locations.osPolicyAssignments.operations/cancel)."]
+        pub async fn delete_os_policy_assignment(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteOsPolicyAssignmentRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/DeleteOSPolicyAssignment",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get the OS policy asssignment report for the specified Compute Engine VM"]
+        #[doc = " instance."]
+        pub async fn get_os_policy_assignment_report(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetOsPolicyAssignmentReportRequest>,
+        ) -> Result<tonic::Response<super::OsPolicyAssignmentReport>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/GetOSPolicyAssignmentReport",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List OS policy asssignment reports for all Compute Engine VM instances in"]
+        #[doc = " the specified zone."]
+        pub async fn list_os_policy_assignment_reports(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentReportsRequest>,
+        ) -> Result<tonic::Response<super::ListOsPolicyAssignmentReportsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListOSPolicyAssignmentReports",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get inventory data for the specified VM instance. If the VM has no"]
+        #[doc = " associated inventory, the message `NOT_FOUND` is returned."]
+        pub async fn get_inventory(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetInventoryRequest>,
+        ) -> Result<tonic::Response<super::Inventory>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/GetInventory",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List inventory data for all VM instances in the specified zone."]
+        pub async fn list_inventories(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListInventoriesRequest>,
+        ) -> Result<tonic::Response<super::ListInventoriesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListInventories",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets the vulnerability report for the specified VM instance. Only VMs with"]
+        #[doc = " inventory data have vulnerability reports associated with them."]
+        pub async fn get_vulnerability_report(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetVulnerabilityReportRequest>,
+        ) -> Result<tonic::Response<super::VulnerabilityReport>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/GetVulnerabilityReport",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List vulnerability reports for all VM instances in the specified zone."]
+        pub async fn list_vulnerability_reports(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListVulnerabilityReportsRequest>,
+        ) -> Result<tonic::Response<super::ListVulnerabilityReportsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.osconfig.v1.OsConfigZonalService/ListVulnerabilityReports",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

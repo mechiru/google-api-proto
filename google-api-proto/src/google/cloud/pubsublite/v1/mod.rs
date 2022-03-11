@@ -1349,6 +1349,157 @@ pub mod partition_assignment_service_client {
         }
     }
 }
+/// The first request that must be sent on a newly-opened stream.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InitialPublishRequest {
+    /// The topic to which messages will be written.
+    #[prost(string, tag = "1")]
+    pub topic: ::prost::alloc::string::String,
+    /// The partition within the topic to which messages will be written.
+    /// Partitions are zero indexed, so `partition` must be in the range [0,
+    /// topic.num_partitions).
+    #[prost(int64, tag = "2")]
+    pub partition: i64,
+}
+/// Response to an InitialPublishRequest.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InitialPublishResponse {}
+/// Request to publish messages to the topic.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MessagePublishRequest {
+    /// The messages to publish.
+    #[prost(message, repeated, tag = "1")]
+    pub messages: ::prost::alloc::vec::Vec<PubSubMessage>,
+}
+/// Response to a MessagePublishRequest.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MessagePublishResponse {
+    /// The cursor of the first published message in the batch. The cursors for any
+    /// remaining messages in the batch are guaranteed to be sequential.
+    #[prost(message, optional, tag = "1")]
+    pub start_cursor: ::core::option::Option<Cursor>,
+}
+/// Request sent from the client to the server on a stream.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PublishRequest {
+    /// The type of request this is.
+    #[prost(oneof = "publish_request::RequestType", tags = "1, 2")]
+    pub request_type: ::core::option::Option<publish_request::RequestType>,
+}
+/// Nested message and enum types in `PublishRequest`.
+pub mod publish_request {
+    /// The type of request this is.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum RequestType {
+        /// Initial request on the stream.
+        #[prost(message, tag = "1")]
+        InitialRequest(super::InitialPublishRequest),
+        /// Request to publish messages.
+        #[prost(message, tag = "2")]
+        MessagePublishRequest(super::MessagePublishRequest),
+    }
+}
+/// Response to a PublishRequest.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PublishResponse {
+    /// The type of response this is.
+    #[prost(oneof = "publish_response::ResponseType", tags = "1, 2")]
+    pub response_type: ::core::option::Option<publish_response::ResponseType>,
+}
+/// Nested message and enum types in `PublishResponse`.
+pub mod publish_response {
+    /// The type of response this is.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ResponseType {
+        /// Initial response on the stream.
+        #[prost(message, tag = "1")]
+        InitialResponse(super::InitialPublishResponse),
+        /// Response to publishing messages.
+        #[prost(message, tag = "2")]
+        MessageResponse(super::MessagePublishResponse),
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod publisher_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " The service that a publisher client application uses to publish messages to"]
+    #[doc = " topics. Published messages are retained by the service for the duration of"]
+    #[doc = " the retention period configured for the respective topic, and are delivered"]
+    #[doc = " to subscriber clients upon request (via the `SubscriberService`)."]
+    #[derive(Debug, Clone)]
+    pub struct PublisherServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> PublisherServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> PublisherServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            PublisherServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Establishes a stream with the server for publishing messages. Once the"]
+        #[doc = " stream is initialized, the client publishes messages by sending publish"]
+        #[doc = " requests on the stream. The server responds with a PublishResponse for each"]
+        #[doc = " PublishRequest sent by the client, in the same order that the requests"]
+        #[doc = " were sent. Note that multiple PublishRequests can be in flight"]
+        #[doc = " simultaneously, but they will be processed by the server in the order that"]
+        #[doc = " they are sent by the client on a given stream."]
+        pub async fn publish(
+            &mut self,
+            request: impl tonic::IntoStreamingRequest<Message = super::PublishRequest>,
+        ) -> Result<tonic::Response<tonic::codec::Streaming<super::PublishResponse>>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.PublisherService/Publish",
+            );
+            self.inner
+                .streaming(request.into_streaming_request(), path, codec)
+                .await
+        }
+    }
+}
 /// The first streaming request that must be sent on a newly-opened stream. The
 /// client must wait for the response before sending subsequent requests on the
 /// stream.
@@ -1778,157 +1929,6 @@ pub mod topic_stats_service_client {
                 "/google.cloud.pubsublite.v1.TopicStatsService/ComputeTimeCursor",
             );
             self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// The first request that must be sent on a newly-opened stream.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InitialPublishRequest {
-    /// The topic to which messages will be written.
-    #[prost(string, tag = "1")]
-    pub topic: ::prost::alloc::string::String,
-    /// The partition within the topic to which messages will be written.
-    /// Partitions are zero indexed, so `partition` must be in the range [0,
-    /// topic.num_partitions).
-    #[prost(int64, tag = "2")]
-    pub partition: i64,
-}
-/// Response to an InitialPublishRequest.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InitialPublishResponse {}
-/// Request to publish messages to the topic.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MessagePublishRequest {
-    /// The messages to publish.
-    #[prost(message, repeated, tag = "1")]
-    pub messages: ::prost::alloc::vec::Vec<PubSubMessage>,
-}
-/// Response to a MessagePublishRequest.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MessagePublishResponse {
-    /// The cursor of the first published message in the batch. The cursors for any
-    /// remaining messages in the batch are guaranteed to be sequential.
-    #[prost(message, optional, tag = "1")]
-    pub start_cursor: ::core::option::Option<Cursor>,
-}
-/// Request sent from the client to the server on a stream.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PublishRequest {
-    /// The type of request this is.
-    #[prost(oneof = "publish_request::RequestType", tags = "1, 2")]
-    pub request_type: ::core::option::Option<publish_request::RequestType>,
-}
-/// Nested message and enum types in `PublishRequest`.
-pub mod publish_request {
-    /// The type of request this is.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum RequestType {
-        /// Initial request on the stream.
-        #[prost(message, tag = "1")]
-        InitialRequest(super::InitialPublishRequest),
-        /// Request to publish messages.
-        #[prost(message, tag = "2")]
-        MessagePublishRequest(super::MessagePublishRequest),
-    }
-}
-/// Response to a PublishRequest.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PublishResponse {
-    /// The type of response this is.
-    #[prost(oneof = "publish_response::ResponseType", tags = "1, 2")]
-    pub response_type: ::core::option::Option<publish_response::ResponseType>,
-}
-/// Nested message and enum types in `PublishResponse`.
-pub mod publish_response {
-    /// The type of response this is.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ResponseType {
-        /// Initial response on the stream.
-        #[prost(message, tag = "1")]
-        InitialResponse(super::InitialPublishResponse),
-        /// Response to publishing messages.
-        #[prost(message, tag = "2")]
-        MessageResponse(super::MessagePublishResponse),
-    }
-}
-#[doc = r" Generated client implementations."]
-pub mod publisher_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " The service that a publisher client application uses to publish messages to"]
-    #[doc = " topics. Published messages are retained by the service for the duration of"]
-    #[doc = " the retention period configured for the respective topic, and are delivered"]
-    #[doc = " to subscriber clients upon request (via the `SubscriberService`)."]
-    #[derive(Debug, Clone)]
-    pub struct PublisherServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> PublisherServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> PublisherServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            PublisherServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Establishes a stream with the server for publishing messages. Once the"]
-        #[doc = " stream is initialized, the client publishes messages by sending publish"]
-        #[doc = " requests on the stream. The server responds with a PublishResponse for each"]
-        #[doc = " PublishRequest sent by the client, in the same order that the requests"]
-        #[doc = " were sent. Note that multiple PublishRequests can be in flight"]
-        #[doc = " simultaneously, but they will be processed by the server in the order that"]
-        #[doc = " they are sent by the client on a given stream."]
-        pub async fn publish(
-            &mut self,
-            request: impl tonic::IntoStreamingRequest<Message = super::PublishRequest>,
-        ) -> Result<tonic::Response<tonic::codec::Streaming<super::PublishResponse>>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.PublisherService/Publish",
-            );
-            self.inner
-                .streaming(request.into_streaming_request(), path, codec)
-                .await
         }
     }
 }

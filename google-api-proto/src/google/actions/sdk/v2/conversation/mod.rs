@@ -29,63 +29,32 @@ pub struct IntentParameterValue {
     #[prost(message, optional, tag = "2")]
     pub resolved: ::core::option::Option<::prost_types::Value>,
 }
-/// Input suggestion to be presented to the user.
+/// Represents an Interactive Canvas response to be sent to the user.
+/// This can be used in conjunction with the "first_simple" field in the
+/// containing prompt to speak to the user in addition to displaying a
+/// interactive canvas response. The maximum size of the response is 50k bytes.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Suggestion {
-    /// Required. The text shown in the suggestion chip. When tapped, this text will be
-    /// posted back to the conversation verbatim as if the user had typed it.
-    /// Each title must be unique among the set of suggestion chips.
-    /// Max 25 chars
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-}
-/// Represents a simple prompt to be send to a user.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Simple {
-    /// Optional. Represents the speech to be spoken to the user. Can be SSML or
-    /// text to speech.
-    /// If the "override" field in the containing prompt is "true", the speech
-    /// defined in this field replaces the previous Simple prompt's speech.
-    #[prost(string, tag = "1")]
-    pub speech: ::prost::alloc::string::String,
-    /// Optional text to display in the chat bubble. If not given, a display
-    /// rendering of the speech field above will be used. Limited to 640
-    /// chars.
-    /// If the "override" field in the containing prompt is "true", the text
-    /// defined in this field replaces to the previous Simple prompt's text.
-    #[prost(string, tag = "2")]
-    pub text: ::prost::alloc::string::String,
-}
-/// Link content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Link {
-    /// Name of the link
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// What happens when a user opens the link
-    #[prost(message, optional, tag = "2")]
-    pub open: ::core::option::Option<OpenUrl>,
-}
-/// Action taken when a user opens a link.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OpenUrl {
-    /// The url field which could be any of:
-    /// - http/https urls for opening an App-linked App or a webpage
+pub struct Canvas {
+    /// URL of the interactive canvas web app to load. If not set, the url from
+    /// current active canvas will be reused.
     #[prost(string, tag = "1")]
     pub url: ::prost::alloc::string::String,
-    /// Indicates a hint for the url type.
-    #[prost(enumeration = "UrlHint", tag = "2")]
-    pub hint: i32,
-}
-/// Different types of url hints.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum UrlHint {
-    /// Unspecified
-    LinkUnspecified = 0,
-    /// URL that points directly to AMP content, or to a canonical URL
-    /// which refers to AMP content via <link rel="amphtml">.
-    Amp = 1,
+    /// Optional. JSON data to be passed through to the immersive experience
+    /// web page as an event.
+    /// If the "override" field in the containing prompt is "false" data values
+    /// defined in this Canvas prompt will be added after data values defined in
+    /// previous Canvas prompts.
+    #[prost(message, repeated, tag = "4")]
+    pub data: ::prost::alloc::vec::Vec<::prost_types::Value>,
+    /// Optional. Default value: false.
+    #[prost(bool, tag = "3")]
+    pub suppress_mic: bool,
+    /// If `true` the canvas application occupies the full screen and won't
+    /// have a header at the top. A toast message will also be displayed on the
+    /// loading screen that includes the Action's display name, the developer's
+    /// name, and instructions for exiting the Action. Default value: `false`.
+    #[prost(bool, tag = "8")]
+    pub enable_full_screen: bool,
 }
 /// An image displayed in the card.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -131,104 +100,36 @@ pub mod image {
         Cropped = 3,
     }
 }
-/// A table card for displaying a table of text.
+/// Link content.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Table {
-    /// Overall title of the table. Optional but must be set if subtitle is set.
+pub struct Link {
+    /// Name of the link
     #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    /// Subtitle for the table. Optional.
-    #[prost(string, tag = "2")]
-    pub subtitle: ::prost::alloc::string::String,
-    /// Image associated with the table. Optional.
-    #[prost(message, optional, tag = "4")]
-    pub image: ::core::option::Option<Image>,
-    /// Headers and alignment of columns.
-    #[prost(message, repeated, tag = "5")]
-    pub columns: ::prost::alloc::vec::Vec<TableColumn>,
-    /// Row data of the table. The first 3 rows are guaranteed to be shown but
-    /// others might be cut on certain surfaces. Please test with the simulator to
-    /// see which rows will be shown for a given surface. On surfaces that support
-    /// the WEB_BROWSER capability, you can point the user to
-    /// a web page with more data.
-    #[prost(message, repeated, tag = "6")]
-    pub rows: ::prost::alloc::vec::Vec<TableRow>,
-    /// Button.
-    #[prost(message, optional, tag = "7")]
-    pub button: ::core::option::Option<Link>,
+    pub name: ::prost::alloc::string::String,
+    /// What happens when a user opens the link
+    #[prost(message, optional, tag = "2")]
+    pub open: ::core::option::Option<OpenUrl>,
 }
-/// Describes a column in a table.
+/// Action taken when a user opens a link.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableColumn {
-    /// Header text for the column.
-    #[prost(string, tag = "1")]
-    pub header: ::prost::alloc::string::String,
-    /// Horizontal alignment of content w.r.t column. If unspecified, content
-    /// will be aligned to the leading edge.
-    #[prost(enumeration = "table_column::HorizontalAlignment", tag = "2")]
-    pub align: i32,
-}
-/// Nested message and enum types in `TableColumn`.
-pub mod table_column {
-    /// The alignment of the content within the cell.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum HorizontalAlignment {
-        /// Unspecified horizontal alignment.
-        Unspecified = 0,
-        /// Leading edge of the cell. This is the default.
-        Leading = 1,
-        /// Content is aligned to the center of the column.
-        Center = 2,
-        /// Content is aligned to the trailing edge of the column.
-        Trailing = 3,
-    }
-}
-/// Describes a cell in a row.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableCell {
-    /// Text content of the cell.
-    #[prost(string, tag = "1")]
-    pub text: ::prost::alloc::string::String,
-}
-/// Describes a row in the table.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableRow {
-    /// Cells in this row. The first 3 cells are guaranteed to be shown but
-    /// others might be cut on certain surfaces. Please test with the simulator
-    /// to see which cells will be shown for a given surface.
-    #[prost(message, repeated, tag = "1")]
-    pub cells: ::prost::alloc::vec::Vec<TableCell>,
-    /// Indicates whether there should be a divider after each row.
-    #[prost(bool, tag = "2")]
-    pub divider: bool,
-}
-/// Represents an Interactive Canvas response to be sent to the user.
-/// This can be used in conjunction with the "first_simple" field in the
-/// containing prompt to speak to the user in addition to displaying a
-/// interactive canvas response. The maximum size of the response is 50k bytes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Canvas {
-    /// URL of the interactive canvas web app to load. If not set, the url from
-    /// current active canvas will be reused.
+pub struct OpenUrl {
+    /// The url field which could be any of:
+    /// - http/https urls for opening an App-linked App or a webpage
     #[prost(string, tag = "1")]
     pub url: ::prost::alloc::string::String,
-    /// Optional. JSON data to be passed through to the immersive experience
-    /// web page as an event.
-    /// If the "override" field in the containing prompt is "false" data values
-    /// defined in this Canvas prompt will be added after data values defined in
-    /// previous Canvas prompts.
-    #[prost(message, repeated, tag = "4")]
-    pub data: ::prost::alloc::vec::Vec<::prost_types::Value>,
-    /// Optional. Default value: false.
-    #[prost(bool, tag = "3")]
-    pub suppress_mic: bool,
-    /// If `true` the canvas application occupies the full screen and won't
-    /// have a header at the top. A toast message will also be displayed on the
-    /// loading screen that includes the Action's display name, the developer's
-    /// name, and instructions for exiting the Action. Default value: `false`.
-    #[prost(bool, tag = "8")]
-    pub enable_full_screen: bool,
+    /// Indicates a hint for the url type.
+    #[prost(enumeration = "UrlHint", tag = "2")]
+    pub hint: i32,
+}
+/// Different types of url hints.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum UrlHint {
+    /// Unspecified
+    LinkUnspecified = 0,
+    /// URL that points directly to AMP content, or to a canonical URL
+    /// which refers to AMP content via <link rel="amphtml">.
+    Amp = 1,
 }
 /// A basic card for displaying some information, e.g. an image and/or text.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -391,6 +292,78 @@ pub mod media_image {
         Icon(super::Image),
     }
 }
+/// A table card for displaying a table of text.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Table {
+    /// Overall title of the table. Optional but must be set if subtitle is set.
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    /// Subtitle for the table. Optional.
+    #[prost(string, tag = "2")]
+    pub subtitle: ::prost::alloc::string::String,
+    /// Image associated with the table. Optional.
+    #[prost(message, optional, tag = "4")]
+    pub image: ::core::option::Option<Image>,
+    /// Headers and alignment of columns.
+    #[prost(message, repeated, tag = "5")]
+    pub columns: ::prost::alloc::vec::Vec<TableColumn>,
+    /// Row data of the table. The first 3 rows are guaranteed to be shown but
+    /// others might be cut on certain surfaces. Please test with the simulator to
+    /// see which rows will be shown for a given surface. On surfaces that support
+    /// the WEB_BROWSER capability, you can point the user to
+    /// a web page with more data.
+    #[prost(message, repeated, tag = "6")]
+    pub rows: ::prost::alloc::vec::Vec<TableRow>,
+    /// Button.
+    #[prost(message, optional, tag = "7")]
+    pub button: ::core::option::Option<Link>,
+}
+/// Describes a column in a table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableColumn {
+    /// Header text for the column.
+    #[prost(string, tag = "1")]
+    pub header: ::prost::alloc::string::String,
+    /// Horizontal alignment of content w.r.t column. If unspecified, content
+    /// will be aligned to the leading edge.
+    #[prost(enumeration = "table_column::HorizontalAlignment", tag = "2")]
+    pub align: i32,
+}
+/// Nested message and enum types in `TableColumn`.
+pub mod table_column {
+    /// The alignment of the content within the cell.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum HorizontalAlignment {
+        /// Unspecified horizontal alignment.
+        Unspecified = 0,
+        /// Leading edge of the cell. This is the default.
+        Leading = 1,
+        /// Content is aligned to the center of the column.
+        Center = 2,
+        /// Content is aligned to the trailing edge of the column.
+        Trailing = 3,
+    }
+}
+/// Describes a cell in a row.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableCell {
+    /// Text content of the cell.
+    #[prost(string, tag = "1")]
+    pub text: ::prost::alloc::string::String,
+}
+/// Describes a row in the table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableRow {
+    /// Cells in this row. The first 3 cells are guaranteed to be shown but
+    /// others might be cut on certain surfaces. Please test with the simulator
+    /// to see which cells will be shown for a given surface.
+    #[prost(message, repeated, tag = "1")]
+    pub cells: ::prost::alloc::vec::Vec<TableCell>,
+    /// Indicates whether there should be a divider after each row.
+    #[prost(bool, tag = "2")]
+    pub divider: bool,
+}
 /// Content to be shown.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Content {
@@ -425,6 +398,33 @@ pub mod content {
         #[prost(message, tag = "7")]
         List(super::List),
     }
+}
+/// Represents a simple prompt to be send to a user.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Simple {
+    /// Optional. Represents the speech to be spoken to the user. Can be SSML or
+    /// text to speech.
+    /// If the "override" field in the containing prompt is "true", the speech
+    /// defined in this field replaces the previous Simple prompt's speech.
+    #[prost(string, tag = "1")]
+    pub speech: ::prost::alloc::string::String,
+    /// Optional text to display in the chat bubble. If not given, a display
+    /// rendering of the speech field above will be used. Limited to 640
+    /// chars.
+    /// If the "override" field in the containing prompt is "true", the text
+    /// defined in this field replaces to the previous Simple prompt's text.
+    #[prost(string, tag = "2")]
+    pub text: ::prost::alloc::string::String,
+}
+/// Input suggestion to be presented to the user.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Suggestion {
+    /// Required. The text shown in the suggestion chip. When tapped, this text will be
+    /// posted back to the conversation verbatim as if the user had typed it.
+    /// Each title must be unique among the set of suggestion chips.
+    /// Max 25 chars
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
 }
 /// Represent a response to a user.
 #[derive(Clone, PartialEq, ::prost::Message)]

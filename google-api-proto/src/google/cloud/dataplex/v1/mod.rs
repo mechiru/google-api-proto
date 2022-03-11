@@ -1,275 +1,812 @@
-/// The payload associated with Discovery data processing.
+/// Create a metadata entity request.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DiscoveryEvent {
-    /// The log message.
+pub struct CreateEntityRequest {
+    /// Required. The resource name of the parent zone:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}`.
     #[prost(string, tag = "1")]
-    pub message: ::prost::alloc::string::String,
-    /// The id of the associated lake.
-    #[prost(string, tag = "2")]
-    pub lake_id: ::prost::alloc::string::String,
-    /// The id of the associated zone.
-    #[prost(string, tag = "3")]
-    pub zone_id: ::prost::alloc::string::String,
-    /// The id of the associated asset.
-    #[prost(string, tag = "4")]
-    pub asset_id: ::prost::alloc::string::String,
-    /// The data location associated with the event.
-    #[prost(string, tag = "5")]
-    pub data_location: ::prost::alloc::string::String,
-    /// The type of the event being logged.
-    #[prost(enumeration = "discovery_event::EventType", tag = "10")]
-    pub r#type: i32,
-    /// Additional details about the event.
-    #[prost(oneof = "discovery_event::Details", tags = "20, 21, 22, 23")]
-    pub details: ::core::option::Option<discovery_event::Details>,
-}
-/// Nested message and enum types in `DiscoveryEvent`.
-pub mod discovery_event {
-    /// Details about configuration events.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfigDetails {
-        /// A list of discovery configuration parameters in effect.
-        /// The keys are the field paths within DiscoverySpec.
-        /// Eg. includePatterns, excludePatterns, csvOptions.disableTypeInference,
-        /// etc.
-        #[prost(btree_map = "string, string", tag = "1")]
-        pub parameters: ::prost::alloc::collections::BTreeMap<
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        >,
-    }
-    /// Details about the entity.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct EntityDetails {
-        /// The name of the entity resource.
-        /// The name is the fully-qualified resource name.
-        #[prost(string, tag = "1")]
-        pub entity: ::prost::alloc::string::String,
-        /// The type of the entity resource.
-        #[prost(enumeration = "EntityType", tag = "2")]
-        pub r#type: i32,
-    }
-    /// Details about the partition.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PartitionDetails {
-        /// The name to the partition resource.
-        /// The name is the fully-qualified resource name.
-        #[prost(string, tag = "1")]
-        pub partition: ::prost::alloc::string::String,
-        /// The name to the containing entity resource.
-        /// The name is the fully-qualified resource name.
-        #[prost(string, tag = "2")]
-        pub entity: ::prost::alloc::string::String,
-        /// The type of the containing entity resource.
-        #[prost(enumeration = "EntityType", tag = "3")]
-        pub r#type: i32,
-    }
-    /// Details about the action.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ActionDetails {
-        /// The type of action.
-        /// Eg. IncompatibleDataSchema, InvalidDataFormat
-        #[prost(string, tag = "1")]
-        pub r#type: ::prost::alloc::string::String,
-    }
-    /// The type of the event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EventType {
-        /// An unspecified event type.
-        Unspecified = 0,
-        /// An event representing discovery configuration in effect.
-        Config = 1,
-        /// An event representing a metadata entity being created.
-        EntityCreated = 2,
-        /// An event representing a metadata entity being updated.
-        EntityUpdated = 3,
-        /// An event representing a metadata entity being deleted.
-        EntityDeleted = 4,
-        /// An event representing a partition being created.
-        PartitionCreated = 5,
-        /// An event representing a partition being updated.
-        PartitionUpdated = 6,
-        /// An event representing a partition being deleted.
-        PartitionDeleted = 7,
-    }
-    /// The type of the entity.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EntityType {
-        /// An unspecified event type.
-        Unspecified = 0,
-        /// Entities representing structured data.
-        Table = 1,
-        /// Entities representing unstructured data.
-        Fileset = 2,
-    }
-    /// Additional details about the event.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Details {
-        /// Details about discovery configuration in effect.
-        #[prost(message, tag = "20")]
-        Config(ConfigDetails),
-        /// Details about the entity associated with the event.
-        #[prost(message, tag = "21")]
-        Entity(EntityDetails),
-        /// Details about the partition associated with the event.
-        #[prost(message, tag = "22")]
-        Partition(PartitionDetails),
-        /// Details about the action associated with the event.
-        #[prost(message, tag = "23")]
-        Action(ActionDetails),
-    }
-}
-/// The payload associated with Job logs that contains events describing jobs
-/// that have run within a Lake.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobEvent {
-    /// The log message.
-    #[prost(string, tag = "1")]
-    pub message: ::prost::alloc::string::String,
-    /// The unique id identifying the job.
-    #[prost(string, tag = "2")]
-    pub job_id: ::prost::alloc::string::String,
-    /// The time when the job started running.
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Entity resource.
     #[prost(message, optional, tag = "3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the job ended running.
-    #[prost(message, optional, tag = "4")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The job state on completion.
-    #[prost(enumeration = "job_event::State", tag = "5")]
-    pub state: i32,
-    /// The number of retries.
-    #[prost(int32, tag = "6")]
-    pub retries: i32,
-    /// The type of the job.
-    #[prost(enumeration = "job_event::Type", tag = "7")]
-    pub r#type: i32,
-    /// The service used to execute the job.
-    #[prost(enumeration = "job_event::Service", tag = "8")]
-    pub service: i32,
-    /// The reference to the job within the service.
-    #[prost(string, tag = "9")]
-    pub service_job: ::prost::alloc::string::String,
+    pub entity: ::core::option::Option<Entity>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "4")]
+    pub validate_only: bool,
 }
-/// Nested message and enum types in `JobEvent`.
-pub mod job_event {
-    /// The type of the job.
+/// Update a metadata entity request.
+/// The exiting entity will be fully replaced by the entity in the request.
+/// The entity ID is mutable. To modify the ID, use the current entity ID in the
+/// request URL and specify the new ID in the request body.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateEntityRequest {
+    /// Required. Update description.
+    #[prost(message, optional, tag = "2")]
+    pub entity: ::core::option::Option<Entity>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "3")]
+    pub validate_only: bool,
+}
+/// Delete a metadata entity request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteEntityRequest {
+    /// Required. The resource name of the entity:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The etag associated with the partition if it was previously retrieved.
+    #[prost(string, tag = "2")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// List metadata entities request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEntitiesRequest {
+    /// Required. The resource name of the parent zone:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Specify the entity view to make a partial list request.
+    #[prost(enumeration = "list_entities_request::EntityView", tag = "2")]
+    pub view: i32,
+    /// Optional. Maximum number of entities to return. The service may return fewer than
+    /// this value. If unspecified, 100 entities will be returned by default. The
+    /// maximum value is 500; larger values will will be truncated to 500.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// Optional. Page token received from a previous `ListEntities` call. Provide
+    /// this to retrieve the subsequent page. When paginating, all other parameters
+    /// provided to `ListEntities` must match the call that provided the
+    /// page token.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. The following filter parameters can be added to the URL to limit the
+    /// entities returned by the API:
+    ///
+    /// - Entity ID: ?filter="id=entityID"
+    /// - Asset ID: ?filter="asset=assetID"
+    /// - Data path ?filter="data_path=gs://my-bucket"
+    /// - Is HIVE compatible: ?filter=”hive_compatible=true”
+    /// - Is BigQuery compatible: ?filter=”bigquery_compatible=true”
+    #[prost(string, tag = "5")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ListEntitiesRequest`.
+pub mod list_entities_request {
+    /// Entity views.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EntityView {
+        /// The default unset value. The API will default to the FULL view.
+        Unspecified = 0,
+        /// Only list table entities.
+        Tables = 1,
+        /// Only list fileset entities.
+        Filesets = 2,
+    }
+}
+/// List metadata entities response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEntitiesResponse {
+    /// Entities in the specified parent zone.
+    #[prost(message, repeated, tag = "1")]
+    pub entities: ::prost::alloc::vec::Vec<Entity>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// remaining results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Get metadata entity request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetEntityRequest {
+    /// Required. The resource name of the entity:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}.`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Used to select the subset of entity information to return.
+    /// Defaults to `BASIC`.
+    #[prost(enumeration = "get_entity_request::EntityView", tag = "2")]
+    pub view: i32,
+}
+/// Nested message and enum types in `GetEntityRequest`.
+pub mod get_entity_request {
+    /// Entity views for get entity partial result.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EntityView {
+        /// The API will default to the `BASIC` view.
+        Unspecified = 0,
+        /// Minimal view that does not include the schema.
+        Basic = 1,
+        /// Include basic information and schema.
+        Schema = 2,
+        /// Include everything. Currently, this is the same as the SCHEMA view.
+        Full = 4,
+    }
+}
+/// List metadata partitions request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPartitionsRequest {
+    /// Required. The resource name of the parent entity:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of partitions to return. The service may return fewer than
+    /// this value. If unspecified, 100 partitions will be returned by default. The
+    /// maximum page size is 500; larger values will will be truncated to 500.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. Page token received from a previous `ListPartitions` call. Provide
+    /// this to retrieve the subsequent page. When paginating, all other parameters
+    /// provided to `ListPartitions` must match the call that provided the
+    /// page token.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. Filter the partitions returned to the caller using a key vslue pair
+    /// expression. The filter expression supports:
+    ///
+    /// - logical operators: AND, OR
+    /// - comparison operators: <, >, >=, <= ,=, !=
+    /// - LIKE operators:
+    ///     - The right hand of a LIKE operator supports “.” and
+    ///       “*” for wildcard searches, for example "value1 LIKE ".*oo.*"
+    /// - parenthetical grouping: ( )
+    ///
+    /// Sample filter expression: `?filter="key1 < value1 OR key2 > value2"
+    ///
+    /// **Notes:**
+    ///
+    /// - Keys to the left of operators are case insensitive.
+    /// - Partition results are sorted first by creation time, then by
+    ///   lexicographic order.
+    /// - Up to 20 key value filter pairs are allowed, but due to performance
+    ///   considerations, only the first 10 will be used as a filter.
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Create metadata partition request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreatePartitionRequest {
+    /// Required. The resource name of the parent zone:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Partition resource.
+    #[prost(message, optional, tag = "3")]
+    pub partition: ::core::option::Option<Partition>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag = "4")]
+    pub validate_only: bool,
+}
+/// Delete metadata partition request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePartitionRequest {
+    /// Required. The resource name of the partition.
+    /// format:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}/partitions/{partition_value_path}`.
+    /// The {partition_value_path} segment consists of an ordered sequence of
+    /// partition values separated by "/". All values must be provided.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The etag associated with the partition if it was previously retrieved.
+    #[deprecated]
+    #[prost(string, tag = "2")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// List metadata partitions response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPartitionsResponse {
+    /// Partitions under the specified parent entity.
+    #[prost(message, repeated, tag = "1")]
+    pub partitions: ::prost::alloc::vec::Vec<Partition>,
+    /// Token to retrieve the next page of results, or empty if there are no
+    /// remaining results in the list.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Get metadata partition request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPartitionRequest {
+    /// Required. The resource name of the partition:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}/partitions/{partition_value_path}`.
+    /// The {partition_value_path} segment consists of an ordered sequence of
+    /// partition values separated by "/". All values must be provided.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Represents tables and fileset metadata contained within a zone.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Entity {
+    /// Output only. The resource name of the entity, of the form:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{id}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Display name must be shorter than or equal to 63 characters.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Optional. User friendly longer description text. Must be shorter than or equal to
+    /// 1024 characters.
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. The time when the entity was created.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time when the entity was last updated.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. A user-provided entity ID. It is mutable, and will be used as the
+    /// published table name. Specifying a new ID in an update entity
+    /// request will override the existing value.
+    /// The ID must contain only letters (a-z, A-Z), numbers (0-9), and
+    /// underscores. Must begin with a letter.
+    #[prost(string, tag = "7")]
+    pub id: ::prost::alloc::string::String,
+    /// Optional. The etag for this entity. Required for update and delete requests. Must
+    /// match the server's etag.
+    #[prost(string, tag = "8")]
+    pub etag: ::prost::alloc::string::String,
+    /// Required. Immutable. The type of entity.
+    #[prost(enumeration = "entity::Type", tag = "10")]
+    pub r#type: i32,
+    /// Required. Immutable. The ID of the asset associated with the storage location containing the
+    /// entity data. The entity must be with in the same zone with the asset.
+    #[prost(string, tag = "11")]
+    pub asset: ::prost::alloc::string::String,
+    /// Required. Immutable. The storage path of the entity data.
+    /// For Cloud Storage data, this is the fully-qualified path to the entity,
+    /// such as `gs://bucket/path/to/data`. For BigQuery data, this is the name of
+    /// the table resource, such as
+    /// `projects/project_id/datasets/dataset_id/tables/table_id`.
+    #[prost(string, tag = "12")]
+    pub data_path: ::prost::alloc::string::String,
+    /// Optional. The set of items within the data path constituting the data in the entity,
+    /// represented as a glob path.
+    /// Example: `gs://bucket/path/to/data/**/*.csv`.
+    #[prost(string, tag = "13")]
+    pub data_path_pattern: ::prost::alloc::string::String,
+    /// Output only. The name of the associated Data Catalog entry.
+    #[prost(string, tag = "14")]
+    pub catalog_entry: ::prost::alloc::string::String,
+    /// Required. Immutable. Identifies the storage system of the entity data.
+    #[prost(enumeration = "StorageSystem", tag = "15")]
+    pub system: i32,
+    /// Required. Identifies the storage format of the entity data.
+    /// It does not apply to entities with data stored in BigQuery.
+    #[prost(message, optional, tag = "16")]
+    pub format: ::core::option::Option<StorageFormat>,
+    /// Output only. Metadata stores that the entity is compatible with.
+    #[prost(message, optional, tag = "19")]
+    pub compatibility: ::core::option::Option<entity::CompatibilityStatus>,
+    /// Required. The description of the data structure and layout.
+    /// The schema is not included in list responses. It is only included in
+    /// `SCHEMA` and `FULL` entity views of a `GetEntity` response.
+    #[prost(message, optional, tag = "50")]
+    pub schema: ::core::option::Option<Schema>,
+}
+/// Nested message and enum types in `Entity`.
+pub mod entity {
+    /// Provides compatibility information for various metadata stores.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CompatibilityStatus {
+        /// Output only. Whether this entity is compatible with Hive Metastore.
+        #[prost(message, optional, tag = "1")]
+        pub hive_metastore: ::core::option::Option<compatibility_status::Compatibility>,
+        /// Output only. Whether this entity is compatible with BigQuery.
+        #[prost(message, optional, tag = "2")]
+        pub bigquery: ::core::option::Option<compatibility_status::Compatibility>,
+    }
+    /// Nested message and enum types in `CompatibilityStatus`.
+    pub mod compatibility_status {
+        /// Provides compatibility information for a specific metadata store.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Compatibility {
+            /// Output only. Whether the entity is compatible and can be represented in the metadata
+            /// store.
+            #[prost(bool, tag = "1")]
+            pub compatible: bool,
+            /// Output only. Provides additional detail if the entity is incompatible with the
+            /// metadata store.
+            #[prost(string, tag = "2")]
+            pub reason: ::prost::alloc::string::String,
+        }
+    }
+    /// The type of entity.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Type {
-        /// Unspecified job type.
+        /// Type unspecified.
         Unspecified = 0,
-        /// Spark jobs.
-        Spark = 1,
-        /// Notebook jobs.
-        Notebook = 2,
-    }
-    /// The completion status of the job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified job state.
-        Unspecified = 0,
-        /// Job successfully completed.
-        Succeeded = 1,
-        /// Job was unsuccessful.
-        Failed = 2,
-        /// Job was cancelled by the user.
-        Cancelled = 3,
-        /// Job was cancelled or aborted via the service executing the job.
-        Aborted = 4,
-    }
-    /// The service used to execute the job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Service {
-        /// Unspecified service.
-        Unspecified = 0,
-        /// Cloud Dataproc.
-        Dataproc = 1,
+        /// Structured and semi-structured data.
+        Table = 1,
+        /// Unstructured data.
+        Fileset = 2,
     }
 }
-/// These messages contain information about sessions within an environment.
-/// The monitored resource is 'Environment'.
+/// Represents partition metadata contained within entity instances.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SessionEvent {
-    /// The log message.
+pub struct Partition {
+    /// Output only. The values must be HTML URL encoded two times before constructing the path.
+    /// For example, if you have a value of "US:CA", encoded it two times and you
+    /// get "US%253ACA". Then if you have the 2nd value is "CA#Sunnyvale", encoded
+    /// two times and you get "CA%2523Sunnyvale". The partition values path is
+    /// "US%253ACA/CA%2523Sunnyvale". The final URL will be
+    /// "<https://.../partitions/US%253ACA/CA%2523Sunnyvale".> The name field in the
+    /// responses will always have the encoded format.
     #[prost(string, tag = "1")]
-    pub message: ::prost::alloc::string::String,
-    /// The information about the user that created the session.
-    #[prost(string, tag = "2")]
-    pub user_id: ::prost::alloc::string::String,
-    /// Unique identifier for the session.
+    pub name: ::prost::alloc::string::String,
+    /// Required. Immutable. The set of values representing the partition, which correspond to the
+    /// partition schema defined in the parent entity.
+    #[prost(string, repeated, tag = "2")]
+    pub values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Required. Immutable. The location of the entity data within the partition, for example,
+    /// `gs://bucket/path/to/entity/key1=value1/key2=value2`.
+    /// Or `projects/<project_id>/datasets/<dataset_id>/tables/<table_id>`
     #[prost(string, tag = "3")]
-    pub session_id: ::prost::alloc::string::String,
-    /// The type of the event.
-    #[prost(enumeration = "session_event::EventType", tag = "4")]
-    pub r#type: i32,
-    /// Additional information about the Query metadata.
-    #[prost(oneof = "session_event::Detail", tags = "5")]
-    pub detail: ::core::option::Option<session_event::Detail>,
+    pub location: ::prost::alloc::string::String,
+    /// Optional. The etag for this partition.
+    #[deprecated]
+    #[prost(string, tag = "4")]
+    pub etag: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `SessionEvent`.
-pub mod session_event {
-    /// Execution details of the query.
+/// Schema information describing the structure and layout of the data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Schema {
+    /// Required. Whether the schema is user-managed or managed by the service.
+    /// - Set user_manage to false if you would like Dataplex to help you manage
+    /// the schema. You will get the full service provided by Dataplex discovery,
+    /// including new data discovery, schema inference and schema evolution. You
+    /// can still provide input the schema of the entities, for example renaming a
+    /// schema field, changing CSV or Json options if you think the discovered
+    /// values are not as accurate. Dataplex will consider your input as the
+    /// initial schema (as if they were produced by the previous discovery run),
+    /// and will evolve schema or flag actions based on that.
+    /// - Set user_manage to true if you would like to fully manage the entity
+    /// schema by yourself. This is useful when you would like to manually specify
+    /// the schema for a table. In this case, the schema defined by the user is
+    /// guaranteed to be kept unchanged and would not be overwritten. But this also
+    /// means Dataplex will not provide schema evolution management for you.
+    /// Dataplex will still be able to manage partition registration (i.e., keeping
+    /// the list of partitions up to date) when Dataplex discovery is turned on and
+    /// user_managed is set to true.
+    #[prost(bool, tag = "1")]
+    pub user_managed: bool,
+    /// Optional. The sequence of fields describing data in table entities.
+    #[prost(message, repeated, tag = "2")]
+    pub fields: ::prost::alloc::vec::Vec<schema::SchemaField>,
+    /// Optional. The sequence of fields describing the partition structure in entities.
+    /// If this field is empty, there are no partitions within the data.
+    #[prost(message, repeated, tag = "3")]
+    pub partition_fields: ::prost::alloc::vec::Vec<schema::PartitionField>,
+    /// Optional. The structure of paths containing partition data within the entity.
+    #[prost(enumeration = "schema::PartitionStyle", tag = "4")]
+    pub partition_style: i32,
+}
+/// Nested message and enum types in `Schema`.
+pub mod schema {
+    /// Represents a column field within a table schema.
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct QueryDetail {
-        /// The unique Query id identifying the query.
+    pub struct SchemaField {
+        /// Required. The name of the field. The maximum length is 767 characters. The name
+        /// must begins with a letter and not contains `:` and `.`.
         #[prost(string, tag = "1")]
-        pub query_id: ::prost::alloc::string::String,
-        /// The query text executed.
+        pub name: ::prost::alloc::string::String,
+        /// Optional. User friendly field description. Must be less than or equal to 1024
+        /// characters.
         #[prost(string, tag = "2")]
-        pub query_text: ::prost::alloc::string::String,
-        /// Query Execution engine.
-        #[prost(enumeration = "query_detail::Engine", tag = "3")]
-        pub engine: i32,
-        /// Time taken for execution of the query.
-        #[prost(message, optional, tag = "4")]
-        pub duration: ::core::option::Option<::prost_types::Duration>,
-        /// The size of results the query produced.
-        #[prost(int64, tag = "5")]
-        pub result_size_bytes: i64,
-        /// The data processed by the query.
-        #[prost(int64, tag = "6")]
-        pub data_processed_bytes: i64,
+        pub description: ::prost::alloc::string::String,
+        /// Required. The type of field.
+        #[prost(enumeration = "Type", tag = "3")]
+        pub r#type: i32,
+        /// Required. Additional field semantics.
+        #[prost(enumeration = "Mode", tag = "4")]
+        pub mode: i32,
+        /// Optional. Any nested field for complex types.
+        #[prost(message, repeated, tag = "10")]
+        pub fields: ::prost::alloc::vec::Vec<SchemaField>,
     }
-    /// Nested message and enum types in `QueryDetail`.
-    pub mod query_detail {
-        /// Query Execution engine.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum Engine {
-            /// An unspecified Engine type.
-            Unspecified = 0,
-            /// Spark-sql engine is specified in Query.
-            SparkSql = 1,
-            /// BigQuery engine is specified in Query.
-            Bigquery = 2,
-        }
+    /// Represents a key field within the entity's partition structure. You could
+    /// have up to 20 partition fields, but only the first 10 partitions have the
+    /// filtering ability due to performance consideration.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PartitionField {
+        /// Required. Partition name is editable if only the partition style is not HIVE
+        /// compatible. The maximum length allowed is 767 characters.
+        #[prost(string, tag = "1")]
+        pub name: ::prost::alloc::string::String,
+        /// Required. Immutable. The type of field.
+        #[prost(enumeration = "Type", tag = "2")]
+        pub r#type: i32,
     }
-    /// The type of the event.
+    /// Type information for fields in schemas and partition schemas.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum EventType {
-        /// An unspecified event type.
+    pub enum Type {
+        /// SchemaType unspecified.
         Unspecified = 0,
-        /// Event for start of a session.
-        Start = 1,
-        /// Event for stop of a session.
-        Stop = 2,
-        /// Query events in the session.
-        Query = 3,
+        /// Boolean field.
+        Boolean = 1,
+        /// Single byte numeric field.
+        Byte = 2,
+        /// 16-bit numeric field.
+        Int16 = 3,
+        /// 32-bit numeric field.
+        Int32 = 4,
+        /// 64-bit numeric field.
+        Int64 = 5,
+        /// Floating point numeric field.
+        Float = 6,
+        /// Double precision numeric field.
+        Double = 7,
+        /// Real value numeric field.
+        Decimal = 8,
+        /// Sequence of characters field.
+        String = 9,
+        /// Sequence of bytes field.
+        Binary = 10,
+        /// Date and time field.
+        Timestamp = 11,
+        /// Date field.
+        Date = 12,
+        /// Time field.
+        Time = 13,
+        /// Structured field. Nested fields that define the structure of the map.
+        /// If all nested fields are nullable, this field represents a union.
+        Record = 14,
+        /// Null field that does not have values.
+        Null = 100,
     }
-    /// Additional information about the Query metadata.
+    /// Additional qualifiers to define field semantics.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Mode {
+        /// Mode unspecified.
+        Unspecified = 0,
+        /// The field has required semantics.
+        Required = 1,
+        /// The field has optional semantics, and may be null.
+        Nullable = 2,
+        /// The field has repeated (0 or more) semantics, and is a list of values.
+        Repeated = 3,
+    }
+    /// The structure of paths within the entity, which represent partitions.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PartitionStyle {
+        /// PartitionStyle unspecified
+        Unspecified = 0,
+        /// Partitions are hive-compatible.
+        /// Examples: `gs://bucket/path/to/table/dt=2019-10-31/lang=en`,
+        /// `gs://bucket/path/to/table/dt=2019-10-31/lang=en/late`.
+        HiveCompatible = 1,
+    }
+}
+/// Describes the format of the data within its storage location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StorageFormat {
+    /// Output only. The data format associated with the stored data, which represents
+    /// content type values. The value is inferred from mime type.
+    #[prost(enumeration = "storage_format::Format", tag = "1")]
+    pub format: i32,
+    /// Optional. The compression type associated with the stored data.
+    /// If unspecified, the data is uncompressed.
+    #[prost(enumeration = "storage_format::CompressionFormat", tag = "2")]
+    pub compression_format: i32,
+    /// Required. The mime type descriptor for the data. Must match the pattern
+    /// {type}/{subtype}. Supported values:
+    /// - application/x-parquet
+    /// - application/x-avro
+    /// - application/x-orc
+    /// - application/x-tfrecord
+    /// - application/json
+    /// - application/{subtypes}
+    /// - text/csv
+    /// - text/<subtypes>
+    /// - image/{image subtype}
+    /// - video/{video subtype}
+    /// - audio/{audio subtype}
+    #[prost(string, tag = "3")]
+    pub mime_type: ::prost::alloc::string::String,
+    /// Additional format-specific options.
+    #[prost(oneof = "storage_format::Options", tags = "10, 11")]
+    pub options: ::core::option::Option<storage_format::Options>,
+}
+/// Nested message and enum types in `StorageFormat`.
+pub mod storage_format {
+    /// Describes CSV and similar semi-structured data formats.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CsvOptions {
+        /// Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8", and
+        /// "ISO-8859-1". Defaults to UTF-8 if unspecified.
+        #[prost(string, tag = "1")]
+        pub encoding: ::prost::alloc::string::String,
+        /// Optional. The number of rows to interpret as header rows that should be skipped
+        /// when reading data rows. Defaults to 0.
+        #[prost(int32, tag = "2")]
+        pub header_rows: i32,
+        /// Optional. The delimiter used to separate values. Defaults to ','.
+        #[prost(string, tag = "3")]
+        pub delimiter: ::prost::alloc::string::String,
+        /// Optional. The character used to quote column values. Accepts '"' and '''.
+        /// Defaults to '"' if unspecified.
+        #[prost(string, tag = "4")]
+        pub quote: ::prost::alloc::string::String,
+    }
+    /// Describes JSON data format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct JsonOptions {
+        /// Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8" and
+        /// "ISO-8859-1". Defaults to UTF-8 if not specified.
+        #[prost(string, tag = "1")]
+        pub encoding: ::prost::alloc::string::String,
+    }
+    /// The specific file format of the data.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Format {
+        /// Format unspecified.
+        Unspecified = 0,
+        /// Parquet-formatted structured data.
+        Parquet = 1,
+        /// Avro-formatted structured data.
+        Avro = 2,
+        /// Orc-formatted structured data.
+        Orc = 3,
+        /// Csv-formatted semi-structured data.
+        Csv = 100,
+        /// Json-formatted semi-structured data.
+        Json = 101,
+        /// Image data formats (such as jpg and png).
+        Image = 200,
+        /// Audio data formats (such as mp3, and wav).
+        Audio = 201,
+        /// Video data formats (such as mp4 and mpg).
+        Video = 202,
+        /// Textual data formats (such as txt and xml).
+        Text = 203,
+        /// TensorFlow record format.
+        Tfrecord = 204,
+        /// Data that doesn't match a specific format.
+        Other = 1000,
+        /// Data of an unknown format.
+        Unknown = 1001,
+    }
+    /// The specific compressed file format of the data.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CompressionFormat {
+        /// CompressionFormat unspecified. Implies uncompressed data.
+        Unspecified = 0,
+        /// GZip compressed set of files.
+        Gzip = 2,
+        /// BZip2 compressed set of files.
+        Bzip2 = 3,
+    }
+    /// Additional format-specific options.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Detail {
-        /// The execution details of the query.
-        #[prost(message, tag = "5")]
-        Query(QueryDetail),
+    pub enum Options {
+        /// Optional. Additional information about CSV formatted data.
+        #[prost(message, tag = "10")]
+        Csv(CsvOptions),
+        /// Optional. Additional information about CSV formatted data.
+        #[prost(message, tag = "11")]
+        Json(JsonOptions),
+    }
+}
+/// Identifies the cloud system that manages the data storage.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum StorageSystem {
+    /// Storage system unspecified.
+    Unspecified = 0,
+    /// The entity data is contained within a Cloud Storage bucket.
+    CloudStorage = 1,
+    /// The entity data is contained within a BigQuery dataset.
+    Bigquery = 2,
+}
+#[doc = r" Generated client implementations."]
+pub mod metadata_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Metadata service manages metadata resources such as tables, filesets and"]
+    #[doc = " partitions."]
+    #[derive(Debug, Clone)]
+    pub struct MetadataServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> MetadataServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> MetadataServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            MetadataServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Create a metadata entity."]
+        pub async fn create_entity(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateEntityRequest>,
+        ) -> Result<tonic::Response<super::Entity>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/CreateEntity",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Update a metadata entity. Only supports full resource update."]
+        pub async fn update_entity(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateEntityRequest>,
+        ) -> Result<tonic::Response<super::Entity>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/UpdateEntity",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete a metadata entity."]
+        pub async fn delete_entity(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteEntityRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/DeleteEntity",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get a metadata entity."]
+        pub async fn get_entity(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetEntityRequest>,
+        ) -> Result<tonic::Response<super::Entity>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/GetEntity",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List metadata entities in a zone."]
+        pub async fn list_entities(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListEntitiesRequest>,
+        ) -> Result<tonic::Response<super::ListEntitiesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/ListEntities",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Create a metadata partition."]
+        pub async fn create_partition(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreatePartitionRequest>,
+        ) -> Result<tonic::Response<super::Partition>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/CreatePartition",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Delete a metadata partition."]
+        pub async fn delete_partition(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeletePartitionRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/DeletePartition",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Get a metadata partition of an entity."]
+        pub async fn get_partition(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetPartitionRequest>,
+        ) -> Result<tonic::Response<super::Partition>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/GetPartition",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " List metadata partitions of an entity."]
+        pub async fn list_partitions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListPartitionsRequest>,
+        ) -> Result<tonic::Response<super::ListPartitionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.MetadataService/ListPartitions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
     }
 }
 /// A lake is a centralized repository for managing enterprise data across the
@@ -1303,817 +1840,6 @@ pub struct Session {
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
     #[prost(enumeration = "State", tag = "4")]
     pub state: i32,
-}
-/// Create a metadata entity request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateEntityRequest {
-    /// Required. The resource name of the parent zone:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Entity resource.
-    #[prost(message, optional, tag = "3")]
-    pub entity: ::core::option::Option<Entity>,
-    /// Optional. Only validate the request, but do not perform mutations.
-    /// The default is false.
-    #[prost(bool, tag = "4")]
-    pub validate_only: bool,
-}
-/// Update a metadata entity request.
-/// The exiting entity will be fully replaced by the entity in the request.
-/// The entity ID is mutable. To modify the ID, use the current entity ID in the
-/// request URL and specify the new ID in the request body.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateEntityRequest {
-    /// Required. Update description.
-    #[prost(message, optional, tag = "2")]
-    pub entity: ::core::option::Option<Entity>,
-    /// Optional. Only validate the request, but do not perform mutations.
-    /// The default is false.
-    #[prost(bool, tag = "3")]
-    pub validate_only: bool,
-}
-/// Delete a metadata entity request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteEntityRequest {
-    /// Required. The resource name of the entity:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The etag associated with the partition if it was previously retrieved.
-    #[prost(string, tag = "2")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// List metadata entities request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEntitiesRequest {
-    /// Required. The resource name of the parent zone:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Specify the entity view to make a partial list request.
-    #[prost(enumeration = "list_entities_request::EntityView", tag = "2")]
-    pub view: i32,
-    /// Optional. Maximum number of entities to return. The service may return fewer than
-    /// this value. If unspecified, 100 entities will be returned by default. The
-    /// maximum value is 500; larger values will will be truncated to 500.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// Optional. Page token received from a previous `ListEntities` call. Provide
-    /// this to retrieve the subsequent page. When paginating, all other parameters
-    /// provided to `ListEntities` must match the call that provided the
-    /// page token.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. The following filter parameters can be added to the URL to limit the
-    /// entities returned by the API:
-    ///
-    /// - Entity ID: ?filter="id=entityID"
-    /// - Asset ID: ?filter="asset=assetID"
-    /// - Data path ?filter="data_path=gs://my-bucket"
-    /// - Is HIVE compatible: ?filter=”hive_compatible=true”
-    /// - Is BigQuery compatible: ?filter=”bigquery_compatible=true”
-    #[prost(string, tag = "5")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `ListEntitiesRequest`.
-pub mod list_entities_request {
-    /// Entity views.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EntityView {
-        /// The default unset value. The API will default to the FULL view.
-        Unspecified = 0,
-        /// Only list table entities.
-        Tables = 1,
-        /// Only list fileset entities.
-        Filesets = 2,
-    }
-}
-/// List metadata entities response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEntitiesResponse {
-    /// Entities in the specified parent zone.
-    #[prost(message, repeated, tag = "1")]
-    pub entities: ::prost::alloc::vec::Vec<Entity>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// remaining results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Get metadata entity request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetEntityRequest {
-    /// Required. The resource name of the entity:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}.`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Used to select the subset of entity information to return.
-    /// Defaults to `BASIC`.
-    #[prost(enumeration = "get_entity_request::EntityView", tag = "2")]
-    pub view: i32,
-}
-/// Nested message and enum types in `GetEntityRequest`.
-pub mod get_entity_request {
-    /// Entity views for get entity partial result.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EntityView {
-        /// The API will default to the `BASIC` view.
-        Unspecified = 0,
-        /// Minimal view that does not include the schema.
-        Basic = 1,
-        /// Include basic information and schema.
-        Schema = 2,
-        /// Include everything. Currently, this is the same as the SCHEMA view.
-        Full = 4,
-    }
-}
-/// List metadata partitions request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPartitionsRequest {
-    /// Required. The resource name of the parent entity:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of partitions to return. The service may return fewer than
-    /// this value. If unspecified, 100 partitions will be returned by default. The
-    /// maximum page size is 500; larger values will will be truncated to 500.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. Page token received from a previous `ListPartitions` call. Provide
-    /// this to retrieve the subsequent page. When paginating, all other parameters
-    /// provided to `ListPartitions` must match the call that provided the
-    /// page token.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. Filter the partitions returned to the caller using a key vslue pair
-    /// expression. The filter expression supports:
-    ///
-    /// - logical operators: AND, OR
-    /// - comparison operators: <, >, >=, <= ,=, !=
-    /// - LIKE operators:
-    ///     - The right hand of a LIKE operator supports “.” and
-    ///       “*” for wildcard searches, for example "value1 LIKE ".*oo.*"
-    /// - parenthetical grouping: ( )
-    ///
-    /// Sample filter expression: `?filter="key1 < value1 OR key2 > value2"
-    ///
-    /// **Notes:**
-    ///
-    /// - Keys to the left of operators are case insensitive.
-    /// - Partition results are sorted first by creation time, then by
-    ///   lexicographic order.
-    /// - Up to 20 key value filter pairs are allowed, but due to performance
-    ///   considerations, only the first 10 will be used as a filter.
-    #[prost(string, tag = "4")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// Create metadata partition request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreatePartitionRequest {
-    /// Required. The resource name of the parent zone:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Partition resource.
-    #[prost(message, optional, tag = "3")]
-    pub partition: ::core::option::Option<Partition>,
-    /// Optional. Only validate the request, but do not perform mutations.
-    /// The default is false.
-    #[prost(bool, tag = "4")]
-    pub validate_only: bool,
-}
-/// Delete metadata partition request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePartitionRequest {
-    /// Required. The resource name of the partition.
-    /// format:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}/partitions/{partition_value_path}`.
-    /// The {partition_value_path} segment consists of an ordered sequence of
-    /// partition values separated by "/". All values must be provided.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The etag associated with the partition if it was previously retrieved.
-    #[deprecated]
-    #[prost(string, tag = "2")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// List metadata partitions response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPartitionsResponse {
-    /// Partitions under the specified parent entity.
-    #[prost(message, repeated, tag = "1")]
-    pub partitions: ::prost::alloc::vec::Vec<Partition>,
-    /// Token to retrieve the next page of results, or empty if there are no
-    /// remaining results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Get metadata partition request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPartitionRequest {
-    /// Required. The resource name of the partition:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}/partitions/{partition_value_path}`.
-    /// The {partition_value_path} segment consists of an ordered sequence of
-    /// partition values separated by "/". All values must be provided.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Represents tables and fileset metadata contained within a zone.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Entity {
-    /// Output only. The resource name of the entity, of the form:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{id}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Display name must be shorter than or equal to 63 characters.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. User friendly longer description text. Must be shorter than or equal to
-    /// 1024 characters.
-    #[prost(string, tag = "3")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. The time when the entity was created.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time when the entity was last updated.
-    #[prost(message, optional, tag = "6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. A user-provided entity ID. It is mutable, and will be used as the
-    /// published table name. Specifying a new ID in an update entity
-    /// request will override the existing value.
-    /// The ID must contain only letters (a-z, A-Z), numbers (0-9), and
-    /// underscores. Must begin with a letter.
-    #[prost(string, tag = "7")]
-    pub id: ::prost::alloc::string::String,
-    /// Optional. The etag for this entity. Required for update and delete requests. Must
-    /// match the server's etag.
-    #[prost(string, tag = "8")]
-    pub etag: ::prost::alloc::string::String,
-    /// Required. Immutable. The type of entity.
-    #[prost(enumeration = "entity::Type", tag = "10")]
-    pub r#type: i32,
-    /// Required. Immutable. The ID of the asset associated with the storage location containing the
-    /// entity data. The entity must be with in the same zone with the asset.
-    #[prost(string, tag = "11")]
-    pub asset: ::prost::alloc::string::String,
-    /// Required. Immutable. The storage path of the entity data.
-    /// For Cloud Storage data, this is the fully-qualified path to the entity,
-    /// such as `gs://bucket/path/to/data`. For BigQuery data, this is the name of
-    /// the table resource, such as
-    /// `projects/project_id/datasets/dataset_id/tables/table_id`.
-    #[prost(string, tag = "12")]
-    pub data_path: ::prost::alloc::string::String,
-    /// Optional. The set of items within the data path constituting the data in the entity,
-    /// represented as a glob path.
-    /// Example: `gs://bucket/path/to/data/**/*.csv`.
-    #[prost(string, tag = "13")]
-    pub data_path_pattern: ::prost::alloc::string::String,
-    /// Output only. The name of the associated Data Catalog entry.
-    #[prost(string, tag = "14")]
-    pub catalog_entry: ::prost::alloc::string::String,
-    /// Required. Immutable. Identifies the storage system of the entity data.
-    #[prost(enumeration = "StorageSystem", tag = "15")]
-    pub system: i32,
-    /// Required. Identifies the storage format of the entity data.
-    /// It does not apply to entities with data stored in BigQuery.
-    #[prost(message, optional, tag = "16")]
-    pub format: ::core::option::Option<StorageFormat>,
-    /// Output only. Metadata stores that the entity is compatible with.
-    #[prost(message, optional, tag = "19")]
-    pub compatibility: ::core::option::Option<entity::CompatibilityStatus>,
-    /// Required. The description of the data structure and layout.
-    /// The schema is not included in list responses. It is only included in
-    /// `SCHEMA` and `FULL` entity views of a `GetEntity` response.
-    #[prost(message, optional, tag = "50")]
-    pub schema: ::core::option::Option<Schema>,
-}
-/// Nested message and enum types in `Entity`.
-pub mod entity {
-    /// Provides compatibility information for various metadata stores.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CompatibilityStatus {
-        /// Output only. Whether this entity is compatible with Hive Metastore.
-        #[prost(message, optional, tag = "1")]
-        pub hive_metastore: ::core::option::Option<compatibility_status::Compatibility>,
-        /// Output only. Whether this entity is compatible with BigQuery.
-        #[prost(message, optional, tag = "2")]
-        pub bigquery: ::core::option::Option<compatibility_status::Compatibility>,
-    }
-    /// Nested message and enum types in `CompatibilityStatus`.
-    pub mod compatibility_status {
-        /// Provides compatibility information for a specific metadata store.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Compatibility {
-            /// Output only. Whether the entity is compatible and can be represented in the metadata
-            /// store.
-            #[prost(bool, tag = "1")]
-            pub compatible: bool,
-            /// Output only. Provides additional detail if the entity is incompatible with the
-            /// metadata store.
-            #[prost(string, tag = "2")]
-            pub reason: ::prost::alloc::string::String,
-        }
-    }
-    /// The type of entity.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Type unspecified.
-        Unspecified = 0,
-        /// Structured and semi-structured data.
-        Table = 1,
-        /// Unstructured data.
-        Fileset = 2,
-    }
-}
-/// Represents partition metadata contained within entity instances.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Partition {
-    /// Output only. The values must be HTML URL encoded two times before constructing the path.
-    /// For example, if you have a value of "US:CA", encoded it two times and you
-    /// get "US%253ACA". Then if you have the 2nd value is "CA#Sunnyvale", encoded
-    /// two times and you get "CA%2523Sunnyvale". The partition values path is
-    /// "US%253ACA/CA%2523Sunnyvale". The final URL will be
-    /// "<https://.../partitions/US%253ACA/CA%2523Sunnyvale".> The name field in the
-    /// responses will always have the encoded format.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Immutable. The set of values representing the partition, which correspond to the
-    /// partition schema defined in the parent entity.
-    #[prost(string, repeated, tag = "2")]
-    pub values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Required. Immutable. The location of the entity data within the partition, for example,
-    /// `gs://bucket/path/to/entity/key1=value1/key2=value2`.
-    /// Or `projects/<project_id>/datasets/<dataset_id>/tables/<table_id>`
-    #[prost(string, tag = "3")]
-    pub location: ::prost::alloc::string::String,
-    /// Optional. The etag for this partition.
-    #[deprecated]
-    #[prost(string, tag = "4")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Schema information describing the structure and layout of the data.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Schema {
-    /// Required. Whether the schema is user-managed or managed by the service.
-    /// - Set user_manage to false if you would like Dataplex to help you manage
-    /// the schema. You will get the full service provided by Dataplex discovery,
-    /// including new data discovery, schema inference and schema evolution. You
-    /// can still provide input the schema of the entities, for example renaming a
-    /// schema field, changing CSV or Json options if you think the discovered
-    /// values are not as accurate. Dataplex will consider your input as the
-    /// initial schema (as if they were produced by the previous discovery run),
-    /// and will evolve schema or flag actions based on that.
-    /// - Set user_manage to true if you would like to fully manage the entity
-    /// schema by yourself. This is useful when you would like to manually specify
-    /// the schema for a table. In this case, the schema defined by the user is
-    /// guaranteed to be kept unchanged and would not be overwritten. But this also
-    /// means Dataplex will not provide schema evolution management for you.
-    /// Dataplex will still be able to manage partition registration (i.e., keeping
-    /// the list of partitions up to date) when Dataplex discovery is turned on and
-    /// user_managed is set to true.
-    #[prost(bool, tag = "1")]
-    pub user_managed: bool,
-    /// Optional. The sequence of fields describing data in table entities.
-    #[prost(message, repeated, tag = "2")]
-    pub fields: ::prost::alloc::vec::Vec<schema::SchemaField>,
-    /// Optional. The sequence of fields describing the partition structure in entities.
-    /// If this field is empty, there are no partitions within the data.
-    #[prost(message, repeated, tag = "3")]
-    pub partition_fields: ::prost::alloc::vec::Vec<schema::PartitionField>,
-    /// Optional. The structure of paths containing partition data within the entity.
-    #[prost(enumeration = "schema::PartitionStyle", tag = "4")]
-    pub partition_style: i32,
-}
-/// Nested message and enum types in `Schema`.
-pub mod schema {
-    /// Represents a column field within a table schema.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SchemaField {
-        /// Required. The name of the field. The maximum length is 767 characters. The name
-        /// must begins with a letter and not contains `:` and `.`.
-        #[prost(string, tag = "1")]
-        pub name: ::prost::alloc::string::String,
-        /// Optional. User friendly field description. Must be less than or equal to 1024
-        /// characters.
-        #[prost(string, tag = "2")]
-        pub description: ::prost::alloc::string::String,
-        /// Required. The type of field.
-        #[prost(enumeration = "Type", tag = "3")]
-        pub r#type: i32,
-        /// Required. Additional field semantics.
-        #[prost(enumeration = "Mode", tag = "4")]
-        pub mode: i32,
-        /// Optional. Any nested field for complex types.
-        #[prost(message, repeated, tag = "10")]
-        pub fields: ::prost::alloc::vec::Vec<SchemaField>,
-    }
-    /// Represents a key field within the entity's partition structure. You could
-    /// have up to 20 partition fields, but only the first 10 partitions have the
-    /// filtering ability due to performance consideration.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PartitionField {
-        /// Required. Partition name is editable if only the partition style is not HIVE
-        /// compatible. The maximum length allowed is 767 characters.
-        #[prost(string, tag = "1")]
-        pub name: ::prost::alloc::string::String,
-        /// Required. Immutable. The type of field.
-        #[prost(enumeration = "Type", tag = "2")]
-        pub r#type: i32,
-    }
-    /// Type information for fields in schemas and partition schemas.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// SchemaType unspecified.
-        Unspecified = 0,
-        /// Boolean field.
-        Boolean = 1,
-        /// Single byte numeric field.
-        Byte = 2,
-        /// 16-bit numeric field.
-        Int16 = 3,
-        /// 32-bit numeric field.
-        Int32 = 4,
-        /// 64-bit numeric field.
-        Int64 = 5,
-        /// Floating point numeric field.
-        Float = 6,
-        /// Double precision numeric field.
-        Double = 7,
-        /// Real value numeric field.
-        Decimal = 8,
-        /// Sequence of characters field.
-        String = 9,
-        /// Sequence of bytes field.
-        Binary = 10,
-        /// Date and time field.
-        Timestamp = 11,
-        /// Date field.
-        Date = 12,
-        /// Time field.
-        Time = 13,
-        /// Structured field. Nested fields that define the structure of the map.
-        /// If all nested fields are nullable, this field represents a union.
-        Record = 14,
-        /// Null field that does not have values.
-        Null = 100,
-    }
-    /// Additional qualifiers to define field semantics.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Mode {
-        /// Mode unspecified.
-        Unspecified = 0,
-        /// The field has required semantics.
-        Required = 1,
-        /// The field has optional semantics, and may be null.
-        Nullable = 2,
-        /// The field has repeated (0 or more) semantics, and is a list of values.
-        Repeated = 3,
-    }
-    /// The structure of paths within the entity, which represent partitions.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PartitionStyle {
-        /// PartitionStyle unspecified
-        Unspecified = 0,
-        /// Partitions are hive-compatible.
-        /// Examples: `gs://bucket/path/to/table/dt=2019-10-31/lang=en`,
-        /// `gs://bucket/path/to/table/dt=2019-10-31/lang=en/late`.
-        HiveCompatible = 1,
-    }
-}
-/// Describes the format of the data within its storage location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StorageFormat {
-    /// Output only. The data format associated with the stored data, which represents
-    /// content type values. The value is inferred from mime type.
-    #[prost(enumeration = "storage_format::Format", tag = "1")]
-    pub format: i32,
-    /// Optional. The compression type associated with the stored data.
-    /// If unspecified, the data is uncompressed.
-    #[prost(enumeration = "storage_format::CompressionFormat", tag = "2")]
-    pub compression_format: i32,
-    /// Required. The mime type descriptor for the data. Must match the pattern
-    /// {type}/{subtype}. Supported values:
-    /// - application/x-parquet
-    /// - application/x-avro
-    /// - application/x-orc
-    /// - application/x-tfrecord
-    /// - application/json
-    /// - application/{subtypes}
-    /// - text/csv
-    /// - text/<subtypes>
-    /// - image/{image subtype}
-    /// - video/{video subtype}
-    /// - audio/{audio subtype}
-    #[prost(string, tag = "3")]
-    pub mime_type: ::prost::alloc::string::String,
-    /// Additional format-specific options.
-    #[prost(oneof = "storage_format::Options", tags = "10, 11")]
-    pub options: ::core::option::Option<storage_format::Options>,
-}
-/// Nested message and enum types in `StorageFormat`.
-pub mod storage_format {
-    /// Describes CSV and similar semi-structured data formats.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CsvOptions {
-        /// Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8", and
-        /// "ISO-8859-1". Defaults to UTF-8 if unspecified.
-        #[prost(string, tag = "1")]
-        pub encoding: ::prost::alloc::string::String,
-        /// Optional. The number of rows to interpret as header rows that should be skipped
-        /// when reading data rows. Defaults to 0.
-        #[prost(int32, tag = "2")]
-        pub header_rows: i32,
-        /// Optional. The delimiter used to separate values. Defaults to ','.
-        #[prost(string, tag = "3")]
-        pub delimiter: ::prost::alloc::string::String,
-        /// Optional. The character used to quote column values. Accepts '"' and '''.
-        /// Defaults to '"' if unspecified.
-        #[prost(string, tag = "4")]
-        pub quote: ::prost::alloc::string::String,
-    }
-    /// Describes JSON data format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct JsonOptions {
-        /// Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8" and
-        /// "ISO-8859-1". Defaults to UTF-8 if not specified.
-        #[prost(string, tag = "1")]
-        pub encoding: ::prost::alloc::string::String,
-    }
-    /// The specific file format of the data.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Format {
-        /// Format unspecified.
-        Unspecified = 0,
-        /// Parquet-formatted structured data.
-        Parquet = 1,
-        /// Avro-formatted structured data.
-        Avro = 2,
-        /// Orc-formatted structured data.
-        Orc = 3,
-        /// Csv-formatted semi-structured data.
-        Csv = 100,
-        /// Json-formatted semi-structured data.
-        Json = 101,
-        /// Image data formats (such as jpg and png).
-        Image = 200,
-        /// Audio data formats (such as mp3, and wav).
-        Audio = 201,
-        /// Video data formats (such as mp4 and mpg).
-        Video = 202,
-        /// Textual data formats (such as txt and xml).
-        Text = 203,
-        /// TensorFlow record format.
-        Tfrecord = 204,
-        /// Data that doesn't match a specific format.
-        Other = 1000,
-        /// Data of an unknown format.
-        Unknown = 1001,
-    }
-    /// The specific compressed file format of the data.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CompressionFormat {
-        /// CompressionFormat unspecified. Implies uncompressed data.
-        Unspecified = 0,
-        /// GZip compressed set of files.
-        Gzip = 2,
-        /// BZip2 compressed set of files.
-        Bzip2 = 3,
-    }
-    /// Additional format-specific options.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Options {
-        /// Optional. Additional information about CSV formatted data.
-        #[prost(message, tag = "10")]
-        Csv(CsvOptions),
-        /// Optional. Additional information about CSV formatted data.
-        #[prost(message, tag = "11")]
-        Json(JsonOptions),
-    }
-}
-/// Identifies the cloud system that manages the data storage.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum StorageSystem {
-    /// Storage system unspecified.
-    Unspecified = 0,
-    /// The entity data is contained within a Cloud Storage bucket.
-    CloudStorage = 1,
-    /// The entity data is contained within a BigQuery dataset.
-    Bigquery = 2,
-}
-#[doc = r" Generated client implementations."]
-pub mod metadata_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Metadata service manages metadata resources such as tables, filesets and"]
-    #[doc = " partitions."]
-    #[derive(Debug, Clone)]
-    pub struct MetadataServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> MetadataServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> MetadataServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            MetadataServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Create a metadata entity."]
-        pub async fn create_entity(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateEntityRequest>,
-        ) -> Result<tonic::Response<super::Entity>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.MetadataService/CreateEntity",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Update a metadata entity. Only supports full resource update."]
-        pub async fn update_entity(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateEntityRequest>,
-        ) -> Result<tonic::Response<super::Entity>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.MetadataService/UpdateEntity",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Delete a metadata entity."]
-        pub async fn delete_entity(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteEntityRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.MetadataService/DeleteEntity",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get a metadata entity."]
-        pub async fn get_entity(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetEntityRequest>,
-        ) -> Result<tonic::Response<super::Entity>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.MetadataService/GetEntity",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List metadata entities in a zone."]
-        pub async fn list_entities(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListEntitiesRequest>,
-        ) -> Result<tonic::Response<super::ListEntitiesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.MetadataService/ListEntities",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Create a metadata partition."]
-        pub async fn create_partition(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreatePartitionRequest>,
-        ) -> Result<tonic::Response<super::Partition>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.MetadataService/CreatePartition",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Delete a metadata partition."]
-        pub async fn delete_partition(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeletePartitionRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.MetadataService/DeletePartition",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Get a metadata partition of an entity."]
-        pub async fn get_partition(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetPartitionRequest>,
-        ) -> Result<tonic::Response<super::Partition>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.MetadataService/GetPartition",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " List metadata partitions of an entity."]
-        pub async fn list_partitions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListPartitionsRequest>,
-        ) -> Result<tonic::Response<super::ListPartitionsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.MetadataService/ListPartitions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
 }
 /// A task represents a user-visible job.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3988,5 +3714,279 @@ pub mod content_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+    }
+}
+/// The payload associated with Discovery data processing.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DiscoveryEvent {
+    /// The log message.
+    #[prost(string, tag = "1")]
+    pub message: ::prost::alloc::string::String,
+    /// The id of the associated lake.
+    #[prost(string, tag = "2")]
+    pub lake_id: ::prost::alloc::string::String,
+    /// The id of the associated zone.
+    #[prost(string, tag = "3")]
+    pub zone_id: ::prost::alloc::string::String,
+    /// The id of the associated asset.
+    #[prost(string, tag = "4")]
+    pub asset_id: ::prost::alloc::string::String,
+    /// The data location associated with the event.
+    #[prost(string, tag = "5")]
+    pub data_location: ::prost::alloc::string::String,
+    /// The type of the event being logged.
+    #[prost(enumeration = "discovery_event::EventType", tag = "10")]
+    pub r#type: i32,
+    /// Additional details about the event.
+    #[prost(oneof = "discovery_event::Details", tags = "20, 21, 22, 23")]
+    pub details: ::core::option::Option<discovery_event::Details>,
+}
+/// Nested message and enum types in `DiscoveryEvent`.
+pub mod discovery_event {
+    /// Details about configuration events.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfigDetails {
+        /// A list of discovery configuration parameters in effect.
+        /// The keys are the field paths within DiscoverySpec.
+        /// Eg. includePatterns, excludePatterns, csvOptions.disableTypeInference,
+        /// etc.
+        #[prost(btree_map = "string, string", tag = "1")]
+        pub parameters: ::prost::alloc::collections::BTreeMap<
+            ::prost::alloc::string::String,
+            ::prost::alloc::string::String,
+        >,
+    }
+    /// Details about the entity.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct EntityDetails {
+        /// The name of the entity resource.
+        /// The name is the fully-qualified resource name.
+        #[prost(string, tag = "1")]
+        pub entity: ::prost::alloc::string::String,
+        /// The type of the entity resource.
+        #[prost(enumeration = "EntityType", tag = "2")]
+        pub r#type: i32,
+    }
+    /// Details about the partition.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PartitionDetails {
+        /// The name to the partition resource.
+        /// The name is the fully-qualified resource name.
+        #[prost(string, tag = "1")]
+        pub partition: ::prost::alloc::string::String,
+        /// The name to the containing entity resource.
+        /// The name is the fully-qualified resource name.
+        #[prost(string, tag = "2")]
+        pub entity: ::prost::alloc::string::String,
+        /// The type of the containing entity resource.
+        #[prost(enumeration = "EntityType", tag = "3")]
+        pub r#type: i32,
+    }
+    /// Details about the action.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ActionDetails {
+        /// The type of action.
+        /// Eg. IncompatibleDataSchema, InvalidDataFormat
+        #[prost(string, tag = "1")]
+        pub r#type: ::prost::alloc::string::String,
+    }
+    /// The type of the event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// An unspecified event type.
+        Unspecified = 0,
+        /// An event representing discovery configuration in effect.
+        Config = 1,
+        /// An event representing a metadata entity being created.
+        EntityCreated = 2,
+        /// An event representing a metadata entity being updated.
+        EntityUpdated = 3,
+        /// An event representing a metadata entity being deleted.
+        EntityDeleted = 4,
+        /// An event representing a partition being created.
+        PartitionCreated = 5,
+        /// An event representing a partition being updated.
+        PartitionUpdated = 6,
+        /// An event representing a partition being deleted.
+        PartitionDeleted = 7,
+    }
+    /// The type of the entity.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EntityType {
+        /// An unspecified event type.
+        Unspecified = 0,
+        /// Entities representing structured data.
+        Table = 1,
+        /// Entities representing unstructured data.
+        Fileset = 2,
+    }
+    /// Additional details about the event.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Details {
+        /// Details about discovery configuration in effect.
+        #[prost(message, tag = "20")]
+        Config(ConfigDetails),
+        /// Details about the entity associated with the event.
+        #[prost(message, tag = "21")]
+        Entity(EntityDetails),
+        /// Details about the partition associated with the event.
+        #[prost(message, tag = "22")]
+        Partition(PartitionDetails),
+        /// Details about the action associated with the event.
+        #[prost(message, tag = "23")]
+        Action(ActionDetails),
+    }
+}
+/// The payload associated with Job logs that contains events describing jobs
+/// that have run within a Lake.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobEvent {
+    /// The log message.
+    #[prost(string, tag = "1")]
+    pub message: ::prost::alloc::string::String,
+    /// The unique id identifying the job.
+    #[prost(string, tag = "2")]
+    pub job_id: ::prost::alloc::string::String,
+    /// The time when the job started running.
+    #[prost(message, optional, tag = "3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the job ended running.
+    #[prost(message, optional, tag = "4")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The job state on completion.
+    #[prost(enumeration = "job_event::State", tag = "5")]
+    pub state: i32,
+    /// The number of retries.
+    #[prost(int32, tag = "6")]
+    pub retries: i32,
+    /// The type of the job.
+    #[prost(enumeration = "job_event::Type", tag = "7")]
+    pub r#type: i32,
+    /// The service used to execute the job.
+    #[prost(enumeration = "job_event::Service", tag = "8")]
+    pub service: i32,
+    /// The reference to the job within the service.
+    #[prost(string, tag = "9")]
+    pub service_job: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `JobEvent`.
+pub mod job_event {
+    /// The type of the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Unspecified job type.
+        Unspecified = 0,
+        /// Spark jobs.
+        Spark = 1,
+        /// Notebook jobs.
+        Notebook = 2,
+    }
+    /// The completion status of the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified job state.
+        Unspecified = 0,
+        /// Job successfully completed.
+        Succeeded = 1,
+        /// Job was unsuccessful.
+        Failed = 2,
+        /// Job was cancelled by the user.
+        Cancelled = 3,
+        /// Job was cancelled or aborted via the service executing the job.
+        Aborted = 4,
+    }
+    /// The service used to execute the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Service {
+        /// Unspecified service.
+        Unspecified = 0,
+        /// Cloud Dataproc.
+        Dataproc = 1,
+    }
+}
+/// These messages contain information about sessions within an environment.
+/// The monitored resource is 'Environment'.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SessionEvent {
+    /// The log message.
+    #[prost(string, tag = "1")]
+    pub message: ::prost::alloc::string::String,
+    /// The information about the user that created the session.
+    #[prost(string, tag = "2")]
+    pub user_id: ::prost::alloc::string::String,
+    /// Unique identifier for the session.
+    #[prost(string, tag = "3")]
+    pub session_id: ::prost::alloc::string::String,
+    /// The type of the event.
+    #[prost(enumeration = "session_event::EventType", tag = "4")]
+    pub r#type: i32,
+    /// Additional information about the Query metadata.
+    #[prost(oneof = "session_event::Detail", tags = "5")]
+    pub detail: ::core::option::Option<session_event::Detail>,
+}
+/// Nested message and enum types in `SessionEvent`.
+pub mod session_event {
+    /// Execution details of the query.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct QueryDetail {
+        /// The unique Query id identifying the query.
+        #[prost(string, tag = "1")]
+        pub query_id: ::prost::alloc::string::String,
+        /// The query text executed.
+        #[prost(string, tag = "2")]
+        pub query_text: ::prost::alloc::string::String,
+        /// Query Execution engine.
+        #[prost(enumeration = "query_detail::Engine", tag = "3")]
+        pub engine: i32,
+        /// Time taken for execution of the query.
+        #[prost(message, optional, tag = "4")]
+        pub duration: ::core::option::Option<::prost_types::Duration>,
+        /// The size of results the query produced.
+        #[prost(int64, tag = "5")]
+        pub result_size_bytes: i64,
+        /// The data processed by the query.
+        #[prost(int64, tag = "6")]
+        pub data_processed_bytes: i64,
+    }
+    /// Nested message and enum types in `QueryDetail`.
+    pub mod query_detail {
+        /// Query Execution engine.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum Engine {
+            /// An unspecified Engine type.
+            Unspecified = 0,
+            /// Spark-sql engine is specified in Query.
+            SparkSql = 1,
+            /// BigQuery engine is specified in Query.
+            Bigquery = 2,
+        }
+    }
+    /// The type of the event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// An unspecified event type.
+        Unspecified = 0,
+        /// Event for start of a session.
+        Start = 1,
+        /// Event for stop of a session.
+        Stop = 2,
+        /// Query events in the session.
+        Query = 3,
+    }
+    /// Additional information about the Query metadata.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Detail {
+        /// The execution details of the query.
+        #[prost(message, tag = "5")]
+        Query(QueryDetail),
     }
 }
