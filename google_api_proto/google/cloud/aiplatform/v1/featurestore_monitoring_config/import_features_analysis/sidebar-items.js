@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Baseline","Defines the baseline to do anomaly detection for feature values imported by each [ImportFeatureValues][] operation."],["State","The state defines whether to enable ImportFeature analysis."]]});

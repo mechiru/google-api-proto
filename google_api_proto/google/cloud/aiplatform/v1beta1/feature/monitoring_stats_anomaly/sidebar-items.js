@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Objective","If the objective in the request is both Import Feature Analysis and Snapshot Analysis, this objective could be one of them. Otherwise, this objective should be the same as the objective in the request."]]});
