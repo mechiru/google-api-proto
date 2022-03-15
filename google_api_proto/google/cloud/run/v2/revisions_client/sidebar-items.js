@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["RevisionsClient","Cloud Run Revision Control Plane API."]]});
