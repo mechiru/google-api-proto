@@ -392,6 +392,9 @@ pub mod resourcesettings;
 ))]
 pub mod retail;
 
+#[cfg(any(feature = "google-cloud-run-v2",))]
+pub mod run;
+
 #[cfg(any(feature = "google-cloud-runtimeconfig-v1beta1",))]
 pub mod runtimeconfig;
 

@@ -231,6 +231,7 @@ pub mod ccc;
     feature = "google-cloud-retail-v2",
     feature = "google-cloud-retail-v2alpha",
     feature = "google-cloud-retail-v2beta",
+    feature = "google-cloud-run-v2",
     feature = "google-cloud-runtimeconfig-v1beta1",
     feature = "google-cloud-saasaccelerator-management-logs-v1",
     feature = "google-cloud-scheduler-v1",
