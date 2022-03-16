@@ -303,6 +303,10 @@ pub struct SdkHarnessContainerImage {
     /// to the current SDK Harness.
     #[prost(string, tag = "3")]
     pub environment_id: ::prost::alloc::string::String,
+    /// The set of capabilities enumerated in the above Environment proto. See also
+    /// <https://github.com/apache/beam/blob/master/model/pipeline/src/main/proto/beam_runner_api.proto>
+    #[prost(string, repeated, tag = "4")]
+    pub capabilities: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Describes one particular pool of Cloud Dataflow workers to be
 /// instantiated by the Cloud Dataflow service in order to perform the
