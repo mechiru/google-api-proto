@@ -16,8 +16,7 @@
 ///
 /// Foreign partition IDs (in which the project ID does
 /// not match the context project ID ) are discouraged.
-/// Reads and writes of foreign partition IDs may fail if the project is not in
-/// an active state.
+/// Reads and writes of foreign partition IDs may fail if the project is not in an active state.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PartitionId {
     /// The ID of the project to which the entities belong.
@@ -147,8 +146,8 @@ pub mod value {
         #[prost(message, tag = "5")]
         KeyValue(super::Key),
         /// A UTF-8 encoded string value.
-        /// When `exclude_from_indexes` is false (it is indexed), may have at most
-        /// 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes.
+        /// When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes.
+        /// Otherwise, may be set to at most 1,000,000 bytes.
         #[prost(string, tag = "17")]
         StringValue(::prost::alloc::string::String),
         /// A blob value.
@@ -395,18 +394,60 @@ pub mod property_filter {
     pub enum Operator {
         /// Unspecified. This value must not be used.
         Unspecified = 0,
-        /// Less than.
+        /// The given `property` is less than the given `value`.
+        ///
+        /// Requires:
+        ///
+        /// * That `property` comes first in `order_by`.
         LessThan = 1,
-        /// Less than or equal.
+        /// The given `property` is less than or equal to the given `value`.
+        ///
+        /// Requires:
+        ///
+        /// * That `property` comes first in `order_by`.
         LessThanOrEqual = 2,
-        /// Greater than.
+        /// The given `property` is greater than the given `value`.
+        ///
+        /// Requires:
+        ///
+        /// * That `property` comes first in `order_by`.
         GreaterThan = 3,
-        /// Greater than or equal.
+        /// The given `property` is greater than or equal to the given `value`.
+        ///
+        /// Requires:
+        ///
+        /// * That `property` comes first in `order_by`.
         GreaterThanOrEqual = 4,
-        /// Equal.
+        /// The given `property` is equal to the given `value`.
         Equal = 5,
-        /// Has ancestor.
+        /// The given `property` is equal to at least one value in the given array.
+        ///
+        /// Requires:
+        ///
+        /// * That `value` is a non-empty `ArrayValue` with at most 10 values.
+        /// * No other `IN` or `NOT_IN` is in the same query.
+        In = 6,
+        /// The given `property` is not equal to the given `value`.
+        ///
+        /// Requires:
+        ///
+        /// * No other `NOT_EQUAL` or `NOT_IN` is in the same query.
+        /// * That `property` comes first in the `order_by`.
+        NotEqual = 9,
+        /// Limit the result set to the given entity and its descendants.
+        ///
+        /// Requires:
+        ///
+        /// * That `value` is an entity key.
         HasAncestor = 11,
+        /// The value of the `property` is not in the given array.
+        ///
+        /// Requires:
+        ///
+        /// * That `value` is a non-empty `ArrayValue` with at most 10 values.
+        /// * No other `IN`, `NOT_IN`, `NOT_EQUAL` is in the same query.
+        /// * That `field` comes first in the `order_by`.
+        NotIn = 13,
     }
 }
 /// A [GQL
@@ -773,8 +814,9 @@ pub mod mutation {
     /// are not applied, and are marked as such in MutationResult.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum ConflictDetectionStrategy {
-        /// The version of the entity that this mutation is being applied to. If this
-        /// does not match the current version on the server, the mutation conflicts.
+        /// The version of the entity that this mutation is being applied
+        /// to. If this does not match the current version on the server, the
+        /// mutation conflicts.
         #[prost(int64, tag = "8")]
         BaseVersion(i64),
     }
@@ -801,9 +843,16 @@ pub struct MutationResult {
 /// The options shared by read requests.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ReadOptions {
-    /// If not specified, lookups and ancestor queries default to
-    /// `read_consistency`=`STRONG`, global queries default to
-    /// `read_consistency`=`EVENTUAL`.
+    /// For Cloud Datastore, if read_consistency is not specified, then lookups and
+    /// ancestor queries default to `read_consistency`=`STRONG`, global queries
+    /// default to `read_consistency`=`EVENTUAL`.
+    ///
+    /// For Cloud Firestore in Datastore mode, if read_consistency is not specified
+    /// then lookups and all queries default to `read_consistency`=`STRONG`.
+    ///
+    /// Explicitly setting `read_consistency`=`EVENTUAL` will result in eventually
+    /// consistent lookups & queries in both Cloud Datastore & Cloud Firestore in
+    /// Datastore mode.
     #[prost(oneof = "read_options::ConsistencyType", tags = "1, 2")]
     pub consistency_type: ::core::option::Option<read_options::ConsistencyType>,
 }
@@ -820,9 +869,16 @@ pub mod read_options {
         /// Eventual consistency.
         Eventual = 2,
     }
-    /// If not specified, lookups and ancestor queries default to
-    /// `read_consistency`=`STRONG`, global queries default to
-    /// `read_consistency`=`EVENTUAL`.
+    /// For Cloud Datastore, if read_consistency is not specified, then lookups and
+    /// ancestor queries default to `read_consistency`=`STRONG`, global queries
+    /// default to `read_consistency`=`EVENTUAL`.
+    ///
+    /// For Cloud Firestore in Datastore mode, if read_consistency is not specified
+    /// then lookups and all queries default to `read_consistency`=`STRONG`.
+    ///
+    /// Explicitly setting `read_consistency`=`EVENTUAL` will result in eventually
+    /// consistent lookups & queries in both Cloud Datastore & Cloud Firestore in
+    /// Datastore mode.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum ConsistencyType {
         /// The non-transactional read consistency to use.
