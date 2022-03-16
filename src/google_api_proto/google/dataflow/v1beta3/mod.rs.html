@@ -3461,6 +3461,10 @@
 <span id="3459">3459</span>
 <span id="3460">3460</span>
 <span id="3461">3461</span>
+<span id="3462">3462</span>
+<span id="3463">3463</span>
+<span id="3464">3464</span>
+<span id="3465">3465</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Describes the environment in which a Dataflow Job runs.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Environment</span> {
@@ -3766,6 +3770,10 @@
     <span class="doccomment">/// to the current SDK Harness.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">environment_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The set of capabilities enumerated in the above Environment proto. See also</span>
+    <span class="doccomment">/// &lt;https://github.com/apache/beam/blob/master/model/pipeline/src/main/proto/beam_runner_api.proto&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">capabilities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Describes one particular pool of Cloud Dataflow workers to be</span>
 <span class="doccomment">/// instantiated by the Cloud Dataflow service in order to perform the</span>

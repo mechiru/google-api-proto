@@ -15824,6 +15824,15 @@
 <span id="15822">15822</span>
 <span id="15823">15823</span>
 <span id="15824">15824</span>
+<span id="15825">15825</span>
+<span id="15826">15826</span>
+<span id="15827">15827</span>
+<span id="15828">15828</span>
+<span id="15829">15829</span>
+<span id="15830">15830</span>
+<span id="15831">15831</span>
+<span id="15832">15832</span>
+<span id="15833">15833</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-aiplatform-v1beta1-schema&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-aiplatform-v1beta1-schema-predict-instance&quot;</span>,
@@ -27111,6 +27120,15 @@
     <span class="doccomment">/// must be provided.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dedicated_resources</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BatchDedicatedResources</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The service account that the DeployedModel&#39;s container runs as. If not</span>
+    <span class="doccomment">/// specified, a system generated one will be used, which</span>
+    <span class="doccomment">/// has minimal permissions and the custom container, if used, may not have</span>
+    <span class="doccomment">/// enough permission to access other GCP resources.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Users deploying the Model must have the `iam.serviceAccounts.actAs`</span>
+    <span class="doccomment">/// permission on this service account.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;29&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service_account</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Immutable. Parameters configuring the batch behavior. Currently only applicable when</span>
     <span class="doccomment">/// \[dedicated_resources][google.cloud.aiplatform.v1beta1.BatchPredictionJob.dedicated_resources\] are used (in other cases Vertex AI does</span>
     <span class="doccomment">/// the tuning itself).</span>
