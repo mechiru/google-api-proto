@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["ConsistencyType","If not specified, lookups and ancestor queries default to `read_consistency`=`STRONG`, global queries default to `read_consistency`=`EVENTUAL`."],["ReadConsistency","The possible values for read consistencies."]]});
+initSidebarItems({"enum":[["ConsistencyType","For Cloud Datastore, if read_consistency is not specified, then lookups and ancestor queries default to `read_consistency`=`STRONG`, global queries default to `read_consistency`=`EVENTUAL`."],["ReadConsistency","The possible values for read consistencies."]]});
