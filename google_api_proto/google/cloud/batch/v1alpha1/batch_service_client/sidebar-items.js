@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["BatchServiceClient","Google Cloud Batch Service. The service manages user submitted batch jobs and allocates Google Compute Engine VM instances to run the jobs."]]});

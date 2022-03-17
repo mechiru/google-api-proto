@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SchedulingPolicy","How Tasks in the TaskGroup should be scheduled relative to each other."]],"struct":[["Environment","TaskGroup.Environment is a workaround for proto3 not supporting repeated map<string, string>."]]});

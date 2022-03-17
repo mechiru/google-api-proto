@@ -975,6 +975,10 @@
 <span id="973">973</span>
 <span id="974">974</span>
 <span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A vertex represents a 2D point in the image.</span>
 <span class="doccomment">/// NOTE: the vertex coordinates are in the same scale as the original image.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1471,6 +1475,10 @@
         <span class="doccomment">/// The text segments from the \[Document.text][google.cloud.documentai.v1beta2.Document.text\].</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">text_segments</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">text_anchor::TextSegment</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Contains the content of the text span so that users do</span>
+        <span class="doccomment">/// not have to look it up in the text_segments.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
     <span class="doccomment">/// Nested message and enum types in `TextAnchor`.</span>
     <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">text_anchor</span> {
