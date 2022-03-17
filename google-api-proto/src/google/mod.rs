@@ -123,6 +123,7 @@ pub mod chromeos;
     feature = "google-cloud-automl-v1",
     feature = "google-cloud-automl-v1beta1",
     feature = "google-cloud-baremetalsolution-v2",
+    feature = "google-cloud-batch-v1alpha1",
     feature = "google-cloud-bigquery-connection-v1",
     feature = "google-cloud-bigquery-connection-v1beta1",
     feature = "google-cloud-bigquery-datatransfer-v1",

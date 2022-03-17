@@ -117,6 +117,7 @@ google-cloud-audit = ["google-cloud", "google-iam-v1", "google-rpc", "google-rpc
 google-cloud-automl-v1 = ["google-api", "google-cloud", "google-longrunning", "google-rpc"]
 google-cloud-automl-v1beta1 = ["google-api", "google-cloud", "google-longrunning", "google-rpc"]
 google-cloud-baremetalsolution-v2 = ["google-api", "google-cloud", "google-longrunning"]
+google-cloud-batch-v1alpha1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-bigquery-connection-v1 = ["google-api", "google-cloud", "google-iam-v1"]
 google-cloud-bigquery-connection-v1beta1 = ["google-api", "google-cloud", "google-iam-v1"]
 google-cloud-bigquery-datatransfer-v1 = ["google-api", "google-cloud", "google-rpc"]

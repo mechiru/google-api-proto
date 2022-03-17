@@ -51,6 +51,9 @@ pub mod automl;
 #[cfg(any(feature = "google-cloud-baremetalsolution-v2",))]
 pub mod baremetalsolution;
 
+#[cfg(any(feature = "google-cloud-batch-v1alpha1",))]
+pub mod batch;
+
 #[cfg(any(
     feature = "google-cloud-bigquery-connection-v1",
     feature = "google-cloud-bigquery-connection-v1beta1",

@@ -494,6 +494,10 @@ pub mod document {
         /// The text segments from the \[Document.text][google.cloud.documentai.v1beta2.Document.text\].
         #[prost(message, repeated, tag = "1")]
         pub text_segments: ::prost::alloc::vec::Vec<text_anchor::TextSegment>,
+        /// Contains the content of the text span so that users do
+        /// not have to look it up in the text_segments.
+        #[prost(string, tag = "2")]
+        pub content: ::prost::alloc::string::String,
     }
     /// Nested message and enum types in `TextAnchor`.
     pub mod text_anchor {
