@@ -1352,6 +1352,12 @@ pub mod import_flow_request {
         /// The [Google Cloud Storage](<https://cloud.google.com/storage/docs/>) URI
         /// to import flow from. The format of this URI must be
         /// `gs://<bucket-name>/<object-name>`.
+        ///
+        /// Dialogflow performs a read operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have read permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         FlowUri(::prost::alloc::string::String),
         /// Uncompressed raw byte content for flow.
@@ -1380,6 +1386,12 @@ pub struct ExportFlowRequest {
     /// export the flow to. The format of this URI must be
     /// `gs://<bucket-name>/<object-name>`.
     /// If left unspecified, the serialized flow is returned inline.
+    ///
+    /// Dialogflow performs a write operation for the Cloud Storage object
+    /// on the caller's behalf, so your request authentication must
+    /// have write permissions for the object. For more information, see
+    /// [Dialogflow access
+    /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
     #[prost(string, tag = "2")]
     pub flow_uri: ::prost::alloc::string::String,
     /// Optional. Whether to export flows referenced by the specified flow.
@@ -3147,27 +3159,26 @@ pub mod detect_intent_response {
 ///
 /// Multiple request messages should be sent in order:
 ///
-/// 1.  The first message must contain
-///     \[session][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.session\],
-///     \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] plus optionally
-///     \[query_params][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_params\]. If the client
-///     wants to receive an audio response, it should also contain
-///     \[output_audio_config][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.output_audio_config\].
+/// 1. The first message must contain
+/// \[session][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.session\],
+/// \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] plus optionally
+/// \[query_params][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_params\]. If the client
+/// wants to receive an audio response, it should also contain
+/// \[output_audio_config][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.output_audio_config\].
 ///
 /// 2.  If \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] was set to
-///     \[query_input.audio.config][google.cloud.dialogflow.cx.v3beta1.AudioInput.config\], all subsequent messages
-///     must contain \[query_input.audio.audio][google.cloud.dialogflow.cx.v3beta1.AudioInput.audio\] to continue with
-///     Speech recognition.
-///     If you decide to rather detect an intent from text
-///     input after you already started Speech recognition, please send a message
-///     with \[query_input.text][google.cloud.dialogflow.cx.v3beta1.QueryInput.text\].
+/// \[query_input.audio.config][google.cloud.dialogflow.cx.v3beta1.AudioInput.config\], all subsequent messages
+/// must contain \[query_input.audio.audio][google.cloud.dialogflow.cx.v3beta1.AudioInput.audio\] to continue with
+/// Speech recognition.
+/// If you decide to rather detect an intent from text
+/// input after you already started Speech recognition, please send a message
+/// with \[query_input.text][google.cloud.dialogflow.cx.v3beta1.QueryInput.text\].
 ///
-///     However, note that:
-///
-///     * Dialogflow will bill you for the audio duration so far.
-///     * Dialogflow discards all Speech recognition results in favor of the
-///       input text.
-///     * Dialogflow will use the language code from the first message.
+/// However, note that:
+/// * Dialogflow will bill you for the audio duration so far.
+/// * Dialogflow discards all Speech recognition results in favor of the input
+/// text.
+/// * Dialogflow will use the language code from the first message.
 ///
 /// After you sent all input, you must half-close or abort the request stream.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3398,16 +3409,14 @@ pub struct QueryParameters {
     /// map, associative array, symbol table, dictionary, or JSON object
     /// composed of a collection of (MapKey, MapValue) pairs:
     ///
-    /// -   MapKey type: string
-    /// -   MapKey value: parameter name
-    /// -   MapValue type:
-    ///     -   If parameter's entity type is a composite entity: map
-    ///     -   Else: depending on parameter value type, could be one of string,
-    ///         number, boolean, null, list or map
-    /// -   MapValue value:
-    ///     -   If parameter's entity type is a composite entity:
-    ///         map from composite entity property names to property values
-    ///     -   Else: parameter value
+    /// * MapKey type: string
+    /// * MapKey value: parameter name
+    /// * MapValue type: If parameter's entity type is a composite entity then use
+    /// map, otherwise, depending on the parameter value type, it could be one of
+    /// string, number, boolean, null, list or map.
+    /// * MapValue value: If parameter's entity type is a composite entity then use
+    /// map from composite entity property names to property values, otherwise,
+    /// use parameter value.
     #[prost(message, optional, tag = "5")]
     pub parameters: ::core::option::Option<::prost_types::Struct>,
     /// The unique identifier of the \[page][google.cloud.dialogflow.cx.v3beta1.Page\] to override the [current
@@ -3514,16 +3523,14 @@ pub struct QueryResult {
     /// map, associative array, symbol table, dictionary, or JSON object
     /// composed of a collection of (MapKey, MapValue) pairs:
     ///
-    /// -   MapKey type: string
-    /// -   MapKey value: parameter name
-    /// -   MapValue type:
-    ///     -   If parameter's entity type is a composite entity: map
-    ///     -   Else: depending on parameter value type, could be one of string,
-    ///     number, boolean, null, list or map
-    /// -   MapValue value:
-    ///     -   If parameter's entity type is a composite entity:
-    ///         map from composite entity property names to property values
-    ///     -   Else: parameter value
+    /// * MapKey type: string
+    /// * MapKey value: parameter name
+    /// * MapValue type: If parameter's entity type is a composite entity then use
+    /// map, otherwise, depending on the parameter value type, it could be one of
+    /// string, number, boolean, null, list or map.
+    /// * MapValue value: If parameter's entity type is a composite entity then use
+    /// map from composite entity property names to property values, otherwise,
+    /// use parameter value.
     #[prost(message, optional, tag = "3")]
     pub parameters: ::core::option::Option<::prost_types::Struct>,
     /// The list of rich messages returned to the client. Responses vary from
@@ -3678,16 +3685,14 @@ pub struct Match {
     /// map, associative array, symbol table, dictionary, or JSON object
     /// composed of a collection of (MapKey, MapValue) pairs:
     ///
-    /// -   MapKey type: string
-    /// -   MapKey value: parameter name
-    /// -   MapValue type:
-    ///     -   If parameter's entity type is a composite entity: map
-    ///     -   Else: depending on parameter value type, could be one of string,
-    ///     number, boolean, null, list or map
-    /// -   MapValue value:
-    ///     -   If parameter's entity type is a composite entity:
-    ///         map from composite entity property names to property values
-    ///     -   Else: parameter value
+    /// * MapKey type: string
+    /// * MapKey value: parameter name
+    /// * MapValue type: If parameter's entity type is a composite entity then use
+    /// map, otherwise, depending on the parameter value type, it could be one of
+    /// string, number, boolean, null, list or map.
+    /// * MapValue value: If parameter's entity type is a composite entity then use
+    /// map from composite entity property names to property values, otherwise,
+    /// use parameter value.
     #[prost(message, optional, tag = "2")]
     pub parameters: ::core::option::Option<::prost_types::Struct>,
     /// Final text input which was matched during MatchIntent. This value can be
@@ -4839,6 +4844,12 @@ pub mod import_test_cases_request {
         /// The [Google Cloud Storage](<https://cloud.google.com/storage/docs/>) URI
         /// to import test cases from. The format of this URI must be
         /// `gs://<bucket-name>/<object-name>`.
+        ///
+        /// Dialogflow performs a read operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have read permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         GcsUri(::prost::alloc::string::String),
         /// Uncompressed raw byte content for test cases.
@@ -4920,6 +4931,12 @@ pub mod export_test_cases_request {
         /// export the test cases to. The format of this URI must be
         /// `gs://<bucket-name>/<object-name>`. If unspecified, the serialized test
         /// cases is returned inline.
+        ///
+        /// Dialogflow performs a write operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have write permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         GcsUri(::prost::alloc::string::String),
     }
@@ -6482,10 +6499,12 @@ pub mod webhook {
         /// N.B. Make sure the HTTPS server certificates are signed with "subject alt
         /// name". For instance a certificate can be self-signed using the following
         /// command,
+        /// ```
         ///    openssl x509 -req -days 200 -in example.com.csr \
         ///      -signkey example.com.key \
         ///      -out example.com.crt \
         ///      -extfile <(printf "\nsubjectAltName='DNS:www.example.com'")
+        /// ```
         #[prost(bytes = "bytes", repeated, tag = "5")]
         pub allowed_ca_certs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     }
@@ -7196,6 +7215,12 @@ pub struct ExportAgentRequest {
     /// export the agent to. The format of this URI must be
     /// `gs://<bucket-name>/<object-name>`.
     /// If left unspecified, the serialized agent is returned inline.
+    ///
+    /// Dialogflow performs a write operation for the Cloud Storage object
+    /// on the caller's behalf, so your request authentication must
+    /// have write permissions for the object. For more information, see
+    /// [Dialogflow access
+    /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
     #[prost(string, tag = "2")]
     pub agent_uri: ::prost::alloc::string::String,
     /// Optional. Environment name. If not set, draft environment is assumed.
@@ -7261,6 +7286,12 @@ pub mod restore_agent_request {
         /// The [Google Cloud Storage](<https://cloud.google.com/storage/docs/>) URI
         /// to restore agent from. The format of this URI must be
         /// `gs://<bucket-name>/<object-name>`.
+        ///
+        /// Dialogflow performs a read operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have read permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
         #[prost(string, tag = "2")]
         AgentUri(::prost::alloc::string::String),
         /// Uncompressed raw byte content for agent.

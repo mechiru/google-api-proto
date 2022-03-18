@@ -1733,8 +1733,16 @@ pub struct JobQuery {
     ///  Currently we don't support sorting by commute time.
     #[prost(message, optional, tag = "5")]
     pub commute_filter: ::core::option::Option<CommuteFilter>,
-    /// This filter specifies the exact company \[Company.display_name][google.cloud.talent.v4.Company.display_name\]
-    /// of the jobs to search against.
+    /// This filter specifies the company \[Company.display_name][google.cloud.talent.v4.Company.display_name\]
+    /// of the jobs to search against. The company name must match the value
+    /// exactly (case sensitive).
+    ///
+    /// Alternatively, if the value being searched for is wrapped in
+    /// `SUBSTRING_MATCH(\[value\])`, the company name must contain a case
+    /// insensitive substring match of the value. Using this function may increase
+    /// latency.
+    ///
+    /// Sample Values: `["Google LLC", "SUBSTRING_MATCH(google)"]`
     ///
     /// If a value isn't specified, jobs within the search results are
     /// associated with any company.
@@ -1856,8 +1864,10 @@ pub struct LocationFilter {
     /// If this field is set to \[TelecommutePreference.TELECOMMUTE_ALLOWED][google.cloud.talent.v4.LocationFilter.TelecommutePreference.TELECOMMUTE_ALLOWED\],
     /// telecommuting jobs are searched, and \[address][google.cloud.talent.v4.LocationFilter.address\] and \[lat_lng][google.cloud.talent.v4.LocationFilter.lat_lng\] are
     /// ignored. If not set or set to
-    /// \[TelecommutePreference.TELECOMMUTE_EXCLUDED][google.cloud.talent.v4.LocationFilter.TelecommutePreference.TELECOMMUTE_EXCLUDED\], telecommute job are not
-    /// searched.
+    /// \[TelecommutePreference.TELECOMMUTE_EXCLUDED][google.cloud.talent.v4.LocationFilter.TelecommutePreference.TELECOMMUTE_EXCLUDED\], the telecommute status of
+    /// the jobs is ignored. Jobs that have \[PostingRegion.TELECOMMUTE][google.cloud.talent.v4.PostingRegion.TELECOMMUTE\] and have
+    /// additional \[Job.addresses][google.cloud.talent.v4.Job.addresses\] may still be matched based on other location
+    /// filters using \[address][google.cloud.talent.v4.LocationFilter.address\] or \[latlng][\].
     ///
     /// This filter can be used by itself to search exclusively for telecommuting
     /// jobs, or it can be combined with another location
@@ -2334,6 +2344,8 @@ pub struct SearchJobsRequest {
     /// for each distinct attribute value.
     /// * `count(numeric_histogram_facet, list of buckets)`: Count the number of
     /// matching entities within each bucket.
+    ///
+    /// A maximum of 200 histogram buckets are supported.
     ///
     /// Data types:
     ///
