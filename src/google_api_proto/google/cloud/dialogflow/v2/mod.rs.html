@@ -9604,6 +9604,16 @@
 <span id="9602">9602</span>
 <span id="9603">9603</span>
 <span id="9604">9604</span>
+<span id="9605">9605</span>
+<span id="9606">9606</span>
+<span id="9607">9607</span>
+<span id="9608">9608</span>
+<span id="9609">9609</span>
+<span id="9610">9610</span>
+<span id="9611">9611</span>
+<span id="9612">9612</span>
+<span id="9613">9613</span>
+<span id="9614">9614</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Hints for the speech recognizer to help with recognition in a specific</span>
 <span class="doccomment">/// conversation state.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -14036,11 +14046,21 @@
     <span class="doccomment">/// The suggestions for most recent human agent. The order is the same as</span>
     <span class="doccomment">/// \[HumanAgentAssistantConfig.SuggestionConfig.feature_configs][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.SuggestionConfig.feature_configs\] of</span>
     <span class="doccomment">/// \[HumanAgentAssistantConfig.human_agent_suggestion_config][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.human_agent_suggestion_config\].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note that any failure of Agent Assist features will not lead to the overall</span>
+    <span class="doccomment">/// failure of an AnalyzeContent API call. Instead, the features will</span>
+    <span class="doccomment">/// fail silently with the error field set in the corresponding</span>
+    <span class="doccomment">/// SuggestionResult.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">human_agent_suggestion_results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">SuggestionResult</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The suggestions for end user. The order is the same as</span>
     <span class="doccomment">/// \[HumanAgentAssistantConfig.SuggestionConfig.feature_configs][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.SuggestionConfig.feature_configs\] of</span>
     <span class="doccomment">/// \[HumanAgentAssistantConfig.end_user_suggestion_config][google.cloud.dialogflow.v2.HumanAgentAssistantConfig.end_user_suggestion_config\].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Same as human_agent_suggestion_results, any failure of Agent Assist</span>
+    <span class="doccomment">/// features will not lead to the overall failure of an AnalyzeContent API</span>
+    <span class="doccomment">/// call. Instead, the features will fail silently with the error field set in</span>
+    <span class="doccomment">/// the corresponding SuggestionResult.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">end_user_suggestion_results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">SuggestionResult</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Indicates the parameters of DTMF.</span>
