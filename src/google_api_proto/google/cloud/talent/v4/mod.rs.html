@@ -3409,6 +3409,18 @@
 <span id="3407">3407</span>
 <span id="3408">3408</span>
 <span id="3409">3409</span>
+<span id="3410">3410</span>
+<span id="3411">3411</span>
+<span id="3412">3412</span>
+<span id="3413">3413</span>
+<span id="3414">3414</span>
+<span id="3415">3415</span>
+<span id="3416">3416</span>
+<span id="3417">3417</span>
+<span id="3418">3418</span>
+<span id="3419">3419</span>
+<span id="3420">3420</span>
+<span id="3421">3421</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Message representing a period of time between two timestamps.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TimestampRange</span> {
@@ -5144,8 +5156,16 @@
     <span class="doccomment">///  Currently we don&#39;t support sorting by commute time.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">commute_filter</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CommuteFilter</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// This filter specifies the exact company \[Company.display_name][google.cloud.talent.v4.Company.display_name\]</span>
-    <span class="doccomment">/// of the jobs to search against.</span>
+    <span class="doccomment">/// This filter specifies the company \[Company.display_name][google.cloud.talent.v4.Company.display_name\]</span>
+    <span class="doccomment">/// of the jobs to search against. The company name must match the value</span>
+    <span class="doccomment">/// exactly (case sensitive).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Alternatively, if the value being searched for is wrapped in</span>
+    <span class="doccomment">/// `SUBSTRING_MATCH(\[value\])`, the company name must contain a case</span>
+    <span class="doccomment">/// insensitive substring match of the value. Using this function may increase</span>
+    <span class="doccomment">/// latency.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Sample Values: `[&quot;Google LLC&quot;, &quot;SUBSTRING_MATCH(google)&quot;]`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If a value isn&#39;t specified, jobs within the search results are</span>
     <span class="doccomment">/// associated with any company.</span>
@@ -5267,8 +5287,10 @@
     <span class="doccomment">/// If this field is set to \[TelecommutePreference.TELECOMMUTE_ALLOWED][google.cloud.talent.v4.LocationFilter.TelecommutePreference.TELECOMMUTE_ALLOWED\],</span>
     <span class="doccomment">/// telecommuting jobs are searched, and \[address][google.cloud.talent.v4.LocationFilter.address\] and \[lat_lng][google.cloud.talent.v4.LocationFilter.lat_lng\] are</span>
     <span class="doccomment">/// ignored. If not set or set to</span>
-    <span class="doccomment">/// \[TelecommutePreference.TELECOMMUTE_EXCLUDED][google.cloud.talent.v4.LocationFilter.TelecommutePreference.TELECOMMUTE_EXCLUDED\], telecommute job are not</span>
-    <span class="doccomment">/// searched.</span>
+    <span class="doccomment">/// \[TelecommutePreference.TELECOMMUTE_EXCLUDED][google.cloud.talent.v4.LocationFilter.TelecommutePreference.TELECOMMUTE_EXCLUDED\], the telecommute status of</span>
+    <span class="doccomment">/// the jobs is ignored. Jobs that have \[PostingRegion.TELECOMMUTE][google.cloud.talent.v4.PostingRegion.TELECOMMUTE\] and have</span>
+    <span class="doccomment">/// additional \[Job.addresses][google.cloud.talent.v4.Job.addresses\] may still be matched based on other location</span>
+    <span class="doccomment">/// filters using \[address][google.cloud.talent.v4.LocationFilter.address\] or \[latlng][\].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This filter can be used by itself to search exclusively for telecommuting</span>
     <span class="doccomment">/// jobs, or it can be combined with another location</span>
@@ -5745,6 +5767,8 @@
     <span class="doccomment">/// for each distinct attribute value.</span>
     <span class="doccomment">/// * `count(numeric_histogram_facet, list of buckets)`: Count the number of</span>
     <span class="doccomment">/// matching entities within each bucket.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// A maximum of 200 histogram buckets are supported.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Data types:</span>
     <span class="doccomment">///</span>

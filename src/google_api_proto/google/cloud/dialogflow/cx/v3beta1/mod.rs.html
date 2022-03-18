@@ -8656,6 +8656,37 @@
 <span id="8654">8654</span>
 <span id="8655">8655</span>
 <span id="8656">8656</span>
+<span id="8657">8657</span>
+<span id="8658">8658</span>
+<span id="8659">8659</span>
+<span id="8660">8660</span>
+<span id="8661">8661</span>
+<span id="8662">8662</span>
+<span id="8663">8663</span>
+<span id="8664">8664</span>
+<span id="8665">8665</span>
+<span id="8666">8666</span>
+<span id="8667">8667</span>
+<span id="8668">8668</span>
+<span id="8669">8669</span>
+<span id="8670">8670</span>
+<span id="8671">8671</span>
+<span id="8672">8672</span>
+<span id="8673">8673</span>
+<span id="8674">8674</span>
+<span id="8675">8675</span>
+<span id="8676">8676</span>
+<span id="8677">8677</span>
+<span id="8678">8678</span>
+<span id="8679">8679</span>
+<span id="8680">8680</span>
+<span id="8681">8681</span>
+<span id="8682">8682</span>
+<span id="8683">8683</span>
+<span id="8684">8684</span>
+<span id="8685">8685</span>
+<span id="8686">8686</span>
+<span id="8687">8687</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Represents a response message that can be returned by a conversational agent.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Response messages are also used for output audio synthesis. The approach is</span>
@@ -10010,6 +10041,12 @@
         <span class="doccomment">/// The [Google Cloud Storage](&lt;https://cloud.google.com/storage/docs/&gt;) URI</span>
         <span class="doccomment">/// to import flow from. The format of this URI must be</span>
         <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a read operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have read permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">FlowUri</span>(<span class="ident">::prost::alloc::string::String</span>),
         <span class="doccomment">/// Uncompressed raw byte content for flow.</span>
@@ -10038,6 +10075,12 @@
     <span class="doccomment">/// export the flow to. The format of this URI must be</span>
     <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
     <span class="doccomment">/// If left unspecified, the serialized flow is returned inline.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Dialogflow performs a write operation for the Cloud Storage object</span>
+    <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+    <span class="doccomment">/// have write permissions for the object. For more information, see</span>
+    <span class="doccomment">/// [Dialogflow access</span>
+    <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">flow_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. Whether to export flows referenced by the specified flow.</span>
@@ -11805,27 +11848,26 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Multiple request messages should be sent in order:</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// 1.  The first message must contain</span>
-<span class="doccomment">///     \[session][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.session\],</span>
-<span class="doccomment">///     \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] plus optionally</span>
-<span class="doccomment">///     \[query_params][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_params\]. If the client</span>
-<span class="doccomment">///     wants to receive an audio response, it should also contain</span>
-<span class="doccomment">///     \[output_audio_config][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.output_audio_config\].</span>
+<span class="doccomment">/// 1. The first message must contain</span>
+<span class="doccomment">/// \[session][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.session\],</span>
+<span class="doccomment">/// \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] plus optionally</span>
+<span class="doccomment">/// \[query_params][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_params\]. If the client</span>
+<span class="doccomment">/// wants to receive an audio response, it should also contain</span>
+<span class="doccomment">/// \[output_audio_config][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.output_audio_config\].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// 2.  If \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] was set to</span>
-<span class="doccomment">///     \[query_input.audio.config][google.cloud.dialogflow.cx.v3beta1.AudioInput.config\], all subsequent messages</span>
-<span class="doccomment">///     must contain \[query_input.audio.audio][google.cloud.dialogflow.cx.v3beta1.AudioInput.audio\] to continue with</span>
-<span class="doccomment">///     Speech recognition.</span>
-<span class="doccomment">///     If you decide to rather detect an intent from text</span>
-<span class="doccomment">///     input after you already started Speech recognition, please send a message</span>
-<span class="doccomment">///     with \[query_input.text][google.cloud.dialogflow.cx.v3beta1.QueryInput.text\].</span>
+<span class="doccomment">/// \[query_input.audio.config][google.cloud.dialogflow.cx.v3beta1.AudioInput.config\], all subsequent messages</span>
+<span class="doccomment">/// must contain \[query_input.audio.audio][google.cloud.dialogflow.cx.v3beta1.AudioInput.audio\] to continue with</span>
+<span class="doccomment">/// Speech recognition.</span>
+<span class="doccomment">/// If you decide to rather detect an intent from text</span>
+<span class="doccomment">/// input after you already started Speech recognition, please send a message</span>
+<span class="doccomment">/// with \[query_input.text][google.cloud.dialogflow.cx.v3beta1.QueryInput.text\].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     However, note that:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     * Dialogflow will bill you for the audio duration so far.</span>
-<span class="doccomment">///     * Dialogflow discards all Speech recognition results in favor of the</span>
-<span class="doccomment">///       input text.</span>
-<span class="doccomment">///     * Dialogflow will use the language code from the first message.</span>
+<span class="doccomment">/// However, note that:</span>
+<span class="doccomment">/// * Dialogflow will bill you for the audio duration so far.</span>
+<span class="doccomment">/// * Dialogflow discards all Speech recognition results in favor of the input</span>
+<span class="doccomment">/// text.</span>
+<span class="doccomment">/// * Dialogflow will use the language code from the first message.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// After you sent all input, you must half-close or abort the request stream.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -12056,16 +12098,14 @@
     <span class="doccomment">/// map, associative array, symbol table, dictionary, or JSON object</span>
     <span class="doccomment">/// composed of a collection of (MapKey, MapValue) pairs:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// -   MapKey type: string</span>
-    <span class="doccomment">/// -   MapKey value: parameter name</span>
-    <span class="doccomment">/// -   MapValue type:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity: map</span>
-    <span class="doccomment">///     -   Else: depending on parameter value type, could be one of string,</span>
-    <span class="doccomment">///         number, boolean, null, list or map</span>
-    <span class="doccomment">/// -   MapValue value:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity:</span>
-    <span class="doccomment">///         map from composite entity property names to property values</span>
-    <span class="doccomment">///     -   Else: parameter value</span>
+    <span class="doccomment">/// * MapKey type: string</span>
+    <span class="doccomment">/// * MapKey value: parameter name</span>
+    <span class="doccomment">/// * MapValue type: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map, otherwise, depending on the parameter value type, it could be one of</span>
+    <span class="doccomment">/// string, number, boolean, null, list or map.</span>
+    <span class="doccomment">/// * MapValue value: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map from composite entity property names to property values, otherwise,</span>
+    <span class="doccomment">/// use parameter value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parameters</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The unique identifier of the \[page][google.cloud.dialogflow.cx.v3beta1.Page\] to override the [current</span>
@@ -12172,16 +12212,14 @@
     <span class="doccomment">/// map, associative array, symbol table, dictionary, or JSON object</span>
     <span class="doccomment">/// composed of a collection of (MapKey, MapValue) pairs:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// -   MapKey type: string</span>
-    <span class="doccomment">/// -   MapKey value: parameter name</span>
-    <span class="doccomment">/// -   MapValue type:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity: map</span>
-    <span class="doccomment">///     -   Else: depending on parameter value type, could be one of string,</span>
-    <span class="doccomment">///     number, boolean, null, list or map</span>
-    <span class="doccomment">/// -   MapValue value:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity:</span>
-    <span class="doccomment">///         map from composite entity property names to property values</span>
-    <span class="doccomment">///     -   Else: parameter value</span>
+    <span class="doccomment">/// * MapKey type: string</span>
+    <span class="doccomment">/// * MapKey value: parameter name</span>
+    <span class="doccomment">/// * MapValue type: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map, otherwise, depending on the parameter value type, it could be one of</span>
+    <span class="doccomment">/// string, number, boolean, null, list or map.</span>
+    <span class="doccomment">/// * MapValue value: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map from composite entity property names to property values, otherwise,</span>
+    <span class="doccomment">/// use parameter value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parameters</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The list of rich messages returned to the client. Responses vary from</span>
@@ -12336,16 +12374,14 @@
     <span class="doccomment">/// map, associative array, symbol table, dictionary, or JSON object</span>
     <span class="doccomment">/// composed of a collection of (MapKey, MapValue) pairs:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// -   MapKey type: string</span>
-    <span class="doccomment">/// -   MapKey value: parameter name</span>
-    <span class="doccomment">/// -   MapValue type:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity: map</span>
-    <span class="doccomment">///     -   Else: depending on parameter value type, could be one of string,</span>
-    <span class="doccomment">///     number, boolean, null, list or map</span>
-    <span class="doccomment">/// -   MapValue value:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity:</span>
-    <span class="doccomment">///         map from composite entity property names to property values</span>
-    <span class="doccomment">///     -   Else: parameter value</span>
+    <span class="doccomment">/// * MapKey type: string</span>
+    <span class="doccomment">/// * MapKey value: parameter name</span>
+    <span class="doccomment">/// * MapValue type: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map, otherwise, depending on the parameter value type, it could be one of</span>
+    <span class="doccomment">/// string, number, boolean, null, list or map.</span>
+    <span class="doccomment">/// * MapValue value: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map from composite entity property names to property values, otherwise,</span>
+    <span class="doccomment">/// use parameter value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parameters</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Final text input which was matched during MatchIntent. This value can be</span>
@@ -13497,6 +13533,12 @@
         <span class="doccomment">/// The [Google Cloud Storage](&lt;https://cloud.google.com/storage/docs/&gt;) URI</span>
         <span class="doccomment">/// to import test cases from. The format of this URI must be</span>
         <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a read operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have read permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">GcsUri</span>(<span class="ident">::prost::alloc::string::String</span>),
         <span class="doccomment">/// Uncompressed raw byte content for test cases.</span>
@@ -13578,6 +13620,12 @@
         <span class="doccomment">/// export the test cases to. The format of this URI must be</span>
         <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`. If unspecified, the serialized test</span>
         <span class="doccomment">/// cases is returned inline.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a write operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have write permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">GcsUri</span>(<span class="ident">::prost::alloc::string::String</span>),
     }
@@ -15140,10 +15188,12 @@
         <span class="doccomment">/// N.B. Make sure the HTTPS server certificates are signed with &quot;subject alt</span>
         <span class="doccomment">/// name&quot;. For instance a certificate can be self-signed using the following</span>
         <span class="doccomment">/// command,</span>
+        <span class="doccomment">/// ```</span>
         <span class="doccomment">///    openssl x509 -req -days 200 -in example.com.csr \</span>
         <span class="doccomment">///      -signkey example.com.key \</span>
         <span class="doccomment">///      -out example.com.crt \</span>
         <span class="doccomment">///      -extfile &lt;(printf &quot;\nsubjectAltName=&#39;DNS:www.example.com&#39;&quot;)</span>
+        <span class="doccomment">/// ```</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">allowed_ca_certs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::bytes::Bytes</span><span class="op">&gt;</span>,
     }
@@ -15854,6 +15904,12 @@
     <span class="doccomment">/// export the agent to. The format of this URI must be</span>
     <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
     <span class="doccomment">/// If left unspecified, the serialized agent is returned inline.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Dialogflow performs a write operation for the Cloud Storage object</span>
+    <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+    <span class="doccomment">/// have write permissions for the object. For more information, see</span>
+    <span class="doccomment">/// [Dialogflow access</span>
+    <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">agent_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. Environment name. If not set, draft environment is assumed.</span>
@@ -15919,6 +15975,12 @@
         <span class="doccomment">/// The [Google Cloud Storage](&lt;https://cloud.google.com/storage/docs/&gt;) URI</span>
         <span class="doccomment">/// to restore agent from. The format of this URI must be</span>
         <span class="doccomment">/// `gs://&lt;bucket-name&gt;/&lt;object-name&gt;`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Dialogflow performs a read operation for the Cloud Storage object</span>
+        <span class="doccomment">/// on the caller&#39;s behalf, so your request authentication must</span>
+        <span class="doccomment">/// have read permissions for the object. For more information, see</span>
+        <span class="doccomment">/// [Dialogflow access</span>
+        <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">AgentUri</span>(<span class="ident">::prost::alloc::string::String</span>),
         <span class="doccomment">/// Uncompressed raw byte content for agent.</span>
