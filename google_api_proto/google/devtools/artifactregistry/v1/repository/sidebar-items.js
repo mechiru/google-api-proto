@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Format","A package format."]]});
+initSidebarItems({"enum":[["Format","A package format."],["FormatConfig","Repository-specific configurations."]],"mod":[["maven_repository_config","Nested message and enum types in `MavenRepositoryConfig`."]],"struct":[["MavenRepositoryConfig","MavenRepositoryConfig is maven related repository details. Provides additional configuration details for repositories of the maven format type."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["PackageType","Package type is either binary or source."]]});
