@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["EndpointProtocol","Protocols available for serving the metastore service endpoint."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["consumer","Nested message and enum types in `Consumer`."]],"struct":[["Consumer","Contains information of the customer’s network configurations."]]});

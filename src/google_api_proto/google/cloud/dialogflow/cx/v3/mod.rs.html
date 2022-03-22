@@ -8720,10 +8720,6 @@
 <span id="8718">8718</span>
 <span id="8719">8719</span>
 <span id="8720">8720</span>
-<span id="8721">8721</span>
-<span id="8722">8722</span>
-<span id="8723">8723</span>
-<span id="8724">8724</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Represents a response message that can be returned by a conversational agent.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Response messages are also used for output audio synthesis. The approach is</span>
@@ -12153,16 +12149,14 @@
     <span class="doccomment">/// map, associative array, symbol table, dictionary, or JSON object</span>
     <span class="doccomment">/// composed of a collection of (MapKey, MapValue) pairs:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// -   MapKey type: string</span>
-    <span class="doccomment">/// -   MapKey value: parameter name</span>
-    <span class="doccomment">/// -   MapValue type:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity: map</span>
-    <span class="doccomment">///     -   Else: depending on parameter value type, could be one of string,</span>
-    <span class="doccomment">///         number, boolean, null, list or map</span>
-    <span class="doccomment">/// -   MapValue value:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity:</span>
-    <span class="doccomment">///         map from composite entity property names to property values</span>
-    <span class="doccomment">///     -   Else: parameter value</span>
+    <span class="doccomment">/// * MapKey type: string</span>
+    <span class="doccomment">/// * MapKey value: parameter name</span>
+    <span class="doccomment">/// * MapValue type: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map, otherwise, depending on the parameter value type, it could be one of</span>
+    <span class="doccomment">/// string, number, boolean, null, list or map.</span>
+    <span class="doccomment">/// * MapValue value: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map from composite entity property names to property values, otherwise,</span>
+    <span class="doccomment">/// use parameter value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parameters</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The unique identifier of the \[page][google.cloud.dialogflow.cx.v3.Page\] to override the [current</span>
@@ -12269,16 +12263,14 @@
     <span class="doccomment">/// map, associative array, symbol table, dictionary, or JSON object</span>
     <span class="doccomment">/// composed of a collection of (MapKey, MapValue) pairs:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// -   MapKey type: string</span>
-    <span class="doccomment">/// -   MapKey value: parameter name</span>
-    <span class="doccomment">/// -   MapValue type:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity: map</span>
-    <span class="doccomment">///     -   Else: depending on parameter value type, could be one of string,</span>
-    <span class="doccomment">///         number, boolean, null, list or map</span>
-    <span class="doccomment">/// -   MapValue value:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity:</span>
-    <span class="doccomment">///         map from composite entity property names to property values</span>
-    <span class="doccomment">///     -   Else: parameter value</span>
+    <span class="doccomment">/// * MapKey type: string</span>
+    <span class="doccomment">/// * MapKey value: parameter name</span>
+    <span class="doccomment">/// * MapValue type: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map, otherwise, depending on the parameter value type, it could be one of</span>
+    <span class="doccomment">/// string, number, boolean, null, list or map.</span>
+    <span class="doccomment">/// * MapValue value: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map from composite entity property names to property values, otherwise,</span>
+    <span class="doccomment">/// use parameter value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parameters</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The list of rich messages returned to the client. Responses vary from</span>
@@ -12433,16 +12425,14 @@
     <span class="doccomment">/// map, associative array, symbol table, dictionary, or JSON object</span>
     <span class="doccomment">/// composed of a collection of (MapKey, MapValue) pairs:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// -   MapKey type: string</span>
-    <span class="doccomment">/// -   MapKey value: parameter name</span>
-    <span class="doccomment">/// -   MapValue type:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity: map</span>
-    <span class="doccomment">///     -   Else: depending on parameter value type, could be one of string,</span>
-    <span class="doccomment">///         number, boolean, null, list or map</span>
-    <span class="doccomment">/// -   MapValue value:</span>
-    <span class="doccomment">///     -   If parameter&#39;s entity type is a composite entity:</span>
-    <span class="doccomment">///         map from composite entity property names to property values</span>
-    <span class="doccomment">///     -   Else: parameter value</span>
+    <span class="doccomment">/// * MapKey type: string</span>
+    <span class="doccomment">/// * MapKey value: parameter name</span>
+    <span class="doccomment">/// * MapValue type: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map, otherwise, depending on the parameter value type, it could be one of</span>
+    <span class="doccomment">/// string, number, boolean, null, list or map.</span>
+    <span class="doccomment">/// * MapValue value: If parameter&#39;s entity type is a composite entity then use</span>
+    <span class="doccomment">/// map from composite entity property names to property values, otherwise,</span>
+    <span class="doccomment">/// use parameter value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parameters</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Final text input which was matched during MatchIntent. This value can be</span>
@@ -15258,10 +15248,12 @@
         <span class="doccomment">/// N.B. Make sure the HTTPS server certificates are signed with &quot;subject alt</span>
         <span class="doccomment">/// name&quot;. For instance a certificate can be self-signed using the following</span>
         <span class="doccomment">/// command,</span>
+        <span class="doccomment">/// ```</span>
         <span class="doccomment">///    openssl x509 -req -days 200 -in example.com.csr \</span>
         <span class="doccomment">///      -signkey example.com.key \</span>
         <span class="doccomment">///      -out example.com.crt \</span>
         <span class="doccomment">///      -extfile &lt;(printf &quot;\nsubjectAltName=&#39;DNS:www.example.com&#39;&quot;)</span>
+        <span class="doccomment">/// ```</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">allowed_ca_certs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::bytes::Bytes</span><span class="op">&gt;</span>,
     }
