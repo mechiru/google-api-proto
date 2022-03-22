@@ -3427,16 +3427,14 @@ pub struct QueryParameters {
     /// map, associative array, symbol table, dictionary, or JSON object
     /// composed of a collection of (MapKey, MapValue) pairs:
     ///
-    /// -   MapKey type: string
-    /// -   MapKey value: parameter name
-    /// -   MapValue type:
-    ///     -   If parameter's entity type is a composite entity: map
-    ///     -   Else: depending on parameter value type, could be one of string,
-    ///         number, boolean, null, list or map
-    /// -   MapValue value:
-    ///     -   If parameter's entity type is a composite entity:
-    ///         map from composite entity property names to property values
-    ///     -   Else: parameter value
+    /// * MapKey type: string
+    /// * MapKey value: parameter name
+    /// * MapValue type: If parameter's entity type is a composite entity then use
+    /// map, otherwise, depending on the parameter value type, it could be one of
+    /// string, number, boolean, null, list or map.
+    /// * MapValue value: If parameter's entity type is a composite entity then use
+    /// map from composite entity property names to property values, otherwise,
+    /// use parameter value.
     #[prost(message, optional, tag = "5")]
     pub parameters: ::core::option::Option<::prost_types::Struct>,
     /// The unique identifier of the \[page][google.cloud.dialogflow.cx.v3.Page\] to override the [current
@@ -3543,16 +3541,14 @@ pub struct QueryResult {
     /// map, associative array, symbol table, dictionary, or JSON object
     /// composed of a collection of (MapKey, MapValue) pairs:
     ///
-    /// -   MapKey type: string
-    /// -   MapKey value: parameter name
-    /// -   MapValue type:
-    ///     -   If parameter's entity type is a composite entity: map
-    ///     -   Else: depending on parameter value type, could be one of string,
-    ///         number, boolean, null, list or map
-    /// -   MapValue value:
-    ///     -   If parameter's entity type is a composite entity:
-    ///         map from composite entity property names to property values
-    ///     -   Else: parameter value
+    /// * MapKey type: string
+    /// * MapKey value: parameter name
+    /// * MapValue type: If parameter's entity type is a composite entity then use
+    /// map, otherwise, depending on the parameter value type, it could be one of
+    /// string, number, boolean, null, list or map.
+    /// * MapValue value: If parameter's entity type is a composite entity then use
+    /// map from composite entity property names to property values, otherwise,
+    /// use parameter value.
     #[prost(message, optional, tag = "3")]
     pub parameters: ::core::option::Option<::prost_types::Struct>,
     /// The list of rich messages returned to the client. Responses vary from
@@ -3707,16 +3703,14 @@ pub struct Match {
     /// map, associative array, symbol table, dictionary, or JSON object
     /// composed of a collection of (MapKey, MapValue) pairs:
     ///
-    /// -   MapKey type: string
-    /// -   MapKey value: parameter name
-    /// -   MapValue type:
-    ///     -   If parameter's entity type is a composite entity: map
-    ///     -   Else: depending on parameter value type, could be one of string,
-    ///         number, boolean, null, list or map
-    /// -   MapValue value:
-    ///     -   If parameter's entity type is a composite entity:
-    ///         map from composite entity property names to property values
-    ///     -   Else: parameter value
+    /// * MapKey type: string
+    /// * MapKey value: parameter name
+    /// * MapValue type: If parameter's entity type is a composite entity then use
+    /// map, otherwise, depending on the parameter value type, it could be one of
+    /// string, number, boolean, null, list or map.
+    /// * MapValue value: If parameter's entity type is a composite entity then use
+    /// map from composite entity property names to property values, otherwise,
+    /// use parameter value.
     #[prost(message, optional, tag = "2")]
     pub parameters: ::core::option::Option<::prost_types::Struct>,
     /// Final text input which was matched during MatchIntent. This value can be
@@ -6532,10 +6526,12 @@ pub mod webhook {
         /// N.B. Make sure the HTTPS server certificates are signed with "subject alt
         /// name". For instance a certificate can be self-signed using the following
         /// command,
+        /// ```
         ///    openssl x509 -req -days 200 -in example.com.csr \
         ///      -signkey example.com.key \
         ///      -out example.com.crt \
         ///      -extfile <(printf "\nsubjectAltName='DNS:www.example.com'")
+        /// ```
         #[prost(bytes = "bytes", repeated, tag = "5")]
         pub allowed_ca_certs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     }
