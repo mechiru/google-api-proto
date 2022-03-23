@@ -659,6 +659,40 @@ pub mod app_profile {
         SingleClusterRouting(SingleClusterRouting),
     }
 }
+/// A tablet is a defined by a start and end key and is explained in
+/// <https://cloud.google.com/bigtable/docs/overview#architecture> and
+/// <https://cloud.google.com/bigtable/docs/performance#optimization.>
+/// A Hot tablet is a tablet that exhibits high average cpu usage during the time
+/// interval from start time to end time.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HotTablet {
+    /// The unique name of the hot tablet. Values are of the form
+    /// `projects/{project}/instances/{instance}/clusters/{cluster}/hotTablets/\[a-zA-Z0-9_-\]*`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Name of the table that contains the tablet. Values are of the form
+    /// `projects/{project}/instances/{instance}/tables/\[_a-zA-Z0-9][-_.a-zA-Z0-9\]*`.
+    #[prost(string, tag = "2")]
+    pub table_name: ::prost::alloc::string::String,
+    /// Output only. The start time of the hot tablet.
+    #[prost(message, optional, tag = "3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The end time of the hot tablet.
+    #[prost(message, optional, tag = "4")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Tablet Start Key (inclusive).
+    #[prost(string, tag = "5")]
+    pub start_key: ::prost::alloc::string::String,
+    /// Tablet End Key (inclusive).
+    #[prost(string, tag = "6")]
+    pub end_key: ::prost::alloc::string::String,
+    /// Output only. The average CPU usage spent by a node on this tablet over the start_time to
+    /// end_time time range. The percentage is the amount of CPU used by the node
+    /// to serve the tablet, from 0% (tablet was not interacted with) to 100% (the
+    /// node spent all cycles serving the hot tablet).
+    #[prost(float, tag = "7")]
+    pub node_cpu_usage_percent: f32,
+}
 /// Request message for BigtableInstanceAdmin.CreateInstance.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateInstanceRequest {
@@ -979,6 +1013,56 @@ pub struct DeleteAppProfileRequest {
 /// The metadata for the Operation returned by UpdateAppProfile.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateAppProfileMetadata {}
+/// Request message for BigtableInstanceAdmin.ListHotTablets.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListHotTabletsRequest {
+    /// Required. The cluster name to list hot tablets.
+    /// Value is in the following form:
+    /// `projects/{project}/instances/{instance}/clusters/{cluster}`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The start time to list hot tablets. The hot tablets in the response will
+    /// have start times between the requested start time and end time. Start time
+    /// defaults to Now if it is unset, and end time defaults to Now - 24 hours if
+    /// it is unset. The start time should be less than the end time, and the
+    /// maximum allowed time range between start time and end time is 48 hours.
+    /// Start time and end time should have values between Now and Now - 14 days.
+    #[prost(message, optional, tag = "2")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The end time to list hot tablets.
+    #[prost(message, optional, tag = "3")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Maximum number of results per page.
+    ///
+    /// A page_size that is empty or zero lets the server choose the number of
+    /// items to return. A page_size which is strictly positive will return at most
+    /// that many items. A negative page_size will cause an error.
+    ///
+    /// Following the first request, subsequent paginated calls do not need a
+    /// page_size field. If a page_size is set in subsequent calls, it must match
+    /// the page_size given in the first request.
+    #[prost(int32, tag = "4")]
+    pub page_size: i32,
+    /// The value of `next_page_token` returned by a previous call.
+    #[prost(string, tag = "5")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for BigtableInstanceAdmin.ListHotTablets.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListHotTabletsResponse {
+    /// List of hot tablets in the tables of the requested cluster that fall
+    /// within the requested time range. Hot tablets are ordered by node cpu usage
+    /// percent. If there are multiple hot tablets that correspond to the same
+    /// tablet within a 15-minute interval, only the hot tablet with the highest
+    /// node cpu usage will be included in the response.
+    #[prost(message, repeated, tag = "1")]
+    pub hot_tablets: ::prost::alloc::vec::Vec<HotTablet>,
+    /// Set if not all hot tablets could be returned in a single response.
+    /// Pass this value to `page_token` in another request to get the next
+    /// page of results.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
 #[doc = r" Generated client implementations."]
 pub mod bigtable_instance_admin_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
@@ -1425,6 +1509,24 @@ pub mod bigtable_instance_admin_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.bigtable.admin.v2.BigtableInstanceAdmin/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists hot tablets in a cluster, within the time range provided. Hot"]
+        #[doc = " tablets are ordered based on CPU usage."]
+        pub async fn list_hot_tablets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListHotTabletsRequest>,
+        ) -> Result<tonic::Response<super::ListHotTabletsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/ListHotTablets",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
