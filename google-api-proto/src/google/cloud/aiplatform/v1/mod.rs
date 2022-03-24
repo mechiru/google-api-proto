@@ -3497,31 +3497,75 @@ pub struct ModelEvaluation {
     /// Output only. The resource name of the ModelEvaluation.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// Output only. Points to a YAML file stored on Google Cloud Storage describing the
+    /// Points to a YAML file stored on Google Cloud Storage describing the
     /// \[metrics][google.cloud.aiplatform.v1.ModelEvaluation.metrics\] of this ModelEvaluation. The schema is
     /// defined as an OpenAPI 3.0.2 [Schema
     /// Object](<https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#schemaObject>).
     #[prost(string, tag = "2")]
     pub metrics_schema_uri: ::prost::alloc::string::String,
-    /// Output only. Evaluation metrics of the Model. The schema of the metrics is stored in
+    /// Evaluation metrics of the Model. The schema of the metrics is stored in
     /// \[metrics_schema_uri][google.cloud.aiplatform.v1.ModelEvaluation.metrics_schema_uri\]
     #[prost(message, optional, tag = "3")]
     pub metrics: ::core::option::Option<::prost_types::Value>,
     /// Output only. Timestamp when this ModelEvaluation was created.
     #[prost(message, optional, tag = "4")]
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. All possible \[dimensions][ModelEvaluationSlice.slice.dimension\] of
+    /// All possible \[dimensions][ModelEvaluationSlice.slice.dimension\] of
     /// ModelEvaluationSlices. The dimensions can be used as the filter of the
     /// \[ModelService.ListModelEvaluationSlices][google.cloud.aiplatform.v1.ModelService.ListModelEvaluationSlices\] request, in the form of
     /// `slice.dimension = <dimension>`.
     #[prost(string, repeated, tag = "5")]
     pub slice_dimensions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Output only. Aggregated explanation metrics for the Model's prediction output over the
+    /// Points to a YAML file stored on Google Cloud Storage describing
+    /// \[EvaluatedDataItemView.data_item_payload][\] and
+    /// \[EvaluatedAnnotation.data_item_payload][\]. The schema is defined as an
+    /// OpenAPI 3.0.2 [Schema
+    /// Object](<https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#schemaObject>).
+    ///
+    /// This field is not populated if there are neither EvaluatedDataItemViews nor
+    /// EvaluatedAnnotations under this ModelEvaluation.
+    #[prost(string, tag = "6")]
+    pub data_item_schema_uri: ::prost::alloc::string::String,
+    /// Points to a YAML file stored on Google Cloud Storage describing
+    /// \[EvaluatedDataItemView.predictions][\],
+    /// \[EvaluatedDataItemView.ground_truths][\],
+    /// \[EvaluatedAnnotation.predictions][\], and
+    /// \[EvaluatedAnnotation.ground_truths][\]. The schema is defined as an
+    /// OpenAPI 3.0.2 [Schema
+    /// Object](<https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#schemaObject>).
+    ///
+    /// This field is not populated if there are neither EvaluatedDataItemViews nor
+    /// EvaluatedAnnotations under this ModelEvaluation.
+    #[prost(string, tag = "7")]
+    pub annotation_schema_uri: ::prost::alloc::string::String,
+    /// Aggregated explanation metrics for the Model's prediction output over the
     /// data this ModelEvaluation uses. This field is populated only if the Model
     /// is evaluated with explanations, and only for AutoML tabular Models.
     ///
     #[prost(message, optional, tag = "8")]
     pub model_explanation: ::core::option::Option<ModelExplanation>,
+    /// Describes the values of \[ExplanationSpec][google.cloud.aiplatform.v1.ExplanationSpec\] that are used for explaining
+    /// the predicted values on the evaluated data.
+    #[prost(message, repeated, tag = "9")]
+    pub explanation_specs:
+        ::prost::alloc::vec::Vec<model_evaluation::ModelEvaluationExplanationSpec>,
+}
+/// Nested message and enum types in `ModelEvaluation`.
+pub mod model_evaluation {
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ModelEvaluationExplanationSpec {
+        /// Explanation type.
+        ///
+        /// For AutoML Image Classification models, possible values are:
+        ///
+        ///   * `image-integrated-gradients`
+        ///   * `image-xrai`
+        #[prost(string, tag = "1")]
+        pub explanation_type: ::prost::alloc::string::String,
+        /// Explanation spec details.
+        #[prost(message, optional, tag = "2")]
+        pub explanation_spec: ::core::option::Option<super::ExplanationSpec>,
+    }
 }
 /// A list of boolean values.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -11602,6 +11646,17 @@ pub mod export_model_operation_metadata {
 /// Response message of \[ModelService.ExportModel][google.cloud.aiplatform.v1.ModelService.ExportModel\] operation.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExportModelResponse {}
+/// Request message for \[ModelService.ImportModelEvaluation][google.cloud.aiplatform.v1.ModelService.ImportModelEvaluation\]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportModelEvaluationRequest {
+    /// Required. The name of the parent model resource.
+    /// Format: `projects/{project}/locations/{location}/models/{model}`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Model evaluation resource to be imported.
+    #[prost(message, optional, tag = "2")]
+    pub model_evaluation: ::core::option::Option<ModelEvaluation>,
+}
 /// Request message for \[ModelService.GetModelEvaluation][google.cloud.aiplatform.v1.ModelService.GetModelEvaluation\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetModelEvaluationRequest {
@@ -11856,6 +11911,23 @@ pub mod model_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.aiplatform.v1.ModelService/ExportModel",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Imports an externally generated ModelEvaluation."]
+        pub async fn import_model_evaluation(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ImportModelEvaluationRequest>,
+        ) -> Result<tonic::Response<super::ModelEvaluation>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1.ModelService/ImportModelEvaluation",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
