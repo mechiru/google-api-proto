@@ -15762,6 +15762,78 @@
 <span id="15760">15760</span>
 <span id="15761">15761</span>
 <span id="15762">15762</span>
+<span id="15763">15763</span>
+<span id="15764">15764</span>
+<span id="15765">15765</span>
+<span id="15766">15766</span>
+<span id="15767">15767</span>
+<span id="15768">15768</span>
+<span id="15769">15769</span>
+<span id="15770">15770</span>
+<span id="15771">15771</span>
+<span id="15772">15772</span>
+<span id="15773">15773</span>
+<span id="15774">15774</span>
+<span id="15775">15775</span>
+<span id="15776">15776</span>
+<span id="15777">15777</span>
+<span id="15778">15778</span>
+<span id="15779">15779</span>
+<span id="15780">15780</span>
+<span id="15781">15781</span>
+<span id="15782">15782</span>
+<span id="15783">15783</span>
+<span id="15784">15784</span>
+<span id="15785">15785</span>
+<span id="15786">15786</span>
+<span id="15787">15787</span>
+<span id="15788">15788</span>
+<span id="15789">15789</span>
+<span id="15790">15790</span>
+<span id="15791">15791</span>
+<span id="15792">15792</span>
+<span id="15793">15793</span>
+<span id="15794">15794</span>
+<span id="15795">15795</span>
+<span id="15796">15796</span>
+<span id="15797">15797</span>
+<span id="15798">15798</span>
+<span id="15799">15799</span>
+<span id="15800">15800</span>
+<span id="15801">15801</span>
+<span id="15802">15802</span>
+<span id="15803">15803</span>
+<span id="15804">15804</span>
+<span id="15805">15805</span>
+<span id="15806">15806</span>
+<span id="15807">15807</span>
+<span id="15808">15808</span>
+<span id="15809">15809</span>
+<span id="15810">15810</span>
+<span id="15811">15811</span>
+<span id="15812">15812</span>
+<span id="15813">15813</span>
+<span id="15814">15814</span>
+<span id="15815">15815</span>
+<span id="15816">15816</span>
+<span id="15817">15817</span>
+<span id="15818">15818</span>
+<span id="15819">15819</span>
+<span id="15820">15820</span>
+<span id="15821">15821</span>
+<span id="15822">15822</span>
+<span id="15823">15823</span>
+<span id="15824">15824</span>
+<span id="15825">15825</span>
+<span id="15826">15826</span>
+<span id="15827">15827</span>
+<span id="15828">15828</span>
+<span id="15829">15829</span>
+<span id="15830">15830</span>
+<span id="15831">15831</span>
+<span id="15832">15832</span>
+<span id="15833">15833</span>
+<span id="15834">15834</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-aiplatform-v1-schema-predict-instance&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-aiplatform-v1-schema-predict-params&quot;</span>,
@@ -19261,31 +19333,75 @@
     <span class="doccomment">/// Output only. The resource name of the ModelEvaluation.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Points to a YAML file stored on Google Cloud Storage describing the</span>
+    <span class="doccomment">/// Points to a YAML file stored on Google Cloud Storage describing the</span>
     <span class="doccomment">/// \[metrics][google.cloud.aiplatform.v1.ModelEvaluation.metrics\] of this ModelEvaluation. The schema is</span>
     <span class="doccomment">/// defined as an OpenAPI 3.0.2 [Schema</span>
     <span class="doccomment">/// Object](&lt;https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#schemaObject&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">metrics_schema_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Evaluation metrics of the Model. The schema of the metrics is stored in</span>
+    <span class="doccomment">/// Evaluation metrics of the Model. The schema of the metrics is stored in</span>
     <span class="doccomment">/// \[metrics_schema_uri][google.cloud.aiplatform.v1.ModelEvaluation.metrics_schema_uri\]</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">metrics</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Output only. Timestamp when this ModelEvaluation was created.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. All possible \[dimensions][ModelEvaluationSlice.slice.dimension\] of</span>
+    <span class="doccomment">/// All possible \[dimensions][ModelEvaluationSlice.slice.dimension\] of</span>
     <span class="doccomment">/// ModelEvaluationSlices. The dimensions can be used as the filter of the</span>
     <span class="doccomment">/// \[ModelService.ListModelEvaluationSlices][google.cloud.aiplatform.v1.ModelService.ListModelEvaluationSlices\] request, in the form of</span>
     <span class="doccomment">/// `slice.dimension = &lt;dimension&gt;`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">slice_dimensions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Aggregated explanation metrics for the Model&#39;s prediction output over the</span>
+    <span class="doccomment">/// Points to a YAML file stored on Google Cloud Storage describing</span>
+    <span class="doccomment">/// \[EvaluatedDataItemView.data_item_payload][\] and</span>
+    <span class="doccomment">/// \[EvaluatedAnnotation.data_item_payload][\]. The schema is defined as an</span>
+    <span class="doccomment">/// OpenAPI 3.0.2 [Schema</span>
+    <span class="doccomment">/// Object](&lt;https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#schemaObject&gt;).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field is not populated if there are neither EvaluatedDataItemViews nor</span>
+    <span class="doccomment">/// EvaluatedAnnotations under this ModelEvaluation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_item_schema_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Points to a YAML file stored on Google Cloud Storage describing</span>
+    <span class="doccomment">/// \[EvaluatedDataItemView.predictions][\],</span>
+    <span class="doccomment">/// \[EvaluatedDataItemView.ground_truths][\],</span>
+    <span class="doccomment">/// \[EvaluatedAnnotation.predictions][\], and</span>
+    <span class="doccomment">/// \[EvaluatedAnnotation.ground_truths][\]. The schema is defined as an</span>
+    <span class="doccomment">/// OpenAPI 3.0.2 [Schema</span>
+    <span class="doccomment">/// Object](&lt;https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#schemaObject&gt;).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This field is not populated if there are neither EvaluatedDataItemViews nor</span>
+    <span class="doccomment">/// EvaluatedAnnotations under this ModelEvaluation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">annotation_schema_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Aggregated explanation metrics for the Model&#39;s prediction output over the</span>
     <span class="doccomment">/// data this ModelEvaluation uses. This field is populated only if the Model</span>
     <span class="doccomment">/// is evaluated with explanations, and only for AutoML tabular Models.</span>
     <span class="doccomment">///</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">model_explanation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ModelExplanation</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Describes the values of \[ExplanationSpec][google.cloud.aiplatform.v1.ExplanationSpec\] that are used for explaining</span>
+    <span class="doccomment">/// the predicted values on the evaluated data.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">explanation_specs</span>:
+        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">model_evaluation::ModelEvaluationExplanationSpec</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ModelEvaluation`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">model_evaluation</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModelEvaluationExplanationSpec</span> {
+        <span class="doccomment">/// Explanation type.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// For AutoML Image Classification models, possible values are:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///   * `image-integrated-gradients`</span>
+        <span class="doccomment">///   * `image-xrai`</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">explanation_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Explanation spec details.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">explanation_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ExplanationSpec</span><span class="op">&gt;</span>,
+    }
 }
 <span class="doccomment">/// A list of boolean values.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -27366,6 +27482,17 @@
 <span class="doccomment">/// Response message of \[ModelService.ExportModel][google.cloud.aiplatform.v1.ModelService.ExportModel\] operation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportModelResponse</span> {}
+<span class="doccomment">/// Request message for \[ModelService.ImportModelEvaluation][google.cloud.aiplatform.v1.ModelService.ImportModelEvaluation\]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportModelEvaluationRequest</span> {
+    <span class="doccomment">/// Required. The name of the parent model resource.</span>
+    <span class="doccomment">/// Format: `projects/{project}/locations/{location}/models/{model}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Model evaluation resource to be imported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">model_evaluation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ModelEvaluation</span><span class="op">&gt;</span>,
+}
 <span class="doccomment">/// Request message for \[ModelService.GetModelEvaluation][google.cloud.aiplatform.v1.ModelService.GetModelEvaluation\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetModelEvaluationRequest</span> {
@@ -27620,6 +27747,23 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.cloud.aiplatform.v1.ModelService/ExportModel&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Imports an externally generated ModelEvaluation.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">import_model_evaluation</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ImportModelEvaluationRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ModelEvaluation</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.aiplatform.v1.ModelService/ImportModelEvaluation&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
