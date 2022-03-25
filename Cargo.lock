@@ -266,7 +266,7 @@ dependencies = [
 
 [[package]]
 name = "google-api-proto"
-version = "1.23.0"
+version = "1.24.0"
 dependencies = [
  "prost",
  "prost-types",
