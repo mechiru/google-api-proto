@@ -306,6 +306,7 @@ pub mod networksecurity;
 pub mod networkservices;
 
 #[cfg(any(
+    feature = "google-cloud-notebooks-logging-v1",
     feature = "google-cloud-notebooks-v1",
     feature = "google-cloud-notebooks-v1beta1",
 ))]
