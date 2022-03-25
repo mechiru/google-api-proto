@@ -5473,6 +5473,16 @@
 <span id="5471">5471</span>
 <span id="5472">5472</span>
 <span id="5473">5473</span>
+<span id="5474">5474</span>
+<span id="5475">5475</span>
+<span id="5476">5476</span>
+<span id="5477">5477</span>
+<span id="5478">5478</span>
+<span id="5479">5479</span>
+<span id="5480">5480</span>
+<span id="5481">5481</span>
+<span id="5482">5482</span>
+<span id="5483">5483</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Type of information detected by the API.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InfoType</span> {
@@ -5540,7 +5550,7 @@
     <span class="doccomment">/// Plane](&lt;https://en.wikipedia.org/wiki/Plane_%28Unicode%29#Basic_Multilingual_Plane&gt;)</span>
     <span class="doccomment">/// will be replaced with whitespace when scanning for matches, so the</span>
     <span class="doccomment">/// dictionary phrase &quot;Sam Johnson&quot; will match all three phrases &quot;sam johnson&quot;,</span>
-    <span class="doccomment">/// Plane](&lt;https://en.wikipedia.org/wiki/Plane_%28Unicode%29#Basic_Multilingual_Plane&gt;)</span>
+    <span class="doccomment">/// &quot;Sam, Johnson&quot;, and &quot;Sam (Johnson)&quot;. Additionally, the characters</span>
     <span class="doccomment">/// surrounding any match must be of a different type than the adjacent</span>
     <span class="doccomment">/// characters within the word, so letters must be next to non-letters and</span>
     <span class="doccomment">/// digits next to non-digits. For example, the dictionary word &quot;jen&quot; will</span>
@@ -5553,7 +5563,7 @@
     <span class="doccomment">/// \[limits\](&lt;https://cloud.google.com/dlp/limits&gt;) page contains details about</span>
     <span class="doccomment">/// the size limits of dictionaries. For dictionaries that do not fit within</span>
     <span class="doccomment">/// these constraints, consider using `LargeCustomDictionaryConfig` in the</span>
-    <span class="doccomment">/// \[limits\](&lt;https://cloud.google.com/dlp/limits&gt;) page contains details about</span>
+    <span class="doccomment">/// `StoredInfoType` API.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Dictionary</span> {
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;dictionary::Source&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 3&quot;</span>)]</span>
@@ -5589,7 +5599,6 @@
         <span class="doccomment">/// google/re2 repository on GitHub.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">pattern</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// (&lt;https://github.com/google/re2/wiki/Syntax&gt;) can be found under the</span>
         <span class="doccomment">/// The index of the submatch to extract as findings. When not</span>
         <span class="doccomment">/// specified, the entire match is returned. No more than 3 may be included.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
@@ -5600,7 +5609,7 @@
     <span class="doccomment">/// \[`CryptoReplaceFfxFpeConfig`\](&lt;https://cloud.google.com/dlp/docs/reference/rest/v2/organizations.deidentifyTemplates#cryptoreplaceffxfpeconfig&gt;).</span>
     <span class="doccomment">/// These types of transformations are</span>
     <span class="doccomment">/// those that perform pseudonymization, thereby producing a &quot;surrogate&quot; as</span>
-    <span class="doccomment">/// \[`CryptoReplaceFfxFpeConfig`\](&lt;https://cloud.google.com/dlp/docs/reference/rest/v2/organizations.deidentifyTemplates#cryptoreplaceffxfpeconfig&gt;).</span>
+    <span class="doccomment">/// output. This should be used in conjunction with a field on the</span>
     <span class="doccomment">/// transformation such as `surrogate_info_type`. This CustomInfoType does</span>
     <span class="doccomment">/// not support the use of `detection_rules`.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -5796,7 +5805,6 @@
     <span class="doccomment">/// under the google/re2 repository on GitHub.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">include_regex</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// \[syntax\](&lt;https://github.com/google/re2/wiki/Syntax&gt;); a guide can be found</span>
     <span class="doccomment">/// A list of regular expressions matching file paths to exclude. All files in</span>
     <span class="doccomment">/// the bucket that match at least one of these regular expressions will be</span>
     <span class="doccomment">/// excluded from the scan.</span>
@@ -5804,8 +5812,6 @@
     <span class="doccomment">/// Regular expressions use RE2</span>
     <span class="doccomment">/// \[syntax\](&lt;https://github.com/google/re2/wiki/Syntax&gt;); a guide can be found</span>
     <span class="doccomment">/// under the google/re2 repository on GitHub.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// \[syntax\](&lt;https://github.com/google/re2/wiki/Syntax&gt;); a guide can be found</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">exclude_regex</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
@@ -6265,6 +6271,14 @@
     <span class="doccomment">/// Included file extensions:</span>
     <span class="doccomment">///   tsv</span>
     <span class="ident">Tsv</span> <span class="op">=</span> <span class="number">9</span>,
+    <span class="doccomment">/// Powerpoint files &gt;30 MB will be scanned as binary files.</span>
+    <span class="doccomment">/// Included file extensions:</span>
+    <span class="doccomment">///   pptx, pptm, potx, potm, pot</span>
+    <span class="ident">Powerpoint</span> <span class="op">=</span> <span class="number">11</span>,
+    <span class="doccomment">/// Excel files &gt;30 MB will be scanned as binary files.</span>
+    <span class="doccomment">/// Included file extensions:</span>
+    <span class="doccomment">///   xlsx, xlsm, xltx, xltm</span>
+    <span class="ident">Excel</span> <span class="op">=</span> <span class="number">12</span>,
 }
 <span class="doccomment">/// List of exclude infoTypes.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -6363,21 +6377,23 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Likelihood&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">min_likelihood</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Configuration to control the number of findings returned.</span>
+    <span class="doccomment">/// This is not used for data profiling.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">limits</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">inspect_config::FindingLimits</span><span class="op">&gt;</span>,
     <span class="doccomment">/// When true, a contextual quote from the data that triggered a finding is</span>
     <span class="doccomment">/// included in the response; see Finding.quote.</span>
+    <span class="doccomment">/// This is not used for data profiling.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">include_quote</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// When true, excludes type information of the findings.</span>
+    <span class="doccomment">/// This is not used for data profiling.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">exclude_info_types</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// CustomInfoTypes provided by the user. See</span>
     <span class="doccomment">/// &lt;https://cloud.google.com/dlp/docs/creating-custom-infotypes&gt; to learn more.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">custom_info_types</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">CustomInfoType</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of options defining data content to scan.</span>
-    <span class="doccomment">/// If empty, text, images, and other content will be included.</span>
+    <span class="doccomment">/// Deprecated and unused.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ContentOption&quot;</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">content_options</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Set of rules to apply to the findings for this InspectConfig.</span>
@@ -6388,8 +6404,8 @@
 }
 <span class="doccomment">/// Nested message and enum types in `InspectConfig`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">inspect_config</span> {
-    <span class="doccomment">/// Configuration to control the number of findings returned. Cannot be set if</span>
-    <span class="doccomment">/// de-identification is requested.</span>
+    <span class="doccomment">/// Configuration to control the number of findings returned for inspection.</span>
+    <span class="doccomment">/// This is not used for de-identification or data profiling.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FindingLimits</span> {
         <span class="doccomment">/// Max number of findings that will be returned for each item scanned.</span>
@@ -6461,6 +6477,10 @@
         <span class="ident">WordDocument</span> <span class="op">=</span> <span class="number">7</span>,
         <span class="doccomment">/// pdf</span>
         <span class="ident">Pdf</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// pptx, pptm, potx, potm, pot</span>
+        <span class="ident">PowerpointDocument</span> <span class="op">=</span> <span class="number">9</span>,
+        <span class="doccomment">/// xlsx, xlsm, xltx, xltm</span>
+        <span class="ident">ExcelDocument</span> <span class="op">=</span> <span class="number">10</span>,
         <span class="doccomment">/// avro</span>
         <span class="ident">Avro</span> <span class="op">=</span> <span class="number">11</span>,
         <span class="doccomment">/// csv</span>
@@ -10163,7 +10183,7 @@
     <span class="doccomment">/// - Exclude info type: no intersection with affecting info types findings</span>
     <span class="ident">InverseMatch</span> <span class="op">=</span> <span class="number">3</span>,
 }
-<span class="doccomment">/// Options describing which parts of the provided content should be scanned.</span>
+<span class="doccomment">/// Deprecated and unused.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContentOption</span> {
