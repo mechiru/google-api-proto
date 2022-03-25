@@ -65,7 +65,7 @@ pub mod custom_info_type {
     /// Plane](<https://en.wikipedia.org/wiki/Plane_%28Unicode%29#Basic_Multilingual_Plane>)
     /// will be replaced with whitespace when scanning for matches, so the
     /// dictionary phrase "Sam Johnson" will match all three phrases "sam johnson",
-    /// Plane](<https://en.wikipedia.org/wiki/Plane_%28Unicode%29#Basic_Multilingual_Plane>)
+    /// "Sam, Johnson", and "Sam (Johnson)". Additionally, the characters
     /// surrounding any match must be of a different type than the adjacent
     /// characters within the word, so letters must be next to non-letters and
     /// digits next to non-digits. For example, the dictionary word "jen" will
@@ -78,7 +78,7 @@ pub mod custom_info_type {
     /// \[limits\](<https://cloud.google.com/dlp/limits>) page contains details about
     /// the size limits of dictionaries. For dictionaries that do not fit within
     /// these constraints, consider using `LargeCustomDictionaryConfig` in the
-    /// \[limits\](<https://cloud.google.com/dlp/limits>) page contains details about
+    /// `StoredInfoType` API.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Dictionary {
         #[prost(oneof = "dictionary::Source", tags = "1, 3")]
@@ -114,7 +114,6 @@ pub mod custom_info_type {
         /// google/re2 repository on GitHub.
         #[prost(string, tag = "1")]
         pub pattern: ::prost::alloc::string::String,
-        /// (<https://github.com/google/re2/wiki/Syntax>) can be found under the
         /// The index of the submatch to extract as findings. When not
         /// specified, the entire match is returned. No more than 3 may be included.
         #[prost(int32, repeated, tag = "2")]
@@ -125,7 +124,7 @@ pub mod custom_info_type {
     /// \[`CryptoReplaceFfxFpeConfig`\](<https://cloud.google.com/dlp/docs/reference/rest/v2/organizations.deidentifyTemplates#cryptoreplaceffxfpeconfig>).
     /// These types of transformations are
     /// those that perform pseudonymization, thereby producing a "surrogate" as
-    /// \[`CryptoReplaceFfxFpeConfig`\](<https://cloud.google.com/dlp/docs/reference/rest/v2/organizations.deidentifyTemplates#cryptoreplaceffxfpeconfig>).
+    /// output. This should be used in conjunction with a field on the
     /// transformation such as `surrogate_info_type`. This CustomInfoType does
     /// not support the use of `detection_rules`.
     #[derive(Clone, PartialEq, ::prost::Message)]
@@ -321,7 +320,6 @@ pub struct CloudStorageRegexFileSet {
     /// under the google/re2 repository on GitHub.
     #[prost(string, repeated, tag = "2")]
     pub include_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// \[syntax\](<https://github.com/google/re2/wiki/Syntax>); a guide can be found
     /// A list of regular expressions matching file paths to exclude. All files in
     /// the bucket that match at least one of these regular expressions will be
     /// excluded from the scan.
@@ -329,8 +327,6 @@ pub struct CloudStorageRegexFileSet {
     /// Regular expressions use RE2
     /// \[syntax\](<https://github.com/google/re2/wiki/Syntax>); a guide can be found
     /// under the google/re2 repository on GitHub.
-    ///
-    /// \[syntax\](<https://github.com/google/re2/wiki/Syntax>); a guide can be found
     #[prost(string, repeated, tag = "3")]
     pub exclude_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
@@ -790,6 +786,14 @@ pub enum FileType {
     /// Included file extensions:
     ///   tsv
     Tsv = 9,
+    /// Powerpoint files >30 MB will be scanned as binary files.
+    /// Included file extensions:
+    ///   pptx, pptm, potx, potm, pot
+    Powerpoint = 11,
+    /// Excel files >30 MB will be scanned as binary files.
+    /// Included file extensions:
+    ///   xlsx, xlsm, xltx, xltm
+    Excel = 12,
 }
 /// List of exclude infoTypes.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -888,21 +892,23 @@ pub struct InspectConfig {
     #[prost(enumeration = "Likelihood", tag = "2")]
     pub min_likelihood: i32,
     /// Configuration to control the number of findings returned.
+    /// This is not used for data profiling.
     #[prost(message, optional, tag = "3")]
     pub limits: ::core::option::Option<inspect_config::FindingLimits>,
     /// When true, a contextual quote from the data that triggered a finding is
     /// included in the response; see Finding.quote.
+    /// This is not used for data profiling.
     #[prost(bool, tag = "4")]
     pub include_quote: bool,
     /// When true, excludes type information of the findings.
+    /// This is not used for data profiling.
     #[prost(bool, tag = "5")]
     pub exclude_info_types: bool,
     /// CustomInfoTypes provided by the user. See
     /// <https://cloud.google.com/dlp/docs/creating-custom-infotypes> to learn more.
     #[prost(message, repeated, tag = "6")]
     pub custom_info_types: ::prost::alloc::vec::Vec<CustomInfoType>,
-    /// List of options defining data content to scan.
-    /// If empty, text, images, and other content will be included.
+    /// Deprecated and unused.
     #[prost(enumeration = "ContentOption", repeated, tag = "8")]
     pub content_options: ::prost::alloc::vec::Vec<i32>,
     /// Set of rules to apply to the findings for this InspectConfig.
@@ -913,8 +919,8 @@ pub struct InspectConfig {
 }
 /// Nested message and enum types in `InspectConfig`.
 pub mod inspect_config {
-    /// Configuration to control the number of findings returned. Cannot be set if
-    /// de-identification is requested.
+    /// Configuration to control the number of findings returned for inspection.
+    /// This is not used for de-identification or data profiling.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct FindingLimits {
         /// Max number of findings that will be returned for each item scanned.
@@ -986,6 +992,10 @@ pub mod byte_content_item {
         WordDocument = 7,
         /// pdf
         Pdf = 8,
+        /// pptx, pptm, potx, potm, pot
+        PowerpointDocument = 9,
+        /// xlsx, xlsm, xltx, xltm
+        ExcelDocument = 10,
         /// avro
         Avro = 11,
         /// csv
@@ -4688,7 +4698,7 @@ pub enum MatchingType {
     /// - Exclude info type: no intersection with affecting info types findings
     InverseMatch = 3,
 }
-/// Options describing which parts of the provided content should be scanned.
+/// Deprecated and unused.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum ContentOption {
