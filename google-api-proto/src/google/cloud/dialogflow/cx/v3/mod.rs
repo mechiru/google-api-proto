@@ -7161,6 +7161,10 @@ pub struct Agent {
     /// requests.
     #[prost(bool, tag = "20")]
     pub enable_spell_correction: bool,
+    /// Indiciates whether the agent is locked for changes. If the agent is locked,
+    /// modifications to the agent will be rejected except for \[RestoreAgent][\].
+    #[prost(bool, tag = "27")]
+    pub locked: bool,
     /// Hierarchical advanced settings for this agent. The settings exposed at the
     /// lower level overrides the settings exposed at the higher level.
     #[prost(message, optional, tag = "22")]
@@ -7250,11 +7254,26 @@ pub struct ExportAgentRequest {
     /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
     #[prost(string, tag = "2")]
     pub agent_uri: ::prost::alloc::string::String,
+    /// Optional. The data format of the exported agent. If not specified, `BLOB` is assumed.
+    #[prost(enumeration = "export_agent_request::DataFormat", tag = "3")]
+    pub data_format: i32,
     /// Optional. Environment name. If not set, draft environment is assumed.
     /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
     /// ID>/environments/<Environment ID>`.
     #[prost(string, tag = "5")]
     pub environment: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ExportAgentRequest`.
+pub mod export_agent_request {
+    /// Data format of the exported agent.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DataFormat {
+        /// Unspecified format.
+        Unspecified = 0,
+        /// Agent content will be exported as raw bytes.
+        Blob = 1,
+    }
 }
 /// The response message for \[Agents.ExportAgent][google.cloud.dialogflow.cx.v3.Agents.ExportAgent\].
 #[derive(Clone, PartialEq, ::prost::Message)]

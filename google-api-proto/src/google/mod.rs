@@ -126,6 +126,8 @@ pub mod chromeos;
     feature = "google-cloud-batch-v1alpha1",
     feature = "google-cloud-bigquery-connection-v1",
     feature = "google-cloud-bigquery-connection-v1beta1",
+    feature = "google-cloud-bigquery-dataexchange-common",
+    feature = "google-cloud-bigquery-dataexchange-v1beta1",
     feature = "google-cloud-bigquery-datatransfer-v1",
     feature = "google-cloud-bigquery-logging-v1",
     feature = "google-cloud-bigquery-migration-v2alpha",
