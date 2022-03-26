@@ -30,11 +30,23 @@
 <span id="28">28</span>
 <span id="29">29</span>
 <span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-bigquery-connection-v1&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-bigquery-connection-v1beta1&quot;</span>,
 ))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">connection</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-bigquery-dataexchange-common&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-bigquery-dataexchange-v1beta1&quot;</span>,
+))]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dataexchange</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-cloud-bigquery-datatransfer-v1&quot;</span>,))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">datatransfer</span>;

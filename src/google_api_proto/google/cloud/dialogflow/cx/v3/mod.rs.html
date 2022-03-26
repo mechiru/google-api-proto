@@ -8720,6 +8720,25 @@
 <span id="8718">8718</span>
 <span id="8719">8719</span>
 <span id="8720">8720</span>
+<span id="8721">8721</span>
+<span id="8722">8722</span>
+<span id="8723">8723</span>
+<span id="8724">8724</span>
+<span id="8725">8725</span>
+<span id="8726">8726</span>
+<span id="8727">8727</span>
+<span id="8728">8728</span>
+<span id="8729">8729</span>
+<span id="8730">8730</span>
+<span id="8731">8731</span>
+<span id="8732">8732</span>
+<span id="8733">8733</span>
+<span id="8734">8734</span>
+<span id="8735">8735</span>
+<span id="8736">8736</span>
+<span id="8737">8737</span>
+<span id="8738">8738</span>
+<span id="8739">8739</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Represents a response message that can be returned by a conversational agent.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Response messages are also used for output audio synthesis. The approach is</span>
@@ -15883,6 +15902,10 @@
     <span class="doccomment">/// requests.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">enable_spell_correction</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Indiciates whether the agent is locked for changes. If the agent is locked,</span>
+    <span class="doccomment">/// modifications to the agent will be rejected except for \[RestoreAgent][\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;27&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">locked</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Hierarchical advanced settings for this agent. The settings exposed at the</span>
     <span class="doccomment">/// lower level overrides the settings exposed at the higher level.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
@@ -15972,11 +15995,26 @@
     <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">agent_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The data format of the exported agent. If not specified, `BLOB` is assumed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;export_agent_request::DataFormat&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_format</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Optional. Environment name. If not set, draft environment is assumed.</span>
     <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;/agents/&lt;Agent</span>
     <span class="doccomment">/// ID&gt;/environments/&lt;Environment ID&gt;`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">environment</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExportAgentRequest`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_agent_request</span> {
+    <span class="doccomment">/// Data format of the exported agent.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DataFormat</span> {
+        <span class="doccomment">/// Unspecified format.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Agent content will be exported as raw bytes.</span>
+        <span class="ident">Blob</span> <span class="op">=</span> <span class="number">1</span>,
+    }
 }
 <span class="doccomment">/// The response message for \[Agents.ExportAgent][google.cloud.dialogflow.cx.v3.Agents.ExportAgent\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
