@@ -4290,6 +4290,19 @@
 <span id="4288">4288</span>
 <span id="4289">4289</span>
 <span id="4290">4290</span>
+<span id="4291">4291</span>
+<span id="4292">4292</span>
+<span id="4293">4293</span>
+<span id="4294">4294</span>
+<span id="4295">4295</span>
+<span id="4296">4296</span>
+<span id="4297">4297</span>
+<span id="4298">4298</span>
+<span id="4299">4299</span>
+<span id="4300">4300</span>
+<span id="4301">4301</span>
+<span id="4302">4302</span>
+<span id="4303">4303</span>
 </pre><pre class="rust"><code><span class="doccomment">/// An entry for an Access Control list.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AclEntry</span> {
@@ -4728,7 +4741,6 @@
     <span class="doccomment">/// from for a regional instance. This value could be different</span>
     <span class="doccomment">/// from the zone that was specified when the instance</span>
     <span class="doccomment">/// was created if the instance has failed over to its secondary/failover zone.</span>
-    <span class="doccomment">/// Reserved for future use.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;34&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">secondary_gce_zone</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Disk encryption configuration specific to an instance.</span>
@@ -5366,6 +5378,8 @@
         <span class="ident">UnsupportedBinlogFormat</span> <span class="op">=</span> <span class="number">24</span>,
         <span class="doccomment">/// The primary instance&#39;s binary log retention setting.</span>
         <span class="ident">BinlogRetentionSetting</span> <span class="op">=</span> <span class="number">25</span>,
+        <span class="doccomment">/// The primary instance has tables with unsupported storage engine.</span>
+        <span class="ident">UnsupportedStorageEngine</span> <span class="op">=</span> <span class="number">26</span>,
     }
 }
 <span class="doccomment">/// IP Management configuration.</span>
@@ -5433,7 +5447,6 @@
     <span class="kw">pub</span> <span class="ident">zone</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The preferred Compute Engine zone for the secondary/failover</span>
     <span class="doccomment">/// (for example: us-central1-a, us-central1-b, etc.).</span>
-    <span class="doccomment">/// Reserved for future use.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">secondary_zone</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// This is always `sql#locationPreference`.</span>
@@ -5809,6 +5822,9 @@
     <span class="doccomment">/// supported for PostgresSQL.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">password_change_interval</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether the password policy is enabled or not.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">enable_password_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `PasswordValidationPolicy`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">password_validation_policy</span> {
@@ -6182,6 +6198,12 @@
     <span class="doccomment">/// The name of the destination bucket (e.g., gs://mybucket).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// How long to keep generated audit files.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">retention_interval</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// How often to upload generated audit files.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">upload_interval</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
@@ -6325,6 +6347,10 @@
     <span class="ident">Mysql8018</span> <span class="op">=</span> <span class="number">41</span>,
     <span class="doccomment">/// The database major version is MySQL 8.0 and the minor version is 26.</span>
     <span class="ident">Mysql8026</span> <span class="op">=</span> <span class="number">85</span>,
+    <span class="doccomment">/// The database major version is MySQL 8.0 and the minor version is 27.</span>
+    <span class="ident">Mysql8027</span> <span class="op">=</span> <span class="number">111</span>,
+    <span class="doccomment">/// The database major version is MySQL 8.0 and the minor version is 28.</span>
+    <span class="ident">Mysql8028</span> <span class="op">=</span> <span class="number">132</span>,
     <span class="doccomment">/// The database version is PostgreSQL 13.</span>
     <span class="ident">Postgres13</span> <span class="op">=</span> <span class="number">23</span>,
     <span class="doccomment">/// The database version is PostgreSQL 14.</span>
@@ -6457,23 +6483,6 @@
     <span class="kw">pub</span> <span class="ident">project</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SqlUsersUpdateRequest</span> {
-    <span class="doccomment">/// Optional. Host of the user in the instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">host</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Database instance ID. This does not include the project ID.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Name of the user in the instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Project ID of the project that contains the instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">project</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;100&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SqlUsersInsertRequest</span> {
     <span class="doccomment">/// Database instance ID. This does not include the project ID.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
@@ -6492,6 +6501,23 @@
     <span class="doccomment">/// Project ID of the project that contains the instance.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">project</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SqlUsersUpdateRequest</span> {
+    <span class="doccomment">/// Optional. Host of the user in the instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">host</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Database instance ID. This does not include the project ID.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Name of the user in the instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Project ID of the project that contains the instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;100&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// User level password validation policy.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
