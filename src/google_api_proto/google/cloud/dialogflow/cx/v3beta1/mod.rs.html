@@ -8687,6 +8687,26 @@
 <span id="8685">8685</span>
 <span id="8686">8686</span>
 <span id="8687">8687</span>
+<span id="8688">8688</span>
+<span id="8689">8689</span>
+<span id="8690">8690</span>
+<span id="8691">8691</span>
+<span id="8692">8692</span>
+<span id="8693">8693</span>
+<span id="8694">8694</span>
+<span id="8695">8695</span>
+<span id="8696">8696</span>
+<span id="8697">8697</span>
+<span id="8698">8698</span>
+<span id="8699">8699</span>
+<span id="8700">8700</span>
+<span id="8701">8701</span>
+<span id="8702">8702</span>
+<span id="8703">8703</span>
+<span id="8704">8704</span>
+<span id="8705">8705</span>
+<span id="8706">8706</span>
+<span id="8707">8707</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Represents a response message that can be returned by a conversational agent.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Response messages are also used for output audio synthesis. The approach is</span>
@@ -11848,26 +11868,27 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Multiple request messages should be sent in order:</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// 1. The first message must contain</span>
-<span class="doccomment">/// \[session][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.session\],</span>
-<span class="doccomment">/// \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] plus optionally</span>
-<span class="doccomment">/// \[query_params][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_params\]. If the client</span>
-<span class="doccomment">/// wants to receive an audio response, it should also contain</span>
-<span class="doccomment">/// \[output_audio_config][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.output_audio_config\].</span>
+<span class="doccomment">/// 1.  The first message must contain</span>
+<span class="doccomment">///     \[session][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.session\],</span>
+<span class="doccomment">///     \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] plus optionally</span>
+<span class="doccomment">///     \[query_params][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_params\]. If the client</span>
+<span class="doccomment">///     wants to receive an audio response, it should also contain</span>
+<span class="doccomment">///     \[output_audio_config][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.output_audio_config\].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// 2.  If \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] was set to</span>
-<span class="doccomment">/// \[query_input.audio.config][google.cloud.dialogflow.cx.v3beta1.AudioInput.config\], all subsequent messages</span>
-<span class="doccomment">/// must contain \[query_input.audio.audio][google.cloud.dialogflow.cx.v3beta1.AudioInput.audio\] to continue with</span>
-<span class="doccomment">/// Speech recognition.</span>
-<span class="doccomment">/// If you decide to rather detect an intent from text</span>
-<span class="doccomment">/// input after you already started Speech recognition, please send a message</span>
-<span class="doccomment">/// with \[query_input.text][google.cloud.dialogflow.cx.v3beta1.QueryInput.text\].</span>
+<span class="doccomment">///     \[query_input.audio.config][google.cloud.dialogflow.cx.v3beta1.AudioInput.config\], all subsequent messages</span>
+<span class="doccomment">///     must contain \[query_input.audio.audio][google.cloud.dialogflow.cx.v3beta1.AudioInput.audio\] to continue with</span>
+<span class="doccomment">///     Speech recognition.</span>
+<span class="doccomment">///     If you decide to rather detect an intent from text</span>
+<span class="doccomment">///     input after you already started Speech recognition, please send a message</span>
+<span class="doccomment">///     with \[query_input.text][google.cloud.dialogflow.cx.v3beta1.QueryInput.text\].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// However, note that:</span>
-<span class="doccomment">/// * Dialogflow will bill you for the audio duration so far.</span>
-<span class="doccomment">/// * Dialogflow discards all Speech recognition results in favor of the input</span>
-<span class="doccomment">/// text.</span>
-<span class="doccomment">/// * Dialogflow will use the language code from the first message.</span>
+<span class="doccomment">///     However, note that:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     * Dialogflow will bill you for the audio duration so far.</span>
+<span class="doccomment">///     * Dialogflow discards all Speech recognition results in favor of the</span>
+<span class="doccomment">///       input text.</span>
+<span class="doccomment">///     * Dialogflow will use the language code from the first message.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// After you sent all input, you must half-close or abort the request stream.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -15823,6 +15844,10 @@
     <span class="doccomment">/// requests.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">enable_spell_correction</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Indiciates whether the agent is locked for changes. If the agent is locked,</span>
+    <span class="doccomment">/// modifications to the agent will be rejected except for \[RestoreAgent][\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;27&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">locked</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Hierarchical advanced settings for this agent. The settings exposed at the</span>
     <span class="doccomment">/// lower level overrides the settings exposed at the higher level.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
@@ -15912,11 +15937,26 @@
     <span class="doccomment">/// control](&lt;https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">agent_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The data format of the exported agent. If not specified, `BLOB` is assumed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;export_agent_request::DataFormat&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_format</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// Optional. Environment name. If not set, draft environment is assumed.</span>
     <span class="doccomment">/// Format: `projects/&lt;Project ID&gt;/locations/&lt;Location ID&gt;/agents/&lt;Agent</span>
     <span class="doccomment">/// ID&gt;/environments/&lt;Environment ID&gt;`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">environment</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExportAgentRequest`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_agent_request</span> {
+    <span class="doccomment">/// Data format of the exported agent.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DataFormat</span> {
+        <span class="doccomment">/// Unspecified format.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Agent content will be exported as raw bytes.</span>
+        <span class="ident">Blob</span> <span class="op">=</span> <span class="number">1</span>,
+    }
 }
 <span class="doccomment">/// The response message for \[Agents.ExportAgent][google.cloud.dialogflow.cx.v3beta1.Agents.ExportAgent\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
