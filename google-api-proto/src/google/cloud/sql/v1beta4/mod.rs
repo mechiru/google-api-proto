@@ -436,7 +436,6 @@ pub struct DatabaseInstance {
     /// from for a regional instance. This value could be different
     /// from the zone that was specified when the instance
     /// was created if the instance has failed over to its secondary/failover zone.
-    /// Reserved for future use.
     #[prost(string, tag = "34")]
     pub secondary_gce_zone: ::prost::alloc::string::String,
     /// Disk encryption configuration specific to an instance.
@@ -1074,6 +1073,8 @@ pub mod sql_external_sync_setting_error {
         UnsupportedBinlogFormat = 24,
         /// The primary instance's binary log retention setting.
         BinlogRetentionSetting = 25,
+        /// The primary instance has tables with unsupported storage engine.
+        UnsupportedStorageEngine = 26,
     }
 }
 /// IP Management configuration.
@@ -1141,7 +1142,6 @@ pub struct LocationPreference {
     pub zone: ::prost::alloc::string::String,
     /// The preferred Compute Engine zone for the secondary/failover
     /// (for example: us-central1-a, us-central1-b, etc.).
-    /// Reserved for future use.
     #[prost(string, tag = "4")]
     pub secondary_zone: ::prost::alloc::string::String,
     /// This is always `sql#locationPreference`.
@@ -1517,6 +1517,9 @@ pub struct PasswordValidationPolicy {
     /// supported for PostgresSQL.
     #[prost(message, optional, tag = "5")]
     pub password_change_interval: ::core::option::Option<::prost_types::Duration>,
+    /// Whether the password policy is enabled or not.
+    #[prost(message, optional, tag = "6")]
+    pub enable_password_policy: ::core::option::Option<bool>,
 }
 /// Nested message and enum types in `PasswordValidationPolicy`.
 pub mod password_validation_policy {
@@ -1890,6 +1893,12 @@ pub struct SqlServerAuditConfig {
     /// The name of the destination bucket (e.g., gs://mybucket).
     #[prost(string, tag = "2")]
     pub bucket: ::prost::alloc::string::String,
+    /// How long to keep generated audit files.
+    #[prost(message, optional, tag = "3")]
+    pub retention_interval: ::core::option::Option<::prost_types::Duration>,
+    /// How often to upload generated audit files.
+    #[prost(message, optional, tag = "4")]
+    pub upload_interval: ::core::option::Option<::prost_types::Duration>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -2033,6 +2042,10 @@ pub enum SqlDatabaseVersion {
     Mysql8018 = 41,
     /// The database major version is MySQL 8.0 and the minor version is 26.
     Mysql8026 = 85,
+    /// The database major version is MySQL 8.0 and the minor version is 27.
+    Mysql8027 = 111,
+    /// The database major version is MySQL 8.0 and the minor version is 28.
+    Mysql8028 = 132,
     /// The database version is PostgreSQL 13.
     Postgres13 = 23,
     /// The database version is PostgreSQL 14.
@@ -2165,23 +2178,6 @@ pub struct SqlUsersDeleteRequest {
     pub project: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SqlUsersUpdateRequest {
-    /// Optional. Host of the user in the instance.
-    #[prost(string, tag = "1")]
-    pub host: ::prost::alloc::string::String,
-    /// Database instance ID. This does not include the project ID.
-    #[prost(string, tag = "2")]
-    pub instance: ::prost::alloc::string::String,
-    /// Name of the user in the instance.
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-    /// Project ID of the project that contains the instance.
-    #[prost(string, tag = "4")]
-    pub project: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "100")]
-    pub body: ::core::option::Option<User>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SqlUsersInsertRequest {
     /// Database instance ID. This does not include the project ID.
     #[prost(string, tag = "1")]
@@ -2200,6 +2196,23 @@ pub struct SqlUsersListRequest {
     /// Project ID of the project that contains the instance.
     #[prost(string, tag = "2")]
     pub project: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SqlUsersUpdateRequest {
+    /// Optional. Host of the user in the instance.
+    #[prost(string, tag = "1")]
+    pub host: ::prost::alloc::string::String,
+    /// Database instance ID. This does not include the project ID.
+    #[prost(string, tag = "2")]
+    pub instance: ::prost::alloc::string::String,
+    /// Name of the user in the instance.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    /// Project ID of the project that contains the instance.
+    #[prost(string, tag = "4")]
+    pub project: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "100")]
+    pub body: ::core::option::Option<User>,
 }
 /// User level password validation policy.
 #[derive(Clone, PartialEq, ::prost::Message)]
