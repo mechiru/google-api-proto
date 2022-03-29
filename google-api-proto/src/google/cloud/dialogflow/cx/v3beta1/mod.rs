@@ -3159,26 +3159,27 @@ pub mod detect_intent_response {
 ///
 /// Multiple request messages should be sent in order:
 ///
-/// 1. The first message must contain
-/// \[session][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.session\],
-/// \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] plus optionally
-/// \[query_params][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_params\]. If the client
-/// wants to receive an audio response, it should also contain
-/// \[output_audio_config][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.output_audio_config\].
+/// 1.  The first message must contain
+///     \[session][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.session\],
+///     \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] plus optionally
+///     \[query_params][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_params\]. If the client
+///     wants to receive an audio response, it should also contain
+///     \[output_audio_config][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.output_audio_config\].
 ///
 /// 2.  If \[query_input][google.cloud.dialogflow.cx.v3beta1.StreamingDetectIntentRequest.query_input\] was set to
-/// \[query_input.audio.config][google.cloud.dialogflow.cx.v3beta1.AudioInput.config\], all subsequent messages
-/// must contain \[query_input.audio.audio][google.cloud.dialogflow.cx.v3beta1.AudioInput.audio\] to continue with
-/// Speech recognition.
-/// If you decide to rather detect an intent from text
-/// input after you already started Speech recognition, please send a message
-/// with \[query_input.text][google.cloud.dialogflow.cx.v3beta1.QueryInput.text\].
+///     \[query_input.audio.config][google.cloud.dialogflow.cx.v3beta1.AudioInput.config\], all subsequent messages
+///     must contain \[query_input.audio.audio][google.cloud.dialogflow.cx.v3beta1.AudioInput.audio\] to continue with
+///     Speech recognition.
+///     If you decide to rather detect an intent from text
+///     input after you already started Speech recognition, please send a message
+///     with \[query_input.text][google.cloud.dialogflow.cx.v3beta1.QueryInput.text\].
 ///
-/// However, note that:
-/// * Dialogflow will bill you for the audio duration so far.
-/// * Dialogflow discards all Speech recognition results in favor of the input
-/// text.
-/// * Dialogflow will use the language code from the first message.
+///     However, note that:
+///
+///     * Dialogflow will bill you for the audio duration so far.
+///     * Dialogflow discards all Speech recognition results in favor of the
+///       input text.
+///     * Dialogflow will use the language code from the first message.
 ///
 /// After you sent all input, you must half-close or abort the request stream.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -7134,6 +7135,10 @@ pub struct Agent {
     /// requests.
     #[prost(bool, tag = "20")]
     pub enable_spell_correction: bool,
+    /// Indiciates whether the agent is locked for changes. If the agent is locked,
+    /// modifications to the agent will be rejected except for \[RestoreAgent][\].
+    #[prost(bool, tag = "27")]
+    pub locked: bool,
     /// Hierarchical advanced settings for this agent. The settings exposed at the
     /// lower level overrides the settings exposed at the higher level.
     #[prost(message, optional, tag = "22")]
@@ -7223,11 +7228,26 @@ pub struct ExportAgentRequest {
     /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
     #[prost(string, tag = "2")]
     pub agent_uri: ::prost::alloc::string::String,
+    /// Optional. The data format of the exported agent. If not specified, `BLOB` is assumed.
+    #[prost(enumeration = "export_agent_request::DataFormat", tag = "3")]
+    pub data_format: i32,
     /// Optional. Environment name. If not set, draft environment is assumed.
     /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
     /// ID>/environments/<Environment ID>`.
     #[prost(string, tag = "5")]
     pub environment: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ExportAgentRequest`.
+pub mod export_agent_request {
+    /// Data format of the exported agent.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DataFormat {
+        /// Unspecified format.
+        Unspecified = 0,
+        /// Agent content will be exported as raw bytes.
+        Blob = 1,
+    }
 }
 /// The response message for \[Agents.ExportAgent][google.cloud.dialogflow.cx.v3beta1.Agents.ExportAgent\].
 #[derive(Clone, PartialEq, ::prost::Message)]
