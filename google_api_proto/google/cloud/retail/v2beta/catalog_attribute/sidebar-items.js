@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["AttributeType","The type of an attribute."],["DynamicFacetableOption","The status of the dynamic facetable option of a catalog attribute."],["IndexableOption","The status of the indexable option of a catalog attribute."],["SearchableOption","The status of the searchable option of a catalog attribute."]]});
