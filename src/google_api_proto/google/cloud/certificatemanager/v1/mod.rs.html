@@ -1206,6 +1206,8 @@
 <span id="1204">1204</span>
 <span id="1205">1205</span>
 <span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Request for the `ListCertificates` method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListCertificatesRequest</span> {
@@ -1586,7 +1588,9 @@
         <span class="ident">::prost::alloc::string::String</span>,
     <span class="op">&gt;</span>,
     <span class="doccomment">/// Output only. The list of Subject Alternative Names of dnsName type defined in the</span>
-    <span class="doccomment">/// certificate (see RFC 5280 4.2.1.6)</span>
+    <span class="doccomment">/// certificate (see RFC 5280 4.2.1.6).</span>
+    <span class="doccomment">/// Managed certificates that haven&#39;t been provisioned yet have this field</span>
+    <span class="doccomment">/// populated with a value of the managed.domains field.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">san_dnsnames</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Output only. The PEM-encoded certificate chain.</span>
