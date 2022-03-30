@@ -3666,6 +3666,53 @@
 <span id="3664">3664</span>
 <span id="3665">3665</span>
 <span id="3666">3666</span>
+<span id="3667">3667</span>
+<span id="3668">3668</span>
+<span id="3669">3669</span>
+<span id="3670">3670</span>
+<span id="3671">3671</span>
+<span id="3672">3672</span>
+<span id="3673">3673</span>
+<span id="3674">3674</span>
+<span id="3675">3675</span>
+<span id="3676">3676</span>
+<span id="3677">3677</span>
+<span id="3678">3678</span>
+<span id="3679">3679</span>
+<span id="3680">3680</span>
+<span id="3681">3681</span>
+<span id="3682">3682</span>
+<span id="3683">3683</span>
+<span id="3684">3684</span>
+<span id="3685">3685</span>
+<span id="3686">3686</span>
+<span id="3687">3687</span>
+<span id="3688">3688</span>
+<span id="3689">3689</span>
+<span id="3690">3690</span>
+<span id="3691">3691</span>
+<span id="3692">3692</span>
+<span id="3693">3693</span>
+<span id="3694">3694</span>
+<span id="3695">3695</span>
+<span id="3696">3696</span>
+<span id="3697">3697</span>
+<span id="3698">3698</span>
+<span id="3699">3699</span>
+<span id="3700">3700</span>
+<span id="3701">3701</span>
+<span id="3702">3702</span>
+<span id="3703">3703</span>
+<span id="3704">3704</span>
+<span id="3705">3705</span>
+<span id="3706">3706</span>
+<span id="3707">3707</span>
+<span id="3708">3708</span>
+<span id="3709">3709</span>
+<span id="3710">3710</span>
+<span id="3711">3711</span>
+<span id="3712">3712</span>
+<span id="3713">3713</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A bucket.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Bucket</span> {
@@ -3682,13 +3729,14 @@
     <span class="kw">pub</span> <span class="ident">lifecycle</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">bucket::Lifecycle</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The creation time of the bucket in</span>
     <span class="doccomment">/// \[&lt;https://tools.ietf.org/html/rfc3339\][RFC&gt; 3339] format.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">time_created</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The ID of the bucket. For buckets, the `id` and `name` properties are the</span>
     <span class="doccomment">/// same.</span>
     <span class="doccomment">/// Attempting to update this field after the bucket is created will result in</span>
-    <span class="doccomment">/// an error.</span>
+    <span class="doccomment">/// a \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The name of the bucket.</span>
@@ -3697,11 +3745,13 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The project number of the project the bucket belongs to.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">project_number</span>: <span class="ident">i64</span>,
     <span class="doccomment">/// The metadata generation of this bucket.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">metageneration</span>: <span class="ident">i64</span>,
     <span class="doccomment">/// The bucket&#39;s \[&lt;https://www.w3.org/TR/cors/\][Cross-Origin&gt; Resource Sharing]</span>
@@ -3725,11 +3775,13 @@
     <span class="kw">pub</span> <span class="ident">storage_class</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// HTTP 1.1 \[&lt;https://tools.ietf.org/html/rfc7232#section-2.3&quot;\]Entity&gt; tag]</span>
     <span class="doccomment">/// for the bucket.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The modification time of the bucket.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">updated</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The default value for event-based hold on newly created objects in this</span>
@@ -3794,11 +3846,19 @@
     <span class="kw">pub</span> <span class="ident">iam_configuration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">bucket::IamConfiguration</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The zone or zones from which the bucket is intended to use zonal quota.</span>
     <span class="doccomment">/// Requests for data from outside the specified affinities are still allowed</span>
-    <span class="doccomment">/// but won’t be able to use zonal quota. The values are case-insensitive.</span>
+    <span class="doccomment">/// but won&#39;t be able to use zonal quota. The values are case-insensitive.</span>
     <span class="doccomment">/// Attempting to update this field after bucket is created will result in an</span>
     <span class="doccomment">/// error.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">zone_affinity</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Reserved for future use.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;26&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">satisfies_pzs</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The bucket&#39;s autoclass configuration. If there is no configuration, the</span>
+    <span class="doccomment">/// Autoclass feature will be disabled and have no effect on the bucket.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">autoclass</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">bucket::Autoclass</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Bucket`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bucket</span> {
@@ -3850,6 +3910,9 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">uniform_bucket_level_access</span>:
             <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">iam_configuration::UniformBucketLevelAccess</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Whether IAM will enforce public access prevention.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;iam_configuration::PublicAccessPrevention&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">public_access_prevention</span>: <span class="ident">i32</span>,
     }
     <span class="doccomment">/// Nested message and enum types in `IamConfiguration`.</span>
     <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">iam_configuration</span> {
@@ -3864,6 +3927,22 @@
             <span class="doccomment">/// the deadline is passed the field is immutable.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">locked_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+        }
+        <span class="doccomment">/// Public Access Prevention configuration values.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PublicAccessPrevention</span> {
+            <span class="doccomment">/// No specified PublicAccessPrevention.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// Prevents access from being granted to public members &#39;allUsers&#39; and</span>
+            <span class="doccomment">/// &#39;allAuthenticatedUsers&#39;. Prevents attempts to grant new access to</span>
+            <span class="doccomment">/// public members.</span>
+            <span class="ident">Enforced</span> <span class="op">=</span> <span class="number">1</span>,
+            <span class="doccomment">/// This setting is inherited from Org Policy. Does not prevent access from</span>
+            <span class="doccomment">/// being granted to public members &#39;allUsers&#39; or &#39;allAuthenticatedUsers&#39;.</span>
+            <span class="ident">Inherited</span> <span class="op">=</span> <span class="number">2</span>,
         }
     }
     <span class="doccomment">/// Lifecycle properties of a bucket.</span>
@@ -3893,8 +3972,8 @@
             <span class="doccomment">/// An action to take on an object.</span>
             <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
             <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Action</span> {
-                <span class="doccomment">/// Type of the action. Currently, only `Delete` and</span>
-                <span class="doccomment">/// `SetStorageClass` are supported.</span>
+                <span class="doccomment">/// Type of the action. Currently, only `Delete`, `SetStorageClass`, and</span>
+                <span class="doccomment">/// `AbortIncompleteMultipartUpload` are supported.</span>
                 <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
                 <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
                 <span class="doccomment">/// Target storage class. Required iff the type of the action is</span>
@@ -3934,11 +4013,39 @@
                 <span class="doccomment">/// A regular expression that satisfies the RE2 syntax. This condition is</span>
                 <span class="doccomment">/// satisfied when the name of the object matches the RE2 pattern.  Note:</span>
                 <span class="doccomment">/// This feature is currently in the &quot;Early Access&quot; launch stage and is</span>
-                <span class="doccomment">/// only available to a whitelisted set of users; that means that this</span>
+                <span class="doccomment">/// only available to an allowlisted set of users; that means that this</span>
                 <span class="doccomment">/// feature may be changed in backward-incompatible ways and that it is</span>
                 <span class="doccomment">/// not guaranteed to be released.</span>
                 <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
                 <span class="kw">pub</span> <span class="ident">matches_pattern</span>: <span class="ident">::prost::alloc::string::String</span>,
+                <span class="doccomment">/// Number of days that has elapsed since the custom timestamp set on an</span>
+                <span class="doccomment">/// object.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">days_since_custom_time</span>: <span class="ident">i32</span>,
+                <span class="doccomment">/// An object matches this condition if the custom timestamp set on the</span>
+                <span class="doccomment">/// object is before this timestamp.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">custom_time_before</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+                <span class="doccomment">/// This condition is relevant only for versioned objects. An object</span>
+                <span class="doccomment">/// version satisfies this condition only if these many days have been</span>
+                <span class="doccomment">/// passed since it became noncurrent. The value of the field must be a</span>
+                <span class="doccomment">/// nonnegative integer. If it&#39;s zero, the object version will become</span>
+                <span class="doccomment">/// eligible for Lifecycle action as soon as it becomes noncurrent.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">days_since_noncurrent_time</span>: <span class="ident">i32</span>,
+                <span class="doccomment">/// This condition is relevant only for versioned objects. An object</span>
+                <span class="doccomment">/// version satisfies this condition only if it became noncurrent before</span>
+                <span class="doccomment">/// the specified timestamp.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">noncurrent_time_before</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+                <span class="doccomment">/// List of object name prefixes. If any prefix exactly matches the</span>
+                <span class="doccomment">/// beginning of the object name, the condition evaluates to true.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">matches_prefix</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+                <span class="doccomment">/// List of object name suffixes. If any suffix exactly matches the</span>
+                <span class="doccomment">/// end of the object name, the condition evaluates to true.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">matches_suffix</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
             }
         }
     }
@@ -3997,6 +4104,16 @@
         <span class="doccomment">/// result.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">not_found_page</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Configuration for a bucket&#39;s Autoclass feature.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Autoclass</span> {
+        <span class="doccomment">/// Enables Autoclass.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">enabled</span>: <span class="ident">bool</span>,
+        <span class="doccomment">/// Latest instant at which the `enabled` bit was flipped.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">toggle_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     }
 }
 <span class="doccomment">/// An access-control entry.</span>
@@ -4322,12 +4439,14 @@
     <span class="doccomment">/// preconditions and for detecting changes in metadata. A metageneration</span>
     <span class="doccomment">/// number is only meaningful in the context of a particular generation of a</span>
     <span class="doccomment">/// particular object.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">metageneration</span>: <span class="ident">i64</span>,
     <span class="doccomment">/// The deletion time of the object. Will be returned if and only if this</span>
     <span class="doccomment">/// version of the object has been deleted.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">time_deleted</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Content-Type of the object data, matching</span>
@@ -4338,16 +4457,18 @@
     <span class="kw">pub</span> <span class="ident">content_type</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Content-Length of the object data in bytes, matching</span>
     <span class="doccomment">/// \[&lt;https://tools.ietf.org/html/rfc7230#section-3.3.2\][RFC&gt; 7230 §3.3.2].</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">size</span>: <span class="ident">i64</span>,
     <span class="doccomment">/// The creation time of the object.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">time_created</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="doccomment">/// CRC32c checksum. For more information about using the CRC32c</span>
     <span class="doccomment">/// checksum, see</span>
-    <span class="doccomment">/// \[&lt;https://cloud.google.com/storage/docs/hashes-etags#_JSONAPI\][Hashes&gt; and</span>
+    <span class="doccomment">/// \[&lt;https://cloud.google.com/storage/docs/hashes-etags#json-api\][Hashes&gt; and</span>
     <span class="doccomment">/// ETags: Best Practices]. This is a server determined value and should not be</span>
     <span class="doccomment">/// supplied by the user when sending an Object. The server will ignore any</span>
     <span class="doccomment">/// value provided. Users should instead use the object_checksums field on the</span>
@@ -4356,13 +4477,14 @@
     <span class="kw">pub</span> <span class="ident">crc32c</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Number of underlying components that make up this object. Components are</span>
     <span class="doccomment">/// accumulated by compose operations.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">component_count</span>: <span class="ident">i32</span>,
     <span class="doccomment">/// MD5 hash of the data; encoded using base64 as per</span>
     <span class="doccomment">/// \[&lt;https://tools.ietf.org/html/rfc4648#section-4\][RFC&gt; 4648 §4]. For more</span>
     <span class="doccomment">/// information about using the MD5 hash, see</span>
-    <span class="doccomment">/// \[&lt;https://cloud.google.com/storage/docs/hashes-etags#_JSONAPI\][Hashes&gt; and</span>
+    <span class="doccomment">/// \[&lt;https://cloud.google.com/storage/docs/hashes-etags#json-api\][Hashes&gt; and</span>
     <span class="doccomment">/// ETags: Best Practices]. This is a server determined value and should not be</span>
     <span class="doccomment">/// supplied by the user when sending an Object. The server will ignore any</span>
     <span class="doccomment">/// value provided. Users should instead use the object_checksums field on the</span>
@@ -4371,11 +4493,13 @@
     <span class="kw">pub</span> <span class="ident">md5_hash</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// HTTP 1.1 Entity tag for the object. See</span>
     <span class="doccomment">/// \[&lt;https://tools.ietf.org/html/rfc7232#section-2.3\][RFC&gt; 7232 §2.3].</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The modification time of the object metadata.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">updated</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Storage class of the object.</span>
@@ -4387,7 +4511,8 @@
     <span class="kw">pub</span> <span class="ident">kms_key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The time at which the object&#39;s storage class was last changed. When the</span>
     <span class="doccomment">/// object is initially created, it will be set to time_created.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;18&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">time_storage_class_updated</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Whether an object is under temporary hold. While this flag is set to true,</span>
@@ -4443,17 +4568,22 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The content generation of this object. Used for object versioning.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;26&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">generation</span>: <span class="ident">i64</span>,
     <span class="doccomment">/// The owner of the object. This will always be the uploader of the object.</span>
-    <span class="doccomment">/// Attempting to set this field will result in an error.</span>
+    <span class="doccomment">/// Attempting to set or update this field will result in a</span>
+    <span class="doccomment">/// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;27&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">owner</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Owner</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Metadata of customer-supplied encryption key, if the object is encrypted by</span>
     <span class="doccomment">/// such a key.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">customer_encryption</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">object::CustomerEncryption</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A user-specified timestamp set on an object.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;30&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">custom_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Object`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">object</span> {
@@ -5442,7 +5572,9 @@
     <span class="doccomment">/// A negative `read_offset` value will be interpreted as the number of bytes</span>
     <span class="doccomment">/// back from the end of the object to be returned. For example, if an object&#39;s</span>
     <span class="doccomment">/// length is 15 bytes, a GetObjectMediaRequest with `read_offset` = -5 and</span>
-    <span class="doccomment">/// `read_limit` = 3 would return bytes 10 through 12 of the object.</span>
+    <span class="doccomment">/// `read_limit` = 3 would return bytes 10 through 12 of the object. Requesting</span>
+    <span class="doccomment">/// a negative offset whose magnitude is larger than the size of the object</span>
+    <span class="doccomment">/// will result in an error.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">read_offset</span>: <span class="ident">i64</span>,
     <span class="doccomment">/// The maximum number of `data` bytes the server is allowed to return in the</span>
@@ -5703,11 +5835,23 @@
     <span class="doccomment">/// Versioning](&lt;https://cloud.google.com/storage/docs/object-versioning&gt;).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">versions</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Filter results to objects whose names are lexicographically equal to or</span>
+    <span class="doccomment">/// after lexicographic_start. If lexicographic_end is also set, the objects</span>
+    <span class="doccomment">/// listed have names between lexicographic_start (inclusive) and</span>
+    <span class="doccomment">/// lexicographic_end (exclusive).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">lexicographic_start</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Filter results to objects whose names are lexicographically before</span>
+    <span class="doccomment">/// lexicographic_end. If lexicographic_start is also set, the objects listed</span>
+    <span class="doccomment">/// have names between lexicographic_start (inclusive) and lexicographic_end</span>
+    <span class="doccomment">/// (exclusive).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">lexicographic_end</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// A set of parameters common to all Storage API requests.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">common_request_params</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CommonRequestParams</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Request object for `ByteStream.QueryWriteStatus`.</span>
+<span class="doccomment">/// Request object for `QueryWriteStatus`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueryWriteStatusRequest</span> {
     <span class="doccomment">/// Required. The name of the resume token for the object whose write status is being</span>
@@ -5721,7 +5865,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">common_request_params</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CommonRequestParams</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Response object for `ByteStream.QueryWriteStatus`.</span>
+<span class="doccomment">/// Response object for `QueryWriteStatus`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueryWriteStatusResponse</span> {
     <span class="doccomment">/// The number of bytes that have been processed for the given object.</span>
@@ -5731,6 +5875,9 @@
     <span class="doccomment">/// with `finish_write` set to true, and the server has processed that request.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">complete</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The metadata for the uploaded object. Only set if `complete` is `true`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Object</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Request message for RewriteObject.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -5876,7 +6023,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">common_request_params</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CommonRequestParams</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Response object for ByteStream.StartResumableWrite.</span>
+<span class="doccomment">/// Response object for `StartResumableWrite`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StartResumableWriteResponse</span> {
     <span class="doccomment">/// The upload_id of the newly started resumable write operation. This</span>
@@ -6205,7 +6352,6 @@
     <span class="doccomment">/// with applications that run cron jobs on App Engine on a user&#39;s behalf.</span>
     <span class="doccomment">/// You can choose any arbitrary string that uniquely identifies a user, but it</span>
     <span class="doccomment">/// is limited to 40 characters.</span>
-    <span class="doccomment">/// Overrides user_ip if both are provided.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">quota_user</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Subset of fields to include in the response.</span>
@@ -6275,7 +6421,10 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">storage_client</span> {
     <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
     <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Manages Google Cloud Storage resources.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This is the API specification for the v1 Google Cloud Storage service. It is&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; only used for the message definitions needed by Cloud Audit Logging. The v1&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; gRPC service no longer runs and instead Google Cloud Storage only supports v2&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; API calls.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StorageClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
@@ -7160,61 +7309,6 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span>
                 <span class="ident">http::uri::PathAndQuery::from_static</span>(<span class="string">&quot;/google.storage.v1.Storage/UpdateObject&quot;</span>);
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Gets the IAM policy for the specified object.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_object_iam_policy</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetIamPolicyRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::iam::v1::Policy</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.storage.v1.Storage/GetObjectIamPolicy&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Updates an IAM policy for the specified object.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">set_object_iam_policy</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::SetIamPolicyRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::iam::v1::Policy</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.storage.v1.Storage/SetObjectIamPolicy&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Tests a set of permissions on the given object to see which, if&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; any, are held by the caller.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_object_iam_permissions</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::TestIamPermissionsRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::iam::v1::TestIamPermissionsResponse</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.storage.v1.Storage/TestObjectIamPermissions&quot;</span>,
-            );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Watch for changes on all objects in a bucket.&quot;</span>]</span>

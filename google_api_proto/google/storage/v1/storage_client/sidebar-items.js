@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["StorageClient","Manages Google Cloud Storage resources."]]});
+initSidebarItems({"struct":[["StorageClient","This is the API specification for the v1 Google Cloud Storage service. It is only used for the message definitions needed by Cloud Audit Logging. The v1 gRPC service no longer runs and instead Google Cloud Storage only supports v2 API calls."]]});

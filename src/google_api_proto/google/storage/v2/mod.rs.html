@@ -2461,37 +2461,6 @@
 <span id="2459">2459</span>
 <span id="2460">2460</span>
 <span id="2461">2461</span>
-<span id="2462">2462</span>
-<span id="2463">2463</span>
-<span id="2464">2464</span>
-<span id="2465">2465</span>
-<span id="2466">2466</span>
-<span id="2467">2467</span>
-<span id="2468">2468</span>
-<span id="2469">2469</span>
-<span id="2470">2470</span>
-<span id="2471">2471</span>
-<span id="2472">2472</span>
-<span id="2473">2473</span>
-<span id="2474">2474</span>
-<span id="2475">2475</span>
-<span id="2476">2476</span>
-<span id="2477">2477</span>
-<span id="2478">2478</span>
-<span id="2479">2479</span>
-<span id="2480">2480</span>
-<span id="2481">2481</span>
-<span id="2482">2482</span>
-<span id="2483">2483</span>
-<span id="2484">2484</span>
-<span id="2485">2485</span>
-<span id="2486">2486</span>
-<span id="2487">2487</span>
-<span id="2488">2488</span>
-<span id="2489">2489</span>
-<span id="2490">2490</span>
-<span id="2491">2491</span>
-<span id="2492">2492</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Request message for DeleteBucket.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteBucketRequest</span> {
@@ -2549,11 +2518,15 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bucket_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Apply a predefined set of access controls to this bucket.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PredefinedBucketAcl&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">predefined_acl</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Valid values are &quot;authenticatedRead&quot;, &quot;private&quot;, &quot;projectPrivate&quot;,</span>
+    <span class="doccomment">/// &quot;publicRead&quot;, or &quot;publicReadWrite&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">predefined_acl</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Apply a predefined set of default object access controls to this bucket.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PredefinedObjectAcl&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">predefined_default_object_acl</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Valid values are &quot;authenticatedRead&quot;, &quot;bucketOwnerFullControl&quot;,</span>
+    <span class="doccomment">/// &quot;bucketOwnerRead&quot;, &quot;private&quot;, &quot;projectPrivate&quot;, or &quot;publicRead&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">predefined_default_object_acl</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Request message for ListBuckets.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2625,11 +2598,15 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">if_metageneration_not_match</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Apply a predefined set of access controls to this bucket.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PredefinedBucketAcl&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">predefined_acl</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Valid values are &quot;authenticatedRead&quot;, &quot;private&quot;, &quot;projectPrivate&quot;,</span>
+    <span class="doccomment">/// &quot;publicRead&quot;, or &quot;publicReadWrite&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">predefined_acl</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Apply a predefined set of default object access controls to this bucket.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PredefinedObjectAcl&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">predefined_default_object_acl</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Valid values are &quot;authenticatedRead&quot;, &quot;bucketOwnerFullControl&quot;,</span>
+    <span class="doccomment">/// &quot;bucketOwnerRead&quot;, &quot;private&quot;, &quot;projectPrivate&quot;, or &quot;publicRead&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">predefined_default_object_acl</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// List of fields to be updated.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// To specify ALL fields, equivalent to the JSON API&#39;s &quot;update&quot; function,</span>
@@ -2712,8 +2689,10 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">source_objects</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">compose_object_request::SourceObject</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Apply a predefined set of access controls to the destination object.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PredefinedObjectAcl&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination_predefined_acl</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Valid values are &quot;authenticatedRead&quot;, &quot;bucketOwnerFullControl&quot;,</span>
+    <span class="doccomment">/// &quot;bucketOwnerRead&quot;, &quot;private&quot;, &quot;projectPrivate&quot;, or &quot;publicRead&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_predefined_acl</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Makes the operation conditional on whether the object&#39;s current generation</span>
     <span class="doccomment">/// matches the given value. Setting to 0 makes the operation succeed only if</span>
     <span class="doccomment">/// there are no live versions of the object.</span>
@@ -2921,7 +2900,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">read_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Response message for GetObject.</span>
+<span class="doccomment">/// Response message for ReadObject.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadObjectResponse</span> {
     <span class="doccomment">/// A portion of the data for the object. The service **may** leave `data`</span>
@@ -2952,8 +2931,10 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Object</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Apply a predefined set of access controls to this object.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PredefinedObjectAcl&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">predefined_acl</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Valid values are &quot;authenticatedRead&quot;, &quot;bucketOwnerFullControl&quot;,</span>
+    <span class="doccomment">/// &quot;bucketOwnerRead&quot;, &quot;private&quot;, &quot;projectPrivate&quot;, or &quot;publicRead&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">predefined_acl</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Makes the operation conditional on whether the object&#39;s current</span>
     <span class="doccomment">/// generation matches the given value. Setting to 0 makes the operation</span>
     <span class="doccomment">/// succeed only if there are no live versions of the object.</span>
@@ -3218,8 +3199,10 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">rewrite_token</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Apply a predefined set of access controls to the destination object.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PredefinedObjectAcl&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination_predefined_acl</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Valid values are &quot;authenticatedRead&quot;, &quot;bucketOwnerFullControl&quot;,</span>
+    <span class="doccomment">/// &quot;bucketOwnerRead&quot;, &quot;private&quot;, &quot;projectPrivate&quot;, or &quot;publicRead&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_predefined_acl</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Makes the operation conditional on whether the object&#39;s current generation</span>
     <span class="doccomment">/// matches the given value. Setting to 0 makes the operation succeed only if</span>
     <span class="doccomment">/// there are no live versions of the object.</span>
@@ -3361,8 +3344,10 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">if_metageneration_not_match</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Apply a predefined set of access controls to this object.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;PredefinedObjectAcl&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">predefined_acl</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Valid values are &quot;authenticatedRead&quot;, &quot;bucketOwnerFullControl&quot;,</span>
+    <span class="doccomment">/// &quot;bucketOwnerRead&quot;, &quot;private&quot;, &quot;projectPrivate&quot;, or &quot;publicRead&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">predefined_acl</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// List of fields to be updated.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// To specify ALL fields, equivalent to the JSON API&#39;s &quot;update&quot; function,</span>
@@ -3708,10 +3693,10 @@
     <span class="doccomment">/// Reserved for future use.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;25&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">satisfies_pzs</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Configuration that, if present, specifies the data placement for a Custom</span>
-    <span class="doccomment">/// Dual Region.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;26&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">custom_placement_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">bucket::CustomPlacementConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The bucket&#39;s Autoclass configuration. If there is no configuration, the</span>
+    <span class="doccomment">/// Autoclass feature will be disabled and have no effect on the bucket.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">autoclass</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">bucket::Autoclass</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Bucket`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bucket</span> {
@@ -3764,9 +3749,10 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">uniform_bucket_level_access</span>:
             <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">iam_config::UniformBucketLevelAccess</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Whether IAM will enforce public access prevention.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;iam_config::PublicAccessPrevention&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">public_access_prevention</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// Whether IAM will enforce public access prevention. Valid values are</span>
+        <span class="doccomment">/// &quot;enforced&quot; or &quot;inherited&quot;.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">public_access_prevention</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
     <span class="doccomment">/// Nested message and enum types in `IamConfig`.</span>
     <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">iam_config</span> {
@@ -3783,22 +3769,6 @@
             <span class="doccomment">/// Mutable until the specified deadline is reached, but not afterward.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">lock_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-        }
-        <span class="doccomment">/// Public Access Prevention config values.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PublicAccessPrevention</span> {
-            <span class="doccomment">/// No specified PublicAccessPrevention.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// Prevents access from being granted to public members &#39;allUsers&#39; and</span>
-            <span class="doccomment">/// &#39;allAuthenticatedUsers&#39;. Prevents attempts to grant new access to</span>
-            <span class="doccomment">/// public members.</span>
-            <span class="ident">Enforced</span> <span class="op">=</span> <span class="number">1</span>,
-            <span class="doccomment">/// This setting is inherited from Org Policy. Does not prevent access from</span>
-            <span class="doccomment">/// being granted to public members &#39;allUsers&#39; or &#39;allAuthenticatedUsers&#39;.</span>
-            <span class="ident">Inherited</span> <span class="op">=</span> <span class="number">2</span>,
         }
     }
     <span class="doccomment">/// Lifecycle properties of a bucket.</span>
@@ -3890,6 +3860,14 @@
                 <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
                 <span class="kw">pub</span> <span class="ident">noncurrent_time_before</span>:
                     <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span></span>::<span class="ident">r#type</span><span class="ident">::Date</span><span class="op">&gt;</span>,
+                <span class="doccomment">/// List of object name prefixes. If any prefix exactly matches the</span>
+                <span class="doccomment">/// beginning of the object name, the condition evaluates to true.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">matches_prefix</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+                <span class="doccomment">/// List of object name suffixes. If any suffix exactly matches the</span>
+                <span class="doccomment">/// end of the object name, the condition evaluates to true.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">matches_suffix</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
             }
         }
     }
@@ -3949,13 +3927,18 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">not_found_page</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
-    <span class="doccomment">/// Configuration for Custom Dual Regions.  It should specify precisely two</span>
-    <span class="doccomment">/// eligible regions within the same Multiregion.</span>
+    <span class="doccomment">/// Configuration for a bucket&#39;s Autoclass feature.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomPlacementConfig</span> {
-        <span class="doccomment">/// List of locations to use for data placement.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">data_locations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Autoclass</span> {
+        <span class="doccomment">/// Enables Autoclass.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">enabled</span>: <span class="ident">bool</span>,
+        <span class="doccomment">/// Output only. Latest instant at which the `enabled` field was set to true after being</span>
+        <span class="doccomment">/// disabled/unconfigured or set to false after being enabled. If Autoclass</span>
+        <span class="doccomment">/// is enabled when the bucket is created, the toggle_time is set to the</span>
+        <span class="doccomment">/// bucket creation time.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">toggle_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     }
 }
 <span class="doccomment">/// An access-control entry.</span>
@@ -4341,51 +4324,6 @@
     <span class="doccomment">/// The complete length of the object data.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">complete_length</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// Predefined or &quot;canned&quot; aliases for sets of specific object ACL entries.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PredefinedObjectAcl</span> {
-    <span class="doccomment">/// No predefined ACL.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Object owner gets `OWNER` access, and</span>
-    <span class="doccomment">/// `allAuthenticatedUsers` get `READER` access.</span>
-    <span class="ident">ObjectAclAuthenticatedRead</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Object owner gets `OWNER` access, and project team owners get</span>
-    <span class="doccomment">/// `OWNER` access.</span>
-    <span class="ident">ObjectAclBucketOwnerFullControl</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Object owner gets `OWNER` access, and project team owners get</span>
-    <span class="doccomment">/// `READER` access.</span>
-    <span class="ident">ObjectAclBucketOwnerRead</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Object owner gets `OWNER` access.</span>
-    <span class="ident">ObjectAclPrivate</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// Object owner gets `OWNER` access, and project team members get</span>
-    <span class="doccomment">/// access according to their roles.</span>
-    <span class="ident">ObjectAclProjectPrivate</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// Object owner gets `OWNER` access, and `allUsers`</span>
-    <span class="doccomment">/// get `READER` access.</span>
-    <span class="ident">ObjectAclPublicRead</span> <span class="op">=</span> <span class="number">6</span>,
-}
-<span class="doccomment">/// A set of predefined, or &quot;canned,&quot; ACLs that can be set on a</span>
-<span class="doccomment">/// bucket instead of manually specifying a complete ACL.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PredefinedBucketAcl</span> {
-    <span class="doccomment">/// No predefined ACL.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Project team owners get `OWNER` access, and</span>
-    <span class="doccomment">/// `allAuthenticatedUsers` get `READER` access.</span>
-    <span class="ident">BucketAclAuthenticatedRead</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Project team owners get `OWNER` access.</span>
-    <span class="ident">BucketAclPrivate</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Project team members get access according to their roles.</span>
-    <span class="ident">BucketAclProjectPrivate</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Project team owners get `OWNER` access, and</span>
-    <span class="doccomment">/// `allUsers` get `READER` access.</span>
-    <span class="ident">BucketAclPublicRead</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// Project team owners get `OWNER` access, and</span>
-    <span class="doccomment">/// `allUsers` get `WRITER` access.</span>
-    <span class="ident">BucketAclPublicReadWrite</span> <span class="op">=</span> <span class="number">5</span>,
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">storage_client</span> {

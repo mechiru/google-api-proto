@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["UniformBucketLevelAccess",""]]});
+initSidebarItems({"enum":[["PublicAccessPrevention","Public Access Prevention configuration values."]],"struct":[["UniformBucketLevelAccess",""]]});
