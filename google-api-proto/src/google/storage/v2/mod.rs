@@ -55,11 +55,15 @@ pub struct CreateBucketRequest {
     #[prost(string, tag = "3")]
     pub bucket_id: ::prost::alloc::string::String,
     /// Apply a predefined set of access controls to this bucket.
-    #[prost(enumeration = "PredefinedBucketAcl", tag = "4")]
-    pub predefined_acl: i32,
+    /// Valid values are "authenticatedRead", "private", "projectPrivate",
+    /// "publicRead", or "publicReadWrite".
+    #[prost(string, tag = "6")]
+    pub predefined_acl: ::prost::alloc::string::String,
     /// Apply a predefined set of default object access controls to this bucket.
-    #[prost(enumeration = "PredefinedObjectAcl", tag = "5")]
-    pub predefined_default_object_acl: i32,
+    /// Valid values are "authenticatedRead", "bucketOwnerFullControl",
+    /// "bucketOwnerRead", "private", "projectPrivate", or "publicRead".
+    #[prost(string, tag = "7")]
+    pub predefined_default_object_acl: ::prost::alloc::string::String,
 }
 /// Request message for ListBuckets.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -131,11 +135,15 @@ pub struct UpdateBucketRequest {
     #[prost(int64, optional, tag = "3")]
     pub if_metageneration_not_match: ::core::option::Option<i64>,
     /// Apply a predefined set of access controls to this bucket.
-    #[prost(enumeration = "PredefinedBucketAcl", tag = "4")]
-    pub predefined_acl: i32,
+    /// Valid values are "authenticatedRead", "private", "projectPrivate",
+    /// "publicRead", or "publicReadWrite".
+    #[prost(string, tag = "8")]
+    pub predefined_acl: ::prost::alloc::string::String,
     /// Apply a predefined set of default object access controls to this bucket.
-    #[prost(enumeration = "PredefinedObjectAcl", tag = "5")]
-    pub predefined_default_object_acl: i32,
+    /// Valid values are "authenticatedRead", "bucketOwnerFullControl",
+    /// "bucketOwnerRead", "private", "projectPrivate", or "publicRead".
+    #[prost(string, tag = "9")]
+    pub predefined_default_object_acl: ::prost::alloc::string::String,
     /// List of fields to be updated.
     ///
     /// To specify ALL fields, equivalent to the JSON API's "update" function,
@@ -218,8 +226,10 @@ pub struct ComposeObjectRequest {
     #[prost(message, repeated, tag = "2")]
     pub source_objects: ::prost::alloc::vec::Vec<compose_object_request::SourceObject>,
     /// Apply a predefined set of access controls to the destination object.
-    #[prost(enumeration = "PredefinedObjectAcl", tag = "3")]
-    pub destination_predefined_acl: i32,
+    /// Valid values are "authenticatedRead", "bucketOwnerFullControl",
+    /// "bucketOwnerRead", "private", "projectPrivate", or "publicRead".
+    #[prost(string, tag = "9")]
+    pub destination_predefined_acl: ::prost::alloc::string::String,
     /// Makes the operation conditional on whether the object's current generation
     /// matches the given value. Setting to 0 makes the operation succeed only if
     /// there are no live versions of the object.
@@ -427,7 +437,7 @@ pub struct GetObjectRequest {
     #[prost(message, optional, tag = "10")]
     pub read_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
-/// Response message for GetObject.
+/// Response message for ReadObject.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ReadObjectResponse {
     /// A portion of the data for the object. The service **may** leave `data`
@@ -458,8 +468,10 @@ pub struct WriteObjectSpec {
     #[prost(message, optional, tag = "1")]
     pub resource: ::core::option::Option<Object>,
     /// Apply a predefined set of access controls to this object.
-    #[prost(enumeration = "PredefinedObjectAcl", tag = "2")]
-    pub predefined_acl: i32,
+    /// Valid values are "authenticatedRead", "bucketOwnerFullControl",
+    /// "bucketOwnerRead", "private", "projectPrivate", or "publicRead".
+    #[prost(string, tag = "7")]
+    pub predefined_acl: ::prost::alloc::string::String,
     /// Makes the operation conditional on whether the object's current
     /// generation matches the given value. Setting to 0 makes the operation
     /// succeed only if there are no live versions of the object.
@@ -724,8 +736,10 @@ pub struct RewriteObjectRequest {
     #[prost(string, tag = "5")]
     pub rewrite_token: ::prost::alloc::string::String,
     /// Apply a predefined set of access controls to the destination object.
-    #[prost(enumeration = "PredefinedObjectAcl", tag = "6")]
-    pub destination_predefined_acl: i32,
+    /// Valid values are "authenticatedRead", "bucketOwnerFullControl",
+    /// "bucketOwnerRead", "private", "projectPrivate", or "publicRead".
+    #[prost(string, tag = "28")]
+    pub destination_predefined_acl: ::prost::alloc::string::String,
     /// Makes the operation conditional on whether the object's current generation
     /// matches the given value. Setting to 0 makes the operation succeed only if
     /// there are no live versions of the object.
@@ -867,8 +881,10 @@ pub struct UpdateObjectRequest {
     #[prost(int64, optional, tag = "5")]
     pub if_metageneration_not_match: ::core::option::Option<i64>,
     /// Apply a predefined set of access controls to this object.
-    #[prost(enumeration = "PredefinedObjectAcl", tag = "6")]
-    pub predefined_acl: i32,
+    /// Valid values are "authenticatedRead", "bucketOwnerFullControl",
+    /// "bucketOwnerRead", "private", "projectPrivate", or "publicRead".
+    #[prost(string, tag = "10")]
+    pub predefined_acl: ::prost::alloc::string::String,
     /// List of fields to be updated.
     ///
     /// To specify ALL fields, equivalent to the JSON API's "update" function,
@@ -1214,10 +1230,10 @@ pub struct Bucket {
     /// Reserved for future use.
     #[prost(bool, tag = "25")]
     pub satisfies_pzs: bool,
-    /// Configuration that, if present, specifies the data placement for a Custom
-    /// Dual Region.
-    #[prost(message, optional, tag = "26")]
-    pub custom_placement_config: ::core::option::Option<bucket::CustomPlacementConfig>,
+    /// The bucket's Autoclass configuration. If there is no configuration, the
+    /// Autoclass feature will be disabled and have no effect on the bucket.
+    #[prost(message, optional, tag = "28")]
+    pub autoclass: ::core::option::Option<bucket::Autoclass>,
 }
 /// Nested message and enum types in `Bucket`.
 pub mod bucket {
@@ -1270,9 +1286,10 @@ pub mod bucket {
         #[prost(message, optional, tag = "1")]
         pub uniform_bucket_level_access:
             ::core::option::Option<iam_config::UniformBucketLevelAccess>,
-        /// Whether IAM will enforce public access prevention.
-        #[prost(enumeration = "iam_config::PublicAccessPrevention", tag = "2")]
-        pub public_access_prevention: i32,
+        /// Whether IAM will enforce public access prevention. Valid values are
+        /// "enforced" or "inherited".
+        #[prost(string, tag = "3")]
+        pub public_access_prevention: ::prost::alloc::string::String,
     }
     /// Nested message and enum types in `IamConfig`.
     pub mod iam_config {
@@ -1289,22 +1306,6 @@ pub mod bucket {
             /// Mutable until the specified deadline is reached, but not afterward.
             #[prost(message, optional, tag = "2")]
             pub lock_time: ::core::option::Option<::prost_types::Timestamp>,
-        }
-        /// Public Access Prevention config values.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum PublicAccessPrevention {
-            /// No specified PublicAccessPrevention.
-            Unspecified = 0,
-            /// Prevents access from being granted to public members 'allUsers' and
-            /// 'allAuthenticatedUsers'. Prevents attempts to grant new access to
-            /// public members.
-            Enforced = 1,
-            /// This setting is inherited from Org Policy. Does not prevent access from
-            /// being granted to public members 'allUsers' or 'allAuthenticatedUsers'.
-            Inherited = 2,
         }
     }
     /// Lifecycle properties of a bucket.
@@ -1396,6 +1397,14 @@ pub mod bucket {
                 #[prost(message, optional, tag = "10")]
                 pub noncurrent_time_before:
                     ::core::option::Option<super::super::super::super::super::r#type::Date>,
+                /// List of object name prefixes. If any prefix exactly matches the
+                /// beginning of the object name, the condition evaluates to true.
+                #[prost(string, repeated, tag = "11")]
+                pub matches_prefix: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+                /// List of object name suffixes. If any suffix exactly matches the
+                /// end of the object name, the condition evaluates to true.
+                #[prost(string, repeated, tag = "12")]
+                pub matches_suffix: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
             }
         }
     }
@@ -1455,13 +1464,18 @@ pub mod bucket {
         #[prost(string, tag = "2")]
         pub not_found_page: ::prost::alloc::string::String,
     }
-    /// Configuration for Custom Dual Regions.  It should specify precisely two
-    /// eligible regions within the same Multiregion.
+    /// Configuration for a bucket's Autoclass feature.
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CustomPlacementConfig {
-        /// List of locations to use for data placement.
-        #[prost(string, repeated, tag = "1")]
-        pub data_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    pub struct Autoclass {
+        /// Enables Autoclass.
+        #[prost(bool, tag = "1")]
+        pub enabled: bool,
+        /// Output only. Latest instant at which the `enabled` field was set to true after being
+        /// disabled/unconfigured or set to false after being enabled. If Autoclass
+        /// is enabled when the bucket is created, the toggle_time is set to the
+        /// bucket creation time.
+        #[prost(message, optional, tag = "2")]
+        pub toggle_time: ::core::option::Option<::prost_types::Timestamp>,
     }
 }
 /// An access-control entry.
@@ -1847,51 +1861,6 @@ pub struct ContentRange {
     /// The complete length of the object data.
     #[prost(int64, tag = "3")]
     pub complete_length: i64,
-}
-/// Predefined or "canned" aliases for sets of specific object ACL entries.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum PredefinedObjectAcl {
-    /// No predefined ACL.
-    Unspecified = 0,
-    /// Object owner gets `OWNER` access, and
-    /// `allAuthenticatedUsers` get `READER` access.
-    ObjectAclAuthenticatedRead = 1,
-    /// Object owner gets `OWNER` access, and project team owners get
-    /// `OWNER` access.
-    ObjectAclBucketOwnerFullControl = 2,
-    /// Object owner gets `OWNER` access, and project team owners get
-    /// `READER` access.
-    ObjectAclBucketOwnerRead = 3,
-    /// Object owner gets `OWNER` access.
-    ObjectAclPrivate = 4,
-    /// Object owner gets `OWNER` access, and project team members get
-    /// access according to their roles.
-    ObjectAclProjectPrivate = 5,
-    /// Object owner gets `OWNER` access, and `allUsers`
-    /// get `READER` access.
-    ObjectAclPublicRead = 6,
-}
-/// A set of predefined, or "canned," ACLs that can be set on a
-/// bucket instead of manually specifying a complete ACL.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum PredefinedBucketAcl {
-    /// No predefined ACL.
-    Unspecified = 0,
-    /// Project team owners get `OWNER` access, and
-    /// `allAuthenticatedUsers` get `READER` access.
-    BucketAclAuthenticatedRead = 1,
-    /// Project team owners get `OWNER` access.
-    BucketAclPrivate = 2,
-    /// Project team members get access according to their roles.
-    BucketAclProjectPrivate = 3,
-    /// Project team owners get `OWNER` access, and
-    /// `allUsers` get `READER` access.
-    BucketAclPublicRead = 4,
-    /// Project team owners get `OWNER` access, and
-    /// `allUsers` get `WRITER` access.
-    BucketAclPublicReadWrite = 5,
 }
 #[doc = r" Generated client implementations."]
 pub mod storage_client {
