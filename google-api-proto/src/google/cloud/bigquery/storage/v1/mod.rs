@@ -139,7 +139,9 @@ pub struct AvroRows {
     /// Binary serialized rows in a block.
     #[prost(bytes = "bytes", tag = "1")]
     pub serialized_binary_rows: ::prost::bytes::Bytes,
-    /// The count of rows in the returning block.
+    /// \[Deprecated\] The count of rows in the returning block.
+    /// Please use the format-independent ReadRowsResponse.row_count instead.
+    #[deprecated]
     #[prost(int64, tag = "2")]
     pub row_count: i64,
 }
@@ -161,7 +163,9 @@ pub struct ArrowRecordBatch {
     /// IPC-serialized Arrow RecordBatch.
     #[prost(bytes = "bytes", tag = "1")]
     pub serialized_record_batch: ::prost::bytes::Bytes,
-    /// The count of rows in `serialized_record_batch`.
+    /// \[Deprecated\] The count of rows in `serialized_record_batch`.
+    /// Please use the format-independent ReadRowsResponse.row_count instead.
+    #[deprecated]
     #[prost(int64, tag = "2")]
     pub row_count: i64,
 }

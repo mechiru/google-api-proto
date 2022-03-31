@@ -481,7 +481,8 @@ pub mod instance {
 pub struct AutoscalingTargets {
     /// The cpu utilization that the Autoscaler should be trying to achieve.
     /// This number is on a scale from 0 (no utilization) to
-    /// 100 (total utilization).
+    /// 100 (total utilization), and is limited between 10 and 80, otherwise it
+    /// will return INVALID_ARGUMENT error.
     #[prost(int32, tag = "2")]
     pub cpu_utilization_percent: i32,
 }
@@ -559,7 +560,6 @@ pub mod cluster {
         ///  `cloudkms.cryptoKeyEncrypterDecrypter` role on the CMEK key.
         ///  2) Only regional keys can be used and the region of the CMEK key must
         ///  match the region of the cluster.
-        /// 3) All clusters within an instance must use the same CMEK key.
         #[prost(string, tag = "1")]
         pub kms_key_name: ::prost::alloc::string::String,
     }
