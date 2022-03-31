@@ -1280,6 +1280,58 @@
         <span class="ident">Dismissed</span> <span class="op">=</span> <span class="number">3</span>,
     }
 }
+<span class="doccomment">/// Configuration for an InsightType.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InsightTypeConfig</span> {
+    <span class="doccomment">/// Name of insight type config.</span>
+    <span class="doccomment">/// Eg,</span>
+    <span class="doccomment">/// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]/config</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// InsightTypeGenerationConfig which configures the generation of</span>
+    <span class="doccomment">/// insights for this insight type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">insight_type_generation_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">InsightTypeGenerationConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Fingerprint of the InsightTypeConfig. Provides optimistic locking when</span>
+    <span class="doccomment">/// updating.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Last time when the config was updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Immutable. The revision ID of the config.</span>
+    <span class="doccomment">/// A new revision is committed whenever the config is changed in any way.</span>
+    <span class="doccomment">/// The format is an 8-character hexadecimal string.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">revision_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Allows clients to store small amounts of arbitrary data. Annotations must</span>
+    <span class="doccomment">/// follow the Kubernetes syntax.</span>
+    <span class="doccomment">/// The total size of all keys and values combined is limited to 256k.</span>
+    <span class="doccomment">/// Key can have 2 segments: prefix (optional) and name (required),</span>
+    <span class="doccomment">/// separated by a slash (/).</span>
+    <span class="doccomment">/// Prefix must be a DNS subdomain.</span>
+    <span class="doccomment">/// Name must be 63 characters or less, begin and end with alphanumerics,</span>
+    <span class="doccomment">/// with dashes (-), underscores (_), dots (.), and alphanumerics between.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">annotations</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// A user-settable field to provide a human-readable name to be used in user</span>
+    <span class="doccomment">/// interfaces.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A configuration to customize the generation of insights.</span>
+<span class="doccomment">/// Eg, customizing the lookback period considered when generating a</span>
+<span class="doccomment">/// insight.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InsightTypeGenerationConfig</span> {
+    <span class="doccomment">/// Parameters for this InsightTypeGenerationConfig. These configs can be used</span>
+    <span class="doccomment">/// by or are applied to all subtypes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">params</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+}
 <span class="doccomment">/// A recommendation along with a suggested action. E.g., a rightsizing</span>
 <span class="doccomment">/// recommendation for an underutilized VM, IAM role recommendations, etc</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1677,58 +1729,6 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RecommenderGenerationConfig</span> {
     <span class="doccomment">/// Parameters for this RecommenderGenerationConfig. These configs can be used</span>
-    <span class="doccomment">/// by or are applied to all subtypes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">params</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Configuration for an InsightType.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InsightTypeConfig</span> {
-    <span class="doccomment">/// Name of insight type config.</span>
-    <span class="doccomment">/// Eg,</span>
-    <span class="doccomment">/// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]/config</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// InsightTypeGenerationConfig which configures the generation of</span>
-    <span class="doccomment">/// insights for this insight type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">insight_type_generation_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">InsightTypeGenerationConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Fingerprint of the InsightTypeConfig. Provides optimistic locking when</span>
-    <span class="doccomment">/// updating.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Last time when the config was updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Immutable. The revision ID of the config.</span>
-    <span class="doccomment">/// A new revision is committed whenever the config is changed in any way.</span>
-    <span class="doccomment">/// The format is an 8-character hexadecimal string.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">revision_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Allows clients to store small amounts of arbitrary data. Annotations must</span>
-    <span class="doccomment">/// follow the Kubernetes syntax.</span>
-    <span class="doccomment">/// The total size of all keys and values combined is limited to 256k.</span>
-    <span class="doccomment">/// Key can have 2 segments: prefix (optional) and name (required),</span>
-    <span class="doccomment">/// separated by a slash (/).</span>
-    <span class="doccomment">/// Prefix must be a DNS subdomain.</span>
-    <span class="doccomment">/// Name must be 63 characters or less, begin and end with alphanumerics,</span>
-    <span class="doccomment">/// with dashes (-), underscores (_), dots (.), and alphanumerics between.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">annotations</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// A user-settable field to provide a human-readable name to be used in user</span>
-    <span class="doccomment">/// interfaces.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A configuration to customize the generation of insights.</span>
-<span class="doccomment">/// Eg, customizing the lookback period considered when generating a</span>
-<span class="doccomment">/// insight.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InsightTypeGenerationConfig</span> {
-    <span class="doccomment">/// Parameters for this InsightTypeGenerationConfig. These configs can be used</span>
     <span class="doccomment">/// by or are applied to all subtypes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">params</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,

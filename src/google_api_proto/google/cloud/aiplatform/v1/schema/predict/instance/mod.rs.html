@@ -167,7 +167,37 @@
 <span id="165">165</span>
 <span id="166">166</span>
 <span id="167">167</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Prediction input format for Image Segmentation.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Prediction input format for Image Object Detection.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageObjectDetectionPredictionInstance</span> {
+    <span class="doccomment">/// The image bytes or Cloud Storage URI to make the prediction on.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The MIME type of the content of the image. Only the images in below listed</span>
+    <span class="doccomment">/// MIME types are supported.</span>
+    <span class="doccomment">/// - image/jpeg</span>
+    <span class="doccomment">/// - image/gif</span>
+    <span class="doccomment">/// - image/png</span>
+    <span class="doccomment">/// - image/webp</span>
+    <span class="doccomment">/// - image/bmp</span>
+    <span class="doccomment">/// - image/tiff</span>
+    <span class="doccomment">/// - image/vnd.microsoft.icon</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Prediction input format for Text Sentiment.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextSentimentPredictionInstance</span> {
+    <span class="doccomment">/// The text snippet to make the predictions on.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed</span>
+    <span class="doccomment">/// below.</span>
+    <span class="doccomment">/// - text/plain</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Prediction input format for Image Segmentation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageSegmentationPredictionInstance</span> {
     <span class="doccomment">/// The image bytes to make the predictions on.</span>
@@ -192,83 +222,9 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Prediction input format for Text Sentiment.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextSentimentPredictionInstance</span> {
-    <span class="doccomment">/// The text snippet to make the predictions on.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed</span>
-    <span class="doccomment">/// below.</span>
-    <span class="doccomment">/// - text/plain</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
 <span class="doccomment">/// Prediction input format for Video Classification.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoClassificationPredictionInstance</span> {
-    <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the</span>
-    <span class="doccomment">/// prediction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The MIME type of the content of the video. Only the following are</span>
-    <span class="doccomment">/// supported: video/mp4 video/avi video/quicktime</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The beginning, inclusive, of the video&#39;s time segment on which to perform</span>
-    <span class="doccomment">/// the prediction. Expressed as a number of seconds as measured from the</span>
-    <span class="doccomment">/// start of the video, with &quot;s&quot; appended at the end. Fractions are allowed,</span>
-    <span class="doccomment">/// up to a microsecond precision.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">time_segment_start</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The end, exclusive, of the video&#39;s time segment on which to perform</span>
-    <span class="doccomment">/// the prediction. Expressed as a number of seconds as measured from the</span>
-    <span class="doccomment">/// start of the video, with &quot;s&quot; appended at the end. Fractions are allowed,</span>
-    <span class="doccomment">/// up to a microsecond precision, and &quot;inf&quot; or &quot;Infinity&quot; is allowed, which</span>
-    <span class="doccomment">/// means the end of the video.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">time_segment_end</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Prediction input format for Image Object Detection.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageObjectDetectionPredictionInstance</span> {
-    <span class="doccomment">/// The image bytes or Cloud Storage URI to make the prediction on.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The MIME type of the content of the image. Only the images in below listed</span>
-    <span class="doccomment">/// MIME types are supported.</span>
-    <span class="doccomment">/// - image/jpeg</span>
-    <span class="doccomment">/// - image/gif</span>
-    <span class="doccomment">/// - image/png</span>
-    <span class="doccomment">/// - image/webp</span>
-    <span class="doccomment">/// - image/bmp</span>
-    <span class="doccomment">/// - image/tiff</span>
-    <span class="doccomment">/// - image/vnd.microsoft.icon</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Prediction input format for Text Extraction.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextExtractionPredictionInstance</span> {
-    <span class="doccomment">/// The text snippet to make the predictions on.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed</span>
-    <span class="doccomment">/// below.</span>
-    <span class="doccomment">/// - text/plain</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// This field is only used for batch prediction. If a key is provided, the</span>
-    <span class="doccomment">/// batch prediction result will by mapped to this key. If omitted, then the</span>
-    <span class="doccomment">/// batch prediction result will contain the entire input instance. Vertex AI</span>
-    <span class="doccomment">/// will not check if keys in the request are duplicates, so it is up to the</span>
-    <span class="doccomment">/// caller to ensure the keys are unique.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Prediction input format for Video Action Recognition.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoActionRecognitionPredictionInstance</span> {
     <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the</span>
     <span class="doccomment">/// prediction.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
@@ -316,6 +272,25 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">time_segment_end</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// Prediction input format for Text Extraction.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextExtractionPredictionInstance</span> {
+    <span class="doccomment">/// The text snippet to make the predictions on.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed</span>
+    <span class="doccomment">/// below.</span>
+    <span class="doccomment">/// - text/plain</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// This field is only used for batch prediction. If a key is provided, the</span>
+    <span class="doccomment">/// batch prediction result will by mapped to this key. If omitted, then the</span>
+    <span class="doccomment">/// batch prediction result will contain the entire input instance. Vertex AI</span>
+    <span class="doccomment">/// will not check if keys in the request are duplicates, so it is up to the</span>
+    <span class="doccomment">/// caller to ensure the keys are unique.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Prediction input format for Image Classification.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageClassificationPredictionInstance</span> {
@@ -333,6 +308,31 @@
     <span class="doccomment">/// - image/vnd.microsoft.icon</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Prediction input format for Video Action Recognition.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoActionRecognitionPredictionInstance</span> {
+    <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the</span>
+    <span class="doccomment">/// prediction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The MIME type of the content of the video. Only the following are</span>
+    <span class="doccomment">/// supported: video/mp4 video/avi video/quicktime</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The beginning, inclusive, of the video&#39;s time segment on which to perform</span>
+    <span class="doccomment">/// the prediction. Expressed as a number of seconds as measured from the</span>
+    <span class="doccomment">/// start of the video, with &quot;s&quot; appended at the end. Fractions are allowed,</span>
+    <span class="doccomment">/// up to a microsecond precision.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">time_segment_start</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The end, exclusive, of the video&#39;s time segment on which to perform</span>
+    <span class="doccomment">/// the prediction. Expressed as a number of seconds as measured from the</span>
+    <span class="doccomment">/// start of the video, with &quot;s&quot; appended at the end. Fractions are allowed,</span>
+    <span class="doccomment">/// up to a microsecond precision, and &quot;inf&quot; or &quot;Infinity&quot; is allowed, which</span>
+    <span class="doccomment">/// means the end of the video.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">time_segment_end</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

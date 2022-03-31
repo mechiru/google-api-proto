@@ -1253,7 +1253,16 @@
 <span id="1251">1251</span>
 <span id="1252">1252</span>
 <span id="1253">1253</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Describes how to combine multiple time series to provide a different view of</span>
+</pre><pre class="rust"><code><span class="doccomment">/// A chart that displays alert policy data.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AlertChart</span> {
+    <span class="doccomment">/// Required. The resource name of the alert policy. The format is:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Describes how to combine multiple time series to provide a different view of</span>
 <span class="doccomment">/// the data.  Aggregation of time series is done in two steps. First, each time</span>
 <span class="doccomment">/// series in the set is _aligned_ to the same time interval boundaries, then the</span>
 <span class="doccomment">/// set of time series is optionally _reduced_ in number.</span>
@@ -1926,6 +1935,30 @@
         <span class="ident">SparkChartView</span>(<span class="ident">SparkChartView</span>),
     }
 }
+<span class="doccomment">/// A widget that displays textual content.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Text</span> {
+    <span class="doccomment">/// The text content to be displayed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// How the text content is formatted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;text::Format&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">format</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Text`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">text</span> {
+    <span class="doccomment">/// The format type of the text content.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Format</span> {
+        <span class="doccomment">/// Format is unspecified. Defaults to MARKDOWN.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The text contains Markdown formatting.</span>
+        <span class="ident">Markdown</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The text contains no special formatting.</span>
+        <span class="ident">Raw</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
 <span class="doccomment">/// A chart that displays data on a 2D (X and Y axes) plane.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">XyChart</span> {
@@ -2057,39 +2090,6 @@
         <span class="doccomment">/// The chart displays statistics such as average, median, 95th percentile,</span>
         <span class="doccomment">/// and more.</span>
         <span class="ident">Stats</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// A chart that displays alert policy data.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AlertChart</span> {
-    <span class="doccomment">/// Required. The resource name of the alert policy. The format is:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     projects/\[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID\]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A widget that displays textual content.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Text</span> {
-    <span class="doccomment">/// The text content to be displayed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// How the text content is formatted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;text::Format&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">format</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Text`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">text</span> {
-    <span class="doccomment">/// The format type of the text content.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Format</span> {
-        <span class="doccomment">/// Format is unspecified. Defaults to MARKDOWN.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The text contains Markdown formatting.</span>
-        <span class="ident">Markdown</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The text contains no special formatting.</span>
-        <span class="ident">Raw</span> <span class="op">=</span> <span class="number">2</span>,
     }
 }
 <span class="doccomment">/// Widget contains a single dashboard component and configuration of how to</span>

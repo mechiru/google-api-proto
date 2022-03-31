@@ -352,28 +352,6 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;google-actions-sdk-v2-interactionmodel-type&quot;</span>,))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">r#type</span>;
 
-<span class="doccomment">/// Entity sets describe the pre-defined set of entities that the values of</span>
-<span class="doccomment">/// built-in intent parameters can come from. Entity sets can be referenced from</span>
-<span class="doccomment">/// entity_set in built-in intent parameters.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitySet</span> {
-    <span class="doccomment">/// Required. The list of entities this entity set supports.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">entities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">entity_set::Entity</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `EntitySet`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entity_set</span> {
-    <span class="doccomment">/// An entity a built-in intent parameter value can come from.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entity</span> {
-        <span class="doccomment">/// Required. The ID of the entity.</span>
-        <span class="doccomment">/// For a list of built-in-intent parameters and their supported entities,</span>
-        <span class="doccomment">/// see</span>
-        <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/build/built-in-intents&gt;</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
 <span class="doccomment">/// Defines a handler to be executed after an event. Examples of events are</span>
 <span class="doccomment">/// intent and condition based events in a scene.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -419,6 +397,44 @@
     <span class="doccomment">/// in response to events.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Registers Events which trigger as the result of an intent match.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentEvent</span> {
+    <span class="doccomment">/// Required. Intent triggering the event.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">intent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
+    <span class="doccomment">/// current scene is destroyed on the transition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
+    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate prompts</span>
+    <span class="doccomment">/// in response to events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Entity sets describe the pre-defined set of entities that the values of</span>
+<span class="doccomment">/// built-in intent parameters can come from. Entity sets can be referenced from</span>
+<span class="doccomment">/// entity_set in built-in intent parameters.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntitySet</span> {
+    <span class="doccomment">/// Required. The list of entities this entity set supports.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">entities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">entity_set::Entity</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `EntitySet`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entity_set</span> {
+    <span class="doccomment">/// An entity a built-in intent parameter value can come from.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entity</span> {
+        <span class="doccomment">/// Required. The ID of the entity.</span>
+        <span class="doccomment">/// For a list of built-in-intent parameters and their supported entities,</span>
+        <span class="doccomment">/// see</span>
+        <span class="doccomment">/// &lt;https://developers.google.com/assistant/conversational/build/built-in-intents&gt;</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
 }
 <span class="doccomment">/// Intents map open-ended user input to structured objects. Spoken</span>
 <span class="doccomment">/// phrases are matched to intents with Google&#39;s Natural Language Understanding</span>
@@ -526,22 +542,6 @@
     <span class="doccomment">/// Optional. Event handler which is triggered when the associated condition is evaluated</span>
     <span class="doccomment">/// to `true`. Should execute before transitioning to the destination scene.</span>
     <span class="doccomment">/// Useful to generate Prompts in response to events.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Registers Events which trigger as the result of an intent match.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IntentEvent</span> {
-    <span class="doccomment">/// Required. Intent triggering the event.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">intent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the</span>
-    <span class="doccomment">/// current scene is destroyed on the transition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">transition_to_scene</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute</span>
-    <span class="doccomment">/// before transitioning to the destination scene. Useful to generate prompts</span>
-    <span class="doccomment">/// in response to events.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">handler</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">EventHandler</span><span class="op">&gt;</span>,
 }

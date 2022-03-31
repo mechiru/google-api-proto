@@ -1170,7 +1170,76 @@
 <span id="1168">1168</span>
 <span id="1169">1169</span>
 <span id="1170">1170</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Schema of a table.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Arrow schema as specified in</span>
+<span class="doccomment">/// &lt;https://arrow.apache.org/docs/python/api/datatypes.html&gt;</span>
+<span class="doccomment">/// and serialized to bytes using IPC:</span>
+<span class="doccomment">/// &lt;https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc&gt;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// See code samples on how this message can be deserialized.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowSchema</span> {
+    <span class="doccomment">/// IPC serialized Arrow schema.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">serialized_schema</span>: <span class="ident">::prost::bytes::Bytes</span>,
+}
+<span class="doccomment">/// Arrow RecordBatch.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowRecordBatch</span> {
+    <span class="doccomment">/// IPC-serialized Arrow RecordBatch.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">serialized_record_batch</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// \[Deprecated\] The count of rows in `serialized_record_batch`.</span>
+    <span class="doccomment">/// Please use the format-independent ReadRowsResponse.row_count instead.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Contains options specific to Arrow Serialization.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowSerializationOptions</span> {
+    <span class="doccomment">/// The compression codec to use for Arrow buffers in serialized record</span>
+    <span class="doccomment">/// batches.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;arrow_serialization_options::CompressionCodec&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">buffer_compression</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ArrowSerializationOptions`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">arrow_serialization_options</span> {
+    <span class="doccomment">/// Compression codec&#39;s supported by Arrow.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CompressionCodec</span> {
+        <span class="doccomment">/// If unspecified no compression will be used.</span>
+        <span class="ident">CompressionUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// LZ4 Frame (&lt;https://github.com/lz4/lz4/blob/dev/doc/lz4_Frame_format.md&gt;)</span>
+        <span class="ident">Lz4Frame</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Zstandard compression.</span>
+        <span class="ident">Zstd</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Avro schema.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AvroSchema</span> {
+    <span class="doccomment">/// Json serialized schema, as described at</span>
+    <span class="doccomment">/// &lt;https://avro.apache.org/docs/1.8.1/spec.html.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">schema</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Avro rows.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AvroRows</span> {
+    <span class="doccomment">/// Binary serialized rows in a block.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">serialized_binary_rows</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// \[Deprecated\] The count of rows in the returning block.</span>
+    <span class="doccomment">/// Please use the format-independent ReadRowsResponse.row_count instead.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Schema of a table.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableSchema</span> {
     <span class="doccomment">/// Describes the fields in a table.</span>
@@ -1295,75 +1364,6 @@
         <span class="ident">Nullable</span> <span class="op">=</span> <span class="number">1</span>,
         <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
         <span class="ident">Repeated</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Avro schema.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AvroSchema</span> {
-    <span class="doccomment">/// Json serialized schema, as described at</span>
-    <span class="doccomment">/// &lt;https://avro.apache.org/docs/1.8.1/spec.html.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">schema</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Avro rows.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AvroRows</span> {
-    <span class="doccomment">/// Binary serialized rows in a block.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">serialized_binary_rows</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// \[Deprecated\] The count of rows in the returning block.</span>
-    <span class="doccomment">/// Please use the format-independent ReadRowsResponse.row_count instead.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// Arrow schema as specified in</span>
-<span class="doccomment">/// &lt;https://arrow.apache.org/docs/python/api/datatypes.html&gt;</span>
-<span class="doccomment">/// and serialized to bytes using IPC:</span>
-<span class="doccomment">/// &lt;https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc&gt;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See code samples on how this message can be deserialized.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowSchema</span> {
-    <span class="doccomment">/// IPC serialized Arrow schema.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">serialized_schema</span>: <span class="ident">::prost::bytes::Bytes</span>,
-}
-<span class="doccomment">/// Arrow RecordBatch.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowRecordBatch</span> {
-    <span class="doccomment">/// IPC-serialized Arrow RecordBatch.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">serialized_record_batch</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// \[Deprecated\] The count of rows in `serialized_record_batch`.</span>
-    <span class="doccomment">/// Please use the format-independent ReadRowsResponse.row_count instead.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// Contains options specific to Arrow Serialization.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArrowSerializationOptions</span> {
-    <span class="doccomment">/// The compression codec to use for Arrow buffers in serialized record</span>
-    <span class="doccomment">/// batches.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;arrow_serialization_options::CompressionCodec&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">buffer_compression</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ArrowSerializationOptions`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">arrow_serialization_options</span> {
-    <span class="doccomment">/// Compression codec&#39;s supported by Arrow.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CompressionCodec</span> {
-        <span class="doccomment">/// If unspecified no compression will be used.</span>
-        <span class="ident">CompressionUnspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// LZ4 Frame (&lt;https://github.com/lz4/lz4/blob/dev/doc/lz4_Frame_format.md&gt;)</span>
-        <span class="ident">Lz4Frame</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Zstandard compression.</span>
-        <span class="ident">Zstd</span> <span class="op">=</span> <span class="number">2</span>,
     }
 }
 <span class="doccomment">/// Information about the ReadSession.</span>

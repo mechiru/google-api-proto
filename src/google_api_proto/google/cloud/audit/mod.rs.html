@@ -1531,282 +1531,7 @@
 <span id="1529">1529</span>
 <span id="1530">1530</span>
 <span id="1531">1531</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Common audit log format for Google Cloud Platform API operations.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuditLog</span> {
-    <span class="doccomment">/// The name of the API service performing the operation. For example,</span>
-    <span class="doccomment">/// `&quot;compute.googleapis.com&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The name of the service method or operation.</span>
-    <span class="doccomment">/// For API calls, this should be the name of the API method.</span>
-    <span class="doccomment">/// For example,</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     &quot;google.cloud.bigquery.v2.TableService.InsertTable&quot;</span>
-    <span class="doccomment">///     &quot;google.logging.v2.ConfigServiceV2.CreateSink&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">method_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The resource or collection that is the target of the operation.</span>
-    <span class="doccomment">/// The name is a scheme-less URI, not including the API service name.</span>
-    <span class="doccomment">/// For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     &quot;projects/PROJECT_ID/zones/us-central1-a/instances&quot;</span>
-    <span class="doccomment">///     &quot;projects/PROJECT_ID/datasets/DATASET_ID&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The resource location information.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ResourceLocation</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The resource&#39;s original state before mutation. Present only for</span>
-    <span class="doccomment">/// operations which have successfully modified the targeted resource(s).</span>
-    <span class="doccomment">/// In general, this field should contain all changed fields, except those</span>
-    <span class="doccomment">/// that are already been included in `request`, `response`, `metadata` or</span>
-    <span class="doccomment">/// `service_data` fields.</span>
-    <span class="doccomment">/// When the JSON object represented here has a proto equivalent,</span>
-    <span class="doccomment">/// the proto name will be indicated in the `@type` property.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;19&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_original_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The number of items returned from a List or Query API method,</span>
-    <span class="doccomment">/// if applicable.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">num_response_items</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The status of the overall operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Authentication information.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">authentication_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AuthenticationInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Authorization information. If there are multiple</span>
-    <span class="doccomment">/// resources or permissions involved, then there is</span>
-    <span class="doccomment">/// one AuthorizationInfo element for each {resource, permission} tuple.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">authorization_info</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AuthorizationInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Metadata about the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RequestMetadata</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The operation request. This may not include all request parameters,</span>
-    <span class="doccomment">/// such as those that are too large, privacy-sensitive, or duplicated</span>
-    <span class="doccomment">/// elsewhere in the log record.</span>
-    <span class="doccomment">/// It should never include user-generated data, such as file contents.</span>
-    <span class="doccomment">/// When the JSON object represented here has a proto equivalent, the proto</span>
-    <span class="doccomment">/// name will be indicated in the `@type` property.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The operation response. This may not include all response elements,</span>
-    <span class="doccomment">/// such as those that are too large, privacy-sensitive, or duplicated</span>
-    <span class="doccomment">/// elsewhere in the log record.</span>
-    <span class="doccomment">/// It should never include user-generated data, such as file contents.</span>
-    <span class="doccomment">/// When the JSON object represented here has a proto equivalent, the proto</span>
-    <span class="doccomment">/// name will be indicated in the `@type` property.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Other service-specific data about the request, response, and other</span>
-    <span class="doccomment">/// information associated with the current audited event.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;18&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Deprecated. Use the `metadata` field instead.</span>
-    <span class="doccomment">/// Other service-specific data about the request, response, and other</span>
-    <span class="doccomment">/// activities.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service_data</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Any</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Authentication information for the operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthenticationInfo</span> {
-    <span class="doccomment">/// The email address of the authenticated user (or service account on behalf</span>
-    <span class="doccomment">/// of third party principal) making the request. For third party identity</span>
-    <span class="doccomment">/// callers, the `principal_subject` field is populated instead of this field.</span>
-    <span class="doccomment">/// For privacy reasons, the principal email address is sometimes redacted.</span>
-    <span class="doccomment">/// For more information, see</span>
-    <span class="doccomment">/// &lt;https://cloud.google.com/logging/docs/audit#user-id.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">principal_email</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The authority selector specified by the requestor, if any.</span>
-    <span class="doccomment">/// It is not guaranteed that the principal was allowed to use this authority.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">authority_selector</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The third party identification (if any) of the authenticated user making</span>
-    <span class="doccomment">/// the request.</span>
-    <span class="doccomment">/// When the JSON object represented here has a proto equivalent, the proto</span>
-    <span class="doccomment">/// name will be indicated in the `@type` property.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">third_party_principal</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The name of the service account key used to create or exchange</span>
-    <span class="doccomment">/// credentials for authenticating the service account making the request.</span>
-    <span class="doccomment">/// This is a scheme-less URI full resource name. For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// &quot;//iam.googleapis.com/projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service_account_key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Identity delegation history of an authenticated service account that makes</span>
-    <span class="doccomment">/// the request. It contains information on the real authorities that try to</span>
-    <span class="doccomment">/// access GCP resources by delegating on a service account. When multiple</span>
-    <span class="doccomment">/// authorities present, they are guaranteed to be sorted based on the original</span>
-    <span class="doccomment">/// ordering of the identity delegation events.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">service_account_delegation_info</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ServiceAccountDelegationInfo</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// String representation of identity of requesting party.</span>
-    <span class="doccomment">/// Populated for both first and third party identities.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">principal_subject</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Authorization information for the operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthorizationInfo</span> {
-    <span class="doccomment">/// The resource being accessed, as a REST-style or cloud resource string.</span>
-    <span class="doccomment">/// For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     bigquery.googleapis.com/projects/PROJECTID/datasets/DATASETID</span>
-    <span class="doccomment">/// or</span>
-    <span class="doccomment">///     projects/PROJECTID/datasets/DATASETID</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The required IAM permission.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">permission</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Whether or not authorization for `resource` and `permission`</span>
-    <span class="doccomment">/// was granted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">granted</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Resource attributes used in IAM condition evaluation. This field contains</span>
-    <span class="doccomment">/// resource attributes like resource type and resource name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// To get the whole view of the attributes used in IAM</span>
-    <span class="doccomment">/// condition evaluation, the user must also look into</span>
-    <span class="doccomment">/// `AuditLog.request_metadata.request_attributes`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_attributes</span>:
-        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::context::attribute_context::Resource</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Metadata about the request.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestMetadata</span> {
-    <span class="doccomment">/// The IP address of the caller.</span>
-    <span class="doccomment">/// For caller from internet, this will be public IPv4 or IPv6 address.</span>
-    <span class="doccomment">/// For caller from a Compute Engine VM with external IP address, this</span>
-    <span class="doccomment">/// will be the VM&#39;s external IP address. For caller from a Compute</span>
-    <span class="doccomment">/// Engine VM without external IP address, if the VM is in the same</span>
-    <span class="doccomment">/// organization (or project) as the accessed resource, `caller_ip` will</span>
-    <span class="doccomment">/// be the VM&#39;s internal IPv4 address, otherwise the `caller_ip` will be</span>
-    <span class="doccomment">/// redacted to &quot;gce-internal-ip&quot;.</span>
-    <span class="doccomment">/// See &lt;https://cloud.google.com/compute/docs/vpc/&gt; for more information.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">caller_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The user agent of the caller.</span>
-    <span class="doccomment">/// This information is not authenticated and should be treated accordingly.</span>
-    <span class="doccomment">/// For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// +   `google-api-python-client/1.4.0`:</span>
-    <span class="doccomment">///     The request was made by the Google API client for Python.</span>
-    <span class="doccomment">/// +   `Cloud SDK Command Line Tool apitools-client/1.0 gcloud/0.9.62`:</span>
-    <span class="doccomment">///     The request was made by the Google Cloud SDK CLI (gcloud).</span>
-    <span class="doccomment">/// +   `AppEngine-Google; (+&lt;http://code.google.com/appengine;&gt; appid:</span>
-    <span class="doccomment">/// s~my-project`:</span>
-    <span class="doccomment">///     The request was made from the `my-project` App Engine app.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">caller_supplied_user_agent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The network of the caller.</span>
-    <span class="doccomment">/// Set only if the network host project is part of the same GCP organization</span>
-    <span class="doccomment">/// (or project) as the accessed resource.</span>
-    <span class="doccomment">/// See &lt;https://cloud.google.com/compute/docs/vpc/&gt; for more information.</span>
-    <span class="doccomment">/// This is a scheme-less URI full resource name. For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     &quot;//compute.googleapis.com/projects/PROJECT_ID/global/networks/NETWORK_ID&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">caller_network</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Request attributes used in IAM condition evaluation. This field contains</span>
-    <span class="doccomment">/// request attributes like request time and access levels associated with</span>
-    <span class="doccomment">/// the request.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// To get the whole view of the attributes used in IAM</span>
-    <span class="doccomment">/// condition evaluation, the user must also look into</span>
-    <span class="doccomment">/// `AuditLog.authentication_info.resource_attributes`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_attributes</span>:
-        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::context::attribute_context::Request</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The destination of a network activity, such as accepting a TCP connection.</span>
-    <span class="doccomment">/// In a multi hop network activity, the destination represents the receiver of</span>
-    <span class="doccomment">/// the last hop. Only two fields are used in this message, Peer.port and</span>
-    <span class="doccomment">/// Peer.ip. These fields are optionally populated by those services utilizing</span>
-    <span class="doccomment">/// the IAM condition feature.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination_attributes</span>:
-        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::context::attribute_context::Peer</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Location information about a resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResourceLocation</span> {
-    <span class="doccomment">/// The locations of a resource after the execution of the operation.</span>
-    <span class="doccomment">/// Requests to create or delete a location based resource must populate</span>
-    <span class="doccomment">/// the &#39;current_locations&#39; field and not the &#39;original_locations&#39; field.</span>
-    <span class="doccomment">/// For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     &quot;europe-west1-a&quot;</span>
-    <span class="doccomment">///     &quot;us-east1&quot;</span>
-    <span class="doccomment">///     &quot;nam3&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">current_locations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The locations of a resource prior to the execution of the operation.</span>
-    <span class="doccomment">/// Requests that mutate the resource&#39;s location must populate both the</span>
-    <span class="doccomment">/// &#39;original_locations&#39; as well as the &#39;current_locations&#39; fields.</span>
-    <span class="doccomment">/// For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     &quot;europe-west1-a&quot;</span>
-    <span class="doccomment">///     &quot;us-east1&quot;</span>
-    <span class="doccomment">///     &quot;nam3&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">original_locations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Identity delegation history of an authenticated service account.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ServiceAccountDelegationInfo</span> {
-    <span class="doccomment">/// A string representing the principal_subject associated with the identity.</span>
-    <span class="doccomment">/// For most identities, the format will be</span>
-    <span class="doccomment">/// `principal://iam.googleapis.com/{identity pool name}/subject/{subject)`</span>
-    <span class="doccomment">/// except for some GKE identities (GKE_WORKLOAD, FREEFORM, GKE_HUB_WORKLOAD)</span>
-    <span class="doccomment">/// that are still in the legacy format `serviceAccount:{identity pool</span>
-    <span class="doccomment">/// name}\[{subject}\]`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">principal_subject</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Entity that creates credentials for service account and assumes its</span>
-    <span class="doccomment">/// identity for authentication.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;service_account_delegation_info::Authority&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">authority</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">service_account_delegation_info::Authority</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ServiceAccountDelegationInfo`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">service_account_delegation_info</span> {
-    <span class="doccomment">/// First party identity principal.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FirstPartyPrincipal</span> {
-        <span class="doccomment">/// The email address of a Google account.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">principal_email</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Metadata about the service that uses the service account.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">service_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Third party identity principal.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ThirdPartyPrincipal</span> {
-        <span class="doccomment">/// Metadata about third party identity.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">third_party_claims</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Entity that creates credentials for service account and assumes its</span>
-    <span class="doccomment">/// identity for authentication.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Authority</span> {
-        <span class="doccomment">/// First party (Google) identity as the real authority.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">FirstPartyPrincipal</span>(<span class="ident">FirstPartyPrincipal</span>),
-        <span class="doccomment">/// Third party identity as the real authority.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">ThirdPartyPrincipal</span>(<span class="ident">ThirdPartyPrincipal</span>),
-    }
-}
-<span class="doccomment">/// Audit log format for BigQuery cloud audit logs metadata.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Audit log format for BigQuery cloud audit logs metadata.</span>
 <span class="doccomment">///</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQueryAuditMetadata</span> {
@@ -3060,6 +2785,281 @@
         <span class="doccomment">/// Routine deletion event.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;18&quot;</span>)]</span>
         <span class="ident">RoutineDeletion</span>(<span class="ident">RoutineDeletion</span>),
+    }
+}
+<span class="doccomment">/// Common audit log format for Google Cloud Platform API operations.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuditLog</span> {
+    <span class="doccomment">/// The name of the API service performing the operation. For example,</span>
+    <span class="doccomment">/// `&quot;compute.googleapis.com&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the service method or operation.</span>
+    <span class="doccomment">/// For API calls, this should be the name of the API method.</span>
+    <span class="doccomment">/// For example,</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     &quot;google.cloud.bigquery.v2.TableService.InsertTable&quot;</span>
+    <span class="doccomment">///     &quot;google.logging.v2.ConfigServiceV2.CreateSink&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">method_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The resource or collection that is the target of the operation.</span>
+    <span class="doccomment">/// The name is a scheme-less URI, not including the API service name.</span>
+    <span class="doccomment">/// For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     &quot;projects/PROJECT_ID/zones/us-central1-a/instances&quot;</span>
+    <span class="doccomment">///     &quot;projects/PROJECT_ID/datasets/DATASET_ID&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The resource location information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_location</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ResourceLocation</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The resource&#39;s original state before mutation. Present only for</span>
+    <span class="doccomment">/// operations which have successfully modified the targeted resource(s).</span>
+    <span class="doccomment">/// In general, this field should contain all changed fields, except those</span>
+    <span class="doccomment">/// that are already been included in `request`, `response`, `metadata` or</span>
+    <span class="doccomment">/// `service_data` fields.</span>
+    <span class="doccomment">/// When the JSON object represented here has a proto equivalent,</span>
+    <span class="doccomment">/// the proto name will be indicated in the `@type` property.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;19&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_original_state</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The number of items returned from a List or Query API method,</span>
+    <span class="doccomment">/// if applicable.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">num_response_items</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The status of the overall operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Authentication information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authentication_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AuthenticationInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Authorization information. If there are multiple</span>
+    <span class="doccomment">/// resources or permissions involved, then there is</span>
+    <span class="doccomment">/// one AuthorizationInfo element for each {resource, permission} tuple.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authorization_info</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AuthorizationInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Metadata about the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RequestMetadata</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The operation request. This may not include all request parameters,</span>
+    <span class="doccomment">/// such as those that are too large, privacy-sensitive, or duplicated</span>
+    <span class="doccomment">/// elsewhere in the log record.</span>
+    <span class="doccomment">/// It should never include user-generated data, such as file contents.</span>
+    <span class="doccomment">/// When the JSON object represented here has a proto equivalent, the proto</span>
+    <span class="doccomment">/// name will be indicated in the `@type` property.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The operation response. This may not include all response elements,</span>
+    <span class="doccomment">/// such as those that are too large, privacy-sensitive, or duplicated</span>
+    <span class="doccomment">/// elsewhere in the log record.</span>
+    <span class="doccomment">/// It should never include user-generated data, such as file contents.</span>
+    <span class="doccomment">/// When the JSON object represented here has a proto equivalent, the proto</span>
+    <span class="doccomment">/// name will be indicated in the `@type` property.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Other service-specific data about the request, response, and other</span>
+    <span class="doccomment">/// information associated with the current audited event.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;18&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Deprecated. Use the `metadata` field instead.</span>
+    <span class="doccomment">/// Other service-specific data about the request, response, and other</span>
+    <span class="doccomment">/// activities.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service_data</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Any</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Authentication information for the operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthenticationInfo</span> {
+    <span class="doccomment">/// The email address of the authenticated user (or service account on behalf</span>
+    <span class="doccomment">/// of third party principal) making the request. For third party identity</span>
+    <span class="doccomment">/// callers, the `principal_subject` field is populated instead of this field.</span>
+    <span class="doccomment">/// For privacy reasons, the principal email address is sometimes redacted.</span>
+    <span class="doccomment">/// For more information, see</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/logging/docs/audit#user-id.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">principal_email</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The authority selector specified by the requestor, if any.</span>
+    <span class="doccomment">/// It is not guaranteed that the principal was allowed to use this authority.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authority_selector</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The third party identification (if any) of the authenticated user making</span>
+    <span class="doccomment">/// the request.</span>
+    <span class="doccomment">/// When the JSON object represented here has a proto equivalent, the proto</span>
+    <span class="doccomment">/// name will be indicated in the `@type` property.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">third_party_principal</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The name of the service account key used to create or exchange</span>
+    <span class="doccomment">/// credentials for authenticating the service account making the request.</span>
+    <span class="doccomment">/// This is a scheme-less URI full resource name. For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// &quot;//iam.googleapis.com/projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service_account_key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Identity delegation history of an authenticated service account that makes</span>
+    <span class="doccomment">/// the request. It contains information on the real authorities that try to</span>
+    <span class="doccomment">/// access GCP resources by delegating on a service account. When multiple</span>
+    <span class="doccomment">/// authorities present, they are guaranteed to be sorted based on the original</span>
+    <span class="doccomment">/// ordering of the identity delegation events.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service_account_delegation_info</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ServiceAccountDelegationInfo</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// String representation of identity of requesting party.</span>
+    <span class="doccomment">/// Populated for both first and third party identities.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">principal_subject</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Authorization information for the operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthorizationInfo</span> {
+    <span class="doccomment">/// The resource being accessed, as a REST-style or cloud resource string.</span>
+    <span class="doccomment">/// For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     bigquery.googleapis.com/projects/PROJECTID/datasets/DATASETID</span>
+    <span class="doccomment">/// or</span>
+    <span class="doccomment">///     projects/PROJECTID/datasets/DATASETID</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The required IAM permission.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">permission</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Whether or not authorization for `resource` and `permission`</span>
+    <span class="doccomment">/// was granted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">granted</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Resource attributes used in IAM condition evaluation. This field contains</span>
+    <span class="doccomment">/// resource attributes like resource type and resource name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// To get the whole view of the attributes used in IAM</span>
+    <span class="doccomment">/// condition evaluation, the user must also look into</span>
+    <span class="doccomment">/// `AuditLog.request_metadata.request_attributes`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_attributes</span>:
+        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::context::attribute_context::Resource</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Metadata about the request.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestMetadata</span> {
+    <span class="doccomment">/// The IP address of the caller.</span>
+    <span class="doccomment">/// For caller from internet, this will be public IPv4 or IPv6 address.</span>
+    <span class="doccomment">/// For caller from a Compute Engine VM with external IP address, this</span>
+    <span class="doccomment">/// will be the VM&#39;s external IP address. For caller from a Compute</span>
+    <span class="doccomment">/// Engine VM without external IP address, if the VM is in the same</span>
+    <span class="doccomment">/// organization (or project) as the accessed resource, `caller_ip` will</span>
+    <span class="doccomment">/// be the VM&#39;s internal IPv4 address, otherwise the `caller_ip` will be</span>
+    <span class="doccomment">/// redacted to &quot;gce-internal-ip&quot;.</span>
+    <span class="doccomment">/// See &lt;https://cloud.google.com/compute/docs/vpc/&gt; for more information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">caller_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The user agent of the caller.</span>
+    <span class="doccomment">/// This information is not authenticated and should be treated accordingly.</span>
+    <span class="doccomment">/// For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// +   `google-api-python-client/1.4.0`:</span>
+    <span class="doccomment">///     The request was made by the Google API client for Python.</span>
+    <span class="doccomment">/// +   `Cloud SDK Command Line Tool apitools-client/1.0 gcloud/0.9.62`:</span>
+    <span class="doccomment">///     The request was made by the Google Cloud SDK CLI (gcloud).</span>
+    <span class="doccomment">/// +   `AppEngine-Google; (+&lt;http://code.google.com/appengine;&gt; appid:</span>
+    <span class="doccomment">/// s~my-project`:</span>
+    <span class="doccomment">///     The request was made from the `my-project` App Engine app.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">caller_supplied_user_agent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The network of the caller.</span>
+    <span class="doccomment">/// Set only if the network host project is part of the same GCP organization</span>
+    <span class="doccomment">/// (or project) as the accessed resource.</span>
+    <span class="doccomment">/// See &lt;https://cloud.google.com/compute/docs/vpc/&gt; for more information.</span>
+    <span class="doccomment">/// This is a scheme-less URI full resource name. For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     &quot;//compute.googleapis.com/projects/PROJECT_ID/global/networks/NETWORK_ID&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">caller_network</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Request attributes used in IAM condition evaluation. This field contains</span>
+    <span class="doccomment">/// request attributes like request time and access levels associated with</span>
+    <span class="doccomment">/// the request.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// To get the whole view of the attributes used in IAM</span>
+    <span class="doccomment">/// condition evaluation, the user must also look into</span>
+    <span class="doccomment">/// `AuditLog.authentication_info.resource_attributes`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_attributes</span>:
+        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::context::attribute_context::Request</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The destination of a network activity, such as accepting a TCP connection.</span>
+    <span class="doccomment">/// In a multi hop network activity, the destination represents the receiver of</span>
+    <span class="doccomment">/// the last hop. Only two fields are used in this message, Peer.port and</span>
+    <span class="doccomment">/// Peer.ip. These fields are optionally populated by those services utilizing</span>
+    <span class="doccomment">/// the IAM condition feature.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_attributes</span>:
+        <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::rpc::context::attribute_context::Peer</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Location information about a resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResourceLocation</span> {
+    <span class="doccomment">/// The locations of a resource after the execution of the operation.</span>
+    <span class="doccomment">/// Requests to create or delete a location based resource must populate</span>
+    <span class="doccomment">/// the &#39;current_locations&#39; field and not the &#39;original_locations&#39; field.</span>
+    <span class="doccomment">/// For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     &quot;europe-west1-a&quot;</span>
+    <span class="doccomment">///     &quot;us-east1&quot;</span>
+    <span class="doccomment">///     &quot;nam3&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">current_locations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The locations of a resource prior to the execution of the operation.</span>
+    <span class="doccomment">/// Requests that mutate the resource&#39;s location must populate both the</span>
+    <span class="doccomment">/// &#39;original_locations&#39; as well as the &#39;current_locations&#39; fields.</span>
+    <span class="doccomment">/// For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     &quot;europe-west1-a&quot;</span>
+    <span class="doccomment">///     &quot;us-east1&quot;</span>
+    <span class="doccomment">///     &quot;nam3&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">original_locations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Identity delegation history of an authenticated service account.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ServiceAccountDelegationInfo</span> {
+    <span class="doccomment">/// A string representing the principal_subject associated with the identity.</span>
+    <span class="doccomment">/// For most identities, the format will be</span>
+    <span class="doccomment">/// `principal://iam.googleapis.com/{identity pool name}/subject/{subject)`</span>
+    <span class="doccomment">/// except for some GKE identities (GKE_WORKLOAD, FREEFORM, GKE_HUB_WORKLOAD)</span>
+    <span class="doccomment">/// that are still in the legacy format `serviceAccount:{identity pool</span>
+    <span class="doccomment">/// name}\[{subject}\]`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">principal_subject</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Entity that creates credentials for service account and assumes its</span>
+    <span class="doccomment">/// identity for authentication.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;service_account_delegation_info::Authority&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authority</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">service_account_delegation_info::Authority</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ServiceAccountDelegationInfo`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">service_account_delegation_info</span> {
+    <span class="doccomment">/// First party identity principal.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FirstPartyPrincipal</span> {
+        <span class="doccomment">/// The email address of a Google account.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">principal_email</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Metadata about the service that uses the service account.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">service_metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Third party identity principal.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ThirdPartyPrincipal</span> {
+        <span class="doccomment">/// Metadata about third party identity.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">third_party_claims</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Entity that creates credentials for service account and assumes its</span>
+    <span class="doccomment">/// identity for authentication.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Authority</span> {
+        <span class="doccomment">/// First party (Google) identity as the real authority.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">FirstPartyPrincipal</span>(<span class="ident">FirstPartyPrincipal</span>),
+        <span class="doccomment">/// Third party identity as the real authority.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">ThirdPartyPrincipal</span>(<span class="ident">ThirdPartyPrincipal</span>),
     }
 }
 </code></pre></div>

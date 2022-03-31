@@ -1101,6 +1101,9 @@
         <span class="ident">NeedsRepair</span> <span class="op">=</span> <span class="number">3</span>,
     }
 }
+<span class="doccomment">/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocationMetadata</span> {}
 <span class="doccomment">/// Represents a single field in the database.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Fields are grouped by their &quot;Collection Group&quot;, which represent all</span>
@@ -1412,9 +1415,6 @@
     <span class="doccomment">/// google.longrunning.Operations.CancelOperation.</span>
     <span class="ident">Cancelled</span> <span class="op">=</span> <span class="number">7</span>,
 }
-<span class="doccomment">/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocationMetadata</span> {}
 <span class="doccomment">/// A request to list the Firestore Databases in all locations for a project.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListDatabasesRequest</span> {

@@ -1250,64 +1250,6 @@
     <span class="doccomment">/// format](&lt;https://tools.ietf.org/html/rfc7946#section-3.1.4&gt;)</span>
     <span class="ident">GeoJsonLinestring</span> <span class="op">=</span> <span class="number">2</span>,
 }
-<span class="doccomment">/// A set of values describing the vehicle&#39;s emission type.</span>
-<span class="doccomment">/// Applies only to the DRIVE travel mode.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VehicleEmissionType</span> {
-    <span class="doccomment">/// No emission type specified. Default to GASOLINE.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Gasoline/petrol fueled vehicle.</span>
-    <span class="ident">Gasoline</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Electricity powered vehicle.</span>
-    <span class="ident">Electric</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Hybrid fuel (such as gasoline + electric) vehicle.</span>
-    <span class="ident">Hybrid</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="doccomment">/// Information related to how and why a fallback result was used. If this field</span>
-<span class="doccomment">/// is set, then it means the server used a different routing mode from your</span>
-<span class="doccomment">/// preferred mode as fallback.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FallbackInfo</span> {
-    <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode</span>
-    <span class="doccomment">/// may be different from routing preference set in the original client</span>
-    <span class="doccomment">/// request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;FallbackRoutingMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">routing_mode</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The reason why fallback response was used instead of the original response.</span>
-    <span class="doccomment">/// This field is only populated when the fallback mode is triggered and the</span>
-    <span class="doccomment">/// fallback response is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;FallbackReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">reason</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Reasons for using fallback response.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackReason</span> {
-    <span class="doccomment">/// No fallback reason specified.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// A server error happened while calculating routes with your preferred</span>
-    <span class="doccomment">/// routing mode, but we were able to return a result calculated by an</span>
-    <span class="doccomment">/// alternative mode.</span>
-    <span class="ident">ServerError</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// We were not able to finish the calculation with your preferred routing mode</span>
-    <span class="doccomment">/// on time, but we were able to return a result calculated by an alternative</span>
-    <span class="doccomment">/// mode.</span>
-    <span class="ident">LatencyExceeded</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// Actual routing mode used for returned fallback response.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackRoutingMode</span> {
-    <span class="doccomment">/// Not used.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Indicates the &quot;TRAFFIC_UNAWARE&quot; routing mode was used to compute the</span>
-    <span class="doccomment">/// response.</span>
-    <span class="ident">FallbackTrafficUnaware</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Indicates the &quot;TRAFFIC_AWARE&quot; routing mode was used to compute the</span>
-    <span class="doccomment">/// response.</span>
-    <span class="ident">FallbackTrafficAware</span> <span class="op">=</span> <span class="number">2</span>,
-}
 <span class="doccomment">/// Encapsulates a waypoint. Waypoints mark both the beginning and end of a</span>
 <span class="doccomment">/// route, and include intermediate stops along the route.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1672,77 +1614,132 @@
     <span class="doccomment">/// Turn right at the roundabout.</span>
     <span class="ident">RoundaboutRight</span> <span class="op">=</span> <span class="number">18</span>,
 }
-<span class="doccomment">/// Encapsulates route information computed for an origin/destination pair in the</span>
-<span class="doccomment">/// ComputeRouteMatrix API. This proto can be streamed to the client.</span>
+<span class="doccomment">/// Encapsulates a custom route computed based on the route objective specified</span>
+<span class="doccomment">/// by the customer. CustomRoute contains a route and a route token, which can be</span>
+<span class="doccomment">/// passed to NavSDK to reconstruct the custom route for turn by turn navigation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixElement</span> {
-    <span class="doccomment">/// Zero-based index of the origin in the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">origin_index</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Zero-based index of the destination in the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination_index</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Error status code for this element.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Indicates whether the route was found or not. Independent of status.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteMatrixElementCondition&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">condition</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The travel distance of the route, in meters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">distance_meters</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The length of time needed to navigate the route. If you set the</span>
-    <span class="doccomment">/// `route_preference` to `TRAFFIC_UNAWARE`, then this value is the same as</span>
-    <span class="doccomment">/// `static_duration`. If you set the `route_preference` to either</span>
-    <span class="doccomment">/// `TRAFFIC_AWARE` or `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated</span>
-    <span class="doccomment">/// taking traffic conditions into account.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The duration of traveling through the route without taking traffic</span>
-    <span class="doccomment">/// conditions into consideration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">static_duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Additional information about the route. For example: restriction</span>
-    <span class="doccomment">/// information and toll information</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">travel_advisory</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteTravelAdvisory</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// In some cases when the server is not able to compute the route with the</span>
-    <span class="doccomment">/// given preferences for this particular origin/destination pair, it may</span>
-    <span class="doccomment">/// fall back to using a different mode of computation. When fallback mode is</span>
-    <span class="doccomment">/// used, this field contains detailed information about the fallback response.</span>
-    <span class="doccomment">/// Otherwise this field is unset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FallbackInfo</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomRoute</span> {
+    <span class="doccomment">/// The route considered &#39;best&#39; for the input route objective.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">route</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Web-safe base64 encoded route token that can be passed to NavSDK, which</span>
+    <span class="doccomment">/// allows NavSDK to reconstruct the route during navigation, and in the event</span>
+    <span class="doccomment">/// of rerouting honor the original intention when RoutesPreferred</span>
+    <span class="doccomment">/// ComputeCustomRoutes is called. Customers should treat this token as an</span>
+    <span class="doccomment">/// opaque blob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">token</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// The condition of the route being returned.</span>
+<span class="doccomment">/// Information related to how and why a fallback result was used. If this field</span>
+<span class="doccomment">/// is set, then it means the server used a different routing mode from your</span>
+<span class="doccomment">/// preferred mode as fallback.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FallbackInfo</span> {
+    <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode</span>
+    <span class="doccomment">/// may be different from routing preference set in the original client</span>
+    <span class="doccomment">/// request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;FallbackRoutingMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">routing_mode</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The reason why fallback response was used instead of the original response.</span>
+    <span class="doccomment">/// This field is only populated when the fallback mode is triggered and the</span>
+    <span class="doccomment">/// fallback response is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;FallbackReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">reason</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Reasons for using fallback response.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RouteMatrixElementCondition</span> {
-    <span class="doccomment">/// Only used when the `status` of the element is not OK.</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackReason</span> {
+    <span class="doccomment">/// No fallback reason specified.</span>
     <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// A route was found, and the corresponding information was filled out for the</span>
-    <span class="doccomment">/// element.</span>
-    <span class="ident">RouteExists</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// No route could be found. Fields containing route information, such as</span>
-    <span class="doccomment">/// `distance_meters` or `duration`, will not be filled out in the element.</span>
-    <span class="ident">RouteNotFound</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// A server error happened while calculating routes with your preferred</span>
+    <span class="doccomment">/// routing mode, but we were able to return a result calculated by an</span>
+    <span class="doccomment">/// alternative mode.</span>
+    <span class="ident">ServerError</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// We were not able to finish the calculation with your preferred routing mode</span>
+    <span class="doccomment">/// on time, but we were able to return a result calculated by an alternative</span>
+    <span class="doccomment">/// mode.</span>
+    <span class="ident">LatencyExceeded</span> <span class="op">=</span> <span class="number">2</span>,
 }
-<span class="doccomment">/// ComputeRoutes the response message.</span>
+<span class="doccomment">/// Actual routing mode used for returned fallback response.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackRoutingMode</span> {
+    <span class="doccomment">/// Not used.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Indicates the &quot;TRAFFIC_UNAWARE&quot; routing mode was used to compute the</span>
+    <span class="doccomment">/// response.</span>
+    <span class="ident">FallbackTrafficUnaware</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Indicates the &quot;TRAFFIC_AWARE&quot; routing mode was used to compute the</span>
+    <span class="doccomment">/// response.</span>
+    <span class="ident">FallbackTrafficAware</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// ComputeCustomRoutes response message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRoutesResponse</span> {
-    <span class="doccomment">/// Contains an array of computed routes (up to three) when you specify</span>
-    <span class="doccomment">/// compute_alternatives_routes, and contains just one route when you don&#39;t.</span>
-    <span class="doccomment">/// When this array contains multiple entries, the first one is the most</span>
-    <span class="doccomment">/// recommended route. If the array is empty, then it means no route could be</span>
-    <span class="doccomment">/// found.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">routes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// In some cases when the server is not able to compute the route results with</span>
-    <span class="doccomment">/// all of the input preferences, it may fallback to using a different way of</span>
-    <span class="doccomment">/// computation. When fallback mode is used, this field contains detailed info</span>
-    <span class="doccomment">/// about the fallback response. Otherwise this field is unset.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FallbackInfo</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeCustomRoutesResponse</span> {
+    <span class="doccomment">/// The ‘best’ routes for the input route objective.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">routes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">CustomRoute</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The fastest reference route.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fastest_route</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomRoute</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The shortest reference route.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">shortest_route</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomRoute</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Fallback info for custom routes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">compute_custom_routes_response::FallbackInfo</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ComputeCustomRoutesResponse`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">compute_custom_routes_response</span> {
+    <span class="doccomment">/// Encapsulates fallback info for ComputeCustomRoutes. ComputeCustomRoutes</span>
+    <span class="doccomment">/// performs two types of fallbacks:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// 1. If it cannot compute the route using the routing_preference requested by</span>
+    <span class="doccomment">/// the customer, it will fallback to another routing mode. In this case</span>
+    <span class="doccomment">/// fallback_routing_mode and routing_mode_fallback_reason are used to</span>
+    <span class="doccomment">/// communicate the fallback routing mode used, as well as the reason for</span>
+    <span class="doccomment">/// fallback.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// 2. If it cannot compute a &#39;best&#39; route for the route objective specified by</span>
+    <span class="doccomment">/// the customer, it might fallback to another objective.</span>
+    <span class="doccomment">/// fallback_route_objective is used to communicate the fallback route</span>
+    <span class="doccomment">/// objective.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FallbackInfo</span> {
+        <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode</span>
+        <span class="doccomment">/// may be different from routing preference set in the original client</span>
+        <span class="doccomment">/// request.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::FallbackRoutingMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">routing_mode</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// The reason why fallback response was used instead of the original</span>
+        <span class="doccomment">/// response.</span>
+        <span class="doccomment">/// This field is only populated when the fallback mode is triggered and</span>
+        <span class="doccomment">/// the fallback response is returned.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::FallbackReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">routing_mode_reason</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// The route objective used for the response. If fallback was triggered, the</span>
+        <span class="doccomment">/// objective may be different from the route objective provided in the</span>
+        <span class="doccomment">/// original client request.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;fallback_info::FallbackRouteObjective&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">route_objective</span>: <span class="ident">i32</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `FallbackInfo`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fallback_info</span> {
+        <span class="doccomment">/// RouteObjective used for the response.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackRouteObjective</span> {
+            <span class="doccomment">/// Fallback route objective unspecified.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// If customer requests RateCard and sets include_tolls to true, and</span>
+            <span class="doccomment">/// Google does not have toll price data for the route, the API falls back</span>
+            <span class="doccomment">/// to RateCard without considering toll price.</span>
+            <span class="ident">FallbackRatecardWithoutTollPriceData</span> <span class="op">=</span> <span class="number">1</span>,
+        }
+    }
 }
 <span class="doccomment">/// List of toll passes around the world that we support.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
@@ -1796,6 +1793,20 @@
     <span class="ident">UsNyEzpassny</span> <span class="op">=</span> <span class="number">15</span>,
     <span class="doccomment">/// State pass of the Washington state, United States.</span>
     <span class="ident">UsWaGoodToGo</span> <span class="op">=</span> <span class="number">1</span>,
+}
+<span class="doccomment">/// A set of values describing the vehicle&#39;s emission type.</span>
+<span class="doccomment">/// Applies only to the DRIVE travel mode.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VehicleEmissionType</span> {
+    <span class="doccomment">/// No emission type specified. Default to GASOLINE.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Gasoline/petrol fueled vehicle.</span>
+    <span class="ident">Gasoline</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Electricity powered vehicle.</span>
+    <span class="ident">Electric</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Hybrid fuel (such as gasoline + electric) vehicle.</span>
+    <span class="ident">Hybrid</span> <span class="op">=</span> <span class="number">3</span>,
 }
 <span class="doccomment">/// ComputeRoutes request message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1955,6 +1966,59 @@
     <span class="doccomment">/// Imperial (English) units of measure.</span>
     <span class="ident">Imperial</span> <span class="op">=</span> <span class="number">2</span>,
 }
+<span class="doccomment">/// ComputeRouteMatrix request message</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRouteMatrixRequest</span> {
+    <span class="doccomment">/// Required. Array of origins, which determines the rows of the response matrix.</span>
+    <span class="doccomment">/// Several size restrictions apply to the cardinality of origins and</span>
+    <span class="doccomment">/// destinations:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * The number of elements (origins × destinations) must be no greater than</span>
+    <span class="doccomment">/// 625 in any case.</span>
+    <span class="doccomment">/// * The number of elements (origins × destinations) must be no greater than</span>
+    <span class="doccomment">/// 100 if routing_preference is set to `TRAFFIC_AWARE_OPTIMAL`.</span>
+    <span class="doccomment">/// * The number of waypoints (origins + destinations) specified as `place_id`</span>
+    <span class="doccomment">/// must be no greater than 50.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">origins</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RouteMatrixOrigin</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Array of destinations, which determines the columns of the response matrix.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destinations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RouteMatrixDestination</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Specifies the mode of transportation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteTravelMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">travel_mode</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Specifies how to compute the route. The server attempts to use the selected</span>
+    <span class="doccomment">/// routing preference to compute the route. If the routing preference results</span>
+    <span class="doccomment">/// in an error or an extra long latency, an error is returned. In the future,</span>
+    <span class="doccomment">/// we might implement a fallback mechanism to use a different option when the</span>
+    <span class="doccomment">/// preferred option does not give a valid result. You can specify this option</span>
+    <span class="doccomment">/// only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`, otherwise the</span>
+    <span class="doccomment">/// request fails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RoutingPreference&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">routing_preference</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. The departure time. If you don&#39;t set this value, this defaults to the time</span>
+    <span class="doccomment">/// that you made the request. If you set this value to a time that has already</span>
+    <span class="doccomment">/// occurred, the request fails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">departure_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A single origin for ComputeRouteMatrixRequest</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixOrigin</span> {
+    <span class="doccomment">/// Required. Origin waypoint</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">waypoint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Modifiers for every route that takes this as the origin</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">route_modifiers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteModifiers</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A single destination for ComputeRouteMatrixRequest</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixDestination</span> {
+    <span class="doccomment">/// Required. Destination waypoint</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">waypoint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
+}
 <span class="doccomment">/// ComputeCustomRoutes request message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeCustomRoutesRequest</span> {
@@ -2053,141 +2117,77 @@
         <span class="ident">RateCard</span>(<span class="ident">RateCard</span>),
     }
 }
-<span class="doccomment">/// Encapsulates a custom route computed based on the route objective specified</span>
-<span class="doccomment">/// by the customer. CustomRoute contains a route and a route token, which can be</span>
-<span class="doccomment">/// passed to NavSDK to reconstruct the custom route for turn by turn navigation.</span>
+<span class="doccomment">/// Encapsulates route information computed for an origin/destination pair in the</span>
+<span class="doccomment">/// ComputeRouteMatrix API. This proto can be streamed to the client.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomRoute</span> {
-    <span class="doccomment">/// The route considered &#39;best&#39; for the input route objective.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">route</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Web-safe base64 encoded route token that can be passed to NavSDK, which</span>
-    <span class="doccomment">/// allows NavSDK to reconstruct the route during navigation, and in the event</span>
-    <span class="doccomment">/// of rerouting honor the original intention when RoutesPreferred</span>
-    <span class="doccomment">/// ComputeCustomRoutes is called. Customers should treat this token as an</span>
-    <span class="doccomment">/// opaque blob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// ComputeRouteMatrix request message</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRouteMatrixRequest</span> {
-    <span class="doccomment">/// Required. Array of origins, which determines the rows of the response matrix.</span>
-    <span class="doccomment">/// Several size restrictions apply to the cardinality of origins and</span>
-    <span class="doccomment">/// destinations:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * The number of elements (origins × destinations) must be no greater than</span>
-    <span class="doccomment">/// 625 in any case.</span>
-    <span class="doccomment">/// * The number of elements (origins × destinations) must be no greater than</span>
-    <span class="doccomment">/// 100 if routing_preference is set to `TRAFFIC_AWARE_OPTIMAL`.</span>
-    <span class="doccomment">/// * The number of waypoints (origins + destinations) specified as `place_id`</span>
-    <span class="doccomment">/// must be no greater than 50.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">origins</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RouteMatrixOrigin</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Array of destinations, which determines the columns of the response matrix.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destinations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">RouteMatrixDestination</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Specifies the mode of transportation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteTravelMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">travel_mode</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Specifies how to compute the route. The server attempts to use the selected</span>
-    <span class="doccomment">/// routing preference to compute the route. If the routing preference results</span>
-    <span class="doccomment">/// in an error or an extra long latency, an error is returned. In the future,</span>
-    <span class="doccomment">/// we might implement a fallback mechanism to use a different option when the</span>
-    <span class="doccomment">/// preferred option does not give a valid result. You can specify this option</span>
-    <span class="doccomment">/// only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`, otherwise the</span>
-    <span class="doccomment">/// request fails.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RoutingPreference&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">routing_preference</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. The departure time. If you don&#39;t set this value, this defaults to the time</span>
-    <span class="doccomment">/// that you made the request. If you set this value to a time that has already</span>
-    <span class="doccomment">/// occurred, the request fails.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixElement</span> {
+    <span class="doccomment">/// Zero-based index of the origin in the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">origin_index</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Zero-based index of the destination in the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_index</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Error status code for this element.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Indicates whether the route was found or not. Independent of status.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RouteMatrixElementCondition&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">condition</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The travel distance of the route, in meters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">distance_meters</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The length of time needed to navigate the route. If you set the</span>
+    <span class="doccomment">/// `route_preference` to `TRAFFIC_UNAWARE`, then this value is the same as</span>
+    <span class="doccomment">/// `static_duration`. If you set the `route_preference` to either</span>
+    <span class="doccomment">/// `TRAFFIC_AWARE` or `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated</span>
+    <span class="doccomment">/// taking traffic conditions into account.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">departure_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A single origin for ComputeRouteMatrixRequest</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixOrigin</span> {
-    <span class="doccomment">/// Required. Origin waypoint</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">waypoint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Modifiers for every route that takes this as the origin</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">route_modifiers</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteModifiers</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A single destination for ComputeRouteMatrixRequest</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteMatrixDestination</span> {
-    <span class="doccomment">/// Required. Destination waypoint</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">waypoint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Waypoint</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// ComputeCustomRoutes response message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeCustomRoutesResponse</span> {
-    <span class="doccomment">/// The ‘best’ routes for the input route objective.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">routes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">CustomRoute</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The fastest reference route.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fastest_route</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomRoute</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The shortest reference route.</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The duration of traveling through the route without taking traffic</span>
+    <span class="doccomment">/// conditions into consideration.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">shortest_route</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomRoute</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Fallback info for custom routes.</span>
+    <span class="kw">pub</span> <span class="ident">static_duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Additional information about the route. For example: restriction</span>
+    <span class="doccomment">/// information and toll information</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">travel_advisory</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">RouteTravelAdvisory</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// In some cases when the server is not able to compute the route with the</span>
+    <span class="doccomment">/// given preferences for this particular origin/destination pair, it may</span>
+    <span class="doccomment">/// fall back to using a different mode of computation. When fallback mode is</span>
+    <span class="doccomment">/// used, this field contains detailed information about the fallback response.</span>
+    <span class="doccomment">/// Otherwise this field is unset.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">compute_custom_routes_response::FallbackInfo</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FallbackInfo</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Nested message and enum types in `ComputeCustomRoutesResponse`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">compute_custom_routes_response</span> {
-    <span class="doccomment">/// Encapsulates fallback info for ComputeCustomRoutes. ComputeCustomRoutes</span>
-    <span class="doccomment">/// performs two types of fallbacks:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// 1. If it cannot compute the route using the routing_preference requested by</span>
-    <span class="doccomment">/// the customer, it will fallback to another routing mode. In this case</span>
-    <span class="doccomment">/// fallback_routing_mode and routing_mode_fallback_reason are used to</span>
-    <span class="doccomment">/// communicate the fallback routing mode used, as well as the reason for</span>
-    <span class="doccomment">/// fallback.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// 2. If it cannot compute a &#39;best&#39; route for the route objective specified by</span>
-    <span class="doccomment">/// the customer, it might fallback to another objective.</span>
-    <span class="doccomment">/// fallback_route_objective is used to communicate the fallback route</span>
-    <span class="doccomment">/// objective.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FallbackInfo</span> {
-        <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode</span>
-        <span class="doccomment">/// may be different from routing preference set in the original client</span>
-        <span class="doccomment">/// request.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::FallbackRoutingMode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">routing_mode</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// The reason why fallback response was used instead of the original</span>
-        <span class="doccomment">/// response.</span>
-        <span class="doccomment">/// This field is only populated when the fallback mode is triggered and</span>
-        <span class="doccomment">/// the fallback response is returned.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::FallbackReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">routing_mode_reason</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// The route objective used for the response. If fallback was triggered, the</span>
-        <span class="doccomment">/// objective may be different from the route objective provided in the</span>
-        <span class="doccomment">/// original client request.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;fallback_info::FallbackRouteObjective&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">route_objective</span>: <span class="ident">i32</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `FallbackInfo`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fallback_info</span> {
-        <span class="doccomment">/// RouteObjective used for the response.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FallbackRouteObjective</span> {
-            <span class="doccomment">/// Fallback route objective unspecified.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// If customer requests RateCard and sets include_tolls to true, and</span>
-            <span class="doccomment">/// Google does not have toll price data for the route, the API falls back</span>
-            <span class="doccomment">/// to RateCard without considering toll price.</span>
-            <span class="ident">FallbackRatecardWithoutTollPriceData</span> <span class="op">=</span> <span class="number">1</span>,
-        }
-    }
+<span class="doccomment">/// The condition of the route being returned.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RouteMatrixElementCondition</span> {
+    <span class="doccomment">/// Only used when the `status` of the element is not OK.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// A route was found, and the corresponding information was filled out for the</span>
+    <span class="doccomment">/// element.</span>
+    <span class="ident">RouteExists</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// No route could be found. Fields containing route information, such as</span>
+    <span class="doccomment">/// `distance_meters` or `duration`, will not be filled out in the element.</span>
+    <span class="ident">RouteNotFound</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// ComputeRoutes the response message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputeRoutesResponse</span> {
+    <span class="doccomment">/// Contains an array of computed routes (up to three) when you specify</span>
+    <span class="doccomment">/// compute_alternatives_routes, and contains just one route when you don&#39;t.</span>
+    <span class="doccomment">/// When this array contains multiple entries, the first one is the most</span>
+    <span class="doccomment">/// recommended route. If the array is empty, then it means no route could be</span>
+    <span class="doccomment">/// found.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">routes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// In some cases when the server is not able to compute the route results with</span>
+    <span class="doccomment">/// all of the input preferences, it may fallback to using a different way of</span>
+    <span class="doccomment">/// computation. When fallback mode is used, this field contains detailed info</span>
+    <span class="doccomment">/// about the fallback response. Otherwise this field is unset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fallback_info</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FallbackInfo</span><span class="op">&gt;</span>,
 }
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">routes_preferred_client</span> {

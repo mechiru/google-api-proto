@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["OutputNameMapping","The mapping of full SQL object names from their current state to the desired output."],["SourceLocation","The chosen path where the source for input files will be found."],["TargetLocation","The chosen path where the destination for output files will be found."]]});

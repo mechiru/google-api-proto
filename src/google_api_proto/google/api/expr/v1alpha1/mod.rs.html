@@ -1690,6 +1690,37 @@
         <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Value</span><span class="op">&gt;</span>,
     }
 }
+<span class="doccomment">/// Values of intermediate expressions produced when evaluating expression.</span>
+<span class="doccomment">/// Deprecated, use `EvalState` instead.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Explain</span> {
+    <span class="doccomment">/// All of the observed values.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The field value_index is an index in the values list.</span>
+    <span class="doccomment">/// Separating values from steps is needed to remove redundant values.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of steps.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Repeated evaluations of the same expression generate new ExprStep</span>
+    <span class="doccomment">/// instances. The order of such ExprStep instances matches the order of</span>
+    <span class="doccomment">/// elements returned by Comprehension.iter_range.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">expr_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">explain::ExprStep</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Explain`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">explain</span> {
+    <span class="doccomment">/// ID and value index of one step.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExprStep</span> {
+        <span class="doccomment">/// ID of corresponding Expr node.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Index of the value in the values list.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">value_index</span>: <span class="ident">i32</span>,
+    }
+}
 <span class="doccomment">/// The state of an evaluation.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Can represent an inital, partial, or completed state of evaluation.</span>
@@ -1796,37 +1827,6 @@
     <span class="doccomment">/// The ids of the expressions with unknown values.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">exprs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Values of intermediate expressions produced when evaluating expression.</span>
-<span class="doccomment">/// Deprecated, use `EvalState` instead.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Explain</span> {
-    <span class="doccomment">/// All of the observed values.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The field value_index is an index in the values list.</span>
-    <span class="doccomment">/// Separating values from steps is needed to remove redundant values.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">values</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of steps.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Repeated evaluations of the same expression generate new ExprStep</span>
-    <span class="doccomment">/// instances. The order of such ExprStep instances matches the order of</span>
-    <span class="doccomment">/// elements returned by Comprehension.iter_range.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">expr_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">explain::ExprStep</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Explain`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">explain</span> {
-    <span class="doccomment">/// ID and value index of one step.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExprStep</span> {
-        <span class="doccomment">/// ID of corresponding Expr node.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Index of the value in the values list.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">value_index</span>: <span class="ident">i32</span>,
-    }
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

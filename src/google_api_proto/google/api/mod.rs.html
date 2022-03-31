@@ -3637,49 +3637,6 @@
 ))]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">serviceusage</span>;
 
-<span class="doccomment">/// An indicator of the behavior of a given field (for example, that a field</span>
-<span class="doccomment">/// is required in requests, or given as output but ignored as input).</span>
-<span class="doccomment">/// This **does not** change the behavior in protocol buffers itself; it only</span>
-<span class="doccomment">/// denotes the behavior and may affect how API tooling handles the field.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note: This enum **may** receive new values in the future.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FieldBehavior</span> {
-    <span class="doccomment">/// Conventional default for enums. Do not use this.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Specifically denotes a field as optional.</span>
-    <span class="doccomment">/// While all fields in protocol buffers are optional, this may be specified</span>
-    <span class="doccomment">/// for emphasis if appropriate.</span>
-    <span class="ident">Optional</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Denotes a field as required.</span>
-    <span class="doccomment">/// This indicates that the field **must** be provided as part of the request,</span>
-    <span class="doccomment">/// and failure to do so will cause an error (usually `INVALID_ARGUMENT`).</span>
-    <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Denotes a field as output only.</span>
-    <span class="doccomment">/// This indicates that the field is provided in responses, but including the</span>
-    <span class="doccomment">/// field in a request does nothing (the server *must* ignore it and</span>
-    <span class="doccomment">/// *must not* throw an error as a result of the field&#39;s presence).</span>
-    <span class="ident">OutputOnly</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// Denotes a field as input only.</span>
-    <span class="doccomment">/// This indicates that the field is provided in requests, and the</span>
-    <span class="doccomment">/// corresponding field is not included in output.</span>
-    <span class="ident">InputOnly</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// Denotes a field as immutable.</span>
-    <span class="doccomment">/// This indicates that the field may be set once in a request to create a</span>
-    <span class="doccomment">/// resource, but may not be changed thereafter.</span>
-    <span class="ident">Immutable</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// Denotes that a (repeated) field is an unordered list.</span>
-    <span class="doccomment">/// This indicates that the service may provide the elements of the list</span>
-    <span class="doccomment">/// in any arbitrary  order, rather than the order the user originally</span>
-    <span class="doccomment">/// provided. Additionally, the list&#39;s order may or may not be stable.</span>
-    <span class="ident">UnorderedList</span> <span class="op">=</span> <span class="number">6</span>,
-    <span class="doccomment">/// Denotes that this field returns a non-empty default value if not set.</span>
-    <span class="doccomment">/// This indicates that if the user provides the empty value in a request,</span>
-    <span class="doccomment">/// a non-empty value will be returned. The user will not be aware of what</span>
-    <span class="doccomment">/// non-empty value to expect.</span>
-    <span class="ident">NonEmptyDefault</span> <span class="op">=</span> <span class="number">7</span>,
-}
 <span class="doccomment">/// Defines the HTTP configuration for an API service. It contains a list of</span>
 <span class="doccomment">/// \[HttpRule][google.api.HttpRule\], each specifying the mapping of an RPC method</span>
 <span class="doccomment">/// to one or more HTTP REST API methods.</span>
@@ -4043,6 +4000,49 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// An indicator of the behavior of a given field (for example, that a field</span>
+<span class="doccomment">/// is required in requests, or given as output but ignored as input).</span>
+<span class="doccomment">/// This **does not** change the behavior in protocol buffers itself; it only</span>
+<span class="doccomment">/// denotes the behavior and may affect how API tooling handles the field.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note: This enum **may** receive new values in the future.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FieldBehavior</span> {
+    <span class="doccomment">/// Conventional default for enums. Do not use this.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Specifically denotes a field as optional.</span>
+    <span class="doccomment">/// While all fields in protocol buffers are optional, this may be specified</span>
+    <span class="doccomment">/// for emphasis if appropriate.</span>
+    <span class="ident">Optional</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Denotes a field as required.</span>
+    <span class="doccomment">/// This indicates that the field **must** be provided as part of the request,</span>
+    <span class="doccomment">/// and failure to do so will cause an error (usually `INVALID_ARGUMENT`).</span>
+    <span class="ident">Required</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Denotes a field as output only.</span>
+    <span class="doccomment">/// This indicates that the field is provided in responses, but including the</span>
+    <span class="doccomment">/// field in a request does nothing (the server *must* ignore it and</span>
+    <span class="doccomment">/// *must not* throw an error as a result of the field&#39;s presence).</span>
+    <span class="ident">OutputOnly</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Denotes a field as input only.</span>
+    <span class="doccomment">/// This indicates that the field is provided in requests, and the</span>
+    <span class="doccomment">/// corresponding field is not included in output.</span>
+    <span class="ident">InputOnly</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// Denotes a field as immutable.</span>
+    <span class="doccomment">/// This indicates that the field may be set once in a request to create a</span>
+    <span class="doccomment">/// resource, but may not be changed thereafter.</span>
+    <span class="ident">Immutable</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="doccomment">/// Denotes that a (repeated) field is an unordered list.</span>
+    <span class="doccomment">/// This indicates that the service may provide the elements of the list</span>
+    <span class="doccomment">/// in any arbitrary  order, rather than the order the user originally</span>
+    <span class="doccomment">/// provided. Additionally, the list&#39;s order may or may not be stable.</span>
+    <span class="ident">UnorderedList</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="doccomment">/// Denotes that this field returns a non-empty default value if not set.</span>
+    <span class="doccomment">/// This indicates that if the user provides the empty value in a request,</span>
+    <span class="doccomment">/// a non-empty value will be returned. The user will not be aware of what</span>
+    <span class="doccomment">/// non-empty value to expect.</span>
+    <span class="ident">NonEmptyDefault</span> <span class="op">=</span> <span class="number">7</span>,
+}
 <span class="doccomment">/// A simple descriptor of a resource type.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ResourceDescriptor annotates a resource message (either by means of a</span>
@@ -4240,617 +4240,6 @@
     <span class="doccomment">///     }</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">child_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A description of a label.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelDescriptor</span> {
-    <span class="doccomment">/// The label key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type of data that can be assigned to the label.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;label_descriptor::ValueType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">value_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A human-readable description for the label.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `LabelDescriptor`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">label_descriptor</span> {
-    <span class="doccomment">/// Value types that can be used as label values.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ValueType</span> {
-        <span class="doccomment">/// A variable-length string. This is the default.</span>
-        <span class="ident">String</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Boolean; true or false.</span>
-        <span class="ident">Bool</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A 64-bit signed integer.</span>
-        <span class="ident">Int64</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// The launch stage as defined by [Google Cloud Platform</span>
-<span class="doccomment">/// Launch Stages](&lt;http://cloud.google.com/terms/launch-stages&gt;).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LaunchStage</span> {
-    <span class="doccomment">/// Do not use this default value.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// The feature is not yet implemented. Users can not use it.</span>
-    <span class="ident">Unimplemented</span> <span class="op">=</span> <span class="number">6</span>,
-    <span class="doccomment">/// Prelaunch features are hidden from users and are only visible internally.</span>
-    <span class="ident">Prelaunch</span> <span class="op">=</span> <span class="number">7</span>,
-    <span class="doccomment">/// Early Access features are limited to a closed group of testers. To use</span>
-    <span class="doccomment">/// these features, you must sign up in advance and sign a Trusted Tester</span>
-    <span class="doccomment">/// agreement (which includes confidentiality provisions). These features may</span>
-    <span class="doccomment">/// be unstable, changed in backward-incompatible ways, and are not</span>
-    <span class="doccomment">/// guaranteed to be released.</span>
-    <span class="ident">EarlyAccess</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Alpha is a limited availability test for releases before they are cleared</span>
-    <span class="doccomment">/// for widespread use. By Alpha, all significant design issues are resolved</span>
-    <span class="doccomment">/// and we are in the process of verifying functionality. Alpha customers</span>
-    <span class="doccomment">/// need to apply for access, agree to applicable terms, and have their</span>
-    <span class="doccomment">/// projects allowlisted. Alpha releases don’t have to be feature complete,</span>
-    <span class="doccomment">/// no SLAs are provided, and there are no technical support obligations, but</span>
-    <span class="doccomment">/// they will be far enough along that customers can actually use them in</span>
-    <span class="doccomment">/// test environments or for limited-use tests -- just like they would in</span>
-    <span class="doccomment">/// normal production cases.</span>
-    <span class="ident">Alpha</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Beta is the point at which we are ready to open a release for any</span>
-    <span class="doccomment">/// customer to use. There are no SLA or technical support obligations in a</span>
-    <span class="doccomment">/// Beta release. Products will be complete from a feature perspective, but</span>
-    <span class="doccomment">/// may have some open outstanding issues. Beta releases are suitable for</span>
-    <span class="doccomment">/// limited production use cases.</span>
-    <span class="ident">Beta</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// GA features are open to all developers and are considered stable and</span>
-    <span class="doccomment">/// fully qualified for production use.</span>
-    <span class="ident">Ga</span> <span class="op">=</span> <span class="number">4</span>,
-    <span class="doccomment">/// Deprecated features are scheduled to be shut down and removed. For more</span>
-    <span class="doccomment">/// information, see the “Deprecation Policy” section of our [Terms of</span>
-    <span class="doccomment">/// Service](&lt;https://cloud.google.com/terms/&gt;)</span>
-    <span class="doccomment">/// and the [Google Cloud Platform Subject to the Deprecation</span>
-    <span class="doccomment">/// Policy](&lt;https://cloud.google.com/terms/deprecation&gt;) documentation.</span>
-    <span class="ident">Deprecated</span> <span class="op">=</span> <span class="number">5</span>,
-}
-<span class="doccomment">/// `Distribution` contains summary statistics for a population of values. It</span>
-<span class="doccomment">/// optionally contains a histogram representing the distribution of those values</span>
-<span class="doccomment">/// across a set of buckets.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The summary statistics are the count, mean, sum of the squared deviation from</span>
-<span class="doccomment">/// the mean, the minimum, and the maximum of the set of population of values.</span>
-<span class="doccomment">/// The histogram is based on a sequence of buckets and gives a count of values</span>
-<span class="doccomment">/// that fall into each bucket. The boundaries of the buckets are given either</span>
-<span class="doccomment">/// explicitly or by formulas for buckets of fixed or exponentially increasing</span>
-<span class="doccomment">/// widths.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Although it is not forbidden, it is generally a bad idea to include</span>
-<span class="doccomment">/// non-finite values (infinities or NaNs) in the population of values, as this</span>
-<span class="doccomment">/// will render the `mean` and `sum_of_squared_deviation` fields meaningless.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Distribution</span> {
-    <span class="doccomment">/// The number of values in the population. Must be non-negative. This value</span>
-    <span class="doccomment">/// must equal the sum of the values in `bucket_counts` if a histogram is</span>
-    <span class="doccomment">/// provided.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">count</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The arithmetic mean of the values in the population. If `count` is zero</span>
-    <span class="doccomment">/// then this field must be zero.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mean</span>: <span class="ident">f64</span>,
-    <span class="doccomment">/// The sum of squared deviations from the mean of the values in the</span>
-    <span class="doccomment">/// population. For values x_i this is:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     Sum\[i=1..n\]((x_i - mean)^2)</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Knuth, &quot;The Art of Computer Programming&quot;, Vol. 2, page 232, 3rd edition</span>
-    <span class="doccomment">/// describes Welford&#39;s method for accumulating this sum in one pass.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If `count` is zero then this field must be zero.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">sum_of_squared_deviation</span>: <span class="ident">f64</span>,
-    <span class="doccomment">/// If specified, contains the range of the population values. The field</span>
-    <span class="doccomment">/// must not be present if the `count` is zero.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">range</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">distribution::Range</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Defines the histogram bucket boundaries. If the distribution does not</span>
-    <span class="doccomment">/// contain a histogram, then omit this field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">bucket_options</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">distribution::BucketOptions</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The number of values in each bucket of the histogram, as described in</span>
-    <span class="doccomment">/// `bucket_options`. If the distribution does not have a histogram, then omit</span>
-    <span class="doccomment">/// this field. If there is a histogram, then the sum of the values in</span>
-    <span class="doccomment">/// `bucket_counts` must equal the value in the `count` field of the</span>
-    <span class="doccomment">/// distribution.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If present, `bucket_counts` should contain N values, where N is the number</span>
-    <span class="doccomment">/// of buckets specified in `bucket_options`. If you supply fewer than N</span>
-    <span class="doccomment">/// values, the remaining values are assumed to be 0.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The order of the values in `bucket_counts` follows the bucket numbering</span>
-    <span class="doccomment">/// schemes described for the three bucket types. The first value must be the</span>
-    <span class="doccomment">/// count for the underflow bucket (number 0). The next N-2 values are the</span>
-    <span class="doccomment">/// counts for the finite buckets (number 1 through N-2). The N&#39;th value in</span>
-    <span class="doccomment">/// `bucket_counts` is the count for the overflow bucket (number N-1).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">bucket_counts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Must be in increasing order of `value` field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exemplars</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">distribution::Exemplar</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Distribution`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">distribution</span> {
-    <span class="doccomment">/// The range of the population values.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Range</span> {
-        <span class="doccomment">/// The minimum of the population values.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">min</span>: <span class="ident">f64</span>,
-        <span class="doccomment">/// The maximum of the population values.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">max</span>: <span class="ident">f64</span>,
-    }
-    <span class="doccomment">/// `BucketOptions` describes the bucket boundaries used to create a histogram</span>
-    <span class="doccomment">/// for the distribution. The buckets can be in a linear sequence, an</span>
-    <span class="doccomment">/// exponential sequence, or each bucket can be specified explicitly.</span>
-    <span class="doccomment">/// `BucketOptions` does not include the number of values in each bucket.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A bucket has an inclusive lower bound and exclusive upper bound for the</span>
-    <span class="doccomment">/// values that are counted for that bucket. The upper bound of a bucket must</span>
-    <span class="doccomment">/// be strictly greater than the lower bound. The sequence of N buckets for a</span>
-    <span class="doccomment">/// distribution consists of an underflow bucket (number 0), zero or more</span>
-    <span class="doccomment">/// finite buckets (number 1 through N - 2) and an overflow bucket (number N -</span>
-    <span class="doccomment">/// 1). The buckets are contiguous: the lower bound of bucket i (i &gt; 0) is the</span>
-    <span class="doccomment">/// same as the upper bound of bucket i - 1. The buckets span the whole range</span>
-    <span class="doccomment">/// of finite values: lower bound of the underflow bucket is -infinity and the</span>
-    <span class="doccomment">/// upper bound of the overflow bucket is +infinity. The finite buckets are</span>
-    <span class="doccomment">/// so-called because both bounds are finite.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BucketOptions</span> {
-        <span class="doccomment">/// Exactly one of these three fields must be set.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;bucket_options::Options&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">options</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">bucket_options::Options</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `BucketOptions`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bucket_options</span> {
-        <span class="doccomment">/// Specifies a linear sequence of buckets that all have the same width</span>
-        <span class="doccomment">/// (except overflow and underflow). Each bucket represents a constant</span>
-        <span class="doccomment">/// absolute uncertainty on the specific value in the bucket.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the</span>
-        <span class="doccomment">/// following boundaries:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///    Upper bound (0 &lt;= i &lt; N-1):     offset + (width * i).</span>
-        <span class="doccomment">///    Lower bound (1 &lt;= i &lt; N):       offset + (width * (i - 1)).</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Linear</span> {
-            <span class="doccomment">/// Must be greater than 0.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">num_finite_buckets</span>: <span class="ident">i32</span>,
-            <span class="doccomment">/// Must be greater than 0.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">width</span>: <span class="ident">f64</span>,
-            <span class="doccomment">/// Lower bound of the first bucket.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">offset</span>: <span class="ident">f64</span>,
-        }
-        <span class="doccomment">/// Specifies an exponential sequence of buckets that have a width that is</span>
-        <span class="doccomment">/// proportional to the value of the lower bound. Each bucket represents a</span>
-        <span class="doccomment">/// constant relative uncertainty on a specific value in the bucket.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the</span>
-        <span class="doccomment">/// following boundaries:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///    Upper bound (0 &lt;= i &lt; N-1):     scale * (growth_factor ^ i).</span>
-        <span class="doccomment">///    Lower bound (1 &lt;= i &lt; N):       scale * (growth_factor ^ (i - 1)).</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Exponential</span> {
-            <span class="doccomment">/// Must be greater than 0.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">num_finite_buckets</span>: <span class="ident">i32</span>,
-            <span class="doccomment">/// Must be greater than 1.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">growth_factor</span>: <span class="ident">f64</span>,
-            <span class="doccomment">/// Must be greater than 0.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">scale</span>: <span class="ident">f64</span>,
-        }
-        <span class="doccomment">/// Specifies a set of buckets with arbitrary widths.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// There are `size(bounds) + 1` (= N) buckets. Bucket `i` has the following</span>
-        <span class="doccomment">/// boundaries:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///    Upper bound (0 &lt;= i &lt; N-1):     bounds\[i\]</span>
-        <span class="doccomment">///    Lower bound (1 &lt;= i &lt; N);       bounds[i - 1]</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// The `bounds` field must contain at least one element. If `bounds` has</span>
-        <span class="doccomment">/// only one element, then there are no finite buckets, and that single</span>
-        <span class="doccomment">/// element is the common boundary of the overflow and underflow buckets.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Explicit</span> {
-            <span class="doccomment">/// The values must be monotonically increasing.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">bounds</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>,
-        }
-        <span class="doccomment">/// Exactly one of these three fields must be set.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Options</span> {
-            <span class="doccomment">/// The linear bucket.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="ident">LinearBuckets</span>(<span class="ident">Linear</span>),
-            <span class="doccomment">/// The exponential buckets.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="ident">ExponentialBuckets</span>(<span class="ident">Exponential</span>),
-            <span class="doccomment">/// The explicit buckets.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="ident">ExplicitBuckets</span>(<span class="ident">Explicit</span>),
-        }
-    }
-    <span class="doccomment">/// Exemplars are example points that may be used to annotate aggregated</span>
-    <span class="doccomment">/// distribution values. They are metadata that gives information about a</span>
-    <span class="doccomment">/// particular value added to a Distribution bucket, such as a trace ID that</span>
-    <span class="doccomment">/// was active when a value was added. They may contain further information,</span>
-    <span class="doccomment">/// such as a example values and timestamps, origin, etc.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Exemplar</span> {
-        <span class="doccomment">/// Value of the exemplar point. This value determines to which bucket the</span>
-        <span class="doccomment">/// exemplar belongs.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">f64</span>,
-        <span class="doccomment">/// The observation (sampling) time of the above value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Contextual information about the example value. Examples are:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///   Trace: type.googleapis.com/google.monitoring.v3.SpanContext</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///   Literal string: type.googleapis.com/google.protobuf.StringValue</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">///   Labels dropped during aggregation:</span>
-        <span class="doccomment">///     type.googleapis.com/google.monitoring.v3.DroppedLabels</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// There may be only a single attachment of any given message type in a</span>
-        <span class="doccomment">/// single exemplar, and this is enforced by the system.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">attachments</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::Any</span><span class="op">&gt;</span>,
-    }
-}
-<span class="doccomment">/// An object that describes the schema of a \[MonitoredResource][google.api.MonitoredResource\] object using a</span>
-<span class="doccomment">/// type name and a set of labels.  For example, the monitored resource</span>
-<span class="doccomment">/// descriptor for Google Compute Engine VM instances has a type of</span>
-<span class="doccomment">/// `&quot;gce_instance&quot;` and specifies the use of the labels `&quot;instance_id&quot;` and</span>
-<span class="doccomment">/// `&quot;zone&quot;` to identify particular VM instances.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Different APIs can support different monitored resource types. APIs generally</span>
-<span class="doccomment">/// provide a `list` method that returns the monitored resource descriptors used</span>
-<span class="doccomment">/// by the API.</span>
-<span class="doccomment">///</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MonitoredResourceDescriptor</span> {
-    <span class="doccomment">/// Optional. The resource name of the monitored resource descriptor:</span>
-    <span class="doccomment">/// `&quot;projects/{project_id}/monitoredResourceDescriptors/{type}&quot;` where</span>
-    <span class="doccomment">/// {type} is the value of the `type` field in this object and</span>
-    <span class="doccomment">/// {project_id} is a project ID that provides API-specific context for</span>
-    <span class="doccomment">/// accessing the type.  APIs that do not use project information can use the</span>
-    <span class="doccomment">/// resource name format `&quot;monitoredResourceDescriptors/{type}&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The monitored resource type. For example, the type</span>
-    <span class="doccomment">/// `&quot;cloudsql_database&quot;` represents databases in Google Cloud SQL.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. A concise name for the monitored resource type that might be</span>
-    <span class="doccomment">/// displayed in user interfaces. It should be a Title Cased Noun Phrase,</span>
-    <span class="doccomment">/// without any article or other determiners. For example,</span>
-    <span class="doccomment">/// `&quot;Google Cloud SQL Database&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. A detailed description of the monitored resource type that might</span>
-    <span class="doccomment">/// be used in documentation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. A set of labels used to describe instances of this monitored</span>
-    <span class="doccomment">/// resource type. For example, an individual Google Cloud SQL database is</span>
-    <span class="doccomment">/// identified by values for the labels `&quot;database_id&quot;` and `&quot;zone&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LabelDescriptor</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. The launch stage of the monitored resource definition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;LaunchStage&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">launch_stage</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// An object representing a resource that can be used for monitoring, logging,</span>
-<span class="doccomment">/// billing, or other purposes. Examples include virtual machine instances,</span>
-<span class="doccomment">/// databases, and storage devices such as disks. The `type` field identifies a</span>
-<span class="doccomment">/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object that describes the resource&#39;s</span>
-<span class="doccomment">/// schema. Information in the `labels` field identifies the actual resource and</span>
-<span class="doccomment">/// its attributes according to the schema. For example, a particular Compute</span>
-<span class="doccomment">/// Engine VM instance could be represented by the following object, because the</span>
-<span class="doccomment">/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] for `&quot;gce_instance&quot;` has labels</span>
-<span class="doccomment">/// `&quot;instance_id&quot;` and `&quot;zone&quot;`:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     { &quot;type&quot;: &quot;gce_instance&quot;,</span>
-<span class="doccomment">///       &quot;labels&quot;: { &quot;instance_id&quot;: &quot;12345678901234&quot;,</span>
-<span class="doccomment">///                   &quot;zone&quot;: &quot;us-central1-a&quot; }}</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MonitoredResource</span> {
-    <span class="doccomment">/// Required. The monitored resource type. This field must match</span>
-    <span class="doccomment">/// the `type` field of a \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object. For</span>
-    <span class="doccomment">/// example, the type of a Compute Engine VM instance is `gce_instance`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Values for all of the labels listed in the associated monitored</span>
-    <span class="doccomment">/// resource descriptor. For example, Compute Engine VM instances use the</span>
-    <span class="doccomment">/// labels `&quot;project_id&quot;`, `&quot;instance_id&quot;`, and `&quot;zone&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Auxiliary metadata for a \[MonitoredResource][google.api.MonitoredResource\] object.</span>
-<span class="doccomment">/// \[MonitoredResource][google.api.MonitoredResource\] objects contain the minimum set of information to</span>
-<span class="doccomment">/// uniquely identify a monitored resource instance. There is some other useful</span>
-<span class="doccomment">/// auxiliary metadata. Monitoring and Logging use an ingestion</span>
-<span class="doccomment">/// pipeline to extract metadata for cloud resources of all types, and store</span>
-<span class="doccomment">/// the metadata in this message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MonitoredResourceMetadata</span> {
-    <span class="doccomment">/// Output only. Values for predefined system metadata labels.</span>
-    <span class="doccomment">/// System labels are a kind of metadata extracted by Google, including</span>
-    <span class="doccomment">/// &quot;machine_image&quot;, &quot;vpc&quot;, &quot;subnet_id&quot;,</span>
-    <span class="doccomment">/// &quot;security_group&quot;, &quot;name&quot;, etc.</span>
-    <span class="doccomment">/// System label values can be only strings, Boolean values, or a list of</span>
-    <span class="doccomment">/// strings. For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     { &quot;name&quot;: &quot;my-test-instance&quot;,</span>
-    <span class="doccomment">///       &quot;security_group&quot;: [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;],</span>
-    <span class="doccomment">///       &quot;spot_instance&quot;: false }</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">system_labels</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. A map of user-defined metadata labels.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Defines a metric type and its schema. Once a metric descriptor is created,</span>
-<span class="doccomment">/// deleting or altering it stops data collection and makes the metric type&#39;s</span>
-<span class="doccomment">/// existing data unusable.</span>
-<span class="doccomment">///</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MetricDescriptor</span> {
-    <span class="doccomment">/// The resource name of the metric descriptor.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The metric type, including its DNS name prefix. The type is not</span>
-    <span class="doccomment">/// URL-encoded. All user-defined metric types have the DNS name</span>
-    <span class="doccomment">/// `custom.googleapis.com` or `external.googleapis.com`. Metric types should</span>
-    <span class="doccomment">/// use a natural hierarchical grouping. For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     &quot;custom.googleapis.com/invoice/paid/amount&quot;</span>
-    <span class="doccomment">///     &quot;external.googleapis.com/prometheus/up&quot;</span>
-    <span class="doccomment">///     &quot;appengine.googleapis.com/http/server/response_latencies&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The set of labels that can be used to describe a specific</span>
-    <span class="doccomment">/// instance of this metric type. For example, the</span>
-    <span class="doccomment">/// `appengine.googleapis.com/http/server/response_latencies` metric</span>
-    <span class="doccomment">/// type has a label for the HTTP response code, `response_code`, so</span>
-    <span class="doccomment">/// you can look at latencies for successful responses or just</span>
-    <span class="doccomment">/// for responses that failed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LabelDescriptor</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Whether the metric records instantaneous values, changes to a value, etc.</span>
-    <span class="doccomment">/// Some combinations of `metric_kind` and `value_type` might not be supported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;metric_descriptor::MetricKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metric_kind</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Whether the measurement is an integer, a floating-point number, etc.</span>
-    <span class="doccomment">/// Some combinations of `metric_kind` and `value_type` might not be supported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;metric_descriptor::ValueType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">value_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The units in which the metric value is reported. It is only applicable</span>
-    <span class="doccomment">/// if the `value_type` is `INT64`, `DOUBLE`, or `DISTRIBUTION`. The `unit`</span>
-    <span class="doccomment">/// defines the representation of the stored metric values.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Different systems might scale the values to be more easily displayed (so a</span>
-    <span class="doccomment">/// value of `0.02kBy` _might_ be displayed as `20By`, and a value of</span>
-    <span class="doccomment">/// `3523kBy` _might_ be displayed as `3.5MBy`). However, if the `unit` is</span>
-    <span class="doccomment">/// `kBy`, then the value of the metric is always in thousands of bytes, no</span>
-    <span class="doccomment">/// matter how it might be displayed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If you want a custom metric to record the exact number of CPU-seconds used</span>
-    <span class="doccomment">/// by a job, you can create an `INT64 CUMULATIVE` metric whose `unit` is</span>
-    <span class="doccomment">/// `s{CPU}` (or equivalently `1s{CPU}` or just `s`). If the job uses 12,005</span>
-    <span class="doccomment">/// CPU-seconds, then the value is written as `12005`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Alternatively, if you want a custom metric to record data in a more</span>
-    <span class="doccomment">/// granular way, you can create a `DOUBLE CUMULATIVE` metric whose `unit` is</span>
-    <span class="doccomment">/// `ks{CPU}`, and then write the value `12.005` (which is `12005/1000`),</span>
-    <span class="doccomment">/// or use `Kis{CPU}` and write `11.723` (which is `12005/1024`).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The supported units are a subset of [The Unified Code for Units of</span>
-    <span class="doccomment">/// Measure](&lt;https://unitsofmeasure.org/ucum.html&gt;) standard:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Basic units (UNIT)**</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `bit`   bit</span>
-    <span class="doccomment">/// * `By`    byte</span>
-    <span class="doccomment">/// * `s`     second</span>
-    <span class="doccomment">/// * `min`   minute</span>
-    <span class="doccomment">/// * `h`     hour</span>
-    <span class="doccomment">/// * `d`     day</span>
-    <span class="doccomment">/// * `1`     dimensionless</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Prefixes (PREFIX)**</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `k`     kilo    (10^3)</span>
-    <span class="doccomment">/// * `M`     mega    (10^6)</span>
-    <span class="doccomment">/// * `G`     giga    (10^9)</span>
-    <span class="doccomment">/// * `T`     tera    (10^12)</span>
-    <span class="doccomment">/// * `P`     peta    (10^15)</span>
-    <span class="doccomment">/// * `E`     exa     (10^18)</span>
-    <span class="doccomment">/// * `Z`     zetta   (10^21)</span>
-    <span class="doccomment">/// * `Y`     yotta   (10^24)</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `m`     milli   (10^-3)</span>
-    <span class="doccomment">/// * `u`     micro   (10^-6)</span>
-    <span class="doccomment">/// * `n`     nano    (10^-9)</span>
-    <span class="doccomment">/// * `p`     pico    (10^-12)</span>
-    <span class="doccomment">/// * `f`     femto   (10^-15)</span>
-    <span class="doccomment">/// * `a`     atto    (10^-18)</span>
-    <span class="doccomment">/// * `z`     zepto   (10^-21)</span>
-    <span class="doccomment">/// * `y`     yocto   (10^-24)</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `Ki`    kibi    (2^10)</span>
-    <span class="doccomment">/// * `Mi`    mebi    (2^20)</span>
-    <span class="doccomment">/// * `Gi`    gibi    (2^30)</span>
-    <span class="doccomment">/// * `Ti`    tebi    (2^40)</span>
-    <span class="doccomment">/// * `Pi`    pebi    (2^50)</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Grammar**</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The grammar also includes these connectors:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `/`    division or ratio (as an infix operator). For examples,</span>
-    <span class="doccomment">///          `kBy/{email}` or `MiBy/10ms` (although you should almost never</span>
-    <span class="doccomment">///          have `/s` in a metric `unit`; rates should always be computed at</span>
-    <span class="doccomment">///          query time from the underlying cumulative or delta value).</span>
-    <span class="doccomment">/// * `.`    multiplication or composition (as an infix operator). For</span>
-    <span class="doccomment">///          examples, `GBy.d` or `k{watt}.h`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The grammar for a unit is as follows:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     Expression = Component { &quot;.&quot; Component } { &quot;/&quot; Component } ;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     Component = ( [ PREFIX ] UNIT | &quot;%&quot; ) [ Annotation ]</span>
-    <span class="doccomment">///               | Annotation</span>
-    <span class="doccomment">///               | &quot;1&quot;</span>
-    <span class="doccomment">///               ;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     Annotation = &quot;{&quot; NAME &quot;}&quot; ;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Notes:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `Annotation` is just a comment if it follows a `UNIT`. If the annotation</span>
-    <span class="doccomment">///    is used alone, then the unit is equivalent to `1`. For examples,</span>
-    <span class="doccomment">///    `{request}/s == 1/s`, `By{transmitted}/s == By/s`.</span>
-    <span class="doccomment">/// * `NAME` is a sequence of non-blank printable ASCII characters not</span>
-    <span class="doccomment">///    containing `{` or `}`.</span>
-    <span class="doccomment">/// * `1` represents a unitary [dimensionless</span>
-    <span class="doccomment">///    unit](&lt;https://en.wikipedia.org/wiki/Dimensionless_quantity&gt;) of 1, such</span>
-    <span class="doccomment">///    as in `1/s`. It is typically used when none of the basic units are</span>
-    <span class="doccomment">///    appropriate. For example, &quot;new users per day&quot; can be represented as</span>
-    <span class="doccomment">///    `1/d` or `{new-users}/d` (and a metric value `5` would mean &quot;5 new</span>
-    <span class="doccomment">///    users). Alternatively, &quot;thousands of page views per day&quot; would be</span>
-    <span class="doccomment">///    represented as `1000/d` or `k1/d` or `k{page_views}/d` (and a metric</span>
-    <span class="doccomment">///    value of `5.3` would mean &quot;5300 page views per day&quot;).</span>
-    <span class="doccomment">/// * `%` represents dimensionless value of 1/100, and annotates values giving</span>
-    <span class="doccomment">///    a percentage (so the metric values are typically in the range of 0..100,</span>
-    <span class="doccomment">///    and a metric value `3` means &quot;3 percent&quot;).</span>
-    <span class="doccomment">/// * `10^2.%` indicates a metric contains a ratio, typically in the range</span>
-    <span class="doccomment">///    0..1, that will be multiplied by 100 and displayed as a percentage</span>
-    <span class="doccomment">///    (so a metric value `0.03` means &quot;3 percent&quot;).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">unit</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A detailed description of the metric, which can be used in documentation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A concise name for the metric, which can be displayed in user interfaces.</span>
-    <span class="doccomment">/// Use sentence case without an ending period, for example &quot;Request count&quot;.</span>
-    <span class="doccomment">/// This field is optional but it is recommended to be set for any metrics</span>
-    <span class="doccomment">/// associated with user-visible concepts, such as Quota.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Metadata which can be used to guide usage of the metric.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">metric_descriptor::MetricDescriptorMetadata</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. The launch stage of the metric definition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;LaunchStage&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">launch_stage</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Read-only. If present, then a [time</span>
-    <span class="doccomment">/// series]\[google.monitoring.v3.TimeSeries\], which is identified partially by</span>
-    <span class="doccomment">/// a metric type and a \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\], that is associated</span>
-    <span class="doccomment">/// with this metric type can only be associated with one of the monitored</span>
-    <span class="doccomment">/// resource types listed here.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">monitored_resource_types</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `MetricDescriptor`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">metric_descriptor</span> {
-    <span class="doccomment">/// Additional annotations that can be used to guide the usage of a metric.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MetricDescriptorMetadata</span> {
-        <span class="doccomment">/// Deprecated. Must use the \[MetricDescriptor.launch_stage][google.api.MetricDescriptor.launch_stage\] instead.</span>
-        <span class="attribute">#[<span class="ident">deprecated</span>]</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::LaunchStage&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">launch_stage</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// The sampling period of metric data points. For metrics which are written</span>
-        <span class="doccomment">/// periodically, consecutive data points are stored at this time interval,</span>
-        <span class="doccomment">/// excluding data loss due to errors. Metrics with a higher granularity have</span>
-        <span class="doccomment">/// a smaller sampling period.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">sample_period</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The delay of data points caused by ingestion. Data points older than this</span>
-        <span class="doccomment">/// age are guaranteed to be ingested and available to be read, excluding</span>
-        <span class="doccomment">/// data loss due to errors.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">ingest_delay</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// The kind of measurement. It describes how the data is reported.</span>
-    <span class="doccomment">/// For information on setting the start time and end time based on</span>
-    <span class="doccomment">/// the MetricKind, see \[TimeInterval][google.monitoring.v3.TimeInterval\].</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MetricKind</span> {
-        <span class="doccomment">/// Do not use this default value.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// An instantaneous measurement of a value.</span>
-        <span class="ident">Gauge</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The change in a value during a time interval.</span>
-        <span class="ident">Delta</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// A value accumulated over a time interval.  Cumulative</span>
-        <span class="doccomment">/// measurements in a time series should have the same start time</span>
-        <span class="doccomment">/// and increasing end times, until an event resets the cumulative</span>
-        <span class="doccomment">/// value to zero and sets a new start time for the following</span>
-        <span class="doccomment">/// points.</span>
-        <span class="ident">Cumulative</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-    <span class="doccomment">/// The value type of a metric.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ValueType</span> {
-        <span class="doccomment">/// Do not use this default value.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The value is a boolean.</span>
-        <span class="doccomment">/// This value type can be used only if the metric kind is `GAUGE`.</span>
-        <span class="ident">Bool</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The value is a signed 64-bit integer.</span>
-        <span class="ident">Int64</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The value is a double precision floating point number.</span>
-        <span class="ident">Double</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The value is a text string.</span>
-        <span class="doccomment">/// This value type can be used only if the metric kind is `GAUGE`.</span>
-        <span class="ident">String</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// The value is a \[`Distribution`][google.api.Distribution\].</span>
-        <span class="ident">Distribution</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// The value is money.</span>
-        <span class="ident">Money</span> <span class="op">=</span> <span class="number">6</span>,
-    }
-}
-<span class="doccomment">/// A specific metric, identified by specifying values for all of the</span>
-<span class="doccomment">/// labels of a \[`MetricDescriptor`][google.api.MetricDescriptor\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Metric</span> {
-    <span class="doccomment">/// An existing metric type, see \[google.api.MetricDescriptor][google.api.MetricDescriptor\].</span>
-    <span class="doccomment">/// For example, `custom.googleapis.com/invoice/paid/amount`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The set of label values that uniquely identify this metric. All</span>
-    <span class="doccomment">/// labels listed in the `MetricDescriptor` must be assigned values.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Message that represents an arbitrary HTTP body. It should only be used for</span>
 <span class="doccomment">/// payload formats that can&#39;t be represented as JSON, such as raw binary or</span>
@@ -5128,6 +4517,617 @@
     <span class="doccomment">///                bookstore_web.apps.googleusercontent.com</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">audiences</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// `Distribution` contains summary statistics for a population of values. It</span>
+<span class="doccomment">/// optionally contains a histogram representing the distribution of those values</span>
+<span class="doccomment">/// across a set of buckets.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The summary statistics are the count, mean, sum of the squared deviation from</span>
+<span class="doccomment">/// the mean, the minimum, and the maximum of the set of population of values.</span>
+<span class="doccomment">/// The histogram is based on a sequence of buckets and gives a count of values</span>
+<span class="doccomment">/// that fall into each bucket. The boundaries of the buckets are given either</span>
+<span class="doccomment">/// explicitly or by formulas for buckets of fixed or exponentially increasing</span>
+<span class="doccomment">/// widths.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Although it is not forbidden, it is generally a bad idea to include</span>
+<span class="doccomment">/// non-finite values (infinities or NaNs) in the population of values, as this</span>
+<span class="doccomment">/// will render the `mean` and `sum_of_squared_deviation` fields meaningless.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Distribution</span> {
+    <span class="doccomment">/// The number of values in the population. Must be non-negative. This value</span>
+    <span class="doccomment">/// must equal the sum of the values in `bucket_counts` if a histogram is</span>
+    <span class="doccomment">/// provided.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">count</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The arithmetic mean of the values in the population. If `count` is zero</span>
+    <span class="doccomment">/// then this field must be zero.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mean</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// The sum of squared deviations from the mean of the values in the</span>
+    <span class="doccomment">/// population. For values x_i this is:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     Sum\[i=1..n\]((x_i - mean)^2)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Knuth, &quot;The Art of Computer Programming&quot;, Vol. 2, page 232, 3rd edition</span>
+    <span class="doccomment">/// describes Welford&#39;s method for accumulating this sum in one pass.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If `count` is zero then this field must be zero.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">sum_of_squared_deviation</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// If specified, contains the range of the population values. The field</span>
+    <span class="doccomment">/// must not be present if the `count` is zero.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">range</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">distribution::Range</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Defines the histogram bucket boundaries. If the distribution does not</span>
+    <span class="doccomment">/// contain a histogram, then omit this field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">bucket_options</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">distribution::BucketOptions</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The number of values in each bucket of the histogram, as described in</span>
+    <span class="doccomment">/// `bucket_options`. If the distribution does not have a histogram, then omit</span>
+    <span class="doccomment">/// this field. If there is a histogram, then the sum of the values in</span>
+    <span class="doccomment">/// `bucket_counts` must equal the value in the `count` field of the</span>
+    <span class="doccomment">/// distribution.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If present, `bucket_counts` should contain N values, where N is the number</span>
+    <span class="doccomment">/// of buckets specified in `bucket_options`. If you supply fewer than N</span>
+    <span class="doccomment">/// values, the remaining values are assumed to be 0.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The order of the values in `bucket_counts` follows the bucket numbering</span>
+    <span class="doccomment">/// schemes described for the three bucket types. The first value must be the</span>
+    <span class="doccomment">/// count for the underflow bucket (number 0). The next N-2 values are the</span>
+    <span class="doccomment">/// counts for the finite buckets (number 1 through N-2). The N&#39;th value in</span>
+    <span class="doccomment">/// `bucket_counts` is the count for the overflow bucket (number N-1).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">bucket_counts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Must be in increasing order of `value` field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exemplars</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">distribution::Exemplar</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Distribution`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">distribution</span> {
+    <span class="doccomment">/// The range of the population values.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Range</span> {
+        <span class="doccomment">/// The minimum of the population values.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">min</span>: <span class="ident">f64</span>,
+        <span class="doccomment">/// The maximum of the population values.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">max</span>: <span class="ident">f64</span>,
+    }
+    <span class="doccomment">/// `BucketOptions` describes the bucket boundaries used to create a histogram</span>
+    <span class="doccomment">/// for the distribution. The buckets can be in a linear sequence, an</span>
+    <span class="doccomment">/// exponential sequence, or each bucket can be specified explicitly.</span>
+    <span class="doccomment">/// `BucketOptions` does not include the number of values in each bucket.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// A bucket has an inclusive lower bound and exclusive upper bound for the</span>
+    <span class="doccomment">/// values that are counted for that bucket. The upper bound of a bucket must</span>
+    <span class="doccomment">/// be strictly greater than the lower bound. The sequence of N buckets for a</span>
+    <span class="doccomment">/// distribution consists of an underflow bucket (number 0), zero or more</span>
+    <span class="doccomment">/// finite buckets (number 1 through N - 2) and an overflow bucket (number N -</span>
+    <span class="doccomment">/// 1). The buckets are contiguous: the lower bound of bucket i (i &gt; 0) is the</span>
+    <span class="doccomment">/// same as the upper bound of bucket i - 1. The buckets span the whole range</span>
+    <span class="doccomment">/// of finite values: lower bound of the underflow bucket is -infinity and the</span>
+    <span class="doccomment">/// upper bound of the overflow bucket is +infinity. The finite buckets are</span>
+    <span class="doccomment">/// so-called because both bounds are finite.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BucketOptions</span> {
+        <span class="doccomment">/// Exactly one of these three fields must be set.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;bucket_options::Options&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">options</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">bucket_options::Options</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `BucketOptions`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bucket_options</span> {
+        <span class="doccomment">/// Specifies a linear sequence of buckets that all have the same width</span>
+        <span class="doccomment">/// (except overflow and underflow). Each bucket represents a constant</span>
+        <span class="doccomment">/// absolute uncertainty on the specific value in the bucket.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the</span>
+        <span class="doccomment">/// following boundaries:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///    Upper bound (0 &lt;= i &lt; N-1):     offset + (width * i).</span>
+        <span class="doccomment">///    Lower bound (1 &lt;= i &lt; N):       offset + (width * (i - 1)).</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Linear</span> {
+            <span class="doccomment">/// Must be greater than 0.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">num_finite_buckets</span>: <span class="ident">i32</span>,
+            <span class="doccomment">/// Must be greater than 0.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">width</span>: <span class="ident">f64</span>,
+            <span class="doccomment">/// Lower bound of the first bucket.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">offset</span>: <span class="ident">f64</span>,
+        }
+        <span class="doccomment">/// Specifies an exponential sequence of buckets that have a width that is</span>
+        <span class="doccomment">/// proportional to the value of the lower bound. Each bucket represents a</span>
+        <span class="doccomment">/// constant relative uncertainty on a specific value in the bucket.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the</span>
+        <span class="doccomment">/// following boundaries:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///    Upper bound (0 &lt;= i &lt; N-1):     scale * (growth_factor ^ i).</span>
+        <span class="doccomment">///    Lower bound (1 &lt;= i &lt; N):       scale * (growth_factor ^ (i - 1)).</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Exponential</span> {
+            <span class="doccomment">/// Must be greater than 0.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">num_finite_buckets</span>: <span class="ident">i32</span>,
+            <span class="doccomment">/// Must be greater than 1.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">growth_factor</span>: <span class="ident">f64</span>,
+            <span class="doccomment">/// Must be greater than 0.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">scale</span>: <span class="ident">f64</span>,
+        }
+        <span class="doccomment">/// Specifies a set of buckets with arbitrary widths.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// There are `size(bounds) + 1` (= N) buckets. Bucket `i` has the following</span>
+        <span class="doccomment">/// boundaries:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///    Upper bound (0 &lt;= i &lt; N-1):     bounds\[i\]</span>
+        <span class="doccomment">///    Lower bound (1 &lt;= i &lt; N);       bounds[i - 1]</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// The `bounds` field must contain at least one element. If `bounds` has</span>
+        <span class="doccomment">/// only one element, then there are no finite buckets, and that single</span>
+        <span class="doccomment">/// element is the common boundary of the overflow and underflow buckets.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Explicit</span> {
+            <span class="doccomment">/// The values must be monotonically increasing.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">bounds</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>,
+        }
+        <span class="doccomment">/// Exactly one of these three fields must be set.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Options</span> {
+            <span class="doccomment">/// The linear bucket.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="ident">LinearBuckets</span>(<span class="ident">Linear</span>),
+            <span class="doccomment">/// The exponential buckets.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="ident">ExponentialBuckets</span>(<span class="ident">Exponential</span>),
+            <span class="doccomment">/// The explicit buckets.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="ident">ExplicitBuckets</span>(<span class="ident">Explicit</span>),
+        }
+    }
+    <span class="doccomment">/// Exemplars are example points that may be used to annotate aggregated</span>
+    <span class="doccomment">/// distribution values. They are metadata that gives information about a</span>
+    <span class="doccomment">/// particular value added to a Distribution bucket, such as a trace ID that</span>
+    <span class="doccomment">/// was active when a value was added. They may contain further information,</span>
+    <span class="doccomment">/// such as a example values and timestamps, origin, etc.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Exemplar</span> {
+        <span class="doccomment">/// Value of the exemplar point. This value determines to which bucket the</span>
+        <span class="doccomment">/// exemplar belongs.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">f64</span>,
+        <span class="doccomment">/// The observation (sampling) time of the above value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Contextual information about the example value. Examples are:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///   Trace: type.googleapis.com/google.monitoring.v3.SpanContext</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///   Literal string: type.googleapis.com/google.protobuf.StringValue</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">///   Labels dropped during aggregation:</span>
+        <span class="doccomment">///     type.googleapis.com/google.monitoring.v3.DroppedLabels</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// There may be only a single attachment of any given message type in a</span>
+        <span class="doccomment">/// single exemplar, and this is enforced by the system.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">attachments</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost_types::Any</span><span class="op">&gt;</span>,
+    }
+}
+<span class="doccomment">/// A description of a label.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LabelDescriptor</span> {
+    <span class="doccomment">/// The label key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">key</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type of data that can be assigned to the label.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;label_descriptor::ValueType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">value_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A human-readable description for the label.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `LabelDescriptor`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">label_descriptor</span> {
+    <span class="doccomment">/// Value types that can be used as label values.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ValueType</span> {
+        <span class="doccomment">/// A variable-length string. This is the default.</span>
+        <span class="ident">String</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Boolean; true or false.</span>
+        <span class="ident">Bool</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A 64-bit signed integer.</span>
+        <span class="ident">Int64</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// The launch stage as defined by [Google Cloud Platform</span>
+<span class="doccomment">/// Launch Stages](&lt;http://cloud.google.com/terms/launch-stages&gt;).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LaunchStage</span> {
+    <span class="doccomment">/// Do not use this default value.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// The feature is not yet implemented. Users can not use it.</span>
+    <span class="ident">Unimplemented</span> <span class="op">=</span> <span class="number">6</span>,
+    <span class="doccomment">/// Prelaunch features are hidden from users and are only visible internally.</span>
+    <span class="ident">Prelaunch</span> <span class="op">=</span> <span class="number">7</span>,
+    <span class="doccomment">/// Early Access features are limited to a closed group of testers. To use</span>
+    <span class="doccomment">/// these features, you must sign up in advance and sign a Trusted Tester</span>
+    <span class="doccomment">/// agreement (which includes confidentiality provisions). These features may</span>
+    <span class="doccomment">/// be unstable, changed in backward-incompatible ways, and are not</span>
+    <span class="doccomment">/// guaranteed to be released.</span>
+    <span class="ident">EarlyAccess</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Alpha is a limited availability test for releases before they are cleared</span>
+    <span class="doccomment">/// for widespread use. By Alpha, all significant design issues are resolved</span>
+    <span class="doccomment">/// and we are in the process of verifying functionality. Alpha customers</span>
+    <span class="doccomment">/// need to apply for access, agree to applicable terms, and have their</span>
+    <span class="doccomment">/// projects allowlisted. Alpha releases don’t have to be feature complete,</span>
+    <span class="doccomment">/// no SLAs are provided, and there are no technical support obligations, but</span>
+    <span class="doccomment">/// they will be far enough along that customers can actually use them in</span>
+    <span class="doccomment">/// test environments or for limited-use tests -- just like they would in</span>
+    <span class="doccomment">/// normal production cases.</span>
+    <span class="ident">Alpha</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Beta is the point at which we are ready to open a release for any</span>
+    <span class="doccomment">/// customer to use. There are no SLA or technical support obligations in a</span>
+    <span class="doccomment">/// Beta release. Products will be complete from a feature perspective, but</span>
+    <span class="doccomment">/// may have some open outstanding issues. Beta releases are suitable for</span>
+    <span class="doccomment">/// limited production use cases.</span>
+    <span class="ident">Beta</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// GA features are open to all developers and are considered stable and</span>
+    <span class="doccomment">/// fully qualified for production use.</span>
+    <span class="ident">Ga</span> <span class="op">=</span> <span class="number">4</span>,
+    <span class="doccomment">/// Deprecated features are scheduled to be shut down and removed. For more</span>
+    <span class="doccomment">/// information, see the “Deprecation Policy” section of our [Terms of</span>
+    <span class="doccomment">/// Service](&lt;https://cloud.google.com/terms/&gt;)</span>
+    <span class="doccomment">/// and the [Google Cloud Platform Subject to the Deprecation</span>
+    <span class="doccomment">/// Policy](&lt;https://cloud.google.com/terms/deprecation&gt;) documentation.</span>
+    <span class="ident">Deprecated</span> <span class="op">=</span> <span class="number">5</span>,
+}
+<span class="doccomment">/// Defines a metric type and its schema. Once a metric descriptor is created,</span>
+<span class="doccomment">/// deleting or altering it stops data collection and makes the metric type&#39;s</span>
+<span class="doccomment">/// existing data unusable.</span>
+<span class="doccomment">///</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MetricDescriptor</span> {
+    <span class="doccomment">/// The resource name of the metric descriptor.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The metric type, including its DNS name prefix. The type is not</span>
+    <span class="doccomment">/// URL-encoded. All user-defined metric types have the DNS name</span>
+    <span class="doccomment">/// `custom.googleapis.com` or `external.googleapis.com`. Metric types should</span>
+    <span class="doccomment">/// use a natural hierarchical grouping. For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     &quot;custom.googleapis.com/invoice/paid/amount&quot;</span>
+    <span class="doccomment">///     &quot;external.googleapis.com/prometheus/up&quot;</span>
+    <span class="doccomment">///     &quot;appengine.googleapis.com/http/server/response_latencies&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The set of labels that can be used to describe a specific</span>
+    <span class="doccomment">/// instance of this metric type. For example, the</span>
+    <span class="doccomment">/// `appengine.googleapis.com/http/server/response_latencies` metric</span>
+    <span class="doccomment">/// type has a label for the HTTP response code, `response_code`, so</span>
+    <span class="doccomment">/// you can look at latencies for successful responses or just</span>
+    <span class="doccomment">/// for responses that failed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LabelDescriptor</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether the metric records instantaneous values, changes to a value, etc.</span>
+    <span class="doccomment">/// Some combinations of `metric_kind` and `value_type` might not be supported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;metric_descriptor::MetricKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metric_kind</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Whether the measurement is an integer, a floating-point number, etc.</span>
+    <span class="doccomment">/// Some combinations of `metric_kind` and `value_type` might not be supported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;metric_descriptor::ValueType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">value_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The units in which the metric value is reported. It is only applicable</span>
+    <span class="doccomment">/// if the `value_type` is `INT64`, `DOUBLE`, or `DISTRIBUTION`. The `unit`</span>
+    <span class="doccomment">/// defines the representation of the stored metric values.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Different systems might scale the values to be more easily displayed (so a</span>
+    <span class="doccomment">/// value of `0.02kBy` _might_ be displayed as `20By`, and a value of</span>
+    <span class="doccomment">/// `3523kBy` _might_ be displayed as `3.5MBy`). However, if the `unit` is</span>
+    <span class="doccomment">/// `kBy`, then the value of the metric is always in thousands of bytes, no</span>
+    <span class="doccomment">/// matter how it might be displayed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If you want a custom metric to record the exact number of CPU-seconds used</span>
+    <span class="doccomment">/// by a job, you can create an `INT64 CUMULATIVE` metric whose `unit` is</span>
+    <span class="doccomment">/// `s{CPU}` (or equivalently `1s{CPU}` or just `s`). If the job uses 12,005</span>
+    <span class="doccomment">/// CPU-seconds, then the value is written as `12005`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Alternatively, if you want a custom metric to record data in a more</span>
+    <span class="doccomment">/// granular way, you can create a `DOUBLE CUMULATIVE` metric whose `unit` is</span>
+    <span class="doccomment">/// `ks{CPU}`, and then write the value `12.005` (which is `12005/1000`),</span>
+    <span class="doccomment">/// or use `Kis{CPU}` and write `11.723` (which is `12005/1024`).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The supported units are a subset of [The Unified Code for Units of</span>
+    <span class="doccomment">/// Measure](&lt;https://unitsofmeasure.org/ucum.html&gt;) standard:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Basic units (UNIT)**</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `bit`   bit</span>
+    <span class="doccomment">/// * `By`    byte</span>
+    <span class="doccomment">/// * `s`     second</span>
+    <span class="doccomment">/// * `min`   minute</span>
+    <span class="doccomment">/// * `h`     hour</span>
+    <span class="doccomment">/// * `d`     day</span>
+    <span class="doccomment">/// * `1`     dimensionless</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Prefixes (PREFIX)**</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `k`     kilo    (10^3)</span>
+    <span class="doccomment">/// * `M`     mega    (10^6)</span>
+    <span class="doccomment">/// * `G`     giga    (10^9)</span>
+    <span class="doccomment">/// * `T`     tera    (10^12)</span>
+    <span class="doccomment">/// * `P`     peta    (10^15)</span>
+    <span class="doccomment">/// * `E`     exa     (10^18)</span>
+    <span class="doccomment">/// * `Z`     zetta   (10^21)</span>
+    <span class="doccomment">/// * `Y`     yotta   (10^24)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `m`     milli   (10^-3)</span>
+    <span class="doccomment">/// * `u`     micro   (10^-6)</span>
+    <span class="doccomment">/// * `n`     nano    (10^-9)</span>
+    <span class="doccomment">/// * `p`     pico    (10^-12)</span>
+    <span class="doccomment">/// * `f`     femto   (10^-15)</span>
+    <span class="doccomment">/// * `a`     atto    (10^-18)</span>
+    <span class="doccomment">/// * `z`     zepto   (10^-21)</span>
+    <span class="doccomment">/// * `y`     yocto   (10^-24)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `Ki`    kibi    (2^10)</span>
+    <span class="doccomment">/// * `Mi`    mebi    (2^20)</span>
+    <span class="doccomment">/// * `Gi`    gibi    (2^30)</span>
+    <span class="doccomment">/// * `Ti`    tebi    (2^40)</span>
+    <span class="doccomment">/// * `Pi`    pebi    (2^50)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Grammar**</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The grammar also includes these connectors:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `/`    division or ratio (as an infix operator). For examples,</span>
+    <span class="doccomment">///          `kBy/{email}` or `MiBy/10ms` (although you should almost never</span>
+    <span class="doccomment">///          have `/s` in a metric `unit`; rates should always be computed at</span>
+    <span class="doccomment">///          query time from the underlying cumulative or delta value).</span>
+    <span class="doccomment">/// * `.`    multiplication or composition (as an infix operator). For</span>
+    <span class="doccomment">///          examples, `GBy.d` or `k{watt}.h`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The grammar for a unit is as follows:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     Expression = Component { &quot;.&quot; Component } { &quot;/&quot; Component } ;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     Component = ( [ PREFIX ] UNIT | &quot;%&quot; ) [ Annotation ]</span>
+    <span class="doccomment">///               | Annotation</span>
+    <span class="doccomment">///               | &quot;1&quot;</span>
+    <span class="doccomment">///               ;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     Annotation = &quot;{&quot; NAME &quot;}&quot; ;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Notes:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `Annotation` is just a comment if it follows a `UNIT`. If the annotation</span>
+    <span class="doccomment">///    is used alone, then the unit is equivalent to `1`. For examples,</span>
+    <span class="doccomment">///    `{request}/s == 1/s`, `By{transmitted}/s == By/s`.</span>
+    <span class="doccomment">/// * `NAME` is a sequence of non-blank printable ASCII characters not</span>
+    <span class="doccomment">///    containing `{` or `}`.</span>
+    <span class="doccomment">/// * `1` represents a unitary [dimensionless</span>
+    <span class="doccomment">///    unit](&lt;https://en.wikipedia.org/wiki/Dimensionless_quantity&gt;) of 1, such</span>
+    <span class="doccomment">///    as in `1/s`. It is typically used when none of the basic units are</span>
+    <span class="doccomment">///    appropriate. For example, &quot;new users per day&quot; can be represented as</span>
+    <span class="doccomment">///    `1/d` or `{new-users}/d` (and a metric value `5` would mean &quot;5 new</span>
+    <span class="doccomment">///    users). Alternatively, &quot;thousands of page views per day&quot; would be</span>
+    <span class="doccomment">///    represented as `1000/d` or `k1/d` or `k{page_views}/d` (and a metric</span>
+    <span class="doccomment">///    value of `5.3` would mean &quot;5300 page views per day&quot;).</span>
+    <span class="doccomment">/// * `%` represents dimensionless value of 1/100, and annotates values giving</span>
+    <span class="doccomment">///    a percentage (so the metric values are typically in the range of 0..100,</span>
+    <span class="doccomment">///    and a metric value `3` means &quot;3 percent&quot;).</span>
+    <span class="doccomment">/// * `10^2.%` indicates a metric contains a ratio, typically in the range</span>
+    <span class="doccomment">///    0..1, that will be multiplied by 100 and displayed as a percentage</span>
+    <span class="doccomment">///    (so a metric value `0.03` means &quot;3 percent&quot;).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">unit</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A detailed description of the metric, which can be used in documentation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A concise name for the metric, which can be displayed in user interfaces.</span>
+    <span class="doccomment">/// Use sentence case without an ending period, for example &quot;Request count&quot;.</span>
+    <span class="doccomment">/// This field is optional but it is recommended to be set for any metrics</span>
+    <span class="doccomment">/// associated with user-visible concepts, such as Quota.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Metadata which can be used to guide usage of the metric.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">metric_descriptor::MetricDescriptorMetadata</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. The launch stage of the metric definition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;LaunchStage&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">launch_stage</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Read-only. If present, then a [time</span>
+    <span class="doccomment">/// series]\[google.monitoring.v3.TimeSeries\], which is identified partially by</span>
+    <span class="doccomment">/// a metric type and a \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\], that is associated</span>
+    <span class="doccomment">/// with this metric type can only be associated with one of the monitored</span>
+    <span class="doccomment">/// resource types listed here.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">monitored_resource_types</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `MetricDescriptor`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">metric_descriptor</span> {
+    <span class="doccomment">/// Additional annotations that can be used to guide the usage of a metric.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MetricDescriptorMetadata</span> {
+        <span class="doccomment">/// Deprecated. Must use the \[MetricDescriptor.launch_stage][google.api.MetricDescriptor.launch_stage\] instead.</span>
+        <span class="attribute">#[<span class="ident">deprecated</span>]</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::LaunchStage&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">launch_stage</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// The sampling period of metric data points. For metrics which are written</span>
+        <span class="doccomment">/// periodically, consecutive data points are stored at this time interval,</span>
+        <span class="doccomment">/// excluding data loss due to errors. Metrics with a higher granularity have</span>
+        <span class="doccomment">/// a smaller sampling period.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">sample_period</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The delay of data points caused by ingestion. Data points older than this</span>
+        <span class="doccomment">/// age are guaranteed to be ingested and available to be read, excluding</span>
+        <span class="doccomment">/// data loss due to errors.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">ingest_delay</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// The kind of measurement. It describes how the data is reported.</span>
+    <span class="doccomment">/// For information on setting the start time and end time based on</span>
+    <span class="doccomment">/// the MetricKind, see \[TimeInterval][google.monitoring.v3.TimeInterval\].</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MetricKind</span> {
+        <span class="doccomment">/// Do not use this default value.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// An instantaneous measurement of a value.</span>
+        <span class="ident">Gauge</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The change in a value during a time interval.</span>
+        <span class="ident">Delta</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// A value accumulated over a time interval.  Cumulative</span>
+        <span class="doccomment">/// measurements in a time series should have the same start time</span>
+        <span class="doccomment">/// and increasing end times, until an event resets the cumulative</span>
+        <span class="doccomment">/// value to zero and sets a new start time for the following</span>
+        <span class="doccomment">/// points.</span>
+        <span class="ident">Cumulative</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+    <span class="doccomment">/// The value type of a metric.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ValueType</span> {
+        <span class="doccomment">/// Do not use this default value.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The value is a boolean.</span>
+        <span class="doccomment">/// This value type can be used only if the metric kind is `GAUGE`.</span>
+        <span class="ident">Bool</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The value is a signed 64-bit integer.</span>
+        <span class="ident">Int64</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The value is a double precision floating point number.</span>
+        <span class="ident">Double</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The value is a text string.</span>
+        <span class="doccomment">/// This value type can be used only if the metric kind is `GAUGE`.</span>
+        <span class="ident">String</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// The value is a \[`Distribution`][google.api.Distribution\].</span>
+        <span class="ident">Distribution</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// The value is money.</span>
+        <span class="ident">Money</span> <span class="op">=</span> <span class="number">6</span>,
+    }
+}
+<span class="doccomment">/// A specific metric, identified by specifying values for all of the</span>
+<span class="doccomment">/// labels of a \[`MetricDescriptor`][google.api.MetricDescriptor\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Metric</span> {
+    <span class="doccomment">/// An existing metric type, see \[google.api.MetricDescriptor][google.api.MetricDescriptor\].</span>
+    <span class="doccomment">/// For example, `custom.googleapis.com/invoice/paid/amount`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The set of label values that uniquely identify this metric. All</span>
+    <span class="doccomment">/// labels listed in the `MetricDescriptor` must be assigned values.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// An object that describes the schema of a \[MonitoredResource][google.api.MonitoredResource\] object using a</span>
+<span class="doccomment">/// type name and a set of labels.  For example, the monitored resource</span>
+<span class="doccomment">/// descriptor for Google Compute Engine VM instances has a type of</span>
+<span class="doccomment">/// `&quot;gce_instance&quot;` and specifies the use of the labels `&quot;instance_id&quot;` and</span>
+<span class="doccomment">/// `&quot;zone&quot;` to identify particular VM instances.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Different APIs can support different monitored resource types. APIs generally</span>
+<span class="doccomment">/// provide a `list` method that returns the monitored resource descriptors used</span>
+<span class="doccomment">/// by the API.</span>
+<span class="doccomment">///</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MonitoredResourceDescriptor</span> {
+    <span class="doccomment">/// Optional. The resource name of the monitored resource descriptor:</span>
+    <span class="doccomment">/// `&quot;projects/{project_id}/monitoredResourceDescriptors/{type}&quot;` where</span>
+    <span class="doccomment">/// {type} is the value of the `type` field in this object and</span>
+    <span class="doccomment">/// {project_id} is a project ID that provides API-specific context for</span>
+    <span class="doccomment">/// accessing the type.  APIs that do not use project information can use the</span>
+    <span class="doccomment">/// resource name format `&quot;monitoredResourceDescriptors/{type}&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The monitored resource type. For example, the type</span>
+    <span class="doccomment">/// `&quot;cloudsql_database&quot;` represents databases in Google Cloud SQL.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. A concise name for the monitored resource type that might be</span>
+    <span class="doccomment">/// displayed in user interfaces. It should be a Title Cased Noun Phrase,</span>
+    <span class="doccomment">/// without any article or other determiners. For example,</span>
+    <span class="doccomment">/// `&quot;Google Cloud SQL Database&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. A detailed description of the monitored resource type that might</span>
+    <span class="doccomment">/// be used in documentation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. A set of labels used to describe instances of this monitored</span>
+    <span class="doccomment">/// resource type. For example, an individual Google Cloud SQL database is</span>
+    <span class="doccomment">/// identified by values for the labels `&quot;database_id&quot;` and `&quot;zone&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">LabelDescriptor</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. The launch stage of the monitored resource definition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;LaunchStage&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">launch_stage</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// An object representing a resource that can be used for monitoring, logging,</span>
+<span class="doccomment">/// billing, or other purposes. Examples include virtual machine instances,</span>
+<span class="doccomment">/// databases, and storage devices such as disks. The `type` field identifies a</span>
+<span class="doccomment">/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object that describes the resource&#39;s</span>
+<span class="doccomment">/// schema. Information in the `labels` field identifies the actual resource and</span>
+<span class="doccomment">/// its attributes according to the schema. For example, a particular Compute</span>
+<span class="doccomment">/// Engine VM instance could be represented by the following object, because the</span>
+<span class="doccomment">/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] for `&quot;gce_instance&quot;` has labels</span>
+<span class="doccomment">/// `&quot;instance_id&quot;` and `&quot;zone&quot;`:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     { &quot;type&quot;: &quot;gce_instance&quot;,</span>
+<span class="doccomment">///       &quot;labels&quot;: { &quot;instance_id&quot;: &quot;12345678901234&quot;,</span>
+<span class="doccomment">///                   &quot;zone&quot;: &quot;us-central1-a&quot; }}</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MonitoredResource</span> {
+    <span class="doccomment">/// Required. The monitored resource type. This field must match</span>
+    <span class="doccomment">/// the `type` field of a \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object. For</span>
+    <span class="doccomment">/// example, the type of a Compute Engine VM instance is `gce_instance`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Values for all of the labels listed in the associated monitored</span>
+    <span class="doccomment">/// resource descriptor. For example, Compute Engine VM instances use the</span>
+    <span class="doccomment">/// labels `&quot;project_id&quot;`, `&quot;instance_id&quot;`, and `&quot;zone&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Auxiliary metadata for a \[MonitoredResource][google.api.MonitoredResource\] object.</span>
+<span class="doccomment">/// \[MonitoredResource][google.api.MonitoredResource\] objects contain the minimum set of information to</span>
+<span class="doccomment">/// uniquely identify a monitored resource instance. There is some other useful</span>
+<span class="doccomment">/// auxiliary metadata. Monitoring and Logging use an ingestion</span>
+<span class="doccomment">/// pipeline to extract metadata for cloud resources of all types, and store</span>
+<span class="doccomment">/// the metadata in this message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MonitoredResourceMetadata</span> {
+    <span class="doccomment">/// Output only. Values for predefined system metadata labels.</span>
+    <span class="doccomment">/// System labels are a kind of metadata extracted by Google, including</span>
+    <span class="doccomment">/// &quot;machine_image&quot;, &quot;vpc&quot;, &quot;subnet_id&quot;,</span>
+    <span class="doccomment">/// &quot;security_group&quot;, &quot;name&quot;, etc.</span>
+    <span class="doccomment">/// System label values can be only strings, Boolean values, or a list of</span>
+    <span class="doccomment">/// strings. For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     { &quot;name&quot;: &quot;my-test-instance&quot;,</span>
+    <span class="doccomment">///       &quot;security_group&quot;: [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;],</span>
+    <span class="doccomment">///       &quot;spot_instance&quot;: false }</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">system_labels</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. A map of user-defined metadata labels.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Specifies the routing information that should be sent along with the request</span>
 <span class="doccomment">/// in the form of routing header.</span>
@@ -5562,16 +5562,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">path_template</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Selects and configures the service controller used by the service.  The</span>
-<span class="doccomment">/// service controller handles features like abuse, quota, billing, logging,</span>
-<span class="doccomment">/// monitoring, etc.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Control</span> {
-    <span class="doccomment">/// The service control environment to use. If empty, no control plane</span>
-    <span class="doccomment">/// feature (like quota and billing) will be enabled.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">environment</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
 <span class="doccomment">/// `Backend` defines the backend configuration for a service.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Backend</span> {
@@ -5876,6 +5866,16 @@
     <span class="doccomment">/// side channel from backend to client.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">allowed_response_extensions</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Selects and configures the service controller used by the service.  The</span>
+<span class="doccomment">/// service controller handles features like abuse, quota, billing, logging,</span>
+<span class="doccomment">/// monitoring, etc.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Control</span> {
+    <span class="doccomment">/// The service control environment to use. If empty, no control plane</span>
+    <span class="doccomment">/// feature (like quota and billing) will be enabled.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">environment</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// `Documentation` provides the information for describing a service.</span>
 <span class="doccomment">///</span>
@@ -6694,128 +6694,62 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;20&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">config_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Output generated from semantically comparing two versions of a service</span>
-<span class="doccomment">/// configuration.</span>
+<span class="doccomment">/// `Visibility` defines restrictions for the visibility of service</span>
+<span class="doccomment">/// elements.  Restrictions are specified using visibility labels</span>
+<span class="doccomment">/// (e.g., PREVIEW) that are elsewhere linked to users and projects.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Includes detailed information about a field that have changed with</span>
-<span class="doccomment">/// applicable advice about potential consequences for the change, such as</span>
-<span class="doccomment">/// backwards-incompatibility.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfigChange</span> {
-    <span class="doccomment">/// Object hierarchy path to the change, with levels separated by a &#39;.&#39;</span>
-    <span class="doccomment">/// character. For repeated fields, an applicable unique identifier field is</span>
-    <span class="doccomment">/// used for the index (usually selector, name, or id). For maps, the term</span>
-    <span class="doccomment">/// &#39;key&#39; is used. If the field has no unique identifier, the numeric index</span>
-    <span class="doccomment">/// is used.</span>
-    <span class="doccomment">/// Examples:</span>
-    <span class="doccomment">/// - visibility.rules\[selector==&quot;google.LibraryService.ListBooks&quot;\].restriction</span>
-    <span class="doccomment">/// - quota.metric_rules\[selector==&quot;google&quot;].metric_costs[key==&quot;reads&quot;\].value</span>
-    <span class="doccomment">/// - logging.producer_destinations\[0\]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">element</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Value of the changed object in the old Service configuration,</span>
-    <span class="doccomment">/// in JSON format. This field will not be populated if ChangeType == ADDED.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">old_value</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Value of the changed object in the new Service configuration,</span>
-    <span class="doccomment">/// in JSON format. This field will not be populated if ChangeType == REMOVED.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">new_value</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type for this change, either ADDED, REMOVED, or MODIFIED.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ChangeType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">change_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Collection of advice provided for this change, useful for determining the</span>
-    <span class="doccomment">/// possible impact of this change.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">advices</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Advice</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Generated advice about this change, used for providing more</span>
-<span class="doccomment">/// information about how a change will affect the existing service.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Advice</span> {
-    <span class="doccomment">/// Useful description for why this advice was applied and what actions should</span>
-    <span class="doccomment">/// be taken to mitigate any implied risks.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Classifies set of possible modifications to an object in the service</span>
-<span class="doccomment">/// configuration.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChangeType</span> {
-    <span class="doccomment">/// No value was provided.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// The changed object exists in the &#39;new&#39; service configuration, but not</span>
-    <span class="doccomment">/// in the &#39;old&#39; service configuration.</span>
-    <span class="ident">Added</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// The changed object exists in the &#39;old&#39; service configuration, but not</span>
-    <span class="doccomment">/// in the &#39;new&#39; service configuration.</span>
-    <span class="ident">Removed</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// The changed object exists in both service configurations, but its value</span>
-    <span class="doccomment">/// is different.</span>
-    <span class="ident">Modified</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="doccomment">/// A descriptor for defining project properties for a service. One service may</span>
-<span class="doccomment">/// have many consumer projects, and the service may want to behave differently</span>
-<span class="doccomment">/// depending on some properties on the project. For example, a project may be</span>
-<span class="doccomment">/// associated with a school, or a business, or a government agency, a business</span>
-<span class="doccomment">/// type property on the project may affect how a service responds to the client.</span>
-<span class="doccomment">/// This descriptor defines which properties are allowed to be set on a project.</span>
+<span class="doccomment">/// Users and projects can have access to more than one visibility label. The</span>
+<span class="doccomment">/// effective visibility for multiple labels is the union of each label&#39;s</span>
+<span class="doccomment">/// elements, plus any unrestricted elements.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If an element and its parents have no restrictions, visibility is</span>
+<span class="doccomment">/// unconditionally granted.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Example:</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///    project_properties:</span>
-<span class="doccomment">///      properties:</span>
-<span class="doccomment">///      - name: NO_WATERMARK</span>
-<span class="doccomment">///        type: BOOL</span>
-<span class="doccomment">///        description: Allows usage of the API without watermarks.</span>
-<span class="doccomment">///      - name: EXTENDED_TILE_CACHE_PERIOD</span>
-<span class="doccomment">///        type: INT64</span>
+<span class="doccomment">///     visibility:</span>
+<span class="doccomment">///       rules:</span>
+<span class="doccomment">///       - selector: google.calendar.Calendar.EnhancedSearch</span>
+<span class="doccomment">///         restriction: PREVIEW</span>
+<span class="doccomment">///       - selector: google.calendar.Calendar.Delegate</span>
+<span class="doccomment">///         restriction: INTERNAL</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Here, all methods are publicly visible except for the restricted methods</span>
+<span class="doccomment">/// EnhancedSearch and Delegate.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProjectProperties</span> {
-    <span class="doccomment">/// List of per consumer project-specific properties.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Visibility</span> {
+    <span class="doccomment">/// A list of visibility rules that apply to individual API elements.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **NOTE:** All service configuration rules follow &quot;last one wins&quot; order.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Property</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">rules</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">VisibilityRule</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Defines project properties.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// API services can define properties that can be assigned to consumer projects</span>
-<span class="doccomment">/// so that backends can perform response customization without having to make</span>
-<span class="doccomment">/// additional calls or maintain additional storage. For example, Maps API</span>
-<span class="doccomment">/// defines properties that controls map tile cache period, or whether to embed a</span>
-<span class="doccomment">/// watermark in a result.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// These values can be set via API producer console. Only API providers can</span>
-<span class="doccomment">/// define and set these properties.</span>
+<span class="doccomment">/// A visibility rule provides visibility configuration for an individual API</span>
+<span class="doccomment">/// element.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Property</span> {
-    <span class="doccomment">/// The name of the property (a.k.a key).</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VisibilityRule</span> {
+    <span class="doccomment">/// Selects methods, messages, fields, enums, etc. to which this rule applies.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type of this property.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;property::PropertyType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The description of the property</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Property`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">property</span> {
-    <span class="doccomment">/// Supported data type of the property values</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PropertyType</span> {
-        <span class="doccomment">/// The type is unspecified, and will result in an error.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The type is `int64`.</span>
-        <span class="ident">Int64</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The type is `bool`.</span>
-        <span class="ident">Bool</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The type is `string`.</span>
-        <span class="ident">String</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The type is &#39;double&#39;.</span>
-        <span class="ident">Double</span> <span class="op">=</span> <span class="number">4</span>,
-    }
+    <span class="kw">pub</span> <span class="ident">selector</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A comma-separated list of visibility labels that apply to the `selector`.</span>
+    <span class="doccomment">/// Any of the listed labels can be used to grant the visibility.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If a rule has multiple labels, removing one of the labels but not all of</span>
+    <span class="doccomment">/// them can break clients.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     visibility:</span>
+    <span class="doccomment">///       rules:</span>
+    <span class="doccomment">///       - selector: google.calendar.Calendar.EnhancedSearch</span>
+    <span class="doccomment">///         restriction: INTERNAL, PREVIEW</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Removing INTERNAL from this restriction will break clients that rely on</span>
+    <span class="doccomment">/// this method and only had access to it through INTERNAL.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">restriction</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Defines the supported values for `google.rpc.ErrorInfo.reason` for the</span>
 <span class="doccomment">/// `googleapis.com` error domain. This error domain is reserved for [Service</span>
@@ -7173,62 +7107,128 @@
     <span class="doccomment">///     }</span>
     <span class="ident">AccessTokenTypeUnsupported</span> <span class="op">=</span> <span class="number">19</span>,
 }
-<span class="doccomment">/// `Visibility` defines restrictions for the visibility of service</span>
-<span class="doccomment">/// elements.  Restrictions are specified using visibility labels</span>
-<span class="doccomment">/// (e.g., PREVIEW) that are elsewhere linked to users and projects.</span>
+<span class="doccomment">/// Output generated from semantically comparing two versions of a service</span>
+<span class="doccomment">/// configuration.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Users and projects can have access to more than one visibility label. The</span>
-<span class="doccomment">/// effective visibility for multiple labels is the union of each label&#39;s</span>
-<span class="doccomment">/// elements, plus any unrestricted elements.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If an element and its parents have no restrictions, visibility is</span>
-<span class="doccomment">/// unconditionally granted.</span>
+<span class="doccomment">/// Includes detailed information about a field that have changed with</span>
+<span class="doccomment">/// applicable advice about potential consequences for the change, such as</span>
+<span class="doccomment">/// backwards-incompatibility.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConfigChange</span> {
+    <span class="doccomment">/// Object hierarchy path to the change, with levels separated by a &#39;.&#39;</span>
+    <span class="doccomment">/// character. For repeated fields, an applicable unique identifier field is</span>
+    <span class="doccomment">/// used for the index (usually selector, name, or id). For maps, the term</span>
+    <span class="doccomment">/// &#39;key&#39; is used. If the field has no unique identifier, the numeric index</span>
+    <span class="doccomment">/// is used.</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">/// - visibility.rules\[selector==&quot;google.LibraryService.ListBooks&quot;\].restriction</span>
+    <span class="doccomment">/// - quota.metric_rules\[selector==&quot;google&quot;].metric_costs[key==&quot;reads&quot;\].value</span>
+    <span class="doccomment">/// - logging.producer_destinations\[0\]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">element</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Value of the changed object in the old Service configuration,</span>
+    <span class="doccomment">/// in JSON format. This field will not be populated if ChangeType == ADDED.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">old_value</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Value of the changed object in the new Service configuration,</span>
+    <span class="doccomment">/// in JSON format. This field will not be populated if ChangeType == REMOVED.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">new_value</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type for this change, either ADDED, REMOVED, or MODIFIED.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ChangeType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">change_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Collection of advice provided for this change, useful for determining the</span>
+    <span class="doccomment">/// possible impact of this change.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">advices</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Advice</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Generated advice about this change, used for providing more</span>
+<span class="doccomment">/// information about how a change will affect the existing service.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Advice</span> {
+    <span class="doccomment">/// Useful description for why this advice was applied and what actions should</span>
+    <span class="doccomment">/// be taken to mitigate any implied risks.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Classifies set of possible modifications to an object in the service</span>
+<span class="doccomment">/// configuration.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChangeType</span> {
+    <span class="doccomment">/// No value was provided.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// The changed object exists in the &#39;new&#39; service configuration, but not</span>
+    <span class="doccomment">/// in the &#39;old&#39; service configuration.</span>
+    <span class="ident">Added</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// The changed object exists in the &#39;old&#39; service configuration, but not</span>
+    <span class="doccomment">/// in the &#39;new&#39; service configuration.</span>
+    <span class="ident">Removed</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// The changed object exists in both service configurations, but its value</span>
+    <span class="doccomment">/// is different.</span>
+    <span class="ident">Modified</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="doccomment">/// A descriptor for defining project properties for a service. One service may</span>
+<span class="doccomment">/// have many consumer projects, and the service may want to behave differently</span>
+<span class="doccomment">/// depending on some properties on the project. For example, a project may be</span>
+<span class="doccomment">/// associated with a school, or a business, or a government agency, a business</span>
+<span class="doccomment">/// type property on the project may affect how a service responds to the client.</span>
+<span class="doccomment">/// This descriptor defines which properties are allowed to be set on a project.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Example:</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     visibility:</span>
-<span class="doccomment">///       rules:</span>
-<span class="doccomment">///       - selector: google.calendar.Calendar.EnhancedSearch</span>
-<span class="doccomment">///         restriction: PREVIEW</span>
-<span class="doccomment">///       - selector: google.calendar.Calendar.Delegate</span>
-<span class="doccomment">///         restriction: INTERNAL</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Here, all methods are publicly visible except for the restricted methods</span>
-<span class="doccomment">/// EnhancedSearch and Delegate.</span>
+<span class="doccomment">///    project_properties:</span>
+<span class="doccomment">///      properties:</span>
+<span class="doccomment">///      - name: NO_WATERMARK</span>
+<span class="doccomment">///        type: BOOL</span>
+<span class="doccomment">///        description: Allows usage of the API without watermarks.</span>
+<span class="doccomment">///      - name: EXTENDED_TILE_CACHE_PERIOD</span>
+<span class="doccomment">///        type: INT64</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Visibility</span> {
-    <span class="doccomment">/// A list of visibility rules that apply to individual API elements.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **NOTE:** All service configuration rules follow &quot;last one wins&quot; order.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProjectProperties</span> {
+    <span class="doccomment">/// List of per consumer project-specific properties.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">rules</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">VisibilityRule</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Property</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// A visibility rule provides visibility configuration for an individual API</span>
-<span class="doccomment">/// element.</span>
+<span class="doccomment">/// Defines project properties.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// API services can define properties that can be assigned to consumer projects</span>
+<span class="doccomment">/// so that backends can perform response customization without having to make</span>
+<span class="doccomment">/// additional calls or maintain additional storage. For example, Maps API</span>
+<span class="doccomment">/// defines properties that controls map tile cache period, or whether to embed a</span>
+<span class="doccomment">/// watermark in a result.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// These values can be set via API producer console. Only API providers can</span>
+<span class="doccomment">/// define and set these properties.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VisibilityRule</span> {
-    <span class="doccomment">/// Selects methods, messages, fields, enums, etc. to which this rule applies.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Property</span> {
+    <span class="doccomment">/// The name of the property (a.k.a key).</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">selector</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A comma-separated list of visibility labels that apply to the `selector`.</span>
-    <span class="doccomment">/// Any of the listed labels can be used to grant the visibility.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If a rule has multiple labels, removing one of the labels but not all of</span>
-    <span class="doccomment">/// them can break clients.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     visibility:</span>
-    <span class="doccomment">///       rules:</span>
-    <span class="doccomment">///       - selector: google.calendar.Calendar.EnhancedSearch</span>
-    <span class="doccomment">///         restriction: INTERNAL, PREVIEW</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Removing INTERNAL from this restriction will break clients that rely on</span>
-    <span class="doccomment">/// this method and only had access to it through INTERNAL.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">restriction</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type of this property.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;property::PropertyType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The description of the property</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Property`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">property</span> {
+    <span class="doccomment">/// Supported data type of the property values</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PropertyType</span> {
+        <span class="doccomment">/// The type is unspecified, and will result in an error.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The type is `int64`.</span>
+        <span class="ident">Int64</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The type is `bool`.</span>
+        <span class="ident">Bool</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The type is `string`.</span>
+        <span class="ident">String</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The type is &#39;double&#39;.</span>
+        <span class="ident">Double</span> <span class="op">=</span> <span class="number">4</span>,
+    }
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

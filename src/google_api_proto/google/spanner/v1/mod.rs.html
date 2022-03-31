@@ -2378,34 +2378,6 @@
     <span class="doccomment">/// Spanner databases.</span>
     <span class="ident">PgNumeric</span> <span class="op">=</span> <span class="number">2</span>,
 }
-<span class="doccomment">/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommitResponse</span> {
-    <span class="doccomment">/// The Cloud Spanner timestamp at which the transaction committed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">commit_timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The statistics about this Commit. Not returned by default.</span>
-    <span class="doccomment">/// For more information, see</span>
-    <span class="doccomment">/// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">commit_stats</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">commit_response::CommitStats</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CommitResponse`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">commit_response</span> {
-    <span class="doccomment">/// Additional statistics about a commit.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommitStats</span> {
-        <span class="doccomment">/// The total number of mutations for the transaction. Knowing the</span>
-        <span class="doccomment">/// `mutation_count` value can help you maximize the number of mutations</span>
-        <span class="doccomment">/// in a transaction and minimize the number of API round trips. You can</span>
-        <span class="doccomment">/// also monitor this value to prevent transactions from exceeding the system</span>
-        <span class="doccomment">/// \[limit\](&lt;https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).</span>
-        <span class="doccomment">/// If the number of mutations exceeds the limit, the server returns</span>
-        <span class="doccomment">/// \[INVALID_ARGUMENT\](&lt;https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">mutation_count</span>: <span class="ident">i64</span>,
-    }
-}
 <span class="doccomment">/// KeyRange represents a range of rows in a table or index.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A range has a start key and an end key. These keys can be open or</span>
@@ -2555,6 +2527,34 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">all</span>: <span class="ident">bool</span>,
 }
+<span class="doccomment">/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommitResponse</span> {
+    <span class="doccomment">/// The Cloud Spanner timestamp at which the transaction committed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">commit_timestamp</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The statistics about this Commit. Not returned by default.</span>
+    <span class="doccomment">/// For more information, see</span>
+    <span class="doccomment">/// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">commit_stats</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">commit_response::CommitStats</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CommitResponse`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">commit_response</span> {
+    <span class="doccomment">/// Additional statistics about a commit.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommitStats</span> {
+        <span class="doccomment">/// The total number of mutations for the transaction. Knowing the</span>
+        <span class="doccomment">/// `mutation_count` value can help you maximize the number of mutations</span>
+        <span class="doccomment">/// in a transaction and minimize the number of API round trips. You can</span>
+        <span class="doccomment">/// also monitor this value to prevent transactions from exceeding the system</span>
+        <span class="doccomment">/// \[limit\](&lt;https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).</span>
+        <span class="doccomment">/// If the number of mutations exceeds the limit, the server returns</span>
+        <span class="doccomment">/// \[INVALID_ARGUMENT\](&lt;https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">mutation_count</span>: <span class="ident">i64</span>,
+    }
+}
 <span class="doccomment">/// A modification to one or more Cloud Spanner rows.  Mutations can be</span>
 <span class="doccomment">/// applied to a Cloud Spanner database by sending them in a</span>
 <span class="doccomment">/// \[Commit][google.spanner.v1.Spanner.Commit\] call.</span>
@@ -2642,6 +2642,113 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
         <span class="ident">Delete</span>(<span class="ident">Delete</span>),
     }
+}
+<span class="doccomment">/// Node information for nodes appearing in a \[QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PlanNode</span> {
+    <span class="doccomment">/// The `PlanNode`&#39;s index in [node list]\[google.spanner.v1.QueryPlan.plan_nodes\].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">index</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Used to determine the type of node. May be needed for visualizing</span>
+    <span class="doccomment">/// different kinds of nodes differently. For example, If the node is a</span>
+    <span class="doccomment">/// \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] node, it will have a condensed representation</span>
+    <span class="doccomment">/// which can be used to directly embed a description of the node in its</span>
+    <span class="doccomment">/// parent.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;plan_node::Kind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The display name for the node.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// List of child node `index`es and their relationship to this parent.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">child_links</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">plan_node::ChildLink</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Condensed representation for \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] nodes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">short_representation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">plan_node::ShortRepresentation</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Attributes relevant to the node contained in a group of key-value pairs.</span>
+    <span class="doccomment">/// For example, a Parameter Reference node could have the following</span>
+    <span class="doccomment">/// information in its metadata:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     {</span>
+    <span class="doccomment">///       &quot;parameter_reference&quot;: &quot;param1&quot;,</span>
+    <span class="doccomment">///       &quot;parameter_type&quot;: &quot;array&quot;</span>
+    <span class="doccomment">///     }</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The execution statistics associated with the node, contained in a group of</span>
+    <span class="doccomment">/// key-value pairs. Only present if the plan was returned as a result of a</span>
+    <span class="doccomment">/// profile query. For example, number of executions, number of rows/time per</span>
+    <span class="doccomment">/// execution etc.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">execution_stats</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PlanNode`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">plan_node</span> {
+    <span class="doccomment">/// Metadata associated with a parent-child relationship appearing in a</span>
+    <span class="doccomment">/// \[PlanNode][google.spanner.v1.PlanNode\].</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChildLink</span> {
+        <span class="doccomment">/// The node to which the link points.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">child_index</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// The type of the link. For example, in Hash Joins this could be used to</span>
+        <span class="doccomment">/// distinguish between the build child and the probe child, or in the case</span>
+        <span class="doccomment">/// of the child being an output variable, to represent the tag associated</span>
+        <span class="doccomment">/// with the output variable.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Only present if the child node is \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] and corresponds</span>
+        <span class="doccomment">/// to an output variable of the parent node. The field carries the name of</span>
+        <span class="doccomment">/// the output variable.</span>
+        <span class="doccomment">/// For example, a `TableScan` operator that reads rows from a table will</span>
+        <span class="doccomment">/// have child links to the `SCALAR` nodes representing the output variables</span>
+        <span class="doccomment">/// created for each column that is read by the operator. The corresponding</span>
+        <span class="doccomment">/// `variable` fields will be set to the variable names assigned to the</span>
+        <span class="doccomment">/// columns.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">variable</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Condensed representation of a node and its subtree. Only present for</span>
+    <span class="doccomment">/// `SCALAR` \[PlanNode(s)][google.spanner.v1.PlanNode\].</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ShortRepresentation</span> {
+        <span class="doccomment">/// A string representation of the expression subtree rooted at this node.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// A mapping of (subquery variable name) -&gt; (subquery node id) for cases</span>
+        <span class="doccomment">/// where the `description` string of this node references a `SCALAR`</span>
+        <span class="doccomment">/// subquery contained in the expression subtree rooted at this node. The</span>
+        <span class="doccomment">/// referenced `SCALAR` subquery may not necessarily be a direct child of</span>
+        <span class="doccomment">/// this node.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, int32&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">subqueries</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">i32</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// The kind of \[PlanNode][google.spanner.v1.PlanNode\]. Distinguishes between the two different kinds of</span>
+    <span class="doccomment">/// nodes that can appear in a query plan.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
+        <span class="doccomment">/// Not specified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Denotes a Relational operator node in the expression tree. Relational</span>
+        <span class="doccomment">/// operators represent iterative processing of rows during query execution.</span>
+        <span class="doccomment">/// For example, a `TableScan` operation that reads rows from a table.</span>
+        <span class="ident">Relational</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Denotes a Scalar node in the expression tree. Scalar nodes represent</span>
+        <span class="doccomment">/// non-iterable entities in the query plan. For example, constants or</span>
+        <span class="doccomment">/// arithmetic operators appearing inside predicate expressions or references</span>
+        <span class="doccomment">/// to column names.</span>
+        <span class="ident">Scalar</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Contains an ordered list of nodes appearing in the query plan.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueryPlan</span> {
+    <span class="doccomment">/// The nodes in the query plan. Plan nodes are returned in pre-order starting</span>
+    <span class="doccomment">/// with the plan root. Each \[PlanNode][google.spanner.v1.PlanNode\]&#39;s `id` corresponds to its index in</span>
+    <span class="doccomment">/// `plan_nodes`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">plan_nodes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PlanNode</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Transactions:</span>
 <span class="doccomment">///</span>
@@ -3080,113 +3187,6 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
         <span class="ident">Begin</span>(<span class="ident"><span class="kw">super</span>::TransactionOptions</span>),
     }
-}
-<span class="doccomment">/// Node information for nodes appearing in a \[QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes\].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PlanNode</span> {
-    <span class="doccomment">/// The `PlanNode`&#39;s index in [node list]\[google.spanner.v1.QueryPlan.plan_nodes\].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">index</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Used to determine the type of node. May be needed for visualizing</span>
-    <span class="doccomment">/// different kinds of nodes differently. For example, If the node is a</span>
-    <span class="doccomment">/// \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] node, it will have a condensed representation</span>
-    <span class="doccomment">/// which can be used to directly embed a description of the node in its</span>
-    <span class="doccomment">/// parent.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;plan_node::Kind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The display name for the node.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// List of child node `index`es and their relationship to this parent.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">child_links</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">plan_node::ChildLink</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Condensed representation for \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] nodes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">short_representation</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">plan_node::ShortRepresentation</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Attributes relevant to the node contained in a group of key-value pairs.</span>
-    <span class="doccomment">/// For example, a Parameter Reference node could have the following</span>
-    <span class="doccomment">/// information in its metadata:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     {</span>
-    <span class="doccomment">///       &quot;parameter_reference&quot;: &quot;param1&quot;,</span>
-    <span class="doccomment">///       &quot;parameter_type&quot;: &quot;array&quot;</span>
-    <span class="doccomment">///     }</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The execution statistics associated with the node, contained in a group of</span>
-    <span class="doccomment">/// key-value pairs. Only present if the plan was returned as a result of a</span>
-    <span class="doccomment">/// profile query. For example, number of executions, number of rows/time per</span>
-    <span class="doccomment">/// execution etc.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">execution_stats</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Struct</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PlanNode`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">plan_node</span> {
-    <span class="doccomment">/// Metadata associated with a parent-child relationship appearing in a</span>
-    <span class="doccomment">/// \[PlanNode][google.spanner.v1.PlanNode\].</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChildLink</span> {
-        <span class="doccomment">/// The node to which the link points.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">child_index</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// The type of the link. For example, in Hash Joins this could be used to</span>
-        <span class="doccomment">/// distinguish between the build child and the probe child, or in the case</span>
-        <span class="doccomment">/// of the child being an output variable, to represent the tag associated</span>
-        <span class="doccomment">/// with the output variable.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Only present if the child node is \[SCALAR][google.spanner.v1.PlanNode.Kind.SCALAR\] and corresponds</span>
-        <span class="doccomment">/// to an output variable of the parent node. The field carries the name of</span>
-        <span class="doccomment">/// the output variable.</span>
-        <span class="doccomment">/// For example, a `TableScan` operator that reads rows from a table will</span>
-        <span class="doccomment">/// have child links to the `SCALAR` nodes representing the output variables</span>
-        <span class="doccomment">/// created for each column that is read by the operator. The corresponding</span>
-        <span class="doccomment">/// `variable` fields will be set to the variable names assigned to the</span>
-        <span class="doccomment">/// columns.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">variable</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Condensed representation of a node and its subtree. Only present for</span>
-    <span class="doccomment">/// `SCALAR` \[PlanNode(s)][google.spanner.v1.PlanNode\].</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ShortRepresentation</span> {
-        <span class="doccomment">/// A string representation of the expression subtree rooted at this node.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// A mapping of (subquery variable name) -&gt; (subquery node id) for cases</span>
-        <span class="doccomment">/// where the `description` string of this node references a `SCALAR`</span>
-        <span class="doccomment">/// subquery contained in the expression subtree rooted at this node. The</span>
-        <span class="doccomment">/// referenced `SCALAR` subquery may not necessarily be a direct child of</span>
-        <span class="doccomment">/// this node.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, int32&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">subqueries</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">i32</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// The kind of \[PlanNode][google.spanner.v1.PlanNode\]. Distinguishes between the two different kinds of</span>
-    <span class="doccomment">/// nodes that can appear in a query plan.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Kind</span> {
-        <span class="doccomment">/// Not specified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Denotes a Relational operator node in the expression tree. Relational</span>
-        <span class="doccomment">/// operators represent iterative processing of rows during query execution.</span>
-        <span class="doccomment">/// For example, a `TableScan` operation that reads rows from a table.</span>
-        <span class="ident">Relational</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Denotes a Scalar node in the expression tree. Scalar nodes represent</span>
-        <span class="doccomment">/// non-iterable entities in the query plan. For example, constants or</span>
-        <span class="doccomment">/// arithmetic operators appearing inside predicate expressions or references</span>
-        <span class="doccomment">/// to column names.</span>
-        <span class="ident">Scalar</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Contains an ordered list of nodes appearing in the query plan.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueryPlan</span> {
-    <span class="doccomment">/// The nodes in the query plan. Plan nodes are returned in pre-order starting</span>
-    <span class="doccomment">/// with the plan root. Each \[PlanNode][google.spanner.v1.PlanNode\]&#39;s `id` corresponds to its index in</span>
-    <span class="doccomment">/// `plan_nodes`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">plan_nodes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PlanNode</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Results from \[Read][google.spanner.v1.Spanner.Read\] or</span>
 <span class="doccomment">/// \[ExecuteSql][google.spanner.v1.Spanner.ExecuteSql\].</span>

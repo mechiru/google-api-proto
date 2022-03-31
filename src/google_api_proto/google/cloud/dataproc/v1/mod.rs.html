@@ -4676,405 +4676,7 @@
 <span id="4674">4674</span>
 <span id="4675">4675</span>
 <span id="4676">4676</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Describes an autoscaling policy for Dataproc cluster autoscaler.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoscalingPolicy</span> {
-    <span class="doccomment">/// Required. The policy id.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The id must contain only letters (a-z, A-Z), numbers (0-9),</span>
-    <span class="doccomment">/// underscores (_), and hyphens (-). Cannot begin or end with underscore</span>
-    <span class="doccomment">/// or hyphen. Must consist of between 3 and 50 characters.</span>
-    <span class="doccomment">///</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The &quot;resource name&quot; of the autoscaling policy, as described</span>
-    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies`, the resource name of the</span>
-    <span class="doccomment">///   policy has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies`, the resource name of the</span>
-    <span class="doccomment">///   policy has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Describes how the autoscaler will operate for primary workers.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">worker_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">InstanceGroupAutoscalingPolicyConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Describes how the autoscaler will operate for secondary workers.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">secondary_worker_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">InstanceGroupAutoscalingPolicyConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. The labels to associate with this autoscaling policy.</span>
-    <span class="doccomment">/// Label **keys** must contain 1 to 63 characters, and must conform to</span>
-    <span class="doccomment">/// [RFC 1035](&lt;https://www.ietf.org/rfc/rfc1035.txt&gt;).</span>
-    <span class="doccomment">/// Label **values** may be empty, but, if present, must contain 1 to 63</span>
-    <span class="doccomment">/// characters, and must conform to [RFC</span>
-    <span class="doccomment">/// 1035](&lt;https://www.ietf.org/rfc/rfc1035.txt&gt;). No more than 32 labels can be</span>
-    <span class="doccomment">/// associated with an autoscaling policy.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Autoscaling algorithm for policy.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;autoscaling_policy::Algorithm&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">algorithm</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">autoscaling_policy::Algorithm</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoscalingPolicy`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">autoscaling_policy</span> {
-    <span class="doccomment">/// Autoscaling algorithm for policy.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Algorithm</span> {
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">BasicAlgorithm</span>(<span class="ident"><span class="kw">super</span>::BasicAutoscalingAlgorithm</span>),
-    }
-}
-<span class="doccomment">/// Basic algorithm for autoscaling.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BasicAutoscalingAlgorithm</span> {
-    <span class="doccomment">/// Required. YARN autoscaling configuration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">yarn_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BasicYarnAutoscalingConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Duration between scaling events. A scaling period starts after</span>
-    <span class="doccomment">/// the update operation from the previous event has completed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Bounds: [2m, 1d]. Default: 2m.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cooldown_period</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Basic autoscaling configurations for YARN.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BasicYarnAutoscalingConfig</span> {
-    <span class="doccomment">/// Required. Timeout for YARN graceful decommissioning of Node Managers.</span>
-    <span class="doccomment">/// Specifies the duration to wait for jobs to complete before forcefully</span>
-    <span class="doccomment">/// removing workers (and potentially interrupting jobs). Only applicable to</span>
-    <span class="doccomment">/// downscaling operations.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Bounds: [0s, 1d].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">graceful_decommission_timeout</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Fraction of average YARN pending memory in the last cooldown period</span>
-    <span class="doccomment">/// for which to add workers. A scale-up factor of 1.0 will result in scaling</span>
-    <span class="doccomment">/// up so that there is no pending memory remaining after the update (more</span>
-    <span class="doccomment">/// aggressive scaling). A scale-up factor closer to 0 will result in a smaller</span>
-    <span class="doccomment">/// magnitude of scaling up (less aggressive scaling).</span>
-    <span class="doccomment">/// See [How autoscaling</span>
-    <span class="doccomment">/// works](&lt;https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works&gt;)</span>
-    <span class="doccomment">/// for more information.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Bounds: [0.0, 1.0].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">scale_up_factor</span>: <span class="ident">f64</span>,
-    <span class="doccomment">/// Required. Fraction of average YARN pending memory in the last cooldown period</span>
-    <span class="doccomment">/// for which to remove workers. A scale-down factor of 1 will result in</span>
-    <span class="doccomment">/// scaling down so that there is no available memory remaining after the</span>
-    <span class="doccomment">/// update (more aggressive scaling). A scale-down factor of 0 disables</span>
-    <span class="doccomment">/// removing workers, which can be beneficial for autoscaling a single job.</span>
-    <span class="doccomment">/// See [How autoscaling</span>
-    <span class="doccomment">/// works](&lt;https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works&gt;)</span>
-    <span class="doccomment">/// for more information.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Bounds: [0.0, 1.0].</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">scale_down_factor</span>: <span class="ident">f64</span>,
-    <span class="doccomment">/// Optional. Minimum scale-up threshold as a fraction of total cluster size</span>
-    <span class="doccomment">/// before scaling occurs. For example, in a 20-worker cluster, a threshold of</span>
-    <span class="doccomment">/// 0.1 means the autoscaler must recommend at least a 2-worker scale-up for</span>
-    <span class="doccomment">/// the cluster to scale. A threshold of 0 means the autoscaler will scale up</span>
-    <span class="doccomment">/// on any recommended change.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Bounds: [0.0, 1.0]. Default: 0.0.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">scale_up_min_worker_fraction</span>: <span class="ident">f64</span>,
-    <span class="doccomment">/// Optional. Minimum scale-down threshold as a fraction of total cluster size</span>
-    <span class="doccomment">/// before scaling occurs. For example, in a 20-worker cluster, a threshold of</span>
-    <span class="doccomment">/// 0.1 means the autoscaler must recommend at least a 2 worker scale-down for</span>
-    <span class="doccomment">/// the cluster to scale. A threshold of 0 means the autoscaler will scale down</span>
-    <span class="doccomment">/// on any recommended change.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Bounds: [0.0, 1.0]. Default: 0.0.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">scale_down_min_worker_fraction</span>: <span class="ident">f64</span>,
-}
-<span class="doccomment">/// Configuration for the size bounds of an instance group, including its</span>
-<span class="doccomment">/// proportional size to other groups.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceGroupAutoscalingPolicyConfig</span> {
-    <span class="doccomment">/// Optional. Minimum number of instances for this group.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Primary workers - Bounds: [2, max_instances]. Default: 2.</span>
-    <span class="doccomment">/// Secondary workers - Bounds: [0, max_instances]. Default: 0.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">min_instances</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Required. Maximum number of instances for this group. Required for primary</span>
-    <span class="doccomment">/// workers. Note that by default, clusters will not use secondary workers.</span>
-    <span class="doccomment">/// Required for secondary workers if the minimum secondary instances is set.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Primary workers - Bounds: [min_instances, ).</span>
-    <span class="doccomment">/// Secondary workers - Bounds: [min_instances, ). Default: 0.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">max_instances</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Weight for the instance group, which is used to determine the</span>
-    <span class="doccomment">/// fraction of total workers in the cluster from this instance group.</span>
-    <span class="doccomment">/// For example, if primary workers have weight 2, and secondary workers have</span>
-    <span class="doccomment">/// weight 1, the cluster will have approximately 2 primary workers for each</span>
-    <span class="doccomment">/// secondary worker.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The cluster may not reach the specified balance if constrained</span>
-    <span class="doccomment">/// by min/max bounds or other autoscaling settings. For example, if</span>
-    <span class="doccomment">/// `max_instances` for secondary workers is 0, then only primary workers will</span>
-    <span class="doccomment">/// be added. The cluster can also be out of balance when created.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If weight is not set on any instance group, the cluster will default to</span>
-    <span class="doccomment">/// equal weight for all groups: the cluster will attempt to maintain an equal</span>
-    <span class="doccomment">/// number of workers in each group within the configured size bounds for each</span>
-    <span class="doccomment">/// group. If weight is set for one group only, the cluster will default to</span>
-    <span class="doccomment">/// zero weight on the unset group. For example if weight is set only on</span>
-    <span class="doccomment">/// primary workers, the cluster will use primary workers only and no</span>
-    <span class="doccomment">/// secondary workers.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">weight</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// A request to create an autoscaling policy.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateAutoscalingPolicyRequest</span> {
-    <span class="doccomment">/// Required. The &quot;resource name&quot; of the region or location, as described</span>
-    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies.create`, the resource name</span>
-    <span class="doccomment">///   of the region has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/regions/{region}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies.create`, the resource name</span>
-    <span class="doccomment">///   of the location has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/locations/{location}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The autoscaling policy to create.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoscalingPolicy</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A request to fetch an autoscaling policy.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetAutoscalingPolicyRequest</span> {
-    <span class="doccomment">/// Required. The &quot;resource name&quot; of the autoscaling policy, as described</span>
-    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies.get`, the resource name</span>
-    <span class="doccomment">///   of the policy has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies.get`, the resource name</span>
-    <span class="doccomment">///   of the policy has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A request to update an autoscaling policy.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateAutoscalingPolicyRequest</span> {
-    <span class="doccomment">/// Required. The updated autoscaling policy.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoscalingPolicy</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A request to delete an autoscaling policy.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Autoscaling policies in use by one or more clusters will not be deleted.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteAutoscalingPolicyRequest</span> {
-    <span class="doccomment">/// Required. The &quot;resource name&quot; of the autoscaling policy, as described</span>
-    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies.delete`, the resource name</span>
-    <span class="doccomment">///   of the policy has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies.delete`, the resource name</span>
-    <span class="doccomment">///   of the policy has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A request to list autoscaling policies in a project.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListAutoscalingPoliciesRequest</span> {
-    <span class="doccomment">/// Required. The &quot;resource name&quot; of the region or location, as described</span>
-    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies.list`, the resource name</span>
-    <span class="doccomment">///   of the region has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/regions/{region}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies.list`, the resource name</span>
-    <span class="doccomment">///   of the location has the following format:</span>
-    <span class="doccomment">///   `projects/{project_id}/locations/{location}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. The maximum number of results to return in each response.</span>
-    <span class="doccomment">/// Must be less than or equal to 1000. Defaults to 100.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. The page token, returned by a previous call, to request the</span>
-    <span class="doccomment">/// next page of results.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A response to a request to list autoscaling policies in a project.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListAutoscalingPoliciesResponse</span> {
-    <span class="doccomment">/// Output only. Autoscaling policies list.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">policies</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AutoscalingPolicy</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. This token is included in the response if there are more</span>
-    <span class="doccomment">/// results to fetch.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">autoscaling_policy_service_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The API interface for managing autoscaling policies in the&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Dataproc API.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoscalingPolicyServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">AutoscalingPolicyServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">AutoscalingPolicyServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">AutoscalingPolicyServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates new autoscaling policy.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_autoscaling_policy</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateAutoscalingPolicyRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AutoscalingPolicy</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/CreateAutoscalingPolicy&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Updates (replaces) autoscaling policy.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Disabled check for update_mask, because all updates will be full&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; replacements.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_autoscaling_policy</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateAutoscalingPolicyRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AutoscalingPolicy</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/UpdateAutoscalingPolicy&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Retrieves autoscaling policy.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_autoscaling_policy</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetAutoscalingPolicyRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AutoscalingPolicy</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/GetAutoscalingPolicy&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists autoscaling policies in the project.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_autoscaling_policies</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListAutoscalingPoliciesRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListAutoscalingPoliciesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
-        {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/ListAutoscalingPolicies&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes an autoscaling policy. It is an error to delete an autoscaling&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; policy that is in use by one or more clusters.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_autoscaling_policy</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteAutoscalingPolicyRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/DeleteAutoscalingPolicy&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
-<span class="doccomment">/// Runtime configuration for a workload.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Runtime configuration for a workload.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RuntimeConfig</span> {
     <span class="doccomment">/// Optional. Version of the batch runtime.</span>
@@ -8370,115 +7972,6 @@
         }
     }
 }
-<span class="doccomment">/// Metadata describing the Batch operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchOperationMetadata</span> {
-    <span class="doccomment">/// Name of the batch for the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">batch</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Batch UUID for the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">batch_uuid</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The time when the operation was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time when the operation finished.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">done_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The operation type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;batch_operation_metadata::BatchOperationType&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">operation_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Short description of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Labels associated with the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Warnings encountered during operation execution.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">warnings</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `BatchOperationMetadata`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">batch_operation_metadata</span> {
-    <span class="doccomment">/// Operation type for Batch resources</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BatchOperationType</span> {
-        <span class="doccomment">/// Batch operation type is unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Batch operation type.</span>
-        <span class="ident">Batch</span> <span class="op">=</span> <span class="number">1</span>,
-    }
-}
-<span class="doccomment">/// The status of the operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClusterOperationStatus</span> {
-    <span class="doccomment">/// Output only. A message containing the operation state.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cluster_operation_status::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. A message containing the detailed operation state.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inner_state</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. A message containing any operation metadata details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The time this state was entered.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state_start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ClusterOperationStatus`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cluster_operation_status</span> {
-    <span class="doccomment">/// The operation state.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// Unused.</span>
-        <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The operation has been created.</span>
-        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The operation is running.</span>
-        <span class="ident">Running</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The operation is done; either cancelled or completed.</span>
-        <span class="ident">Done</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Metadata describing the operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClusterOperationMetadata</span> {
-    <span class="doccomment">/// Output only. Name of the cluster for the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cluster_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Cluster UUID for the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cluster_uuid</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Current operation status.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ClusterOperationStatus</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The previous operation status.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status_history</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ClusterOperationStatus</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The operation type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">operation_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Short description of operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Labels associated with the operation</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Errors encountered during operation execution.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">warnings</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
 <span class="doccomment">/// A Dataproc workflow template resource.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WorkflowTemplate</span> {
@@ -9347,6 +8840,513 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.cloud.dataproc.v1.WorkflowTemplateService/DeleteWorkflowTemplate&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+    }
+}
+<span class="doccomment">/// Metadata describing the Batch operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BatchOperationMetadata</span> {
+    <span class="doccomment">/// Name of the batch for the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">batch</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Batch UUID for the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">batch_uuid</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The time when the operation was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time when the operation finished.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">done_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The operation type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;batch_operation_metadata::BatchOperationType&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">operation_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Short description of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Labels associated with the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Warnings encountered during operation execution.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">warnings</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `BatchOperationMetadata`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">batch_operation_metadata</span> {
+    <span class="doccomment">/// Operation type for Batch resources</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BatchOperationType</span> {
+        <span class="doccomment">/// Batch operation type is unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Batch operation type.</span>
+        <span class="ident">Batch</span> <span class="op">=</span> <span class="number">1</span>,
+    }
+}
+<span class="doccomment">/// The status of the operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClusterOperationStatus</span> {
+    <span class="doccomment">/// Output only. A message containing the operation state.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cluster_operation_status::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. A message containing the detailed operation state.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inner_state</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. A message containing any operation metadata details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">details</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The time this state was entered.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state_start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ClusterOperationStatus`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cluster_operation_status</span> {
+    <span class="doccomment">/// The operation state.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// Unused.</span>
+        <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The operation has been created.</span>
+        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The operation is running.</span>
+        <span class="ident">Running</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The operation is done; either cancelled or completed.</span>
+        <span class="ident">Done</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Metadata describing the operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClusterOperationMetadata</span> {
+    <span class="doccomment">/// Output only. Name of the cluster for the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cluster_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Cluster UUID for the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cluster_uuid</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Current operation status.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ClusterOperationStatus</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The previous operation status.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status_history</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ClusterOperationStatus</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The operation type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">operation_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Short description of operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Labels associated with the operation</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Errors encountered during operation execution.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">warnings</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Describes an autoscaling policy for Dataproc cluster autoscaler.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoscalingPolicy</span> {
+    <span class="doccomment">/// Required. The policy id.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The id must contain only letters (a-z, A-Z), numbers (0-9),</span>
+    <span class="doccomment">/// underscores (_), and hyphens (-). Cannot begin or end with underscore</span>
+    <span class="doccomment">/// or hyphen. Must consist of between 3 and 50 characters.</span>
+    <span class="doccomment">///</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The &quot;resource name&quot; of the autoscaling policy, as described</span>
+    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies`, the resource name of the</span>
+    <span class="doccomment">///   policy has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies`, the resource name of the</span>
+    <span class="doccomment">///   policy has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Describes how the autoscaler will operate for primary workers.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">worker_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">InstanceGroupAutoscalingPolicyConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Describes how the autoscaler will operate for secondary workers.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">secondary_worker_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">InstanceGroupAutoscalingPolicyConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. The labels to associate with this autoscaling policy.</span>
+    <span class="doccomment">/// Label **keys** must contain 1 to 63 characters, and must conform to</span>
+    <span class="doccomment">/// [RFC 1035](&lt;https://www.ietf.org/rfc/rfc1035.txt&gt;).</span>
+    <span class="doccomment">/// Label **values** may be empty, but, if present, must contain 1 to 63</span>
+    <span class="doccomment">/// characters, and must conform to [RFC</span>
+    <span class="doccomment">/// 1035](&lt;https://www.ietf.org/rfc/rfc1035.txt&gt;). No more than 32 labels can be</span>
+    <span class="doccomment">/// associated with an autoscaling policy.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Autoscaling algorithm for policy.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;autoscaling_policy::Algorithm&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">algorithm</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">autoscaling_policy::Algorithm</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoscalingPolicy`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">autoscaling_policy</span> {
+    <span class="doccomment">/// Autoscaling algorithm for policy.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Algorithm</span> {
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">BasicAlgorithm</span>(<span class="ident"><span class="kw">super</span>::BasicAutoscalingAlgorithm</span>),
+    }
+}
+<span class="doccomment">/// Basic algorithm for autoscaling.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BasicAutoscalingAlgorithm</span> {
+    <span class="doccomment">/// Required. YARN autoscaling configuration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">yarn_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BasicYarnAutoscalingConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Duration between scaling events. A scaling period starts after</span>
+    <span class="doccomment">/// the update operation from the previous event has completed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Bounds: [2m, 1d]. Default: 2m.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cooldown_period</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Basic autoscaling configurations for YARN.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BasicYarnAutoscalingConfig</span> {
+    <span class="doccomment">/// Required. Timeout for YARN graceful decommissioning of Node Managers.</span>
+    <span class="doccomment">/// Specifies the duration to wait for jobs to complete before forcefully</span>
+    <span class="doccomment">/// removing workers (and potentially interrupting jobs). Only applicable to</span>
+    <span class="doccomment">/// downscaling operations.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Bounds: [0s, 1d].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">graceful_decommission_timeout</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Fraction of average YARN pending memory in the last cooldown period</span>
+    <span class="doccomment">/// for which to add workers. A scale-up factor of 1.0 will result in scaling</span>
+    <span class="doccomment">/// up so that there is no pending memory remaining after the update (more</span>
+    <span class="doccomment">/// aggressive scaling). A scale-up factor closer to 0 will result in a smaller</span>
+    <span class="doccomment">/// magnitude of scaling up (less aggressive scaling).</span>
+    <span class="doccomment">/// See [How autoscaling</span>
+    <span class="doccomment">/// works](&lt;https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works&gt;)</span>
+    <span class="doccomment">/// for more information.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Bounds: [0.0, 1.0].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">scale_up_factor</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Required. Fraction of average YARN pending memory in the last cooldown period</span>
+    <span class="doccomment">/// for which to remove workers. A scale-down factor of 1 will result in</span>
+    <span class="doccomment">/// scaling down so that there is no available memory remaining after the</span>
+    <span class="doccomment">/// update (more aggressive scaling). A scale-down factor of 0 disables</span>
+    <span class="doccomment">/// removing workers, which can be beneficial for autoscaling a single job.</span>
+    <span class="doccomment">/// See [How autoscaling</span>
+    <span class="doccomment">/// works](&lt;https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works&gt;)</span>
+    <span class="doccomment">/// for more information.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Bounds: [0.0, 1.0].</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">scale_down_factor</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Optional. Minimum scale-up threshold as a fraction of total cluster size</span>
+    <span class="doccomment">/// before scaling occurs. For example, in a 20-worker cluster, a threshold of</span>
+    <span class="doccomment">/// 0.1 means the autoscaler must recommend at least a 2-worker scale-up for</span>
+    <span class="doccomment">/// the cluster to scale. A threshold of 0 means the autoscaler will scale up</span>
+    <span class="doccomment">/// on any recommended change.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Bounds: [0.0, 1.0]. Default: 0.0.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">scale_up_min_worker_fraction</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Optional. Minimum scale-down threshold as a fraction of total cluster size</span>
+    <span class="doccomment">/// before scaling occurs. For example, in a 20-worker cluster, a threshold of</span>
+    <span class="doccomment">/// 0.1 means the autoscaler must recommend at least a 2 worker scale-down for</span>
+    <span class="doccomment">/// the cluster to scale. A threshold of 0 means the autoscaler will scale down</span>
+    <span class="doccomment">/// on any recommended change.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Bounds: [0.0, 1.0]. Default: 0.0.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">scale_down_min_worker_fraction</span>: <span class="ident">f64</span>,
+}
+<span class="doccomment">/// Configuration for the size bounds of an instance group, including its</span>
+<span class="doccomment">/// proportional size to other groups.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceGroupAutoscalingPolicyConfig</span> {
+    <span class="doccomment">/// Optional. Minimum number of instances for this group.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Primary workers - Bounds: [2, max_instances]. Default: 2.</span>
+    <span class="doccomment">/// Secondary workers - Bounds: [0, max_instances]. Default: 0.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">min_instances</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Required. Maximum number of instances for this group. Required for primary</span>
+    <span class="doccomment">/// workers. Note that by default, clusters will not use secondary workers.</span>
+    <span class="doccomment">/// Required for secondary workers if the minimum secondary instances is set.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Primary workers - Bounds: [min_instances, ).</span>
+    <span class="doccomment">/// Secondary workers - Bounds: [min_instances, ). Default: 0.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">max_instances</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. Weight for the instance group, which is used to determine the</span>
+    <span class="doccomment">/// fraction of total workers in the cluster from this instance group.</span>
+    <span class="doccomment">/// For example, if primary workers have weight 2, and secondary workers have</span>
+    <span class="doccomment">/// weight 1, the cluster will have approximately 2 primary workers for each</span>
+    <span class="doccomment">/// secondary worker.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The cluster may not reach the specified balance if constrained</span>
+    <span class="doccomment">/// by min/max bounds or other autoscaling settings. For example, if</span>
+    <span class="doccomment">/// `max_instances` for secondary workers is 0, then only primary workers will</span>
+    <span class="doccomment">/// be added. The cluster can also be out of balance when created.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If weight is not set on any instance group, the cluster will default to</span>
+    <span class="doccomment">/// equal weight for all groups: the cluster will attempt to maintain an equal</span>
+    <span class="doccomment">/// number of workers in each group within the configured size bounds for each</span>
+    <span class="doccomment">/// group. If weight is set for one group only, the cluster will default to</span>
+    <span class="doccomment">/// zero weight on the unset group. For example if weight is set only on</span>
+    <span class="doccomment">/// primary workers, the cluster will use primary workers only and no</span>
+    <span class="doccomment">/// secondary workers.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">weight</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// A request to create an autoscaling policy.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateAutoscalingPolicyRequest</span> {
+    <span class="doccomment">/// Required. The &quot;resource name&quot; of the region or location, as described</span>
+    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies.create`, the resource name</span>
+    <span class="doccomment">///   of the region has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/regions/{region}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies.create`, the resource name</span>
+    <span class="doccomment">///   of the location has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/locations/{location}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The autoscaling policy to create.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoscalingPolicy</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A request to fetch an autoscaling policy.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetAutoscalingPolicyRequest</span> {
+    <span class="doccomment">/// Required. The &quot;resource name&quot; of the autoscaling policy, as described</span>
+    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies.get`, the resource name</span>
+    <span class="doccomment">///   of the policy has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies.get`, the resource name</span>
+    <span class="doccomment">///   of the policy has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A request to update an autoscaling policy.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateAutoscalingPolicyRequest</span> {
+    <span class="doccomment">/// Required. The updated autoscaling policy.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AutoscalingPolicy</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A request to delete an autoscaling policy.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Autoscaling policies in use by one or more clusters will not be deleted.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteAutoscalingPolicyRequest</span> {
+    <span class="doccomment">/// Required. The &quot;resource name&quot; of the autoscaling policy, as described</span>
+    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies.delete`, the resource name</span>
+    <span class="doccomment">///   of the policy has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies.delete`, the resource name</span>
+    <span class="doccomment">///   of the policy has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A request to list autoscaling policies in a project.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListAutoscalingPoliciesRequest</span> {
+    <span class="doccomment">/// Required. The &quot;resource name&quot; of the region or location, as described</span>
+    <span class="doccomment">/// in &lt;https://cloud.google.com/apis/design/resource_names.&gt;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.regions.autoscalingPolicies.list`, the resource name</span>
+    <span class="doccomment">///   of the region has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/regions/{region}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For `projects.locations.autoscalingPolicies.list`, the resource name</span>
+    <span class="doccomment">///   of the location has the following format:</span>
+    <span class="doccomment">///   `projects/{project_id}/locations/{location}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. The maximum number of results to return in each response.</span>
+    <span class="doccomment">/// Must be less than or equal to 1000. Defaults to 100.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. The page token, returned by a previous call, to request the</span>
+    <span class="doccomment">/// next page of results.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A response to a request to list autoscaling policies in a project.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListAutoscalingPoliciesResponse</span> {
+    <span class="doccomment">/// Output only. Autoscaling policies list.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">policies</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AutoscalingPolicy</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. This token is included in the response if there are more</span>
+    <span class="doccomment">/// results to fetch.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">autoscaling_policy_service_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; The API interface for managing autoscaling policies in the&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Dataproc API.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoscalingPolicyServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">AutoscalingPolicyServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">AutoscalingPolicyServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">AutoscalingPolicyServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Creates new autoscaling policy.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">create_autoscaling_policy</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CreateAutoscalingPolicyRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AutoscalingPolicy</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/CreateAutoscalingPolicy&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Updates (replaces) autoscaling policy.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Disabled check for update_mask, because all updates will be full&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; replacements.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_autoscaling_policy</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateAutoscalingPolicyRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AutoscalingPolicy</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/UpdateAutoscalingPolicy&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Retrieves autoscaling policy.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_autoscaling_policy</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::GetAutoscalingPolicyRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::AutoscalingPolicy</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/GetAutoscalingPolicy&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Lists autoscaling policies in the project.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list_autoscaling_policies</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListAutoscalingPoliciesRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ListAutoscalingPoliciesResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+        {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/ListAutoscalingPolicies&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes an autoscaling policy. It is an error to delete an autoscaling&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; policy that is in use by one or more clusters.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete_autoscaling_policy</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::DeleteAutoscalingPolicyRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.dataproc.v1.AutoscalingPolicyService/DeleteAutoscalingPolicy&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }

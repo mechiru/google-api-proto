@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Mode","The sub-dialect options for Teradata."]]});

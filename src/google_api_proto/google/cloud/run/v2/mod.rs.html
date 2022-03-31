@@ -1389,7 +1389,212 @@
 <span id="1387">1387</span>
 <span id="1388">1388</span>
 <span id="1389">1389</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A single application container.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Defines a status condition for a resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Condition</span> {
+    <span class="doccomment">/// type is used to communicate the status of the reconciliation process.</span>
+    <span class="doccomment">/// See also:</span>
+    <span class="doccomment">/// &lt;https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting&gt;</span>
+    <span class="doccomment">/// Types common to all resources include:</span>
+    <span class="doccomment">/// * &quot;Ready&quot;: True when the Resource is ready.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// State of the condition.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;condition::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Human readable message indicating details about the current status.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Last time the condition transitioned from one status to another.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_transition_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// How to interpret failures of this condition, one of Error, Warning, Info</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;condition::Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The reason for this condition. Depending on the condition type,</span>
+    <span class="doccomment">/// it will populate one of these fields.</span>
+    <span class="doccomment">/// Successful conditions may not have a reason.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;condition::Reasons&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;6, 7, 8, 9, 11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">reasons</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">condition::Reasons</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Condition`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">condition</span> {
+    <span class="doccomment">/// Represents the possible Condition states.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// The default value. This value is used if the state is omitted.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Transient state: Reconciliation has not started yet.</span>
+        <span class="ident">ConditionPending</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Transient state: reconciliation is still in progress.</span>
+        <span class="ident">ConditionReconciling</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Terminal state: Reconciliation did not succeed.</span>
+        <span class="ident">ConditionFailed</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Terminal state: Reconciliation completed successfully.</span>
+        <span class="ident">ConditionSucceeded</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+    <span class="doccomment">/// Represents the severity of the condition failures.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Severity</span> {
+        <span class="doccomment">/// Unspecified severity</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Error severity.</span>
+        <span class="ident">Error</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Warning severity.</span>
+        <span class="ident">Warning</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Info severity.</span>
+        <span class="ident">Info</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+    <span class="doccomment">/// Reasons common to all types of conditions.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CommonReason</span> {
+        <span class="doccomment">/// Default value.</span>
+        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Reason unknown. Further details will be in message.</span>
+        <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The internal route is missing.</span>
+        <span class="ident">RouteMissing</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Revision creation process failed.</span>
+        <span class="ident">RevisionFailed</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Timed out waiting for completion.</span>
+        <span class="ident">ProgressDeadlineExceeded</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// There was a build error.</span>
+        <span class="ident">BuildStepFailed</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// The container image path is incorrect.</span>
+        <span class="ident">ContainerMissing</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// Insufficient permissions on the container image.</span>
+        <span class="ident">ContainerPermissionDenied</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// Container image is not authorized by policy.</span>
+        <span class="ident">ContainerImageUnauthorized</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// Container image policy authorization check failed.</span>
+        <span class="ident">ContainerImageAuthorizationCheckFailed</span> <span class="op">=</span> <span class="number">9</span>,
+        <span class="doccomment">/// Insufficient permissions on encryption key.</span>
+        <span class="ident">EncryptionKeyPermissionDenied</span> <span class="op">=</span> <span class="number">10</span>,
+        <span class="doccomment">/// Permission check on encryption key failed.</span>
+        <span class="ident">EncryptionKeyCheckFailed</span> <span class="op">=</span> <span class="number">11</span>,
+        <span class="doccomment">/// At least one Access check on secrets failed.</span>
+        <span class="ident">SecretsAccessCheckFailed</span> <span class="op">=</span> <span class="number">12</span>,
+        <span class="doccomment">/// Waiting for operation to complete.</span>
+        <span class="ident">WaitingForOperation</span> <span class="op">=</span> <span class="number">13</span>,
+        <span class="doccomment">/// System will retry immediately.</span>
+        <span class="ident">ImmediateRetry</span> <span class="op">=</span> <span class="number">14</span>,
+        <span class="doccomment">/// System will retry later; current attempt failed.</span>
+        <span class="ident">PostponedRetry</span> <span class="op">=</span> <span class="number">15</span>,
+    }
+    <span class="doccomment">/// Reasons applicable to internal resources not exposed to users. These will</span>
+    <span class="doccomment">/// surface in Service.conditions, and could be useful for further diagnosis.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InternalReason</span> {
+        <span class="doccomment">/// Default value.</span>
+        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The revision name provided conflicts with an existing one.</span>
+        <span class="ident">ConflictingRevisionName</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Revision is missing; this is usually a transient reason.</span>
+        <span class="ident">RevisionMissing</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Internal configuration is missing; this is usually a transient reason.</span>
+        <span class="ident">ConfigurationMissing</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Assigning traffic; this is a transient reason.</span>
+        <span class="ident">AssigningTraffic</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// Updating ingress traffic settings; this is a transient reason.</span>
+        <span class="ident">UpdatingIngressTrafficAllowed</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// The revision can&#39;t be created because it violates an org policy setting.</span>
+        <span class="ident">RevisionOrgPolicyViolation</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// Enabling GCFv2 URI support; this is a transient reason.</span>
+        <span class="ident">EnablingGcfv2UriSupport</span> <span class="op">=</span> <span class="number">7</span>,
+    }
+    <span class="doccomment">/// Reasons specific to DomainMapping resource.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DomainMappingReason</span> {
+        <span class="doccomment">/// Default value.</span>
+        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Internal route is not yet ready.</span>
+        <span class="ident">RouteNotReady</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Insufficient permissions.</span>
+        <span class="ident">PermissionDenied</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Certificate already exists.</span>
+        <span class="ident">CertificateAlreadyExists</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Mapping already exists.</span>
+        <span class="ident">MappingAlreadyExists</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// Certificate issuance pending.</span>
+        <span class="ident">CertificatePending</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// Certificate issuance failed.</span>
+        <span class="ident">CertificateFailed</span> <span class="op">=</span> <span class="number">6</span>,
+    }
+    <span class="doccomment">/// Reasons specific to Revision resource.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RevisionReason</span> {
+        <span class="doccomment">/// Default value.</span>
+        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Revision in Pending state.</span>
+        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Revision is in Reserve state.</span>
+        <span class="ident">Reserve</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Revision is Retired.</span>
+        <span class="ident">Retired</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Revision is being retired.</span>
+        <span class="ident">Retiring</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// Revision is being recreated.</span>
+        <span class="ident">Recreating</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// There was a health check error.</span>
+        <span class="ident">HealthCheckContainerError</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// Health check failed due to user error from customized path of the</span>
+        <span class="doccomment">/// container. System will retry.</span>
+        <span class="ident">CustomizedPathResponsePending</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// A revision with min_instance_count &gt; 0 was created and is reserved, but</span>
+        <span class="doccomment">/// it was not configured to serve traffic, so it&#39;s not live. This can also</span>
+        <span class="doccomment">/// happen momentarily during traffic migration.</span>
+        <span class="ident">MinInstancesNotProvisioned</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// The maximum allowed number of active revisions has been reached.</span>
+        <span class="ident">ActiveRevisionLimitReached</span> <span class="op">=</span> <span class="number">9</span>,
+        <span class="doccomment">/// There was no deployment defined.</span>
+        <span class="doccomment">/// This value is no longer used, but Services created in older versions of</span>
+        <span class="doccomment">/// the API might contain this value.</span>
+        <span class="ident">NoDeployment</span> <span class="op">=</span> <span class="number">10</span>,
+        <span class="doccomment">/// A revision&#39;s container has no port specified since the revision is of a</span>
+        <span class="doccomment">/// manually scaled service with 0 instance count</span>
+        <span class="ident">HealthCheckSkipped</span> <span class="op">=</span> <span class="number">11</span>,
+    }
+    <span class="doccomment">/// Reasons specific to Execution resource.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ExecutionReason</span> {
+        <span class="doccomment">/// Default value.</span>
+        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Internal system error getting execution status. System will retry.</span>
+        <span class="ident">JobStatusServicePollingError</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A task reached its retry limit and the last attempt failed due to the</span>
+        <span class="doccomment">/// user container exiting with a non-zero exit code.</span>
+        <span class="ident">NonZeroExitCode</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// The reason for this condition. Depending on the condition type,</span>
+    <span class="doccomment">/// it will populate one of these fields.</span>
+    <span class="doccomment">/// Successful conditions may not have a reason.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Reasons</span> {
+        <span class="doccomment">/// A common (service-level) reason for this condition.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;CommonReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">Reason</span>(<span class="ident">i32</span>),
+        <span class="doccomment">/// A reason for the internal condition.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;InternalReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="ident">InternalReason</span>(<span class="ident">i32</span>),
+        <span class="doccomment">/// A reason for the domain mapping condition.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DomainMappingReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="ident">DomainMappingReason</span>(<span class="ident">i32</span>),
+        <span class="doccomment">/// A reason for the revision condition.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RevisionReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="ident">RevisionReason</span>(<span class="ident">i32</span>),
+        <span class="doccomment">/// A reason for the execution condition.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ExecutionReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="ident">ExecutionReason</span>(<span class="ident">i32</span>),
+    }
+}
+<span class="doccomment">/// A single application container.</span>
 <span class="doccomment">/// This specifies both the container to run, the command to run in the container</span>
 <span class="doccomment">/// and the arguments to supply to it.</span>
 <span class="doccomment">/// Note that additional arguments may be supplied by the system to the container</span>
@@ -1640,211 +1845,6 @@
     <span class="doccomment">/// {project}:{location}:{instance}</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">connections</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Defines a status condition for a resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Condition</span> {
-    <span class="doccomment">/// type is used to communicate the status of the reconciliation process.</span>
-    <span class="doccomment">/// See also:</span>
-    <span class="doccomment">/// &lt;https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting&gt;</span>
-    <span class="doccomment">/// Types common to all resources include:</span>
-    <span class="doccomment">/// * &quot;Ready&quot;: True when the Resource is ready.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// State of the condition.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;condition::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Human readable message indicating details about the current status.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Last time the condition transitioned from one status to another.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_transition_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// How to interpret failures of this condition, one of Error, Warning, Info</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;condition::Severity&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">severity</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The reason for this condition. Depending on the condition type,</span>
-    <span class="doccomment">/// it will populate one of these fields.</span>
-    <span class="doccomment">/// Successful conditions may not have a reason.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;condition::Reasons&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;6, 7, 8, 9, 11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">reasons</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">condition::Reasons</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Condition`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">condition</span> {
-    <span class="doccomment">/// Represents the possible Condition states.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// The default value. This value is used if the state is omitted.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Transient state: Reconciliation has not started yet.</span>
-        <span class="ident">ConditionPending</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Transient state: reconciliation is still in progress.</span>
-        <span class="ident">ConditionReconciling</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Terminal state: Reconciliation did not succeed.</span>
-        <span class="ident">ConditionFailed</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Terminal state: Reconciliation completed successfully.</span>
-        <span class="ident">ConditionSucceeded</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-    <span class="doccomment">/// Represents the severity of the condition failures.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Severity</span> {
-        <span class="doccomment">/// Unspecified severity</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Error severity.</span>
-        <span class="ident">Error</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Warning severity.</span>
-        <span class="ident">Warning</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Info severity.</span>
-        <span class="ident">Info</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-    <span class="doccomment">/// Reasons common to all types of conditions.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CommonReason</span> {
-        <span class="doccomment">/// Default value.</span>
-        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Reason unknown. Further details will be in message.</span>
-        <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The internal route is missing.</span>
-        <span class="ident">RouteMissing</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Revision creation process failed.</span>
-        <span class="ident">RevisionFailed</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Timed out waiting for completion.</span>
-        <span class="ident">ProgressDeadlineExceeded</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// There was a build error.</span>
-        <span class="ident">BuildStepFailed</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// The container image path is incorrect.</span>
-        <span class="ident">ContainerMissing</span> <span class="op">=</span> <span class="number">6</span>,
-        <span class="doccomment">/// Insufficient permissions on the container image.</span>
-        <span class="ident">ContainerPermissionDenied</span> <span class="op">=</span> <span class="number">7</span>,
-        <span class="doccomment">/// Container image is not authorized by policy.</span>
-        <span class="ident">ContainerImageUnauthorized</span> <span class="op">=</span> <span class="number">8</span>,
-        <span class="doccomment">/// Container image policy authorization check failed.</span>
-        <span class="ident">ContainerImageAuthorizationCheckFailed</span> <span class="op">=</span> <span class="number">9</span>,
-        <span class="doccomment">/// Insufficient permissions on encryption key.</span>
-        <span class="ident">EncryptionKeyPermissionDenied</span> <span class="op">=</span> <span class="number">10</span>,
-        <span class="doccomment">/// Permission check on encryption key failed.</span>
-        <span class="ident">EncryptionKeyCheckFailed</span> <span class="op">=</span> <span class="number">11</span>,
-        <span class="doccomment">/// At least one Access check on secrets failed.</span>
-        <span class="ident">SecretsAccessCheckFailed</span> <span class="op">=</span> <span class="number">12</span>,
-        <span class="doccomment">/// Waiting for operation to complete.</span>
-        <span class="ident">WaitingForOperation</span> <span class="op">=</span> <span class="number">13</span>,
-        <span class="doccomment">/// System will retry immediately.</span>
-        <span class="ident">ImmediateRetry</span> <span class="op">=</span> <span class="number">14</span>,
-        <span class="doccomment">/// System will retry later; current attempt failed.</span>
-        <span class="ident">PostponedRetry</span> <span class="op">=</span> <span class="number">15</span>,
-    }
-    <span class="doccomment">/// Reasons applicable to internal resources not exposed to users. These will</span>
-    <span class="doccomment">/// surface in Service.conditions, and could be useful for further diagnosis.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InternalReason</span> {
-        <span class="doccomment">/// Default value.</span>
-        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The revision name provided conflicts with an existing one.</span>
-        <span class="ident">ConflictingRevisionName</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Revision is missing; this is usually a transient reason.</span>
-        <span class="ident">RevisionMissing</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Internal configuration is missing; this is usually a transient reason.</span>
-        <span class="ident">ConfigurationMissing</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Assigning traffic; this is a transient reason.</span>
-        <span class="ident">AssigningTraffic</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// Updating ingress traffic settings; this is a transient reason.</span>
-        <span class="ident">UpdatingIngressTrafficAllowed</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// The revision can&#39;t be created because it violates an org policy setting.</span>
-        <span class="ident">RevisionOrgPolicyViolation</span> <span class="op">=</span> <span class="number">6</span>,
-        <span class="doccomment">/// Enabling GCFv2 URI support; this is a transient reason.</span>
-        <span class="ident">EnablingGcfv2UriSupport</span> <span class="op">=</span> <span class="number">7</span>,
-    }
-    <span class="doccomment">/// Reasons specific to DomainMapping resource.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DomainMappingReason</span> {
-        <span class="doccomment">/// Default value.</span>
-        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Internal route is not yet ready.</span>
-        <span class="ident">RouteNotReady</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Insufficient permissions.</span>
-        <span class="ident">PermissionDenied</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Certificate already exists.</span>
-        <span class="ident">CertificateAlreadyExists</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Mapping already exists.</span>
-        <span class="ident">MappingAlreadyExists</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// Certificate issuance pending.</span>
-        <span class="ident">CertificatePending</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// Certificate issuance failed.</span>
-        <span class="ident">CertificateFailed</span> <span class="op">=</span> <span class="number">6</span>,
-    }
-    <span class="doccomment">/// Reasons specific to Revision resource.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RevisionReason</span> {
-        <span class="doccomment">/// Default value.</span>
-        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Revision in Pending state.</span>
-        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Revision is in Reserve state.</span>
-        <span class="ident">Reserve</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Revision is Retired.</span>
-        <span class="ident">Retired</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Revision is being retired.</span>
-        <span class="ident">Retiring</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// Revision is being recreated.</span>
-        <span class="ident">Recreating</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// There was a health check error.</span>
-        <span class="ident">HealthCheckContainerError</span> <span class="op">=</span> <span class="number">6</span>,
-        <span class="doccomment">/// Health check failed due to user error from customized path of the</span>
-        <span class="doccomment">/// container. System will retry.</span>
-        <span class="ident">CustomizedPathResponsePending</span> <span class="op">=</span> <span class="number">7</span>,
-        <span class="doccomment">/// A revision with min_instance_count &gt; 0 was created and is reserved, but</span>
-        <span class="doccomment">/// it was not configured to serve traffic, so it&#39;s not live. This can also</span>
-        <span class="doccomment">/// happen momentarily during traffic migration.</span>
-        <span class="ident">MinInstancesNotProvisioned</span> <span class="op">=</span> <span class="number">8</span>,
-        <span class="doccomment">/// The maximum allowed number of active revisions has been reached.</span>
-        <span class="ident">ActiveRevisionLimitReached</span> <span class="op">=</span> <span class="number">9</span>,
-        <span class="doccomment">/// There was no deployment defined.</span>
-        <span class="doccomment">/// This value is no longer used, but Services created in older versions of</span>
-        <span class="doccomment">/// the API might contain this value.</span>
-        <span class="ident">NoDeployment</span> <span class="op">=</span> <span class="number">10</span>,
-        <span class="doccomment">/// A revision&#39;s container has no port specified since the revision is of a</span>
-        <span class="doccomment">/// manually scaled service with 0 instance count</span>
-        <span class="ident">HealthCheckSkipped</span> <span class="op">=</span> <span class="number">11</span>,
-    }
-    <span class="doccomment">/// Reasons specific to Execution resource.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ExecutionReason</span> {
-        <span class="doccomment">/// Default value.</span>
-        <span class="ident">Undefined</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Internal system error getting execution status. System will retry.</span>
-        <span class="ident">JobStatusServicePollingError</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A task reached its retry limit and the last attempt failed due to the</span>
-        <span class="doccomment">/// user container exiting with a non-zero exit code.</span>
-        <span class="ident">NonZeroExitCode</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// The reason for this condition. Depending on the condition type,</span>
-    <span class="doccomment">/// it will populate one of these fields.</span>
-    <span class="doccomment">/// Successful conditions may not have a reason.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Reasons</span> {
-        <span class="doccomment">/// A common (service-level) reason for this condition.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;CommonReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">Reason</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// A reason for the internal condition.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;InternalReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="ident">InternalReason</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// A reason for the domain mapping condition.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DomainMappingReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="ident">DomainMappingReason</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// A reason for the revision condition.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;RevisionReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="ident">RevisionReason</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// A reason for the execution condition.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;ExecutionReason&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-        <span class="ident">ExecutionReason</span>(<span class="ident">i32</span>),
-    }
 }
 <span class="doccomment">/// VPC Access settings. For more information on creating a VPC Connector, visit</span>
 <span class="doccomment">/// &lt;https://cloud.google.com/vpc/docs/configure-serverless-vpc-access&gt; For</span>

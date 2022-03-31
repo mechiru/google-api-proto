@@ -5754,7 +5754,64 @@
 <span id="5752">5752</span>
 <span id="5753">5753</span>
 <span id="5754">5754</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Metadata that is used to define a condition that triggers an action.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Configuration of destination for Export related errors.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportErrorsConfig</span> {
+    <span class="doccomment">/// Required. Errors destination.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;export_errors_config::Destination&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_errors_config::Destination</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExportErrorsConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_errors_config</span> {
+    <span class="doccomment">/// Required. Errors destination.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Destination</span> {
+        <span class="doccomment">/// Google Cloud Storage path for import errors. This must be an empty,</span>
+        <span class="doccomment">/// existing Cloud Storage bucket. Export errors will be written to a file in</span>
+        <span class="doccomment">/// this bucket, one per line, as a JSON-encoded</span>
+        <span class="doccomment">/// `google.rpc.Status` message.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">GcsPrefix</span>(<span class="ident">::prost::alloc::string::String</span>),
+    }
+}
+<span class="doccomment">/// Metadata related to the progress of the Export operation. This will be</span>
+<span class="doccomment">/// returned by the google.longrunning.Operation.metadata field.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportMetadata</span> {
+    <span class="doccomment">/// Operation create time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Operation last update time. If the operation is done, this is also the</span>
+    <span class="doccomment">/// finish time.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Response of the ExportProductsRequest. If the long running</span>
+<span class="doccomment">/// operation is done, then this message is returned by the</span>
+<span class="doccomment">/// google.longrunning.Operations.response field if the operation was successful.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportProductsResponse</span> {
+    <span class="doccomment">/// A sample of errors encountered while processing the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Echoes the destination for the complete errors in the request if set.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">errors_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExportErrorsConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Response of the ExportUserEventsRequest. If the long running</span>
+<span class="doccomment">/// operation was successful, then this message is returned by the</span>
+<span class="doccomment">/// google.longrunning.Operations.response field if the operation was successful.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportUserEventsResponse</span> {
+    <span class="doccomment">/// A sample of errors encountered while processing the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Echoes the destination for the complete errors if this field was set in</span>
+    <span class="doccomment">/// the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">errors_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExportErrorsConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Metadata that is used to define a condition that triggers an action.</span>
 <span class="doccomment">/// A valid condition must specify at least one of &#39;query_terms&#39; or</span>
 <span class="doccomment">/// &#39;products_filter&#39;. If multiple fields are specified, the condition is met if</span>
 <span class="doccomment">/// all the fields are satisfied e.g. if a set of query terms and product_filter</span>
@@ -6484,63 +6541,6 @@
     <span class="ident">Recommendation</span> <span class="op">=</span> <span class="number">1</span>,
     <span class="doccomment">/// Used for Retail Search.</span>
     <span class="ident">Search</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// Configuration of destination for Export related errors.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportErrorsConfig</span> {
-    <span class="doccomment">/// Required. Errors destination.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;export_errors_config::Destination&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">destination</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">export_errors_config::Destination</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ExportErrorsConfig`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_errors_config</span> {
-    <span class="doccomment">/// Required. Errors destination.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Destination</span> {
-        <span class="doccomment">/// Google Cloud Storage path for import errors. This must be an empty,</span>
-        <span class="doccomment">/// existing Cloud Storage bucket. Export errors will be written to a file in</span>
-        <span class="doccomment">/// this bucket, one per line, as a JSON-encoded</span>
-        <span class="doccomment">/// `google.rpc.Status` message.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">GcsPrefix</span>(<span class="ident">::prost::alloc::string::String</span>),
-    }
-}
-<span class="doccomment">/// Metadata related to the progress of the Export operation. This will be</span>
-<span class="doccomment">/// returned by the google.longrunning.Operation.metadata field.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportMetadata</span> {
-    <span class="doccomment">/// Operation create time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Operation last update time. If the operation is done, this is also the</span>
-    <span class="doccomment">/// finish time.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Response of the ExportProductsRequest. If the long running</span>
-<span class="doccomment">/// operation is done, then this message is returned by the</span>
-<span class="doccomment">/// google.longrunning.Operations.response field if the operation was successful.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportProductsResponse</span> {
-    <span class="doccomment">/// A sample of errors encountered while processing the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Echoes the destination for the complete errors in the request if set.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">errors_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExportErrorsConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Response of the ExportUserEventsRequest. If the long running</span>
-<span class="doccomment">/// operation was successful, then this message is returned by the</span>
-<span class="doccomment">/// google.longrunning.Operations.response field if the operation was successful.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExportUserEventsResponse</span> {
-    <span class="doccomment">/// A sample of errors encountered while processing the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_samples</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Echoes the destination for the complete errors if this field was set in</span>
-    <span class="doccomment">/// the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">errors_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExportErrorsConfig</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Product captures all metadata information of items to be recommended or</span>
 <span class="doccomment">/// searched.</span>
@@ -7836,6 +7836,254 @@
     <span class="doccomment">/// The total count of events purged as a result of the operation.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">purged_events_count</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Request message for WriteUserEvent method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteUserEventRequest</span> {
+    <span class="doccomment">/// Required. The parent catalog resource name, such as</span>
+    <span class="doccomment">/// `projects/1234/locations/global/catalogs/default_catalog`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. User event to write.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">UserEvent</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request message for CollectUserEvent method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CollectUserEventRequest</span> {
+    <span class="doccomment">/// Required. The parent catalog name, such as</span>
+    <span class="doccomment">/// `projects/1234/locations/global/catalogs/default_catalog`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. URL encoded UserEvent proto with a length limit of 2,000,000</span>
+    <span class="doccomment">/// characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_event</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The URL including cgi-parameters but excluding the hash fragment with a</span>
+    <span class="doccomment">/// length limit of 5,000 characters. This is often more useful than the</span>
+    <span class="doccomment">/// referer URL, because many browsers only send the domain for 3rd party</span>
+    <span class="doccomment">/// requests.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The event timestamp in milliseconds. This prevents browser caching of</span>
+    <span class="doccomment">/// otherwise identical get requests. The name is abbreviated to reduce the</span>
+    <span class="doccomment">/// payload bytes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">ets</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Request message for RejoinUserEvents method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RejoinUserEventsRequest</span> {
+    <span class="doccomment">/// Required. The parent catalog resource name, such as</span>
+    <span class="doccomment">/// `projects/1234/locations/global/catalogs/default_catalog`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The type of the user event rejoin to define the scope and range of the user</span>
+    <span class="doccomment">/// events to be rejoined with the latest product catalog. Defaults to</span>
+    <span class="doccomment">/// USER_EVENT_REJOIN_SCOPE_UNSPECIFIED if this field is not set, or set to an</span>
+    <span class="doccomment">/// invalid integer value.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;rejoin_user_events_request::UserEventRejoinScope&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">user_event_rejoin_scope</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `RejoinUserEventsRequest`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rejoin_user_events_request</span> {
+    <span class="doccomment">/// The scope of user events to be rejoined with the latest product catalog.</span>
+    <span class="doccomment">/// If the rejoining aims at reducing number of unjoined events, set</span>
+    <span class="doccomment">/// UserEventRejoinScope to UNJOINED_EVENTS.</span>
+    <span class="doccomment">/// If the rejoining aims at correcting product catalog information in joined</span>
+    <span class="doccomment">/// events, set UserEventRejoinScope to JOINED_EVENTS.</span>
+    <span class="doccomment">/// If all events needs to be rejoined, set UserEventRejoinScope to</span>
+    <span class="doccomment">/// USER_EVENT_REJOIN_SCOPE_UNSPECIFIED.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserEventRejoinScope</span> {
+        <span class="doccomment">/// Rejoin all events with the latest product catalog, including both joined</span>
+        <span class="doccomment">/// events and unjoined events.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Only rejoin joined events with the latest product catalog.</span>
+        <span class="ident">JoinedEvents</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Only rejoin unjoined events with the latest product catalog.</span>
+        <span class="ident">UnjoinedEvents</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Response message for RejoinUserEvents method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RejoinUserEventsResponse</span> {
+    <span class="doccomment">/// Number of user events that were joined with latest product catalog.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">rejoined_user_events_count</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Metadata for RejoinUserEvents method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RejoinUserEventsMetadata</span> {}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">user_event_service_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for ingesting end user actions on the customer website.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UserEventServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">UserEventServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">UserEventServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+        {
+            <span class="ident">UserEventServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Writes a single user event.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">write_user_event</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::WriteUserEventRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UserEvent</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/WriteUserEvent&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Writes a single user event from the browser. This uses a GET request to&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; due to browser restriction of POST-ing to a 3rd party domain.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method is used only by the Retail API JavaScript pixel and Google Tag&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Manager. Users should not call this method directly.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">collect_user_event</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CollectUserEventRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::HttpBody</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+        {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/CollectUserEvent&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes permanently all user events specified by the filter provided.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Depending on the number of events specified by the filter, this operation&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; could take hours or days to complete. To test a filter, use the list&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; command first.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">purge_user_events</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PurgeUserEventsRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/PurgeUserEvents&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Bulk import of User events. Request processing might be&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; synchronous. Events that already exist are skipped.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Use this method for backfilling historical user events.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Operation.response is of type ImportResponse. Note that it is&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; possible for a subset of the items to be successfully inserted.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Operation.metadata is of type ImportMetadata.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">import_user_events</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ImportUserEventsRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/ImportUserEvents&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Triggers a user event rejoin operation with latest product catalog. Events&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; will not be annotated with detailed product information if product is&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; missing from the catalog at the time the user event is ingested, and these&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; events are stored as unjoined events with a limited usage on training and&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; serving. This API can be used to trigger a &#39;join&#39; operation on specified&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; events with latest version of product catalog. It can also be used to&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; correct events joined with wrong product catalog.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">rejoin_user_events</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::RejoinUserEventsRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/RejoinUserEvents&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+    }
 }
 <span class="doccomment">/// Request message for \[CreateProduct][\] method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -9605,60 +9853,6 @@
         }
     }
 }
-<span class="doccomment">/// Configures dynamic serving time metadata that is used to pre and post</span>
-<span class="doccomment">/// process search/recommendation model results.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Control</span> {
-    <span class="doccomment">/// Immutable. Fully qualified name</span>
-    <span class="doccomment">/// projects/*/locations/global/catalogs/*/controls/*</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The human readable control display name. Used in Retail UI.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This field must be a UTF-8 encoded string with a length limit of 128</span>
-    <span class="doccomment">/// characters. Otherwise, an INVALID_ARGUMENT error is thrown.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. List of serving configuration ids that that are associated</span>
-    <span class="doccomment">/// with this control. Note the association is managed via the ServingConfig,</span>
-    <span class="doccomment">/// this is an output only denormalizeed  view. Assumed to be in the same</span>
-    <span class="doccomment">/// catalog.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">associated_serving_config_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Immutable. The solution types that the serving config is used</span>
-    <span class="doccomment">/// for. Currently we support setting only one type of solution at creation</span>
-    <span class="doccomment">/// time.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Only `SOLUTION_TYPE_SEARCH` value is supported at the moment.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;SolutionType&quot;</span>, <span class="ident">repeated</span>, <span class="ident">packed</span> <span class="op">=</span> <span class="string">&quot;false&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">solution_types</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The behavior/type of the control</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A behavior/type must be specified on creation. Type cannot be changed once</span>
-    <span class="doccomment">/// specified (e.g. A Rule control will always be a Rule control.). An</span>
-    <span class="doccomment">/// INVALID_ARGUMENT will be returned if either condition is violated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;control::Control&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">control</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">control::Control</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Control`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">control</span> {
-    <span class="doccomment">/// The behavior/type of the control</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A behavior/type must be specified on creation. Type cannot be changed once</span>
-    <span class="doccomment">/// specified (e.g. A Rule control will always be a Rule control.). An</span>
-    <span class="doccomment">/// INVALID_ARGUMENT will be returned if either condition is violated.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Control</span> {
-        <span class="doccomment">/// A facet specification to perform faceted search.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">FacetSpec</span>(<span class="ident"><span class="kw">super</span>::search_request::FacetSpec</span>),
-        <span class="doccomment">/// A rule control - a condition-action pair.</span>
-        <span class="doccomment">/// Enacts a set action when the condition is triggered.</span>
-        <span class="doccomment">/// For example: Boost &quot;gShoe&quot; when query full matches &quot;Running Shoes&quot;.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">Rule</span>(<span class="ident"><span class="kw">super</span>::Rule</span>),
-    }
-}
 <span class="doccomment">/// Configures metadata that is used to generate serving time results (e.g.</span>
 <span class="doccomment">/// search results or recommendation predictions).</span>
 <span class="doccomment">/// The ServingConfig is passed in the search and predict request and together</span>
@@ -10290,232 +10484,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">merchant_center_linking_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">MerchantCenterLinkingConfig</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Request message for Predict method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictRequest</span> {
-    <span class="doccomment">/// Required. Full resource name of the format:</span>
-    <span class="doccomment">/// {name=projects/*/locations/global/catalogs/default_catalog/placements/*}</span>
-    <span class="doccomment">/// The ID of the Recommendations AI placement. Before you can request</span>
-    <span class="doccomment">/// predictions from your model, you must create at least one placement for it.</span>
-    <span class="doccomment">/// For more information, see [Managing</span>
-    <span class="doccomment">/// placements](&lt;https://cloud.google.com/retail/recommendations-ai/docs/manage-placements&gt;).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The full list of available placements can be seen at</span>
-    <span class="doccomment">/// &lt;https://console.cloud.google.com/recommendation/catalogs/default_catalog/placements&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">placement</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Context about the user, what they are looking at and what action</span>
-    <span class="doccomment">/// they took to trigger the predict request. Note that this user event detail</span>
-    <span class="doccomment">/// won&#39;t be ingested to userEvent logs. Thus, a separate userEvent write</span>
-    <span class="doccomment">/// request is required for event logging.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">UserEvent</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Maximum number of results to return per page. Set this property</span>
-    <span class="doccomment">/// to the number of prediction results needed. If zero, the service will</span>
-    <span class="doccomment">/// choose a reasonable default. The maximum allowed value is 100. Values</span>
-    <span class="doccomment">/// above 100 will be coerced to 100.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The previous PredictResponse.next_page_token.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Filter for restricting prediction results with a length limit of 5,000</span>
-    <span class="doccomment">/// characters. Accepts values for tags and the `filterOutOfStockItems` flag.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * Tag expressions. Restricts predictions to products that match all of the</span>
-    <span class="doccomment">///    specified tags. Boolean operators `OR` and `NOT` are supported if the</span>
-    <span class="doccomment">///    expression is enclosed in parentheses, and must be separated from the</span>
-    <span class="doccomment">///    tag values by a space. `-&quot;tagA&quot;` is also supported and is equivalent to</span>
-    <span class="doccomment">///    `NOT &quot;tagA&quot;`. Tag values must be double quoted UTF-8 encoded strings</span>
-    <span class="doccomment">///    with a size limit of 1,000 characters.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///    Note: &quot;Recently viewed&quot; models don&#39;t support tag filtering at the</span>
-    <span class="doccomment">///    moment.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * filterOutOfStockItems. Restricts predictions to products that do not</span>
-    <span class="doccomment">///  have a</span>
-    <span class="doccomment">///    stockState value of OUT_OF_STOCK.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * tag=(&quot;Red&quot; OR &quot;Blue&quot;) tag=&quot;New-Arrival&quot; tag=(NOT &quot;promotional&quot;)</span>
-    <span class="doccomment">///  * filterOutOfStockItems  tag=(-&quot;promotional&quot;)</span>
-    <span class="doccomment">///  * filterOutOfStockItems</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If your filter blocks all prediction results, nothing will be returned. If</span>
-    <span class="doccomment">/// you want generic (unfiltered) popular products to be returned instead, set</span>
-    <span class="doccomment">/// `strictFiltering` to false in `PredictRequest.params`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Use validate only mode for this prediction query. If set to true, a</span>
-    <span class="doccomment">/// dummy model will be used that returns arbitrary products.</span>
-    <span class="doccomment">/// Note that the validate only mode should only be used for testing the API,</span>
-    <span class="doccomment">/// or if the model is not ready.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">validate_only</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Additional domain specific parameters for the predictions.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Allowed values:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `returnProduct`: Boolean. If set to true, the associated product</span>
-    <span class="doccomment">///    object will be returned in the `results.metadata` field in the</span>
-    <span class="doccomment">///    prediction response.</span>
-    <span class="doccomment">/// * `returnScore`: Boolean. If set to true, the prediction &#39;score&#39;</span>
-    <span class="doccomment">///    corresponding to each returned product will be set in the</span>
-    <span class="doccomment">///    `results.metadata` field in the prediction response. The given</span>
-    <span class="doccomment">///    &#39;score&#39; indicates the probability of an product being clicked/purchased</span>
-    <span class="doccomment">///    given the user&#39;s context and history.</span>
-    <span class="doccomment">/// * `strictFiltering`: Boolean. True by default. If set to false, the service</span>
-    <span class="doccomment">///    will return generic (unfiltered) popular products instead of empty if</span>
-    <span class="doccomment">///    your filter blocks all prediction results.</span>
-    <span class="doccomment">/// * `priceRerankLevel`: String. Default empty. If set to be non-empty, then</span>
-    <span class="doccomment">///    it needs to be one of {&#39;no-price-reranking&#39;, &#39;low-price-reranking&#39;,</span>
-    <span class="doccomment">///    &#39;medium-price-reranking&#39;, &#39;high-price-reranking&#39;}. This gives</span>
-    <span class="doccomment">///    request-level control and adjusts prediction results based on product</span>
-    <span class="doccomment">///    price.</span>
-    <span class="doccomment">/// * `diversityLevel`: String. Default empty. If set to be non-empty, then</span>
-    <span class="doccomment">///    it needs to be one of {&#39;no-diversity&#39;, &#39;low-diversity&#39;,</span>
-    <span class="doccomment">///    &#39;medium-diversity&#39;, &#39;high-diversity&#39;, &#39;auto-diversity&#39;}. This gives</span>
-    <span class="doccomment">///    request-level control and adjusts prediction results based on product</span>
-    <span class="doccomment">///    category.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">params</span>:
-        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The labels applied to a resource must meet the following requirements:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * Each resource can have multiple labels, up to a maximum of 64.</span>
-    <span class="doccomment">/// * Each label must be a key-value pair.</span>
-    <span class="doccomment">/// * Keys have a minimum length of 1 character and a maximum length of 63</span>
-    <span class="doccomment">///   characters, and cannot be empty. Values can be empty, and have a maximum</span>
-    <span class="doccomment">///   length of 63 characters.</span>
-    <span class="doccomment">/// * Keys and values can contain only lowercase letters, numeric characters,</span>
-    <span class="doccomment">///   underscores, and dashes. All characters must use UTF-8 encoding, and</span>
-    <span class="doccomment">///   international characters are allowed.</span>
-    <span class="doccomment">/// * The key portion of a label must be unique. However, you can use the same</span>
-    <span class="doccomment">///   key with multiple resources.</span>
-    <span class="doccomment">/// * Keys must start with a lowercase letter or international character.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Google Cloud</span>
-    <span class="doccomment">/// Document](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements&gt;)</span>
-    <span class="doccomment">/// for more details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Response message for predict method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictResponse</span> {
-    <span class="doccomment">/// A list of recommended products. The order represents the ranking (from the</span>
-    <span class="doccomment">/// most relevant product to the least).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">predict_response::PredictionResult</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A unique attribution token. This should be included in the</span>
-    <span class="doccomment">/// \[UserEvent][google.cloud.retail.v2alpha.UserEvent\] logs resulting from this</span>
-    <span class="doccomment">/// recommendation, which enables accurate attribution of recommendation model</span>
-    <span class="doccomment">/// performance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attribution_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// IDs of products in the request that were missing from the inventory.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">missing_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// True if the validateOnly property was set in the request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">validate_only</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PredictResponse`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">predict_response</span> {
-    <span class="doccomment">/// PredictionResult represents the recommendation prediction results.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionResult</span> {
-        <span class="doccomment">/// ID of the recommended product</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Additional product metadata / annotations.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Possible values:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// * `product`: JSON representation of the product. Will be set if</span>
-        <span class="doccomment">///   `returnProduct` is set to true in `PredictRequest.params`.</span>
-        <span class="doccomment">/// * `score`: Prediction score in double value. Will be set if</span>
-        <span class="doccomment">///   `returnScore` is set to true in `PredictRequest.params`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-            <span class="ident">::prost::alloc::string::String</span>,
-            <span class="ident">::prost_types::Value</span>,
-        <span class="op">&gt;</span>,
-    }
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prediction_service_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for making recommendation prediction.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">PredictionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Makes a recommendation prediction.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">predict</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2alpha.PredictionService/Predict&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-    }
-}
 <span class="doccomment">/// Request for</span>
 <span class="doccomment">/// \[CatalogService.ListCatalogs][google.cloud.retail.v2alpha.CatalogService.ListCatalogs\]</span>
 <span class="doccomment">/// method.</span>
@@ -10796,236 +10764,58 @@
         }
     }
 }
-<span class="doccomment">/// Auto-complete parameters.</span>
+<span class="doccomment">/// Configures dynamic serving time metadata that is used to pre and post</span>
+<span class="doccomment">/// process search/recommendation model results.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompleteQueryRequest</span> {
-    <span class="doccomment">/// Required. Catalog for which the completion is performed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Full resource name of catalog, such as</span>
-    <span class="doccomment">/// `projects/*/locations/global/catalogs/default_catalog`.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Control</span> {
+    <span class="doccomment">/// Immutable. Fully qualified name</span>
+    <span class="doccomment">/// projects/*/locations/global/catalogs/*/controls/*</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">catalog</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The query used to generate suggestions.</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The human readable control display name. Used in Retail UI.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The maximum number of allowed characters is 255.</span>
+    <span class="doccomment">/// This field must be a UTF-8 encoded string with a length limit of 128</span>
+    <span class="doccomment">/// characters. Otherwise, an INVALID_ARGUMENT error is thrown.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">query</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A unique identifier for tracking visitors. For example, this could be</span>
-    <span class="doccomment">/// implemented with an HTTP cookie, which should be able to uniquely identify</span>
-    <span class="doccomment">/// a visitor on a single device. This unique identifier should not change if</span>
-    <span class="doccomment">/// the visitor logs in or out of the website.</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. List of serving configuration ids that that are associated</span>
+    <span class="doccomment">/// with this control. Note the association is managed via the ServingConfig,</span>
+    <span class="doccomment">/// this is an output only denormalizeed  view. Assumed to be in the same</span>
+    <span class="doccomment">/// catalog.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">associated_serving_config_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Immutable. The solution types that the serving config is used</span>
+    <span class="doccomment">/// for. Currently we support setting only one type of solution at creation</span>
+    <span class="doccomment">/// time.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The field must be a UTF-8 encoded string with a length limit of 128</span>
-    <span class="doccomment">/// characters. Otherwise, an INVALID_ARGUMENT error is returned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">visitor_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The list of languages of the query. This is</span>
-    <span class="doccomment">/// the BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;.</span>
-    <span class="doccomment">/// For more information, see</span>
-    <span class="doccomment">/// [Tags for Identifying Languages](&lt;https://tools.ietf.org/html/bcp47&gt;).</span>
+    <span class="doccomment">/// Only `SOLUTION_TYPE_SEARCH` value is supported at the moment.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;SolutionType&quot;</span>, <span class="ident">repeated</span>, <span class="ident">packed</span> <span class="op">=</span> <span class="string">&quot;false&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">solution_types</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The behavior/type of the control</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The maximum number of allowed characters is 255.</span>
-    <span class="doccomment">/// Only &quot;en-US&quot; is currently supported.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">language_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The device type context for completion suggestions.</span>
-    <span class="doccomment">/// It is useful to apply different suggestions on different device types, e.g.</span>
-    <span class="doccomment">/// `DESKTOP`, `MOBILE`. If it is empty, the suggestions are across all device</span>
-    <span class="doccomment">/// types.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Supported formats:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `UNKNOWN_DEVICE_TYPE`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `DESKTOP`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `MOBILE`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * A customized string starts with `OTHER_`, e.g. `OTHER_IPHONE`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">device_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Determines which dataset to use for fetching completion. &quot;user-data&quot; will</span>
-    <span class="doccomment">/// use the imported dataset through</span>
-    <span class="doccomment">/// \[CompletionService.ImportCompletionData][google.cloud.retail.v2alpha.CompletionService.ImportCompletionData\].</span>
-    <span class="doccomment">/// &quot;cloud-retail&quot; will use the dataset generated by cloud retail based on user</span>
-    <span class="doccomment">/// events. If leave empty, it will use the &quot;user-data&quot;.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Current supported values:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * user-data</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * cloud-retail</span>
-    <span class="doccomment">///   This option requires additional allowlisting. Before using cloud-retail,</span>
-    <span class="doccomment">///   contact Cloud Retail support team first.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Completion max suggestions. If left unset or set to 0, then will fallback</span>
-    <span class="doccomment">/// to the configured value</span>
-    <span class="doccomment">/// \[CompletionConfig.max_suggestions][google.cloud.retail.v2alpha.CompletionConfig.max_suggestions\].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The maximum allowed max suggestions is 20. If it is set higher, it will be</span>
-    <span class="doccomment">/// capped by 20.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">max_suggestions</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A behavior/type must be specified on creation. Type cannot be changed once</span>
+    <span class="doccomment">/// specified (e.g. A Rule control will always be a Rule control.). An</span>
+    <span class="doccomment">/// INVALID_ARGUMENT will be returned if either condition is violated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;control::Control&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;3, 4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">control</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">control::Control</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Response of the auto-complete query.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompleteQueryResponse</span> {
-    <span class="doccomment">/// Results of the matching suggestions. The result list is ordered and the</span>
-    <span class="doccomment">/// first result is top suggestion.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">completion_results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">complete_query_response::CompletionResult</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A unique complete token. This should be included in the</span>
-    <span class="doccomment">/// \[SearchRequest][google.cloud.retail.v2alpha.SearchRequest\] resulting from</span>
-    <span class="doccomment">/// this completion, which enables accurate attribution of complete model</span>
-    <span class="doccomment">/// performance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attribution_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Matched recent searches of this user. The maximum number of recent searches</span>
-    <span class="doccomment">/// is 10. This field is a restricted feature. Contact Retail Search support</span>
-    <span class="doccomment">/// team if you are interested in enabling it.</span>
+<span class="doccomment">/// Nested message and enum types in `Control`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">control</span> {
+    <span class="doccomment">/// The behavior/type of the control</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This feature is only available when</span>
-    <span class="doccomment">/// \[CompleteQueryRequest.visitor_id][google.cloud.retail.v2alpha.CompleteQueryRequest.visitor_id\]</span>
-    <span class="doccomment">/// field is set and \[UserEvent][google.cloud.retail.v2alpha.UserEvent\] is</span>
-    <span class="doccomment">/// imported. The recent searches satisfy the follow rules:</span>
-    <span class="doccomment">///  * They are ordered from latest to oldest.</span>
-    <span class="doccomment">///  * They are matched with</span>
-    <span class="doccomment">///  \[CompleteQueryRequest.query][google.cloud.retail.v2alpha.CompleteQueryRequest.query\]</span>
-    <span class="doccomment">///  case insensitively.</span>
-    <span class="doccomment">///  * They are transformed to lower cases.</span>
-    <span class="doccomment">///  * They are UTF-8 safe.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Recent searches are deduplicated. More recent searches will be reserved</span>
-    <span class="doccomment">/// when duplication happens.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">recent_search_results</span>:
-        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">complete_query_response::RecentSearchResult</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CompleteQueryResponse`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">complete_query_response</span> {
-    <span class="doccomment">/// Resource that represents completion results.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompletionResult</span> {
-        <span class="doccomment">/// The suggestion for the query.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">suggestion</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Additional custom attributes ingested through BigQuery.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">attributes</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-            <span class="ident">::prost::alloc::string::String</span>,
-            <span class="ident"><span class="kw">super</span>::CustomAttribute</span>,
-        <span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Recent search of this user.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RecentSearchResult</span> {
-        <span class="doccomment">/// The recent search query.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">recent_search</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
-<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">completion_service_client</span> {
-    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
-    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Auto-completion service for retail.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompletionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">CompletionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
-            <span class="self">Self</span> { <span class="ident">inner</span> }
-        }
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-            <span class="ident">inner</span>: <span class="ident">T</span>,
-            <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">CompletionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
-            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
-                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
-                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
-                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
-                <span class="op">&gt;</span>,
-            <span class="op">&gt;</span>,
-            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
-                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-        {
-            <span class="ident">CompletionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
-            <span class="self">self</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Completes the specified prefix with keyword suggestions.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">complete_query</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CompleteQueryRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CompleteQueryResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2alpha.CompletionService/CompleteQuery&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Bulk import of processed completion dataset.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Request processing may be synchronous. Partial updating is not supported.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">import_completion_data</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ImportCompletionDataRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2alpha.CompletionService/ImportCompletionData&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
-        }
+    <span class="doccomment">/// A behavior/type must be specified on creation. Type cannot be changed once</span>
+    <span class="doccomment">/// specified (e.g. A Rule control will always be a Rule control.). An</span>
+    <span class="doccomment">/// INVALID_ARGUMENT will be returned if either condition is violated.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Control</span> {
+        <span class="doccomment">/// A facet specification to perform faceted search.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">FacetSpec</span>(<span class="ident"><span class="kw">super</span>::search_request::FacetSpec</span>),
+        <span class="doccomment">/// A rule control - a condition-action pair.</span>
+        <span class="doccomment">/// Enacts a set action when the condition is triggered.</span>
+        <span class="doccomment">/// For example: Boost &quot;gShoe&quot; when query full matches &quot;Running Shoes&quot;.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Rule</span>(<span class="ident"><span class="kw">super</span>::Rule</span>),
     }
 }
 <span class="doccomment">/// Request for CreateControl method.</span>
@@ -11260,98 +11050,149 @@
         }
     }
 }
-<span class="doccomment">/// Request message for WriteUserEvent method.</span>
+<span class="doccomment">/// Auto-complete parameters.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WriteUserEventRequest</span> {
-    <span class="doccomment">/// Required. The parent catalog resource name, such as</span>
-    <span class="doccomment">/// `projects/1234/locations/global/catalogs/default_catalog`.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompleteQueryRequest</span> {
+    <span class="doccomment">/// Required. Catalog for which the completion is performed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Full resource name of catalog, such as</span>
+    <span class="doccomment">/// `projects/*/locations/global/catalogs/default_catalog`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. User event to write.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">UserEvent</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request message for CollectUserEvent method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CollectUserEventRequest</span> {
-    <span class="doccomment">/// Required. The parent catalog name, such as</span>
-    <span class="doccomment">/// `projects/1234/locations/global/catalogs/default_catalog`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. URL encoded UserEvent proto with a length limit of 2,000,000</span>
-    <span class="doccomment">/// characters.</span>
+    <span class="kw">pub</span> <span class="ident">catalog</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The query used to generate suggestions.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The maximum number of allowed characters is 255.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_event</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The URL including cgi-parameters but excluding the hash fragment with a</span>
-    <span class="doccomment">/// length limit of 5,000 characters. This is often more useful than the</span>
-    <span class="doccomment">/// referer URL, because many browsers only send the domain for 3rd party</span>
-    <span class="doccomment">/// requests.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The event timestamp in milliseconds. This prevents browser caching of</span>
-    <span class="doccomment">/// otherwise identical get requests. The name is abbreviated to reduce the</span>
-    <span class="doccomment">/// payload bytes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ets</span>: <span class="ident">i64</span>,
+    <span class="kw">pub</span> <span class="ident">query</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A unique identifier for tracking visitors. For example, this could be</span>
+    <span class="doccomment">/// implemented with an HTTP cookie, which should be able to uniquely identify</span>
+    <span class="doccomment">/// a visitor on a single device. This unique identifier should not change if</span>
+    <span class="doccomment">/// the visitor logs in or out of the website.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The field must be a UTF-8 encoded string with a length limit of 128</span>
+    <span class="doccomment">/// characters. Otherwise, an INVALID_ARGUMENT error is returned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">visitor_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The list of languages of the query. This is</span>
+    <span class="doccomment">/// the BCP-47 language code, such as &quot;en-US&quot; or &quot;sr-Latn&quot;.</span>
+    <span class="doccomment">/// For more information, see</span>
+    <span class="doccomment">/// [Tags for Identifying Languages](&lt;https://tools.ietf.org/html/bcp47&gt;).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The maximum number of allowed characters is 255.</span>
+    <span class="doccomment">/// Only &quot;en-US&quot; is currently supported.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">language_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The device type context for completion suggestions.</span>
+    <span class="doccomment">/// It is useful to apply different suggestions on different device types, e.g.</span>
+    <span class="doccomment">/// `DESKTOP`, `MOBILE`. If it is empty, the suggestions are across all device</span>
+    <span class="doccomment">/// types.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Supported formats:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `UNKNOWN_DEVICE_TYPE`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `DESKTOP`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `MOBILE`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * A customized string starts with `OTHER_`, e.g. `OTHER_IPHONE`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">device_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Determines which dataset to use for fetching completion. &quot;user-data&quot; will</span>
+    <span class="doccomment">/// use the imported dataset through</span>
+    <span class="doccomment">/// \[CompletionService.ImportCompletionData][google.cloud.retail.v2alpha.CompletionService.ImportCompletionData\].</span>
+    <span class="doccomment">/// &quot;cloud-retail&quot; will use the dataset generated by cloud retail based on user</span>
+    <span class="doccomment">/// events. If leave empty, it will use the &quot;user-data&quot;.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Current supported values:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * user-data</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * cloud-retail</span>
+    <span class="doccomment">///   This option requires additional allowlisting. Before using cloud-retail,</span>
+    <span class="doccomment">///   contact Cloud Retail support team first.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Completion max suggestions. If left unset or set to 0, then will fallback</span>
+    <span class="doccomment">/// to the configured value</span>
+    <span class="doccomment">/// \[CompletionConfig.max_suggestions][google.cloud.retail.v2alpha.CompletionConfig.max_suggestions\].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The maximum allowed max suggestions is 20. If it is set higher, it will be</span>
+    <span class="doccomment">/// capped by 20.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">max_suggestions</span>: <span class="ident">i32</span>,
 }
-<span class="doccomment">/// Request message for RejoinUserEvents method.</span>
+<span class="doccomment">/// Response of the auto-complete query.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RejoinUserEventsRequest</span> {
-    <span class="doccomment">/// Required. The parent catalog resource name, such as</span>
-    <span class="doccomment">/// `projects/1234/locations/global/catalogs/default_catalog`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The type of the user event rejoin to define the scope and range of the user</span>
-    <span class="doccomment">/// events to be rejoined with the latest product catalog. Defaults to</span>
-    <span class="doccomment">/// USER_EVENT_REJOIN_SCOPE_UNSPECIFIED if this field is not set, or set to an</span>
-    <span class="doccomment">/// invalid integer value.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;rejoin_user_events_request::UserEventRejoinScope&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">user_event_rejoin_scope</span>: <span class="ident">i32</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompleteQueryResponse</span> {
+    <span class="doccomment">/// Results of the matching suggestions. The result list is ordered and the</span>
+    <span class="doccomment">/// first result is top suggestion.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">completion_results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">complete_query_response::CompletionResult</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A unique complete token. This should be included in the</span>
+    <span class="doccomment">/// \[SearchRequest][google.cloud.retail.v2alpha.SearchRequest\] resulting from</span>
+    <span class="doccomment">/// this completion, which enables accurate attribution of complete model</span>
+    <span class="doccomment">/// performance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attribution_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Matched recent searches of this user. The maximum number of recent searches</span>
+    <span class="doccomment">/// is 10. This field is a restricted feature. Contact Retail Search support</span>
+    <span class="doccomment">/// team if you are interested in enabling it.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This feature is only available when</span>
+    <span class="doccomment">/// \[CompleteQueryRequest.visitor_id][google.cloud.retail.v2alpha.CompleteQueryRequest.visitor_id\]</span>
+    <span class="doccomment">/// field is set and \[UserEvent][google.cloud.retail.v2alpha.UserEvent\] is</span>
+    <span class="doccomment">/// imported. The recent searches satisfy the follow rules:</span>
+    <span class="doccomment">///  * They are ordered from latest to oldest.</span>
+    <span class="doccomment">///  * They are matched with</span>
+    <span class="doccomment">///  \[CompleteQueryRequest.query][google.cloud.retail.v2alpha.CompleteQueryRequest.query\]</span>
+    <span class="doccomment">///  case insensitively.</span>
+    <span class="doccomment">///  * They are transformed to lower cases.</span>
+    <span class="doccomment">///  * They are UTF-8 safe.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Recent searches are deduplicated. More recent searches will be reserved</span>
+    <span class="doccomment">/// when duplication happens.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">recent_search_results</span>:
+        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">complete_query_response::RecentSearchResult</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Nested message and enum types in `RejoinUserEventsRequest`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rejoin_user_events_request</span> {
-    <span class="doccomment">/// The scope of user events to be rejoined with the latest product catalog.</span>
-    <span class="doccomment">/// If the rejoining aims at reducing number of unjoined events, set</span>
-    <span class="doccomment">/// UserEventRejoinScope to UNJOINED_EVENTS.</span>
-    <span class="doccomment">/// If the rejoining aims at correcting product catalog information in joined</span>
-    <span class="doccomment">/// events, set UserEventRejoinScope to JOINED_EVENTS.</span>
-    <span class="doccomment">/// If all events needs to be rejoined, set UserEventRejoinScope to</span>
-    <span class="doccomment">/// USER_EVENT_REJOIN_SCOPE_UNSPECIFIED.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserEventRejoinScope</span> {
-        <span class="doccomment">/// Rejoin all events with the latest product catalog, including both joined</span>
-        <span class="doccomment">/// events and unjoined events.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Only rejoin joined events with the latest product catalog.</span>
-        <span class="ident">JoinedEvents</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Only rejoin unjoined events with the latest product catalog.</span>
-        <span class="ident">UnjoinedEvents</span> <span class="op">=</span> <span class="number">2</span>,
+<span class="doccomment">/// Nested message and enum types in `CompleteQueryResponse`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">complete_query_response</span> {
+    <span class="doccomment">/// Resource that represents completion results.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompletionResult</span> {
+        <span class="doccomment">/// The suggestion for the query.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">suggestion</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Additional custom attributes ingested through BigQuery.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">attributes</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+            <span class="ident">::prost::alloc::string::String</span>,
+            <span class="ident"><span class="kw">super</span>::CustomAttribute</span>,
+        <span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Recent search of this user.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RecentSearchResult</span> {
+        <span class="doccomment">/// The recent search query.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">recent_search</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
 }
-<span class="doccomment">/// Response message for RejoinUserEvents method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RejoinUserEventsResponse</span> {
-    <span class="doccomment">/// Number of user events that were joined with latest product catalog.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">rejoined_user_events_count</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// Metadata for RejoinUserEvents method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RejoinUserEventsMetadata</span> {}
 <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">user_event_service_client</span> {
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">completion_service_client</span> {
     <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
     <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for ingesting end user actions on the customer website.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Auto-completion service for retail.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UserEventServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompletionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     }
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">UserEventServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">CompletionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
         <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
@@ -11365,7 +11206,7 @@
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
             <span class="ident">inner</span>: <span class="ident">T</span>,
             <span class="ident">interceptor</span>: <span class="ident">F</span>,
-        ) -&gt; <span class="ident">UserEventServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        ) -&gt; <span class="ident">CompletionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
         <span class="kw">where</span>
             <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
             <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
@@ -11377,7 +11218,7 @@
             <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
                 <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
         {
-            <span class="ident">UserEventServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
+            <span class="ident">CompletionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
@@ -11392,11 +11233,15 @@
             <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
             <span class="self">self</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Writes a single user event.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">write_user_event</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Completes the specified prefix with keyword suggestions.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">complete_query</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::WriteUserEventRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UserEvent</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CompleteQueryRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CompleteQueryResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="ident">tonic::Status::new</span>(
                     <span class="ident">tonic::Code::Unknown</span>,
@@ -11405,95 +11250,250 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/WriteUserEvent&quot;</span>,
+                <span class="string">&quot;/google.cloud.retail.v2alpha.CompletionService/CompleteQuery&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Writes a single user event from the browser. This uses a GET request to&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; due to browser restriction of POST-ing to a 3rd party domain.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Bulk import of processed completion dataset.&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method is used only by the Retail API JavaScript pixel and Google Tag&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Manager. Users should not call this method directly.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">collect_user_event</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Request processing may be synchronous. Partial updating is not supported.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This feature is only available for users who have Retail Search enabled.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Please submit a form [here](https://cloud.google.com/contact) to contact&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; cloud sales if you are interested in using Retail Search.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">import_completion_data</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::CollectUserEventRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::HttpBody</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span>
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ImportCompletionDataRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
+            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
+            <span class="ident">tonic::Status</span>,
+        <span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.retail.v2alpha.CompletionService/ImportCompletionData&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+    }
+}
+<span class="doccomment">/// Request message for Predict method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictRequest</span> {
+    <span class="doccomment">/// Required. Full resource name of the format:</span>
+    <span class="doccomment">/// {name=projects/*/locations/global/catalogs/default_catalog/placements/*}</span>
+    <span class="doccomment">/// The ID of the Recommendations AI placement. Before you can request</span>
+    <span class="doccomment">/// predictions from your model, you must create at least one placement for it.</span>
+    <span class="doccomment">/// For more information, see [Managing</span>
+    <span class="doccomment">/// placements](&lt;https://cloud.google.com/retail/recommendations-ai/docs/manage-placements&gt;).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The full list of available placements can be seen at</span>
+    <span class="doccomment">/// &lt;https://console.cloud.google.com/recommendation/catalogs/default_catalog/placements&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">placement</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Context about the user, what they are looking at and what action</span>
+    <span class="doccomment">/// they took to trigger the predict request. Note that this user event detail</span>
+    <span class="doccomment">/// won&#39;t be ingested to userEvent logs. Thus, a separate userEvent write</span>
+    <span class="doccomment">/// request is required for event logging.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_event</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">UserEvent</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Maximum number of results to return per page. Set this property</span>
+    <span class="doccomment">/// to the number of prediction results needed. If zero, the service will</span>
+    <span class="doccomment">/// choose a reasonable default. The maximum allowed value is 100. Values</span>
+    <span class="doccomment">/// above 100 will be coerced to 100.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The previous PredictResponse.next_page_token.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Filter for restricting prediction results with a length limit of 5,000</span>
+    <span class="doccomment">/// characters. Accepts values for tags and the `filterOutOfStockItems` flag.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * Tag expressions. Restricts predictions to products that match all of the</span>
+    <span class="doccomment">///    specified tags. Boolean operators `OR` and `NOT` are supported if the</span>
+    <span class="doccomment">///    expression is enclosed in parentheses, and must be separated from the</span>
+    <span class="doccomment">///    tag values by a space. `-&quot;tagA&quot;` is also supported and is equivalent to</span>
+    <span class="doccomment">///    `NOT &quot;tagA&quot;`. Tag values must be double quoted UTF-8 encoded strings</span>
+    <span class="doccomment">///    with a size limit of 1,000 characters.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///    Note: &quot;Recently viewed&quot; models don&#39;t support tag filtering at the</span>
+    <span class="doccomment">///    moment.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * filterOutOfStockItems. Restricts predictions to products that do not</span>
+    <span class="doccomment">///  have a</span>
+    <span class="doccomment">///    stockState value of OUT_OF_STOCK.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * tag=(&quot;Red&quot; OR &quot;Blue&quot;) tag=&quot;New-Arrival&quot; tag=(NOT &quot;promotional&quot;)</span>
+    <span class="doccomment">///  * filterOutOfStockItems  tag=(-&quot;promotional&quot;)</span>
+    <span class="doccomment">///  * filterOutOfStockItems</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If your filter blocks all prediction results, nothing will be returned. If</span>
+    <span class="doccomment">/// you want generic (unfiltered) popular products to be returned instead, set</span>
+    <span class="doccomment">/// `strictFiltering` to false in `PredictRequest.params`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Use validate only mode for this prediction query. If set to true, a</span>
+    <span class="doccomment">/// dummy model will be used that returns arbitrary products.</span>
+    <span class="doccomment">/// Note that the validate only mode should only be used for testing the API,</span>
+    <span class="doccomment">/// or if the model is not ready.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">validate_only</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Additional domain specific parameters for the predictions.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Allowed values:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `returnProduct`: Boolean. If set to true, the associated product</span>
+    <span class="doccomment">///    object will be returned in the `results.metadata` field in the</span>
+    <span class="doccomment">///    prediction response.</span>
+    <span class="doccomment">/// * `returnScore`: Boolean. If set to true, the prediction &#39;score&#39;</span>
+    <span class="doccomment">///    corresponding to each returned product will be set in the</span>
+    <span class="doccomment">///    `results.metadata` field in the prediction response. The given</span>
+    <span class="doccomment">///    &#39;score&#39; indicates the probability of an product being clicked/purchased</span>
+    <span class="doccomment">///    given the user&#39;s context and history.</span>
+    <span class="doccomment">/// * `strictFiltering`: Boolean. True by default. If set to false, the service</span>
+    <span class="doccomment">///    will return generic (unfiltered) popular products instead of empty if</span>
+    <span class="doccomment">///    your filter blocks all prediction results.</span>
+    <span class="doccomment">/// * `priceRerankLevel`: String. Default empty. If set to be non-empty, then</span>
+    <span class="doccomment">///    it needs to be one of {&#39;no-price-reranking&#39;, &#39;low-price-reranking&#39;,</span>
+    <span class="doccomment">///    &#39;medium-price-reranking&#39;, &#39;high-price-reranking&#39;}. This gives</span>
+    <span class="doccomment">///    request-level control and adjusts prediction results based on product</span>
+    <span class="doccomment">///    price.</span>
+    <span class="doccomment">/// * `diversityLevel`: String. Default empty. If set to be non-empty, then</span>
+    <span class="doccomment">///    it needs to be one of {&#39;no-diversity&#39;, &#39;low-diversity&#39;,</span>
+    <span class="doccomment">///    &#39;medium-diversity&#39;, &#39;high-diversity&#39;, &#39;auto-diversity&#39;}. This gives</span>
+    <span class="doccomment">///    request-level control and adjusts prediction results based on product</span>
+    <span class="doccomment">///    category.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">params</span>:
+        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">::prost_types::Value</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The labels applied to a resource must meet the following requirements:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Each resource can have multiple labels, up to a maximum of 64.</span>
+    <span class="doccomment">/// * Each label must be a key-value pair.</span>
+    <span class="doccomment">/// * Keys have a minimum length of 1 character and a maximum length of 63</span>
+    <span class="doccomment">///   characters, and cannot be empty. Values can be empty, and have a maximum</span>
+    <span class="doccomment">///   length of 63 characters.</span>
+    <span class="doccomment">/// * Keys and values can contain only lowercase letters, numeric characters,</span>
+    <span class="doccomment">///   underscores, and dashes. All characters must use UTF-8 encoding, and</span>
+    <span class="doccomment">///   international characters are allowed.</span>
+    <span class="doccomment">/// * The key portion of a label must be unique. However, you can use the same</span>
+    <span class="doccomment">///   key with multiple resources.</span>
+    <span class="doccomment">/// * Keys must start with a lowercase letter or international character.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Google Cloud</span>
+    <span class="doccomment">/// Document](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements&gt;)</span>
+    <span class="doccomment">/// for more details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Response message for predict method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictResponse</span> {
+    <span class="doccomment">/// A list of recommended products. The order represents the ranking (from the</span>
+    <span class="doccomment">/// most relevant product to the least).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">results</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">predict_response::PredictionResult</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A unique attribution token. This should be included in the</span>
+    <span class="doccomment">/// \[UserEvent][google.cloud.retail.v2alpha.UserEvent\] logs resulting from this</span>
+    <span class="doccomment">/// recommendation, which enables accurate attribution of recommendation model</span>
+    <span class="doccomment">/// performance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attribution_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// IDs of products in the request that were missing from the inventory.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">missing_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// True if the validateOnly property was set in the request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">validate_only</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PredictResponse`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">predict_response</span> {
+    <span class="doccomment">/// PredictionResult represents the recommendation prediction results.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionResult</span> {
+        <span class="doccomment">/// ID of the recommended product</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Additional product metadata / annotations.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Possible values:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// * `product`: JSON representation of the product. Will be set if</span>
+        <span class="doccomment">///   `returnProduct` is set to true in `PredictRequest.params`.</span>
+        <span class="doccomment">/// * `score`: Prediction score in double value. Will be set if</span>
+        <span class="doccomment">///   `returnScore` is set to true in `PredictRequest.params`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+            <span class="ident">::prost::alloc::string::String</span>,
+            <span class="ident">::prost_types::Value</span>,
+        <span class="op">&gt;</span>,
+    }
+}
+<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Generated client implementations.&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prediction_service_client</span> {
+    <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
+    <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Service for making recommendation prediction.&quot;</span>]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">inner</span>: <span class="ident">tonic::client::Grpc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    }
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+        <span class="ident">T::ResponseBody</span>: <span class="ident">Body</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">T::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span>,
+        <span class="op">&lt;</span><span class="ident">T::ResponseBody</span> <span class="kw">as</span> <span class="ident">Body</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+    {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
+            <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">tonic::client::Grpc::new</span>(<span class="ident">inner</span>);
+            <span class="self">Self</span> { <span class="ident">inner</span> }
+        }
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_interceptor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+            <span class="ident">inner</span>: <span class="ident">T</span>,
+            <span class="ident">interceptor</span>: <span class="ident">F</span>,
+        ) -&gt; <span class="ident">PredictionServiceClient</span><span class="op">&lt;</span><span class="ident">InterceptedService</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">F</span>: <span class="ident">tonic::service::Interceptor</span>,
+            <span class="ident">T</span>: <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span>
+                <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http::Response</span><span class="op">&lt;</span>
+                    <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::client::GrpcService</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::ResponseBody</span>,
+                <span class="op">&gt;</span>,
+            <span class="op">&gt;</span>,
+            <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">tonic::codegen::Service</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">tonic::body::BoxBody</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>:
+                <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StdError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
         {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/CollectUserEvent&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+            <span class="ident">PredictionServiceClient::new</span>(<span class="ident">InterceptedService::new</span>(<span class="ident">inner</span>, <span class="ident">interceptor</span>))
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deletes permanently all user events specified by the filter provided.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Depending on the number of events specified by the filter, this operation&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; could take hours or days to complete. To test a filter, use the list&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; command first.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">purge_user_events</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PurgeUserEventsRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/PurgeUserEvents&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Compress requests with `gzip`.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; This requires the server to support it otherwise it might respond with an&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; error.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">send_gzip</span>();
+            <span class="self">self</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Bulk import of User events. Request processing might be&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; synchronous. Events that already exist are skipped.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Use this method for backfilling historical user events.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Operation.response is of type ImportResponse. Note that it is&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; possible for a subset of the items to be successfully inserted.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Operation.metadata is of type ImportMetadata.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">import_user_events</span>(
-            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::ImportUserEventsRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="ident">tonic::Status::new</span>(
-                    <span class="ident">tonic::Code::Unknown</span>,
-                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
-                )
-            })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
-            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/ImportUserEvents&quot;</span>,
-            );
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">r&quot; Enable decompressing responses with `gzip`.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_gzip</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
+            <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">accept_gzip</span>();
+            <span class="self">self</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Triggers a user event rejoin operation with latest product catalog. Events&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; will not be annotated with detailed product information if product is&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; missing from the catalog at the time the user event is ingested, and these&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; events are stored as unjoined events with a limited usage on training and&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; serving. This API can be used to trigger a &#39;join&#39; operation on specified&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; events with latest version of product catalog. It can also be used to&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; correct events joined with wrong product catalog.&quot;</span>]</span>
-        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">rejoin_user_events</span>(
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Makes a recommendation prediction.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">predict</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::RejoinUserEventsRequest</span><span class="op">&gt;</span>,
-        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-            <span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation</span><span class="op">&gt;</span>,
-            <span class="ident">tonic::Status</span>,
-        <span class="op">&gt;</span> {
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::PredictResponse</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="ident">tonic::Status::new</span>(
                     <span class="ident">tonic::Code::Unknown</span>,
@@ -11502,7 +11502,7 @@
             })<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
-                <span class="string">&quot;/google.cloud.retail.v2alpha.UserEventService/RejoinUserEvents&quot;</span>,
+                <span class="string">&quot;/google.cloud.retail.v2alpha.PredictionService/Predict&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }

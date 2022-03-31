@@ -908,229 +908,7 @@
 <span id="906">906</span>
 <span id="907">907</span>
 <span id="908">908</span>
-</pre><pre class="rust"><code><span class="doccomment">/// AuthorizationPolicy is a resource that specifies how a server</span>
-<span class="doccomment">/// should authorize incoming connections. This resource in itself does</span>
-<span class="doccomment">/// not change the configuration unless it&#39;s attached to a target https</span>
-<span class="doccomment">/// proxy or endpoint config selector resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthorizationPolicy</span> {
-    <span class="doccomment">/// Required. Name of the AuthorizationPolicy resource. It matches pattern</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/authorizationPolicies/&lt;authorization_policy&gt;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Free-text description of the resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The timestamp when the resource was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The timestamp when the resource was updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. Set of label tags associated with the AuthorizationPolicy resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-        <span class="ident">::prost::alloc::string::String</span>,
-        <span class="ident">::prost::alloc::string::String</span>,
-    <span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. The action to take when a rule match is found. Possible values</span>
-    <span class="doccomment">/// are &quot;ALLOW&quot; or &quot;DENY&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;authorization_policy::Action&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">action</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. List of rules to match. Note that at least one of the rules must match in</span>
-    <span class="doccomment">/// order for the action specified in the &#39;action&#39; field to be taken. A rule is</span>
-    <span class="doccomment">/// a match if there is a matching source and destination. If left blank, the</span>
-    <span class="doccomment">/// action specified in the `action` field will be applied on every request.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">rules</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">authorization_policy::Rule</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AuthorizationPolicy`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">authorization_policy</span> {
-    <span class="doccomment">/// Specification of rules.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Rule</span> {
-        <span class="doccomment">/// Optional. List of attributes for the traffic source. All of the sources must match.</span>
-        <span class="doccomment">/// A source is a match if both principals and ip_blocks match. If not set,</span>
-        <span class="doccomment">/// the action specified in the &#39;action&#39; field will be applied without any</span>
-        <span class="doccomment">/// rule checks for the source.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">sources</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">rule::Source</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Optional. List of attributes for the traffic destination. All of the destinations</span>
-        <span class="doccomment">/// must match. A destination is a match if a request matches all the</span>
-        <span class="doccomment">/// specified hosts, ports, methods and headers. If not set, the</span>
-        <span class="doccomment">/// action specified in the &#39;action&#39; field will be applied without any rule</span>
-        <span class="doccomment">/// checks for the destination.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">destinations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">rule::Destination</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Rule`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rule</span> {
-        <span class="doccomment">/// Specification of traffic source attributes.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
-            <span class="doccomment">/// Optional. List of peer identities to match for authorization. At least one</span>
-            <span class="doccomment">/// principal should match. Each peer can be an exact match, or a prefix</span>
-            <span class="doccomment">/// match (example, &quot;namespace/*&quot;) or a suffix match (example, //</span>
-            <span class="doccomment">/// */service-account&quot;) or a presence match &quot;*&quot;. Authorization based on the</span>
-            <span class="doccomment">/// principal name without certificate validation (configured by</span>
-            <span class="doccomment">/// ServerTlsPolicy resource) is considered insecure.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">principals</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// Optional. List of CIDR ranges to match based on source IP address. At least one</span>
-            <span class="doccomment">/// IP block should match. Single IP (e.g., &quot;1.2.3.4&quot;) and CIDR (e.g.,</span>
-            <span class="doccomment">/// &quot;1.2.3.0/24&quot;) are supported. Authorization based on source IP alone</span>
-            <span class="doccomment">/// should be avoided. The IP addresses of any load balancers or proxies</span>
-            <span class="doccomment">/// should be considered untrusted.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">ip_blocks</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-        }
-        <span class="doccomment">/// Specification of traffic destination attributes.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Destination</span> {
-            <span class="doccomment">/// Required. List of host names to match. Matched against the &quot;:authority&quot; header in</span>
-            <span class="doccomment">/// http requests. At least one host should match. Each host can be an</span>
-            <span class="doccomment">/// exact match, or a prefix match (example &quot;mydomain.*&quot;) or a suffix</span>
-            <span class="doccomment">/// match (example // *.myorg.com&quot;) or a presence(any) match &quot;*&quot;.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">hosts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// Required. List of destination ports to match. At least one port should match.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">uint32</span>, <span class="ident">repeated</span>, <span class="ident">packed</span> <span class="op">=</span> <span class="string">&quot;false&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">ports</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// Optional. A list of HTTP methods to match. At least one method should</span>
-            <span class="doccomment">/// match. Should not be set for gRPC services.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">methods</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// Optional. Match against key:value pair in http header. Provides a flexible match</span>
-            <span class="doccomment">/// based on HTTP headers, for potentially advanced use cases. At least one</span>
-            <span class="doccomment">/// header should match. Avoid using header matches to make authorization</span>
-            <span class="doccomment">/// decisions unless there is a strong guarantee that requests arrive</span>
-            <span class="doccomment">/// through a trusted client or proxy.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">http_header_match</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">destination::HttpHeaderMatch</span><span class="op">&gt;</span>,
-        }
-        <span class="doccomment">/// Nested message and enum types in `Destination`.</span>
-        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">destination</span> {
-            <span class="doccomment">/// Specification of HTTP header match atrributes.</span>
-            <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-            <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HttpHeaderMatch</span> {
-                <span class="doccomment">/// Required. The name of the HTTP header to match. For matching</span>
-                <span class="doccomment">/// against the HTTP request&#39;s authority, use a headerMatch</span>
-                <span class="doccomment">/// with the header name &quot;:authority&quot;. For matching a</span>
-                <span class="doccomment">/// request&#39;s method, use the headerName &quot;:method&quot;.</span>
-                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-                <span class="kw">pub</span> <span class="ident">header_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;http_header_match::Type&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-                <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">http_header_match::Type</span><span class="op">&gt;</span>,
-            }
-            <span class="doccomment">/// Nested message and enum types in `HttpHeaderMatch`.</span>
-            <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">http_header_match</span> {
-                <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-                <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
-                    <span class="doccomment">/// Required. The value of the header must match the regular expression</span>
-                    <span class="doccomment">/// specified in regexMatch. For regular expression grammar,</span>
-                    <span class="doccomment">/// please see: en.cppreference.com/w/cpp/regex/ecmascript</span>
-                    <span class="doccomment">/// For matching against a port specified in the HTTP</span>
-                    <span class="doccomment">/// request, use a headerMatch with headerName set to Host</span>
-                    <span class="doccomment">/// and a regular expression that satisfies the RFC2616 Host</span>
-                    <span class="doccomment">/// header&#39;s port specifier.</span>
-                    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-                    <span class="ident">RegexMatch</span>(<span class="ident">::prost::alloc::string::String</span>),
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// Possible values that define what action to take.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Action</span> {
-        <span class="doccomment">/// Default value.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Grant access.</span>
-        <span class="ident">Allow</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Deny access.</span>
-        <span class="doccomment">/// Deny rules should be avoided unless they are used to provide a default</span>
-        <span class="doccomment">/// &quot;deny all&quot; fallback.</span>
-        <span class="ident">Deny</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Request used with the ListAuthorizationPolicies method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListAuthorizationPoliciesRequest</span> {
-    <span class="doccomment">/// Required. The project and location from which the AuthorizationPolicies</span>
-    <span class="doccomment">/// should be listed, specified in the format</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Maximum number of AuthorizationPolicies to return per call.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The value returned by the last</span>
-    <span class="doccomment">/// `ListAuthorizationPoliciesResponse` Indicates that this is a</span>
-    <span class="doccomment">/// continuation of a prior `ListAuthorizationPolicies` call, and</span>
-    <span class="doccomment">/// that the system should return the next page of data.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Response returned by the ListAuthorizationPolicies method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListAuthorizationPoliciesResponse</span> {
-    <span class="doccomment">/// List of AuthorizationPolicies resources.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">authorization_policies</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AuthorizationPolicy</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
-    <span class="doccomment">/// `next_page_token` is included. To get the next set of results, call this</span>
-    <span class="doccomment">/// method again using the value of `next_page_token` as `page_token`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request used by the GetAuthorizationPolicy method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetAuthorizationPolicyRequest</span> {
-    <span class="doccomment">/// Required. A name of the AuthorizationPolicy to get. Must be in the format</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/authorizationPolicies/*`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request used by the CreateAuthorizationPolicy method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateAuthorizationPolicyRequest</span> {
-    <span class="doccomment">/// Required. The parent resource of the AuthorizationPolicy. Must be in the</span>
-    <span class="doccomment">/// format `projects/{project}/locations/{location}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Short name of the AuthorizationPolicy resource to be created.</span>
-    <span class="doccomment">/// This value should be 1-63 characters long, containing only</span>
-    <span class="doccomment">/// letters, numbers, hyphens, and underscores, and should not start</span>
-    <span class="doccomment">/// with a number. E.g. &quot;authz_policy&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">authorization_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. AuthorizationPolicy resource to be created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">authorization_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AuthorizationPolicy</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request used by the UpdateAuthorizationPolicy method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateAuthorizationPolicyRequest</span> {
-    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the</span>
-    <span class="doccomment">/// AuthorizationPolicy resource by the update.</span>
-    <span class="doccomment">/// The fields specified in the update_mask are relative to the resource, not</span>
-    <span class="doccomment">/// the full request. A field will be overwritten if it is in the mask. If the</span>
-    <span class="doccomment">/// user does not provide a mask then all fields will be overwritten.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. Updated AuthorizationPolicy resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">authorization_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AuthorizationPolicy</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request used by the DeleteAuthorizationPolicy method.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteAuthorizationPolicyRequest</span> {
-    <span class="doccomment">/// Required. A name of the AuthorizationPolicy to delete. Must be in the format</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/authorizationPolicies/*`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Specification of the GRPC Endpoint.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Specification of the GRPC Endpoint.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GrpcEndpoint</span> {
     <span class="doccomment">/// Required. The target URI of the gRPC endpoint. Only UDS path is supported, and</span>
@@ -1448,6 +1226,256 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteServerTlsPolicyRequest</span> {
     <span class="doccomment">/// Required. A name of the ServerTlsPolicy to delete. Must be in</span>
     <span class="doccomment">/// the format `projects/*/locations/{location}/serverTlsPolicies/*`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Represents the metadata of the long-running operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
+    <span class="doccomment">/// Output only. The time the operation was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The time the operation finished running.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Name of the verb executed by the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">verb</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status_message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation</span>
+    <span class="doccomment">/// of the operation. Operations that have successfully been cancelled</span>
+    <span class="doccomment">/// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,</span>
+    <span class="doccomment">/// corresponding to `Code.CANCELLED`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">requested_cancellation</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Output only. API version used to start the operation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">api_version</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// AuthorizationPolicy is a resource that specifies how a server</span>
+<span class="doccomment">/// should authorize incoming connections. This resource in itself does</span>
+<span class="doccomment">/// not change the configuration unless it&#39;s attached to a target https</span>
+<span class="doccomment">/// proxy or endpoint config selector resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthorizationPolicy</span> {
+    <span class="doccomment">/// Required. Name of the AuthorizationPolicy resource. It matches pattern</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/authorizationPolicies/&lt;authorization_policy&gt;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Free-text description of the resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The timestamp when the resource was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The timestamp when the resource was updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. Set of label tags associated with the AuthorizationPolicy resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+        <span class="ident">::prost::alloc::string::String</span>,
+        <span class="ident">::prost::alloc::string::String</span>,
+    <span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. The action to take when a rule match is found. Possible values</span>
+    <span class="doccomment">/// are &quot;ALLOW&quot; or &quot;DENY&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;authorization_policy::Action&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">action</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Optional. List of rules to match. Note that at least one of the rules must match in</span>
+    <span class="doccomment">/// order for the action specified in the &#39;action&#39; field to be taken. A rule is</span>
+    <span class="doccomment">/// a match if there is a matching source and destination. If left blank, the</span>
+    <span class="doccomment">/// action specified in the `action` field will be applied on every request.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">rules</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">authorization_policy::Rule</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AuthorizationPolicy`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">authorization_policy</span> {
+    <span class="doccomment">/// Specification of rules.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Rule</span> {
+        <span class="doccomment">/// Optional. List of attributes for the traffic source. All of the sources must match.</span>
+        <span class="doccomment">/// A source is a match if both principals and ip_blocks match. If not set,</span>
+        <span class="doccomment">/// the action specified in the &#39;action&#39; field will be applied without any</span>
+        <span class="doccomment">/// rule checks for the source.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">sources</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">rule::Source</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Optional. List of attributes for the traffic destination. All of the destinations</span>
+        <span class="doccomment">/// must match. A destination is a match if a request matches all the</span>
+        <span class="doccomment">/// specified hosts, ports, methods and headers. If not set, the</span>
+        <span class="doccomment">/// action specified in the &#39;action&#39; field will be applied without any rule</span>
+        <span class="doccomment">/// checks for the destination.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">destinations</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">rule::Destination</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Rule`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rule</span> {
+        <span class="doccomment">/// Specification of traffic source attributes.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Source</span> {
+            <span class="doccomment">/// Optional. List of peer identities to match for authorization. At least one</span>
+            <span class="doccomment">/// principal should match. Each peer can be an exact match, or a prefix</span>
+            <span class="doccomment">/// match (example, &quot;namespace/*&quot;) or a suffix match (example, //</span>
+            <span class="doccomment">/// */service-account&quot;) or a presence match &quot;*&quot;. Authorization based on the</span>
+            <span class="doccomment">/// principal name without certificate validation (configured by</span>
+            <span class="doccomment">/// ServerTlsPolicy resource) is considered insecure.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">principals</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+            <span class="doccomment">/// Optional. List of CIDR ranges to match based on source IP address. At least one</span>
+            <span class="doccomment">/// IP block should match. Single IP (e.g., &quot;1.2.3.4&quot;) and CIDR (e.g.,</span>
+            <span class="doccomment">/// &quot;1.2.3.0/24&quot;) are supported. Authorization based on source IP alone</span>
+            <span class="doccomment">/// should be avoided. The IP addresses of any load balancers or proxies</span>
+            <span class="doccomment">/// should be considered untrusted.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">ip_blocks</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+        }
+        <span class="doccomment">/// Specification of traffic destination attributes.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Destination</span> {
+            <span class="doccomment">/// Required. List of host names to match. Matched against the &quot;:authority&quot; header in</span>
+            <span class="doccomment">/// http requests. At least one host should match. Each host can be an</span>
+            <span class="doccomment">/// exact match, or a prefix match (example &quot;mydomain.*&quot;) or a suffix</span>
+            <span class="doccomment">/// match (example // *.myorg.com&quot;) or a presence(any) match &quot;*&quot;.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">hosts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+            <span class="doccomment">/// Required. List of destination ports to match. At least one port should match.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">uint32</span>, <span class="ident">repeated</span>, <span class="ident">packed</span> <span class="op">=</span> <span class="string">&quot;false&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">ports</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+            <span class="doccomment">/// Optional. A list of HTTP methods to match. At least one method should</span>
+            <span class="doccomment">/// match. Should not be set for gRPC services.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">methods</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+            <span class="doccomment">/// Optional. Match against key:value pair in http header. Provides a flexible match</span>
+            <span class="doccomment">/// based on HTTP headers, for potentially advanced use cases. At least one</span>
+            <span class="doccomment">/// header should match. Avoid using header matches to make authorization</span>
+            <span class="doccomment">/// decisions unless there is a strong guarantee that requests arrive</span>
+            <span class="doccomment">/// through a trusted client or proxy.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">http_header_match</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">destination::HttpHeaderMatch</span><span class="op">&gt;</span>,
+        }
+        <span class="doccomment">/// Nested message and enum types in `Destination`.</span>
+        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">destination</span> {
+            <span class="doccomment">/// Specification of HTTP header match atrributes.</span>
+            <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+            <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HttpHeaderMatch</span> {
+                <span class="doccomment">/// Required. The name of the HTTP header to match. For matching</span>
+                <span class="doccomment">/// against the HTTP request&#39;s authority, use a headerMatch</span>
+                <span class="doccomment">/// with the header name &quot;:authority&quot;. For matching a</span>
+                <span class="doccomment">/// request&#39;s method, use the headerName &quot;:method&quot;.</span>
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">header_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+                <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;http_header_match::Type&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+                <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">http_header_match::Type</span><span class="op">&gt;</span>,
+            }
+            <span class="doccomment">/// Nested message and enum types in `HttpHeaderMatch`.</span>
+            <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">http_header_match</span> {
+                <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+                <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+                    <span class="doccomment">/// Required. The value of the header must match the regular expression</span>
+                    <span class="doccomment">/// specified in regexMatch. For regular expression grammar,</span>
+                    <span class="doccomment">/// please see: en.cppreference.com/w/cpp/regex/ecmascript</span>
+                    <span class="doccomment">/// For matching against a port specified in the HTTP</span>
+                    <span class="doccomment">/// request, use a headerMatch with headerName set to Host</span>
+                    <span class="doccomment">/// and a regular expression that satisfies the RFC2616 Host</span>
+                    <span class="doccomment">/// header&#39;s port specifier.</span>
+                    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+                    <span class="ident">RegexMatch</span>(<span class="ident">::prost::alloc::string::String</span>),
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// Possible values that define what action to take.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Action</span> {
+        <span class="doccomment">/// Default value.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Grant access.</span>
+        <span class="ident">Allow</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Deny access.</span>
+        <span class="doccomment">/// Deny rules should be avoided unless they are used to provide a default</span>
+        <span class="doccomment">/// &quot;deny all&quot; fallback.</span>
+        <span class="ident">Deny</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Request used with the ListAuthorizationPolicies method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListAuthorizationPoliciesRequest</span> {
+    <span class="doccomment">/// Required. The project and location from which the AuthorizationPolicies</span>
+    <span class="doccomment">/// should be listed, specified in the format</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Maximum number of AuthorizationPolicies to return per call.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The value returned by the last</span>
+    <span class="doccomment">/// `ListAuthorizationPoliciesResponse` Indicates that this is a</span>
+    <span class="doccomment">/// continuation of a prior `ListAuthorizationPolicies` call, and</span>
+    <span class="doccomment">/// that the system should return the next page of data.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Response returned by the ListAuthorizationPolicies method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListAuthorizationPoliciesResponse</span> {
+    <span class="doccomment">/// List of AuthorizationPolicies resources.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authorization_policies</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AuthorizationPolicy</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then</span>
+    <span class="doccomment">/// `next_page_token` is included. To get the next set of results, call this</span>
+    <span class="doccomment">/// method again using the value of `next_page_token` as `page_token`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request used by the GetAuthorizationPolicy method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetAuthorizationPolicyRequest</span> {
+    <span class="doccomment">/// Required. A name of the AuthorizationPolicy to get. Must be in the format</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/authorizationPolicies/*`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request used by the CreateAuthorizationPolicy method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateAuthorizationPolicyRequest</span> {
+    <span class="doccomment">/// Required. The parent resource of the AuthorizationPolicy. Must be in the</span>
+    <span class="doccomment">/// format `projects/{project}/locations/{location}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Short name of the AuthorizationPolicy resource to be created.</span>
+    <span class="doccomment">/// This value should be 1-63 characters long, containing only</span>
+    <span class="doccomment">/// letters, numbers, hyphens, and underscores, and should not start</span>
+    <span class="doccomment">/// with a number. E.g. &quot;authz_policy&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authorization_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. AuthorizationPolicy resource to be created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authorization_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AuthorizationPolicy</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request used by the UpdateAuthorizationPolicy method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateAuthorizationPolicyRequest</span> {
+    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the</span>
+    <span class="doccomment">/// AuthorizationPolicy resource by the update.</span>
+    <span class="doccomment">/// The fields specified in the update_mask are relative to the resource, not</span>
+    <span class="doccomment">/// the full request. A field will be overwritten if it is in the mask. If the</span>
+    <span class="doccomment">/// user does not provide a mask then all fields will be overwritten.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. Updated AuthorizationPolicy resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">authorization_policy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AuthorizationPolicy</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request used by the DeleteAuthorizationPolicy method.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteAuthorizationPolicyRequest</span> {
+    <span class="doccomment">/// Required. A name of the AuthorizationPolicy to delete. Must be in the format</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/authorizationPolicies/*`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -1787,34 +1815,6 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
-}
-<span class="doccomment">/// Represents the metadata of the long-running operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationMetadata</span> {
-    <span class="doccomment">/// Output only. The time the operation was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The time the operation finished running.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Name of the verb executed by the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">verb</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status_message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation</span>
-    <span class="doccomment">/// of the operation. Operations that have successfully been cancelled</span>
-    <span class="doccomment">/// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,</span>
-    <span class="doccomment">/// corresponding to `Code.CANCELLED`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">requested_cancellation</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Output only. API version used to start the operation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">api_version</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

@@ -592,7 +592,70 @@
 <span id="590">590</span>
 <span id="591">591</span>
 <span id="592">592</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Represents a Interactive Canvas response to be sent to the user.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Represents the surface the user is using to make a request to the Action.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SurfaceCapabilities</span> {
+    <span class="doccomment">/// Required. The capabilities of the surface making a request to the Action.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;surface_capabilities::Capability&quot;</span>,
+        <span class="ident">repeated</span>,
+        <span class="ident">packed</span> <span class="op">=</span> <span class="string">&quot;false&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">capabilities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `SurfaceCapabilities`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">surface_capabilities</span> {
+    <span class="doccomment">/// Capabilities the device surface supports at the time of the request.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Capability</span> {
+        <span class="doccomment">/// Unspecified surface capability.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Device can speak to the user via text-to-speech or SSML.</span>
+        <span class="ident">Speech</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Device can display rich responses like cards, lists and tables.</span>
+        <span class="ident">RichResponse</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Device can play long form audio media like music and podcasts.</span>
+        <span class="ident">LongFormAudio</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Device can display a interactive canvas response.</span>
+        <span class="ident">InteractiveCanvas</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// Device can use web links in rich responses to open a web browser.</span>
+        <span class="ident">WebLink</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// Device can support saving and fetching home storage.</span>
+        <span class="ident">HomeStorage</span> <span class="op">=</span> <span class="number">6</span>,
+    }
+}
+<span class="doccomment">/// Represents a simple prompt to be send to a user.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StaticSimplePrompt</span> {
+    <span class="doccomment">/// List of possible variants.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">variants</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">static_simple_prompt::Variant</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `StaticSimplePrompt`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">static_simple_prompt</span> {
+    <span class="doccomment">/// Represents a variant which is part of the simple prompt.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Variant</span> {
+        <span class="doccomment">/// Optional. Represents the speech to be spoken to the user.  Can be SSML or text to</span>
+        <span class="doccomment">/// speech.</span>
+        <span class="doccomment">/// By default, speech will be appended to previous Simple prompt&#39;s</span>
+        <span class="doccomment">/// speech. If the `override` field in the containing prompt is `true` the</span>
+        <span class="doccomment">/// speech defined in this field will override previous Simple prompt&#39;s</span>
+        <span class="doccomment">/// speech.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">speech</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Optional. Text to display in the chat bubble. If not given, a display rendering of</span>
+        <span class="doccomment">/// the speech field above will be used. Limited to 640 chars.</span>
+        <span class="doccomment">/// By default, text will be appended to previous Simple prompt&#39;s text.</span>
+        <span class="doccomment">/// If the `override` field in the containing prompt is `true` the text</span>
+        <span class="doccomment">/// defined in this field will override previous Simple prompt&#39;s text.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
+<span class="doccomment">/// Represents a Interactive Canvas response to be sent to the user.</span>
 <span class="doccomment">/// This can be used in conjunction with the `first_simple` field in the</span>
 <span class="doccomment">/// containing prompt to speak to the user in addition to displaying a</span>
 <span class="doccomment">/// interactive canvas response.</span>
@@ -1035,35 +1098,6 @@
         <span class="ident">CollectionBrowse</span>(<span class="ident"><span class="kw">super</span>::StaticCollectionBrowsePrompt</span>),
     }
 }
-<span class="doccomment">/// Represents a simple prompt to be send to a user.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StaticSimplePrompt</span> {
-    <span class="doccomment">/// List of possible variants.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">variants</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">static_simple_prompt::Variant</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `StaticSimplePrompt`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">static_simple_prompt</span> {
-    <span class="doccomment">/// Represents a variant which is part of the simple prompt.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Variant</span> {
-        <span class="doccomment">/// Optional. Represents the speech to be spoken to the user.  Can be SSML or text to</span>
-        <span class="doccomment">/// speech.</span>
-        <span class="doccomment">/// By default, speech will be appended to previous Simple prompt&#39;s</span>
-        <span class="doccomment">/// speech. If the `override` field in the containing prompt is `true` the</span>
-        <span class="doccomment">/// speech defined in this field will override previous Simple prompt&#39;s</span>
-        <span class="doccomment">/// speech.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">speech</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Optional. Text to display in the chat bubble. If not given, a display rendering of</span>
-        <span class="doccomment">/// the speech field above will be used. Limited to 640 chars.</span>
-        <span class="doccomment">/// By default, text will be appended to previous Simple prompt&#39;s text.</span>
-        <span class="doccomment">/// If the `override` field in the containing prompt is `true` the text</span>
-        <span class="doccomment">/// defined in this field will override previous Simple prompt&#39;s text.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
 <span class="doccomment">/// Represents a suggestion chip, a UI element shown to the user for convenience.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Suggestion</span> {
@@ -1073,40 +1107,6 @@
     <span class="doccomment">/// Max 25 chars</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Represents the surface the user is using to make a request to the Action.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SurfaceCapabilities</span> {
-    <span class="doccomment">/// Required. The capabilities of the surface making a request to the Action.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;surface_capabilities::Capability&quot;</span>,
-        <span class="ident">repeated</span>,
-        <span class="ident">packed</span> <span class="op">=</span> <span class="string">&quot;false&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">capabilities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `SurfaceCapabilities`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">surface_capabilities</span> {
-    <span class="doccomment">/// Capabilities the device surface supports at the time of the request.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Capability</span> {
-        <span class="doccomment">/// Unspecified surface capability.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Device can speak to the user via text-to-speech or SSML.</span>
-        <span class="ident">Speech</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Device can display rich responses like cards, lists and tables.</span>
-        <span class="ident">RichResponse</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Device can play long form audio media like music and podcasts.</span>
-        <span class="ident">LongFormAudio</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Device can display a interactive canvas response.</span>
-        <span class="ident">InteractiveCanvas</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// Device can use web links in rich responses to open a web browser.</span>
-        <span class="ident">WebLink</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// Device can support saving and fetching home storage.</span>
-        <span class="ident">HomeStorage</span> <span class="op">=</span> <span class="number">6</span>,
-    }
 }
 <span class="doccomment">/// Represents a list of prompt candidates, one of which will be selected as the</span>
 <span class="doccomment">/// prompt to be shown in the response to the user.</span>

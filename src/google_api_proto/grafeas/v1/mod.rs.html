@@ -2500,72 +2500,80 @@
     <span class="doccomment">/// This represents a DSSE attestation Note</span>
     <span class="ident">DsseAttestation</span> <span class="op">=</span> <span class="number">10</span>,
 }
-<span class="doccomment">/// A note that indicates a type of analysis a provider would perform. This note</span>
-<span class="doccomment">/// exists in a provider&#39;s project. A `Discovery` occurrence is created in a</span>
-<span class="doccomment">/// consumer&#39;s project at the start of analysis.</span>
+<span class="comment">// An attestation wrapper with a PGP-compatible signature. This message only</span>
+<span class="comment">// supports `ATTACHED` signatures, where the payload that is signed is included</span>
+<span class="comment">// alongside the signature itself in the same file.</span>
+
+<span class="doccomment">/// Note kind that represents a logical attestation &quot;role&quot; or &quot;authority&quot;. For</span>
+<span class="doccomment">/// example, an organization might have one `Authority` for &quot;QA&quot; and one for</span>
+<span class="doccomment">/// &quot;build&quot;. This note is intended to act strictly as a grouping mechanism for</span>
+<span class="doccomment">/// the attached occurrences (Attestations). This grouping mechanism also</span>
+<span class="doccomment">/// provides a security boundary, since IAM ACLs gate the ability for a principle</span>
+<span class="doccomment">/// to attach an occurrence to a given note. It also provides a single point of</span>
+<span class="doccomment">/// lookup to find all attached attestation occurrences, even if they don&#39;t all</span>
+<span class="doccomment">/// live in the same project.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryNote</span> {
-    <span class="doccomment">/// Required. Immutable. The kind of analysis that is handled by this</span>
-    <span class="doccomment">/// discovery.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;NoteKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">analysis_kind</span>: <span class="ident">i32</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AttestationNote</span> {
+    <span class="doccomment">/// Hint hints at the purpose of the attestation authority.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">attestation_note::Hint</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// Provides information about the analysis status of a discovered resource.</span>
+<span class="doccomment">/// Nested message and enum types in `AttestationNote`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">attestation_note</span> {
+    <span class="doccomment">/// This submessage provides human-readable hints about the purpose of the</span>
+    <span class="doccomment">/// authority. Because the name of a note acts as its resource reference, it is</span>
+    <span class="doccomment">/// important to disambiguate the canonical name of the Note (which might be a</span>
+    <span class="doccomment">/// UUID for security purposes) from &quot;readable&quot; names more suitable for debug</span>
+    <span class="doccomment">/// output. Note that these hints should not be used to look up authorities in</span>
+    <span class="doccomment">/// security sensitive contexts, such as when looking up attestations to</span>
+    <span class="doccomment">/// verify.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hint</span> {
+        <span class="doccomment">/// Required. The human readable name of this attestation authority, for</span>
+        <span class="doccomment">/// example &quot;qa&quot;.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">human_readable_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+}
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryOccurrence</span> {
-    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::ContinuousAnalysis&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">continuous_analysis</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The status of discovery for the resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::AnalysisStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">analysis_status</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// When an error is encountered this will contain a LocalizedMessage under</span>
-    <span class="doccomment">/// details to show to the user. The LocalizedMessage is output only and</span>
-    <span class="doccomment">/// populated by the API.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">analysis_status_error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::google::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The CPE of the resource being scanned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cpe</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The last time this resource was scanned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_scan_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time occurrences related to this discovery occurrence were archived.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">archive_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Jwt</span> {
+    <span class="doccomment">/// The compact encoding of a JWS, which is always three base64 encoded strings</span>
+    <span class="doccomment">/// joined by periods. For details, see:</span>
+    <span class="doccomment">/// &lt;https://tools.ietf.org/html/rfc7515.html#section-3.1&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">compact_jwt</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Nested message and enum types in `DiscoveryOccurrence`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">discovery_occurrence</span> {
-    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContinuousAnalysis</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The resource is continuously analyzed.</span>
-        <span class="ident">Active</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The resource is ignored for continuous analysis.</span>
-        <span class="ident">Inactive</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// Analysis status for a resource. Currently for initial analysis only (not</span>
-    <span class="doccomment">/// updated in continuous analysis).</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AnalysisStatus</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Resource is known but no action has been taken yet.</span>
-        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Resource is being analyzed.</span>
-        <span class="ident">Scanning</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Analysis has finished successfully.</span>
-        <span class="ident">FinishedSuccess</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Analysis has finished unsuccessfully, the analysis itself is in a bad</span>
-        <span class="doccomment">/// state.</span>
-        <span class="ident">FinishedFailed</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// The resource is known not to be supported</span>
-        <span class="ident">FinishedUnsupported</span> <span class="op">=</span> <span class="number">5</span>,
-    }
+<span class="doccomment">/// Occurrence that represents a single &quot;attestation&quot;. The authenticity of an</span>
+<span class="doccomment">/// attestation can be verified using the attached signature. If the verifier</span>
+<span class="doccomment">/// trusts the public key of the signer, then verifying the signature is</span>
+<span class="doccomment">/// sufficient to establish trust. In this circumstance, the authority to which</span>
+<span class="doccomment">/// this attestation is attached is primarily useful for lookup (how to find</span>
+<span class="doccomment">/// this attestation if you already know the authority and artifact to be</span>
+<span class="doccomment">/// verified) and intent (for which authority this attestation was intended to</span>
+<span class="doccomment">/// sign.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AttestationOccurrence</span> {
+    <span class="doccomment">/// Required. The serialized payload that is verified by one or more</span>
+    <span class="doccomment">/// `signatures`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">serialized_payload</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// One or more signatures over `serialized_payload`.  Verifier implementations</span>
+    <span class="doccomment">/// should consider this attestation message verified if at least one</span>
+    <span class="doccomment">/// `signature` verifies `serialized_payload`.  See `Signature` in common.proto</span>
+    <span class="doccomment">/// for more details on signature structure and verification.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">signatures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Signature</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// One or more JWTs encoding a self-contained attestation.</span>
+    <span class="doccomment">/// Each JWT encodes the payload that it verifies within the JWT itself.</span>
+    <span class="doccomment">/// Verifier implementation SHOULD ignore the `serialized_payload` field</span>
+    <span class="doccomment">/// when verifying these JWTs.</span>
+    <span class="doccomment">/// If only JWTs are present on this AttestationOccurrence, then the</span>
+    <span class="doccomment">/// `serialized_payload` SHOULD be left empty.</span>
+    <span class="doccomment">/// Each JWT SHOULD encode a claim specific to the `resource_uri` of this</span>
+    <span class="doccomment">/// Occurrence, but this is not validated by Grafeas metadata API</span>
+    <span class="doccomment">/// implementations.  The JWT itself is opaque to Grafeas.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">jwts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Jwt</span><span class="op">&gt;</span>,
 }
 <span class="comment">// Spec defined at</span>
 <span class="comment">// &lt;https://github.com/in-toto/attestation/blob/main/spec/predicates/provenance.md&gt;</span>
@@ -2674,81 +2682,6 @@
     <span class="doccomment">/// equivalent to empty.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">materials</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="comment">// An attestation wrapper with a PGP-compatible signature. This message only</span>
-<span class="comment">// supports `ATTACHED` signatures, where the payload that is signed is included</span>
-<span class="comment">// alongside the signature itself in the same file.</span>
-
-<span class="doccomment">/// Note kind that represents a logical attestation &quot;role&quot; or &quot;authority&quot;. For</span>
-<span class="doccomment">/// example, an organization might have one `Authority` for &quot;QA&quot; and one for</span>
-<span class="doccomment">/// &quot;build&quot;. This note is intended to act strictly as a grouping mechanism for</span>
-<span class="doccomment">/// the attached occurrences (Attestations). This grouping mechanism also</span>
-<span class="doccomment">/// provides a security boundary, since IAM ACLs gate the ability for a principle</span>
-<span class="doccomment">/// to attach an occurrence to a given note. It also provides a single point of</span>
-<span class="doccomment">/// lookup to find all attached attestation occurrences, even if they don&#39;t all</span>
-<span class="doccomment">/// live in the same project.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AttestationNote</span> {
-    <span class="doccomment">/// Hint hints at the purpose of the attestation authority.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">attestation_note::Hint</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AttestationNote`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">attestation_note</span> {
-    <span class="doccomment">/// This submessage provides human-readable hints about the purpose of the</span>
-    <span class="doccomment">/// authority. Because the name of a note acts as its resource reference, it is</span>
-    <span class="doccomment">/// important to disambiguate the canonical name of the Note (which might be a</span>
-    <span class="doccomment">/// UUID for security purposes) from &quot;readable&quot; names more suitable for debug</span>
-    <span class="doccomment">/// output. Note that these hints should not be used to look up authorities in</span>
-    <span class="doccomment">/// security sensitive contexts, such as when looking up attestations to</span>
-    <span class="doccomment">/// verify.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hint</span> {
-        <span class="doccomment">/// Required. The human readable name of this attestation authority, for</span>
-        <span class="doccomment">/// example &quot;qa&quot;.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">human_readable_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Jwt</span> {
-    <span class="doccomment">/// The compact encoding of a JWS, which is always three base64 encoded strings</span>
-    <span class="doccomment">/// joined by periods. For details, see:</span>
-    <span class="doccomment">/// &lt;https://tools.ietf.org/html/rfc7515.html#section-3.1&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">compact_jwt</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Occurrence that represents a single &quot;attestation&quot;. The authenticity of an</span>
-<span class="doccomment">/// attestation can be verified using the attached signature. If the verifier</span>
-<span class="doccomment">/// trusts the public key of the signer, then verifying the signature is</span>
-<span class="doccomment">/// sufficient to establish trust. In this circumstance, the authority to which</span>
-<span class="doccomment">/// this attestation is attached is primarily useful for lookup (how to find</span>
-<span class="doccomment">/// this attestation if you already know the authority and artifact to be</span>
-<span class="doccomment">/// verified) and intent (for which authority this attestation was intended to</span>
-<span class="doccomment">/// sign.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AttestationOccurrence</span> {
-    <span class="doccomment">/// Required. The serialized payload that is verified by one or more</span>
-    <span class="doccomment">/// `signatures`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">serialized_payload</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// One or more signatures over `serialized_payload`.  Verifier implementations</span>
-    <span class="doccomment">/// should consider this attestation message verified if at least one</span>
-    <span class="doccomment">/// `signature` verifies `serialized_payload`.  See `Signature` in common.proto</span>
-    <span class="doccomment">/// for more details on signature structure and verification.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">signatures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Signature</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// One or more JWTs encoding a self-contained attestation.</span>
-    <span class="doccomment">/// Each JWT encodes the payload that it verifies within the JWT itself.</span>
-    <span class="doccomment">/// Verifier implementation SHOULD ignore the `serialized_payload` field</span>
-    <span class="doccomment">/// when verifying these JWTs.</span>
-    <span class="doccomment">/// If only JWTs are present on this AttestationOccurrence, then the</span>
-    <span class="doccomment">/// `serialized_payload` SHOULD be left empty.</span>
-    <span class="doccomment">/// Each JWT SHOULD encode a claim specific to the `resource_uri` of this</span>
-    <span class="doccomment">/// Occurrence, but this is not validated by Grafeas metadata API</span>
-    <span class="doccomment">/// implementations.  The JWT itself is opaque to Grafeas.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">jwts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Jwt</span><span class="op">&gt;</span>,
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SlsaProvenance</span> {
@@ -3386,6 +3319,73 @@
         <span class="ident">Flex</span> <span class="op">=</span> <span class="number">2</span>,
         <span class="doccomment">/// Custom user-defined platform.</span>
         <span class="ident">Custom</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// A note that indicates a type of analysis a provider would perform. This note</span>
+<span class="doccomment">/// exists in a provider&#39;s project. A `Discovery` occurrence is created in a</span>
+<span class="doccomment">/// consumer&#39;s project at the start of analysis.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryNote</span> {
+    <span class="doccomment">/// Required. Immutable. The kind of analysis that is handled by this</span>
+    <span class="doccomment">/// discovery.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;NoteKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">analysis_kind</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Provides information about the analysis status of a discovered resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryOccurrence</span> {
+    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::ContinuousAnalysis&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">continuous_analysis</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The status of discovery for the resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::AnalysisStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">analysis_status</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// When an error is encountered this will contain a LocalizedMessage under</span>
+    <span class="doccomment">/// details to show to the user. The LocalizedMessage is output only and</span>
+    <span class="doccomment">/// populated by the API.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">analysis_status_error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::google::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The CPE of the resource being scanned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cpe</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The last time this resource was scanned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_scan_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time occurrences related to this discovery occurrence were archived.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">archive_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `DiscoveryOccurrence`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">discovery_occurrence</span> {
+    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContinuousAnalysis</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The resource is continuously analyzed.</span>
+        <span class="ident">Active</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The resource is ignored for continuous analysis.</span>
+        <span class="ident">Inactive</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// Analysis status for a resource. Currently for initial analysis only (not</span>
+    <span class="doccomment">/// updated in continuous analysis).</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AnalysisStatus</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Resource is known but no action has been taken yet.</span>
+        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Resource is being analyzed.</span>
+        <span class="ident">Scanning</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Analysis has finished successfully.</span>
+        <span class="ident">FinishedSuccess</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Analysis has finished unsuccessfully, the analysis itself is in a bad</span>
+        <span class="doccomment">/// state.</span>
+        <span class="ident">FinishedFailed</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// The resource is known not to be supported</span>
+        <span class="ident">FinishedUnsupported</span> <span class="op">=</span> <span class="number">5</span>,
     }
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

@@ -3169,7 +3169,60 @@
 <span id="3167">3167</span>
 <span id="3168">3168</span>
 <span id="3169">3169</span>
-</pre><pre class="rust"><code><span class="doccomment">/// An AnnotationSpecSet is a collection of label definitions. For example, in</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Container of information about an image.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImagePayload</span> {
+    <span class="doccomment">/// Image format.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A byte string of a thumbnail image.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">image_thumbnail</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// Image uri from the user bucket.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">image_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Signed uri of the image file in the service bucket.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">signed_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Container of information about a piece of text.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextPayload</span> {
+    <span class="doccomment">/// Text content.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">text_content</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Container of information of a video thumbnail.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoThumbnail</span> {
+    <span class="doccomment">/// A byte string of the video frame.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">thumbnail</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// Time offset relative to the beginning of the video, corresponding to the</span>
+    <span class="doccomment">/// video frame where the thumbnail has been extracted from.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">time_offset</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Container of information of a video.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoPayload</span> {
+    <span class="doccomment">/// Video format.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Video uri from the user bucket.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">video_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The list of video thumbnails.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">video_thumbnails</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">VideoThumbnail</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// FPS of the video.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">frame_rate</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// Signed uri of the video file in the service bucket.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">signed_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// An AnnotationSpecSet is a collection of label definitions. For example, in</span>
 <span class="doccomment">/// image classification tasks, you define a set of possible labels for images as</span>
 <span class="doccomment">/// an AnnotationSpecSet. An AnnotationSpecSet is immutable upon creation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -3566,59 +3619,6 @@
     <span class="ident">TextEntityExtractionAnnotation</span> <span class="op">=</span> <span class="number">9</span>,
     <span class="doccomment">/// General classification. Allowed for continuous evaluation.</span>
     <span class="ident">GeneralClassificationAnnotation</span> <span class="op">=</span> <span class="number">14</span>,
-}
-<span class="doccomment">/// Container of information about an image.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImagePayload</span> {
-    <span class="doccomment">/// Image format.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A byte string of a thumbnail image.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">image_thumbnail</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// Image uri from the user bucket.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">image_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Signed uri of the image file in the service bucket.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">signed_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Container of information about a piece of text.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextPayload</span> {
-    <span class="doccomment">/// Text content.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">text_content</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Container of information of a video thumbnail.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoThumbnail</span> {
-    <span class="doccomment">/// A byte string of the video frame.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">thumbnail</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// Time offset relative to the beginning of the video, corresponding to the</span>
-    <span class="doccomment">/// video frame where the thumbnail has been extracted from.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">time_offset</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Container of information of a video.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoPayload</span> {
-    <span class="doccomment">/// Video format.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mime_type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Video uri from the user bucket.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">video_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The list of video thumbnails.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">video_thumbnails</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">VideoThumbnail</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// FPS of the video.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">frame_rate</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// Signed uri of the video file in the service bucket.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">signed_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Configuration for how human labeling task should be done.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

@@ -1166,74 +1166,7 @@
 <span id="1164">1164</span>
 <span id="1165">1165</span>
 <span id="1166">1166</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A common proto for logging HTTP requests. Only contains semantics</span>
-<span class="doccomment">/// defined by the HTTP specification. Product-specific logging</span>
-<span class="doccomment">/// information MUST be defined in a separate message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HttpRequest</span> {
-    <span class="doccomment">/// The request method. Examples: `&quot;GET&quot;`, `&quot;HEAD&quot;`, `&quot;PUT&quot;`, `&quot;POST&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_method</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The scheme (http, https), the host name, the path, and the query</span>
-    <span class="doccomment">/// portion of the URL that was requested.</span>
-    <span class="doccomment">/// Example: `&quot;&lt;http://example.com/some/info?color=red&quot;`.&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The size of the HTTP request message in bytes, including the request</span>
-    <span class="doccomment">/// headers and the request body.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">request_size</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The response code indicating the status of the response.</span>
-    <span class="doccomment">/// Examples: 200, 404.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The size of the HTTP response message sent back to the client, in bytes,</span>
-    <span class="doccomment">/// including the response headers and the response body.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">response_size</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// The user agent sent by the client. Example:</span>
-    <span class="doccomment">/// `&quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; Q312461; .NET</span>
-    <span class="doccomment">/// CLR 1.0.3705)&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">user_agent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The IP address (IPv4 or IPv6) of the client that issued the HTTP</span>
-    <span class="doccomment">/// request. Examples: `&quot;192.168.1.1&quot;`, `&quot;FE80::0202:B3FF:FE1E:8329&quot;`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">remote_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The IP address (IPv4 or IPv6) of the origin server that the request was</span>
-    <span class="doccomment">/// sent to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">server_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The referer URL of the request, as defined in</span>
-    <span class="doccomment">/// [HTTP/1.1 Header Field</span>
-    <span class="doccomment">/// Definitions](&lt;http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html&gt;).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">referer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The request processing latency on the server, from the time the request was</span>
-    <span class="doccomment">/// received until the response was sent.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">latency</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Whether or not a cache lookup was attempted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cache_lookup</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Whether or not an entity was served from cache</span>
-    <span class="doccomment">/// (with or without validation).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cache_hit</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Whether or not the response was validated with the origin server before</span>
-    <span class="doccomment">/// being served from cache. This field is only meaningful if `cache_hit` is</span>
-    <span class="doccomment">/// True.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cache_validated_with_origin_server</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// The number of HTTP response bytes inserted into cache. Set only when a</span>
-    <span class="doccomment">/// cache fill was attempted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cache_fill_bytes</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Protocol used for the request. Examples: &quot;HTTP/1.1&quot;, &quot;HTTP/2&quot;, &quot;websocket&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">protocol</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Defines the errors to be returned in</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Defines the errors to be returned in</span>
 <span class="doccomment">/// \[google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CheckError</span> {
@@ -1313,6 +1246,73 @@
         <span class="doccomment">/// Cloud Resource Manager backend server is unavailable.</span>
         <span class="ident">CloudResourceManagerBackendUnavailable</span> <span class="op">=</span> <span class="number">305</span>,
     }
+}
+<span class="doccomment">/// A common proto for logging HTTP requests. Only contains semantics</span>
+<span class="doccomment">/// defined by the HTTP specification. Product-specific logging</span>
+<span class="doccomment">/// information MUST be defined in a separate message.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HttpRequest</span> {
+    <span class="doccomment">/// The request method. Examples: `&quot;GET&quot;`, `&quot;HEAD&quot;`, `&quot;PUT&quot;`, `&quot;POST&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_method</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The scheme (http, https), the host name, the path, and the query</span>
+    <span class="doccomment">/// portion of the URL that was requested.</span>
+    <span class="doccomment">/// Example: `&quot;&lt;http://example.com/some/info?color=red&quot;`.&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The size of the HTTP request message in bytes, including the request</span>
+    <span class="doccomment">/// headers and the request body.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">request_size</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The response code indicating the status of the response.</span>
+    <span class="doccomment">/// Examples: 200, 404.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The size of the HTTP response message sent back to the client, in bytes,</span>
+    <span class="doccomment">/// including the response headers and the response body.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">response_size</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The user agent sent by the client. Example:</span>
+    <span class="doccomment">/// `&quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; Q312461; .NET</span>
+    <span class="doccomment">/// CLR 1.0.3705)&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_agent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The IP address (IPv4 or IPv6) of the client that issued the HTTP</span>
+    <span class="doccomment">/// request. Examples: `&quot;192.168.1.1&quot;`, `&quot;FE80::0202:B3FF:FE1E:8329&quot;`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">remote_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The IP address (IPv4 or IPv6) of the origin server that the request was</span>
+    <span class="doccomment">/// sent to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">server_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The referer URL of the request, as defined in</span>
+    <span class="doccomment">/// [HTTP/1.1 Header Field</span>
+    <span class="doccomment">/// Definitions](&lt;http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html&gt;).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">referer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The request processing latency on the server, from the time the request was</span>
+    <span class="doccomment">/// received until the response was sent.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">latency</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether or not a cache lookup was attempted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cache_lookup</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Whether or not an entity was served from cache</span>
+    <span class="doccomment">/// (with or without validation).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cache_hit</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Whether or not the response was validated with the origin server before</span>
+    <span class="doccomment">/// being served from cache. This field is only meaningful if `cache_hit` is</span>
+    <span class="doccomment">/// True.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cache_validated_with_origin_server</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// The number of HTTP response bytes inserted into cache. Set only when a</span>
+    <span class="doccomment">/// cache fill was attempted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cache_fill_bytes</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Protocol used for the request. Examples: &quot;HTTP/1.1&quot;, &quot;HTTP/2&quot;, &quot;websocket&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">protocol</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// An individual log entry.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
