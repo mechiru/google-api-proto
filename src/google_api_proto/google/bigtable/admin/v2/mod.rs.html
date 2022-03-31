@@ -3164,7 +3164,8 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AutoscalingTargets</span> {
     <span class="doccomment">/// The cpu utilization that the Autoscaler should be trying to achieve.</span>
     <span class="doccomment">/// This number is on a scale from 0 (no utilization) to</span>
-    <span class="doccomment">/// 100 (total utilization).</span>
+    <span class="doccomment">/// 100 (total utilization), and is limited between 10 and 80, otherwise it</span>
+    <span class="doccomment">/// will return INVALID_ARGUMENT error.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">cpu_utilization_percent</span>: <span class="ident">i32</span>,
 }
@@ -3242,7 +3243,6 @@
         <span class="doccomment">///  `cloudkms.cryptoKeyEncrypterDecrypter` role on the CMEK key.</span>
         <span class="doccomment">///  2) Only regional keys can be used and the region of the CMEK key must</span>
         <span class="doccomment">///  match the region of the cluster.</span>
-        <span class="doccomment">/// 3) All clusters within an instance must use the same CMEK key.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">kms_key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
     }

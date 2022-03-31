@@ -1166,6 +1166,10 @@
 <span id="1164">1164</span>
 <span id="1165">1165</span>
 <span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Schema of a table.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableSchema</span> {
@@ -1307,7 +1311,9 @@
     <span class="doccomment">/// Binary serialized rows in a block.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">serialized_binary_rows</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// The count of rows in the returning block.</span>
+    <span class="doccomment">/// \[Deprecated\] The count of rows in the returning block.</span>
+    <span class="doccomment">/// Please use the format-independent ReadRowsResponse.row_count instead.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
 }
@@ -1329,7 +1335,9 @@
     <span class="doccomment">/// IPC-serialized Arrow RecordBatch.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">serialized_record_batch</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// The count of rows in `serialized_record_batch`.</span>
+    <span class="doccomment">/// \[Deprecated\] The count of rows in `serialized_record_batch`.</span>
+    <span class="doccomment">/// Please use the format-independent ReadRowsResponse.row_count instead.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">row_count</span>: <span class="ident">i64</span>,
 }
